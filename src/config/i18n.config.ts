@@ -3,10 +3,10 @@ import { initReactI18next } from "react-i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 import HttpApi from "i18next-http-backend";
 
-const fallbackLng = import.meta.env.VITE_FALLBACK_LANGUAGE || "en";
-const supportedLngs = import.meta.env.VITE_SUPPORTED_LANGUAGES?.split(",") || ["en"];
-const loadPath = import.meta.env.VITE_I18N_LOAD_PATH;
-const debug = import.meta.env.VITE_I18N_DEBUG === "true";
+const fallbackLng = "ar";
+const supportedLngs = "en,ar".split(",") || ["en"];
+const loadPath = "/locales/{{lng}}/{{ns}}.json";
+const debug = false
 
 i18n
   .use(initReactI18next)

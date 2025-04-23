@@ -1,0 +1,84 @@
+{
+  "loading": "الرجاء الانتظار...",
+  "languages": {
+    "english": "الإنجليزية",
+    "arabic": "العربية"
+  },
+  "pagination": {
+    "pageSize": "العناصر لكل صفحة",
+    "page": "الصفحة",
+    "of": "من",
+    "records": "السجلات"
+  },
+  "clipboard": {
+    "copySuccess": "تم النسخ إلى الحافظة! ✅",
+    "copyError": "فشل النسخ ❌"
+  },
+  "export": {
+    "exportSuccess": "تم تصدير البيانات بنجاح! ✅",
+    "exportError": "فشل في تصدير البيانات. الرجاء المحاولة مرة أخرى ❌"
+  },
+  "sorting": {
+    "sortLabel": "الترتيب حسب",
+    "latest": "الأحدث",
+    "oldest": "الأقدم"
+  },
+  "notFoundPage": {
+    "title": "الصفحة غير موجودة",
+    "message": "الصفحة التي تبحث عنها غير موجودة أو تم نقلها."
+  },
+  "forbiddenPage": {
+    "title": "ممنوع",
+    "message": "عذرًا، لا يمكنك الوصول إلى هذه الصفحة أو المورد."
+  },
+  "serverErrorPage": {
+    "title": "خطأ في الخادم",
+    "message": "حدث خطأ في الجهة الخاصة بنا. الرجاء المحاولة مرة أخرى لاحقًا."
+  },
+  "buttons": {
+    "getStarted": "ابدأ الآن",
+    "close": "إغلاق",
+    "edit": "تعديل",
+    "update": "تحديث",
+    "delete": "حذف",
+    "login": "تسجيل الدخول",
+    "loading": "الرجاء الانتظار",
+    "resetPassword": "إعادة تعيين كلمة المرور",
+    "first": "الأول",
+    "previous": "السابق",
+    "next": "التالي",
+    "goHome": "الذهاب إلى الرئيسية",
+    "unlock": "فتح",
+    "unblock": "إلغاء الحظر",
+    "add": "إضافة",
+    "dashboard": "لوحة التحكم",
+    "download": "تنزيل",
+    "logout": "تسجيل الخروج",
+    "refresh": "تحديث"
+  },
+  "search": {
+    "label": "بحث",
+    "placeholder": "ابحث..."
+  },
+  "dateAndTime": {
+    "startDate": "تاريخ البدء",
+    "endDate": "تاريخ الانتهاء",
+    "startTime": "وقت البدء",
+    "endTime": "وقت الانتهاء",
+    "to": "إلى"
+  },
+  "table": {
+    "NA": "غير متاح"
+  },
+  "status": "الحالة",
+  "oops": "عذرًا!",
+  "deselectAll": "إلغاء تحديد الكل",
+  "selectAll": "تحديد الكل",
+  "resetFilter": "إعادة تعيين الفلتر",
+  "fileUpload": {
+    "dragAndDrop": "أو اسحب وأفلت",
+    "allowedFiles": "الملفات المسموح بها {{accept}}",
+    "errorMessage": "{{error}}",
+    "successMessage": "تم اختيار الملف بنجاح"
+  }
+}

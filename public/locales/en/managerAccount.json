@@ -1,0 +1,72 @@
+{
+  "profile": {
+    "header": {
+      "heading": "My Profile",
+      "subtitle": "View and manage your personal information, department details, and contact data."
+    },
+    "updateSection": {
+      "title": "Update Your Information",
+      "description": "Keep your personal details up to date to ensure accurate records and effective communication."
+    },
+    "updatePassword": {
+      "title": "Update Your Password",
+      "description": "Change your password regularly to help keep your account secure."
+    },
+    "departmentsSection": {
+      "title": "Your Departments",
+      "description": "These are the departments you are assigned to within the system."
+    },
+    "permissionsSection": {
+      "title": "Your Permissions",
+      "description": "These are the permissions granted to you within the system."
+    },
+    "updatePasswordButton": "Update Password"
+  },
+  "form": {
+    "username": {
+      "label": "Username",
+      "placeholder": "Enter username",
+      "inputValidation": {
+        "required": "Username is required",
+        "min": "Username must be at least 3 characters",
+        "max": "Username cannot exceed 50 characters",
+        "matches": "Username cannot contain spaces"
+      }
+    },
+    "email": {
+      "label": "Email",
+      "placeholder": "Enter email",
+      "inputValidation": {
+        "required": "Email is required",
+        "email": "Email must be a valid email address"
+      }
+    },
+    "password": {
+      "label": "Password",
+      "placeholder": "Enter admin password",
+      "inputValidation": {
+        "required": "New password is required",
+        "min": "Password must be at least 8 characters long",
+        "uppercase": "Password must contain at least one uppercase letter",
+        "lowercase": "Password must contain at least one lowercase letter",
+        "number": "Password must contain at least one number",
+        "specialChar": "Password must contain at least one special character (! @ # $ % ^ &)"
+      }
+    },
+    "confirmPassword": {
+      "label": "Confirm Password",
+      "placeholder": "Re-enter your new password",
+      "inputValidation": {
+        "required": "Password confirmation is required",
+        "oneOf": "Passwords do not match"
+      }
+    },
+    "oldPassword": {
+      "label": "Old Password",
+      "placeholder": "Enter your old password",
+      "inputValidation": {
+        "required": "Old password is required"
+      }
+    }
+  }
+}
