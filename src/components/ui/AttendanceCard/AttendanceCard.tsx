@@ -19,7 +19,6 @@ const AttendanceCard = ({
   logoutTime,
   bgColor = ""
 }: AttendanceCardProps) => {
-  console.log(loginTime);
   
   const { t } = useTranslation(["common", "dashboard"]);
   

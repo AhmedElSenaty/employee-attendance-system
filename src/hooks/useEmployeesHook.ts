@@ -61,7 +61,6 @@ const useGetEmployeeByID = (
       });
     }
   }, [data, resetInputs]);
-  console.log(data?.data);
   return { employee: data?.data, isEmployeeDataLoading: isLoading };
 };
 

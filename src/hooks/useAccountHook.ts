@@ -23,7 +23,6 @@ const useManageAccount = () => {
         oldPassword: oldPassword,
         userId: userID,
       };
-      console.log(data);
       
       return updateAccountPassword(data, token); // Call the update service function
     },

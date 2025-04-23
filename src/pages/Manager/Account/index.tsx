@@ -66,7 +66,6 @@ const ManagerAccountPage = () => {
   } = useManageMe();
 
   const handleConfirmUpdatePassword: SubmitHandler<{password: string, oldPassword?: string}> = async (request: { password: string, oldPassword?: string }) => {
-    console.log(request);
     updateMyPassword({
       oldPassword: request.oldPassword || "",
       password: request.password,
