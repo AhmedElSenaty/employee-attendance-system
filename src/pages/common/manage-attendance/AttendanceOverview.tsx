@@ -30,8 +30,6 @@ const AttendanceOverviewPage = () => {
     startDate || "", endDate || ""
   );
 
-  console.log(metadata.searchBy);
-  
 
   return (
     <>

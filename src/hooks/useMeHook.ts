@@ -39,7 +39,6 @@ const useManageMe = () => {
         password: password,
         oldPassword: oldPassword,
       };
-      console.log(data);
       
       return updateMyPassword(data, token); // Call the update service function
     },
