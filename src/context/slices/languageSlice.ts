@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import i18n from "../../config/i18n.config";
-import { egyptFlag, unitedStatesFlag } from "../../assets/icons";
 import Cookies from "universal-cookie";
 
 export type LanguageType = "en" | "ar";
@@ -8,8 +7,8 @@ export type LanguageType = "en" | "ar";
 const cookies = new Cookies(null, { path: "/" });
 
 const languageFlags: Record<LanguageType, string> = {
-  en: unitedStatesFlag,
-  ar: egyptFlag,
+  en: "/icons/united-states-flag-icon.svg",
+  ar: "/icons/egypt-flag-icon.svg",
 };
 
 /**
@@ -51,7 +50,7 @@ const languageSlice = createSlice({
       const newLanguage = action.payload;
       state.language = newLanguage;
       state.direction = newLanguage === "en" ? "ltr" : "rtl";
-      state.flag = languageFlags[newLanguage] || unitedStatesFlag;
+      state.flag = languageFlags[newLanguage] || "/icons/united-states-flag-icon.svg";
 
       // Store language in cookies for 1 month
       const expires = new Date();

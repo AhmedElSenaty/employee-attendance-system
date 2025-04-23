@@ -4,7 +4,6 @@ import { StatusBadge } from "../StatusBadge";
 import { AlertTriangle, CheckCircle } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { EMPLOYEE_TRANSLATION_NAMESPACE } from "../../../pages/common/manage-employees";
-import { defaultUserImage } from "../../../assets/images";
 import { NavLink } from "react-router";
 import { IEmployeeData } from "../../../interfaces";
 import { useSelector } from "react-redux";
@@ -21,7 +20,7 @@ const UserProfileCard: React.FC<UserProps> = ({ user }) => {
   return (
     <div className="max-w-[1000px] h-fit mx-auto bg-white shadow rounded-lg overflow-hidden flex flex-wrap items-center justify-center gap-4 p-6 space-x-6">
       <img
-        src={user.profileImage || defaultUserImage}
+        src={user.profileImage || "/images/default-user-image.webp"}
         alt="Profile"
         className="w-40 h-full rounded-xl object-cover border"
       />

@@ -1,5 +1,4 @@
 import { SubmitHandler, useForm } from "react-hook-form";
-import { defaultUserImage } from "../../../assets/images";
 import { Header } from "../../../components/ui/Header";
 import useFetchMe, { useManageMe } from "../../../hooks/useMeHook";
 import { passwordUpdateSchema, updateEmployeeSchema } from "../../../validation";
@@ -85,7 +84,7 @@ const EmpolyeeAccountPage = () => {
           {/* Profile Image */}
           <div className="w-32 h-32 sm:w-36 sm:h-36 rounded-2xl overflow-hidden border border-gray-200 shadow-md">
             <img
-              src={me?.profileImage ?? defaultUserImage}
+              src={me?.profileImage ?? "/images/default-user-image.webp"}
               alt="User Avatar"
               className="object-cover w-full h-full"
               loading="lazy"

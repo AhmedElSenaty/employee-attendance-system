@@ -2,7 +2,6 @@ import { ContactRound, Fingerprint, Shield, Users } from "lucide-react"
 import { FutureCard } from "../../../components/ui/FutureCard"
 import { SectionHeader } from "../../../components/ui/SectionHeader"
 import { Image } from "../../../components/ui/Image"
-import { biometricFingerprintScanning } from "../../../assets/images"
 import { useTranslation } from "react-i18next"
 
 const SystemFeaturesSection = () => {
@@ -59,7 +58,7 @@ const SystemFeaturesSection = () => {
                 <Image
                   width="w-full"
                   height="h-full"
-                  src={biometricFingerprintScanning}
+                  src="/images/biometric-fingerprint-scanning.webp"
                   alt="Attendance System"
                   rounded="rounded-lg"
                 />

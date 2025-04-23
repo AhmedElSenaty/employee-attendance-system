@@ -9,7 +9,6 @@ import { useFiltersHook } from "../../hooks/useFiltersHook";
 import { useGetDepartmentsList } from "../../hooks/useDepartmentHook";
 import { useGetAttendanceOverview, useGetDepartmentAttendanceOverview, useGetLatestAttendance } from "../../hooks/useAttendanceHook";
 import { AttendanceCardData } from "../../interfaces";
-import { defaultUserImage } from "../../assets/images";
 import { AttendanceCard, AttendanceCardSkeleton } from "../../components/ui/AttendanceCard";
 import { useSelector } from "react-redux";
 import { RootState } from "../../context/store";
@@ -243,7 +242,7 @@ export const DashboardPage = () => {
                   ) => (
                     <AttendanceCard
                       key={index}
-                      avatarUrl={profileImage || defaultUserImage}
+                      avatarUrl={profileImage || "/images/default-user-image.webp"}
                       name={employeeName}
                       role={departmentName}
                       type={subDepartmentName}

@@ -9,7 +9,6 @@ import { setLanguage } from "../../context/slices/languageSlice";
 import { RootState } from "../../context/store";
 import { logoutUser, selectIsLoggedIn, selectRole } from "../../context/slices/userSlice";
 import { Button } from "../../components/ui/Button";
-import { defaultUserImage } from "../../assets/images";
 
 export const Navbar = () => {
 
@@ -59,7 +58,7 @@ export const Navbar = () => {
             ( 
               <Flyout
                 icon={<Image
-                  src={defaultUserImage}
+                  src="/images/default-user-image.webp"
                   alt="Description of image"
                   width="sm:w-12 w-10"
                   height="sm:h-12 h-10"

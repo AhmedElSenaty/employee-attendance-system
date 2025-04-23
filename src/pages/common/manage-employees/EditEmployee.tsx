@@ -16,7 +16,6 @@ import { StatusBadge } from "../../../components/ui/StatusBadge";
 import { EMPLOYEE_TRANSLATION_NAMESPACE } from ".";
 import { useState } from "react";
 import { AlertTriangle, CheckCircle } from "lucide-react";
-import { defaultUserImage } from "../../../assets/images";
 import { HasPermission } from "../../../components/auth";
 
 const EditEmployeePage = () => {
@@ -109,7 +108,7 @@ const EditEmployeePage = () => {
               <div className="flex flex-col gap-2 items-center justify-center col-span-1 sm:col-span-2 lg:col-span-1">
                 <picture className="lg:w-full lg:h-full w-30 flex h-fit rounded-2xl overflow-hidden border border-gray-300 shadow-sm">
                   <img
-                    src={employee?.profileImage ?? defaultUserImage}
+                    src={employee?.profileImage ?? "/images/default-user-image.webp"}
                     alt="User Avatar"
                     loading="lazy"
                     className="object-cover w-full h-full"

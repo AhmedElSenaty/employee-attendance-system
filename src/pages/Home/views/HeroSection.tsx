@@ -3,7 +3,6 @@ import { Header } from '../../../components/ui/Header'
 import { Button } from '../../../components/ui/Button'
 import { Popup } from '../../../components/ui/Popup'
 import { useTranslation } from 'react-i18next'
-import { helwanUniversity } from '../../../assets/images'
 import { useSelector } from 'react-redux'
 import { selectHasRole, selectIsLoggedIn } from '../../../context/slices/userSlice'
 import { NavLink } from 'react-router'
@@ -22,7 +21,7 @@ const HeroSection = () => {
       {/* Hero Section */}
       <div 
         className="relative bg-cover bg-center bg-no-repeat h-[700px] flex items-center justify-center text-white"
-        style={{ backgroundImage: `url('${helwanUniversity}')` }}
+        style={{ backgroundImage: `url('${"/images/helwan-university.webp"}')` }}
       >
         {/* Overlay */}
         <div 
