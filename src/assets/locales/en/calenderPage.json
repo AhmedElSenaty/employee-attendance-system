@@ -1,0 +1,13 @@
+{
+  "days": {
+    "sunday": "Sun",
+    "monday": "Mon",
+    "tuesday": "Tue",
+    "wednesday": "Wed",
+    "thursday": "Thu",
+    "friday": "Fri",
+    "saturday": "Sat"
+  },
+  "checkIn": "Check-in",
+  "checkOut": "Check-out"
+}

@@ -1,0 +1,13 @@
+{
+  "header": {
+    "heading": "Manage Permissions",
+    "subtitle": "View all permissions in system."
+  },
+  "CountCard": {
+    "title": "Total Permissions",
+    "description": "Permissions assigned to users"
+  },
+  "yourPermissions": "Your Permissions",
+  "notYourPermissions": "Permissions you don't have access to",
+  "key": "Key"
+}

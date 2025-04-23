@@ -1,0 +1,52 @@
+{
+  "header": {
+    "heading": "Reset Your Account",
+    "subtitle": "Enter your details to reset and secure your account."
+  },
+  "form": {
+    "email": {
+      "label": "Email Address",
+      "placeholder": "Enter your email",
+      "inputValidation": {
+        "required": "Email is required",
+        "email": "Please enter a valid email address"
+      }
+    },
+    "oldPassword": {
+      "label": "Old Password",
+      "placeholder": "Enter your old password",
+      "inputValidation": {
+        "required": "Old password is required"
+      }
+    },
+    "password": {
+      "label": "New Password",
+      "placeholder": "Enter a new password",
+      "inputValidation": {
+        "required": "New password is required",
+        "min": "Password must be at least 8 characters long",
+        "uppercase": "Password must contain at least one uppercase letter",
+        "lowercase": "Password must contain at least one lowercase letter",
+        "number": "Password must contain at least one number",
+        "specialChar": "Password must contain at least one special character ! @ # $ % ^ &"
+      }
+    },
+    "confirmPassword": {
+      "label": "Confirm Password",
+      "placeholder": "Re-enter your new password",
+      "inputValidation": {
+        "required": "Password confirmation is required",
+        "oneOf": "Passwords do not match"
+      }
+    }
+  },
+  "messages": {
+    "responseMessages": {
+      "bad_request": "The request is invalid. Please check your input and try again.",
+      "ok": "Your password has been successfully reset. Redirecting in 2 seconds..."
+    },
+    "incorrect_old_password": "The old password you entered is incorrect. Please try again.",
+    "email_is_exists": "This email is already registered. Please use a different email or log in.",
+    "validation_errors": "The request is invalid. Please check your input and try again."
+  }
+}

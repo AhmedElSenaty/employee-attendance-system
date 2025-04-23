@@ -1,0 +1,75 @@
+{
+  "header": {
+    "heading": "Manage Entities",
+    "subtitle": "Use this page to manage buildings and their associated devices."
+  },
+  "table": {
+    "emptyTable": {
+      "title": "No Entities Found",
+      "message": "Try adjusting your filters or adding a new entity."
+    },
+    "columns": {
+      "id": "#ID",
+      "name": "Entity Name",
+      "description": "Description",
+      "actions": "Actions"
+    }
+  },
+  "searchBy": {
+    "label": "Search By",
+    "default": "Please select an option",
+    "SearchById": "ID",
+    "SearchByName": "Entity Name"
+  },
+  "CountCard": {
+    "title": "Total Entities",
+    "description": "The total number of entities currently being managed."
+  },
+  "sectionsHeader": {
+    "add": {
+      "title": "Add New Entity",
+      "description": "Fill in the required details to add a new entity."
+    },
+    "filters": {
+      "title": "Filters",
+      "description": "Search and sort through the list of entities."
+    },
+    "entitiesList": {
+      "title": "Entities List",
+      "description": "View and manage all entities in the system."
+    }
+  },
+  "form": {
+    "name": {
+      "label": "Entity Name",
+      "placeholder": "Enter entity name",
+      "inputValidation": {
+        "required": "Entity name is required",
+        "min": "Entity name must be at least 3 characters",
+        "max": "Entity name must not exceed 100 characters"
+      }
+    },
+    "description": {
+      "label": "Description",
+      "placeholder": "",
+      "inputValidation": {
+        "nullable": "",
+        "max": "Description must not exceed 500 characters"
+      }
+    }
+  },
+  "popup": {
+    "delete": {
+      "title": "Delete Entity",
+      "description": "Are you sure you want to delete this entity? This action cannot be undone."
+    },
+    "edit": {
+      "title": "Edit Entity",
+      "description": "Update the entity information as needed and save the changes."
+    },
+    "show": {
+      "title": "View Entity",
+      "description": "You are now viewing the details of this entity. Here, you can review its specifications, status, and other relevant information."
+    }
+  }
+}

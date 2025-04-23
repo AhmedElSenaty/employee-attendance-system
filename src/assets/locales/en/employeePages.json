@@ -1,0 +1,222 @@
+{
+  "manageEmployeesPage": {
+    "header": {
+      "heading": "Employee Management",
+      "subtitle": "Easily view, update, or remove employees from your platform."
+    },
+    "countCard": {
+      "title": "Total Employees",
+      "description": "The number of currently active employees in your organization."
+    },
+    "sectionHeader": {
+      "title": "Employee Directory",
+      "description": "View and manage the list of employees with access to the platform."
+    },
+    "searchBy": {
+      "label": "Search By",
+      "default": "Find Employees",
+      "SearchByFullName": "Name",
+      "SearchBySSN": "National ID (SSN)",
+      "SearchByEmail": "Email Address",
+      "SearchByDepartmentId": "Department"
+    },
+    "graph": {
+      "title": "Employee Status Overview",
+      "description": "Visual breakdown of employees by their current status.",
+      "labels": {
+        "active": "Active",
+        "blocked": "Blocked",
+        "locked": "Locked",
+        "deactivated": "Inactive"
+      },
+      "label": "Total Employees"
+    },
+    "table": {
+      "emptyTable": {
+        "title": "No Employees Found",
+        "message": "There are no employees that match your search or filter."
+      },
+      "columns": {
+        "fullName": "Name",
+        "email": "Email",
+        "ssn": "SSN",
+        "username": "Username",
+        "phoneNumber": "Phone",
+        "departmentName": "Department",
+        "subDepartmentName": "Sub-Department",
+        "delegateDepartmentName": "Delegate Department",
+        "delegateSubDepartmentName": "Delegate Sub-Department",
+        "dateOfBirth": "Date Of Birth",
+        "status": "Status",
+        "actions": "Actions",
+        "accountStatus": "Account Status",
+        "isBlocked": "Is Blocked?",
+        "hiringDate": "Hiring Date"
+      },
+      "status": {
+        "blocked": "Blocked",
+        "active": "Active",
+        "notActive": "Inactive"
+      }
+    },
+    "actions": {
+      "add": {
+        "title": "Add Employee",
+        "description": "Add a new employee and grant them system access.",
+        "button": "Add New"
+      }
+    }
+  },
+  "addEmployeePage": {
+    "header": {
+      "heading": "Add Employee",
+      "subtitle": "Complete the form to add a new employee to your team."
+    },
+    "emplyeeInformationsSectionHeader": {
+      "title": "Employee Details",
+      "description": "Enter the employee’s personal and contact information."
+    },
+    "delegateSectionHeader": {
+      "title": "Delegate Assignment (Optional)",
+      "description": "Optionally assign the employee to a delegate sub-department."
+    },
+    "departmentSectionHeader": {
+      "title": "Department Assignment",
+      "description": "Select the primary department for this employee."
+    },
+    "saveEmployeeButton": "Save",
+    "note": "Note: Delegate assignment is optional."
+  },
+  "editEmployeePage": {
+    "header": {
+      "heading": "Edit Employee",
+      "subtitle": "Update the employee’s details using the form below."
+    },
+    "emplyeeInformationsSectionHeader": {
+      "title": "Employee Details",
+      "description": "Modify the employee’s personal and contact information."
+    },
+    "delegateSectionHeader": {
+      "title": "Delegate Assignment (Optional)",
+      "description": "Reassign the employee to a delegate sub-department if needed."
+    },
+    "departmentSectionHeader": {
+      "title": "Department Reassignment",
+      "description": "Change the primary department the employee belongs to."
+    },
+    "passwordSectionHeader": {
+      "title": "Update Password",
+      "description": "Create a new password for the employee's account."
+    },
+    "updateButton": "Save Changes",
+    "deleteButton": "Remove Employee",
+    "updatePasswordButton": "Update Password",
+    "note": "Note: Delegate assignment is optional."
+  },
+  "form": {
+    "username": {
+      "label": "Username",
+      "placeholder": "Enter username",
+      "inputValidation": {
+        "required": "Username is required",
+        "min": "Username must be at least 3 characters",
+        "max": "Username must not exceed 50 characters",
+        "matches": "Username cannot include spaces"
+      }
+    },
+    "email": {
+      "label": "Email",
+      "placeholder": "Enter email",
+      "inputValidation": {
+        "required": "Email is required",
+        "email": "Please enter a valid email address"
+      }
+    },
+    "fullName": {
+      "label": "Full Name",
+      "placeholder": "Enter full name",
+      "inputValidation": {
+        "required": "Full name is required",
+        "min": "Full name must be at least 3 characters",
+        "max": "Full name must not exceed 100 characters"
+      }
+    },
+    "ssn": {
+      "label": "National ID (SSN)",
+      "placeholder": "Enter 14-digit ID",
+      "inputValidation": {
+        "required": "SSN is required",
+        "matches": "SSN must be exactly 14 digits"
+      }
+    },
+    "phoneNumber": {
+      "label": "Phone Number",
+      "placeholder": "Enter phone number",
+      "inputValidation": {
+        "nullable": "",
+        "required": "Phone number is required",
+        "matches": "Please enter a valid Egyptian phone number"
+      }
+    },
+    "subDepartmentId": {
+      "label": "Sub-Department",
+      "defaultValue": "Choose Sub-Department",
+      "inputValidation": {
+        "required": "Sub-department is required"
+      }
+    },
+    "hiringDate": {
+      "label": "Hiring Date",
+      "placeholder": "Pick hiring date",
+      "inputValidation": {
+        "required": "Hiring date is required"
+      }
+    },
+    "oldId": {
+      "label": "Previous Employee ID",
+      "placeholder": "Enter old ID (optional)",
+      "inputValidation": {
+        "required": "Old ID is required"
+      }
+    },
+    "delegateId": {
+      "label": "Delegate Sub-Department",
+      "placeholder": "Enter delegate ID (optional)",
+      "defaultValue": "Choose Delegate Sub-Department"
+    },
+    "departmentId": {
+      "label": "Department",
+      "defaultValue": "Choose Department"
+    },
+    "password": {
+      "label": "New Password",
+      "placeholder": "Enter a secure password",
+      "inputValidation": {
+        "required": "Password is required",
+        "min": "Password must be at least 8 characters long",
+        "uppercase": "Include at least one uppercase letter",
+        "lowercase": "Include at least one lowercase letter",
+        "number": "Include at least one number",
+        "specialChar": "Include at least one special character (! @ # $ % ^ &)"
+      }
+    },
+    "confirmPassword": {
+      "label": "Confirm Password",
+      "placeholder": "Re-enter your new password",
+      "inputValidation": {
+        "required": "Confirmation is required",
+        "oneOf": "Passwords do not match"
+      }
+    }
+  },
+  "popup": {
+    "delete": {
+      "title": "Remove Employee",
+      "description": "Are you sure you want to permanently delete this employee? This action cannot be undone."
+    },
+    "unblock": {
+      "title": "Restore Access",
+      "description": "Do you want to unblock this employee and allow them to log in again?"
+    }
+  }
+}

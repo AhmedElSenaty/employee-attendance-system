@@ -1,0 +1,93 @@
+{
+  "header": {
+    "heading": "Official Vacation Management",
+    "subtitle": "Create, update, and track all Official Vacations across the organization."
+  },
+  "sectionHeader": {
+    "title": "Official Vacations Overview",
+    "description": "Browse, register, and manage official vacation records."
+  },
+  "table": {
+    "emptyTable": {
+      "title": "No Official Vacations Found",
+      "message": "Modify your search criteria or add a new Official Vacation."
+    },
+    "columns": {
+      "id": "#ID",
+      "name": "Vacation Name",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "actions": "Actions"
+    }
+  },
+  "searchBy": {
+    "label": "Search By",
+    "default": "Select a filter option",
+    "SearchByVacationName": "Vacation Name",
+    "StartDate": "Start Date",
+    "EndDate": "End Date"
+  },
+  "CountCard": {
+    "title": "Total Official Vacations",
+    "description": "Number of registered Official Vacations."
+  },
+  "actions": {
+    "add": {
+      "title": "Register New Official Vacation",
+      "description": "Add a new Official Vacation entry to the system.",
+      "button": "Add Official Vacation"
+    }
+  },
+  "form": {
+    "name": {
+      "label": "Official Vacation Name",
+      "placeholder": "Enter the Official Vacation name",
+      "inputValidation": {
+        "required": "Official Vacation name is required"
+      }
+    },
+    "startDate": {
+      "label": "Start Date",
+      "placeholder": "Format: YYYY-MM-DD",
+      "inputValidation": {
+        "required": "Start Date is required",
+        "matches": "Date must be in the format YYYY-MM-DD"
+      }
+    },
+    "endDate": {
+      "label": "End Date",
+      "placeholder": "Format: YYYY-MM-DD",
+      "inputValidation": {
+        "required": "End Date is required",
+        "matches": "Date must be in the format YYYY-MM-DD"
+      }
+    }
+  },
+  "popup": {
+    "delete": {
+      "title": "Delete Official Vacation",
+      "description": "Are you sure you want to delete this Official Vacation? This action cannot be undone.",
+      "deleteButton": "Delete Vacation",
+      "closeButton": "Close"
+    },
+    "add": {
+      "title": "Add Official Vacation",
+      "description": "Enter the details of the new Official Vacation to register it in the system.",
+      "addButton": "Save Vacation",
+      "closeButton": "Close"
+    },
+    "edit": {
+      "title": "Edit Official Vacation",
+      "description": "Modify the Official Vacation details and save your changes.",
+      "updateButton": "Update Vacation",
+      "closeButton": "Close"
+    },
+    "show": {
+      "title": "View Official Vacation",
+      "description": "Here you can review the details and status of the selected Official Vacation.",
+      "editButton": "Edit",
+      "deleteButton": "Delete",
+      "closeButton": "Close"
+    }
+  }
+}

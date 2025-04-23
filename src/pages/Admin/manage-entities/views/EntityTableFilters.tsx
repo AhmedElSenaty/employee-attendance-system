@@ -1,0 +1,68 @@
+import { TFunction } from "i18next"
+import { Field, Input, Label, SelectBox } from "../../../../components/ui/Forms"
+import { formatValue } from "../../../../utils";
+import { Search } from "lucide-react";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../../context/store";
+import { useFiltersHook } from "../../../../hooks/useFiltersHook";
+import { SectionHeader } from "../../../../components/ui/SectionHeader";
+import { ENTITY_TRANSLATION_NAMESPACE } from "..";
+
+interface IEntityTableFiltersProps {
+  searchBy: string[]
+  t: TFunction
+}
+
+const EntityTableFilters = ({ searchBy, t }: IEntityTableFiltersProps) => {
+  const { language } = useSelector((state: RootState) => state.language);
+  const { pageSize, searchKey, search, setFilters } = useFiltersHook()
+  
+  return (
+    <>
+      <div className="bg-white shadow-sm rounded-lg p-4 space-y-4">
+        <SectionHeader
+          title={t("sectionsHeader.filters.title", { ns: ENTITY_TRANSLATION_NAMESPACE })} 
+          description={t("sectionsHeader.filters.description", { ns: ENTITY_TRANSLATION_NAMESPACE })} 
+        />
+        <div className="flex gap-3">
+          <Field className="space-y-3 w-full sm:w-auto flex flex-col">
+            <Label>{t("pagination.pageSize")}</Label>
+            <SelectBox value={pageSize ?? 5} onChange={(e) => setFilters({ pageSize: e.target.value ? parseInt(e.target.value) : 5 })}>
+              {[5, 10, 20, 30, 40, 50].map(size => (
+                <option key={size} value={size}>{formatValue(size, language)}</option>
+              ))}
+            </SelectBox>
+          </Field>
+
+          {/* Search Type */}
+          <Field className="space-y-3 w-full sm:w-auto flex flex-col">
+            <Label size="md">{t("searchBy.label", { ns: ENTITY_TRANSLATION_NAMESPACE })}</Label>
+            <SelectBox value={searchKey ?? ""} onChange={(e) => setFilters({ searchKey: e.target.value })} >
+              <option value="">
+                {t(`searchBy.default`, { ns: ENTITY_TRANSLATION_NAMESPACE })}
+              </option>
+              {searchBy.map((search, idx) => (
+                <option key={idx} value={String(search)}>
+                  {t(`searchBy.${String(search)}`, { ns: ENTITY_TRANSLATION_NAMESPACE }) ?? ""}
+                </option>
+              ))}
+            </SelectBox>
+          </Field>
+
+          {/* Search Input */}
+          <Field className="flex-1 w-full sm:w-auto flex flex-col space-y-3">
+            <Label size="md">{t("search.label")}</Label>
+            <Input
+              placeholder={t("search.placeholder")}
+              icon={<Search size={18} className="text-gray-500" />}
+              value={search ?? ""}
+              onChange={(e) => setFilters({ search: e.target.value })}
+            />
+          </Field>
+        </div>
+      </div>
+    </>
+  )
+}
+
+export default EntityTableFilters

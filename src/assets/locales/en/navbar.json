@@ -1,0 +1,27 @@
+{
+  "userLinks": {
+    "home": {
+      "title": "Home",
+      "description": "Go to Homepage"
+    },
+    "login": {
+      "title": "Login",
+      "description": "Log in to access the dashboard"
+    },
+    "profile": {
+      "title": "Profile",
+      "description": "View and edit your profile"
+    },
+    "calendar": {
+      "title": "Employee Calendar",
+      "description": "Attendance, schedule, holidays, and leaves"
+    },
+    "logout": {
+      "title": "Logout",
+      "description": "Log out of your account"
+    }
+  },
+  "buttons": {
+    "login": "Login"
+  }
+}

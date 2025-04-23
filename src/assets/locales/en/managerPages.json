@@ -1,0 +1,159 @@
+{
+  "manageManagersPage": {
+    "header": {
+      "heading": "Manage Managers",
+      "subtitle": "View, edit, and remove managers from your platform."
+    },
+    "countCard": {
+      "title": "Total Managers",
+      "description": "The total number of active managers in the system."
+    },
+    "sectionHeader": {
+      "title": "Managers List",
+      "description": "Browse and manage the managers who have access to the system."
+    },
+    "searchBy": {
+      "label": "Search by",
+      "default": "Search managers",
+      "SearchByUsername": "Username",
+      "SearchByEmail": "Email",
+      "SearchByDepartment": "Department"
+    },
+    "graph": {
+      "title": "Manager Distribution",
+      "description": "A breakdown of managers by their status",
+      "labels": {
+        "active": "Active",
+        "blocked": "Blocked",
+        "locked": "Locked"
+      },
+      "label": "Managers count"
+    },
+    "table": {
+      "emptyTable": {
+        "title": "No managers found",
+        "message": "There are currently no managers matching your criteria."
+      },
+      "columns": {
+        "username": "Username",
+        "email": "Email",
+        "department": "Department",
+        "status": "Status",
+        "createdAt": "Created At",
+        "actions": "Actions"
+      },
+      "isBlocked": {
+        "blocked": "Blocked",
+        "notBlocked": "Active"
+      }
+    },
+    "actions": {
+      "add": {
+        "title": "Add New Manager",
+        "description": "Grant access to a new manager by adding their information.",
+        "button": "Add Manager"
+      }
+    }
+  },
+  "addManagerPage": {
+    "header": {
+      "heading": "Add New Manager",
+      "subtitle": "Assign permissions and one department to the new manager."
+    },
+    "managerInformationsSectionHeader": {
+      "title": "Manager Information",
+      "description": "Fill in the details of the new manager, including their name, email, and role."
+    },
+    "permissionsSectionHeader": {
+      "title": "Assign Permissions",
+      "description": "Select the permissions that will be granted to the managers."
+    },
+    "departmentsSectionHeader": {
+      "title": "Assign Departments",
+      "description": "Choose the departments that the manager will manage."
+    },
+    "saveManagerButton": "Save Manager",
+    "note": "The password is generated automatically, and you can change it as you like."
+  },
+  "updateManagerPage": {
+    "header": {
+      "heading": "Update Manager",
+      "subtitle": "Modify the manager's information and settings."
+    },
+    "managerInformationsSectionHeader": {
+      "title": "Manager Information",
+      "description": "Update the details of the manager, including their name, email, and role."
+    },
+    "managerPasswordSectionHeader": {
+      "title": "Change Password",
+      "description": "Set a new password for the manager account."
+    },
+    "permissionsSectionHeader": {
+      "title": "Re-Assign Permissions",
+      "description": "Select or modify the permissions that will be granted to the manager."
+    },
+    "departmentsSectionHeader": {
+      "title": "Re-Assign Departments",
+      "description": "Choose or update the departments that the manager will manage."
+    },
+    "updateButton": "Update Manager",
+    "deleteButton": "Delete Manager",
+    "updatePasswordButton": "Update Password",
+    "updatePermissionsButton": "Update Manager Permissions",
+    "updateDepartmentsButton": "Update Manager Departments"
+  },
+  "form": {
+    "username": {
+      "label": "Username",
+      "placeholder": "Enter username",
+      "inputValidation": {
+        "required": "Username is required",
+        "min": "Username must be at least 3 characters",
+        "max": "Username cannot exceed 50 characters",
+        "matches": "Username cannot contain spaces"
+      }
+    },
+    "email": {
+      "label": "Email",
+      "placeholder": "Enter email",
+      "inputValidation": {
+        "required": "Email is required",
+        "email": "Email must be a valid email address"
+      }
+    },
+    "password": {
+      "label": "Password",
+      "placeholder": "Enter admin password",
+      "inputValidation": {
+        "required": "New password is required",
+        "min": "Password must be at least 8 characters long",
+        "uppercase": "Password must contain at least one uppercase letter",
+        "lowercase": "Password must contain at least one lowercase letter",
+        "number": "Password must contain at least one number",
+        "specialChar": "Password must contain at least one special character ! @ # $ % ^ &"
+      }
+    },
+    "confirmPassword": {
+      "label": "Confirm Password",
+      "placeholder": "Re-enter your new password",
+      "inputValidation": {
+        "required": "Password confirmation is required",
+        "oneOf": "Passwords do not match"
+      }
+    },
+    "profile": {
+      "label": "Profile",
+      "defaultValue": "Select Profile"
+    }
+  },
+  "popup": {
+    "delete": {
+      "title": "Delete Manager",
+      "description": "Are you sure you want to delete this manager? This action cannot be undone."
+    },
+    "unblock": {
+      "title": "Unblock Manager",
+      "description": "Do you want to unblock this manager and restore their access?"
+    }
+  }
+}

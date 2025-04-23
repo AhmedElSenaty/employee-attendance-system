@@ -1,0 +1,159 @@
+{
+  "manageAdminsPage": {
+    "header": {
+      "heading": "Manage Administrators",
+      "subtitle": "View, edit, or remove administrators from your platform."
+    },
+    "countCard": {
+      "title": "Total Administrators",
+      "description": "The current number of active administrators in the system."
+    },
+    "sectionHeader": {
+      "title": "Administrators List",
+      "description": "Browse and manage the administrators who have access to the system."
+    },
+    "searchBy": {
+      "label": "Search by",
+      "default": "Search admins",
+      "SearchByUserName": "Username",
+      "SearchByTitle": "Title",
+      "SearchByEmail": "Email",
+      "SearchByDepartmentId": "Department"
+    },
+    "table": {
+      "emptyTable": {
+        "title": "No Administrators Found",
+        "message": "No administrators match your search criteria at the moment."
+      },
+      "columns": {
+        "username": "Username",
+        "title": "Title",
+        "email": "Email",
+        "isBlocked": "Status",
+        "createdAt": "Created At",
+        "actions": "Actions"
+      },
+      "isBlocked": {
+        "blocked": "Blocked",
+        "notBlocked": "Active"
+      }
+    },
+    "actions": {
+      "add": {
+        "title": "Add Administrator",
+        "description": "Create a new administrator account and assign roles.",
+        "button": "Add Admin"
+      }
+    }
+  },
+  "addAdminPage": {
+    "header": {
+      "heading": "Add New Administrator",
+      "subtitle": "Assign permissions and departments to the new administrator."
+    },
+    "adminInformationsSectionHeader": {
+      "title": "Administrator Information",
+      "description": "Enter the details of the new administrator, including their name, email, and role."
+    },
+    "permissionsSectionHeader": {
+      "title": "Assign Permissions",
+      "description": "Choose the permissions to be granted to the administrator."
+    },
+    "departmentsSectionHeader": {
+      "title": "Assign Departments",
+      "description": "Select the departments the administrator will manage."
+    },
+    "saveAdminButton": "Save Admin",
+    "note": "A password is generated automatically, but you can change it anytime."
+  },
+  "updateAdminPage": {
+    "header": {
+      "heading": "Update Administrator",
+      "subtitle": "Edit the administrator's information and settings."
+    },
+    "adminInformationsSectionHeader": {
+      "title": "Administrator Information",
+      "description": "Update the administrator's name, email, and role."
+    },
+    "adminPasswordSectionHeader": {
+      "title": "Change Password",
+      "description": "Set a new password for the administrator account."
+    },
+    "permissionsSectionHeader": {
+      "title": "Reassign Permissions",
+      "description": "Modify the permissions assigned to the administrator."
+    },
+    "departmentsSectionHeader": {
+      "title": "Reassign Departments",
+      "description": "Update the departments managed by the administrator."
+    },
+    "updateAdminButton": "Update Admin",
+    "deleteAdminButton": "Delete Admin",
+    "updatePasswordButton": "Update Password",
+    "updateAdminPermissionsButton": "Update Admin Permissions",
+    "updateAdminDepartmentsButton": "Update Admin Departments"
+  },
+  "form": {
+    "username": {
+      "label": "Username",
+      "placeholder": "Enter username",
+      "inputValidation": {
+        "required": "Username is required",
+        "min": "Username must be at least 3 characters",
+        "max": "Username cannot exceed 50 characters",
+        "matches": "Username cannot contain spaces"
+      }
+    },
+    "title": {
+      "label": "Title",
+      "placeholder": "Enter title",
+      "inputValidation": {
+        "required": "Title is required",
+        "min": "Title must be at least 2 characters",
+        "max": "Title cannot exceed 100 characters"
+      }
+    },
+    "email": {
+      "label": "Email",
+      "placeholder": "Enter email",
+      "inputValidation": {
+        "required": "Email is required",
+        "email": "Email must be a valid email address"
+      }
+    },
+    "password": {
+      "label": "Password",
+      "placeholder": "Enter admin password",
+      "inputValidation": {
+        "required": "New password is required",
+        "min": "Password must be at least 8 characters long",
+        "uppercase": "Password must contain at least one uppercase letter",
+        "lowercase": "Password must contain at least one lowercase letter",
+        "number": "Password must contain at least one number",
+        "specialChar": "Password must contain at least one special character ! @ # $ % ^ &"
+      }
+    },
+    "confirmPassword": {
+      "label": "Confirm Password",
+      "placeholder": "Re-enter your new password",
+      "inputValidation": {
+        "required": "Password confirmation is required",
+        "oneOf": "Passwords do not match"
+      }
+    },
+    "profile": {
+      "label": "Profile",
+      "defaultValue": "Select Profile"
+    }
+  },
+  "popup": {
+    "delete": {
+      "title": "Delete Administrator",
+      "description": "Are you sure you want to delete this administrator? This action cannot be undone."
+    },
+    "unblock": {
+      "title": "Unblock Administrator",
+      "description": "Are you sure you want to unblock this administrator and restore their access?"
+    }
+  }
+}

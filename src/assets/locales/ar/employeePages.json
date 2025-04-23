@@ -1,0 +1,222 @@
+{
+  "manageEmployeesPage": {
+    "header": {
+      "heading": "إدارة الموظفين",
+      "subtitle": "عرض، تحديث أو إزالة الموظفين بسهولة من منصتك."
+    },
+    "countCard": {
+      "title": "إجمالي الموظفين",
+      "description": "عدد الموظفين النشطين حاليا في مؤسستك."
+    },
+    "sectionHeader": {
+      "title": "دليل الموظفين",
+      "description": "عرض وإدارة قائمة الموظفين الذين لديهم وصول إلى المنصة."
+    },
+    "searchBy": {
+      "label": "البحث بواسطة",
+      "default": "ابحث عن الموظفين",
+      "SearchByFullName": "الاسم",
+      "SearchBySSN": "الرقم القومي (SSN)",
+      "SearchByEmail": "البريد الإلكتروني",
+      "SearchByDepartmentId": "القسم"
+    },
+    "graph": {
+      "title": "نظرة عامة على حالة الموظفين",
+      "description": "عرض بياني للموظفين حسب حالتهم الحالية.",
+      "labels": {
+        "active": "نشط",
+        "blocked": "محظور",
+        "locked": "مغلق",
+        "deactivated": "غير نشط"
+      },
+      "label": "إجمالي الموظفين"
+    },
+    "table": {
+      "emptyTable": {
+        "title": "لم يتم العثور على موظفين",
+        "message": "لا توجد موظفين يطابقون البحث أو الفلاتر الخاصة بك."
+      },
+      "columns": {
+        "fullName": "الاسم",
+        "email": "البريد الإلكتروني",
+        "ssn": "الرقم القومي",
+        "username": "اسم المستخدم",
+        "phoneNumber": "الهاتف",
+        "departmentName": "القسم",
+        "subDepartmentName": "الفرع",
+        "delegateDepartmentName": "القسم المكلف",
+        "delegateSubDepartmentName": "الفرع المكلف",
+        "dateOfBirth": "تاريخ الميلاد",
+        "status": "الحالة",
+        "actions": "الإجراءات",
+        "accountStatus": "حالة الحساب",
+        "isBlocked": "هل هو محظور؟",
+        "hiringDate": "تاريخ التوظيف"
+      },
+      "status": {
+        "blocked": "محظور",
+        "active": "نشط",
+        "notActive": "غير نشط"
+      }
+    },
+    "actions": {
+      "add": {
+        "title": "إضافة موظف",
+        "description": "إضافة موظف جديد ومنحه وصول إلى النظام.",
+        "button": "إضافة جديد"
+      }
+    }
+  },
+  "addEmployeePage": {
+    "header": {
+      "heading": "إضافة موظف",
+      "subtitle": "املأ النموذج لإضافة موظف جديد إلى فريقك."
+    },
+    "emplyeeInformationsSectionHeader": {
+      "title": "تفاصيل الموظف",
+      "description": "أدخل المعلومات الشخصية والتواصلية للموظف."
+    },
+    "delegateSectionHeader": {
+      "title": "تعيين المكلف (اختياري)",
+      "description": "تعيين الموظف إلى فرع مكلف اختياريًا."
+    },
+    "departmentSectionHeader": {
+      "title": "تعيين القسم",
+      "description": "حدد القسم الرئيسي لهذا الموظف."
+    },
+    "saveEmployeeButton": "حفظ",
+    "note": "ملاحظة: تعيين المكلف اختياري."
+  },
+  "editEmployeePage": {
+    "header": {
+      "heading": "تعديل الموظف",
+      "subtitle": "تحديث تفاصيل الموظف باستخدام النموذج أدناه."
+    },
+    "emplyeeInformationsSectionHeader": {
+      "title": "تفاصيل الموظف",
+      "description": "تعديل المعلومات الشخصية والتواصلية للموظف."
+    },
+    "delegateSectionHeader": {
+      "title": "تعيين المكلف (اختياري)",
+      "description": "إعادة تعيين الموظف إلى فرع مكلف إذا لزم الأمر."
+    },
+    "departmentSectionHeader": {
+      "title": "إعادة تعيين القسم",
+      "description": "تغيير القسم الرئيسي الذي ينتمي إليه الموظف."
+    },
+    "passwordSectionHeader": {
+      "title": "تحديث كلمة المرور",
+      "description": "إنشاء كلمة مرور جديدة لحساب الموظف."
+    },
+    "updateButton": "حفظ التغييرات",
+    "deleteButton": "إزالة الموظف",
+    "updatePasswordButton": "تحديث كلمة المرور",
+    "note": "ملاحظة: تعيين المكلف اختياري."
+  },
+  "form": {
+    "username": {
+      "label": "اسم المستخدم",
+      "placeholder": "أدخل اسم المستخدم",
+      "inputValidation": {
+        "required": "اسم المستخدم مطلوب",
+        "min": "يجب أن يتكون اسم المستخدم من 3 أحرف على الأقل",
+        "max": "اسم المستخدم لا يجب أن يتجاوز 50 حرفًا",
+        "matches": "اسم المستخدم لا يمكن أن يتضمن مسافات"
+      }
+    },
+    "email": {
+      "label": "البريد الإلكتروني",
+      "placeholder": "أدخل البريد الإلكتروني",
+      "inputValidation": {
+        "required": "البريد الإلكتروني مطلوب",
+        "email": "الرجاء إدخال بريد إلكتروني صالح"
+      }
+    },
+    "fullName": {
+      "label": "الاسم الكامل",
+      "placeholder": "أدخل الاسم الكامل",
+      "inputValidation": {
+        "required": "الاسم الكامل مطلوب",
+        "min": "يجب أن يتكون الاسم الكامل من 3 أحرف على الأقل",
+        "max": "الاسم الكامل لا يجب أن يتجاوز 100 حرف"
+      }
+    },
+    "ssn": {
+      "label": "الرقم القومي (SSN)",
+      "placeholder": "أدخل الرقم القومي المكون من 14 رقمًا",
+      "inputValidation": {
+        "required": "الرقم القومي مطلوب",
+        "matches": "يجب أن يتكون الرقم القومي من 14 رقمًا بالضبط"
+      }
+    },
+    "phoneNumber": {
+      "label": "رقم الهاتف",
+      "placeholder": "أدخل رقم الهاتف",
+      "inputValidation": {
+        "nullable": "",
+        "required": "رقم الهاتف مطلوب",
+        "matches": "يرجى إدخال رقم هاتف مصري صالح"
+      }
+    },
+    "subDepartmentId": {
+      "label": "الفرع",
+      "defaultValue": "اختيار الفرع",
+      "inputValidation": {
+        "required": "الفرع مطلوب"
+      }
+    },
+    "hiringDate": {
+      "label": "تاريخ التوظيف",
+      "placeholder": "اختر تاريخ التوظيف",
+      "inputValidation": {
+        "required": "تاريخ التوظيف مطلوب"
+      }
+    },
+    "oldId": {
+      "label": "رقم الموظف السابق",
+      "placeholder": "أدخل الرقم القديم (اختياري)",
+      "inputValidation": {
+        "required": "رقم الموظف السابق مطلوب"
+      }
+    },
+    "delegateId": {
+      "label": "الفرع المكلف",
+      "placeholder": "أدخل الرقم المكلف (اختياري)",
+      "defaultValue": "اختيار الفرع المكلف"
+    },
+    "departmentId": {
+      "label": "القسم",
+      "defaultValue": "اختيار القسم"
+    },
+    "password": {
+      "label": "كلمة مرور جديدة",
+      "placeholder": "أدخل كلمة مرور آمنة",
+      "inputValidation": {
+        "required": "كلمة المرور مطلوبة",
+        "min": "يجب أن تكون كلمة المرور على الأقل 8 أحرف",
+        "uppercase": "يجب أن تتضمن حرفًا كبيرًا واحدًا على الأقل",
+        "lowercase": "يجب أن تتضمن حرفًا صغيرًا واحدًا على الأقل",
+        "number": "يجب أن تتضمن رقمًا واحدًا على الأقل",
+        "specialChar": "يجب أن تتضمن حرفًا خاصًا واحدًا على الأقل (! @ # $ % ^ &)"
+      }
+    },
+    "confirmPassword": {
+      "label": "تأكيد كلمة المرور",
+      "placeholder": "أعد إدخال كلمة مرورك الجديدة",
+      "inputValidation": {
+        "required": "التأكيد مطلوب",
+        "oneOf": "كلمات المرور غير متطابقة"
+      }
+    }
+  },
+  "popup": {
+    "delete": {
+      "title": "إزالة الموظف",
+      "description": "هل أنت متأكد أنك تريد حذف هذا الموظف بشكل دائم؟ هذه العملية لا يمكن التراجع عنها."
+    },
+    "unblock": {
+      "title": "استعادة الوصول",
+      "description": "هل تريد إزالة حظر هذا الموظف والسماح له بتسجيل الدخول مرة أخرى؟"
+    }
+  }
+}
