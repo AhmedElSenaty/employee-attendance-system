@@ -1,4 +1,4 @@
-import logo from "../../../assets/logos/helwan-logo.png";
+import { helwanUniversityLogo } from "../../../assets/logos";
 
 interface IProps {
   src?: string;
@@ -8,7 +8,7 @@ interface IProps {
 }
 
 const Logo = ({
-  src = logo,
+  src = helwanUniversityLogo,
   width = "w-32",
   height = "h-auto",
   bgColor = "",

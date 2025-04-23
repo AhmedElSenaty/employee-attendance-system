@@ -2,7 +2,7 @@ import axiosInstance from "../../config/axios.config";
 import { ILoggedInUser, ILoginCredentials, ILoginResponse } from "../../interfaces";
 
 export const login = async (credentials: ILoginCredentials): Promise<ILoginResponse> => {
-  const response = await axiosInstance.post(`/Account/Login`, credentials);
+  const response = await axiosInstance.post(`/Account/Login`, { email: credentials.email, password: credentials.password });
   return response.data;
 };
 

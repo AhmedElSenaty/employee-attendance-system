@@ -1,4 +1,3 @@
-import { defaultUserImage } from "../../assets/images";
 import { useTranslation } from "react-i18next";
 import { Logo } from "../../components/ui/Logo";
 import { Flyout, FlyoutMenu } from "../../components/ui/Flyout";
@@ -10,6 +9,7 @@ import { setLanguage } from "../../context/slices/languageSlice";
 import { RootState } from "../../context/store";
 import { logoutUser, selectIsLoggedIn, selectRole } from "../../context/slices/userSlice";
 import { Button } from "../../components/ui/Button";
+import { defaultUserImage } from "../../assets/images";
 
 export const Navbar = () => {
 

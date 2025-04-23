@@ -77,7 +77,7 @@ export const uploadEmployeeImage = async (employeeId: string, imageFile: File, t
       {
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "multipart/form-data",
+            "Content-Type": "multipart/form-data",
         },
       }
     );
