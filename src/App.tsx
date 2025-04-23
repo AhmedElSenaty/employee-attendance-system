@@ -13,7 +13,6 @@ const LOADING_DELAY = 1500;
 const queryClient = new QueryClient()
 
 function App() {
-  console.log("app");
   
   const { isReady, t } = useI18nInitialization();
   
