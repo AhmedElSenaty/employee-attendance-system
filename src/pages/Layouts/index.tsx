@@ -7,6 +7,7 @@ import { selectRole } from '../../context/slices/userSlice';
 import { AdminSidebar } from './AdminSidebar';
 import { ManagerSidebar } from './ManagerSidebar';
 import BackButton from '../../components/ui/BackButton';
+import ScrollToTop from '../../components/ui/ScrollToTop';
 
 export const RootLayout = () => {
   const userRole = useSelector(selectRole());
@@ -36,7 +37,7 @@ export const RootLayout = () => {
 
         <Footer />
       </div>
-
+      <ScrollToTop />
       <ToastContainer />
     </div>
   );
