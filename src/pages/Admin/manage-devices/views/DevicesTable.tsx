@@ -6,6 +6,7 @@ import { TFunction } from "i18next";
 import { IDeviceData } from "../../../../interfaces";
 import { DEVICE_TABLE_COLUMNS, DEVICE_TRANSLATION_NAMESPACE } from "..";
 import { HasPermission } from "../../../../components/auth";
+import { Tooltip } from "../../../../components/ui/Tooltip";
 
 interface IDevicesTableProps {
   devices: IDeviceData[];
@@ -60,14 +61,18 @@ const DevicesTable = ({ devices, t, isLoading, handleShowDevice, handleEditDevic
                       />
                     </HasPermission>
                     <HasPermission permission="Delete Device">
-                      <Button
-                        variant="danger"
-                        fullWidth={false}
-                        size={"sm"}
-                        icon={<Trash2 className="w-full h-full" />}
-                        aria-label={t("buttons.delete")}
-                        onClick={() => handleDeleteDevice(device.id)}
-                      />
+                      <Tooltip 
+                        content="Delete Device"
+                      >
+                        <Button
+                          variant="danger"
+                          fullWidth={false}
+                          size={"sm"}
+                          icon={<Trash2 className="w-full h-full" />}
+                          aria-label={t("buttons.delete")}
+                          onClick={() => handleDeleteDevice(device.id)}
+                        />
+                      </Tooltip>
                     </HasPermission>
                   </div>
                 </TableCell>
