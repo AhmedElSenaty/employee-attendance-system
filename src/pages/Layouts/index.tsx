@@ -1,5 +1,5 @@
 import { ToastContainer } from 'react-toastify';
-import { Outlet, useLocation } from 'react-router';
+import { Outlet, ScrollRestoration, useLocation } from 'react-router';
 import { Navbar } from './Navbar';
 import { Footer } from './Footer';
 import { useSelector } from 'react-redux';
@@ -7,7 +7,6 @@ import { selectRole } from '../../context/slices/userSlice';
 import { AdminSidebar } from './AdminSidebar';
 import { ManagerSidebar } from './ManagerSidebar';
 import BackButton from '../../components/ui/BackButton';
-import ScrollToTop from '../../components/ui/ScrollToTop';
 
 export const RootLayout = () => {
   const userRole = useSelector(selectRole());
@@ -37,7 +36,7 @@ export const RootLayout = () => {
 
         <Footer />
       </div>
-      <ScrollToTop />
+      <ScrollRestoration />
       <ToastContainer />
     </div>
   );
