@@ -191,7 +191,7 @@ const ManageDepartmentsPage = () => {
         handleConfirmDelete={handleConfirmDelete}
         isLoading={isDeleting}
         t={t}
-      />;
+      />
     </div>
   )
 }

@@ -3,6 +3,7 @@ import { RootLayout } from "../pages/Layouts";
 import { ProtectedRoute } from "../components/auth";
 import { CalendarPage } from "../pages/Employee/Calender";
 import EmpolyeeAccountPage from "../pages/Employee/Account";
+import { DashboardEmployee } from "../pages/Employee";
 
 export const employeeRoutes = (isLoggedIn: boolean, userRole: string) => (
   <Route 
@@ -13,9 +14,10 @@ export const employeeRoutes = (isLoggedIn: boolean, userRole: string) => (
       </ProtectedRoute>
     } 
   >
+    <Route index element={<DashboardEmployee />} />
+
     <Route path="account/" element={<EmpolyeeAccountPage />} />
 
     <Route path="calendar/" element={<CalendarPage />} />
-    
   </Route>
 );

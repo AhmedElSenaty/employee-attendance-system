@@ -60,17 +60,17 @@ const RenderDeviceInputs = ({ register, errors, t, isLoading }: IDeviceInputsPro
         ) : (
           <>
             <Label size="lg">
-              {t("form.iP_Address.label", { ns: DEVICE_TRANSLATION_NAMESPACE })}
+              {t("form.ip_address.label", { ns: DEVICE_TRANSLATION_NAMESPACE })}
             </Label>
             <Input
               type="text"
-              placeholder={t("form.iP_Address.placeholder", { ns: DEVICE_TRANSLATION_NAMESPACE })}
+              placeholder={t("form.ip_address.placeholder", { ns: DEVICE_TRANSLATION_NAMESPACE })}
               isError={!!errors.iP_Address}
               {...register("iP_Address")}
             />
             {errors.iP_Address && (
               <InputErrorMessage>
-                {t(`form.iP_Address.inputValidation.${errors.iP_Address.type}`, {
+                {t(`form.ip_address.inputValidation.${errors.iP_Address.type}`, {
                   ns: DEVICE_TRANSLATION_NAMESPACE,
                 })}
               </InputErrorMessage>
