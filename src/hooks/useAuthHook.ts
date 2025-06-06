@@ -31,6 +31,7 @@ const useLogin = () => {
       
         const permissions = await fetchAuthorizedUserPermissions(loggedInUser.token);
         loggedInUser.permissions = permissions;
+        loggedInUser.imageUrl = data.data?.imageUrl;
 
         setUser(loggedInUser);
       

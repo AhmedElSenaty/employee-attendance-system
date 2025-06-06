@@ -10,6 +10,7 @@ import { truncateText } from "../../../../utils";
 import { ADMIN_TABLE_COLUMNS, ADMIN_TRANSLATION_NAMESPACE } from "..";
 import { HasPermission } from "../../../../components/auth";
 import { useLanguageStore } from "../../../../store/language.store";
+import { Tooltip } from "../../../../components/ui";
 
 interface IAdminsTableProps {
   admins: IAdminData[]; // Array of admin data to display in the table
@@ -69,36 +70,42 @@ const AdminsTable = ({ admins, t, isLoading, handleDeleteAdmin, handleUnblockAdm
                   {/* Render buttons for each row: Edit, Delete, Unblock (if blocked) */}
                   <div className="flex flex-wrap gap-2">
                     <HasPermission permission="Update Admin">
-                      <NavLink to={`/admin/edit-admin/${id}`}>
-                        <Button 
-                          variant="info" 
-                          fullWidth={false}
-                          size={"sm"} 
-                          icon={<FilePenLine className="w-full h-full" />} 
-                          aria-label={t("buttons.edit")} 
-                        />
-                      </NavLink>
+                      <Tooltip content="Edit Admin">
+                        <NavLink to={`/admin/edit-admin/${id}`}>
+                          <Button 
+                            variant="info" 
+                            fullWidth={false}
+                            size={"sm"} 
+                            icon={<FilePenLine className="w-full h-full" />} 
+                            aria-label={t("buttons.edit")} 
+                          />
+                        </NavLink>
+                      </Tooltip>
                     </HasPermission>
                     <HasPermission permission="Delete Admin">
-                      <Button
-                        variant="danger"
-                        fullWidth={false}
-                        size={"sm"}
-                        icon={<Trash2 className="w-full h-full" />}
-                        aria-label={t("buttons.delete")}
-                        onClick={() => handleDeleteAdmin(id)} // Handle delete action
-                      />
+                      <Tooltip content="Delete Admin">
+                        <Button
+                          variant="danger"
+                          fullWidth={false}
+                          size={"sm"}
+                          icon={<Trash2 className="w-full h-full" />}
+                          aria-label={t("buttons.delete")}
+                          onClick={() => handleDeleteAdmin(id)} // Handle delete action
+                        />
+                      </Tooltip>
                     </HasPermission>
                     {/* Show Unblock button only if the admin is blocked */}
                     <HasPermission permission="Unlock Account">
                       {isBlocked && (
-                        <Button
-                          variant="black"
-                          fullWidth={false}
-                          size={"sm"}
-                          icon={<Ban className="w-full h-full" />}
-                          onClick={() => handleUnblockAdmin(id)} // Handle unblock action
-                        />
+                        <Tooltip content="Unblock Admin">
+                          <Button
+                            variant="black"
+                            fullWidth={false}
+                            size={"sm"}
+                            icon={<Ban className="w-full h-full" />}
+                            onClick={() => handleUnblockAdmin(id)} // Handle unblock action
+                          />
+                        </Tooltip>
                       )}
                     </HasPermission>
                   </div>

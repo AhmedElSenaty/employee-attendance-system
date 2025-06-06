@@ -19,6 +19,7 @@ export interface ILoginResponse {
     attempts: IAttemptsObj
     isLocked: boolean,
     isBlocked: boolean
+    imageUrl: null | string;
   },
   errors?: string[];
 }
@@ -47,7 +48,8 @@ export const initialLoginResponse: ILoginResponse = {
       availableAttempts: 0
     },
     isLocked: false,
-    isBlocked: false
+    isBlocked: false,
+    imageUrl: null
   },
   errors: []
 }

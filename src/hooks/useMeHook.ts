@@ -25,11 +25,14 @@ const useFetchMe = () => {
 };
 
 const useManageMe = () => {
+  const setUser = useUserStore((state) => state.setUser);
+  const currentUser = useUserStore((state) => state); // Get current user state
   const token = useUserStore((state) => state.token);
   const userID = useUserStore((state) => state.id);
   const userRole = useUserStore((state) => state.role);
   const { language } = useLanguageStore();
   const queryClient = useQueryClient();
+
 
   // Mutation to update the password
   const updatePasswordMutation = useMutation({
@@ -98,6 +101,11 @@ const useManageMe = () => {
       onSuccess: ({ status, data }) => {
         if (status === 200) {
           queryClient.invalidateQueries({ queryKey: [FETCH_ME_QUERY_KEY, userRole, token] });
+          
+        if (data?.data?.profileImage) {
+          setUser({ ...currentUser, imageUrl: data?.data?.profileImage });
+        }
+
           const message = getTranslatedMessage(data?.message ?? "Profile image updated", language);
           showToast("success", message);
         }

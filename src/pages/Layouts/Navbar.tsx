@@ -15,6 +15,7 @@ export const Navbar = () => {
 
   const userRole = useUserStore((state) => state.role);
   const isLoggedIn = Boolean(useUserStore((state) => state.token));
+  const imageUrl = useUserStore((state) => state.imageUrl);
   const logoutUser = useUserStore((state) => state.logoutUser);
 
 
@@ -57,7 +58,7 @@ export const Navbar = () => {
             ( 
               <Flyout
                 icon={<Image
-                  src="/images/default-user-image.webp"
+                  src={imageUrl == null ? "/images/default-user-image.webp" : imageUrl}
                   alt="Description of image"
                   width="sm:w-12 w-10"
                   height="sm:h-12 h-10"

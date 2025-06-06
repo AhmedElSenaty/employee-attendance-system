@@ -10,7 +10,7 @@ interface IProps extends ImgHTMLAttributes<HTMLImageElement> {
 const Image = ({ width = "w-auto", height = "h-auto", rounded = "rounded-none", className = "", ...rest }: IProps) => {
   return (
     <img
-      className={`${width} ${height} ${rounded} object-contain ${className}`}
+      className={`${width} ${height} ${rounded} object-cover ${className}`}
       {...rest}
     />
   );
