@@ -9,8 +9,7 @@ import { StatusBadge } from "../../../../components/ui/StatusBadge";
 import { truncateText } from "../../../../utils";
 import { EMPLOYEE_TABLE_COLUMNS, EMPLOYEE_TRANSLATION_NAMESPACE } from "..";
 import { HasPermission } from "../../../../components/auth";
-import { useSelector } from "react-redux";
-import { selectRole } from "../../../../context/slices/userSlice";
+import { useUserStore } from "../../../../store/user.store";
 
 interface IEmployeesTableProps {
   employees: IEmployeeData[];
@@ -21,7 +20,7 @@ interface IEmployeesTableProps {
 }
 
 const EmployeesTable = ({ employees, t, isLoading, handleDeleteEmployee, handleUnblockEmployee }: IEmployeesTableProps) => {
-  const userRole = useSelector(selectRole());
+  const userRole = useUserStore((state) => state.role);
 
   const columns = useMemo(
     () => EMPLOYEE_TABLE_COLUMNS.map(key => t(key, { ns: EMPLOYEE_TRANSLATION_NAMESPACE })),

@@ -1,15 +1,15 @@
 import { ToastContainer } from 'react-toastify';
-import { Outlet, ScrollRestoration, useLocation } from 'react-router';
+import { Outlet, useLocation } from 'react-router';
 import { Navbar } from './Navbar';
 import { Footer } from './Footer';
-import { useSelector } from 'react-redux';
-import { selectRole } from '../../context/slices/userSlice';
 import { AdminSidebar } from './AdminSidebar';
 import { ManagerSidebar } from './ManagerSidebar';
 import BackButton from '../../components/ui/BackButton';
+import { useUserStore } from '../../store/user.store';
+import { ScrollToTop, ScrollToTopButton } from '../../components/ui';
 
 export const RootLayout = () => {
-  const userRole = useSelector(selectRole());
+  const userRole = useUserStore((state) => state.role);
   const location = useLocation();
 
   const isHomePage = location.pathname === '/'; // Adjust if your home route is different
@@ -36,7 +36,8 @@ export const RootLayout = () => {
 
         <Footer />
       </div>
-      <ScrollRestoration />
+      <ScrollToTop />
+      <ScrollToTopButton />
       <ToastContainer />
     </div>
   );

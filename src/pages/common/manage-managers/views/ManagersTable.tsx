@@ -5,13 +5,12 @@ import { AlertTriangle, Ban, CheckCircle, FilePenLine, Trash2 } from "lucide-rea
 import { TFunction } from "i18next";
 import { IManagerData } from "../../../../interfaces";
 import { NavLink } from "react-router";
-import { useSelector } from "react-redux";
 import { StatusBadge } from "../../../../components/ui/StatusBadge";
 import { truncateText } from "../../../../utils";
 import { MANAGER_TABLE_COLUMNS, MANAGER_TRANSLATION_NAMESPACE } from "..";
 import { HasPermission } from "../../../../components/auth";
-import { selectRole } from "../../../../context/slices/userSlice";
 import { useLanguageStore } from "../../../../store/language.store";
+import { useUserStore } from "../../../../store/user.store";
 
 interface IManagersTableProps {
   managers: IManagerData[];
@@ -23,7 +22,8 @@ interface IManagersTableProps {
 
 const ManagersTable = ({ managers, t, isLoading, handleDeleteManager, handleUnblockManager }: IManagersTableProps) => {
   const { language } = useLanguageStore();
-  const userRole = useSelector(selectRole());
+  const userRole = useUserStore((state) => state.role);
+
 
   const columns = useMemo(
     () => MANAGER_TABLE_COLUMNS.map(key => t(key, { ns: MANAGER_TRANSLATION_NAMESPACE })),

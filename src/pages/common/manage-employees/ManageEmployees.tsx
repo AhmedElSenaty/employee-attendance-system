@@ -1,5 +1,5 @@
 import { UserCog, UserPlus } from "lucide-react";
-import { BarChart, Graph, GraphSkeleton } from "../../../components/ui/chart"
+import { BarChart, Graph, GraphSkeleton } from "../../../components/ui/Chart"
 import { CountCard } from "../../../components/ui/CountCard";
 import { Header } from "../../../components/ui/Header";
 import { formatValue } from "../../../utils";
@@ -7,7 +7,6 @@ import { ActionCard } from "../../../components/ui/ActionCard";
 import { NavLink } from "react-router";
 import { Button } from "../../../components/ui/Button";
 import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
 import { SectionHeader } from "../../../components/ui/SectionHeader";
 import { useState } from "react";
 import { useDebounce } from "../../../hooks/useDebounceHook";
@@ -18,12 +17,11 @@ import { useGetAllEmployees, useGetEmployeesCount, useManageEmployees } from "..
 import { useManageAccount } from "../../../hooks/useAccountHook";
 import { EMPLOYEE_BORDER_WIDTH, EMPLOYEE_GRAPH_BACKGROUND_COLORS, EMPLOYEE_GRAPH_BORDER_COLORS, EMPLOYEE_GRAPH_LABEL_KEYS, EMPLOYEE_TRANSLATION_NAMESPACE } from ".";
 import { HasPermission } from "../../../components/auth";
-import { selectRole } from "../../../context/slices/userSlice";
 import { useLanguageStore } from "../../../store/language.store";
+import { useUserStore } from "../../../store/user.store";
 
 export const ManageEmployeesPage = () => {
-  const userRole = useSelector(selectRole());
-
+  const userRole = useUserStore((state) => state.role);
   const { t } = useTranslation(["common", EMPLOYEE_TRANSLATION_NAMESPACE]);
   const { language } = useLanguageStore();
 

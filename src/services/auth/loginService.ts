@@ -12,6 +12,7 @@ export const parseToken = (token: string): ILoggedInUser => {
     token,
     id: tokenPayload.nameid,
     role: tokenPayload.type,
+    imageUrl: tokenPayload.imageUrl,
     rememberMe: false,
     permissions: []
   };

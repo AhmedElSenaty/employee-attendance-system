@@ -1,17 +1,16 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useSelector } from "react-redux";
-import { selectID, selectRole, selectToken } from "../context/slices/userSlice";
 import { fetchMe, updateAdminProfile, updateEmployeeProfile, updateMyPassword, uploadEmployeeImage } from "../services";
 import { getTranslatedMessage, handleApiError, showToast } from "../utils";
 import { AxiosError } from "axios";
 import { AdminProfileCredentials, EmployeeProfileCredentials, IErrorResponse } from "../interfaces";
 import { useLanguageStore } from "../store/language.store";
+import { useUserStore } from "../store/user.store";
 
 const FETCH_ME_QUERY_KEY = "me";
 
 const useFetchMe = () => {
-  const token = useSelector(selectToken);
-  const userRole = useSelector(selectRole());
+  const token = useUserStore((state) => state.token);
+  const userRole = useUserStore((state) => state.role);
 
   const { data, isLoading } = useQuery({
     queryKey: [FETCH_ME_QUERY_KEY, userRole, token],
@@ -26,10 +25,10 @@ const useFetchMe = () => {
 };
 
 const useManageMe = () => {
-  const token = useSelector(selectToken);
+  const token = useUserStore((state) => state.token);
+  const userID = useUserStore((state) => state.id);
+  const userRole = useUserStore((state) => state.role);
   const { language } = useLanguageStore();
-  const userRole = useSelector(selectRole());
-  const userID = useSelector(selectID());
   const queryClient = useQueryClient();
 
   // Mutation to update the password

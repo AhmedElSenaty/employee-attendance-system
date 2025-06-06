@@ -1,11 +1,10 @@
 import { Popup } from "../../../../components/ui/Popup"
 import { TFunction } from "i18next";
 import { Fingerprint } from "lucide-react";
-import { Button } from "../../../../components/ui/Button";
-import { NormalSpinner } from "../../../../components/ui/Spinner";
 import { IDeviceData } from "../../../../interfaces";
 import { DEVICE_TRANSLATION_NAMESPACE } from "..";
 import { HasPermission } from "../../../../components/auth";
+import { Button, NormalSpinner } from "../../../../components/ui";
 
 interface IShowDevicePopupProps {
   isOpen: boolean

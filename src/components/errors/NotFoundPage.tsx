@@ -1,14 +1,13 @@
 import { Link } from "react-router";
-import { logoutUser } from "../../context/slices/userSlice";
-import { useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { Button } from "../ui/Button";
 import { Ban } from "lucide-react";
 import { formatValue } from "../../utils";
 import { useLanguageStore } from "../../store/language.store";
+import { useUserStore } from "../../store/user.store";
 
 const NotFoundPage = () => {
-  const dispatch = useDispatch();
+  const logoutUser = useUserStore((state) => state.logoutUser);
   const { t } = useTranslation();
   const { language } = useLanguageStore();
 
@@ -54,7 +53,7 @@ const NotFoundPage = () => {
           <Button
             variant="danger"
           
-            onClick={() => dispatch(logoutUser())}
+            onClick={() => logoutUser()}
           >
             {t("buttons.logout")}
           </Button>

@@ -1,14 +1,8 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Button } from "../../../components/ui/Button";
 import { CirclePlus, Fingerprint } from "lucide-react";
-import { SectionHeader } from "../../../components/ui/SectionHeader";
-import { Header } from "../../../components/ui/Header";
-import { Paginator } from "../../../components/ui/Paginator";
 import { formatValue } from "../../../utils";
 import { useDebounce } from "../../../hooks/useDebounceHook";
-import { ActionCard } from "../../../components/ui/ActionCard";
-import { CountCard } from "../../../components/ui/CountCard";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useFiltersHook } from "../../../hooks/useFiltersHook";
@@ -19,6 +13,7 @@ import { useGetAllDevices, useGetDeviceByID, useManageDevices } from "../../../h
 import { DEVICE_TRANSLATION_NAMESPACE } from ".";
 import { HasPermission } from "../../../components/auth";
 import { useLanguageStore } from "../../../store/language.store";
+import { ActionCard, Button, CountCard, Header, Paginator, SectionHeader } from "../../../components/ui";
 
 const ManageDevicesPage = () => {
   const { t } = useTranslation(["common", DEVICE_TRANSLATION_NAMESPACE]);

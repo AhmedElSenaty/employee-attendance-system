@@ -1,5 +1,5 @@
 import { Calendar, Check, X } from "lucide-react";
-import { BarChart, DoughnutChart, Graph, GraphSkeleton } from "../../components/ui/chart";
+import { BarChart, DoughnutChart, Graph, GraphSkeleton } from "../../components/ui/Chart";
 import { StatCard, StatCardSkeleton } from "../../components/ui/StatCard";
 import { Header } from "../../components/ui/Header";
 import { SectionHeader } from "../../components/ui/SectionHeader";

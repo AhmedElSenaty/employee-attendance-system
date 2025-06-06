@@ -1,12 +1,11 @@
-import { useSelector } from "react-redux";
-import { selectToken } from "../context/slices/userSlice";
 import { useQuery } from "@tanstack/react-query";
 import { fetchEmployeeAttendanceReport } from "../services/admin/reportsServices";
+import { useUserStore } from "../store/user.store";
 
 const EXPORT_EMPLOYEE_ATTENDANCE_QUERY_KEY = "exportEmployeeAttendance"
 
 const useExportEmployeesAttendanceData = (searchKey: string, debouncedSearchQuery: string, startDate: string, endDate: string, startTime: string, endTime: string, status: string, searchByDepartmentId: number, searchBySubDeptartmentId: number) => {
-  const token = useSelector(selectToken);
+  const token = useUserStore((state) => state.token);
   // Create a unique query key based on the parameters
   const queryKey = [
     EXPORT_EMPLOYEE_ATTENDANCE_QUERY_KEY,

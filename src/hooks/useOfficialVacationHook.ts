@@ -1,12 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useSelector } from "react-redux";
-import { selectToken } from "../context/slices/userSlice";
 import { createOfficialVacation, deleteOfficialVacation, fetchAllOfficialVacations, fetchOfficialVacationByID, updateOfficialVacation } from "../services/admin";
 import { IErrorResponse, initialMetadata, IOfficialVacationCredentials, UseGetAllOfficialVacationsReturn, UseGetOfficialVacationByIDReturn } from "../interfaces";
 import { getTranslatedMessage, handleApiError, showToast } from "../utils";
 import { AxiosError } from "axios";
 import { useEffect } from "react";
 import { useLanguageStore } from "../store/language.store";
+import { useUserStore } from "../store/user.store";
 
 const OFFICIAL_VACATIONS_QUERY_KEY = "OfficialVacations";
 const OFFICIAL_VACATION_DETAILS_QUERY_KEY = "OfficialVacationDetails";
@@ -18,7 +17,7 @@ const useGetAllOfficialVacations = (
   searchKey: string, 
   debouncedSearchQuery: string
 ): UseGetAllOfficialVacationsReturn => {
-  const token = useSelector(selectToken);
+  const token = useUserStore((state) => state.token);
   const { data, isLoading } = useQuery({
     queryKey: [OFFICIAL_VACATIONS_QUERY_KEY, page, pageSize, searchKey, debouncedSearchQuery],
     queryFn: () => fetchAllOfficialVacations(page, pageSize, searchKey, debouncedSearchQuery, token),
@@ -37,7 +36,7 @@ const useGetOfficialVacationByID = (
   officialVacationID: number, 
   resetInputs?: (data: IOfficialVacationCredentials) => void
 ): UseGetOfficialVacationByIDReturn => {
-  const token = useSelector(selectToken); // Get token from Redux
+  const token = useUserStore((state) => state.token); // Get token from Redux
   const { data, isLoading } = useQuery({
     queryKey: [OFFICIAL_VACATION_DETAILS_QUERY_KEY, officialVacationID],
     queryFn: () => fetchOfficialVacationByID(officialVacationID, token),
@@ -62,7 +61,7 @@ const useGetOfficialVacationByID = (
 
 
 const useManageOfficialVacations = () => {
-  const token = useSelector(selectToken); // Get token from Redux
+  const token = useUserStore((state) => state.token); // Get token from Redux
   const { language } = useLanguageStore();
   const queryClient = useQueryClient();
 

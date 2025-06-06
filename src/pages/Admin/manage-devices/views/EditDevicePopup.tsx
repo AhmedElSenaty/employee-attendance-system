@@ -1,8 +1,7 @@
 import { FormEvent, ReactNode } from "react";
-import { Button } from "../../../../components/ui/Button";
-import { Popup } from "../../../../components/ui/Popup";
 import { TFunction } from "i18next";
 import { DEVICE_TRANSLATION_NAMESPACE } from "..";
+import { Button, Popup } from "../../../../components/ui";
 
 interface EditDevicePopupProps {
   isOpen: boolean;

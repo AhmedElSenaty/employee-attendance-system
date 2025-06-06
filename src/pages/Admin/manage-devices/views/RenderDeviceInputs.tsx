@@ -1,15 +1,8 @@
 import { FieldErrors, UseFormRegister } from "react-hook-form";
-import {
-  Field,
-  Input,
-  InputErrorMessage,
-  InputSkeleton,
-  Label,
-  LabelSkeleton,
-} from "../../../../components/ui/Forms";
 import { IDeviceCredentials } from "../../../../interfaces";
 import { TFunction } from "i18next";
 import { DEVICE_TRANSLATION_NAMESPACE } from "..";
+import { Field, Input, InputErrorMessage, InputSkeleton, Label, LabelSkeleton } from "../../../../components/ui";
 
 interface IDeviceInputsProps {
   register: UseFormRegister<IDeviceCredentials>;

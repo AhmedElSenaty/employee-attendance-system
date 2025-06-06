@@ -1,12 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useSelector } from "react-redux";
-import { selectToken } from "../context/slices/userSlice";
 import { createEmployee, deleteEmployee, fetchAllEmployees, fetchEmployeeByID, fetchEmployeesCount, fetchEmployeesList, updateEmployee } from "../services/admin/";
 import { IEmployeeCredentials, IErrorResponse, initialMetadata, UseGetAllEmployeesReturn, UseGetEmployeeByIDReturn, UseGetEmployeesCountReturn, UseGetEmployeesListReturn } from "../interfaces";
 import { getTranslatedMessage, handleApiError, showToast } from "../utils";
 import { AxiosError } from "axios";
 import { useEffect } from "react";
 import { useLanguageStore } from "../store/language.store";
+import { useUserStore } from "../store/user.store";
 
 const EMPLOYEES_QUERY_KEY = "employees";
 const EMPLOYEE_DETAILS_QUERY_KEY = "employeeDetails";
@@ -20,7 +19,7 @@ const useGetAllEmployees = (
   searchKey: string, 
   debouncedSearchQuery: string
 ): UseGetAllEmployeesReturn => {
-  const token = useSelector(selectToken);
+  const token = useUserStore((state) => state.token);
 
   const { data, isLoading } = useQuery({
     queryKey: [EMPLOYEES_QUERY_KEY, page, pageSize, searchKey, debouncedSearchQuery],
@@ -39,7 +38,7 @@ const useGetEmployeeByID = (
   employeeID: string, 
   resetInputs?: (data: IEmployeeCredentials) => void
 ): UseGetEmployeeByIDReturn => {
-  const token = useSelector(selectToken); // Get token from Redux
+  const token = useUserStore((state) => state.token); // Get token from Redux
   const { data, isLoading } = useQuery({
     queryKey: [EMPLOYEE_DETAILS_QUERY_KEY, employeeID],
     queryFn: () => fetchEmployeeByID(employeeID, token),
@@ -65,7 +64,7 @@ const useGetEmployeeByID = (
 };
 
 const useGetEmployeesCount = (): UseGetEmployeesCountReturn => {
-  const token = useSelector(selectToken);
+  const token = useUserStore((state) => state.token);
   const { data, isLoading } = useQuery({
     queryKey: [EMPLOYEES_COUNT_QUERRY_KEY],
     queryFn: () => fetchEmployeesCount(token),
@@ -83,7 +82,7 @@ const useGetEmployeesCount = (): UseGetEmployeesCountReturn => {
 };
 
 const useGetEmployeesList = (): UseGetEmployeesListReturn => {
-  const token = useSelector(selectToken); // Get token from Redux
+  const token = useUserStore((state) => state.token); // Get token from Redux
   const { data, isLoading } = useQuery({
     queryKey: [EMPLOYEES_LIST_QUERY_KEY],
     queryFn: () => fetchEmployeesList(token),
@@ -93,7 +92,7 @@ const useGetEmployeesList = (): UseGetEmployeesListReturn => {
 };
 
 const useManageEmployees = () => {
-  const token = useSelector(selectToken); // Get token from Redux
+  const token = useUserStore((state) => state.token); // Get token from Redux
   const { language } = useLanguageStore();
   
   const queryClient = useQueryClient();

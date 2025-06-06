@@ -6,8 +6,7 @@ import { useTranslation } from "react-i18next";
 import { EMPLOYEE_TRANSLATION_NAMESPACE } from "../../../pages/common/manage-employees";
 import { NavLink } from "react-router";
 import { IEmployeeData } from "../../../interfaces";
-import { useSelector } from "react-redux";
-import { selectRole } from "../../../context/slices/userSlice";
+import { useUserStore } from "../../../store/user.store";
 
 type UserProps = {
   user: IEmployeeData;
@@ -15,7 +14,7 @@ type UserProps = {
 
 const UserProfileCard: React.FC<UserProps> = ({ user }) => {
   const { t } = useTranslation(["common", EMPLOYEE_TRANSLATION_NAMESPACE]);
-  const userRole = useSelector(selectRole());
+  const userRole = useUserStore((state) => state.role);
 
   return (
     <div className="max-w-[1000px] h-fit mx-auto bg-white shadow rounded-lg overflow-hidden flex flex-wrap items-center justify-center gap-4 p-6 space-x-6">

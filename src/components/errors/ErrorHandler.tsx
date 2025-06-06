@@ -1,12 +1,11 @@
 import { Link } from "react-router";
-import { logoutUser } from "../../context/slices/userSlice";
-import { useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { Button } from "../ui/Button";
 import { ReactNode } from "react";
 import { formatValue } from "../../utils";
 import { ServerCrash } from "lucide-react";
 import { useLanguageStore } from "../../store/language.store";
+import { useUserStore } from "../../store/user.store";
 
 interface IProps {
   statusCode?: number;
@@ -16,7 +15,7 @@ interface IProps {
 }
 
 const ErrorHandler = ({ statusCode = 500, title, message, icon}: IProps) => {
-  const dispatch = useDispatch();
+  const logoutUser = useUserStore((state) => state.logoutUser);
   const { t } = useTranslation(["common"]);
   const { language } = useLanguageStore();
 
@@ -62,7 +61,7 @@ const ErrorHandler = ({ statusCode = 500, title, message, icon}: IProps) => {
           <Button
             variant="danger"
           
-            onClick={() => dispatch(logoutUser())}
+            onClick={() => logoutUser()}
           >
             {t("buttons.logout")}
           </Button>

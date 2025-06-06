@@ -1,6 +1,6 @@
 import { UserCog, UserPlus } from "lucide-react";
-import { Graph, GraphSkeleton } from "../../../components/ui/chart"
-import DoughnutChart from "../../../components/ui/chart/DoughnutChart/DoughnutChart"
+import { Graph, GraphSkeleton } from "../../../components/ui/Chart"
+import DoughnutChart from "../../../components/ui/Chart/DoughnutChart/DoughnutChart"
 import { CountCard } from "../../../components/ui/CountCard";
 import { Header } from "../../../components/ui/Header";
 import { formatValue } from "../../../utils";
@@ -8,7 +8,6 @@ import { ActionCard } from "../../../components/ui/ActionCard";
 import { NavLink } from "react-router";
 import { Button } from "../../../components/ui/Button";
 import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
 import { SectionHeader } from "../../../components/ui/SectionHeader";
 import { useState } from "react";
 import { useDebounce } from "../../../hooks/useDebounceHook";
@@ -19,11 +18,11 @@ import { useGetAllManagers, useGetManagersCount, useManageManagers } from "../..
 import { useManageAccount } from "../../../hooks/useAccountHook";
 import { MANAGER_GRAPH_LABEL_KEYS, MANAGER_HOVER_OFFSET, MANAGER_TRANSLATION_NAMESPACE, MANAGER_GRAPH_BACKGROUND_COLORS } from ".";
 import { HasPermission } from "../../../components/auth";
-import { selectRole } from "../../../context/slices/userSlice";
 import { useLanguageStore } from "../../../store/language.store";
+import { useUserStore } from "../../../store/user.store";
 
 export const ManageManagersPage = () => {
-  const userRole = useSelector(selectRole());
+  const userRole = useUserStore((state) => state.role);
 
   const { t } = useTranslation(["common", MANAGER_TRANSLATION_NAMESPACE]);
   const { language } = useLanguageStore();

@@ -3,10 +3,9 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { IDeviceCredentials, IErrorResponse, initialMetadata, UseGetAllDevicesReturn, UseGetDevicenByIDReturn } from "../interfaces";
 import { AxiosError } from "axios";
 import { getTranslatedMessage, handleApiError, showToast } from "../utils";
-import { useSelector } from "react-redux";
-import { selectToken } from "../context/slices/userSlice";
 import { createDevice, deleteDeviceByID, fetchDeviceByID, fetchAllDevices, fetchDevicesList, updateDevice } from "../services/admin";
 import { useLanguageStore } from "../store/language.store";
+import { useUserStore } from "../store/user.store";
 
 const DEVICES_QUERY_KEY = "devices";
 const DEVICES_LIST_QUERY_KEY = "devicesList";
@@ -18,7 +17,7 @@ const useGetAllDevices = (
   searchKey: string, 
   debouncedSearchQuery: string
 ): UseGetAllDevicesReturn => {
-  const token = useSelector(selectToken);
+  const token = useUserStore((state) => state.token);
   const { data, isLoading } = useQuery({
     queryKey: [DEVICES_QUERY_KEY, page, pageSize, searchKey, debouncedSearchQuery],
     queryFn: () => fetchAllDevices(page, pageSize, searchKey, debouncedSearchQuery, token),
@@ -37,7 +36,7 @@ const useGetDeviceByID = (
   deviceID: number, 
   resetInputs?: (data: IDeviceCredentials) => void
 ): UseGetDevicenByIDReturn => {
-  const token = useSelector(selectToken);
+  const token = useUserStore((state) => state.token);
   const { data, isLoading } = useQuery({
     queryKey: [DEVICE_DETAILS_QUERY_KEY, deviceID],
     queryFn: () => fetchDeviceByID(deviceID, token),
@@ -54,7 +53,7 @@ const useGetDeviceByID = (
 };
 
 const useGetDevicesList = () => {
-  const token = useSelector(selectToken);
+  const token = useUserStore((state) => state.token);
   const { data, isLoading } = useQuery({
     queryKey: [DEVICES_LIST_QUERY_KEY],
     queryFn: () => fetchDevicesList(token),
@@ -64,7 +63,7 @@ const useGetDevicesList = () => {
 };
 
 const useManageDevices = () => {
-  const token = useSelector(selectToken);
+  const token = useUserStore((state) => state.token);
   const { language } = useLanguageStore();
   const queryClient = useQueryClient();
 

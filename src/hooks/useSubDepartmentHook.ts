@@ -3,10 +3,9 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ISubDepartmentCredentials, IErrorResponse, initialMetadata, ISubDepartmentData, UseGetAllSubDepartmentsReturn, UseGetSubDepartmentnByIDReturn } from "../interfaces";
 import { AxiosError } from "axios";
 import { getTranslatedMessage, handleApiError, showToast } from "../utils";
-import { useSelector } from "react-redux";
 import { createSubDepartment, deleteSubDepartmentByID, fetchSubDepartmentByID, fetchAllSubDepartments, updateSubDepartment, fetchDepartmentSubDepartments, fetchSubDepartmentsList } from "../services/admin/";
-import { selectToken } from "../context/slices/userSlice";
 import { useLanguageStore } from "../store/language.store";
+import { useUserStore } from "../store/user.store";
 
 const SUB_DEPARTMENTS_QUERY_KEY = "subDepartments";
 const SUB_DEPARTMENTS_LIST_QUERY_KEY = "subDepartmentsList";
@@ -18,7 +17,7 @@ const useGetAllSubDepartments = (
   searchKey: string, 
   debouncedSearchQuery: string
 ): UseGetAllSubDepartmentsReturn => {
-  const token = useSelector(selectToken);
+  const token = useUserStore((state) => state.token);
   const { data, isLoading } = useQuery({
     queryKey: [SUB_DEPARTMENTS_QUERY_KEY, page, pageSize, searchKey, debouncedSearchQuery],
     queryFn: () => fetchAllSubDepartments(page, pageSize, searchKey, debouncedSearchQuery, token),
@@ -38,7 +37,7 @@ const useGetSubDepartmentByID = (
   subDepartmentID: number, 
   resetInputs?: (data: ISubDepartmentCredentials) => void
 ): UseGetSubDepartmentnByIDReturn => {
-    const token = useSelector(selectToken);
+    const token = useUserStore((state) => state.token);
   const { data, isLoading } = useQuery({
     queryKey: [SUB_DEPARTMENT_DETAILS_QUERY_KEY, subDepartmentID],
     queryFn: () => fetchSubDepartmentByID(subDepartmentID, token),
@@ -63,7 +62,7 @@ const useGetSubDepartmentByID = (
 };
 
 const useDepartmentSubDepartmentsList = (departmentID: number) => {
-  const token = useSelector(selectToken);
+  const token = useUserStore((state) => state.token);
   const { data, isLoading } = useQuery({
     queryKey: [SUB_DEPARTMENTS_LIST_QUERY_KEY, departmentID],
     queryFn: () => fetchDepartmentSubDepartments(departmentID, token),
@@ -73,7 +72,7 @@ const useDepartmentSubDepartmentsList = (departmentID: number) => {
 };
 
 const useGetSubDepartmentsList = () => {
-  const token = useSelector(selectToken);
+  const token = useUserStore((state) => state.token);
   const { data, isLoading } = useQuery({
     queryKey: [SUB_DEPARTMENTS_LIST_QUERY_KEY],
     queryFn: () => fetchSubDepartmentsList(token),
@@ -83,7 +82,7 @@ const useGetSubDepartmentsList = () => {
 };
 
 const useManageSubDepartments = () => {
-    const token = useSelector(selectToken);
+    const token = useUserStore((state) => state.token);
     const { language } = useLanguageStore();
   const queryClient = useQueryClient();
 

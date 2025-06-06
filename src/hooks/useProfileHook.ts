@@ -1,5 +1,3 @@
-import { useSelector } from "react-redux";
-import { selectToken } from "../context/slices/userSlice";
 import { IErrorResponse, initialMetadata, IProfileCredentials, UseGetAllProfilesReturn, UseGetProfileByIDReturn } from "../interfaces";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getTranslatedMessage, handleApiError, showToast } from "../utils";
@@ -7,6 +5,7 @@ import { AxiosError } from "axios";
 import { useEffect } from "react";
 import { createProfile, deleteProfileByID, fetchAllProfiles, fetchProfileByID, fetchProfilePermissions, fetchProfilesList, updateProfile } from "../services/admin";
 import { useLanguageStore } from "../store/language.store";
+import { useUserStore } from "../store/user.store";
 
 const PROFILES_QUERY_KEY = "profiles";
 const PROFILES_LIST_QUERY_KEY = "profilesList";
@@ -19,7 +18,7 @@ const useGetAllProfiles = (
   searchKey: string, 
   debouncedSearchQuery: string
 ): UseGetAllProfilesReturn => {
-  const token = useSelector(selectToken); // Get token from Redux
+  const token = useUserStore((state) => state.token); // Get token from Redux
 
   const { data, isLoading } = useQuery({
     queryKey: [PROFILES_QUERY_KEY, page, pageSize, searchKey, debouncedSearchQuery],
@@ -39,7 +38,7 @@ const useGetProfileByID = (
   id: string, 
   resetInputs?: (data: IProfileCredentials) => void
 ): UseGetProfileByIDReturn => {
-  const token = useSelector(selectToken);
+  const token = useUserStore((state) => state.token);
   const { data, isLoading } = useQuery({
     queryKey: [PROFILE_DETAILS_QUERY_KEY, id],
     queryFn: () => fetchProfileByID(id, token),
@@ -61,7 +60,7 @@ const useGetProfileByID = (
 };
 
 const useGetProfilesList = () => {
-  const token = useSelector(selectToken);
+  const token = useUserStore((state) => state.token);
   const { data, isLoading } = useQuery({
     queryKey: [PROFILES_LIST_QUERY_KEY],
     queryFn: () => fetchProfilesList(token),
@@ -71,7 +70,7 @@ const useGetProfilesList = () => {
 };
 
 const useGetProfilePermissions = (id: number) => {
-  const token = useSelector(selectToken);
+  const token = useUserStore((state) => state.token);
   const { data, isLoading } = useQuery({
     queryKey: [PROFILE_PERMISSIONS_QUERY_KEY, id],
     queryFn: () => fetchProfilePermissions(id, token),
@@ -81,7 +80,7 @@ const useGetProfilePermissions = (id: number) => {
 };
 
 const useManageProfiles = () => {
-  const token = useSelector(selectToken); // Get token from Redux
+  const token = useUserStore((state) => state.token); // Get token from Redux
   const { language } = useLanguageStore();
   const queryClient = useQueryClient();
 

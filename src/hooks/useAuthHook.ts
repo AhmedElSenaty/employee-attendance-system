@@ -1,20 +1,19 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router';
 import { SubmitHandler } from 'react-hook-form';
 import { IErrorResponse, ILoggedInUser, ILoginCredentials, ILoginResponse, initialLoginResponse, IResetAccountCredentials } from '../interfaces';
 import { login, parseToken, resetAccountService } from '../services/auth';
 import { getTranslatedMessage, handleApiError, showToast } from '../utils';
-import { setUser } from '../context/slices/userSlice';
 import { fetchAuthorizedUserPermissions } from '../services/admin';
 import { useLanguageStore } from '../store/language.store';
+import { useUserStore } from '../store/user.store';
 
 const useLogin = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [responseData, setResponseData] = useState<ILoginResponse>(initialLoginResponse);
-    const { language } = useLanguageStore();
-  const dispatch = useDispatch();
+  const { language } = useLanguageStore();
+  const { setUser } = useUserStore()
   const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<ILoginCredentials> = async (request: ILoginCredentials) => {
@@ -32,9 +31,9 @@ const useLogin = () => {
       
         const permissions = await fetchAuthorizedUserPermissions(loggedInUser.token);
         loggedInUser.permissions = permissions;
+
+        setUser(loggedInUser);
       
-        dispatch(setUser(loggedInUser));
-        
         const target =
           loggedInUser.role == "admin"
             ? "/admin"

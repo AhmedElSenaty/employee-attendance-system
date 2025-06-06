@@ -1,8 +1,7 @@
 import { format } from "date-fns";
 import { cva } from "class-variance-authority";
 import { useTranslation } from "react-i18next";
-
-type DayType = "workday" | "holiday" | "weekend" | "absent" | "other";
+import { DayType } from "../../../../types";
 
 interface DayCardProps {
   day: Date;

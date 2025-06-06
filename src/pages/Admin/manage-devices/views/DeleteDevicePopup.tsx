@@ -1,7 +1,6 @@
-import { Popup } from "../../../../components/ui/Popup";
-import { Button } from "../../../../components/ui/Button";
 import { TFunction } from "i18next";
 import { DEVICE_TRANSLATION_NAMESPACE } from "..";
+import { Button, Popup } from "../../../../components/ui";
 
 interface IDeleteDevicePopupProps {
   isOpen: boolean;

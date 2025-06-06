@@ -1,5 +1,3 @@
-import { useSelector } from "react-redux";
-import { selectToken } from "../context/slices/userSlice";
 import { IErrorResponse, initialMetadata } from "../interfaces";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getTranslatedMessage, handleApiError, showToast } from "../utils";
@@ -8,6 +6,7 @@ import { IAdminCredentials, UseGetAdminByIDReturn, UseGetAllAdminsReturn } from 
 import { useEffect } from "react";
 import { createAdmin, deleteAdminByID, fetchAdminByID, fetchAllAdmins, updateAdmin } from "../services/admin";
 import { useLanguageStore } from "../store/language.store";
+import { useUserStore } from "../store/user.store";
 
 const ADMIN_QUERY_KEY = "admins";
 const ADMIN_DETAILS_QUERY_KEY = "adminDetails";
@@ -20,7 +19,7 @@ const useGetAllAdmins = (
   searchKey: string,          // The search key (e.g., email, username)
   debouncedSearchQuery: string // The debounced search query to avoid unnecessary API calls
 ): UseGetAllAdminsReturn => {
-  const token = useSelector(selectToken); // Retrieve the auth token from Redux store
+  const token = useUserStore((state) => state.token); // Retrieve the auth token from Redux store
 
   const { data, isLoading } = useQuery({
     queryKey: [ADMIN_QUERY_KEY, page, pageSize, searchKey, debouncedSearchQuery], // Unique query key for caching and re-fetching
@@ -41,7 +40,7 @@ const useGetAdminByID = (
   adminID: string, 
   resetInputs?: (data: IAdminCredentials) => void // Optional function to reset form inputs
 ): UseGetAdminByIDReturn => {
-  const token = useSelector(selectToken); // Get the token from Redux store for authorization
+  const token = useUserStore((state) => state.token); // Get the token from Redux store for authorization
   const { data, isLoading } = useQuery({
     queryKey: [ADMIN_DETAILS_QUERY_KEY, adminID], // The query key, combining admin details key and admin ID
     queryFn: () => fetchAdminByID(adminID, token), // Function to fetch admin data
@@ -71,7 +70,7 @@ const useGetAdminByID = (
 
 const useManageAdmins = () => {
   // Get the token and language from Redux state
-  const token = useSelector(selectToken); // Get token from Redux
+  const token = useUserStore((state) => state.token); // Get token from Redux
   const { language } = useLanguageStore();
 
   // Initialize React Query client for cache and query invalidation

@@ -1,8 +1,7 @@
 import { useTranslation } from "react-i18next";
 import PaginationButton from "./PaginationButton";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../context/store";
 import { formatValue } from "../../../utils";
+import { useLanguageStore } from "../../../store/language.store";
 
 interface IProps {
   page: number;
@@ -16,7 +15,7 @@ interface IProps {
 
 const Paginator = ({ page, totalPages, totalRecords, isLoading, onClickPrev, onClickNext, onClickFirst }: IProps) => {
   const { t } = useTranslation();
-  const { language } = useSelector((state: RootState) => state.language);
+  const { language } = useLanguageStore();
 
   return (
     <div className="flex flex-wrap justify-center items-center gap-4">

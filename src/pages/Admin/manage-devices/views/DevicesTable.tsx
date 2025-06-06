@@ -1,12 +1,10 @@
 import { useMemo } from "react";
-import { NoDataMessage, Table, TableCell, TableRow, TableSkeleton } from "../../../../components/ui/Table";
-import { Button } from "../../../../components/ui/Button";
 import { Eye, FilePenLine, Trash2 } from "lucide-react";
 import { TFunction } from "i18next";
 import { IDeviceData } from "../../../../interfaces";
 import { DEVICE_TABLE_COLUMNS, DEVICE_TRANSLATION_NAMESPACE } from "..";
 import { HasPermission } from "../../../../components/auth";
-import { Tooltip } from "../../../../components/ui/Tooltip";
+import { Button, NoDataMessage, Table, TableCell, TableRow, TableSkeleton, Tooltip } from "../../../../components/ui";
 
 interface IDevicesTableProps {
   devices: IDeviceData[];
@@ -41,24 +39,32 @@ const DevicesTable = ({ devices, t, isLoading, handleShowDevice, handleEditDevic
                 <TableCell label={columns[4]}>
                   <div className="flex flex-wrap gap-2">
                     <HasPermission permission="View Devices">
-                      <Button 
-                        variant="primary" 
-                        fullWidth={false}
-                        size={"sm"}
-                        icon={<Eye className="w-full h-full" />} 
-                        aria-label={t("buttons.view")}
-                        onClick={() => handleShowDevice(device.id)}
-                      />
+                      <Tooltip 
+                        content="Show Device"
+                      >
+                        <Button 
+                          variant="primary" 
+                          fullWidth={false}
+                          size={"sm"}
+                          icon={<Eye className="w-full h-full" />} 
+                          aria-label={t("buttons.view")}
+                          onClick={() => handleShowDevice(device.id)}
+                        />
+                      </Tooltip>
                     </HasPermission>
                     <HasPermission permission="Update Device">
-                      <Button 
-                        variant="info" 
-                        fullWidth={false}
-                        size={"sm"} 
-                        icon={<FilePenLine className="w-full h-full" />} 
-                        aria-label={t("buttons.edit")} 
-                        onClick={() => handleEditDevice(device.id)}
-                      />
+                      <Tooltip 
+                        content="Update Device"
+                      >
+                        <Button 
+                          variant="info" 
+                          fullWidth={false}
+                          size={"sm"} 
+                          icon={<FilePenLine className="w-full h-full" />} 
+                          aria-label={t("buttons.edit")} 
+                          onClick={() => handleEditDevice(device.id)}
+                        />
+                      </Tooltip>
                     </HasPermission>
                     <HasPermission permission="Delete Device">
                       <Tooltip 

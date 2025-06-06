@@ -4,9 +4,8 @@ import { createEntity, deleteEntityByID, fetchAllEntities, fetchEntitiesList, fe
 import { IEntityCredentials, IErrorResponse, initialMetadata, UseGetAllEntitiesReturn, UseGetEntityByIDReturn,  } from "../interfaces";
 import { AxiosError } from "axios";
 import { getTranslatedMessage, handleApiError, showToast } from "../utils";
-import { useSelector } from "react-redux";
-import { selectToken } from "../context/slices/userSlice";
 import { useLanguageStore } from "../store/language.store";
+import { useUserStore } from "../store/user.store";
 
 const ENTITIES_QUERY_KEY = "entities";
 const ENTITIES_LIST_QUERY_KEY = "entitiesList";
@@ -18,7 +17,7 @@ const useGetAllEntities = (
   searchKey: string, 
   debouncedSearchQuery: string
 ): UseGetAllEntitiesReturn => {
-  const token = useSelector(selectToken);
+  const token = useUserStore((state) => state.token);
   const { data, isLoading } = useQuery({
     queryKey: [ENTITIES_QUERY_KEY, page, pageSize, searchKey, debouncedSearchQuery],
     queryFn: () => fetchAllEntities(page, pageSize, searchKey, debouncedSearchQuery, token),
@@ -37,7 +36,7 @@ const useGetEntityByID = (
   entityID: number, 
   resetEditInputs?: (data: IEntityCredentials) => void
 ): UseGetEntityByIDReturn => {
-  const token = useSelector(selectToken);
+  const token = useUserStore((state) => state.token);
   const { data, isLoading } = useQuery({
     queryKey: [ENTITY_DETAILS_QUERY_KEY, entityID],
     queryFn: () => fetchEntityByID(entityID, token),
@@ -57,7 +56,7 @@ const useGetEntityByID = (
 };
 
 const useGetEntitiesList = () => {
-  const token = useSelector(selectToken);
+  const token = useUserStore((state) => state.token);
   const { data, isLoading } = useQuery({
     queryKey: [ENTITIES_LIST_QUERY_KEY],
     queryFn: () => fetchEntitiesList(token),
@@ -68,7 +67,7 @@ const useGetEntitiesList = () => {
 };
 
 const useManageEntities = () => {
-  const token = useSelector(selectToken);
+  const token = useUserStore((state) => state.token);
   const { language } = useLanguageStore();
   const queryClient = useQueryClient();
 

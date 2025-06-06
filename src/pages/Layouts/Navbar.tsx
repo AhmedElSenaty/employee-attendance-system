@@ -4,19 +4,19 @@ import { Flyout, FlyoutMenu } from "../../components/ui/Flyout";
 import { Image } from "../../components/ui/Image";
 import { HomeIcon, LogIn, LogOut, User } from "lucide-react";
 import { NavLink } from "react-router";
-import { useDispatch, useSelector } from "react-redux";
-import { logoutUser, selectIsLoggedIn, selectRole } from "../../context/slices/userSlice";
 import { Button } from "../../components/ui/Button";
 import { useLanguageStore } from "../../store/language.store";
 import { LanguageType } from "../../types";
+import { useUserStore } from "../../store/user.store";
 
 export const Navbar = () => {
-  const dispatch = useDispatch();
   const { setLanguage, flag, flags } = useLanguageStore();
   const { t } = useTranslation(["common", "navbar"]);
 
-  const isLoggedIn = useSelector(selectIsLoggedIn);
-  const userRole = useSelector(selectRole());
+  const userRole = useUserStore((state) => state.role);
+  const isLoggedIn = Boolean(useUserStore((state) => state.token));
+  const logoutUser = useUserStore((state) => state.logoutUser);
+
 
   return (
     <header className="z-30 shadow-lg sticky top-0 py-3 w-full h-fit bg-[var(--color-primary)]">
@@ -112,9 +112,7 @@ export const Navbar = () => {
                   <div className="p-3 border-t-1 border-gray-200">
                     <button
                       className="w-full cursor-pointer flex items-center gap-3 rounded-lg py-2 px-3 transition bg-red-100 hover:bg-red-200"
-                      onClick={() => {
-                        dispatch(logoutUser());
-                      }}
+                      onClick={() => logoutUser()}
                     >
                       <LogOut className="text-red-600" />
                       <div>

@@ -1,5 +1,3 @@
-import { FC } from "react";
-
 interface IProps {
   count?: number;
   textColor?: string;
@@ -8,13 +6,13 @@ interface IProps {
   showZero?: boolean; // Optional: show "0" if true
 }
 
-const Badge: FC<IProps> = ({
+const Badge= ({
   count,
   textColor = "text-white",
   bgColor = "bg-blue-500",
   pulse = false,
   showZero = false,
-}) => {
+}: IProps) => {
   if (count === undefined || count === null || (!count && !showZero)) return null;
 
   const sizeClass =

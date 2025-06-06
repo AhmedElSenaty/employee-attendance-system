@@ -3,5 +3,6 @@ export interface ILoggedInUser {
   id: string;
   role: string;
   rememberMe: boolean;
+  imageUrl: null | string;
   permissions: string[];
 }

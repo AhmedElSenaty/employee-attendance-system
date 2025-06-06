@@ -1,11 +1,10 @@
 import { RouterProvider } from "react-router";
 import { Suspense, useEffect, useState } from "react";
-import { LogoSpinner } from "./components/ui/LogoSpinner";
 import useI18nInitialization from "./hooks/useI18nInitializationHook";
-import { useSelector } from "react-redux";
-import { selectIsLoggedIn, selectRole } from "./context/slices/userSlice";
 import createAppRouter from "./router";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { BrandedLoader } from "./components/ui";
+import { useUserStore } from "./store/user.store";
 
 const SPINNER_BG = "bg-[#19355a]";
 const LOADING_DELAY = 1500;
@@ -18,8 +17,8 @@ function App() {
   
   const [loading, setLoading] = useState(true)
 
-  const isLoggedIn = useSelector(selectIsLoggedIn);
-  const userRole = useSelector(selectRole());
+  const token = useUserStore((state) => state.token);
+  const role = useUserStore((state) => state.role);
 
   useEffect(() => {
     setTimeout(() => {
@@ -28,13 +27,13 @@ function App() {
   }, [])
 
   if (!isReady || loading) {
-    return <LogoSpinner text={t("loading")} bgColor={SPINNER_BG} />;
+    return <BrandedLoader text={t("loading")} bgColor={SPINNER_BG} />;
   }
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Suspense fallback={<LogoSpinner text={t("loading")} bgColor={SPINNER_BG} />}>
-        <RouterProvider router={createAppRouter(isLoggedIn, userRole)} />
+      <Suspense fallback={<BrandedLoader text={t("loading")} bgColor={SPINNER_BG} />}>
+        <RouterProvider router={createAppRouter(!!token, role)} />
       </Suspense>
     </QueryClientProvider>
   );

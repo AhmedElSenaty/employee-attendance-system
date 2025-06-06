@@ -1,6 +1,5 @@
 import { ReactNode } from "react";
-import { useSelector } from "react-redux";
-import { selectPermissions } from "../../context/slices/userSlice";
+import { useUserStore } from "../../store/user.store";
 
 interface HasPermissionProps {
   permission: string;
@@ -8,7 +7,7 @@ interface HasPermissionProps {
 }
 
 const HasPermission = ({ permission, children }: HasPermissionProps) => {
-  const permissions = useSelector(selectPermissions);
+  const permissions = useUserStore((state) => state.permissions);
 
   const hasPermission = permissions.includes(permission);
   

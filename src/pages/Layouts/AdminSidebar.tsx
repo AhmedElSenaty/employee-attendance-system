@@ -1,12 +1,11 @@
 import { useTranslation } from "react-i18next"; // Import translation hook
 import { BookType, Building, Building2, Calendar, CalendarCog, CalendarSearch, ClipboardType, Contact, ContactRound, Fingerprint, Home, Hotel, LayoutDashboard, Lock, School, Shield, ShieldEllipsis, ShieldPlus, TreePalm, TypeOutline, User, UserCog, UserPlus, UserRoundPlus, Users } from "lucide-react";
 import { Sidebar, SidebarDropdown, SidebarItem } from "../../components/ui/Sidebar";
-import { useSelector } from "react-redux";
-import { selectPermissions } from "../../context/slices/userSlice";
+import { useUserStore } from "../../store/user.store";
 
 export const AdminSidebar = () => {
   const { t } = useTranslation(["sidebarItems"]); // Initialize the translation hook
-  const permissions = useSelector(selectPermissions);
+  const permissions = useUserStore((state) => state.permissions);
 
   return (
     <Sidebar title={t("welcomeBack")} subtitle={t("administrator")}>

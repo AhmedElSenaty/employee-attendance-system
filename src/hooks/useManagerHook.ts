@@ -1,12 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useSelector } from "react-redux";
-import { selectToken } from "../context/slices/userSlice";
 import { createManager, deleteManagerByID, fetchAllManagers, fetchManagerByID, fetchManagersCount, updateManager } from "../services/admin";
 import { IErrorResponse, IManagerCredentials, initialMetadata, UseGetAllManagersReturn, UseGetManagerByIDReturn, UseGetManagersCountReturn } from "../interfaces";
 import { getTranslatedMessage, handleApiError, showToast } from "../utils";
 import { AxiosError } from "axios";
 import { useEffect } from "react";
 import { useLanguageStore } from "../store/language.store";
+import { useUserStore } from "../store/user.store";
 
 const MANAGERS_QUERY_KEY = "managers";
 const MAMANGER_DETAILS_QUERY_KEY = "managerDetails";
@@ -18,7 +17,7 @@ const useGetAllManagers = (
   searchKey: string, 
   debouncedSearchQuery: string
 ): UseGetAllManagersReturn => {
-  const token = useSelector(selectToken);
+  const token = useUserStore((state) => state.token);
 
   const { data, isLoading } = useQuery({
     queryKey: [MANAGERS_QUERY_KEY, page, pageSize, searchKey, debouncedSearchQuery],
@@ -38,7 +37,7 @@ const useGetManagerByID = (
   managerID: string, 
   resetInputs?: (data: IManagerCredentials) => void
 ): UseGetManagerByIDReturn => {
-  const token = useSelector(selectToken); // Get token from Redux
+  const token = useUserStore((state) => state.token); // Get token from Redux
   const { data, isLoading } = useQuery({
     queryKey: [MAMANGER_DETAILS_QUERY_KEY, managerID],
     queryFn: () => fetchManagerByID(managerID, token),
@@ -62,7 +61,7 @@ const useGetManagerByID = (
 };
 
 const useGetManagersCount = (): UseGetManagersCountReturn => {
-  const token = useSelector(selectToken);
+  const token = useUserStore((state) => state.token);
   const { data, isLoading } = useQuery({
     queryKey: [MANAGERS_COUNT_QUERY_KEY],
     queryFn: () => fetchManagersCount(token),
@@ -78,7 +77,7 @@ const useGetManagersCount = (): UseGetManagersCountReturn => {
 };
 
 const useManageManagers = () => {
-  const token = useSelector(selectToken); // Get token from Redux
+  const token = useUserStore((state) => state.token); // Get token from Redux
   const { language } = useLanguageStore();
   const queryClient = useQueryClient();
 

@@ -1,5 +1,3 @@
-import { useSelector } from "react-redux";
-import { selectToken } from "../context/slices/userSlice";
 import { IAttendanceCredentials, IErrorResponse, initialMetadata, UseAttendanceDashboardResponse, UseGetAllAttendanceReturn, UseGetAllAttendanceSummaryReturn, UseGetAttendanceCalenderByEmployeeIDReturn, UseGetDetailedAttendanceReturn, UseGetLatestAttendance } from "../interfaces";
 import { useEffect } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -7,6 +5,7 @@ import { createAttendance, deleteAttendanceByID, fetchAttendanceCalender, fetchA
 import { appendSecondsToTime, getTranslatedMessage, handleApiError, showToast } from "../utils";
 import { AxiosError } from "axios";
 import { useLanguageStore } from "../store/language.store";
+import { useUserStore } from "../store/user.store";
 
 const ATTENDANCE_QUERY_KEY = "attendances"
 const ATTENDANCE_DETAILED_QUERY_KEY = "detailedAttendance"
@@ -22,7 +21,7 @@ const useGetAllAttendanceData = (
   startTime: string, endTime: string, status: string, 
   searchByDepartmentId: number, searchBySubDeptartmentId: number
 ): UseGetAllAttendanceReturn => {
-  const token = useSelector(selectToken); // Get token from Redux
+  const token = useUserStore((state) => state.token); // Get token from Redux
   const { data, isLoading } = useQuery({
     queryKey: [ATTENDANCE_QUERY_KEY, page, pageSize, searchKey, debouncedSearchQuery, startDate, endDate, startTime, endTime, status, searchByDepartmentId, searchBySubDeptartmentId],
     queryFn: () => fetchAllAttendances(page, pageSize, searchKey, debouncedSearchQuery, startDate, endDate, startTime, endTime, status, searchByDepartmentId, searchBySubDeptartmentId, token),
@@ -37,7 +36,7 @@ const useGetAllAttendanceData = (
 };
 
 const useGetAttendanceOverview = (): UseAttendanceDashboardResponse => {
-  const token = useSelector(selectToken); // Get token from Redux
+  const token = useUserStore((state) => state.token); // Get token from Redux
   const { data, isLoading } = useQuery({
     queryKey: [ATTENDANCE_OVERVIEW_QUERY_KEY],
     queryFn: () => fetchAttendanceOverview(token),
@@ -52,7 +51,7 @@ const useGetAttendanceOverview = (): UseAttendanceDashboardResponse => {
 };
 
 const useGetLatestAttendance = (): UseGetLatestAttendance => {
-  const token = useSelector(selectToken); // Get token from Redux
+  const token = useUserStore((state) => state.token); // Get token from Redux
   const { data, isLoading } = useQuery({
     queryKey: [LATEST_ATTENDANCE_QUERY_KEY],
     queryFn: () => fetchLatestAttendance(token),
@@ -66,7 +65,7 @@ const useGetLatestAttendance = (): UseGetLatestAttendance => {
 };
 
 const useGetDepartmentAttendanceOverview = (startDate: string, endDate: string, departmentID: number) => {
-  const token = useSelector(selectToken); // Get token from Redux
+  const token = useUserStore((state) => state.token); // Get token from Redux
   const { data, isLoading } = useQuery({
     queryKey: [DEPARTMENT_ATTENDANCE_QUERY_KEY, startDate, endDate, departmentID],
     queryFn: () => fetchDepartmentAttendanceOverview(startDate, endDate, departmentID, token),
@@ -84,7 +83,7 @@ const useGetAllAttendancSummary = (
   debouncedSearchQuery: string, startDate: string, 
   endDate: string
 ): UseGetAllAttendanceSummaryReturn => {
-  const token = useSelector(selectToken);
+  const token = useUserStore((state) => state.token);
   const { data, isLoading } = useQuery({
     queryKey: [ATTENDANCE_SUMMARY_QUERY_KEY, page, pageSize, searchKey, debouncedSearchQuery, startDate, endDate],
     queryFn: () => fetchAllAttendanceSummary(page, pageSize, searchKey, debouncedSearchQuery, startDate, endDate, token),
@@ -101,7 +100,7 @@ const useGetAllAttendancSummary = (
 const useGetAttendanceCalenderByEmployeeID = (
   employeeID: string, startDate: string, endDate: string
 ): UseGetAttendanceCalenderByEmployeeIDReturn => {
-  const token = useSelector(selectToken); // Get token from Redux
+  const token = useUserStore((state) => state.token); // Get token from Redux
   const { data, isLoading } = useQuery({
     queryKey: [ATTENDANCE_CALENDER_QUERY_KEY, employeeID, startDate, endDate],
     queryFn: () => fetchAttendanceCalender(employeeID, startDate, endDate, token),
@@ -113,7 +112,7 @@ const useGetAttendanceCalenderByEmployeeID = (
 
 const useGetDetailedAttendance = (attendanceID: number, resetInputs?: (data: IAttendanceCredentials) => void
 ): UseGetDetailedAttendanceReturn => {
-  const token = useSelector(selectToken); // Get token from Redux
+  const token = useUserStore((state) => state.token); // Get token from Redux
   const { data, isLoading } = useQuery({
     queryKey: [ATTENDANCE_DETAILED_QUERY_KEY, attendanceID],
     queryFn: () => fetchDetailedAttendanceByID(attendanceID, token),
@@ -130,7 +129,7 @@ const useGetDetailedAttendance = (attendanceID: number, resetInputs?: (data: IAt
 };
 
 const useManageAttendance = () => {
-  const token = useSelector(selectToken); // Get token from Redux
+  const token = useUserStore((state) => state.token); // Get token from Redux
   const { language } = useLanguageStore();
   const queryClient = useQueryClient();
 

@@ -3,18 +3,15 @@ import { Header } from '../../../components/ui/Header'
 import { Button } from '../../../components/ui/Button'
 import { Popup } from '../../../components/ui/Popup'
 import { useTranslation } from 'react-i18next'
-import { useSelector } from 'react-redux'
-import { selectHasRole, selectIsLoggedIn } from '../../../context/slices/userSlice'
 import { NavLink } from 'react-router'
+import { useUserStore } from '../../../store/user.store'
 
 const HeroSection = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false)
   const { t } = useTranslation(["home"]);
 
-  const isLoggedIn = useSelector(selectIsLoggedIn);
-  const isAdmin = useSelector(selectHasRole("admin"));
-  const isManager = useSelector(selectHasRole("manager"));
-  const isEmployee = useSelector(selectHasRole("employee"));
+  const userRole = useUserStore((state) => state.role);
+  const token = useUserStore((state) => state.token);
 
   return (
     <>
@@ -59,14 +56,14 @@ const HeroSection = () => {
                 {t("heroSection.buttons.close")}
               </Button>
               {
-                isLoggedIn ? (
+                !token ? (
                   <NavLink
                     to={
-                      isAdmin
+                      userRole == "admin"
                         ? "/admin"
-                        : isManager
+                        : userRole == "manager"
                         ? "/manager"
-                        : isEmployee
+                        : userRole == "employee"
                         ? "/employee"
                         : "/"
                     }

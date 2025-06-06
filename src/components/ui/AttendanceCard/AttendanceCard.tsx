@@ -23,7 +23,7 @@ const AttendanceCard = ({
   const { t } = useTranslation(["common", "dashboard"]);
   
   return (
-    <div className={`flex items-start justify-between ${bgColor} p-4 rounded-xl shadow w-full`}>
+    <div className={`flex items-start justify-between border-1 border-[#272727] ${bgColor} p-4 rounded-xl shadow w-full`}>
       {/* Left side: avatar + info */}
       <div className="flex items-start space-x-4">
         <img

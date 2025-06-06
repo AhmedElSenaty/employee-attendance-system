@@ -1,6 +1,5 @@
 import { ReactNode } from "react";
-import { useSelector } from "react-redux";
-import { selectRole } from "../../context/slices/userSlice";
+import { useUserStore } from "../../store/user.store";
 
 interface HasRoleProps {
   role: string | string[]; // allows one or many roles
@@ -8,7 +7,7 @@ interface HasRoleProps {
 }
 
 const HasRole = ({ role, children }: HasRoleProps) => {
-  const userRole = useSelector(selectRole()); // adjust based on your actual state
+  const userRole = useUserStore((state) => state.role);
 
   const allowedRoles = Array.isArray(role) ? role : [role];
   const hasAccess = allowedRoles.includes(userRole);
