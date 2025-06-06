@@ -10,13 +10,12 @@ import { useGetDepartmentsList } from "../../hooks/useDepartmentHook";
 import { useGetAttendanceOverview, useGetDepartmentAttendanceOverview, useGetLatestAttendance } from "../../hooks/useAttendanceHook";
 import { AttendanceCardData } from "../../interfaces";
 import { AttendanceCard, AttendanceCardSkeleton } from "../../components/ui/AttendanceCard";
-import { useSelector } from "react-redux";
-import { RootState } from "../../context/store";
 import { formatValue } from "../../utils";
+import { useLanguageStore } from "../../store/language.store";
 
 export const DashboardPage = () => {
   const { t } = useTranslation(["common", "dashboard"]);
-  const { language } = useSelector((state: RootState) => state.language);
+  const { language } = useLanguageStore();
 
   const { startDate, endDate, searchByDepartmentId, setFilters } = useFiltersHook();
   const { departmentsList, isDepartmentsLoading } = useGetDepartmentsList();

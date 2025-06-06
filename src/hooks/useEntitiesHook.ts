@@ -5,8 +5,8 @@ import { IEntityCredentials, IErrorResponse, initialMetadata, UseGetAllEntitiesR
 import { AxiosError } from "axios";
 import { getTranslatedMessage, handleApiError, showToast } from "../utils";
 import { useSelector } from "react-redux";
-import { RootState } from "../context/store";
 import { selectToken } from "../context/slices/userSlice";
+import { useLanguageStore } from "../store/language.store";
 
 const ENTITIES_QUERY_KEY = "entities";
 const ENTITIES_LIST_QUERY_KEY = "entitiesList";
@@ -69,7 +69,7 @@ const useGetEntitiesList = () => {
 
 const useManageEntities = () => {
   const token = useSelector(selectToken);
-  const { language } = useSelector((state: RootState) => state.language);
+  const { language } = useLanguageStore();
   const queryClient = useQueryClient();
 
   const addMutation = useMutation({

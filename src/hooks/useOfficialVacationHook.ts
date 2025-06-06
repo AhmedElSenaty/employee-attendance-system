@@ -3,10 +3,10 @@ import { useSelector } from "react-redux";
 import { selectToken } from "../context/slices/userSlice";
 import { createOfficialVacation, deleteOfficialVacation, fetchAllOfficialVacations, fetchOfficialVacationByID, updateOfficialVacation } from "../services/admin";
 import { IErrorResponse, initialMetadata, IOfficialVacationCredentials, UseGetAllOfficialVacationsReturn, UseGetOfficialVacationByIDReturn } from "../interfaces";
-import { RootState } from "../context/store";
 import { getTranslatedMessage, handleApiError, showToast } from "../utils";
 import { AxiosError } from "axios";
 import { useEffect } from "react";
+import { useLanguageStore } from "../store/language.store";
 
 const OFFICIAL_VACATIONS_QUERY_KEY = "OfficialVacations";
 const OFFICIAL_VACATION_DETAILS_QUERY_KEY = "OfficialVacationDetails";
@@ -63,7 +63,7 @@ const useGetOfficialVacationByID = (
 
 const useManageOfficialVacations = () => {
   const token = useSelector(selectToken); // Get token from Redux
-  const { language } = useSelector((state: RootState) => state.language);
+  const { language } = useLanguageStore();
   const queryClient = useQueryClient();
 
   const addMutation = useMutation({

@@ -6,9 +6,8 @@ import { NormalSpinner } from "../../../../components/ui/Spinner";
 import { IEntityData } from "../../../../interfaces";
 import { ENTITY_TRANSLATION_NAMESPACE } from "..";
 import { formatValue } from "../../../../utils";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../../context/store";
 import { HasPermission } from "../../../../components/auth";
+import { useLanguageStore } from "../../../../store/language.store";
 
 interface IShowEntityPopupProps {
   isOpen: boolean
@@ -21,7 +20,7 @@ interface IShowEntityPopupProps {
 }
 
 const ShowEntityPopup = ({ isOpen, handleClose, handleDeletePopupOpen, handleEditPopupOpen, entity, t, isLoading }: IShowEntityPopupProps) => {
-  const { language } = useSelector((state: RootState) => state.language);
+    const { language } = useLanguageStore();
 
   return (
     <Popup

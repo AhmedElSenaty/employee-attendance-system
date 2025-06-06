@@ -4,8 +4,6 @@ import { SectionHeader } from "../../../components/ui/SectionHeader";
 import { Header } from "../../../components/ui/Header";
 import { Paginator } from "../../../components/ui/Paginator";
 import { formatValue } from "../../../utils";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../context/store";
 import { useDebounce } from "../../../hooks/useDebounceHook";
 import { CountCard } from "../../../components/ui/CountCard";
 import { useFiltersHook } from "../../../hooks/useFiltersHook";
@@ -13,10 +11,11 @@ import { AttendanceOverviewTable } from "./views";
 import { useGetAllAttendancSummary } from "../../../hooks/useAttendanceHook";
 import AttendanceOverviewTableFilters from "./views/AttendanceOverviewTableFilters";
 import { ATTENDANCE_TRANSLATION_NAMESPACE } from ".";
+import { useLanguageStore } from "../../../store/language.store";
 
 const AttendanceOverviewPage = () => {
   const { t } = useTranslation(["common", ATTENDANCE_TRANSLATION_NAMESPACE]);
-  const { language } = useSelector((state: RootState) => state.language);
+  const { language } = useLanguageStore();
 
   const {
     page, pageSize, searchKey, search, 

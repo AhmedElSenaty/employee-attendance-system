@@ -10,7 +10,6 @@ import {
 import { arEG, enUS } from "date-fns/locale";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../context/store";
 import { useFiltersHook } from "../../../hooks/useFiltersHook";
 import { useGetAttendanceCalenderByEmployeeID } from "../../../hooks/useAttendanceHook";
 import { IAttendanceEntry } from "../../../interfaces";
@@ -20,11 +19,12 @@ import { DayCard, DayCardSkeleton } from "../../../components/ui/Calendar";
 import { useTranslation } from "react-i18next";
 import { CALENDER_TRANSLATION_NAMESPACE, DAYS_LABELS } from ".";
 import { selectID } from "../../../context/slices/userSlice";
+import { useLanguageStore } from "../../../store/language.store";
 
 const CalendarPage = () => {
   const id = useSelector(selectID())
   const { t } = useTranslation(["common", CALENDER_TRANSLATION_NAMESPACE]);
-  const { language } = useSelector((state: RootState) => state.language);
+  const { language } = useLanguageStore();
   
   const [currentDate, setCurrentDate] = useState(new Date());
   const { startDate, endDate, setFilters } = useFiltersHook()

@@ -2,10 +2,9 @@ import { TFunction } from "i18next"
 import { Field, Input, Label, SelectBox } from "../../../../components/ui/Forms"
 import { formatValue } from "../../../../utils";
 import { Search } from "lucide-react";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../../context/store";
 import { useFiltersHook } from "../../../../hooks/useFiltersHook";
 import { EMPLOYEE_TRANSLATION_NAMESPACE } from "..";
+import { useLanguageStore } from "../../../../store/language.store";
 
 interface IEmployeeTableFiltersProps {
   searchBy: string[]
@@ -13,7 +12,7 @@ interface IEmployeeTableFiltersProps {
 }
 
 const EmployeeTableFilters = ({ searchBy = [], t }: IEmployeeTableFiltersProps) => {
-  const { language } = useSelector((state: RootState) => state.language);
+  const { language } = useLanguageStore();
   const { pageSize, searchKey, search, setFilters } = useFiltersHook()
   return (
     <>

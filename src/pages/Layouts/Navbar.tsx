@@ -5,15 +5,14 @@ import { Image } from "../../components/ui/Image";
 import { HomeIcon, LogIn, LogOut, User } from "lucide-react";
 import { NavLink } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import { setLanguage } from "../../context/slices/languageSlice";
-import { RootState } from "../../context/store";
 import { logoutUser, selectIsLoggedIn, selectRole } from "../../context/slices/userSlice";
 import { Button } from "../../components/ui/Button";
+import { useLanguageStore } from "../../store/language.store";
+import { LanguageType } from "../../types";
 
 export const Navbar = () => {
-
   const dispatch = useDispatch();
-  const { flag, flags } = useSelector((state: RootState) => state.language);
+  const { setLanguage, flag, flags } = useLanguageStore();
   const { t } = useTranslation(["common", "navbar"]);
 
   const isLoggedIn = useSelector(selectIsLoggedIn);
@@ -35,21 +34,21 @@ export const Navbar = () => {
               className="w-45 border-0.5 bg-white shadow-md rounded-2xl text-base transition duration-300 ease-in-out"
             >
               <div className="flex flex-col gap-2 p-3">
-                <button
-                  className="flex items-center gap-6 p-2 rounded-lg transition hover:bg-black/5 cursor-pointer" 
-                  onClick={() => dispatch(setLanguage("en"))}
-                >
-                  <Logo src={flags.en} width="w-6" height="h-6" />
-                  <p className="font-semibold text-black capitalize">{ t("languages.english") }</p>
-                </button>
-                <button
-                  className="flex items-center gap-6 p-2 rounded-lg transition hover:bg-black/5 cursor-pointer" 
-                  onClick={() => dispatch(setLanguage("ar"))}
-                >
-                  <Logo src={flags.ar} width="w-6" height="h-6" />
-                  <p className="font-semibold text-black capitalize">{ t("languages.arabic") }</p>
-                </button>
-
+              {Object.entries(flags).map(([lang, icon]) => {
+                const languageKey = lang as LanguageType;
+                console.log(languageKey);
+                
+                return (
+                  <button
+                    key={languageKey}
+                    className="flex items-center gap-6 p-2 rounded-lg transition hover:bg-black/5 cursor-pointer"
+                    onClick={() => setLanguage(languageKey)}
+                  >
+                    <Logo src={icon} width="w-6" height="h-6" />
+                    <p className="font-semibold text-black capitalize">{t(`languages.${languageKey}`)}</p>
+                  </button>
+                );
+              })}
               </div>
             </FlyoutMenu>
           </Flyout>

@@ -2,15 +2,15 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { unblockAccountByID, updateAccountPassword } from "../services/admin";
 import { useSelector } from "react-redux";
 import { selectToken } from "../context/slices/userSlice";
-import { RootState } from "../context/store";
 import { getTranslatedMessage, handleApiError, showToast } from "../utils";
 import { AxiosError } from "axios";
 import { IErrorResponse } from "../interfaces";
+import { useLanguageStore } from "../store/language.store";
 
 const useManageAccount = () => {
   // Get token and language from the Redux store
   const token = useSelector(selectToken);
-  const { language } = useSelector((state: RootState) => state.language);
+  const { language } = useLanguageStore();
 
   // React Query Client for managing cached data
   const queryClient = useQueryClient();

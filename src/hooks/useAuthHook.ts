@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { AxiosError } from 'axios';
-import { RootState } from '../context/store';
 import { useNavigate } from 'react-router';
 import { SubmitHandler } from 'react-hook-form';
 import { IErrorResponse, ILoggedInUser, ILoginCredentials, ILoginResponse, initialLoginResponse, IResetAccountCredentials } from '../interfaces';
@@ -9,11 +8,12 @@ import { login, parseToken, resetAccountService } from '../services/auth';
 import { getTranslatedMessage, handleApiError, showToast } from '../utils';
 import { setUser } from '../context/slices/userSlice';
 import { fetchAuthorizedUserPermissions } from '../services/admin';
+import { useLanguageStore } from '../store/language.store';
 
 const useLogin = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [responseData, setResponseData] = useState<ILoginResponse>(initialLoginResponse);
-  const { language } = useSelector((state: RootState) => state.language);
+    const { language } = useLanguageStore();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -73,7 +73,7 @@ const useLogin = () => {
 
 const useResetAccount = () => {
   const navigate = useNavigate();
-  const { language } = useSelector((state: RootState) => state.language);
+    const { language } = useLanguageStore();
 
   const [isLoading, setIsLoading] = useState(false);
 

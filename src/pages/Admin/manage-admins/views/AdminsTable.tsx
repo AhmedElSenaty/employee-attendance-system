@@ -5,12 +5,11 @@ import { AlertTriangle, Ban, CheckCircle, FilePenLine, Trash2 } from "lucide-rea
 import { TFunction } from "i18next";
 import { IAdminData } from "../../../../interfaces";
 import { NavLink } from "react-router";
-import { RootState } from "../../../../context/store";
-import { useSelector } from "react-redux";
 import { StatusBadge } from "../../../../components/ui/StatusBadge";
 import { truncateText } from "../../../../utils";
 import { ADMIN_TABLE_COLUMNS, ADMIN_TRANSLATION_NAMESPACE } from "..";
 import { HasPermission } from "../../../../components/auth";
+import { useLanguageStore } from "../../../../store/language.store";
 
 interface IAdminsTableProps {
   admins: IAdminData[]; // Array of admin data to display in the table
@@ -22,7 +21,7 @@ interface IAdminsTableProps {
 
 const AdminsTable = ({ admins, t, isLoading, handleDeleteAdmin, handleUnblockAdmin }: IAdminsTableProps) => {
 
-  const { language } = useSelector((state: RootState) => state.language); // Get current language from Redux store
+    const { language } = useLanguageStore(); // Get current language from Redux store
 
   const columns = useMemo(
     () => ADMIN_TABLE_COLUMNS.map(key => t(key, { ns: ADMIN_TRANSLATION_NAMESPACE })),

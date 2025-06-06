@@ -3,9 +3,9 @@ import { selectToken } from "../context/slices/userSlice";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { fetchAllPermissions, updateUserPermissions } from "../services/admin";
 import { IErrorResponse, UseGetAllPermissionsReturn } from "../interfaces";
-import { RootState } from "../context/store";
 import { getTranslatedMessage, handleApiError, showToast } from "../utils";
 import { AxiosError } from "axios";
+import { useLanguageStore } from "../store/language.store";
 
 const PERMISSIONS_QUERY_KEY = "permissions"
 
@@ -22,7 +22,7 @@ const useGetAllPermissions = (): UseGetAllPermissionsReturn => {
 
 const useManagePermissions = () => {
   const token = useSelector(selectToken); // Get token from Redux
-  const { language } = useSelector((state: RootState) => state.language);
+  const { language } = useLanguageStore();
 
   const updateUserPermissionsMutation = useMutation({
     mutationFn: ({ userID, permissions }: { userID: string; permissions: string[] }) => {

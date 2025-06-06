@@ -6,8 +6,6 @@ import { SectionHeader } from "../../../components/ui/SectionHeader";
 import { Header } from "../../../components/ui/Header";
 import { Paginator } from "../../../components/ui/Paginator";
 import { formatValue } from "../../../utils";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../context/store";
 import { useDebounce } from "../../../hooks/useDebounceHook";
 import { ActionCard } from "../../../components/ui/ActionCard";
 import { CountCard } from "../../../components/ui/CountCard";
@@ -20,10 +18,11 @@ import { ISubDepartmentCredentials } from "../../../interfaces";
 import { useGetAllSubDepartments, useGetSubDepartmentByID, useManageSubDepartments } from "../../../hooks/useSubDepartmentHook";
 import { SUB_DEPARTMENT_TRANSLATION_NAMESPACE } from ".";
 import { HasPermission } from "../../../components/auth";
+import { useLanguageStore } from "../../../store/language.store";
 
 const ManageSubDepartmentsPage = () => {
   const { t } = useTranslation(["common", SUB_DEPARTMENT_TRANSLATION_NAMESPACE]);
-  const { language } = useSelector((state: RootState) => state.language);
+  const { language } = useLanguageStore();
 
   const { register, handleSubmit, formState: { errors }, reset , watch} = useForm<ISubDepartmentCredentials>({
     resolver: yupResolver(SubDepartmentSchema),

@@ -1,6 +1,4 @@
 import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../context/store";
 import { useState } from "react";
 import { useFiltersHook } from "../../../hooks/useFiltersHook";
 import { useDebounce } from "../../../hooks/useDebounceHook";
@@ -17,10 +15,11 @@ import { SectionHeader } from "../../../components/ui/SectionHeader";
 import { useGetAllProfiles, useManageProfiles } from "../../../hooks/useProfileHook";
 import { PROFILE_TRANSLATION_NAMESPACE } from ".";
 import { HasPermission } from "../../../components/auth";
+import { useLanguageStore } from "../../../store/language.store";
 
 const ManageProfilesPage = () => {
   const { t } = useTranslation(["common", PROFILE_TRANSLATION_NAMESPACE]);
-  const { language } = useSelector((state: RootState) => state.language);
+    const { language } = useLanguageStore();
 
   const [selectedID, setSelectedID] = useState<string>("");
   const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);

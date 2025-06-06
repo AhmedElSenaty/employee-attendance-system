@@ -6,9 +6,8 @@ import { TFunction } from "i18next";
 import { formatValue, truncateText } from "../../../../utils";
 import { IDepartmentData } from "../../../../interfaces";
 import { DEPARTMENT_TABLE_COLUMNS, DEPARTMENT_TRANSLATION_NAMESPACE } from "..";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../../context/store";
 import { HasPermission } from "../../../../components/auth";
+import { useLanguageStore } from "../../../../store/language.store";
 
 interface IDepartmentsTableProps {
   departments: IDepartmentData[];
@@ -20,7 +19,7 @@ interface IDepartmentsTableProps {
 }
 
 const DepartmentsTable = ({ departments, t, isLoading, handleShowDepartment, handleEditDepartment, handleDeleteDepartment }: IDepartmentsTableProps) => {
-  const { language } = useSelector((state: RootState) => state.language);
+    const { language } = useLanguageStore();
 
   const columns = useMemo(
     () => DEPARTMENT_TABLE_COLUMNS.map(key => t(key, { ns: DEPARTMENT_TRANSLATION_NAMESPACE })),

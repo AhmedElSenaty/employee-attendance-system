@@ -1,5 +1,3 @@
-import { RootState } from '../../../../context/store';
-import { useSelector } from 'react-redux';
 import { Checkbox, CheckboxSkeleton, Field, Label, LabelSkeleton } from '../../../../components/ui/Forms';
 import { Dispatch, SetStateAction } from 'react';
 import { IPermissionsData } from '../../../../interfaces/';
@@ -7,6 +5,7 @@ import { Button, ButtonSkeleton } from '../../../../components/ui/Button';
 import { ListChecks } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useGetAllPermissions } from '../../../../hooks/usePermissionHook';
+import { useLanguageStore } from '../../../../store/language.store';
 
 interface RenderPermissionCheckboxesProps {
   checkedPermissions: string[];
@@ -16,7 +15,7 @@ interface RenderPermissionCheckboxesProps {
 
 const RenderPermissionCheckboxes = ({ checkedPermissions, setCheckedPermissions, isLoading }: RenderPermissionCheckboxesProps) => {
   const { t } = useTranslation();
-  const { language } = useSelector((state: RootState) => state.language);
+    const { language } = useLanguageStore();
   const { permissions, isPermissionsDataLoading } = useGetAllPermissions();
 
   const allPermissionIDs = permissions.map((permission) => permission.id);

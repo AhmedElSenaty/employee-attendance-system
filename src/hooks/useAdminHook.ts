@@ -2,12 +2,12 @@ import { useSelector } from "react-redux";
 import { selectToken } from "../context/slices/userSlice";
 import { IErrorResponse, initialMetadata } from "../interfaces";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { RootState } from "../context/store";
 import { getTranslatedMessage, handleApiError, showToast } from "../utils";
 import { AxiosError } from "axios";
 import { IAdminCredentials, UseGetAdminByIDReturn, UseGetAllAdminsReturn } from "../interfaces/";
 import { useEffect } from "react";
 import { createAdmin, deleteAdminByID, fetchAdminByID, fetchAllAdmins, updateAdmin } from "../services/admin";
+import { useLanguageStore } from "../store/language.store";
 
 const ADMIN_QUERY_KEY = "admins";
 const ADMIN_DETAILS_QUERY_KEY = "adminDetails";
@@ -72,7 +72,7 @@ const useGetAdminByID = (
 const useManageAdmins = () => {
   // Get the token and language from Redux state
   const token = useSelector(selectToken); // Get token from Redux
-  const { language } = useSelector((state: RootState) => state.language);
+  const { language } = useLanguageStore();
 
   // Initialize React Query client for cache and query invalidation
   const queryClient = useQueryClient();

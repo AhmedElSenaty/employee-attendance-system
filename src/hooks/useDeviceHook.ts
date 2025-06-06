@@ -4,9 +4,9 @@ import { IDeviceCredentials, IErrorResponse, initialMetadata, UseGetAllDevicesRe
 import { AxiosError } from "axios";
 import { getTranslatedMessage, handleApiError, showToast } from "../utils";
 import { useSelector } from "react-redux";
-import { RootState } from "../context/store";
 import { selectToken } from "../context/slices/userSlice";
 import { createDevice, deleteDeviceByID, fetchDeviceByID, fetchAllDevices, fetchDevicesList, updateDevice } from "../services/admin";
+import { useLanguageStore } from "../store/language.store";
 
 const DEVICES_QUERY_KEY = "devices";
 const DEVICES_LIST_QUERY_KEY = "devicesList";
@@ -65,7 +65,7 @@ const useGetDevicesList = () => {
 
 const useManageDevices = () => {
   const token = useSelector(selectToken);
-  const { language } = useSelector((state: RootState) => state.language);
+  const { language } = useLanguageStore();
   const queryClient = useQueryClient();
 
   const addMutation = useMutation({

@@ -5,10 +5,9 @@ import { FilePenLine, Trash2 } from "lucide-react";
 import { TFunction } from "i18next";
 import { IProfileData } from "../../../../interfaces";
 import { NavLink } from "react-router";
-import { RootState } from "../../../../context/store";
-import { useSelector } from "react-redux";
 import { PROFILE_TABLE_COLUMNS, PROFILE_TRANSLATION_NAMESPACE } from "..";
 import { HasPermission } from "../../../../components/auth";
+import { useLanguageStore } from "../../../../store/language.store";
 
 interface IProfilesTableProps {
   profiles: IProfileData[];
@@ -18,7 +17,7 @@ interface IProfilesTableProps {
 }
 
 const ProfilesTable = ({ profiles, t, isLoading, handleDeleteProfile }: IProfilesTableProps) => {
-  const { language } = useSelector((state: RootState) => state.language);
+    const { language } = useLanguageStore();
 
   const columns = useMemo(
     () => PROFILE_TABLE_COLUMNS.map(key => t(key, { ns: PROFILE_TRANSLATION_NAMESPACE })),

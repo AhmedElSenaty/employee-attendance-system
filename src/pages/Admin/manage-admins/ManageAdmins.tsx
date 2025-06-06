@@ -1,6 +1,4 @@
 import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../context/store";
 import { useState } from "react";
 import { useFiltersHook } from "../../../hooks/useFiltersHook";
 import { useDebounce } from "../../../hooks/useDebounceHook";
@@ -18,12 +16,13 @@ import { useGetAllAdmins, useManageAdmins } from "../../../hooks/useAdminHook";
 import { useManageAccount } from "../../../hooks/useAccountHook";
 import { ADMIN_TRANSLATION_NAMESPACE } from ".";
 import { HasPermission } from "../../../components/auth";
+import { useLanguageStore } from "../../../store/language.store";
 
 const ManageAdminsPage = () => {
   // Set up translation namespace and retrieve translation function `t`
   // Also extract the current language from the Redux store
   const { t } = useTranslation(["common", ADMIN_TRANSLATION_NAMESPACE]);
-  const { language } = useSelector((state: RootState) => state.language);
+    const { language } = useLanguageStore();
 
   // State to track the selected user ID and control the visibility of modals
   const [selectedID, setSelectedID] = useState<string>("");

@@ -4,9 +4,9 @@ import { IAttendanceCredentials, IErrorResponse, initialMetadata, UseAttendanceD
 import { useEffect } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createAttendance, deleteAttendanceByID, fetchAttendanceCalender, fetchAllAttendances, fetchDetailedAttendanceByID, updateAttendance, fetchAllAttendanceSummary, fetchAttendanceOverview, fetchLatestAttendance, fetchDepartmentAttendanceOverview } from "../services/admin/";
-import { RootState } from "../context/store";
 import { appendSecondsToTime, getTranslatedMessage, handleApiError, showToast } from "../utils";
 import { AxiosError } from "axios";
+import { useLanguageStore } from "../store/language.store";
 
 const ATTENDANCE_QUERY_KEY = "attendances"
 const ATTENDANCE_DETAILED_QUERY_KEY = "detailedAttendance"
@@ -131,7 +131,7 @@ const useGetDetailedAttendance = (attendanceID: number, resetInputs?: (data: IAt
 
 const useManageAttendance = () => {
   const token = useSelector(selectToken); // Get token from Redux
-  const { language } = useSelector((state: RootState) => state.language);
+  const { language } = useLanguageStore();
   const queryClient = useQueryClient();
 
   const addMutation = useMutation({

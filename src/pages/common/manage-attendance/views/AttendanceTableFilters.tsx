@@ -2,13 +2,12 @@ import { TFunction } from "i18next"
 import { Field, Input, Label, SelectBox, SelectBoxSkeleton } from "../../../../components/ui/Forms"
 import { formatValue } from "../../../../utils";
 import { Calendar, Search, Timer } from "lucide-react";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../../context/store";
 import { useFiltersHook } from "../../../../hooks/useFiltersHook";
 import { useGetDepartmentsList } from "../../../../hooks/useDepartmentHook";
 import { useDepartmentSubDepartmentsList } from "../../../../hooks/useSubDepartmentHook";
 import { Button } from "../../../../components/ui/Button";
 import { ATTENDANCE_TRANSLATION_NAMESPACE } from "..";
+import { useLanguageStore } from "../../../../store/language.store";
 
 interface ISubDepartmentTableFiltersProps {
   searchBy: string[]
@@ -16,7 +15,7 @@ interface ISubDepartmentTableFiltersProps {
 }
 
 const AttendanceTableFilters = ({ searchBy, t }: ISubDepartmentTableFiltersProps) => {
-  const { language } = useSelector((state: RootState) => state.language);
+  const { language } = useLanguageStore();
   const { pageSize, searchKey, search, startDate, endDate, startTime, endTime, status, searchByDepartmentId, searchBySubDeptartmentId, setFilters } = useFiltersHook()
   const { departmentsList, isDepartmentsLoading } = useGetDepartmentsList();
   const { subDepartmentsList, isSubDepartmentsLoading } = useDepartmentSubDepartmentsList(Number(searchByDepartmentId || ''));

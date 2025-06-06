@@ -2,11 +2,11 @@ import { useSelector } from "react-redux";
 import { selectToken } from "../context/slices/userSlice";
 import { IErrorResponse, initialMetadata, IProfileCredentials, UseGetAllProfilesReturn, UseGetProfileByIDReturn } from "../interfaces";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { RootState } from "../context/store";
 import { getTranslatedMessage, handleApiError, showToast } from "../utils";
 import { AxiosError } from "axios";
 import { useEffect } from "react";
 import { createProfile, deleteProfileByID, fetchAllProfiles, fetchProfileByID, fetchProfilePermissions, fetchProfilesList, updateProfile } from "../services/admin";
+import { useLanguageStore } from "../store/language.store";
 
 const PROFILES_QUERY_KEY = "profiles";
 const PROFILES_LIST_QUERY_KEY = "profilesList";
@@ -82,7 +82,7 @@ const useGetProfilePermissions = (id: number) => {
 
 const useManageProfiles = () => {
   const token = useSelector(selectToken); // Get token from Redux
-  const { language } = useSelector((state: RootState) => state.language);
+  const { language } = useLanguageStore();
   const queryClient = useQueryClient();
 
   const addMutation = useMutation({

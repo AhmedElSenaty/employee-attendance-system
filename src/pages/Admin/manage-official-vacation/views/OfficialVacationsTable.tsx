@@ -5,9 +5,8 @@ import { Eye, FilePenLine, Trash2 } from "lucide-react";
 import { TFunction } from "i18next";
 import { IOfficialVacationData } from "../../../../interfaces";
 import { OFFICIAL_VACATIONS_TABLE_COLUMNS, OFFICIAL_VACATIONS_TRANSLATION_NAMESPACE } from "..";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../../context/store";
 import { HasPermission } from "../../../../components/auth";
+import { useLanguageStore } from "../../../../store/language.store";
 
 interface IOfficialVacationsTableProps {
   officialVacations: IOfficialVacationData[];
@@ -19,7 +18,7 @@ interface IOfficialVacationsTableProps {
 }
 
 const DevicesTable = ({ officialVacations, t, isLoading, handleShow, handleEdit, handleDelete }: IOfficialVacationsTableProps) => {
-  const { language } = useSelector((state: RootState) => state.language);
+    const { language } = useLanguageStore();
 
   const columns = useMemo(
     () => OFFICIAL_VACATIONS_TABLE_COLUMNS.map(key => t(key, { ns: OFFICIAL_VACATIONS_TRANSLATION_NAMESPACE })),

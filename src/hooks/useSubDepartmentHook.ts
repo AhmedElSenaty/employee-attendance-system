@@ -4,9 +4,9 @@ import { ISubDepartmentCredentials, IErrorResponse, initialMetadata, ISubDepartm
 import { AxiosError } from "axios";
 import { getTranslatedMessage, handleApiError, showToast } from "../utils";
 import { useSelector } from "react-redux";
-import { RootState } from "../context/store";
 import { createSubDepartment, deleteSubDepartmentByID, fetchSubDepartmentByID, fetchAllSubDepartments, updateSubDepartment, fetchDepartmentSubDepartments, fetchSubDepartmentsList } from "../services/admin/";
 import { selectToken } from "../context/slices/userSlice";
+import { useLanguageStore } from "../store/language.store";
 
 const SUB_DEPARTMENTS_QUERY_KEY = "subDepartments";
 const SUB_DEPARTMENTS_LIST_QUERY_KEY = "subDepartmentsList";
@@ -84,7 +84,7 @@ const useGetSubDepartmentsList = () => {
 
 const useManageSubDepartments = () => {
     const token = useSelector(selectToken);
-  const { language } = useSelector((state: RootState) => state.language);
+    const { language } = useLanguageStore();
   const queryClient = useQueryClient();
 
   const addMutation = useMutation({

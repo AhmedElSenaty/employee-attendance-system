@@ -8,7 +8,6 @@ import { NavLink } from "react-router";
 import { Button } from "../../../components/ui/Button";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../context/store";
 import { SectionHeader } from "../../../components/ui/SectionHeader";
 import { useState } from "react";
 import { useDebounce } from "../../../hooks/useDebounceHook";
@@ -20,12 +19,13 @@ import { useManageAccount } from "../../../hooks/useAccountHook";
 import { EMPLOYEE_BORDER_WIDTH, EMPLOYEE_GRAPH_BACKGROUND_COLORS, EMPLOYEE_GRAPH_BORDER_COLORS, EMPLOYEE_GRAPH_LABEL_KEYS, EMPLOYEE_TRANSLATION_NAMESPACE } from ".";
 import { HasPermission } from "../../../components/auth";
 import { selectRole } from "../../../context/slices/userSlice";
+import { useLanguageStore } from "../../../store/language.store";
 
 export const ManageEmployeesPage = () => {
   const userRole = useSelector(selectRole());
 
   const { t } = useTranslation(["common", EMPLOYEE_TRANSLATION_NAMESPACE]);
-  const { language } = useSelector((state: RootState) => state.language);
+  const { language } = useLanguageStore();
 
   const [selectedID, setSelectedID] = useState<string>("");
   const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);

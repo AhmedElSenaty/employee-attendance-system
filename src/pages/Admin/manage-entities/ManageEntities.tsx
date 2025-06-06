@@ -3,8 +3,6 @@ import { CountCard } from "../../../components/ui/CountCard"
 import { Header } from "../../../components/ui/Header"
 import { formatValue } from "../../../utils"
 import { SectionHeader } from "../../../components/ui/SectionHeader"
-import { RootState } from "../../../context/store"
-import { useSelector } from "react-redux"
 import { Button } from "../../../components/ui/Button"
 import { Paginator } from "../../../components/ui/Paginator"
 import { useTranslation } from "react-i18next"
@@ -19,10 +17,11 @@ import { entitySchema } from "../../../validation"
 import { useGetAllEntities, useGetEntityByID, useManageEntities } from "../../../hooks/useEntitiesHook"
 import { ENTITY_TRANSLATION_NAMESPACE } from "."
 import { HasPermission } from "../../../components/auth"
+import { useLanguageStore } from "../../../store/language.store"
 
 const ManageEntitiesPage = () => {
   const { t } = useTranslation(["common", ENTITY_TRANSLATION_NAMESPACE]);
-  const { language } = useSelector((state: RootState) => state.language);
+    const { language } = useLanguageStore();
   
   const { register: registerAdd, handleSubmit: handleSubmitAdd, formState: { errors: errorsAdd } } = useForm<IEntityCredentials>({
     resolver: yupResolver(entitySchema),

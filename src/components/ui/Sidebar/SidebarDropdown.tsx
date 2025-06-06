@@ -1,7 +1,6 @@
 import { ChevronDown } from "lucide-react";
 import { useState, ReactNode } from "react";
-import { RootState } from "../../../context/store";
-import { useSelector } from "react-redux";
+import { useLanguageStore } from "../../../store/language.store";
 
 interface IProps {
   icon?: ReactNode;
@@ -12,7 +11,7 @@ interface IProps {
 
 const SidebarDropdown = ({ icon, name, children, open = false}: IProps) => {
   const [isOpen, setIsOpen] = useState(open);
-  const { language } = useSelector((state: RootState) => state.language);
+  const { language } = useLanguageStore();
   const isRtl = language == "en" ? false : true;
   return (
     <div>

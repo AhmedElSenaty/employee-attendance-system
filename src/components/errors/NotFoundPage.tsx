@@ -1,16 +1,16 @@
 import { Link } from "react-router";
 import { logoutUser } from "../../context/slices/userSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { Button } from "../ui/Button";
 import { Ban } from "lucide-react";
-import { RootState } from "../../context/store";
 import { formatValue } from "../../utils";
+import { useLanguageStore } from "../../store/language.store";
 
 const NotFoundPage = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const { language } = useSelector((state: RootState) => state.language);
+  const { language } = useLanguageStore();
 
   return (
     <div className="flex items-center justify-center h-screen bg-gray-100">

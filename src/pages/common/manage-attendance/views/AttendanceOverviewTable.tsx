@@ -8,9 +8,9 @@ import { Calendar } from "lucide-react";
 import { ATTENDANCE_SUMMARY_TABLE_COLUMNS, ATTENDANCE_TRANSLATION_NAMESPACE } from "..";
 import { formatValue } from "../../../../utils";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../../context/store";
 import { HasPermission } from "../../../../components/auth";
 import { selectRole } from "../../../../context/slices/userSlice";
+import { useLanguageStore } from "../../../../store/language.store";
 
 interface IAttendanceOverviewTableProps {
   attendanceSummary: IAttendanceSummaryData[];
@@ -25,7 +25,7 @@ const AttendanceOverviewTable = ({ attendanceSummary, isLoading, t }: IAttendanc
     () => ATTENDANCE_SUMMARY_TABLE_COLUMNS.map(key => t(key, { ns: ATTENDANCE_TRANSLATION_NAMESPACE })),
     [t]
   )
-  const { language } = useSelector((state: RootState) => state.language);
+    const { language } = useLanguageStore();
 
   return (
     <>

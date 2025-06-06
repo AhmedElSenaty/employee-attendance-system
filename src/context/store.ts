@@ -1,11 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { useDispatch } from 'react-redux'
-import languageSlice from "./slices/languageSlice"; // Import the language slice reducer
 import userSlice from "./slices/userSlice"; // Import the user slice reducer
 
 export const store = configureStore({
   reducer: {
-    language: languageSlice,
     user: userSlice,
   },
 })

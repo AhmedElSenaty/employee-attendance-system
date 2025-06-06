@@ -3,10 +3,10 @@ import { useSelector } from "react-redux";
 import { selectToken } from "../context/slices/userSlice";
 import { createEmployee, deleteEmployee, fetchAllEmployees, fetchEmployeeByID, fetchEmployeesCount, fetchEmployeesList, updateEmployee } from "../services/admin/";
 import { IEmployeeCredentials, IErrorResponse, initialMetadata, UseGetAllEmployeesReturn, UseGetEmployeeByIDReturn, UseGetEmployeesCountReturn, UseGetEmployeesListReturn } from "../interfaces";
-import { RootState } from "../context/store";
 import { getTranslatedMessage, handleApiError, showToast } from "../utils";
 import { AxiosError } from "axios";
 import { useEffect } from "react";
+import { useLanguageStore } from "../store/language.store";
 
 const EMPLOYEES_QUERY_KEY = "employees";
 const EMPLOYEE_DETAILS_QUERY_KEY = "employeeDetails";
@@ -94,7 +94,7 @@ const useGetEmployeesList = (): UseGetEmployeesListReturn => {
 
 const useManageEmployees = () => {
   const token = useSelector(selectToken); // Get token from Redux
-  const { language } = useSelector((state: RootState) => state.language);
+  const { language } = useLanguageStore();
   
   const queryClient = useQueryClient();
 

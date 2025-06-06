@@ -2,10 +2,9 @@ import { TFunction } from "i18next"; // Importing translation function for inter
 import { Field, Input, Label, SelectBox } from "../../../../components/ui/Forms"; // Importing form elements
 import { formatValue } from "../../../../utils"; // Utility function for formatting values
 import { Search } from "lucide-react"; // Search icon component
-import { useSelector } from "react-redux"; // For accessing the global state in Redux
-import { RootState } from "../../../../context/store"; // Root state type for Redux
 import { useFiltersHook } from "../../../../hooks/useFiltersHook"; // Custom hook for handling filters
 import { ADMIN_TRANSLATION_NAMESPACE } from "..";
+import { useLanguageStore } from "../../../../store/language.store";
 
 interface IAdminTableFiltersProps {
   searchBy: string[]; // List of available search options
@@ -13,7 +12,7 @@ interface IAdminTableFiltersProps {
 }
 
 const AdminTableFilters = ({ searchBy, t }: IAdminTableFiltersProps) => {
-  const { language } = useSelector((state: RootState) => state.language); // Accessing the current language from the Redux state
+    const { language } = useLanguageStore(); // Accessing the current language from the Redux state
   const { pageSize, searchKey, search, setFilters } = useFiltersHook(); // Using custom hook for filter values and setter functions
   return (
     <>

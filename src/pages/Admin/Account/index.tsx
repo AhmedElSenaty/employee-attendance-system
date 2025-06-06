@@ -1,8 +1,6 @@
-import { useSelector } from "react-redux";
 import { Header } from "../../../components/ui/Header";
 import useFetchMe, { useManageMe } from "../../../hooks/useMeHook";
 import { AdminProfileCredentials, IPermissionsData } from "../../../interfaces";
-import { RootState } from "../../../context/store";
 import { SectionHeader } from "../../../components/ui/SectionHeader";
 import { Field, Input, InputErrorMessage, Label } from "../../../components/ui/Forms";
 import { Button } from "../../../components/ui/Button";
@@ -11,13 +9,14 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useEffect } from "react";
+import { useLanguageStore } from "../../../store/language.store";
 
 const TRANSLATION_NAMESPACE = "adminAccount";
 
 const AdminAccountPage = () => {
   const { me } = useFetchMe();
   const { t } = useTranslation(["common", TRANSLATION_NAMESPACE]);
-  const { language } = useSelector((state: RootState) => state.language);
+    const { language } = useLanguageStore();
 
   // Form setup with React Hook Form and Yup schema validation
   const {

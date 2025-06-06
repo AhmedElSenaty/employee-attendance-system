@@ -2,11 +2,10 @@ import { FieldErrors, UseFormRegister, useWatch, UseFormSetValue, Control } from
 import { Field, Input, InputErrorMessage, InputSkeleton, Label, LabelSkeleton, SelectBox, SelectBoxSkeleton } from "../../../../components/ui/Forms";
 import { IManagerCredentials } from "../../../../interfaces";
 import { TFunction } from "i18next";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../../context/store";
 import { useEffect, useState } from "react";
 import { useGetProfilePermissions, useGetProfilesList } from "../../../../hooks/useProfileHook";
 import { MANAGER_TRANSLATION_NAMESPACE } from "..";
+import { useLanguageStore } from "../../../../store/language.store";
 
 interface IRenderManagerInputsProps {
   register: UseFormRegister<IManagerCredentials>;
@@ -20,7 +19,7 @@ interface IRenderManagerInputsProps {
 }
 
 const RenderRenderManagerInputs = ({ register, errors, t, isUpdateManager = false, control, setValue, checkedPermissionsHandler, isLoading }: IRenderManagerInputsProps) => {
-  const { language } = useSelector((state: RootState) => state.language);
+  const { language } = useLanguageStore();
   const { profilesList, profilesListIsLoading } = useGetProfilesList();
   const [selectedProfile, setSelectedProfile] = useState<number>(0)
   const username = useWatch({ control, name: "username" });

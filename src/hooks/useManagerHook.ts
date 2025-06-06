@@ -3,10 +3,10 @@ import { useSelector } from "react-redux";
 import { selectToken } from "../context/slices/userSlice";
 import { createManager, deleteManagerByID, fetchAllManagers, fetchManagerByID, fetchManagersCount, updateManager } from "../services/admin";
 import { IErrorResponse, IManagerCredentials, initialMetadata, UseGetAllManagersReturn, UseGetManagerByIDReturn, UseGetManagersCountReturn } from "../interfaces";
-import { RootState } from "../context/store";
 import { getTranslatedMessage, handleApiError, showToast } from "../utils";
 import { AxiosError } from "axios";
 import { useEffect } from "react";
+import { useLanguageStore } from "../store/language.store";
 
 const MANAGERS_QUERY_KEY = "managers";
 const MAMANGER_DETAILS_QUERY_KEY = "managerDetails";
@@ -79,7 +79,7 @@ const useGetManagersCount = (): UseGetManagersCountReturn => {
 
 const useManageManagers = () => {
   const token = useSelector(selectToken); // Get token from Redux
-  const { language } = useSelector((state: RootState) => state.language);
+  const { language } = useLanguageStore();
   const queryClient = useQueryClient();
 
   const addMutation = useMutation({

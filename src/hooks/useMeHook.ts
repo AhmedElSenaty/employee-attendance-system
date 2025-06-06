@@ -2,10 +2,10 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSelector } from "react-redux";
 import { selectID, selectRole, selectToken } from "../context/slices/userSlice";
 import { fetchMe, updateAdminProfile, updateEmployeeProfile, updateMyPassword, uploadEmployeeImage } from "../services";
-import { RootState } from "../context/store";
 import { getTranslatedMessage, handleApiError, showToast } from "../utils";
 import { AxiosError } from "axios";
 import { AdminProfileCredentials, EmployeeProfileCredentials, IErrorResponse } from "../interfaces";
+import { useLanguageStore } from "../store/language.store";
 
 const FETCH_ME_QUERY_KEY = "me";
 
@@ -27,7 +27,7 @@ const useFetchMe = () => {
 
 const useManageMe = () => {
   const token = useSelector(selectToken);
-  const { language } = useSelector((state: RootState) => state.language);
+  const { language } = useLanguageStore();
   const userRole = useSelector(selectRole());
   const userID = useSelector(selectID());
   const queryClient = useQueryClient();

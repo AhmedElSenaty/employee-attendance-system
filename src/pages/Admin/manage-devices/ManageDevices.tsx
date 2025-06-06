@@ -6,8 +6,6 @@ import { SectionHeader } from "../../../components/ui/SectionHeader";
 import { Header } from "../../../components/ui/Header";
 import { Paginator } from "../../../components/ui/Paginator";
 import { formatValue } from "../../../utils";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../context/store";
 import { useDebounce } from "../../../hooks/useDebounceHook";
 import { ActionCard } from "../../../components/ui/ActionCard";
 import { CountCard } from "../../../components/ui/CountCard";
@@ -20,10 +18,11 @@ import { deviceSchema } from "../../../validation";
 import { useGetAllDevices, useGetDeviceByID, useManageDevices } from "../../../hooks/useDeviceHook";
 import { DEVICE_TRANSLATION_NAMESPACE } from ".";
 import { HasPermission } from "../../../components/auth";
+import { useLanguageStore } from "../../../store/language.store";
 
 const ManageDevicesPage = () => {
   const { t } = useTranslation(["common", DEVICE_TRANSLATION_NAMESPACE]);
-  const { language } = useSelector((state: RootState) => state.language);
+    const { language } = useLanguageStore();
 
   const { register, handleSubmit, formState: { errors }, reset } = useForm<IDeviceCredentials>({
     resolver: yupResolver(deviceSchema),

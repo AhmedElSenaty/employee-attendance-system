@@ -1,8 +1,8 @@
 {
   "loading": "Please wait...",
   "languages": {
-    "english": "English",
-    "arabic": "Arabic"
+    "en": "English",
+    "ar": "Arabic"
   },
   "pagination": {
     "pageSize": "Items per page",

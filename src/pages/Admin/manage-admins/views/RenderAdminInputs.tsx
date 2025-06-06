@@ -2,11 +2,10 @@ import { FieldErrors, UseFormRegister, useWatch, UseFormSetValue, Control } from
 import { Field, Input, InputErrorMessage, InputSkeleton, Label, LabelSkeleton, SelectBox, SelectBoxSkeleton } from "../../../../components/ui/Forms";
 import { IAdminCredentials } from "../../../../interfaces";
 import { TFunction } from "i18next";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../../context/store";
 import { useEffect, useState } from "react";
 import { useGetProfilePermissions, useGetProfilesList } from "../../../../hooks/useProfileHook";
 import { ADMIN_TRANSLATION_NAMESPACE } from "..";
+import { useLanguageStore } from "../../../../store/language.store";
 
 interface IAdminInputsProps {
   register: UseFormRegister<IAdminCredentials>; // hook-form's register method for form field registration
@@ -30,7 +29,7 @@ const RenderAdminInputs = ({
   isLoading 
 }: IAdminInputsProps) => {
   const { profilesList, profilesListIsLoading } = useGetProfilesList(); // Fetch profiles list for selection
-  const { language } = useSelector((state: RootState) => state.language); // Current language for localization
+    const { language } = useLanguageStore(); // Current language for localization
   const [selectedProfile, setSelectedProfile] = useState<number>(0); // Store the selected profile ID
   const username = useWatch({ control, name: "username" }); // Watch for changes in the username field
 

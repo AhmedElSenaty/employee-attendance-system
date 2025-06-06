@@ -5,9 +5,8 @@ import { Button } from "../../../../components/ui/Button";
 import { NormalSpinner } from "../../../../components/ui/Spinner";
 import { IOfficialVacationData } from "../../../../interfaces";
 import { OFFICIAL_VACATIONS_TRANSLATION_NAMESPACE } from "..";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../../context/store";
 import { HasPermission } from "../../../../components/auth";
+import { useLanguageStore } from "../../../../store/language.store";
 
 interface IShowOfficialVacationPopupProps {
   isOpen: boolean
@@ -20,7 +19,7 @@ interface IShowOfficialVacationPopupProps {
 }
 
 const ShowOfficialVacationPopup = ({ isOpen, handleClose, handleDeletePopupOpen, handleEditPopupOpen, officialVacation, t, isLoading }: IShowOfficialVacationPopupProps) => {
-  const { language } = useSelector((state: RootState) => state.language);
+    const { language } = useLanguageStore();
 
   return (
     <Popup

@@ -1,12 +1,12 @@
 import { Link } from "react-router";
 import { logoutUser } from "../../context/slices/userSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { Button } from "../ui/Button";
 import { ReactNode } from "react";
-import { RootState } from "../../context/store";
 import { formatValue } from "../../utils";
 import { ServerCrash } from "lucide-react";
+import { useLanguageStore } from "../../store/language.store";
 
 interface IProps {
   statusCode?: number;
@@ -18,7 +18,7 @@ interface IProps {
 const ErrorHandler = ({ statusCode = 500, title, message, icon}: IProps) => {
   const dispatch = useDispatch();
   const { t } = useTranslation(["common"]);
-  const { language } = useSelector((state: RootState) => state.language);
+  const { language } = useLanguageStore();
 
   return (
     <div className="flex items-center justify-center h-screen bg-gray-100">

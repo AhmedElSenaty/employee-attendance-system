@@ -9,7 +9,6 @@ import { NavLink } from "react-router";
 import { Button } from "../../../components/ui/Button";
 import { useTranslation } from "react-i18next";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../context/store";
 import { SectionHeader } from "../../../components/ui/SectionHeader";
 import { useState } from "react";
 import { useDebounce } from "../../../hooks/useDebounceHook";
@@ -21,12 +20,13 @@ import { useManageAccount } from "../../../hooks/useAccountHook";
 import { MANAGER_GRAPH_LABEL_KEYS, MANAGER_HOVER_OFFSET, MANAGER_TRANSLATION_NAMESPACE, MANAGER_GRAPH_BACKGROUND_COLORS } from ".";
 import { HasPermission } from "../../../components/auth";
 import { selectRole } from "../../../context/slices/userSlice";
+import { useLanguageStore } from "../../../store/language.store";
 
 export const ManageManagersPage = () => {
   const userRole = useSelector(selectRole());
 
   const { t } = useTranslation(["common", MANAGER_TRANSLATION_NAMESPACE]);
-  const { language } = useSelector((state: RootState) => state.language);
+  const { language } = useLanguageStore();
 
   const [selectedID, setSelectedID] = useState<string>("");
   const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
