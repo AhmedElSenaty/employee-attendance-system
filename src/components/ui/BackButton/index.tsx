@@ -3,6 +3,7 @@ import { ArrowLeft, ArrowRight } from "lucide-react"; // swap with your icon lib
 import { useTranslation } from "react-i18next";
 import { Button } from "../Button";
 import { useNavigate } from "react-router";
+import { Tooltip } from "../Tooltip";
 
 const BackButton: React.FC = () => {
   const navigate = useNavigate();
@@ -16,13 +17,15 @@ const BackButton: React.FC = () => {
   const isRTL = i18n.dir() === "rtl";
 
   return (
-    <Button
-      onClick={handleGoBack}
-      icon={isRTL ? <ArrowRight className="w-full h-full" /> : <ArrowLeft className="w-full h-full" />}
-      shape="rounded"
-      variant="secondary"
-      size={"sm"}
-    />
+    <Tooltip content="Go back">
+      <Button
+        onClick={handleGoBack}
+        icon={isRTL ? <ArrowRight className="w-full h-full" /> : <ArrowLeft className="w-full h-full" />}
+        shape="rounded"
+        variant="secondary"
+        size={"sm"}
+      />
+    </Tooltip>
   );
 };
 

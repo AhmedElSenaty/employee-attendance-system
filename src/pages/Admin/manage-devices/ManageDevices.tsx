@@ -13,7 +13,7 @@ import { useGetAllDevices, useGetDeviceByID, useManageDevices } from "../../../h
 import { DEVICE_TRANSLATION_NAMESPACE } from ".";
 import { HasPermission } from "../../../components/auth";
 import { useLanguageStore } from "../../../store/language.store";
-import { ActionCard, Button, CountCard, Header, Paginator, SectionHeader } from "../../../components/ui";
+import { ActionCard, Button, CountCard, Header, InfoPopup, Paginator, SectionHeader } from "../../../components/ui";
 
 const ManageDevicesPage = () => {
   const { t } = useTranslation(["common", DEVICE_TRANSLATION_NAMESPACE]);
@@ -96,7 +96,20 @@ const ManageDevicesPage = () => {
   return (
     <>
       <div className="sm:p-5 p-3 space-y-5">
-        <Header heading={t("header.heading", { ns: DEVICE_TRANSLATION_NAMESPACE })} subtitle={t("header.subtitle", { ns: DEVICE_TRANSLATION_NAMESPACE })} />
+      <Header
+        heading={
+          <div className="flex items-center justify-center gap-3">
+            <span>{t("header.heading", { ns: DEVICE_TRANSLATION_NAMESPACE })}</span>
+            <InfoPopup
+              title="Reset Your Password"
+              description="Watch this quick guide to reset your password safely."
+              videoUrl="https://www.youtube.com/embed/dQw4w9WgXcQ"
+            />
+          </div>
+        }
+        subtitle={t("header.subtitle", { ns: DEVICE_TRANSLATION_NAMESPACE })}
+      />
+
         <div className="space-y-5 mx-auto w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl">
           <CountCard 
             title={t("CountCard.title", { ns: DEVICE_TRANSLATION_NAMESPACE })}
