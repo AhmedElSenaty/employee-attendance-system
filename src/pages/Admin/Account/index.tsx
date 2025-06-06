@@ -1,19 +1,18 @@
 import { Field, Input, InputErrorMessage, Label, Header, SectionHeader , Button} from "../../../components/ui";
 import useFetchMe, { useManageMe } from "../../../hooks/useMeHook";
-import { AdminProfileCredentials, IPermissionsData } from "../../../interfaces";
+import { AdminProfileCredentials } from "../../../interfaces";
 import { passwordUpdateSchema, updateAdminSchema } from "../../../validation";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useEffect } from "react";
-import { useLanguageStore } from "../../../store/language.store";
+import { RenderDepartments, RenderPermissions } from "./views";
 
 const TRANSLATION_NAMESPACE = "adminAccount";
 
 const AdminAccountPage = () => {
   const { me } = useFetchMe();
   const { t } = useTranslation(["common", TRANSLATION_NAMESPACE]);
-    const { language } = useLanguageStore();
 
   // Form setup with React Hook Form and Yup schema validation
   const {
@@ -66,30 +65,6 @@ const AdminAccountPage = () => {
       password: request.password,
     });
   };
-
-  // Render permissions dynamically
-  const renderPermissions = me?.permissions?.map(({ id, nameAr, nameEn }: IPermissionsData) => (
-    <div
-      key={id}
-      className="p-3 bg-green-600 text-white shadow-md rounded-lg flex gap-4 justify-between items-center"
-    >
-      <div className="flex-1">
-        <h3 className="text-base font-semibold">{language === "en" ? nameEn : nameAr}</h3>
-      </div>
-    </div>
-  ));
-
-  // Render departments dynamically
-  const renderDepartments = me?.departments?.map((department: string, index: number) => (
-    <div
-      key={index}
-      className="p-3 bg-primary text-white shadow-md rounded-lg flex gap-4 justify-between items-center"
-    >
-      <div className="flex-1">
-        <h3 className="text-base font-semibold">{department}</h3>
-      </div>
-    </div>
-  ));
 
   return (
     <div className="sm:p-5 p-3 space-y-5">
@@ -217,23 +192,9 @@ const AdminAccountPage = () => {
         </div>
       </form>
 
-      {/* Departments Section */}
-      <div className="bg-white shadow-md space-y-5 p-5 rounded-lg w-full">
-        <SectionHeader
-          title={t(`profile.departmentsSection.title`, { ns: TRANSLATION_NAMESPACE })}
-          description={t(`profile.departmentsSection.description`, { ns: TRANSLATION_NAMESPACE })}
-        />
-        <div className="flex flex-wrap gap-5 mt-4 w-fit">{renderDepartments}</div>
-      </div>
-
-      {/* Permissions Section */}
-      <div className="bg-white shadow-md space-y-5 p-5 rounded-lg w-full">
-        <SectionHeader
-          title={t(`profile.permissionsSection.title`, { ns: TRANSLATION_NAMESPACE })}
-          description={t(`profile.permissionsSection.description`, { ns: TRANSLATION_NAMESPACE })}
-        />
-        <div className="flex flex-wrap gap-5 mt-4 w-fit">{renderPermissions}</div>
-      </div>
+      <RenderDepartments departments={me?.departments} />
+      
+      <RenderPermissions permissions={me?.permissions} />
     </div>
   );
 };
