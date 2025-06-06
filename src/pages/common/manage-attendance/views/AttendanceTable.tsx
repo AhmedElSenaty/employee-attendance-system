@@ -1,12 +1,10 @@
 import { useMemo } from "react";
-import { NoDataMessage, Table, TableCell, TableRow, TableSkeleton } from "../../../../components/ui/Table";
-import { Button } from "../../../../components/ui/Button";
 import { AlertTriangle, CheckCircle, Eye, FilePenLine, Trash2 } from "lucide-react";
 import { TFunction } from "i18next";
 import { IAttendanceData } from "../../../../interfaces";
-import { StatusBadge } from "../../../../components/ui/StatusBadge";
 import { ATTENDANCE_TABLE_COLUMNS, ATTENDANCE_TRANSLATION_NAMESPACE } from "..";
 import { HasPermission } from "../../../../components/auth";
+import { Button, NoDataMessage, StatusBadge, Table, TableCell, TableRow, TableSkeleton, Tooltip } from "../../../../components/ui";
 
 interface IAttendanceTableProps {
   attendances: IAttendanceData[];
@@ -52,34 +50,40 @@ const AttendanceTable = ({ attendances, t, isLoading, handleShowAttendance, hand
                 <TableCell label={columns[7]}>
                   <div className="flex flex-wrap gap-2">
                     <HasPermission permission="View Attendances">
-                      <Button 
-                        variant="primary" 
-                        fullWidth={false}
-                        size={"sm"}
-                        icon={<Eye className="w-full h-full" />} 
-                        aria-label={t("buttons.view")}
-                        onClick={() => handleShowAttendance(attendance.id)}
-                      />
+                      <Tooltip content="View Attendances">
+                        <Button 
+                          variant="primary" 
+                          fullWidth={false}
+                          size={"sm"}
+                          icon={<Eye className="w-full h-full" />} 
+                          aria-label={t("buttons.view")}
+                          onClick={() => handleShowAttendance(attendance.id)}
+                        />
+                      </Tooltip>
                     </HasPermission>
                     <HasPermission permission="Update Attendance">
-                      <Button 
-                        variant="info" 
-                        fullWidth={false}
-                        size={"sm"}
-                        icon={<FilePenLine className="w-full h-full" />} 
-                        aria-label={t("buttons.edit")} 
-                        onClick={() => handleEditAttendance(attendance.id)}
-                      />
+                      <Tooltip content="Update Attendance">
+                        <Button 
+                          variant="info" 
+                          fullWidth={false}
+                          size={"sm"}
+                          icon={<FilePenLine className="w-full h-full" />} 
+                          aria-label={t("buttons.edit")} 
+                          onClick={() => handleEditAttendance(attendance.id)}
+                        />
+                      </Tooltip>
                     </HasPermission>
                     <HasPermission permission="Delete Attendance">
-                      <Button
-                        variant="danger"
-                        fullWidth={false}
-                        size={"sm"}
-                        icon={<Trash2 className="w-full h-full" />}
-                        aria-label={t("buttons.delete")}
-                        onClick={() => handleDeleteAttendance(attendance.id)}
-                      />
+                      <Tooltip content="Delete Attendance">
+                        <Button
+                          variant="danger"
+                          fullWidth={false}
+                          size={"sm"}
+                          icon={<Trash2 className="w-full h-full" />}
+                          aria-label={t("buttons.delete")}
+                          onClick={() => handleDeleteAttendance(attendance.id)}
+                        />
+                      </Tooltip>
                     </HasPermission>
                   </div>
                 </TableCell>

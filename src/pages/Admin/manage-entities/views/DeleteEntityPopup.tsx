@@ -1,5 +1,4 @@
-import { Popup } from "../../../../components/ui/Popup";
-import { Button } from "../../../../components/ui/Button";
+import { Button, Popup } from "../../../../components/ui";
 import { TFunction } from "i18next";
 import { ENTITY_TRANSLATION_NAMESPACE } from "..";
 

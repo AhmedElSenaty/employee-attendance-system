@@ -6,7 +6,7 @@ import {
   InputSkeleton,
   Label,
   LabelSkeleton
-} from "../../../../components/ui/Forms";
+} from "../../../../components/ui";
 import { TFunction } from "i18next";
 import { IOfficialVacationCredentials } from "../../../../interfaces";
 import { Calendar } from "lucide-react";

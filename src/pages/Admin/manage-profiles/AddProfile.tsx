@@ -1,13 +1,10 @@
 import { useState } from "react";
-import { SectionHeader } from "../../../components/ui/SectionHeader";
 import { useTranslation } from "react-i18next";
-import { Header } from "../../../components/ui/Header";
-import { Button } from "../../../components/ui/Button";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { profileSchema } from "../../../validation";
 import { IProfileCredentials } from "../../../interfaces";
-import { Description } from "../../../components/ui/Forms";
+import { Description, Button, Header, SectionHeader } from "../../../components/ui/";
 import { RenderProfileInputs } from "./views";
 import { useNavigate } from "react-router";
 import { RenderPermissionCheckboxes } from "../manage-permissions/views";

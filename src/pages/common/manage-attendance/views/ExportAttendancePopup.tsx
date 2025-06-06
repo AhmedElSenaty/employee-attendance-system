@@ -1,8 +1,6 @@
 import { TFunction } from "i18next";
-import { Button } from "../../../../components/ui/Button";
-import { Popup } from "../../../../components/ui/Popup";
+import { Button, Popup, StatusBadge } from "../../../../components/ui";
 import { AlertTriangle, CheckCircle, Fingerprint } from "lucide-react";
-import { StatusBadge } from "../../../../components/ui/StatusBadge";
 import { ATTENDANCE_TRANSLATION_NAMESPACE } from "..";
 
 interface IExportAttendancePopupProps {

@@ -1,5 +1,5 @@
 import { TFunction } from "i18next"
-import { Field, Input, Label, SelectBox } from "../../../../components/ui/Forms"
+import { Field, Input, Label, SelectBox } from "../../../../components/ui"
 import { formatValue } from "../../../../utils";
 import { Search } from "lucide-react";
 import { useFiltersHook } from "../../../../hooks/useFiltersHook";

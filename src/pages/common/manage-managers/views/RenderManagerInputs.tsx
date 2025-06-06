@@ -1,5 +1,5 @@
 import { FieldErrors, UseFormRegister, useWatch, UseFormSetValue, Control } from "react-hook-form";
-import { Field, Input, InputErrorMessage, InputSkeleton, Label, LabelSkeleton, SelectBox, SelectBoxSkeleton } from "../../../../components/ui/Forms";
+import { Field, Input, InputErrorMessage, InputSkeleton, Label, LabelSkeleton, SelectBox, SelectBoxSkeleton } from "../../../../components/ui";
 import { IManagerCredentials } from "../../../../interfaces";
 import { TFunction } from "i18next";
 import { useEffect, useState } from "react";

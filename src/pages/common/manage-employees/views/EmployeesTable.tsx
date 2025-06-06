@@ -1,11 +1,9 @@
 import { useMemo } from "react";
-import { NoDataMessage, Table, TableCell, TableRow, TableSkeleton } from "../../../../components/ui/Table";
-import { Button } from "../../../../components/ui/Button";
+import { StatusBadge, Button, NoDataMessage, Table, TableCell, TableRow, TableSkeleton, Tooltip } from "../../../../components/ui";
 import { AlertTriangle, Ban, Calendar, CheckCircle, FilePenLine, Trash2 } from "lucide-react";
 import { TFunction } from "i18next";
 import { IEmployeeData } from "../../../../interfaces";
 import { NavLink } from "react-router";
-import { StatusBadge } from "../../../../components/ui/StatusBadge";
 import { truncateText } from "../../../../utils";
 import { EMPLOYEE_TABLE_COLUMNS, EMPLOYEE_TRANSLATION_NAMESPACE } from "..";
 import { HasPermission } from "../../../../components/auth";
@@ -76,46 +74,54 @@ const EmployeesTable = ({ employees, t, isLoading, handleDeleteEmployee, handleU
                 <TableCell label={columns[7]}>
                   <div className="flex flex-wrap gap-2">
                     <HasPermission permission="Update Employee">
-                      <NavLink to={`/${userRole}/edit-employee/${id}`}>
-                        <Button 
-                          variant="info" 
-                          fullWidth={false}
-                          size={"sm"} 
-                          icon={<FilePenLine className="w-full h-full" />} 
-                          aria-label={t("buttons.edit")} 
-                        />
-                      </NavLink>
+                      <Tooltip content="Update Employee">
+                        <NavLink to={`/${userRole}/edit-employee/${id}`}>
+                          <Button 
+                            variant="info" 
+                            fullWidth={false}
+                            size={"sm"} 
+                            icon={<FilePenLine className="w-full h-full" />} 
+                            aria-label={t("buttons.edit")} 
+                          />
+                        </NavLink>
+                      </Tooltip>
                     </HasPermission>
                     <HasPermission permission="Delete Employee">
-                      <Button
-                        variant="danger"
-                        fullWidth={false}
-                        size={"sm"}
-                        icon={<Trash2 className="w-full h-full" />}
-                        aria-label={t("buttons.delete")}
-                        onClick={() => handleDeleteEmployee(id)}
-                      />
-                    </HasPermission>
-                    <HasPermission permission="View Attendances">
-                      <NavLink to={`/${userRole}/manage-employee/${id}/calender`}>
+                      <Tooltip content="Delete Employee">
                         <Button
-                          variant="secondary"
+                          variant="danger"
                           fullWidth={false}
                           size={"sm"}
-                          icon={<Calendar className="w-full h-full" />}
+                          icon={<Trash2 className="w-full h-full" />}
+                          aria-label={t("buttons.delete")}
+                          onClick={() => handleDeleteEmployee(id)}
                         />
-                      </NavLink>
+                      </Tooltip>
+                    </HasPermission>
+                    <HasPermission permission="View Attendances">
+                      <Tooltip content="View Attendances">
+                        <NavLink to={`/${userRole}/manage-employee/${id}/calender`}>
+                          <Button
+                            variant="secondary"
+                            fullWidth={false}
+                            size={"sm"}
+                            icon={<Calendar className="w-full h-full" />}
+                          />
+                        </NavLink>
+                      </Tooltip>
                     </HasPermission>
                     <HasPermission permission="Unlock Account">
                       {isBlocked &&
-                        <Button
-                          variant="black"
-                          fullWidth={false}
-                          size={"sm"}
-                          icon={<Ban className="w-full h-full" />}
-                          aria-label={t("buttons.delete")}
-                          onClick={() => handleUnblockEmployee(id)}
-                        />
+                        <Tooltip content="Unlock Account">
+                          <Button
+                            variant="black"
+                            fullWidth={false}
+                            size={"sm"}
+                            icon={<Ban className="w-full h-full" />}
+                            aria-label={t("buttons.delete")}
+                            onClick={() => handleUnblockEmployee(id)}
+                          />
+                        </Tooltip>
                       }
                     </HasPermission>
                   </div>

@@ -1,5 +1,4 @@
-import { Popup } from "../../../../components/ui/Popup"; // Importing the Popup component for modal display
-import { Button } from "../../../../components/ui/Button"; // Importing the Button component
+import { Button, Popup } from "../../../../components/ui"; // Importing the Button component
 import { TFunction } from "i18next"; // Importing TFunction for i18n translations
 import { ADMIN_TRANSLATION_NAMESPACE } from "..";
 

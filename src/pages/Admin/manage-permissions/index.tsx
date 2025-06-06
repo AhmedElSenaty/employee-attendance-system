@@ -1,6 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { Header } from "../../../components/ui/Header";
-import { CountCard } from "../../../components/ui/CountCard";
+import { CountCard, Header } from "../../../components/ui";
 import { formatValue } from "../../../utils";
 import { Signature } from "lucide-react";
 import { IPermissionsData } from "../../../interfaces";

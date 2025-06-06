@@ -8,7 +8,7 @@ import {
   InputSkeleton,
   Label,
   LabelSkeleton,
-} from "../../../../components/ui/Forms";
+} from "../../../../components/ui";
 import { EMPLOYEE_TRANSLATION_NAMESPACE } from "..";
 
 interface IRenderEmployeeInputsProps {

@@ -1,6 +1,5 @@
 import { useMemo } from "react";
-import { NoDataMessage, Table, TableCell, TableRow, TableSkeleton } from "../../../../components/ui/Table";
-import { Button } from "../../../../components/ui/Button";
+import { Button, NoDataMessage, Table, TableCell, TableRow, TableSkeleton, Tooltip } from "../../../../components/ui";
 import { Eye, FilePenLine, Trash2 } from "lucide-react";
 import { TFunction } from "i18next";
 import { truncateText } from "../../../../utils";
@@ -44,34 +43,40 @@ const SubDepartmentsTable = ({ subDepartments, t, isLoading, handleShowSubDepart
                 <TableCell label={columns[5]}>
                   <div className="flex flex-wrap gap-2">
                     <HasPermission permission="View SubDepartments">
-                      <Button 
-                        variant="primary" 
-                        fullWidth={false}
-                        size={"sm"}
-                        icon={<Eye className="w-full h-full" />} 
-                        aria-label={t("buttons.view")}
-                        onClick={() => handleShowSubDepartment(subDepartment.subDepartmentId)}
-                      />
+                      <Tooltip content="View Sub-Departments">
+                        <Button 
+                          variant="primary" 
+                          fullWidth={false}
+                          size={"sm"}
+                          icon={<Eye className="w-full h-full" />} 
+                          aria-label={t("buttons.view")}
+                          onClick={() => handleShowSubDepartment(subDepartment.subDepartmentId)}
+                        />
+                      </Tooltip>
                     </HasPermission>
                     <HasPermission permission="Update SubDepartment">
-                      <Button 
-                        variant="info" 
-                        fullWidth={false}
-                        size={"sm"}
-                        icon={<FilePenLine className="w-full h-full" />} 
-                        aria-label={t("buttons.edit")} 
-                        onClick={() => handleEditSubDepartment(subDepartment.subDepartmentId)}
-                      />
+                      <Tooltip content="Update Sub-Department">
+                        <Button 
+                          variant="info" 
+                          fullWidth={false}
+                          size={"sm"}
+                          icon={<FilePenLine className="w-full h-full" />} 
+                          aria-label={t("buttons.edit")} 
+                          onClick={() => handleEditSubDepartment(subDepartment.subDepartmentId)}
+                        />
+                      </Tooltip>
                     </HasPermission>
                     <HasPermission permission="Delete SubDepartment">
-                      <Button
-                        variant="danger"
-                        fullWidth={false}
-                        size={"sm"}
-                        icon={<Trash2 className="w-full h-full" />}
-                        aria-label={t("buttons.delete")}
-                        onClick={() => handleDeleteSubDepartment(subDepartment.subDepartmentId)}
-                      />
+                      <Tooltip content="Delete Sub-Department">
+                        <Button
+                          variant="danger"
+                          fullWidth={false}
+                          size={"sm"}
+                          icon={<Trash2 className="w-full h-full" />}
+                          aria-label={t("buttons.delete")}
+                          onClick={() => handleDeleteSubDepartment(subDepartment.subDepartmentId)}
+                        />
+                      </Tooltip>
                     </HasPermission>
                   </div>
                 </TableCell>

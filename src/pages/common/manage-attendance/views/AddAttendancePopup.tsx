@@ -1,8 +1,7 @@
 import { TFunction } from "i18next"
-import { Button } from "../../../../components/ui/Button"
-import { Popup } from "../../../../components/ui/Popup"
 import { FormEvent, ReactNode } from "react"
 import { ATTENDANCE_TRANSLATION_NAMESPACE } from ".."
+import { Button, Popup } from "../../../../components/ui";
 
 interface IAddAttendancePopupProps {
   isOpen: boolean

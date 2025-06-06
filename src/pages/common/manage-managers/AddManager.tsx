@@ -1,7 +1,4 @@
 import { useState } from "react";
-import { Header } from "../../../components/ui/Header"
-import { SectionHeader } from "../../../components/ui/SectionHeader"
-import { Button } from "../../../components/ui/Button";
 import { useTranslation } from "react-i18next";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -14,6 +11,7 @@ import { useManageManagers } from "../../../hooks/useManagerHook";
 import { RenderPermissionCheckboxes } from "../../Admin/manage-permissions/views";
 import { RenderDepartmentCheckboxes } from "../../Admin/manage-departments/views";
 import { MANAGER_TRANSLATION_NAMESPACE } from ".";
+import { Button, Header, SectionHeader } from "../../../components/ui";
 
 const AddManagerPage = () => {
   const navigate = useNavigate();

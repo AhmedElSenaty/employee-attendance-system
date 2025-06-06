@@ -8,7 +8,7 @@ import {
   LabelSkeleton,
   Textarea,
   TextareaSkeleton
-} from "../../../../components/ui/Forms";
+} from "../../../../components/ui";
 import { TFunction } from "i18next";
 import { IEntityCredentials } from "../../../../interfaces";
 import { ENTITY_TRANSLATION_NAMESPACE } from "..";

@@ -7,7 +7,7 @@ import {
   Label,
   SelectBox,
   SelectBoxSkeleton,
-} from "../../../../components/ui/Forms";
+} from "../../../../components/ui";
 import { useDepartmentSubDepartmentsList } from "../../../../hooks/useSubDepartmentHook";
 import { useGetDepartmentsList } from "../../../../hooks/useDepartmentHook";
 import { useEffect, useState } from "react";

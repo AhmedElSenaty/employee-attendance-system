@@ -1,9 +1,6 @@
-import { Header } from "../../../components/ui/Header";
+import { Field, Input, InputErrorMessage, Label, Header, SectionHeader , Button} from "../../../components/ui";
 import useFetchMe, { useManageMe } from "../../../hooks/useMeHook";
 import { AdminProfileCredentials, IPermissionsData } from "../../../interfaces";
-import { SectionHeader } from "../../../components/ui/SectionHeader";
-import { Field, Input, InputErrorMessage, Label } from "../../../components/ui/Forms";
-import { Button } from "../../../components/ui/Button";
 import { passwordUpdateSchema, updateAdminSchema } from "../../../validation";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { SubmitHandler, useForm } from "react-hook-form";

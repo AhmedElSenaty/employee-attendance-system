@@ -1,5 +1,5 @@
 import { FieldErrors, UseFormRegister } from "react-hook-form";
-import { Field, Checkbox, Input, InputErrorMessage, Label } from "../../../components/ui/Forms";
+import { Field, Checkbox, Input, InputErrorMessage, Label } from "../../../components/ui";
 import { TFunction } from "i18next";
 import { ILoginCredentials } from "../../../interfaces";
 

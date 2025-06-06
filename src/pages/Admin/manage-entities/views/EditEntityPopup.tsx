@@ -1,6 +1,5 @@
 import { FormEvent, ReactNode } from "react";
-import { Button } from "../../../../components/ui/Button";
-import { Popup } from "../../../../components/ui/Popup";
+import { Popup, Button } from "../../../../components/ui";
 import { TFunction } from "i18next";
 import { ENTITY_TRANSLATION_NAMESPACE } from "..";
 

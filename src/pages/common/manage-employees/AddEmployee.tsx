@@ -4,14 +4,11 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { IEmployeeCredentials } from "../../../interfaces";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { getEmployeeSchema } from "../../../validation";
-import { Header } from "../../../components/ui/Header";
-import { Button } from "../../../components/ui/Button";
 import RenderEmployeeDepartmentInputs from "./views/RenderEmployeeDepartmentInputs";
-import { SectionHeader } from "../../../components/ui/SectionHeader";
 import { useManageEmployees } from "../../../hooks/useEmployeesHook";
-import { Description } from "../../../components/ui/Forms";
 import { useNavigate } from "react-router";
 import { EMPLOYEE_TRANSLATION_NAMESPACE } from ".";
+import { Button, Description, Header, SectionHeader } from "../../../components/ui";
 
 const AddEmployeePage = () => {
   const { t } = useTranslation(["common", EMPLOYEE_TRANSLATION_NAMESPACE]);

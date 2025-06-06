@@ -1,10 +1,10 @@
 import { TFunction } from "i18next"
-import { Field, Input, Label, SelectBox } from "../../../../components/ui/Forms"
 import { formatValue } from "../../../../utils";
 import { Calendar, Search } from "lucide-react";
 import { useFiltersHook } from "../../../../hooks/useFiltersHook";
 import { ATTENDANCE_TRANSLATION_NAMESPACE } from "..";
 import { useLanguageStore } from "../../../../store/language.store";
+import { Field, Input, Label, SelectBox } from "../../../../components/ui";
 
 interface ISubDepartmentTableFiltersProps {
   searchBy: string[]

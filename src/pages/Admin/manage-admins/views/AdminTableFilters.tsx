@@ -1,5 +1,5 @@
 import { TFunction } from "i18next"; // Importing translation function for internationalization (i18n)
-import { Field, Input, Label, SelectBox } from "../../../../components/ui/Forms"; // Importing form elements
+import { Field, Input, Label, SelectBox } from "../../../../components/ui"; // Importing form elements
 import { formatValue } from "../../../../utils"; // Utility function for formatting values
 import { Search } from "lucide-react"; // Search icon component
 import { useFiltersHook } from "../../../../hooks/useFiltersHook"; // Custom hook for handling filters

@@ -13,14 +13,11 @@ import { useFiltersHook } from "../../../hooks/useFiltersHook";
 import { useParams } from "react-router";
 import { useGetAttendanceCalenderByEmployeeID } from "../../../hooks/useAttendanceHook";
 import { IAttendanceEntry } from "../../../interfaces";
-import { Button } from "../../../components/ui/Button";
-import { Header } from "../../../components/ui/Header";
-import { DayCard, DayCardSkeleton } from "../../../components/ui/Calendar";
 import { useTranslation } from "react-i18next";
 import { CALENDER_TRANSLATION_NAMESPACE, DAYS_LABELS } from ".";
 import { useGetEmployeeByID } from "../../../hooks/useEmployeesHook";
-import { UserProfileCard, UserProfileCardSkeleton } from "../../../components/ui/UserProfileCard";
 import { useLanguageStore } from "../../../store/language.store";
+import { Button, DayCard, DayCardSkeleton, Header, UserProfileCard, UserProfileCardSkeleton } from "../../../components/ui";
 
 const CalendarPage = () => {
   const { id } = useParams();

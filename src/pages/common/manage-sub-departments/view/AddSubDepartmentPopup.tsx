@@ -1,6 +1,5 @@
 import { TFunction } from "i18next"
-import { Button } from "../../../../components/ui/Button"
-import { Popup } from "../../../../components/ui/Popup"
+import { Popup, Button } from "../../../../components/ui"
 import { FormEvent, ReactNode } from "react"
 import { SUB_DEPARTMENT_TRANSLATION_NAMESPACE } from ".."
 

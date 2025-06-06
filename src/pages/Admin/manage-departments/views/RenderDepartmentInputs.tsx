@@ -1,5 +1,5 @@
 import { FieldErrors, UseFormRegister, UseFormWatch } from "react-hook-form";
-import { Field, Input, InputErrorMessage, Label, Textarea } from "../../../../components/ui/Forms";
+import { Field, Input, InputErrorMessage, Label, Textarea } from "../../../../components/ui";
 import { TFunction } from "i18next";
 import { IDepartmentCredentials } from "../../../../interfaces";
 import { DEPARTMENT_TRANSLATION_NAMESPACE } from "..";

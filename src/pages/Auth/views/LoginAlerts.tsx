@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { AlertTriangle, Bell, XCircle } from "lucide-react";
 import { ILoginResponse, initialLoginResponse } from "../../../interfaces/loginInterfaces";
-import { Alert } from "../../../components/ui/Alert";
+import { Alert } from "../../../components/ui";
 import { TFunction } from "i18next";
 import { countdownFrom, formatTime } from "../../../utils";
 

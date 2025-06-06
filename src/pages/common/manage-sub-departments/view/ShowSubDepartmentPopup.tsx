@@ -1,12 +1,10 @@
-import { Popup } from "../../../../components/ui/Popup"
 import { TFunction } from "i18next";
 import { Building2 } from "lucide-react";
-import { Button } from "../../../../components/ui/Button";
-import { NormalSpinner } from "../../../../components/ui/Spinner";
 import { ISubDepartmentData } from "../../../../interfaces";
 import { truncateText } from "../../../../utils";
 import { SUB_DEPARTMENT_TRANSLATION_NAMESPACE } from "..";
 import { HasPermission } from "../../../../components/auth";
+import { Button, NormalSpinner, Popup } from "../../../../components/ui";
 
 interface IShowSubDepartmentPopupProps {
   isOpen: boolean

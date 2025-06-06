@@ -1,11 +1,9 @@
 import { useMemo } from "react";
-import { NoDataMessage, Table, TableCell, TableRow, TableSkeleton } from "../../../../components/ui/Table";
-import { Button } from "../../../../components/ui/Button";
+import { StatusBadge, Button, NoDataMessage, Table, TableCell, TableRow, TableSkeleton, Tooltip } from "../../../../components/ui/";
 import { AlertTriangle, Ban, CheckCircle, FilePenLine, Trash2 } from "lucide-react";
 import { TFunction } from "i18next";
 import { IManagerData } from "../../../../interfaces";
 import { NavLink } from "react-router";
-import { StatusBadge } from "../../../../components/ui/StatusBadge";
 import { truncateText } from "../../../../utils";
 import { MANAGER_TABLE_COLUMNS, MANAGER_TRANSLATION_NAMESPACE } from "..";
 import { HasPermission } from "../../../../components/auth";
@@ -65,29 +63,34 @@ const ManagersTable = ({ managers, t, isLoading, handleDeleteManager, handleUnbl
                 <TableCell label={columns[5]}>
                   <div className="flex flex-wrap gap-2">
                     <HasPermission permission="Update Manager">
-                      <NavLink to={`/${userRole}/edit-manager/${id}`}>
-                        <Button 
-                          variant="info" 
-                          fullWidth={false}
-                          size={"sm"} 
-                          icon={<FilePenLine className="w-full h-full" />} 
-                          aria-label={t("buttons.edit")} 
-                        />
-                      </NavLink>
+                      <Tooltip content="Update Manager">
+                        <NavLink to={`/${userRole}/edit-manager/${id}`}>
+                          <Button 
+                            variant="info" 
+                            fullWidth={false}
+                            size={"sm"} 
+                            icon={<FilePenLine className="w-full h-full" />} 
+                            aria-label={t("buttons.edit")} 
+                          />
+                        </NavLink>
+                      </Tooltip>
                     </HasPermission>
                     <HasPermission permission="Delete Manager">
-                      <Button
-                        variant="danger"
-                        fullWidth={false}
-                        size={"sm"}
-                        icon={<Trash2 className="w-full h-full" />}
-                        aria-label={t("buttons.delete")}
-                        onClick={() => handleDeleteManager(id)}
-                      />
+                      <Tooltip content="Delete Manager">
+                        <Button
+                          variant="danger"
+                          fullWidth={false}
+                          size={"sm"}
+                          icon={<Trash2 className="w-full h-full" />}
+                          aria-label={t("buttons.delete")}
+                          onClick={() => handleDeleteManager(id)}
+                        />
+                      </Tooltip>
                     </HasPermission>
                     <HasPermission permission="Unlock Account">
                       {
                         isBlocked &&
+                        <Tooltip content="Unlock Account">
                           <Button
                             variant="black"
                             fullWidth={false}
@@ -96,6 +99,7 @@ const ManagersTable = ({ managers, t, isLoading, handleDeleteManager, handleUnbl
                             aria-label={t("buttons.delete")}
                             onClick={() => handleUnblockManager(id)}
                           />
+                        </Tooltip>
                       }
                     </HasPermission>
                   </div>

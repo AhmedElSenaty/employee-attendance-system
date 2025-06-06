@@ -6,7 +6,7 @@ import {
   InputSkeleton,
   Label,
   LabelSkeleton
-} from "../../../../components/ui/Forms";
+} from "../../../../components/ui";
 import { TFunction } from "i18next";
 import { IProfileCredentials } from "../../../../interfaces";
 import { PROFILE_TRANSLATION_NAMESPACE } from "..";

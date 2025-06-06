@@ -1,16 +1,14 @@
 import { useMemo } from "react";
-import { NoDataMessage, Table, TableCell, TableRow, TableSkeleton } from "../../../../components/ui/Table";
+import { NoDataMessage, Table, TableCell, TableRow, TableSkeleton, StatusBadge, Tooltip } from "../../../../components/ui";
 import { Button } from "../../../../components/ui/Button";
 import { AlertTriangle, Ban, CheckCircle, FilePenLine, Trash2 } from "lucide-react";
 import { TFunction } from "i18next";
 import { IAdminData } from "../../../../interfaces";
 import { NavLink } from "react-router";
-import { StatusBadge } from "../../../../components/ui/StatusBadge";
 import { truncateText } from "../../../../utils";
 import { ADMIN_TABLE_COLUMNS, ADMIN_TRANSLATION_NAMESPACE } from "..";
 import { HasPermission } from "../../../../components/auth";
 import { useLanguageStore } from "../../../../store/language.store";
-import { Tooltip } from "../../../../components/ui";
 
 interface IAdminsTableProps {
   admins: IAdminData[]; // Array of admin data to display in the table
@@ -70,7 +68,7 @@ const AdminsTable = ({ admins, t, isLoading, handleDeleteAdmin, handleUnblockAdm
                   {/* Render buttons for each row: Edit, Delete, Unblock (if blocked) */}
                   <div className="flex flex-wrap gap-2">
                     <HasPermission permission="Update Admin">
-                      <Tooltip content="Edit Admin">
+                      <Tooltip content="Update Admin">
                         <NavLink to={`/admin/edit-admin/${id}`}>
                           <Button 
                             variant="info" 

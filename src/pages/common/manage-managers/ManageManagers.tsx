@@ -1,25 +1,18 @@
 import { UserCog, UserPlus } from "lucide-react";
-import { Graph, GraphSkeleton } from "../../../components/ui/Chart"
-import DoughnutChart from "../../../components/ui/Chart/DoughnutChart/DoughnutChart"
-import { CountCard } from "../../../components/ui/CountCard";
-import { Header } from "../../../components/ui/Header";
 import { formatValue } from "../../../utils";
-import { ActionCard } from "../../../components/ui/ActionCard";
 import { NavLink } from "react-router";
-import { Button } from "../../../components/ui/Button";
 import { useTranslation } from "react-i18next";
-import { SectionHeader } from "../../../components/ui/SectionHeader";
 import { useState } from "react";
 import { useDebounce } from "../../../hooks/useDebounceHook";
 import { useFiltersHook } from "../../../hooks/useFiltersHook";
 import { DeleteManagerPopup, ManagersTable, ManagerTableFilters, UnblockManagerPopup } from "./views";
-import { Paginator } from "../../../components/ui/Paginator";
 import { useGetAllManagers, useGetManagersCount, useManageManagers } from "../../../hooks/useManagerHook";
 import { useManageAccount } from "../../../hooks/useAccountHook";
 import { MANAGER_GRAPH_LABEL_KEYS, MANAGER_HOVER_OFFSET, MANAGER_TRANSLATION_NAMESPACE, MANAGER_GRAPH_BACKGROUND_COLORS } from ".";
 import { HasPermission } from "../../../components/auth";
 import { useLanguageStore } from "../../../store/language.store";
 import { useUserStore } from "../../../store/user.store";
+import { ActionCard, Button, CountCard, DoughnutChart, Graph, GraphSkeleton, Header, Paginator, SectionHeader } from "../../../components/ui";
 
 export const ManageManagersPage = () => {
   const userRole = useUserStore((state) => state.role);

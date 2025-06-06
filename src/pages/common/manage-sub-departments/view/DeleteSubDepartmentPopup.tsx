@@ -1,5 +1,4 @@
-import { Popup } from "../../../../components/ui/Popup";
-import { Button } from "../../../../components/ui/Button";
+import { Popup, Button } from "../../../../components/ui";
 import { TFunction } from "i18next";
 import { SUB_DEPARTMENT_TRANSLATION_NAMESPACE } from "..";
 

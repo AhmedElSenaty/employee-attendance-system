@@ -1,8 +1,7 @@
 import { useGetDepartmentsList } from '../../../../hooks/useDepartmentHook';
-import { Checkbox, CheckboxSkeleton, Field, Label, LabelSkeleton, Radio, RadioSkeleton } from '../../../../components/ui/Forms';
+import { Checkbox, CheckboxSkeleton, Field, Label, LabelSkeleton, Radio, RadioSkeleton, Button, ButtonSkeleton } from '../../../../components/ui';
 import { Dispatch, SetStateAction } from 'react';
 import { IDepartment } from '../../../../interfaces';
-import { Button, ButtonSkeleton } from '../../../../components/ui/Button';
 import { ListChecks } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 

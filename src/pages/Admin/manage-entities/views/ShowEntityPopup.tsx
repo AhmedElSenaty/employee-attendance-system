@@ -1,8 +1,6 @@
-import { Popup } from "../../../../components/ui/Popup"
 import { TFunction } from "i18next";
 import { Building } from "lucide-react";
-import { Button } from "../../../../components/ui/Button";
-import { NormalSpinner } from "../../../../components/ui/Spinner";
+import { Button, NormalSpinner, Popup } from "../../../../components/ui/";
 import { IEntityData } from "../../../../interfaces";
 import { ENTITY_TRANSLATION_NAMESPACE } from "..";
 import { formatValue } from "../../../../utils";

@@ -8,7 +8,7 @@ import {
   SelectBoxSkeleton,
   InputSkeleton,
   LabelSkeleton
-} from "../../../../components/ui/Forms";
+} from "../../../../components/ui";
 import { TFunction } from "i18next";
 import { IAttendanceCredentials } from "../../../../interfaces";
 import { Calendar, Timer } from "lucide-react";

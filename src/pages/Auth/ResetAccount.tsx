@@ -1,5 +1,4 @@
-import { Button } from "../../components/ui/Button";
-import { Header } from "../../components/ui/Header";
+import { Header, Button } from "../../components/ui";
 import { useTranslation } from "react-i18next";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";

@@ -1,13 +1,10 @@
 import { useEffect, useState } from "react";
-import { Header } from "../../../components/ui/Header"
-import { SectionHeader } from "../../../components/ui/SectionHeader"
-import { Button, ButtonSkeleton } from "../../../components/ui/Button";
 import { useTranslation } from "react-i18next";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router";
 import { DeleteManagerPopup, RenderManagerInputs, UnblockManagerPopup } from "./views";
-import { Field, Input, InputErrorMessage, Label } from "../../../components/ui/Forms";
+import { Button, ButtonSkeleton, Field, Header, Input, InputErrorMessage, Label, SectionHeader } from "../../../components/ui";
 import { getManagerSchema, passwordUpdateSchema } from "../../../validation";
 import { IManagerCredentials } from "../../../interfaces";
 import { useGetManagerByID, useManageManagers } from "../../../hooks/useManagerHook";

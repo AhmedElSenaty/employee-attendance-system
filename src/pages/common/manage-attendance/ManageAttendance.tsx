@@ -1,14 +1,8 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Button } from "../../../components/ui/Button";
 import { CalendarSearch, CirclePlus, FileDown } from "lucide-react";
-import { SectionHeader } from "../../../components/ui/SectionHeader";
-import { Header } from "../../../components/ui/Header";
-import { Paginator } from "../../../components/ui/Paginator";
 import { downloadFile, formatValue, showToast } from "../../../utils";
 import { useDebounce } from "../../../hooks/useDebounceHook";
-import { ActionCard } from "../../../components/ui/ActionCard";
-import { CountCard } from "../../../components/ui/CountCard";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useFiltersHook } from "../../../hooks/useFiltersHook";
@@ -20,6 +14,7 @@ import { useGetAllAttendanceData, useGetDetailedAttendance, useManageAttendance 
 import { ATTENDANCE_TRANSLATION_NAMESPACE } from ".";
 import { HasPermission } from "../../../components/auth";
 import { useLanguageStore } from "../../../store/language.store";
+import { ActionCard, Button, CountCard, Header, Paginator, SectionHeader } from "../../../components/ui";
 
 const ManageAttendancePage = () => {
   const { t } = useTranslation(["common", ATTENDANCE_TRANSLATION_NAMESPACE]);

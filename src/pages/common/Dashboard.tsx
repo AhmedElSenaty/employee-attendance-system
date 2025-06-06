@@ -1,15 +1,10 @@
 import { Calendar, Check, X } from "lucide-react";
-import { BarChart, DoughnutChart, Graph, GraphSkeleton } from "../../components/ui/Chart";
-import { StatCard, StatCardSkeleton } from "../../components/ui/StatCard";
-import { Header } from "../../components/ui/Header";
-import { SectionHeader } from "../../components/ui/SectionHeader";
-import { Field, Input, Label, SelectBox, SelectBoxSkeleton } from "../../components/ui/Forms";
+import { AttendanceCard, AttendanceCardSkeleton, SectionHeader, Header, StatCard, StatCardSkeleton, BarChart, DoughnutChart, Graph, GraphSkeleton, Field, Input, Label, SelectBox, SelectBoxSkeleton } from "../../components/ui";
 import { useTranslation } from "react-i18next";
 import { useFiltersHook } from "../../hooks/useFiltersHook";
 import { useGetDepartmentsList } from "../../hooks/useDepartmentHook";
 import { useGetAttendanceOverview, useGetDepartmentAttendanceOverview, useGetLatestAttendance } from "../../hooks/useAttendanceHook";
 import { AttendanceCardData } from "../../interfaces";
-import { AttendanceCard, AttendanceCardSkeleton } from "../../components/ui/AttendanceCard";
 import { formatValue } from "../../utils";
 import { useLanguageStore } from "../../store/language.store";
 

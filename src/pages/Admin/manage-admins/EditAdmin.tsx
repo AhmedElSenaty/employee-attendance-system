@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
-import { Header } from "../../../components/ui/Header"
-import { SectionHeader } from "../../../components/ui/SectionHeader"
-import { Button, ButtonSkeleton } from "../../../components/ui/Button";
+import { Button, ButtonSkeleton, SectionHeader, Header, Field, Input, InputErrorMessage, Label } from "../../../components/ui";
 import { useTranslation } from "react-i18next";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -12,7 +10,6 @@ import { useNavigate, useParams } from "react-router";
 import { DeleteAdminPopup, RenderAdminInputs, UnblockAdminPopup } from "./views";
 import { RenderDepartmentCheckboxes } from "../manage-departments/views";
 import { RenderPermissionCheckboxes } from "../manage-permissions/views";
-import { Field, Input, InputErrorMessage, Label } from "../../../components/ui/Forms";
 import { passwordUpdateSchema } from "../../../validation";
 import { useManageDepartments } from "../../../hooks/useDepartmentHook";
 import { useManagePermissions } from "../../../hooks/usePermissionHook";

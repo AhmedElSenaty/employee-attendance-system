@@ -1,6 +1,5 @@
 import { useMemo } from "react";
-import { NoDataMessage, Table, TableCell, TableRow, TableSkeleton } from "../../../../components/ui/Table";
-import { Button } from "../../../../components/ui/Button";
+import { Button, NoDataMessage, Table, TableCell, TableRow, TableSkeleton, Tooltip } from "../../../../components/ui";
 import { Eye, FilePenLine, Trash2 } from "lucide-react";
 import { TFunction } from "i18next";
 import { IOfficialVacationData } from "../../../../interfaces";
@@ -43,35 +42,41 @@ const DevicesTable = ({ officialVacations, t, isLoading, handleShow, handleEdit,
                 <TableCell label={columns[4]}>
                   <div className="flex flex-wrap gap-2">
                     <HasPermission permission="View Official Vacations">
-                      <Button 
-                        variant="primary" 
-                        fullWidth={false}
-                        size={"sm"}
-                        icon={<Eye className="w-full h-full" />} 
-                        aria-label={t("buttons.view")}
-                        onClick={() => handleShow(id)}
-                      />
+                      <Tooltip content="View Official Vacations">
+                        <Button 
+                          variant="primary" 
+                          fullWidth={false}
+                          size={"sm"}
+                          icon={<Eye className="w-full h-full" />} 
+                          aria-label={t("buttons.view")}
+                          onClick={() => handleShow(id)}
+                        />
+                      </Tooltip>
                     </HasPermission>
                     <HasPermission permission="Update Official Vacation">
-                      <Button 
-                        variant="info" 
-                        fullWidth={false}
-                        size={"sm"} 
-                        icon={<FilePenLine className="w-full h-full" />} 
-                        aria-label={t("buttons.edit")} 
-                        onClick={() => handleEdit(id)}
-                      />
+                      <Tooltip content="Update Official Vacation">
+                        <Button 
+                          variant="info" 
+                          fullWidth={false}
+                          size={"sm"} 
+                          icon={<FilePenLine className="w-full h-full" />} 
+                          aria-label={t("buttons.edit")} 
+                          onClick={() => handleEdit(id)}
+                        />
+                      </Tooltip>
                     </HasPermission>
 
                     <HasPermission permission="Delete Official Vacation">
-                      <Button
-                        variant="danger"
-                        fullWidth={false}
-                        size={"sm"}
-                        icon={<Trash2 className="w-full h-full" />}
-                        aria-label={t("buttons.delete")}
-                        onClick={() => handleDelete(id)}
-                      />
+                      <Tooltip content="Delete Official Vacation">
+                        <Button
+                          variant="danger"
+                          fullWidth={false}
+                          size={"sm"}
+                          icon={<Trash2 className="w-full h-full" />}
+                          aria-label={t("buttons.delete")}
+                          onClick={() => handleDelete(id)}
+                        />
+                      </Tooltip>
                     </HasPermission>
                   </div>
                 </TableCell>

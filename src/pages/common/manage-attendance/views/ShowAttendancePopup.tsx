@@ -1,10 +1,7 @@
-import { Popup } from "../../../../components/ui/Popup"
 import { TFunction } from "i18next";
 import { AlertTriangle, CalendarSearch, CheckCircle } from "lucide-react";
-import { Button } from "../../../../components/ui/Button";
-import { NormalSpinner } from "../../../../components/ui/Spinner";
 import { IAttendanceData } from "../../../../interfaces";
-import { StatusBadge } from "../../../../components/ui/StatusBadge";
+import { Popup, Button, NormalSpinner, StatusBadge } from "../../../../components/ui";
 import { ATTENDANCE_TRANSLATION_NAMESPACE } from "..";
 import { HasPermission } from "../../../../components/auth";
 

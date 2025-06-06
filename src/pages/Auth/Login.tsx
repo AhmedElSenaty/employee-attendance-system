@@ -1,10 +1,9 @@
 // import { InputErrorMessage } from "../../components/ui/Forms"
-import { Header } from "../../components/ui/Header"
+import { Button, Header } from "../../components/ui"
 import { useTranslation } from "react-i18next"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ILoginCredentials } from "../../interfaces"
-import { Button } from "../../components/ui/Button/"
 import { loginSchema } from "../../validation"
 import { LoginAlerts, LoginInputs } from "./views"
 import { useLogin } from "../../hooks/useAuthHook"

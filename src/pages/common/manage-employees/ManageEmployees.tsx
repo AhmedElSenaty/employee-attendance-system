@@ -1,17 +1,10 @@
 import { UserCog, UserPlus } from "lucide-react";
-import { BarChart, Graph, GraphSkeleton } from "../../../components/ui/Chart"
-import { CountCard } from "../../../components/ui/CountCard";
-import { Header } from "../../../components/ui/Header";
 import { formatValue } from "../../../utils";
-import { ActionCard } from "../../../components/ui/ActionCard";
 import { NavLink } from "react-router";
-import { Button } from "../../../components/ui/Button";
 import { useTranslation } from "react-i18next";
-import { SectionHeader } from "../../../components/ui/SectionHeader";
 import { useState } from "react";
 import { useDebounce } from "../../../hooks/useDebounceHook";
 import { useFiltersHook } from "../../../hooks/useFiltersHook";
-import { Paginator } from "../../../components/ui/Paginator";
 import { DeleteEmployeePopup, EmployeesTable, EmployeeTableFilters, UnblockEmployeePopup } from "./views";
 import { useGetAllEmployees, useGetEmployeesCount, useManageEmployees } from "../../../hooks/useEmployeesHook";
 import { useManageAccount } from "../../../hooks/useAccountHook";
@@ -19,6 +12,7 @@ import { EMPLOYEE_BORDER_WIDTH, EMPLOYEE_GRAPH_BACKGROUND_COLORS, EMPLOYEE_GRAPH
 import { HasPermission } from "../../../components/auth";
 import { useLanguageStore } from "../../../store/language.store";
 import { useUserStore } from "../../../store/user.store";
+import { ActionCard, BarChart, Button, CountCard, Graph, GraphSkeleton, Header, Paginator, SectionHeader } from "../../../components/ui";
 
 export const ManageEmployeesPage = () => {
   const userRole = useUserStore((state) => state.role);

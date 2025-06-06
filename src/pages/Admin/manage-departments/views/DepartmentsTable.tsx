@@ -1,6 +1,5 @@
 import { useMemo } from "react";
-import { NoDataMessage, Table, TableCell, TableRow, TableSkeleton } from "../../../../components/ui/Table";
-import { Button } from "../../../../components/ui/Button";
+import { NoDataMessage, Table, TableCell, TableRow, TableSkeleton, Button, Tooltip } from "../../../../components/ui";
 import { Eye, FilePenLine, Trash2 } from "lucide-react";
 import { TFunction } from "i18next";
 import { formatValue, truncateText } from "../../../../utils";
@@ -44,34 +43,40 @@ const DepartmentsTable = ({ departments, t, isLoading, handleShowDepartment, han
                 <TableCell label={columns[4]}>
                   <div className="flex flex-wrap gap-2">
                     <HasPermission permission="View Departments">
-                      <Button 
-                        variant="primary" 
-                        fullWidth={false}
-                        size={"sm"}
-                        icon={<Eye className="w-full h-full" />} 
-                        aria-label={t("buttons.view")}
-                        onClick={() => handleShowDepartment(department.id)}
-                      />
+                      <Tooltip content="View Departments">
+                        <Button 
+                          variant="primary" 
+                          fullWidth={false}
+                          size={"sm"}
+                          icon={<Eye className="w-full h-full" />} 
+                          aria-label={t("buttons.view")}
+                          onClick={() => handleShowDepartment(department.id)}
+                        />
+                      </Tooltip>
                     </HasPermission>
                     <HasPermission permission="Update Department">
-                      <Button 
-                        variant="info" 
-                        fullWidth={false}
-                        size={"sm"} 
-                        icon={<FilePenLine className="w-full h-full" />} 
-                        aria-label={t("buttons.edit")} 
-                        onClick={() => handleEditDepartment(department.id)}
-                      />
+                      <Tooltip content="Update Department">
+                        <Button 
+                          variant="info" 
+                          fullWidth={false}
+                          size={"sm"} 
+                          icon={<FilePenLine className="w-full h-full" />} 
+                          aria-label={t("buttons.edit")} 
+                          onClick={() => handleEditDepartment(department.id)}
+                        />
+                      </Tooltip>
                     </HasPermission>
                     <HasPermission permission="Delete Department">
-                      <Button
-                        variant="danger"
-                        fullWidth={false}
-                        size={"sm"}
-                        icon={<Trash2 className="w-full h-full" />}
-                        aria-label={t("buttons.delete")}
-                        onClick={() => handleDeleteDepartment(department.id)}
-                      />
+                      <Tooltip content="Delete Department">
+                        <Button
+                          variant="danger"
+                          fullWidth={false}
+                          size={"sm"}
+                          icon={<Trash2 className="w-full h-full" />}
+                          aria-label={t("buttons.delete")}
+                          onClick={() => handleDeleteDepartment(department.id)}
+                        />
+                      </Tooltip>
                     </HasPermission>
                   </div>
                 </TableCell>

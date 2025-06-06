@@ -1,6 +1,5 @@
 import { useMemo } from "react";
-import { NoDataMessage, Table, TableCell, TableRow, TableSkeleton } from "../../../../components/ui/Table";
-import { Button } from "../../../../components/ui/Button";
+import { Button, NoDataMessage, Table, TableCell, TableRow, TableSkeleton, Tooltip } from "../../../../components/ui";
 import { FilePenLine, Trash2 } from "lucide-react";
 import { TFunction } from "i18next";
 import { IProfileData } from "../../../../interfaces";
@@ -42,25 +41,29 @@ const ProfilesTable = ({ profiles, t, isLoading, handleDeleteProfile }: IProfile
                 <TableCell label={columns[4]}>
                   <div className="flex flex-wrap gap-2">
                     <HasPermission permission="View Profiles">
-                      <NavLink to={`/admin/edit-profile/${profile.id}`}>
-                        <Button 
-                          variant="info" 
-                          fullWidth={false}
-                          size={"sm"} 
-                          icon={<FilePenLine className="w-full h-full" />} 
-                          aria-label={t("buttons.edit")} 
-                        />
-                      </NavLink>
+                      <Tooltip content="View Profiles">
+                        <NavLink to={`/admin/edit-profile/${profile.id}`}>
+                          <Button 
+                            variant="info" 
+                            fullWidth={false}
+                            size={"sm"} 
+                            icon={<FilePenLine className="w-full h-full" />} 
+                            aria-label={t("buttons.edit")} 
+                          />
+                        </NavLink>
+                      </Tooltip>
                     </HasPermission>
                     <HasPermission permission="Delete Profile">
-                      <Button
-                        variant="danger"
-                        fullWidth={false}
-                        size={"sm"}
-                        icon={<Trash2 className="w-full h-full" />}
-                        aria-label={t("buttons.delete")}
-                        onClick={() => handleDeleteProfile(profile.id)}
-                      />
+                      <Tooltip content="Delete Profile">
+                        <Button
+                          variant="danger"
+                          fullWidth={false}
+                          size={"sm"}
+                          icon={<Trash2 className="w-full h-full" />}
+                          aria-label={t("buttons.delete")}
+                          onClick={() => handleDeleteProfile(profile.id)}
+                        />
+                      </Tooltip>
                     </HasPermission>
                   </div>
                 </TableCell>

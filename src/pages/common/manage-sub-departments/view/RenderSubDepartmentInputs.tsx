@@ -1,5 +1,5 @@
 import { FieldErrors, UseFormRegister, UseFormWatch } from "react-hook-form";
-import { Field, Input, InputErrorMessage, Label, SelectBox, SelectBoxSkeleton, Textarea } from "../../../../components/ui/Forms";
+import { Field, Input, InputErrorMessage, Label, SelectBox, SelectBoxSkeleton, Textarea } from "../../../../components/ui";
 import { TFunction } from "i18next";
 import { ISubDepartmentCredentials } from "../../../../interfaces";
 import { useGetEntitiesList } from "../../../../hooks/useEntitiesHook";

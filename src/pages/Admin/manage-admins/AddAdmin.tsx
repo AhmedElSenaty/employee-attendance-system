@@ -1,7 +1,5 @@
 import { useState } from "react";
-import { Header } from "../../../components/ui/Header"
-import { SectionHeader } from "../../../components/ui/SectionHeader"
-import { Button } from "../../../components/ui/Button";
+import { SectionHeader, Header, Button, Description } from "../../../components/ui"
 import { useTranslation } from "react-i18next";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -11,7 +9,6 @@ import { IAdminCredentials } from "../../../interfaces";
 import { getAdminSchema } from "../../../validation";
 import { RenderDepartmentCheckboxes } from "../manage-departments/views";
 import { RenderAdminInputs } from "./views";
-import { Description } from "../../../components/ui/Forms";
 import { RenderPermissionCheckboxes } from "../manage-permissions/views";
 import { ADMIN_TRANSLATION_NAMESPACE } from ".";
 

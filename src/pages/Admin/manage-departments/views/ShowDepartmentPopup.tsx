@@ -1,8 +1,6 @@
-import { Popup } from "../../../../components/ui/Popup"
 import { TFunction } from "i18next";
 import { Building } from "lucide-react";
-import { Button } from "../../../../components/ui/Button";
-import { NormalSpinner } from "../../../../components/ui/Spinner";
+import { NormalSpinner, Button, Popup } from "../../../../components/ui";
 import { IDepartmentData } from "../../../../interfaces";
 import { DEPARTMENT_TRANSLATION_NAMESPACE } from "..";
 import { HasPermission } from "../../../../components/auth";

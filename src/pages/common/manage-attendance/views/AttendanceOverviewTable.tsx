@@ -1,15 +1,14 @@
 import { TFunction } from "i18next";
 import { IAttendanceSummaryData } from "../../../../interfaces";
 import { useMemo } from "react";
-import { NoDataMessage, Table, TableCell, TableRow, TableSkeleton } from "../../../../components/ui/Table";
 import { NavLink } from "react-router";
-import { Button } from "../../../../components/ui/Button";
 import { Calendar } from "lucide-react";
 import { ATTENDANCE_SUMMARY_TABLE_COLUMNS, ATTENDANCE_TRANSLATION_NAMESPACE } from "..";
 import { formatValue } from "../../../../utils";
 import { HasPermission } from "../../../../components/auth";
 import { useLanguageStore } from "../../../../store/language.store";
 import { useUserStore } from "../../../../store/user.store";
+import { Button, NoDataMessage, Table, TableCell, TableRow, TableSkeleton, Tooltip } from "../../../../components/ui";
 
 interface IAttendanceOverviewTableProps {
   attendanceSummary: IAttendanceSummaryData[];
@@ -48,14 +47,16 @@ const AttendanceOverviewTable = ({ attendanceSummary, isLoading, t }: IAttendanc
                 <TableCell label={columns[8]}>
                   <div className="flex flex-wrap gap-2">
                     <HasPermission permission="View Attendances">
-                      <NavLink to={`/${userRole}/manage-employee/${attendance.employeeId}/calender`}>
-                        <Button
-                          variant="success"
-                          fullWidth={false}
-                          size={"sm"}
-                          icon={<Calendar className="w-full h-full" />}
-                        />
-                      </NavLink>
+                      <Tooltip content="View Attendances">
+                        <NavLink to={`/${userRole}/manage-employee/${attendance.employeeId}/calender`}>
+                          <Button
+                            variant="success"
+                            fullWidth={false}
+                            size={"sm"}
+                            icon={<Calendar className="w-full h-full" />}
+                          />
+                        </NavLink>
+                      </Tooltip>
                     </HasPermission>
                   </div>
                 </TableCell>
