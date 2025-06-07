@@ -11,7 +11,7 @@ export * from "./authInterfaces";
 export * from "./resetAccountInterfaces";
 export * from "./permission.interfaces"
 export * from "./officialVacation.Interfaces";
-export * from "./entityInterfaces";
+export * from "./entity.interfaces";
 export * from "./device.interfaces";
 export * from "./departmentInterfaces";
 export * from "./subDepartmentInterfaces";

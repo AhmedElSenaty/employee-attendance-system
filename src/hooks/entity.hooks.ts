@@ -1,45 +1,56 @@
 import { useEffect } from "react";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createEntity, deleteEntityByID, fetchAllEntities, fetchEntitiesList, fetchEntityByID, updateEntity } from "../services/admin/";
-import { IEntityCredentials, IErrorResponse, initialMetadata, UseGetAllEntitiesReturn, UseGetEntityByIDReturn,  } from "../interfaces";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
+import {
+  IErrorResponse,
+  IEntityCredentials,
+  UseGetAllEntitiesReturn,
+  UseGetEntityByIDReturn,
+  initialMetadata,
+  UseGetEntitiesListReturn,
+} from "../interfaces";
 import { getTranslatedMessage, handleApiError, showToast } from "../utils";
 import { useLanguageStore } from "../store/language.store";
 import { useUserStore } from "../store/user.store";
+import { EntityService } from "../services";
 
-const ENTITIES_QUERY_KEY = "entities";
-const ENTITIES_LIST_QUERY_KEY = "entitiesList";
-const ENTITY_DETAILS_QUERY_KEY = "entityDetails";
+export const ENTITIES_QUERY_KEY = "Entities";
+export const ENTITY_DETAILS_QUERY_KEY = "EntityDetails";
+export const ENTITIES_LIST_QUERY_KEY = "entitiesList";
 
-const useGetAllEntities = (
-  page: number, 
-  pageSize: number, 
-  searchKey: string, 
+export const useGetEntities = (
+  page: number,
+  pageSize: number,
+  searchKey: string,
   debouncedSearchQuery: string
 ): UseGetAllEntitiesReturn => {
   const token = useUserStore((state) => state.token);
+  const entityService = new EntityService(token);
+
   const { data, isLoading } = useQuery({
     queryKey: [ENTITIES_QUERY_KEY, page, pageSize, searchKey, debouncedSearchQuery],
-    queryFn: () => fetchAllEntities(page, pageSize, searchKey, debouncedSearchQuery, token),
-    enabled: !!token
+    queryFn: () => entityService.fetchAll(page, pageSize, searchKey, debouncedSearchQuery),
+    enabled: !!token,
   });
 
-  return { 
-    entities: data?.data.entities || [], 
-    totalEntities: data?.data.totalCount || 0, 
-    metadata: data?.data.metadata || initialMetadata, 
-    isEntitiesDataLoading: isLoading 
+  return {
+    entities: data?.data?.entities || [],
+    metadata: data?.data?.metadata || initialMetadata,
+    totalEntities: data?.data?.totalCount || 0,
+    isEntitiesDataLoading: isLoading,
   };
 };
 
-const useGetEntityByID = (
-  entityID: number, 
+export const useGetEntityByID = (
+  entityID: number,
   resetEditInputs?: (data: IEntityCredentials) => void
 ): UseGetEntityByIDReturn => {
   const token = useUserStore((state) => state.token);
+  const entityService = new EntityService(token);
+
   const { data, isLoading } = useQuery({
     queryKey: [ENTITY_DETAILS_QUERY_KEY, entityID],
-    queryFn: () => fetchEntityByID(entityID, token),
+    queryFn: () => entityService.fetchByID(entityID),
     enabled: !!entityID && !!token,
   });
 
@@ -49,30 +60,36 @@ const useGetEntityByID = (
     }
   }, [data, resetEditInputs]);
 
-  return { 
-    entity: data?.data, 
-    isEntityDataLoading: isLoading 
+  return {
+    entity: data?.data,
+    isEntityDataLoading: isLoading,
   };
 };
 
-const useGetEntitiesList = () => {
+export const useGetEntitiesList = (): UseGetEntitiesListReturn => {
   const token = useUserStore((state) => state.token);
+  const entityService = new EntityService(token);
+
   const { data, isLoading } = useQuery({
     queryKey: [ENTITIES_LIST_QUERY_KEY],
-    queryFn: () => fetchEntitiesList(token),
+    queryFn: () => entityService.fetchList(),
     enabled: !!token,
   });
 
-  return { entitiesList: data ?? [], entitiesListIsLoading: isLoading };
+  return {
+    entitiesList: data ?? [],
+    entitiesListIsLoading: isLoading,
+  };
 };
 
-const useManageEntities = () => {
+export const useCreateEntity = () => {
   const token = useUserStore((state) => state.token);
   const { language } = useLanguageStore();
   const queryClient = useQueryClient();
+  const entityService = new EntityService(token);
 
-  const addMutation = useMutation({
-    mutationFn: (entityData: IEntityCredentials) => createEntity(entityData, token),
+  return useMutation({
+    mutationFn: (entityData: IEntityCredentials) => entityService.create(entityData),
     onSuccess: ({ status, data }) => {
       queryClient.invalidateQueries({ queryKey: [ENTITIES_QUERY_KEY] });
 
@@ -86,55 +103,50 @@ const useManageEntities = () => {
       handleApiError(axiosError, language);
     },
   });
-
-  const updateMutation = useMutation({
-    mutationFn: (entityData: IEntityCredentials) => updateEntity(entityData, token),
-    onSuccess: ({ status, data }) => {
-      queryClient.invalidateQueries({ queryKey: [ENTITIES_QUERY_KEY] });
-
-      if (status === 200) {
-        const message = getTranslatedMessage(data.message ?? "", language);
-        showToast("success", message);
-      }
-    },
-    onError: (error) => {
-      const axiosError = error as AxiosError<IErrorResponse>;
-      handleApiError(axiosError, language);
-    },
-  });
-
-  const deleteMutation = useMutation({
-    mutationFn: (entityID: number) => deleteEntityByID(entityID, token),
-    onSuccess: ({ status, data }) => {
-      queryClient.invalidateQueries({ queryKey: [ENTITIES_QUERY_KEY] });
-
-      if (status === 200) {
-        const message = getTranslatedMessage(data.message ?? "", language);
-        showToast("success", message);
-      }
-    },
-    onError: (error) => {
-      const axiosError = error as AxiosError<IErrorResponse>;
-      handleApiError(axiosError, language);
-    },
-  });
-
-  return {
-    addEntity: addMutation.mutate,
-    isAdding: addMutation.isPending,
-
-    updateEntity: updateMutation.mutate,
-    isUpdating: updateMutation.isPending,
-    
-    deleteEntity: deleteMutation.mutate,
-    isDeleting: deleteMutation.isPending,
-  };
 };
 
+export const useUpdateEntity = () => {
+  const token = useUserStore((state) => state.token);
+  const { language } = useLanguageStore();
+  const queryClient = useQueryClient();
+  const entityService = new EntityService(token);
 
-export {
-  useGetAllEntities,
-  useGetEntityByID,
-  useGetEntitiesList,
-  useManageEntities
+  return useMutation({
+    mutationFn: (entityData: IEntityCredentials) => entityService.update(entityData),
+    onSuccess: ({ status, data }) => {
+      queryClient.invalidateQueries({ queryKey: [ENTITIES_QUERY_KEY] });
+
+      if (status === 200) {
+        const message = getTranslatedMessage(data.message ?? "", language);
+        showToast("success", message);
+      }
+    },
+    onError: (error) => {
+      const axiosError = error as AxiosError<IErrorResponse>;
+      handleApiError(axiosError, language);
+    },
+  });
+};
+
+export const useDeleteEntity = () => {
+  const token = useUserStore((state) => state.token);
+  const { language } = useLanguageStore();
+  const queryClient = useQueryClient();
+  const entityService = new EntityService(token);
+
+  return useMutation({
+    mutationFn: (entityID: number) => entityService.delete(entityID),
+    onSuccess: ({ status, data }) => {
+      queryClient.invalidateQueries({ queryKey: [ENTITIES_QUERY_KEY] });
+
+      if (status === 200) {
+        const message = getTranslatedMessage(data.message ?? "", language);
+        showToast("success", message);
+      }
+    },
+    onError: (error) => {
+      const axiosError = error as AxiosError<IErrorResponse>;
+      handleApiError(axiosError, language);
+    },
+  });
 };

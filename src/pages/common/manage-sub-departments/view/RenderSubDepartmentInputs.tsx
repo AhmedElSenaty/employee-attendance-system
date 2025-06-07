@@ -2,9 +2,9 @@ import { FieldErrors, UseFormRegister, UseFormWatch } from "react-hook-form";
 import { Field, Input, InputErrorMessage, Label, SelectBox, SelectBoxSkeleton, Textarea } from "../../../../components/ui";
 import { TFunction } from "i18next";
 import { ISubDepartmentCredentials } from "../../../../interfaces";
-import { useGetEntitiesList } from "../../../../hooks/useEntitiesHook";
 import { useGetDepartmentsList } from "../../../../hooks/useDepartmentHook";
 import { SUB_DEPARTMENT_TRANSLATION_NAMESPACE } from "..";
+import { useGetEntitiesList } from "../../../../hooks/entity.hooks";
 
 interface IRenderSubDepartmentInputsProps {
   register: UseFormRegister<ISubDepartmentCredentials>;

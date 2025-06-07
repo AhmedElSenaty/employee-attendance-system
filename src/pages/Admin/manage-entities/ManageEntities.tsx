@@ -10,10 +10,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { IEntityCredentials } from "../../../interfaces"
 import { DeleteEntityPopup, EditEntityPopup, EntitiesTable, EntityTableFilters, RenderEntityInputs, ShowEntityPopup } from "./views"
 import { entitySchema } from "../../../validation"
-import { useGetAllEntities, useGetEntityByID, useManageEntities } from "../../../hooks/useEntitiesHook"
 import { ENTITY_TRANSLATION_NAMESPACE } from "."
 import { HasPermission } from "../../../components/auth"
 import { useLanguageStore } from "../../../store/language.store"
+import { useCreateEntity, useDeleteEntity, useGetEntities, useGetEntityByID, useUpdateEntity } from "../../../hooks/entity.hooks"
 
 const ManageEntitiesPage = () => {
   const { t } = useTranslation(["common", ENTITY_TRANSLATION_NAMESPACE]);
@@ -54,19 +54,14 @@ const ManageEntitiesPage = () => {
   const { page, pageSize, searchKey, search, setFilters } = useFiltersHook()
 
   const debouncedSearchQuery = useDebounce(search, 650);
-  const { entities, totalEntities, metadata, isEntitiesDataLoading } = useGetAllEntities(Number(page) || 1, Number(pageSize) || 5, searchKey || "", debouncedSearchQuery || "");
+  const { entities, totalEntities, metadata, isEntitiesDataLoading } = useGetEntities(Number(page) || 1, Number(pageSize) || 5, searchKey || "", debouncedSearchQuery || "");
 
   const { entity, isEntityDataLoading } = useGetEntityByID(selectedID, resetEditInputs);
 
-
-  const {
-    addEntity,
-    updateEntity,
-    deleteEntity,
-    isAdding,
-    isUpdating,
-    isDeleting
-  } = useManageEntities();
+  const { mutate: addEntity, isPending: isAdding } = useCreateEntity();
+  const { mutate: updateEntity, isPending: isUpdating } = useUpdateEntity();
+  const { mutate: deleteEntity, isPending: isDeleting } = useDeleteEntity();
+  
 
   const handleConfirmAdd: SubmitHandler<IEntityCredentials> = (request: IEntityCredentials) => {
     addEntity(request)

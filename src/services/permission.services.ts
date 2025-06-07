@@ -1,6 +1,6 @@
 import axiosInstance from "../config/axios.config";
 import { IPermissionsData } from "../interfaces";
-import { BaseService } from "./BaseService";
+import { BaseService } from "./base.service";
 
 export class PermissionService extends BaseService {
 

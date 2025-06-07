@@ -17,7 +17,6 @@ export interface IEntityData {
   description: string | null;
 }
 
-
 export interface UseGetAllEntitiesReturn {
   entities: IEntityData[];
   metadata: IMetadata;
@@ -28,4 +27,9 @@ export interface UseGetAllEntitiesReturn {
 export interface UseGetEntityByIDReturn {
   entity: IEntityData;
   isEntityDataLoading: boolean;
+}
+
+export interface UseGetEntitiesListReturn {
+  entitiesList: IEntity[];
+  entitiesListIsLoading: boolean;
 }

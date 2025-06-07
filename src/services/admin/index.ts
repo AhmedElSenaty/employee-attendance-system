@@ -6,6 +6,5 @@ export * from "./employeeServices"
 
 export * from "./attendanceServices"
 export * from "./departmentsServices"
-export * from "./entitiesServices"
 export * from "./reportsServices"
 export * from "./subDepartmentsServices"
