@@ -88,3 +88,6 @@ export const uploadEmployeeImage = async (employeeId: string, imageFile: File, t
     throw error;
   }
 };
+
+
+export * from "./officialVacation.services"

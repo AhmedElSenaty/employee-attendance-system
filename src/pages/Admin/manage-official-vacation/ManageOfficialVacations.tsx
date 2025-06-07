@@ -8,12 +8,12 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useFiltersHook } from "../../../hooks/useFiltersHook";
 import { IOfficialVacationCredentials } from "../../../interfaces";
 import { officialVacationSchema } from "../../../validation";
-import { useGetAllOfficialVacations, useGetOfficialVacationByID, useManageOfficialVacations } from "../../../hooks/useOfficialVacationHook";
 import { AddOfficialVacationPopup, DeleteOfficialVacationPopup, EditOfficialVacationPopup, OfficialVacationsTable, OfficialVacationTableFilters, RenderOfficialVacationInputs, ShowOfficialVacationPopup } from "./views";
 import { OFFICIAL_VACATIONS_TRANSLATION_NAMESPACE } from ".";
 import { HasPermission } from "../../../components/auth";
 import { useLanguageStore } from "../../../store/language.store";
 import { ActionCard, Button, CountCard, Header, Paginator, SectionHeader } from "../../../components/ui";
+import { useCreateOfficialVacation, useDeleteOfficialVacation, useGetOfficialVacationById, useGetOfficialVacations, useUpdateOfficialVacation } from "../../../hooks/useOfficialVacationHook";
 
 const ManageOfficialVacationsPage = () => {
   const { t } = useTranslation(["common", OFFICIAL_VACATIONS_TRANSLATION_NAMESPACE]);
@@ -58,20 +58,16 @@ const ManageOfficialVacationsPage = () => {
 
   const debouncedSearchQuery = useDebounce(search, 650);
 
-  const { officialVacations, totalOfficialVacations, metadata, isOfficialVacationsDataLoading } = useGetAllOfficialVacations(Number(page) || 1, Number(pageSize) || 5, searchKey || "", debouncedSearchQuery || "");
+  const { officialVacations, totalOfficialVacations, metadata, isOfficialVacationsDataLoading } = useGetOfficialVacations(Number(page) || 1, Number(pageSize) || 5, searchKey || "", debouncedSearchQuery || "");
 
-  const { officialVacation, isOfficialVacationDataLoading } = useGetOfficialVacationByID(selectedID, reset);
+  const { officialVacation, isOfficialVacationDataLoading } = useGetOfficialVacationById(selectedID, reset);
 
   const renderOfficialVacationInputs = <RenderOfficialVacationInputs register={register} errors={errors} t={t} isLoading={isOfficialVacationDataLoading} />
 
-  const {
-    addOfficialVacation,
-    isAdding,
-    updateOfficialVacation,
-    isUpdating,
-    deleteOfficialVacation,
-    isDeleting
-  } = useManageOfficialVacations();
+  const { mutate: addOfficialVacation, isPending: isAdding } = useCreateOfficialVacation();
+  const { mutate: updateOfficialVacation, isPending: isUpdating } = useUpdateOfficialVacation();
+  const { mutate: deleteOfficialVacation, isPending: isDeleting } = useDeleteOfficialVacation();
+  
 
   /* ____________ HANDLER ____________ */
   const handleConfirmAdd: SubmitHandler<IOfficialVacationCredentials> = (request: IOfficialVacationCredentials) => {
