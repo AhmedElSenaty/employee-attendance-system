@@ -7,10 +7,10 @@ import { formatValue } from "../../../utils";
 import { BookType, CirclePlus } from "lucide-react";
 import { NavLink } from "react-router";
 import { DeleteProfilePopup, ProfilesTable, ProfileTableFilters } from "./views";
-import { useGetAllProfiles, useManageProfiles } from "../../../hooks/useProfileHook";
 import { PROFILE_TRANSLATION_NAMESPACE } from ".";
 import { HasPermission } from "../../../components/auth";
 import { useLanguageStore } from "../../../store/language.store";
+import { useDeleteProfile, useGetProfiles } from "../../../hooks/profile.hooks";
 
 const ManageProfilesPage = () => {
   const { t } = useTranslation(["common", PROFILE_TRANSLATION_NAMESPACE]);
@@ -28,17 +28,15 @@ const ManageProfilesPage = () => {
 
   const debouncedSearchQuery = useDebounce(search, 650);
 
-  const { profiles, totalProfiles, metadata, isProfilesDataLoading } = useGetAllProfiles(
+  const { profiles, totalProfiles, metadata, isProfilesDataLoading } = useGetProfiles(
     Number(page) || 1, 
     Number(pageSize) || 5, 
     searchKey || "", 
     debouncedSearchQuery || ""
   );
 
-  const {
-    deleteProfile,
-    isDeleting
-  } = useManageProfiles();
+  const { mutate: deleteProfile, isPending: isDeleting } = useDeleteProfile();
+
   
   const handleConfirmDelete = () => {
     if (!selectedID) return;

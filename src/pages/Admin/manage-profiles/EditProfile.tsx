@@ -8,9 +8,9 @@ import { IProfileCredentials } from "../../../interfaces";
 import { DeleteProfilePopup, RenderProfileInputs } from "./views";
 import { useNavigate, useParams } from "react-router";
 import { RenderPermissionCheckboxes } from "../manage-permissions/views";
-import { useGetProfileByID, useManageProfiles } from "../../../hooks/useProfileHook";
 import { PROFILE_TRANSLATION_NAMESPACE } from ".";
 import { HasPermission } from "../../../components/auth";
+import { useDeleteProfile, useGetProfileByID, useUpdateProfile } from "../../../hooks/profile.hooks";
 
 const EditProfilePage = () => {
   const { id } = useParams();
@@ -37,10 +37,9 @@ const EditProfilePage = () => {
     setCheckedPermissions(profile?.permissionsIds || [])
   }, [profile, isProfileDataLoading])
 
-  const {
-    updateProfile,
-    isUpdateing
-  } = useManageProfiles();
+
+  const { mutate: updateProfile, isPending: isUpdating } = useUpdateProfile();
+
 
   const submitForm: SubmitHandler<IProfileCredentials> = async (request: IProfileCredentials) => {
     request.permissionsIds = checkedPermissions || []
@@ -48,12 +47,8 @@ const EditProfilePage = () => {
     
   };
 
+  const { mutate: deleteProfile, isPending: isDeleting } = useDeleteProfile();
 
-  const {
-    deleteProfile,
-    isDeleting
-  } = useManageProfiles();
-  
   const handleConfirmDelete = () => {
     deleteProfile(profile.id)
     setIsDeleteProfilePopupOpen(false)
@@ -98,7 +93,7 @@ const EditProfilePage = () => {
                 ) : (
                   <>
                     <HasPermission permission="Update Profile">
-                      <Button fullWidth={false} isLoading={isUpdateing} >{t("updateProfilePage.saveProfileButton", { ns: PROFILE_TRANSLATION_NAMESPACE })}</Button>
+                      <Button fullWidth={false} isLoading={isUpdating} >{t("updateProfilePage.saveProfileButton", { ns: PROFILE_TRANSLATION_NAMESPACE })}</Button>
                     </HasPermission>
                     <HasPermission permission="Delete Profile">
                       <Button

@@ -3,7 +3,7 @@ import { Field, Input, InputErrorMessage, InputSkeleton, Label, LabelSkeleton, S
 import { IAdminCredentials } from "../../../../interfaces";
 import { TFunction } from "i18next";
 import { useEffect, useState } from "react";
-import { useGetProfilePermissions, useGetProfilesList } from "../../../../hooks/useProfileHook";
+import { useGetProfilePermissions, useGetProfilesList } from "../../../../hooks/profile.hooks";
 import { ADMIN_TRANSLATION_NAMESPACE } from "..";
 import { useLanguageStore } from "../../../../store/language.store";
 
@@ -35,7 +35,7 @@ const RenderAdminInputs = ({
 
   // Fetch profile permissions when profile is selected
   const { profilePermissions, profilePermissionsIsLoading } = useGetProfilePermissions(selectedProfile);
-
+  console.log(profilePermissions);
   useEffect(() => {
     if (selectedProfile !== 0 && !profilePermissionsIsLoading) {
       // Pass the fetched permissions to the parent component

@@ -3,7 +3,7 @@ import { Field, Input, InputErrorMessage, InputSkeleton, Label, LabelSkeleton, S
 import { IManagerCredentials } from "../../../../interfaces";
 import { TFunction } from "i18next";
 import { useEffect, useState } from "react";
-import { useGetProfilePermissions, useGetProfilesList } from "../../../../hooks/useProfileHook";
+import { useGetProfilePermissions, useGetProfilesList } from "../../../../hooks/profile.hooks";
 import { MANAGER_TRANSLATION_NAMESPACE } from "..";
 import { useLanguageStore } from "../../../../store/language.store";
 

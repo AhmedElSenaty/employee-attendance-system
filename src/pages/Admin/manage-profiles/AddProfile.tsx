@@ -8,8 +8,8 @@ import { Description, Button, Header, SectionHeader } from "../../../components/
 import { RenderProfileInputs } from "./views";
 import { useNavigate } from "react-router";
 import { RenderPermissionCheckboxes } from "../manage-permissions/views";
-import { useManageProfiles } from "../../../hooks/useProfileHook";
 import { PROFILE_TRANSLATION_NAMESPACE } from ".";
+import { useCreateProfile } from "../../../hooks/profile.hooks";
 
 const AddProfilePage = () => {
   const navigate = useNavigate();
@@ -26,24 +26,27 @@ const AddProfilePage = () => {
     mode: "onChange",
   });
 
-  const {
-    addProfileAndGetID,
-    isAdding
-  } = useManageProfiles();
+  const { mutateAsync: addProfile, isPending: isAdding } = useCreateProfile();
 
-  const submitForm: SubmitHandler<IProfileCredentials> = async (request: IProfileCredentials) => {
+  const submitForm: SubmitHandler<IProfileCredentials> = async (formData) => {
     try {
-      request.permissionsIds = checkedPermissions || []
-      
-      // Use the addAdminWithResponse function
-      const profileID = (await addProfileAndGetID(request)).data?.data.id;
-      navigate(`/admin/edit-profile/${profileID}`)
+      const request: IProfileCredentials = {
+        ...formData,
+        permissionsIds: checkedPermissions ?? [],
+      };
+  
+      const response = await addProfile(request);
+      const profileId = response?.data?.data?.id;
+  
+      if (profileId) {
+        navigate(`/admin/edit-profile/${profileId}`);
+      } else {
+        console.error("No profile ID returned in response:", response);
+      }
     } catch (error) {
-      // Handle error here if needed
       console.error("Error adding profile:", error);
     }
   };
-
   return (
     <>
       <div className="sm:p-5 p-3 space-y-5">

@@ -33,3 +33,13 @@ export interface UseGetProfileByIDReturn {
   profile: IProfileData;
   isProfileDataLoading: boolean;
 }
+
+export interface UseGetProfilesListReturn {
+  profilesList: IProfile[]; // Assuming `Profile` is your model type
+  profilesListIsLoading: boolean;
+}
+
+export interface UseGetProfilePermissionsReturn {
+  profilePermissions: string[]; // Assuming `Permission` is your model type
+  profilePermissionsIsLoading: boolean;
+}
