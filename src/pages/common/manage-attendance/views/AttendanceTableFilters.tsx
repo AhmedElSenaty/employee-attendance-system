@@ -3,7 +3,7 @@ import { Button, Field, Input, Label, SelectBox, SelectBoxSkeleton } from "../..
 import { formatValue } from "../../../../utils";
 import { Calendar, Search, Timer } from "lucide-react";
 import { useFiltersHook } from "../../../../hooks/useFiltersHook";
-import { useGetDepartmentsList } from "../../../../hooks/useDepartmentHook";
+import { useGetDepartmentsList } from "../../../../hooks/department.hooks";
 import { useDepartmentSubDepartmentsList } from "../../../../hooks/useSubDepartmentHook";
 import { ATTENDANCE_TRANSLATION_NAMESPACE } from "..";
 import { useLanguageStore } from "../../../../store/language.store";

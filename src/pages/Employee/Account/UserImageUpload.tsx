@@ -1,6 +1,6 @@
 import { useState, FormEvent } from "react";
 import { ImageIcon, CheckCircle2 } from "lucide-react";
-import { FileUpload } from "../../../components/ui/Forms";
+import { FileUpload } from "../../../components/ui/Form";
 import { Button } from "../../../components/ui/Button";
 import { showToast } from "../../../utils";
 import useFetchMe, { useManageMe } from "../../../hooks/useMeHook";

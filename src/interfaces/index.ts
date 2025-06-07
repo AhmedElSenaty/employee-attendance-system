@@ -13,7 +13,7 @@ export * from "./permission.interfaces"
 export * from "./officialVacation.Interfaces";
 export * from "./entity.interfaces";
 export * from "./device.interfaces";
-export * from "./departmentInterfaces";
+export * from "./department.interfaces";
 export * from "./subDepartmentInterfaces";
 export * from "./attendanceInterfaces";
 export * from "./exportFileInterfaces"

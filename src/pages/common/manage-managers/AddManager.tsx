@@ -6,7 +6,7 @@ import { useNavigate } from "react-router";
 import { IManagerCredentials } from "../../../interfaces";
 import { getManagerSchema } from "../../../validation";
 import { RenderManagerInputs } from "./views";
-import { Description } from "../../../components/ui/Forms";
+import { Description } from "../../../components/ui/Form";
 import { useManageManagers } from "../../../hooks/useManagerHook";
 import { RenderPermissionCheckboxes } from "../../Admin/manage-permissions/views";
 import { RenderDepartmentCheckboxes } from "../../Admin/manage-departments/views";

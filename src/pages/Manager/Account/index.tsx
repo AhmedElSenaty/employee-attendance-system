@@ -2,7 +2,7 @@ import { Header } from "../../../components/ui/Header";
 import useFetchMe, { useManageMe } from "../../../hooks/useMeHook";
 import { IManagerCredentials, IPermissionsData } from "../../../interfaces";
 import { SectionHeader } from "../../../components/ui/SectionHeader";
-import { Field, Input, InputErrorMessage, Label } from "../../../components/ui/Forms";
+import { Field, Input, InputErrorMessage, Label } from "../../../components/ui/Form";
 import { Button } from "../../../components/ui/Button";
 import { getManagerSchema, passwordUpdateSchema } from "../../../validation";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -231,3 +231,4 @@ const ManagerAccountPage = () => {
 };
 
 export default ManagerAccountPage;
+

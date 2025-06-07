@@ -9,7 +9,7 @@ import {
   SelectBoxSkeleton,
 } from "../../../../components/ui";
 import { useDepartmentSubDepartmentsList } from "../../../../hooks/useSubDepartmentHook";
-import { useGetDepartmentsList } from "../../../../hooks/useDepartmentHook";
+import { useGetDepartmentsList } from "../../../../hooks/department.hooks";
 import { useEffect, useState } from "react";
 import { EMPLOYEE_TRANSLATION_NAMESPACE } from "..";
 

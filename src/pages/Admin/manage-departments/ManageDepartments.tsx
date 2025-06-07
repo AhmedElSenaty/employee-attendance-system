@@ -10,7 +10,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { departmentSchema } from "../../../validation"
 import { DeleteDepartmentPopup, DepartmentsTable, DepartmentTableFilters, EditDepartmentPopup, RenderDepartmentInputs, ShowDepartmentPopup } from "./views"
 import { IDepartmentCredentials } from "../../../interfaces"
-import {  useGetAllDepartments, useGetDepartmentByID, useManageDepartments } from "../../../hooks/useDepartmentHook"
+import { useCreateDepartment, useDeleteDepartment, useGetDepartmentByID, useGetDepartments, useUpdateDepartment } from "../../../hooks/department.hooks"
 import { DEPARTMENT_TRANSLATION_NAMESPACE } from "."
 import { HasPermission } from "../../../components/auth"
 import { useLanguageStore } from "../../../store/language.store"
@@ -62,7 +62,7 @@ const ManageDepartmentsPage = () => {
 
   const debouncedSearchQuery = useDebounce(search, 650);
 
-  const { departments, totalDepartments, metadata, isDepartmentsDataLoading } = useGetAllDepartments(
+  const { departments, totalDepartments, metadata, isDepartmentsDataLoading } = useGetDepartments(
     Number(page) || 1, 
     Number(pageSize) || 5, 
     searchKey || "", 
@@ -71,17 +71,12 @@ const ManageDepartmentsPage = () => {
 
   const { department, isDepartmentDataLoading } = useGetDepartmentByID(selectedID, resetEditInputs);
 
-  const {
-    addDepartment,
-    updateDepartment,
-    deleteDepartment,
-    isAdding,
-    isUpdating,
-    isDeleting
-  } = useManageDepartments();;
+  const { mutate: createDepartment, isPending: isAdding } = useCreateDepartment();
+  const { mutate: updateDepartment, isPending: isUpdating } = useUpdateDepartment();
+  const { mutate: deleteDepartment, isPending: isDeleting } = useDeleteDepartment();
 
   const handleConfirmAdd: SubmitHandler<IDepartmentCredentials> = (request: IDepartmentCredentials) => {
-    addDepartment(request)
+    createDepartment(request)
   };
   const handleConfirmUpdate: SubmitHandler<IDepartmentCredentials> = (request: IDepartmentCredentials) => {
     updateDepartment(request)

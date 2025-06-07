@@ -30,7 +30,7 @@ export class PermissionService extends BaseService {
     }
   };
 
-  updateUserPermissions = async (userId: string, permissionsIds: string[] ) => {
+  updateUserPermissions = async (userId: string, permissionsIds: string[]) => {
     try {
       const response = await axiosInstance.put(`/Permissions/UpdateUserPermissions`, {userId, permissionsIds}, {
         headers: this.getAuthHeaders(),

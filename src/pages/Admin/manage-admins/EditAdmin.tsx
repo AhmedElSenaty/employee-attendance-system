@@ -11,11 +11,11 @@ import { DeleteAdminPopup, RenderAdminInputs, UnblockAdminPopup } from "./views"
 import { RenderDepartmentCheckboxes } from "../manage-departments/views";
 import { RenderPermissionCheckboxes } from "../manage-permissions/views";
 import { passwordUpdateSchema } from "../../../validation";
-import { useManageDepartments } from "../../../hooks/useDepartmentHook";
 import { useManageAccount } from "../../../hooks/useAccountHook";
 import { ADMIN_TRANSLATION_NAMESPACE } from ".";
 import { HasPermission } from "../../../components/auth";
 import { useUpdateUserPermissions } from "../../../hooks/permission.hooks";
+import { useUpdateUserDepartments } from "../../../hooks/department.hooks";
 
 const EditAdminPage = () => {
   // Translation namespace setup for dynamic translation based on context
@@ -90,10 +90,7 @@ const EditAdminPage = () => {
   };
 
   // Destructuring functions and loading states for managing user departments
-  const {
-    updateUserDepartments,      // Function to update user departments
-    isUserDepartmentsUpdating,  // Loading state for updating departments
-  } = useManageDepartments();
+  const { mutate: updateUserDepartments, isPending: isUserDepartmentsUpdating } = useUpdateUserDepartments();
 
   // Handler for confirming the update action for user departments
   const handleConfirmUpdateDepartments = () => {

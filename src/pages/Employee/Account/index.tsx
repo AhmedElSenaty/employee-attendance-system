@@ -3,7 +3,7 @@ import { Header } from "../../../components/ui/Header";
 import useFetchMe, { useManageMe } from "../../../hooks/useMeHook";
 import { passwordUpdateSchema, updateEmployeeSchema } from "../../../validation";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Field, Input, InputErrorMessage, Label } from "../../../components/ui/Forms";
+import { Field, Input, InputErrorMessage, Label } from "../../../components/ui/Form";
 import { ADMIN_TRANSLATION_NAMESPACE } from "../../Admin/manage-admins";
 import { Button } from "../../../components/ui/Button";
 import { useTranslation } from "react-i18next";

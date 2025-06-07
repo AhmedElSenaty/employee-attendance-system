@@ -8,13 +8,13 @@ import { Button, ButtonSkeleton, Field, Header, Input, InputErrorMessage, Label,
 import { getManagerSchema, passwordUpdateSchema } from "../../../validation";
 import { IManagerCredentials } from "../../../interfaces";
 import { useGetManagerByID, useManageManagers } from "../../../hooks/useManagerHook";
-import { useManageDepartments } from "../../../hooks/useDepartmentHook";
 import { useUpdateUserPermissions } from "../../../hooks/permission.hooks";
 import { useManageAccount } from "../../../hooks/useAccountHook";
 import { RenderPermissionCheckboxes } from "../../Admin/manage-permissions/views";
 import { RenderDepartmentCheckboxes } from "../../Admin/manage-departments/views";
 import { MANAGER_TRANSLATION_NAMESPACE } from ".";
 import { HasPermission } from "../../../components/auth";
+import { useUpdateUserDepartments } from "../../../hooks/department.hooks";
 
 const EditManagerPage = () => {
   const { t } = useTranslation(["common", MANAGER_TRANSLATION_NAMESPACE]);
@@ -76,10 +76,8 @@ const EditManagerPage = () => {
     navigate(`/admin/manage-managers/`) 
   };
 
-  const {
-    updateUserDepartments,
-    isUserDepartmentsUpdating,
-  } = useManageDepartments();
+  const { mutate: updateUserDepartments, isPending: isUserDepartmentsUpdating } = useUpdateUserDepartments();
+
 
   const handleConfirmUpdateDepartments = () => {
     updateUserDepartments({

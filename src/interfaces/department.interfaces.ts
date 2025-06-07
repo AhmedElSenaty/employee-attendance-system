@@ -34,3 +34,8 @@ export interface UseGetDepartmentnByIDReturn {
   department: IDepartmentData;
   isDepartmentDataLoading: boolean;
 }
+
+export interface UseGetDepartmentsListReturn {
+  departmentsList: IDepartment[];
+  isDepartmentsLoading: boolean;
+}

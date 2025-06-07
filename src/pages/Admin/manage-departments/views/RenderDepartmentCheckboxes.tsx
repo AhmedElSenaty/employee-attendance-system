@@ -1,4 +1,4 @@
-import { useGetDepartmentsList } from '../../../../hooks/useDepartmentHook';
+import { useGetDepartmentsList } from '../../../../hooks/department.hooks';
 import { Checkbox, CheckboxSkeleton, Field, Label, LabelSkeleton, Radio, RadioSkeleton, Button, ButtonSkeleton } from '../../../../components/ui';
 import { Dispatch, SetStateAction } from 'react';
 import { IDepartment } from '../../../../interfaces';
