@@ -35,7 +35,7 @@ const RenderAdminInputs = ({
 
   // Fetch profile permissions when profile is selected
   const { profilePermissions, profilePermissionsIsLoading } = useGetProfilePermissions(selectedProfile);
-  console.log(profilePermissions);
+
   useEffect(() => {
     if (selectedProfile !== 0 && !profilePermissionsIsLoading) {
       // Pass the fetched permissions to the parent component

@@ -9,7 +9,7 @@ import { getManagerSchema, passwordUpdateSchema } from "../../../validation";
 import { IManagerCredentials } from "../../../interfaces";
 import { useGetManagerByID, useManageManagers } from "../../../hooks/useManagerHook";
 import { useManageDepartments } from "../../../hooks/useDepartmentHook";
-import { useManagePermissions } from "../../../hooks/usePermissionHook";
+import { useUpdateUserPermissions } from "../../../hooks/permission.hooks";
 import { useManageAccount } from "../../../hooks/useAccountHook";
 import { RenderPermissionCheckboxes } from "../../Admin/manage-permissions/views";
 import { RenderDepartmentCheckboxes } from "../../Admin/manage-departments/views";
@@ -89,9 +89,9 @@ const EditManagerPage = () => {
   };
 
   const {
-    updateUserPermissions,
-    isUserPermissionsUpdating,
-  } = useManagePermissions();
+    mutate: updateUserPermissions,
+    isPending: isUserPermissionsUpdating
+  } = useUpdateUserPermissions();
 
   const handleConfirmUpdatePermissions = () => {
     updateUserPermissions({

@@ -93,3 +93,4 @@ export const uploadEmployeeImage = async (employeeId: string, imageFile: File, t
 export * from "./officialVacation.services"
 export * from "./device.services"
 export * from "./profile.services"
+export * from "./permission.services"

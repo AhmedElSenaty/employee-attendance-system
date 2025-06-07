@@ -5,9 +5,9 @@ import { SubmitHandler } from 'react-hook-form';
 import { IErrorResponse, ILoggedInUser, ILoginCredentials, ILoginResponse, initialLoginResponse, IResetAccountCredentials } from '../interfaces';
 import { login, parseToken, resetAccountService } from '../services/auth';
 import { getTranslatedMessage, handleApiError, showToast } from '../utils';
-import { fetchAuthorizedUserPermissions } from '../services/admin';
 import { useLanguageStore } from '../store/language.store';
 import { useUserStore } from '../store/user.store';
+import { PermissionService } from '../services';
 
 const useLogin = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -28,8 +28,9 @@ const useLogin = () => {
       
         const loggedInUser: ILoggedInUser = parseToken(data.data?.token);
         loggedInUser.rememberMe = request.rememberMe;
-      
-        const permissions = await fetchAuthorizedUserPermissions(loggedInUser.token);
+        const permissionService = new PermissionService(loggedInUser.token);
+
+        const permissions = await permissionService.fetchAuthorizedUserPermissions();
         loggedInUser.permissions = permissions;
         loggedInUser.imageUrl = data.data?.imageUrl;
 

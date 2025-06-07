@@ -3,7 +3,7 @@ import { CountCard, Header } from "../../../components/ui";
 import { formatValue } from "../../../utils";
 import { Signature } from "lucide-react";
 import { IPermissionsData } from "../../../interfaces";
-import { useGetAllPermissions } from "../../../hooks/usePermissionHook";
+import { useGetPermissions } from "../../../hooks/permission.hooks";
 import { HasPermission } from "../../../components/auth";
 import { useLanguageStore } from "../../../store/language.store";
 import { useUserStore } from "../../../store/user.store";
@@ -13,7 +13,7 @@ export const PERMISSION_TRANSLATION_NAMESPACE = "permissionPages";
 export const ManagePermissionsPage = () => {
   const { t } = useTranslation(["common", PERMISSION_TRANSLATION_NAMESPACE]);
   const language = useLanguageStore((state) => state.language);
-  const { permissions, totalPermissions } = useGetAllPermissions();
+  const { permissions, totalPermissions } = useGetPermissions();
   const myPermissions = useUserStore((state) => state.permissions);
 
   const renderPermissions = permissions?.map(({ id, nameAr, nameEn }: IPermissionsData) => {

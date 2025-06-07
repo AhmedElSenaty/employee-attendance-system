@@ -3,7 +3,7 @@ import { Dispatch, SetStateAction } from 'react';
 import { IPermissionsData } from '../../../../interfaces/';
 import { ListChecks } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { useGetAllPermissions } from '../../../../hooks/usePermissionHook';
+import { useGetPermissions } from '../../../../hooks/permission.hooks';
 import { useLanguageStore } from '../../../../store/language.store';
 
 interface RenderPermissionCheckboxesProps {
@@ -15,7 +15,7 @@ interface RenderPermissionCheckboxesProps {
 const RenderPermissionCheckboxes = ({ checkedPermissions, setCheckedPermissions, isLoading }: RenderPermissionCheckboxesProps) => {
   const { t } = useTranslation();
     const { language } = useLanguageStore();
-  const { permissions, isPermissionsDataLoading } = useGetAllPermissions();
+  const { permissions, isPermissionsDataLoading } = useGetPermissions();
 
   const allPermissionIDs = permissions.map((permission) => permission.id);
 

@@ -12,10 +12,10 @@ import { RenderDepartmentCheckboxes } from "../manage-departments/views";
 import { RenderPermissionCheckboxes } from "../manage-permissions/views";
 import { passwordUpdateSchema } from "../../../validation";
 import { useManageDepartments } from "../../../hooks/useDepartmentHook";
-import { useManagePermissions } from "../../../hooks/usePermissionHook";
 import { useManageAccount } from "../../../hooks/useAccountHook";
 import { ADMIN_TRANSLATION_NAMESPACE } from ".";
 import { HasPermission } from "../../../components/auth";
+import { useUpdateUserPermissions } from "../../../hooks/permission.hooks";
 
 const EditAdminPage = () => {
   // Translation namespace setup for dynamic translation based on context
@@ -105,9 +105,9 @@ const EditAdminPage = () => {
 
   // Destructuring functions and loading states for managing user permissions
   const {
-    updateUserPermissions,     // Function to update user permissions
-    isUserPermissionsUpdating, // Loading state for updating permissions
-  } = useManagePermissions();
+    mutate: updateUserPermissions,
+    isPending: isUserPermissionsUpdating
+  } = useUpdateUserPermissions();
 
   // Handler for confirming the update action for user permissions
   const handleConfirmUpdatePermissions = () => {
