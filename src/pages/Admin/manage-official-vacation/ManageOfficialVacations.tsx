@@ -13,7 +13,7 @@ import { OFFICIAL_VACATIONS_TRANSLATION_NAMESPACE } from ".";
 import { HasPermission } from "../../../components/auth";
 import { useLanguageStore } from "../../../store/language.store";
 import { ActionCard, Button, CountCard, Header, Paginator, SectionHeader } from "../../../components/ui";
-import { useCreateOfficialVacation, useDeleteOfficialVacation, useGetOfficialVacationById, useGetOfficialVacations, useUpdateOfficialVacation } from "../../../hooks/useOfficialVacationHook";
+import { useCreateOfficialVacation, useDeleteOfficialVacation, useGetOfficialVacationById, useGetOfficialVacations, useUpdateOfficialVacation } from "../../../hooks/officialVacation.hooks";
 
 const ManageOfficialVacationsPage = () => {
   const { t } = useTranslation(["common", OFFICIAL_VACATIONS_TRANSLATION_NAMESPACE]);

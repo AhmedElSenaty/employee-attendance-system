@@ -7,8 +7,8 @@ import { useLanguageStore } from "../store/language.store";
 import { useUserStore } from "../store/user.store";
 import { OfficialVacationService } from "../services";
 
-const OFFICIAL_VACATIONS_QUERY_KEY = "OfficialVacations";
-const OFFICIAL_VACATION_DETAILS_QUERY_KEY = "OfficialVacationDetails";
+export const OFFICIAL_VACATIONS_QUERY_KEY = "OfficialVacations";
+export const OFFICIAL_VACATION_DETAILS_QUERY_KEY = "OfficialVacationDetails";
 
 export const useGetOfficialVacations = (
   page: number,
