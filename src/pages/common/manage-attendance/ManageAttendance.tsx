@@ -10,11 +10,11 @@ import { IAttendanceCredentials } from "../../../interfaces";
 import { AttendanceSchema } from "../../../validation";
 import { AddAttendancePopup, AttendancesTable, AttendanceTableFilters, DeleteAttendancePopup, EditAttendancePopup, ExportAttendancePopup, RenderAttendanceInputs, ShowAttendancePopup } from "./views";
 import { useExportEmployeesAttendanceData } from "../../../hooks/useReportsHook";
-import { useGetAllAttendanceData, useGetDetailedAttendance, useManageAttendance } from "../../../hooks/useAttendanceHook";
 import { ATTENDANCE_TRANSLATION_NAMESPACE } from ".";
 import { HasPermission } from "../../../components/auth";
 import { useLanguageStore } from "../../../store/language.store";
 import { ActionCard, Button, CountCard, Header, Paginator, SectionHeader } from "../../../components/ui";
+import { useCreateAttendance, useDeleteAttendance, useGetAttendanceDetails, useGetAttendances, useUpdateAttendance } from "../../../hooks/attendance.hooks";
 
 const ManageAttendancePage = () => {
   const { t } = useTranslation(["common", ATTENDANCE_TRANSLATION_NAMESPACE]);
@@ -66,7 +66,7 @@ const ManageAttendancePage = () => {
 
   const debouncedSearchQuery = useDebounce(search, 650);
 
-  const { attendancesData, totalAttendances, metadata, isAttendancesDataLoading } = useGetAllAttendanceData(
+  const { attendancesData, totalAttendances, metadata, isAttendancesDataLoading } = useGetAttendances(
     Number(page) || 1, Number(pageSize) || 5, searchKey || "", debouncedSearchQuery || "",
     startDate || "", endDate || "", startTime || "", endTime || "", status || "", Number(searchByDepartmentId || ''),
     Number(searchBySubDeptartmentId || "")
@@ -79,19 +79,15 @@ const ManageAttendancePage = () => {
     Number(searchBySubDeptartmentId || ""));
 
 
-  const { detailedAttendance, isDetailedAttendanceLoading } = useGetDetailedAttendance(selectedID, reset);
+  const { detailedAttendance, isDetailedAttendanceLoading } = useGetAttendanceDetails(selectedID, reset);
 
   const renderAttendanceInputs = <RenderAttendanceInputs register={register} errors={errors} t={t} />
-
-  const {
-    addAttendance,
-    updateAttendance,
-    deleteAttendance,
-    isAdding,
-    isUpdating,
-    isDeleting
-  } = useManageAttendance();
   
+
+  const { mutate: addAttendance, isPending: isAdding } = useCreateAttendance();
+  const { mutate: updateAttendance, isPending: isUpdating } = useUpdateAttendance();
+  const { mutate: deleteAttendance, isPending: isDeleting } = useDeleteAttendance();
+
   /* ____________ HANDLER ____________ */
   const handleConfirmAdd: SubmitHandler<IAttendanceCredentials> = (request: IAttendanceCredentials) => {
     addAttendance(request)

@@ -3,10 +3,10 @@ import { AttendanceCard, AttendanceCardSkeleton, SectionHeader, Header, StatCard
 import { useTranslation } from "react-i18next";
 import { useFiltersHook } from "../../hooks/useFiltersHook";
 import { useGetDepartmentsList } from "../../hooks/department.hooks";
-import { useGetAttendanceOverview, useGetDepartmentAttendanceOverview, useGetLatestAttendance } from "../../hooks/useAttendanceHook";
 import { AttendanceCardData } from "../../interfaces";
 import { formatValue } from "../../utils";
 import { useLanguageStore } from "../../store/language.store";
+import { useGetAttendanceOverview, useGetDepartmentAttendanceOverview, useGetLatestAttendance } from "../../hooks/attendance.hooks";
 
 export const DashboardPage = () => {
   const { t } = useTranslation(["common", "dashboard"]);

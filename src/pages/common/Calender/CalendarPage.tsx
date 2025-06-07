@@ -11,13 +11,13 @@ import { arEG, enUS } from "date-fns/locale";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useFiltersHook } from "../../../hooks/useFiltersHook";
 import { useParams } from "react-router";
-import { useGetAttendanceCalenderByEmployeeID } from "../../../hooks/useAttendanceHook";
 import { IAttendanceEntry } from "../../../interfaces";
 import { useTranslation } from "react-i18next";
 import { CALENDER_TRANSLATION_NAMESPACE, DAYS_LABELS } from ".";
 import { useGetEmployeeByID } from "../../../hooks/useEmployeesHook";
 import { useLanguageStore } from "../../../store/language.store";
 import { Button, DayCard, DayCardSkeleton, Header, UserProfileCard, UserProfileCardSkeleton } from "../../../components/ui";
+import { useGetAttendanceCalendar } from "../../../hooks/attendance.hooks";
 
 const CalendarPage = () => {
   const { id } = useParams();
@@ -39,7 +39,7 @@ const CalendarPage = () => {
     setFilters({ startDate: format(start, 'yyyy-MM-dd'), endDate: format(end, 'yyyy-MM-dd') })
   }, [currentDate, setFilters])
   
-  const { calenderDays, isAttendanceCalenderLoading } = useGetAttendanceCalenderByEmployeeID(id || "", startDate || format(startOfMonth(currentDate), 'yyyy-MM-dd'), endDate || format(endOfMonth(currentDate), 'yyyy-MM-dd'))
+  const { calenderDays, isAttendanceCalenderLoading } = useGetAttendanceCalendar(id || "", startDate || format(startOfMonth(currentDate), 'yyyy-MM-dd'), endDate || format(endOfMonth(currentDate), 'yyyy-MM-dd'))
 
   const { employee , isEmployeeDataLoading} = useGetEmployeeByID(id || "")
 

@@ -10,7 +10,6 @@ import {
 import { arEG, enUS } from "date-fns/locale";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useFiltersHook } from "../../../hooks/useFiltersHook";
-import { useGetAttendanceCalenderByEmployeeID } from "../../../hooks/useAttendanceHook";
 import { IAttendanceEntry } from "../../../interfaces";
 import { Button } from "../../../components/ui/Button";
 import { Header } from "../../../components/ui/Header";
@@ -19,6 +18,7 @@ import { useTranslation } from "react-i18next";
 import { CALENDER_TRANSLATION_NAMESPACE, DAYS_LABELS } from ".";
 import { useLanguageStore } from "../../../store/language.store";
 import { useUserStore } from "../../../store/user.store";
+import { useGetAttendanceCalendar } from "../../../hooks/attendance.hooks";
 
 const CalendarPage = () => {
   const id = useUserStore((state) => state.id);
@@ -40,7 +40,7 @@ const CalendarPage = () => {
     setFilters({ startDate: format(start, 'yyyy-MM-dd'), endDate: format(end, 'yyyy-MM-dd') })
   }, [currentDate, setFilters])
   
-  const { calenderDays, isAttendanceCalenderLoading } = useGetAttendanceCalenderByEmployeeID(id || "", startDate || format(startOfMonth(currentDate), 'yyyy-MM-dd'), endDate || format(endOfMonth(currentDate), 'yyyy-MM-dd'))
+  const { calenderDays, isAttendanceCalenderLoading } = useGetAttendanceCalendar(id || "", startDate || format(startOfMonth(currentDate), 'yyyy-MM-dd'), endDate || format(endOfMonth(currentDate), 'yyyy-MM-dd'))
 
   const daysLabels = useMemo(
     () => DAYS_LABELS.map(key => t(key, { ns: CALENDER_TRANSLATION_NAMESPACE })),

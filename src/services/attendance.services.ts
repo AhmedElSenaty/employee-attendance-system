@@ -1,0 +1,167 @@
+import axiosInstance from "../config/axios.config";
+import { IAttendanceCredentials } from "../interfaces";
+import { BaseService } from "./base.services";
+
+export class AttendanceService extends BaseService {
+  fetchAll = async (
+    page: number,
+    pageSize: number,
+    searchType: string,
+    searchQuery: string,
+    startDate: string,
+    endDate: string,
+    startTime: string,
+    endTime: string,
+    status: string,
+    searchByDepartmentId: number,
+    searchBySubDepartmentId: number
+  ) => {
+    try {
+      const response = await axiosInstance.get(`/Attendance`, {
+        params: {
+          PageIndex: page,
+          PageSize: pageSize,
+          [searchType]: searchQuery,
+          StartDate: startDate,
+          EndDate: endDate,
+          StartTime: startTime,
+          EndTime: endTime,
+          Status: status,
+          SearchByDeptartmentId: searchByDepartmentId === 0 ? "" : searchByDepartmentId,
+          SearchBySubDeptartmentId: searchBySubDepartmentId === 0 ? "" : searchBySubDepartmentId,
+        },
+        headers: this.getAuthHeaders(),
+      });
+
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching all attendances:", error);
+      throw error;
+    }
+  };
+
+  fetchOverview = async () => {
+    try {
+      const response = await axiosInstance.get(`/Attendance/overview`, {
+        headers: this.getAuthHeaders(),
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching attendance overview:", error);
+      throw error;
+    }
+  };
+
+  fetchLatest = async () => {
+    try {
+      const response = await axiosInstance.get(`/Attendance/LatestAttendance`, {
+        headers: this.getAuthHeaders(),
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching latest attendance:", error);
+      throw error;
+    }
+  };
+
+  fetchDepartmentOverview = async (
+    startDate: string,
+    endDate: string,
+    departmentID: number
+  ) => {
+    try {
+      const response = await axiosInstance.get(`/Attendance/departmentOverView`, {
+        headers: this.getAuthHeaders(),
+        params: {
+          StartDate: startDate,
+          EndDate: endDate,
+          DepartmentId: departmentID === 0 ? "" : departmentID,
+        },
+      });
+
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching department attendance overview:", error);
+      throw error;
+    }
+  };
+
+  fetchSummary = async (
+    page: number,
+    pageSize: number,
+    searchType: string,
+    searchQuery: string,
+    startDate: string,
+    endDate: string
+  ) => {
+    try {
+      const response = await axiosInstance.get(`/Attendance/summary`, {
+        params: {
+          PageIndex: page,
+          PageSize: pageSize,
+          [searchType]: searchQuery,
+          StartDate: startDate,
+          EndDate: endDate,
+        },
+        headers: this.getAuthHeaders(),
+      });
+
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching attendance summary:", error);
+      throw error;
+    }
+  };
+
+  fetchByID = async (attendanceID: number) => {
+    try {
+      const response = await axiosInstance.get(`/Attendance/GetDetailedAttendanceById/${attendanceID}`, {
+        headers: this.getAuthHeaders(),
+      });
+      return response.data;
+    } catch (error) {
+      console.error(`Error fetching detailed attendance by ID ${attendanceID}:`, error);
+      throw error;
+    }
+  };
+
+  create = (attendance: IAttendanceCredentials) => {
+    return axiosInstance.post(`/Attendance`, attendance, {
+      headers: this.getAuthHeaders(),
+    });
+  };
+
+  update = (attendance: IAttendanceCredentials) => {
+    return axiosInstance.put(`/Attendance`, attendance, {
+      headers: this.getAuthHeaders(),
+    });
+  };
+
+  delete = (attendanceID: number) => {
+    return axiosInstance.delete(`/Attendance/${attendanceID}`, {
+      headers: this.getAuthHeaders(),
+    });
+  };
+
+  fetchCalendar = async (
+    employeeID: string,
+    startDate: string,
+    endDate: string
+  ) => {
+    try {
+      const response = await axiosInstance.get(`/Attendance/calendar`, {
+        params: {
+          EmployeeId: employeeID,
+          StartDate: startDate,
+          EndDate: endDate,
+        },
+        headers: this.getAuthHeaders(),
+      });
+
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching attendance calendar:", error);
+      throw error;
+    }
+  };
+}
