@@ -14,7 +14,7 @@ export * from "./officialVacation.Interfaces";
 export * from "./entity.interfaces";
 export * from "./device.interfaces";
 export * from "./department.interfaces";
-export * from "./subDepartmentInterfaces";
+export * from "./subDepartment.interfaces";
 export * from "./attendanceInterfaces";
 export * from "./exportFileInterfaces"
 export * from "./meInterfaces"

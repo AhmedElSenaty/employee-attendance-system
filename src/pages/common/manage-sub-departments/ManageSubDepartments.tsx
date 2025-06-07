@@ -9,11 +9,11 @@ import { useFiltersHook } from "../../../hooks/useFiltersHook";
 import { SubDepartmentSchema } from "../../../validation/";
 import { AddSubDepartmentPopup, DeleteSubDepartmentPopup, EditSubDepartmentPopup, RenderSubDepartmentInputs, ShowSubDepartmentPopup, SubDepartmentsTable, SubDepartmentTableFilters } from "./view";
 import { ISubDepartmentCredentials } from "../../../interfaces";
-import { useGetAllSubDepartments, useGetSubDepartmentByID, useManageSubDepartments } from "../../../hooks/useSubDepartmentHook";
 import { SUB_DEPARTMENT_TRANSLATION_NAMESPACE } from ".";
 import { HasPermission } from "../../../components/auth";
 import { useLanguageStore } from "../../../store/language.store";
 import { ActionCard, Button, CountCard, Header, Paginator, SectionHeader } from "../../../components/ui";
+import { useCreateSubDepartment, useDeleteSubDepartment, useGetSubDepartmentByID, useGetSubDepartments, useUpdateSubDepartment } from "../../../hooks/subDepartment.hooks";
 
 const ManageSubDepartmentsPage = () => {
   const { t } = useTranslation(["common", SUB_DEPARTMENT_TRANSLATION_NAMESPACE]);
@@ -59,7 +59,7 @@ const ManageSubDepartmentsPage = () => {
 
   const debouncedSearchQuery = useDebounce(search, 650);
 
-  const { subDepartments, totalSubDepartments, metadata, isSubDepartmentsDataLoading } = useGetAllSubDepartments(
+  const { subDepartments, totalSubDepartments, metadata, isSubDepartmentsDataLoading } = useGetSubDepartments(
     Number(page) || 1, 
     Number(pageSize) || 5, 
     searchKey || "", 
@@ -67,16 +67,10 @@ const ManageSubDepartmentsPage = () => {
   );
 
   const { subDepartment, isSubDepartmentDataLoading } = useGetSubDepartmentByID(selectedID, reset);
-
-  const {
-    addSubDepartment,
-    updateSubDepartment,
-    deleteSubDepartment,
-    isAdding,
-    isUpdating,
-    isDeleting
-  } = useManageSubDepartments();
   
+  const { mutate: addSubDepartment, isPending: isAdding } = useCreateSubDepartment();
+  const { mutate: updateSubDepartment, isPending: isUpdating } = useUpdateSubDepartment();
+  const { mutate: deleteSubDepartment, isPending: isDeleting } = useDeleteSubDepartment();
   /* ____________ HANDLER ____________ */
   const handleConfirmAdd: SubmitHandler<ISubDepartmentCredentials> = (request: ISubDepartmentCredentials) => {
     addSubDepartment(request)

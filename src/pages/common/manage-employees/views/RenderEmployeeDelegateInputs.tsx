@@ -8,10 +8,10 @@ import {
   SelectBox,
   SelectBoxSkeleton,
 } from "../../../../components/ui";
-import { useDepartmentSubDepartmentsList } from "../../../../hooks/useSubDepartmentHook";
 import { useGetDepartmentsList } from "../../../../hooks/department.hooks";
 import { useEffect, useState } from "react";
 import { EMPLOYEE_TRANSLATION_NAMESPACE } from "..";
+import { useGetDepartmentSubDepartments } from "../../../../hooks/subDepartment.hooks";
 
 interface IRenderEmployeeDepartmentInputsProps {
   register: UseFormRegister<IEmployeeCredentials>;
@@ -30,7 +30,7 @@ const RenderEmployeeDepartmentInputs = ({
 }: IRenderEmployeeDepartmentInputsProps) => {
   const [ selectDepartmentID, setSelectDepartmentID ] = useState(selectedDepartmentID)
   const { departmentsList, isDepartmentsLoading } = useGetDepartmentsList();
-  const { subDepartmentsList, isSubDepartmentsLoading } = useDepartmentSubDepartmentsList(Number(selectDepartmentID || ''));
+  const { subDepartmentsList, isSubDepartmentsLoading } = useGetDepartmentSubDepartments(Number(selectDepartmentID || ''));
 
   useEffect(() => {
     setSelectDepartmentID(selectedDepartmentID);

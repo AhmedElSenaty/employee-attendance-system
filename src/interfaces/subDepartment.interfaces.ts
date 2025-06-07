@@ -35,3 +35,8 @@ export interface UseGetSubDepartmentnByIDReturn {
   subDepartment: ISubDepartmentData;
   isSubDepartmentDataLoading: boolean;
 }
+
+export interface UseGetSubDepartmentsListReturn {
+  subDepartmentsList: ISubDepartment[]; // Replace with actual type if different
+  isSubDepartmentsLoading: boolean;
+}

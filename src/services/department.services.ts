@@ -1,6 +1,6 @@
 import axiosInstance from "../config/axios.config";
 import { IDepartment, IDepartmentCredentials } from "../interfaces/department.interfaces";
-import { BaseService } from "./base.service";
+import { BaseService } from "./base.services";
 
 export class DepartmentService extends BaseService {
   fetchAll = async (

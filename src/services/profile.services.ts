@@ -1,6 +1,6 @@
 import axiosInstance from "../config/axios.config";
 import { IProfile, IProfileCredentials } from "../interfaces";
-import { BaseService } from "./base.service";
+import { BaseService } from "./base.services";
 
 export class ProfileService extends BaseService {
 

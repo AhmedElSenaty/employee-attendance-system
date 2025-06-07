@@ -1,6 +1,6 @@
 import axiosInstance from "../config/axios.config";
 import { IDevice, IDeviceCredentials } from "../interfaces";
-import { BaseService } from "./base.service";
+import { BaseService } from "./base.services";
 
 export class DeviceService extends BaseService {
   fetchAll = async (

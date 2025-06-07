@@ -1,6 +1,6 @@
 import axiosInstance from "../config/axios.config";
 import { IOfficialVacationCredentials } from "../interfaces";
-import { BaseService } from "./base.service";
+import { BaseService } from "./base.services";
 
 export class OfficialVacationService extends BaseService {
 

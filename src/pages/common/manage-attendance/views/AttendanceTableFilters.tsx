@@ -4,9 +4,9 @@ import { formatValue } from "../../../../utils";
 import { Calendar, Search, Timer } from "lucide-react";
 import { useFiltersHook } from "../../../../hooks/useFiltersHook";
 import { useGetDepartmentsList } from "../../../../hooks/department.hooks";
-import { useDepartmentSubDepartmentsList } from "../../../../hooks/useSubDepartmentHook";
 import { ATTENDANCE_TRANSLATION_NAMESPACE } from "..";
 import { useLanguageStore } from "../../../../store/language.store";
+import { useGetDepartmentSubDepartments } from "../../../../hooks/subDepartment.hooks";
 
 interface ISubDepartmentTableFiltersProps {
   searchBy: string[]
@@ -17,7 +17,7 @@ const AttendanceTableFilters = ({ searchBy, t }: ISubDepartmentTableFiltersProps
   const { language } = useLanguageStore();
   const { pageSize, searchKey, search, startDate, endDate, startTime, endTime, status, searchByDepartmentId, searchBySubDeptartmentId, setFilters } = useFiltersHook()
   const { departmentsList, isDepartmentsLoading } = useGetDepartmentsList();
-  const { subDepartmentsList, isSubDepartmentsLoading } = useDepartmentSubDepartmentsList(Number(searchByDepartmentId || ''));
+  const { subDepartmentsList, isSubDepartmentsLoading } = useGetDepartmentSubDepartments(Number(searchByDepartmentId || ''));
 
   return (
     <>

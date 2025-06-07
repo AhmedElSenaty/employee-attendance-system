@@ -1,6 +1,6 @@
 import axiosInstance from "../config/axios.config";
 import { IEntity, IEntityCredentials } from "../interfaces/entity.interfaces";
-import { BaseService } from "./base.service";
+import { BaseService } from "./base.services";
 
 export class EntityService extends BaseService {
   fetchAll = async (
