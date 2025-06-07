@@ -9,11 +9,11 @@ import { useFiltersHook } from "../../../hooks/useFiltersHook";
 import { AddDevicePopup, DeleteDevicePopup, DevicesTable, DeviceTableFilters, EditDevicePopup, RenderDeviceInputs, ShowDevicePopup } from "./views";
 import { IDeviceCredentials } from "../../../interfaces";
 import { deviceSchema } from "../../../validation";
-import { useGetAllDevices, useGetDeviceByID, useManageDevices } from "../../../hooks/useDeviceHook";
 import { DEVICE_TRANSLATION_NAMESPACE } from ".";
 import { HasPermission } from "../../../components/auth";
 import { useLanguageStore } from "../../../store/language.store";
 import { ActionCard, Button, CountCard, Header, InfoPopup, Paginator, SectionHeader } from "../../../components/ui";
+import { useCreateDevice, useDeleteDevice, useGetDeviceByID, useGetDevices, useUpdateDevice } from "../../../hooks/device.hooks";
 
 const ManageDevicesPage = () => {
   const { t } = useTranslation(["common", DEVICE_TRANSLATION_NAMESPACE]);
@@ -57,7 +57,7 @@ const ManageDevicesPage = () => {
 
   const debouncedSearchQuery = useDebounce(search, 650);
 
-  const { devices, totalDevices, metadata, isDevicesDataLoading } = useGetAllDevices(
+  const { devices, totalDevices, metadata, isDevicesDataLoading } = useGetDevices(
     Number(page) || 1, 
     Number(pageSize) || 5, 
     searchKey || "", 
@@ -68,14 +68,10 @@ const ManageDevicesPage = () => {
 
   const renderDeviceInputs = <RenderDeviceInputs register={register} errors={errors} t={t} isLoading={isDeviceDataLoading} />
 
-  const {
-    addDevice,
-    updateDevice,
-    deleteDevice,
-    isAdding,
-    isUpdating,
-    isDeleting
-  } = useManageDevices();
+  const { mutate: addDevice, isPending: isAdding } = useCreateDevice();
+  const { mutate: updateDevice, isPending: isUpdating } = useUpdateDevice();
+  const { mutate: deleteDevice, isPending: isDeleting } = useDeleteDevice();
+  
 
   /* ____________ HANDLER ____________ */
   const handleConfirmAdd: SubmitHandler<IDeviceCredentials> = (request: IDeviceCredentials) => {

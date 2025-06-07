@@ -37,14 +37,14 @@ export class OfficialVacationService extends BaseService {
     }
   };
 
-  create = (data: IOfficialVacationCredentials) => {
-    return axiosInstance.post("/OfficialVacation", data, {
+  create = (officialVacation: IOfficialVacationCredentials) => {
+    return axiosInstance.post("/OfficialVacation", officialVacation, {
       headers: this.getAuthHeaders()
     });
   };
 
-  update = (data: IOfficialVacationCredentials) => {
-    return axiosInstance.put("/OfficialVacation", data, {
+  update = (officialVacation: IOfficialVacationCredentials) => {
+    return axiosInstance.put("/OfficialVacation", officialVacation, {
       headers: this.getAuthHeaders()
     });
   };

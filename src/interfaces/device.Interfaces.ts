@@ -29,3 +29,7 @@ export interface UseGetDevicenByIDReturn {
   device: IDeviceData;
   isDeviceDataLoading: boolean;
 }
+export interface UseGetDevicesListReturn {
+  devicesList: IDevice[];
+  devicesListIsLoading: boolean;
+}
