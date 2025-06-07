@@ -10,7 +10,7 @@ export * from "./loginInterfaces";
 export * from "./authInterfaces";
 export * from "./resetAccountInterfaces";
 export * from "./permissionInterfaces"
-export * from "./officialVacationInterfaces";
+export * from "./officialVacation.Interfaces";
 export * from "./entityInterfaces";
 export * from "./deviceInterfaces";
 export * from "./departmentInterfaces";

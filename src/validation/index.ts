@@ -25,7 +25,7 @@ export * from "./updateAccountSchema"
 
 export * from "./loginSchema"
 export * from "./resetAccountSchema"
-export * from "./officialVacationSchema"
+export * from "./officialVacation.schema"
 export * from "./entitySchema"
 export * from "./deviceSchema"
 export * from "./departmentSchema"
