@@ -5,7 +5,7 @@ import { formatValue } from "../../../utils";
 import { useDebounce } from "../../../hooks/debounce.hook";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useFiltersHook } from "../../../hooks/useFiltersHook";
+import { useFiltersHook } from "../../../hooks/filter.hook";
 import { SubDepartmentSchema } from "../../../validation/";
 import { AddSubDepartmentPopup, DeleteSubDepartmentPopup, EditSubDepartmentPopup, RenderSubDepartmentInputs, ShowSubDepartmentPopup, SubDepartmentsTable, SubDepartmentTableFilters } from "./view";
 import { ISubDepartmentCredentials } from "../../../interfaces";

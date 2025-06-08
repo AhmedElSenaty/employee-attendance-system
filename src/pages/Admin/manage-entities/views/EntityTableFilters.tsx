@@ -2,7 +2,7 @@ import { TFunction } from "i18next"
 import { Field, Input, Label, SelectBox, SectionHeader } from "../../../../components/ui"
 import { formatValue } from "../../../../utils";
 import { Search } from "lucide-react";
-import { useFiltersHook } from "../../../../hooks/useFiltersHook";
+import { useFiltersHook } from "../../../../hooks/filter.hook";
 import { ENTITY_TRANSLATION_NAMESPACE } from "..";
 import { useLanguageStore } from "../../../../store/language.store";
 

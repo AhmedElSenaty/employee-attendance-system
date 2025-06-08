@@ -4,7 +4,7 @@ import { NavLink } from "react-router";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import { useDebounce } from "../../../hooks/debounce.hook";
-import { useFiltersHook } from "../../../hooks/useFiltersHook";
+import { useFiltersHook } from "../../../hooks/filter.hook";
 import { DeleteEmployeePopup, EmployeesTable, EmployeeTableFilters, UnblockEmployeePopup } from "./views";
 import { useGetAllEmployees, useGetEmployeesCount, useManageEmployees } from "../../../hooks/useEmployeesHook";
 import { useManageAccount } from "../../../hooks/useAccountHook";

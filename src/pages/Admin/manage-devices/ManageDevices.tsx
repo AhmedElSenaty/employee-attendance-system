@@ -5,7 +5,7 @@ import { formatValue } from "../../../utils";
 import { useDebounce } from "../../../hooks/debounce.hook";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useFiltersHook } from "../../../hooks/useFiltersHook";
+import { useFiltersHook } from "../../../hooks/filter.hook";
 import { AddDevicePopup, DeleteDevicePopup, DevicesTable, DeviceTableFilters, EditDevicePopup, RenderDeviceInputs, ShowDevicePopup } from "./views";
 import { IDeviceCredentials } from "../../../interfaces";
 import { deviceSchema } from "../../../validation";

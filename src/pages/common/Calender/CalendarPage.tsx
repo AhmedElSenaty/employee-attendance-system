@@ -9,7 +9,7 @@ import {
 } from "date-fns";
 import { arEG, enUS } from "date-fns/locale";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useFiltersHook } from "../../../hooks/useFiltersHook";
+import { useFiltersHook } from "../../../hooks/filter.hook";
 import { useParams } from "react-router";
 import { IAttendanceEntry } from "../../../interfaces";
 import { useTranslation } from "react-i18next";

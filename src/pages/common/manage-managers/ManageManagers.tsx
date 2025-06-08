@@ -4,7 +4,7 @@ import { NavLink } from "react-router";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import { useDebounce } from "../../../hooks/debounce.hook";
-import { useFiltersHook } from "../../../hooks/useFiltersHook";
+import { useFiltersHook } from "../../../hooks/filter.hook";
 import { DeleteManagerPopup, ManagersTable, ManagerTableFilters, UnblockManagerPopup } from "./views";
 import { useGetAllManagers, useGetManagersCount, useManageManagers } from "../../../hooks/useManagerHook";
 import { useManageAccount } from "../../../hooks/useAccountHook";

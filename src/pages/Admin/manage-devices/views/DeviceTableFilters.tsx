@@ -1,7 +1,7 @@
 import { TFunction } from "i18next"
 import { formatValue } from "../../../../utils";
 import { Search } from "lucide-react";
-import { useFiltersHook } from "../../../../hooks/useFiltersHook";
+import { useFiltersHook } from "../../../../hooks/filter.hook";
 import { DEVICE_TRANSLATION_NAMESPACE } from "..";
 import { useLanguageStore } from "../../../../store/language.store";
 import { Field, Input, Label, SelectBox } from "../../../../components/ui";

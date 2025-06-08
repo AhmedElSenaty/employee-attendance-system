@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import { CalendarSearch } from "lucide-react";
 import { formatValue } from "../../../utils";
 import { useDebounce } from "../../../hooks/debounce.hook";
-import { useFiltersHook } from "../../../hooks/useFiltersHook";
+import { useFiltersHook } from "../../../hooks/filter.hook";
 import { AttendanceOverviewTable } from "./views";
 import AttendanceOverviewTableFilters from "./views/AttendanceOverviewTableFilters";
 import { ATTENDANCE_TRANSLATION_NAMESPACE } from ".";

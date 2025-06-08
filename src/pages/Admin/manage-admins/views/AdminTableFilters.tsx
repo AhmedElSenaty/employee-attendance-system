@@ -2,7 +2,7 @@ import { TFunction } from "i18next"; // Importing translation function for inter
 import { Field, Input, Label, SelectBox } from "../../../../components/ui"; // Importing form elements
 import { formatValue } from "../../../../utils"; // Utility function for formatting values
 import { Search } from "lucide-react"; // Search icon component
-import { useFiltersHook } from "../../../../hooks/useFiltersHook"; // Custom hook for handling filters
+import { useFiltersHook } from "../../../../hooks/filter.hook"; // Custom hook for handling filters
 import { ADMIN_TRANSLATION_NAMESPACE } from "..";
 import { useLanguageStore } from "../../../../store/language.store";
 

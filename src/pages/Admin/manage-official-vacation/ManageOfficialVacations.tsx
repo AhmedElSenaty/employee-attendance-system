@@ -5,7 +5,7 @@ import { formatValue } from "../../../utils";
 import { useDebounce } from "../../../hooks/debounce.hook";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useFiltersHook } from "../../../hooks/useFiltersHook";
+import { useFiltersHook } from "../../../hooks/filter.hook";
 import { IOfficialVacationCredentials } from "../../../interfaces";
 import { officialVacationSchema } from "../../../validation";
 import { AddOfficialVacationPopup, DeleteOfficialVacationPopup, EditOfficialVacationPopup, OfficialVacationsTable, OfficialVacationTableFilters, RenderOfficialVacationInputs, ShowOfficialVacationPopup } from "./views";

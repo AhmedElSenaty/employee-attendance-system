@@ -1,7 +1,7 @@
 import { Calendar, Check, X } from "lucide-react";
 import { AttendanceCard, AttendanceCardSkeleton, SectionHeader, Header, StatCard, StatCardSkeleton, BarChart, DoughnutChart, Graph, GraphSkeleton, Field, Input, Label, SelectBox, SelectBoxSkeleton } from "../../components/ui";
 import { useTranslation } from "react-i18next";
-import { useFiltersHook } from "../../hooks/useFiltersHook";
+import { useFiltersHook } from "../../hooks/filter.hook";
 import { useGetDepartmentsList } from "../../hooks/department.hooks";
 import { AttendanceCardData } from "../../interfaces";
 import { formatValue } from "../../utils";

@@ -2,7 +2,7 @@ import { TFunction } from "i18next"
 import { Button, Field, Input, Label, SelectBox, SelectBoxSkeleton } from "../../../../components/ui"
 import { formatValue } from "../../../../utils";
 import { Calendar, Search, Timer } from "lucide-react";
-import { useFiltersHook } from "../../../../hooks/useFiltersHook";
+import { useFiltersHook } from "../../../../hooks/filter.hook";
 import { useGetDepartmentsList } from "../../../../hooks/department.hooks";
 import { ATTENDANCE_TRANSLATION_NAMESPACE } from "..";
 import { useLanguageStore } from "../../../../store/language.store";
