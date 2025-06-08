@@ -6,7 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { ILoginCredentials } from "../../interfaces"
 import { loginSchema } from "../../validation"
 import { LoginAlerts, LoginInputs } from "./views"
-import { useLogin } from "../../hooks/useAuthHook"
+import { useLogin } from "../../hooks/auth.hooks"
 
 const LoginPage = () => {
   const { t } = useTranslation(["common", "login"]);

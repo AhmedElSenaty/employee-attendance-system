@@ -3,30 +3,32 @@ import { AxiosError } from 'axios';
 import { useNavigate } from 'react-router';
 import { SubmitHandler } from 'react-hook-form';
 import { IErrorResponse, ILoggedInUser, ILoginCredentials, ILoginResponse, initialLoginResponse, IResetAccountCredentials } from '../interfaces';
-import { login, parseToken, resetAccountService } from '../services/auth';
 import { getTranslatedMessage, handleApiError, showToast } from '../utils';
 import { useLanguageStore } from '../store/language.store';
 import { useUserStore } from '../store/user.store';
-import { PermissionService } from '../services';
+import { AuthService, PermissionService } from '../services';
 
-const useLogin = () => {
+const service = new AuthService()
+
+export const useLogin = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [responseData, setResponseData] = useState<ILoginResponse>(initialLoginResponse);
   const { language } = useLanguageStore();
   const { setUser } = useUserStore()
   const navigate = useNavigate();
 
+
   const onSubmit: SubmitHandler<ILoginCredentials> = async (request: ILoginCredentials) => {
     setIsLoading(true);
 
     try {
-      const data = await login(request);
+      const data = await service.login(request);
       const message = getTranslatedMessage(data.message ?? "", language);
 
       if (data.status === 200) {
         showToast("success", message);
       
-        const loggedInUser: ILoggedInUser = parseToken(data.data?.token);
+        const loggedInUser: ILoggedInUser = service.parseToken(data.data?.token);
         loggedInUser.rememberMe = request.rememberMe;
         const permissionService = new PermissionService(loggedInUser.token);
 
@@ -72,7 +74,7 @@ const useLogin = () => {
   };
 };
 
-const useResetAccount = () => {
+export const useResetAccount = () => {
   const navigate = useNavigate();
     const { language } = useLanguageStore();
 
@@ -81,7 +83,7 @@ const useResetAccount = () => {
   const onSubmit = async (requestData: IResetAccountCredentials) => {
     setIsLoading(true);
     try {
-      const response = await resetAccountService(requestData);
+      const response = await service.resetAccount(requestData);
       if (response.status === 200) {
         const message = getTranslatedMessage(response.message ?? "", language);
         showToast("success", message);
@@ -100,8 +102,3 @@ const useResetAccount = () => {
     onSubmit,
   };
 };
-
-export {
-  useLogin,
-  useResetAccount
-}

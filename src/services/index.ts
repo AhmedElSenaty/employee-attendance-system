@@ -95,6 +95,7 @@ export * from "./base.services"
 export * from "./department.services"
 export * from "./device.services"
 export * from "./entity.services"
+export * from "./login.services";
 export * from "./officialVacation.services"
 export * from "./permission.services"
 export * from "./profile.services"

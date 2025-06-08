@@ -6,7 +6,7 @@ export * from "./filtersInterfaces"
 export * from "./managerInterfaces";
 export * from "./profile.interface"
 export * from "./employeeInterfaces"
-export * from "./loginInterfaces";
+export * from "./login.interfaces";
 export * from "./authInterfaces";
 export * from "./resetAccountInterfaces";
 export * from "./permission.interfaces"
@@ -16,7 +16,7 @@ export * from "./device.interfaces";
 export * from "./department.interfaces";
 export * from "./subDepartment.interfaces";
 export * from "./attendance.interfaces";
-export * from "./exportFileInterfaces"
+export * from "./report.interfaces"
 export * from "./meInterfaces"
 
 

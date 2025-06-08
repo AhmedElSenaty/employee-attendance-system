@@ -5,7 +5,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { resetAccountSchema } from "../../validation";
 import { IResetAccountCredentials } from "../../interfaces";
 import { ResetAccountInputs } from "./views";
-import { useResetAccount } from "../../hooks/useAuthHook";
+import { useResetAccount } from "../../hooks/auth.hooks";
 
 const ResetAccountPage = () => {
   const { t } = useTranslation(["common", "resetAccount"]);
