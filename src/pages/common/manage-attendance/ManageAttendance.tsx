@@ -9,12 +9,12 @@ import { useFiltersHook } from "../../../hooks/useFiltersHook";
 import { IAttendanceCredentials } from "../../../interfaces";
 import { AttendanceSchema } from "../../../validation";
 import { AddAttendancePopup, AttendancesTable, AttendanceTableFilters, DeleteAttendancePopup, EditAttendancePopup, ExportAttendancePopup, RenderAttendanceInputs, ShowAttendancePopup } from "./views";
-import { useExportEmployeesAttendanceData } from "../../../hooks/useReportsHook";
 import { ATTENDANCE_TRANSLATION_NAMESPACE } from ".";
 import { HasPermission } from "../../../components/auth";
 import { useLanguageStore } from "../../../store/language.store";
 import { ActionCard, Button, CountCard, Header, Paginator, SectionHeader } from "../../../components/ui";
 import { useCreateAttendance, useDeleteAttendance, useGetAttendanceDetails, useGetAttendances, useUpdateAttendance } from "../../../hooks/attendance.hooks";
+import { useExportEmployeesAttendanceReport } from "../../../hooks/report.hooks";
 
 const ManageAttendancePage = () => {
   const { t } = useTranslation(["common", ATTENDANCE_TRANSLATION_NAMESPACE]);
@@ -74,7 +74,7 @@ const ManageAttendancePage = () => {
 
 
   // Use the custom hook to fetch data
-  const { refetch, isLoading: isExportLoding } = useExportEmployeesAttendanceData(
+  const { refetchExportData, isExportDataLoading } = useExportEmployeesAttendanceReport(
     searchKey || "", debouncedSearchQuery || "", startDate || "", endDate || "", startTime || "", endTime || "", status || "", Number(searchByDepartmentId || ''),
     Number(searchBySubDeptartmentId || ""));
 
@@ -105,7 +105,7 @@ const ManageAttendancePage = () => {
   };
 
   const handleDownload = async () => {
-    const { data, isSuccess, isError } = await refetch();
+    const { data, isSuccess, isError } = await refetchExportData();
     if (isSuccess) {
       showToast("success", t("export.exportSuccess"));
       downloadFile(data.file)
@@ -152,7 +152,7 @@ const ManageAttendancePage = () => {
               title={t("attendanceActions.exportData.title", { ns: ATTENDANCE_TRANSLATION_NAMESPACE })}
               description={t("attendanceActions.exportData.description", { ns: ATTENDANCE_TRANSLATION_NAMESPACE })}
             >
-              <Button fullWidth={true} variant="success" isLoading={isExportLoding} onClick={() => {
+              <Button fullWidth={true} variant="success" isLoading={isExportDataLoading} onClick={() => {
                 setIsDownloadReportPopupOpen(true)
               }}>
                 {t("attendanceActions.exportData.button", { ns: ATTENDANCE_TRANSLATION_NAMESPACE })}
@@ -253,7 +253,7 @@ const ManageAttendancePage = () => {
           searchByDepartmentId: Number(searchByDepartmentId || 0),
           searchBySubDeptartmentId: Number(searchBySubDeptartmentId || 0),
         }}
-        isLoading={isExportLoding}
+        isLoading={isExportDataLoading}
         t={t}
       />
     </>
