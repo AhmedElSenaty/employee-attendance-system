@@ -1,6 +1,5 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Header } from "../../../components/ui/Header";
-import useFetchMe, { useManageMe } from "../../../hooks/useMeHook";
 import { passwordUpdateSchema, updateEmployeeSchema } from "../../../validation";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Field, Input, InputErrorMessage, Label } from "../../../components/ui/Form";
@@ -11,6 +10,8 @@ import { SectionHeader } from "../../../components/ui/SectionHeader";
 import { EmployeeProfileCredentials } from "../../../interfaces";
 import { useEffect } from "react";
 import UserImageUpload from "./UserImageUpload";
+import { useFetchMe, useUpdateEmployeeProfile } from "../../../hooks/me.hooks";
+import { useUpdateMyPassword } from "../../../hooks/account.hook";
 
 const TRANSLATION_NAMESPACE = "empolyeeAccount";
 const EmpolyeeAccountPage = () => {
@@ -58,12 +59,8 @@ const EmpolyeeAccountPage = () => {
     mode: "onChange",
   });
 
-  const {
-    updateEmployeeProfile,
-    isUpdateEmployeeProfileLoading,
-    updateMyPassword,
-    isUpdateMyPasswordLoading,
-  } = useManageMe();
+  const { mutate: updateEmployeeProfile, isPending: isUpdateEmployeeProfileLoading } = useUpdateEmployeeProfile();
+  const { mutate: updateMyPassword, isPending: isUpdateMyPasswordLoading } = useUpdateMyPassword();
 
   const handleConfirmUpdatePassword: SubmitHandler<{password: string, oldPassword?: string}> = async (request: { password: string, oldPassword?: string }) => {
     updateMyPassword({

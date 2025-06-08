@@ -5,10 +5,10 @@ import { IEmployeeCredentials } from "../../../interfaces";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { getEmployeeSchema } from "../../../validation";
 import RenderEmployeeDepartmentInputs from "./views/RenderEmployeeDepartmentInputs";
-import { useManageEmployees } from "../../../hooks/useEmployeesHook";
 import { useNavigate } from "react-router";
 import { EMPLOYEE_TRANSLATION_NAMESPACE } from ".";
 import { Button, Description, Header, SectionHeader } from "../../../components/ui";
+import { useCreateEmployee } from "../../../hooks/employee.hooks";
 
 const AddEmployeePage = () => {
   const { t } = useTranslation(["common", EMPLOYEE_TRANSLATION_NAMESPACE]);
@@ -21,17 +21,20 @@ const AddEmployeePage = () => {
     resolver: yupResolver(getEmployeeSchema(false)),
     mode: "onChange",
   });
-
-  const {
-    addEmployeeAndGetUserID
-  } = useManageEmployees();
+  
+  const { mutateAsync: addEmployeeAndGetUserID } = useCreateEmployee();
 
   const handleConfirmAdd: SubmitHandler<IEmployeeCredentials> = async (request: IEmployeeCredentials) => {
     try {
-      const userID = (await addEmployeeAndGetUserID(request)).data?.data?.userId;
-      navigate(`/admin/edit-employee/${userID}`)
+      const response = await addEmployeeAndGetUserID(request);
+      const userID = response?.data?.data?.userId;
+      if (userID) {
+        navigate(`/admin/edit-employee/${userID}`)
+      } else {
+        console.error("No user ID returned in response:", response);
+      }
     } catch (error) {
-      console.error("Error adding manager:", error);
+      console.error("Error adding profile:", error);
     }
   };
 

@@ -7,11 +7,11 @@ import { IManagerCredentials } from "../../../interfaces";
 import { getManagerSchema } from "../../../validation";
 import { RenderManagerInputs } from "./views";
 import { Description } from "../../../components/ui/Form";
-import { useManageManagers } from "../../../hooks/useManagerHook";
 import { RenderPermissionCheckboxes } from "../../Admin/manage-permissions/views";
 import { RenderDepartmentCheckboxes } from "../../Admin/manage-departments/views";
 import { MANAGER_TRANSLATION_NAMESPACE } from ".";
 import { Button, Header, SectionHeader } from "../../../components/ui";
+import { useCreateManager } from "../../../hooks/manager.hooks";
 
 const AddManagerPage = () => {
   const navigate = useNavigate();
@@ -31,22 +31,26 @@ const AddManagerPage = () => {
     mode: "onChange",
   });
 
-  const {
-    addManagerAndGetUserID,
-    isAdding,
-  } = useManageManagers();
+
+  const { mutateAsync: addManagerAndGetUserID, isPending: isAdding } = useCreateManager();
 
   const handleConfirmAdd: SubmitHandler<IManagerCredentials> = async (request: IManagerCredentials) => {
     try {
       request.permissions = checkedPermissions || [];
       request.departmentId = checkedDepartment[0];
-      
-      const userID = (await addManagerAndGetUserID(request)).data?.data?.userId;
-      navigate(`/admin/edit-manager/${userID}`)
+
+      const response = await addManagerAndGetUserID(request);
+      const userID = response?.data?.data?.userId;
+      if (userID) {
+        navigate(`/admin/edit-manager/${userID}`)
+      } else {
+        console.error("No user ID returned in response:", response);
+      }
     } catch (error) {
-      console.error("Error adding manager:", error);
+      console.error("Error adding profile:", error);
     }
   };
+
 
   return (
     <div className="sm:p-5 p-3 space-y-5">

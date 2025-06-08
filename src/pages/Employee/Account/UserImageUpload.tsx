@@ -3,8 +3,8 @@ import { ImageIcon, CheckCircle2 } from "lucide-react";
 import { FileUpload } from "../../../components/ui/Form";
 import { Button } from "../../../components/ui/Button";
 import { showToast } from "../../../utils";
-import useFetchMe, { useManageMe } from "../../../hooks/useMeHook";
 import { useTranslation } from "react-i18next";
+import { useFetchMe, useUploadEmployeeImage } from "../../../hooks/me.hooks";
 
 const TRANSLATION_NAMESPACE = "empolyeeAccount";
 
@@ -29,8 +29,8 @@ const validateUserImage = (file: File): string | null => {
 const UserImageUploadForm = () => {
   const { t } = useTranslation();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const { uploadEmployeeImage, isUploadImageLoading } = useManageMe();
-  const { me } = useFetchMe(); // Ensure we have the user ID
+  const { mutate: uploadEmployeeImage, isPending: isUploadImageLoading } = useUploadEmployeeImage();
+  const { me } = useFetchMe();
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();

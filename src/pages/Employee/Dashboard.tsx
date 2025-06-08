@@ -1,8 +1,8 @@
 import { UserCog, CalendarCheck, Clipboard } from 'lucide-react';  // Importing Lucid icons
 import { StatCard } from '../../components/ui/StatCard';
 import { Header } from '../../components/ui/Header';
-import useFetchMe from '../../hooks/useMeHook';
 import { NavLink } from 'react-router';  // Ensure to use NavLink from react-router-dom
+import { useFetchMe } from '../../hooks/me.hooks';
 
 const Dashboard = () => {
   // Fetching user data

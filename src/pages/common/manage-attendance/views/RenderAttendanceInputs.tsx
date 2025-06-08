@@ -13,7 +13,7 @@ import { TFunction } from "i18next";
 import { IAttendanceCredentials } from "../../../../interfaces";
 import { Calendar, Timer } from "lucide-react";
 import { useGetDevicesList } from "../../../../hooks/device.hooks";
-import { useGetEmployeesList } from "../../../../hooks/useEmployeesHook";
+import { useGetEmployeesList } from "../../../../hooks/employee.hooks";
 import { ATTENDANCE_TRANSLATION_NAMESPACE } from "..";
 
 interface IRenderAttendanceInputsProps {

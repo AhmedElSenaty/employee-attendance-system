@@ -14,7 +14,7 @@ import { useParams } from "react-router";
 import { IAttendanceEntry } from "../../../interfaces";
 import { useTranslation } from "react-i18next";
 import { CALENDER_TRANSLATION_NAMESPACE, DAYS_LABELS } from ".";
-import { useGetEmployeeByID } from "../../../hooks/useEmployeesHook";
+import { useGetEmployeeByID } from "../../../hooks/employee.hooks";
 import { useLanguageStore } from "../../../store/language.store";
 import { Button, DayCard, DayCardSkeleton, Header, UserProfileCard, UserProfileCardSkeleton } from "../../../components/ui";
 import { useGetAttendanceCalendar } from "../../../hooks/attendance.hooks";

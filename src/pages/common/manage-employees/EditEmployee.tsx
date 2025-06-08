@@ -5,7 +5,6 @@ import { IEmployeeCredentials } from "../../../interfaces";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { getEmployeeSchema, passwordUpdateSchema } from "../../../validation";
 import { RenderEmployeeDepartmentInputs } from "./views/";
-import { useGetEmployeeByID, useManageEmployees } from "../../../hooks/useEmployeesHook";
 import { SectionHeader, Button, ButtonSkeleton, Header, StatusBadge, Description, Field, Input, InputErrorMessage, Label } from "../../../components/ui";
 import { useNavigate, useParams } from "react-router";
 import { EMPLOYEE_TRANSLATION_NAMESPACE } from ".";
@@ -13,6 +12,7 @@ import { useState } from "react";
 import { AlertTriangle, CheckCircle } from "lucide-react";
 import { HasPermission } from "../../../components/auth";
 import { useUnblockAccount, useUpdateAccountPassword } from "../../../hooks/account.hook";
+import { useDeleteEmployee, useGetEmployeeByID, useUpdateEmployee } from "../../../hooks/employee.hooks";
 
 const EditEmployeePage = () => {
   const { t } = useTranslation(["common", EMPLOYEE_TRANSLATION_NAMESPACE]);
@@ -46,12 +46,9 @@ const EditEmployeePage = () => {
 
   const { employee , isEmployeeDataLoading} = useGetEmployeeByID(id || "", reset)
 
-  const {
-    updateEmployee,
-    isUpdating,
-    deleteEmployee,
-    isDeleting
-  } = useManageEmployees();
+  // Destructuring functions and loading states from custom hooks for managing admins, departments, and permissions
+  const { mutate: updateEmployee, isPending: isupdateing } = useUpdateEmployee();
+  const { mutate: deleteEmployee, isPending: isDeleting } = useDeleteEmployee();
 
   const handleConfirmUpdateInfo: SubmitHandler<IEmployeeCredentials> = async (request: IEmployeeCredentials) => {
     request.id = id
@@ -182,7 +179,7 @@ const EditEmployeePage = () => {
                     <HasPermission permission="Update Employee">
                       <Button 
                         fullWidth={false} 
-                        isLoading={isUpdating}
+                        isLoading={isupdateing}
                       >
                         {t("editEmployeePage.updateButton", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}
                       </Button>

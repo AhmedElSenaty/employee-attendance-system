@@ -3,7 +3,6 @@ import { SectionHeader, Header, Button, Description } from "../../../components/
 import { useTranslation } from "react-i18next";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useManageAdmins } from "../../../hooks/useAdminHook";
 import { useNavigate } from "react-router";
 import { IAdminCredentials } from "../../../interfaces";
 import { getAdminSchema } from "../../../validation";
@@ -11,6 +10,7 @@ import { RenderDepartmentCheckboxes } from "../manage-departments/views";
 import { RenderAdminInputs } from "./views";
 import { RenderPermissionCheckboxes } from "../manage-permissions/views";
 import { ADMIN_TRANSLATION_NAMESPACE } from ".";
+import { useCreateAdmin } from "../../../hooks/admin.hooks";
 
 const AddAdminPage = () => {
   const navigate = useNavigate();  // For navigating to different pages
@@ -32,29 +32,27 @@ const AddAdminPage = () => {
     mode: "onChange", // Validation on change
   });
 
-  // Custom hook to manage the admin actions like adding, updating, and deleting admins
-  const {
-    addAdminAndGetUserId,
-    isAdding,  // Boolean to track if adding admin is in progress
-  } = useManageAdmins();
+  const { mutateAsync: addAdminAndGetUserID, isPending: isAdding } = useCreateAdmin();
 
-  // Handle the form submission
   const handleConfirmAdd: SubmitHandler<IAdminCredentials> = async (request: IAdminCredentials) => {
     try {
       // Add selected permissions and departments to the request payload
       request.permissions = checkedPermissions || [];
       request.departmentsIds = checkedDepartments || [];
-      
-      // Call the mutation to add the admin and get their user ID
-      const userID = (await addAdminAndGetUserId(request)).data?.data?.userId;
 
-      // Navigate to the edit page for the newly created admin
-      navigate(`/admin/edit-admin/${userID}`);
+      const response = await addAdminAndGetUserID(request);
+      const userID = response?.data?.data?.userId;
+      if (userID) {
+        navigate(`/admin/edit-admin/${userID}`)
+      } else {
+        console.error("No user ID returned in response:", response);
+      }
     } catch (error) {
-      // Handle errors if any (can add custom error messages here)
-      console.error("Error adding admin:", error);
+      console.error("Error adding profile:", error);
     }
   };
+
+
 
   return (
     <div className="sm:p-5 p-3 space-y-5">

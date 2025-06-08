@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useDebounce } from "../../../hooks/debounce.hook";
 import { useFiltersHook } from "../../../hooks/filter.hook";
 import { DeleteEmployeePopup, EmployeesTable, EmployeeTableFilters, UnblockEmployeePopup } from "./views";
-import { useGetAllEmployees, useGetEmployeesCount, useManageEmployees } from "../../../hooks/useEmployeesHook";
+import { useDeleteEmployee, useGetAllEmployees, useGetEmployeesCount } from "../../../hooks/employee.hooks";
 import { EMPLOYEE_BORDER_WIDTH, EMPLOYEE_GRAPH_BACKGROUND_COLORS, EMPLOYEE_GRAPH_BORDER_COLORS, EMPLOYEE_GRAPH_LABEL_KEYS, EMPLOYEE_TRANSLATION_NAMESPACE } from ".";
 import { HasPermission } from "../../../components/auth";
 import { useLanguageStore } from "../../../store/language.store";
@@ -53,10 +53,7 @@ export const ManageEmployeesPage = () => {
     ],
   };
 
-  const {
-    deleteEmployee,
-    isDeleting,
-  } = useManageEmployees();
+  const { mutate: deleteEmployee, isPending: isDeleting } = useDeleteEmployee();
 
   const { mutate: unblockAccount, isPending: isUnblockAccountLoading } = useUnblockAccount();
 

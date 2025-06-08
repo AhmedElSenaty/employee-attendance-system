@@ -1,5 +1,4 @@
 import { Header } from "../../../components/ui/Header";
-import useFetchMe, { useManageMe } from "../../../hooks/useMeHook";
 import { IManagerCredentials, IPermissionsData } from "../../../interfaces";
 import { SectionHeader } from "../../../components/ui/SectionHeader";
 import { Field, Input, InputErrorMessage, Label } from "../../../components/ui/Form";
@@ -9,8 +8,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useEffect } from "react";
-import { useManageManagers } from "../../../hooks/useManagerHook";
 import { useLanguageStore } from "../../../store/language.store";
+import { useFetchMe } from "../../../hooks/me.hooks";
+import { useUpdateManager } from "../../../hooks/manager.hooks";
+import { useUpdateMyPassword } from "../../../hooks/account.hook";
 
 const TRANSLATION_NAMESPACE = "managerAccount";
 
@@ -46,10 +47,7 @@ const ManagerAccountPage = () => {
     }
   }, [me, reset]);
 
-  const {
-    updateManager,
-    isupdateing,
-  } = useManageManagers();
+  const { mutate: updateManager, isPending: isupdateing } = useUpdateManager();
 
   // Handler for confirming the edit action for the admin
   const handleConfirmEdit: SubmitHandler<IManagerCredentials> = async (request) => {
@@ -59,10 +57,8 @@ const ManagerAccountPage = () => {
     }
   };
 
-  const { 
-    updateMyPassword, 
-    isUpdateMyPasswordLoading 
-  } = useManageMe();
+  const { mutate: updateMyPassword, isPending: isUpdateMyPasswordLoading } = useUpdateMyPassword();
+
 
   const handleConfirmUpdatePassword: SubmitHandler<{password: string, oldPassword?: string}> = async (request: { password: string, oldPassword?: string }) => {
     updateMyPassword({

@@ -1,5 +1,4 @@
 import { Field, Input, InputErrorMessage, Label, Header, SectionHeader , Button} from "../../../components/ui";
-import useFetchMe, { useManageMe } from "../../../hooks/useMeHook";
 import { AdminProfileCredentials } from "../../../interfaces";
 import { passwordUpdateSchema, updateAdminSchema } from "../../../validation";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -7,6 +6,8 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useEffect } from "react";
 import { RenderDepartments, RenderPermissions } from "./views";
+import { useFetchMe, useUpdateAdminProfile } from "../../../hooks/me.hooks";
+import { useUpdateMyPassword } from "../../../hooks/account.hook";
 
 const TRANSLATION_NAMESPACE = "adminAccount";
 
@@ -42,13 +43,9 @@ const AdminAccountPage = () => {
     }
   }, [me, reset]);
 
-  const { 
-    updateAdminProfile, 
-    isUpdateAdminProfileLoading, 
-    
-    updateMyPassword, 
-    isUpdateMyPasswordLoading 
-  } = useManageMe();
+
+  const { mutate: updateAdminProfile, isPending: isUpdateAdminProfileLoading } = useUpdateAdminProfile();
+  const { mutate: updateMyPassword, isPending: isUpdateMyPasswordLoading } = useUpdateMyPassword();
 
   // Handler for confirming the edit action for the admin
   const handleConfirmEdit: SubmitHandler<AdminProfileCredentials> = async (request) => {

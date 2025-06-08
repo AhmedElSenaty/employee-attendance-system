@@ -5,7 +5,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { getAdminSchema } from "../../../validation/adminSchema";
 import { IAdminCredentials } from "../../../interfaces/adminInterfaces";
-import { useGetAdminByID, useManageAdmins } from "../../../hooks/useAdminHook";
 import { useNavigate, useParams } from "react-router";
 import { DeleteAdminPopup, RenderAdminInputs, UnblockAdminPopup } from "./views";
 import { RenderDepartmentCheckboxes } from "../manage-departments/views";
@@ -16,6 +15,7 @@ import { HasPermission } from "../../../components/auth";
 import { useUpdateUserPermissions } from "../../../hooks/permission.hooks";
 import { useUpdateUserDepartments } from "../../../hooks/department.hooks";
 import { useUnblockAccount, useUpdateAccountPassword } from "../../../hooks/account.hook";
+import { useDeleteAdmin, useGetAdminByID, useUpdateAdmin } from "../../../hooks/admin.hooks";
 
 const EditAdminPage = () => {
   // Translation namespace setup for dynamic translation based on context
@@ -68,12 +68,8 @@ const EditAdminPage = () => {
   }, [admin, isAdminDataLoading]);  // Effect triggers when 'admin' data or 'isAdminDataLoading' changes
 
   // Destructuring functions and loading states from custom hooks for managing admins, departments, and permissions
-  const {
-    updateAdmin,    // Function to update admin data
-    isUpdating,     // Loading state for admin update
-    deleteAdmin,    // Function to delete admin
-    isDeleting,     // Loading state for admin deletion
-  } = useManageAdmins();
+  const { mutate: updateAdmin, isPending: isupdateing } = useUpdateAdmin();
+  const { mutate: deleteAdmin, isPending: isDeleting } = useDeleteAdmin();
 
 
   // Handler for confirming the edit action for the admin
@@ -178,7 +174,7 @@ const EditAdminPage = () => {
                 <>
                   <HasPermission permission="Update Admin">
                     {/* Update admin button */}
-                    <Button fullWidth={false} isLoading={isUpdating}>
+                    <Button fullWidth={false} isLoading={isupdateing}>
                       {t("updateAdminPage.updateAdminButton", { ns: ADMIN_TRANSLATION_NAMESPACE })}
                     </Button>
                   </HasPermission>

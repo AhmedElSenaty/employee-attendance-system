@@ -7,11 +7,11 @@ import { formatValue } from "../../../utils";
 import { NavLink } from "react-router";
 import { DeleteAdminPopup, UnblockAdminPopup, AdminsTable, AdminTableFilters } from "./views";
 import { Shield, ShieldPlus } from "lucide-react";
-import { useGetAllAdmins, useManageAdmins } from "../../../hooks/useAdminHook";
 import { ADMIN_TRANSLATION_NAMESPACE } from ".";
 import { HasPermission } from "../../../components/auth";
 import { useLanguageStore } from "../../../store/language.store";
 import { useUnblockAccount } from "../../../hooks/account.hook";
+import { useDeleteAdmin, useGetAllAdmins } from "../../../hooks/admin.hooks";
 
 const ManageAdminsPage = () => {
   // Set up translation namespace and retrieve translation function `t`
@@ -51,10 +51,7 @@ const ManageAdminsPage = () => {
   );
   
   // Destructure delete function and loading state from custom admin management hook
-  const {
-    deleteAdmin,
-    isDeleting,
-  } = useManageAdmins();
+  const { mutate: deleteAdmin, isPending: isDeleting } = useDeleteAdmin();
 
   // Handle confirmation of admin deletion
   const handleConfirmDelete = () => {

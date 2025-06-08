@@ -6,13 +6,13 @@ import { useState } from "react";
 import { useDebounce } from "../../../hooks/debounce.hook";
 import { useFiltersHook } from "../../../hooks/filter.hook";
 import { DeleteManagerPopup, ManagersTable, ManagerTableFilters, UnblockManagerPopup } from "./views";
-import { useGetAllManagers, useGetManagersCount, useManageManagers } from "../../../hooks/useManagerHook";
 import { MANAGER_GRAPH_LABEL_KEYS, MANAGER_HOVER_OFFSET, MANAGER_TRANSLATION_NAMESPACE, MANAGER_GRAPH_BACKGROUND_COLORS } from ".";
 import { HasPermission } from "../../../components/auth";
 import { useLanguageStore } from "../../../store/language.store";
 import { useUserStore } from "../../../store/user.store";
 import { ActionCard, Button, CountCard, DoughnutChart, Graph, GraphSkeleton, Header, Paginator, SectionHeader } from "../../../components/ui";
 import { useUnblockAccount } from "../../../hooks/account.hook";
+import { useDeleteManager, useGetAllManagers, useGetManagersCount } from "../../../hooks/manager.hooks";
 
 export const ManageManagersPage = () => {
   const userRole = useUserStore((state) => state.role);
@@ -59,10 +59,7 @@ export const ManageManagersPage = () => {
   };
   
 
-  const {
-    deleteManager,
-    isDeleting,
-  } = useManageManagers();
+  const { mutate: deleteManager, isPending: isDeleting } = useDeleteManager();
 
   const { mutate: unblockAccount, isPending: isUnblockAccountLoading } = useUnblockAccount();
 
