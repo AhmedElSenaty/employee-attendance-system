@@ -51,12 +51,15 @@
         "actions": "Actions",
         "accountStatus": "Account Status",
         "isBlocked": "Is Blocked?",
-        "hiringDate": "Hiring Date"
+        "hiringDate": "Hiring Date",
+        "isExcludedFromReports": "is Excluded From Reports?"
       },
       "status": {
         "blocked": "Blocked",
         "active": "Active",
-        "notActive": "Inactive"
+        "notActive": "Inactive",
+        "included": "included",
+        "excluded": "excluded"
       }
     },
     "actions": {
@@ -217,6 +220,11 @@
     "unblock": {
       "title": "Restore Access",
       "description": "Do you want to unblock this employee and allow them to log in again?"
+    },
+    "toggleIncludedStatus": {
+      "title": "Change User Status in Report",
+      "description": "Click the button to toggle the user's status between included or excluded from the report."
     }
+
   }
 }

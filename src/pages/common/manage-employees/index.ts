@@ -12,6 +12,7 @@ export const EMPLOYEE_TABLE_COLUMNS = [
   "manageEmployeesPage.table.columns.departmentName",
   "manageEmployeesPage.table.columns.subDepartmentName",
   "manageEmployeesPage.table.columns.status",
+  "manageEmployeesPage.table.columns.isExcludedFromReports",
   "manageEmployeesPage.table.columns.actions",
 ]
 

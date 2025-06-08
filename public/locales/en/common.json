@@ -54,7 +54,8 @@
     "dashboard": "Dashboard",
     "download": "Download",
     "logout": "Logout",
-    "refresh": "Refresh"
+    "refresh": "Refresh",
+    "toggle": "Toggle"
   },
   "search": {
     "label": "Search",

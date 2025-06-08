@@ -147,6 +147,28 @@ export const useUpdateEmployee = () => {
   });
 };
 
+export const useToggleReportEmployeeStatus = () => {
+  const token = useUserStore((state) => state.token);
+  const { language } = useLanguageStore();
+  const queryClient = useQueryClient();
+  const employeeService = new EmployeeService(token);
+
+  return useMutation({
+    mutationFn: (employeeID: string) => employeeService.toggleReportStatus(employeeID),
+    onSuccess: ({ status, data }) => {
+      queryClient.invalidateQueries({ queryKey: [EMPLOYEES_QUERY_KEY] });
+      if (status === 200) {
+        const message = getTranslatedMessage(data.message ?? "", language);
+        showToast("success", message);
+      }
+    },
+    onError: (error) => {
+      const axiosError = error as AxiosError<IErrorResponse>;
+      handleApiError(axiosError, language);
+    },
+  });
+};
+
 export const useDeleteEmployee = () => {
   const token = useUserStore((state) => state.token);
   const { language } = useLanguageStore();

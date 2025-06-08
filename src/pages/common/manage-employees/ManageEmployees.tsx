@@ -6,13 +6,14 @@ import { useState } from "react";
 import { useDebounce } from "../../../hooks/debounce.hook";
 import { useFiltersHook } from "../../../hooks/filter.hook";
 import { DeleteEmployeePopup, EmployeesTable, EmployeeTableFilters, UnblockEmployeePopup } from "./views";
-import { useDeleteEmployee, useGetAllEmployees, useGetEmployeesCount } from "../../../hooks/employee.hooks";
+import { useDeleteEmployee, useGetAllEmployees, useGetEmployeesCount, useToggleReportEmployeeStatus } from "../../../hooks/employee.hooks";
 import { EMPLOYEE_BORDER_WIDTH, EMPLOYEE_GRAPH_BACKGROUND_COLORS, EMPLOYEE_GRAPH_BORDER_COLORS, EMPLOYEE_GRAPH_LABEL_KEYS, EMPLOYEE_TRANSLATION_NAMESPACE } from ".";
 import { HasPermission } from "../../../components/auth";
 import { useLanguageStore } from "../../../store/language.store";
 import { useUserStore } from "../../../store/user.store";
 import { ActionCard, BarChart, Button, CountCard, Graph, GraphSkeleton, Header, Paginator, SectionHeader } from "../../../components/ui";
 import { useUnblockAccount } from "../../../hooks/account.hook";
+import ChangeIncludedStatusPopup from "./views/ChangeIncludedStatusPopup";
 
 export const ManageEmployeesPage = () => {
   const userRole = useUserStore((state) => state.role);
@@ -22,6 +23,7 @@ export const ManageEmployeesPage = () => {
   const [selectedID, setSelectedID] = useState<string>("");
   const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
   const [isUnblockPopupOpen, setIsUnblockPopupOpen] = useState(false)
+  const [isChangeIncludedStatusPopupOpen, setIsChangeIncludedStatusPopupOpen] = useState(false)
 
   const handleDeletePopupOpen = (id: string) => {
     setSelectedID(id)
@@ -30,6 +32,10 @@ export const ManageEmployeesPage = () => {
   const handleUnblockPopupOpen = (id: string) => {
     setSelectedID(id)
     setIsUnblockPopupOpen(true) 
+  }
+  const handleChangeIncludedStatusPopupOpen = (id: string) => {
+    setSelectedID(id)
+    setIsChangeIncludedStatusPopupOpen(true) 
   }
 
   const { page, pageSize, searchKey, search, setFilters } = useFiltersHook()
@@ -57,6 +63,8 @@ export const ManageEmployeesPage = () => {
 
   const { mutate: unblockAccount, isPending: isUnblockAccountLoading } = useUnblockAccount();
 
+  const { mutate: toggleReport, isPending: isToggleReportLoading } = useToggleReportEmployeeStatus();
+
   const handleConfirmDelete = () => {
     if (!selectedID) return;
     deleteEmployee(selectedID)
@@ -68,6 +76,12 @@ export const ManageEmployeesPage = () => {
     if (!selectedID) return;
     unblockAccount(selectedID)
     setIsUnblockPopupOpen(false)
+  };
+
+  const handleConfirmToggleReport = () => {
+    if (!selectedID) return;
+    toggleReport(selectedID)
+    setIsChangeIncludedStatusPopupOpen(false)
   };
 
   return (
@@ -144,6 +158,7 @@ export const ManageEmployeesPage = () => {
             isLoading={isEmployeesDataLoading}
             handleDeleteEmployee={handleDeletePopupOpen}
             handleUnblockEmployee={handleUnblockPopupOpen}
+            handleChangeIncludedStatusEmployee={handleChangeIncludedStatusPopupOpen}
             t={t}
           />
         </div>
@@ -170,6 +185,13 @@ export const ManageEmployeesPage = () => {
         handleClose={() => { setIsUnblockPopupOpen(false) }}
         handleConfirmUnblock={handleConfirmUnblock}
         isLoading={isUnblockAccountLoading}
+        t={t}
+      />
+      <ChangeIncludedStatusPopup
+        isOpen={isChangeIncludedStatusPopupOpen}
+        handleClose={() => { setIsChangeIncludedStatusPopupOpen(false) }}
+        handleConfirmChange={handleConfirmToggleReport}
+        isLoading={isToggleReportLoading}
         t={t}
       />
     </div>

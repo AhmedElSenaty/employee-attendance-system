@@ -54,7 +54,8 @@
     "dashboard": "لوحة التحكم",
     "download": "تنزيل",
     "logout": "تسجيل الخروج",
-    "refresh": "تحديث"
+    "refresh": "تحديث",
+    "toggle": "تبديل"
   },
   "search": {
     "label": "بحث",

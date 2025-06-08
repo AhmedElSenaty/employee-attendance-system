@@ -51,12 +51,15 @@
         "actions": "الإجراءات",
         "accountStatus": "حالة الحساب",
         "isBlocked": "هل هو محظور؟",
-        "hiringDate": "تاريخ التوظيف"
+        "hiringDate": "تاريخ التوظيف",
+        "isExcludedFromReports": "مستثنى من التقارير?"
       },
       "status": {
         "blocked": "محظور",
         "active": "نشط",
-        "notActive": "غير نشط"
+        "notActive": "غير نشط",
+        "included": "مشمول",
+        "excluded": "مستبعد"
       }
     },
     "actions": {
@@ -217,6 +220,10 @@
     "unblock": {
       "title": "استعادة الوصول",
       "description": "هل تريد إزالة حظر هذا الموظف والسماح له بتسجيل الدخول مرة أخرى؟"
+    },
+    "toggleIncludedStatus": {
+      "title": "تغيير حالة المستخدم في التقرير",
+      "description": "اضغط على الزر لتبديل حالة المستخدم بين مدرج أو مستبعد من التقرير."
     }
   }
 }

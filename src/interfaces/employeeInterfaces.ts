@@ -40,6 +40,7 @@ export interface IEmployeeData {
   oldId?: string
   delegeteName?: string
   delegeteSubDepartmentName?: string
+  isExcludedFromReports: boolean
 }
 
 export interface UseGetAllEmployeesReturn {

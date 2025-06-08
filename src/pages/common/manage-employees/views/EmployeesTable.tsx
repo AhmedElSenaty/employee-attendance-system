@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { StatusBadge, Button, NoDataMessage, Table, TableCell, TableRow, TableSkeleton, Tooltip } from "../../../../components/ui";
-import { AlertTriangle, Ban, Calendar, CheckCircle, FilePenLine, Trash2 } from "lucide-react";
+import { AlertTriangle, Ban, Calendar, CheckCircle, FilePenLine, FileSpreadsheet, Trash2, X } from "lucide-react";
 import { TFunction } from "i18next";
 import { IEmployeeData } from "../../../../interfaces";
 import { NavLink } from "react-router";
@@ -15,9 +15,10 @@ interface IEmployeesTableProps {
   t: TFunction;
   handleDeleteEmployee: (id: string) => void;
   handleUnblockEmployee: (id: string) => void;
+  handleChangeIncludedStatusEmployee: (id: string) => void;
 }
 
-const EmployeesTable = ({ employees, t, isLoading, handleDeleteEmployee, handleUnblockEmployee }: IEmployeesTableProps) => {
+const EmployeesTable = ({ employees, t, isLoading, handleDeleteEmployee, handleUnblockEmployee, handleChangeIncludedStatusEmployee }: IEmployeesTableProps) => {
   const userRole = useUserStore((state) => state.role);
 
   const columns = useMemo(
@@ -34,7 +35,7 @@ const EmployeesTable = ({ employees, t, isLoading, handleDeleteEmployee, handleU
           {employees.length == 0 ? (
             <NoDataMessage title={t("manageEmployeesPage.table.emptyTable.title", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })} message={t("manageEmployeesPage.table.emptyTable.message", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })} />
           ) : (
-            employees.map(({ id, fullName, email, ssn, phoneNumber, departmentName, subDepartmentName, isActive, isBlocked }: IEmployeeData) => (
+            employees.map(({ id, fullName, email, ssn, phoneNumber, departmentName, subDepartmentName, isActive, isBlocked, isExcludedFromReports }: IEmployeeData) => (
               <TableRow key={id} className="border-b">
                 <TableCell label={columns[0]}>{truncateText(fullName, 20)}</TableCell>
                 <TableCell label={columns[1]}>
@@ -67,6 +68,21 @@ const EmployeesTable = ({ employees, t, isLoading, handleDeleteEmployee, handleU
                           {t("manageEmployeesPage.table.status.blocked", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}
                         </StatusBadge>
                       )}
+                    </div>
+                  </div>
+                </TableCell>
+                <TableCell label={columns[6]}>
+                  <div className="h-fit flex flex-col gap-3 items-center justify-center">
+                    <div className="block">
+                      <StatusBadge
+                        variant={!isExcludedFromReports ? "success" : "error"}
+                        size="medium"
+                        icon={!isExcludedFromReports ? <CheckCircle className="w-4 h-4" /> : <X className="w-4 h-4" />}
+                      >
+                        {!isExcludedFromReports
+                          ? t("manageEmployeesPage.table.status.included", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })
+                          : t("manageEmployeesPage.table.status.excluded", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}
+                      </StatusBadge>
                     </div>
                   </div>
                 </TableCell>
@@ -123,6 +139,17 @@ const EmployeesTable = ({ employees, t, isLoading, handleDeleteEmployee, handleU
                           />
                         </Tooltip>
                       }
+                    </HasPermission>
+                    <HasPermission permission="Include/Exclude Employee from Reports">
+                        <Tooltip content="Include/Exclude Employee from Reports">
+                          <Button
+                            variant="warning"
+                            fullWidth={false}
+                            size={"sm"}
+                            icon={<FileSpreadsheet className="w-full h-full" />}
+                            onClick={() => handleChangeIncludedStatusEmployee(id)}
+                          />
+                        </Tooltip>
                     </HasPermission>
                   </div>
                 </TableCell>

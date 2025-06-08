@@ -20,7 +20,8 @@ export class EmployeeService extends BaseService {
         params,
         headers: this.getAuthHeaders(),
       });
-
+      console.log(response.data);
+      
       return response.data;
     } catch (error) {
       console.error("Error fetching employees:", error);
@@ -78,9 +79,15 @@ export class EmployeeService extends BaseService {
       headers: this.getAuthHeaders(),
     });
   };
-
+  
   delete = (employeeID: string) => {
     return axiosInstance.delete(`/Employee/${employeeID}`, {
+      headers: this.getAuthHeaders(),
+    });
+  };
+
+  toggleReportStatus = (employeeID: string) => {
+    return axiosInstance.put(`/Employee/toggle-report/${employeeID}`, {}, {
       headers: this.getAuthHeaders(),
     });
   };
