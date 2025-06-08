@@ -8,11 +8,11 @@ import { RenderEmployeeDepartmentInputs } from "./views/";
 import { useGetEmployeeByID, useManageEmployees } from "../../../hooks/useEmployeesHook";
 import { SectionHeader, Button, ButtonSkeleton, Header, StatusBadge, Description, Field, Input, InputErrorMessage, Label } from "../../../components/ui";
 import { useNavigate, useParams } from "react-router";
-import { useManageAccount } from "../../../hooks/useAccountHook";
 import { EMPLOYEE_TRANSLATION_NAMESPACE } from ".";
 import { useState } from "react";
 import { AlertTriangle, CheckCircle } from "lucide-react";
 import { HasPermission } from "../../../components/auth";
+import { useUnblockAccount, useUpdateAccountPassword } from "../../../hooks/account.hook";
 
 const EditEmployeePage = () => {
   const { t } = useTranslation(["common", EMPLOYEE_TRANSLATION_NAMESPACE]);
@@ -64,18 +64,14 @@ const EditEmployeePage = () => {
     navigate(`/admin/manage-employees/`) 
   };
 
-  const {
-    updateAccountPassword,
-    isUpdateAccountPasswordLoading,
-    unblockAccount,
-    isUnblockAccountLoading,
-  } = useManageAccount();
+  const { mutate: updateAccountPassword, isPending: isUpdateAccountPasswordLoading } = useUpdateAccountPassword();
+  const { mutate: unblockAccount, isPending: isUnblockAccountLoading } = useUnblockAccount();
 
 
   const handleConfirmUpdatePassword: SubmitHandler<{password: string}> = async (request: { password: string }) => {
     updateAccountPassword({
       password: request.password,
-      userID: id || ""
+      userId: id || ""
     });
   };
 

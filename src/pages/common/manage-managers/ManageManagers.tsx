@@ -7,12 +7,12 @@ import { useDebounce } from "../../../hooks/debounce.hook";
 import { useFiltersHook } from "../../../hooks/filter.hook";
 import { DeleteManagerPopup, ManagersTable, ManagerTableFilters, UnblockManagerPopup } from "./views";
 import { useGetAllManagers, useGetManagersCount, useManageManagers } from "../../../hooks/useManagerHook";
-import { useManageAccount } from "../../../hooks/useAccountHook";
 import { MANAGER_GRAPH_LABEL_KEYS, MANAGER_HOVER_OFFSET, MANAGER_TRANSLATION_NAMESPACE, MANAGER_GRAPH_BACKGROUND_COLORS } from ".";
 import { HasPermission } from "../../../components/auth";
 import { useLanguageStore } from "../../../store/language.store";
 import { useUserStore } from "../../../store/user.store";
 import { ActionCard, Button, CountCard, DoughnutChart, Graph, GraphSkeleton, Header, Paginator, SectionHeader } from "../../../components/ui";
+import { useUnblockAccount } from "../../../hooks/account.hook";
 
 export const ManageManagersPage = () => {
   const userRole = useUserStore((state) => state.role);
@@ -64,10 +64,7 @@ export const ManageManagersPage = () => {
     isDeleting,
   } = useManageManagers();
 
-  const {
-    unblockAccount,
-    isUnblockAccountLoading,
-  } = useManageAccount();
+  const { mutate: unblockAccount, isPending: isUnblockAccountLoading } = useUnblockAccount();
 
   const handleConfirmDelete = () => {
     if (!selectedID) return;

@@ -8,10 +8,10 @@ import { NavLink } from "react-router";
 import { DeleteAdminPopup, UnblockAdminPopup, AdminsTable, AdminTableFilters } from "./views";
 import { Shield, ShieldPlus } from "lucide-react";
 import { useGetAllAdmins, useManageAdmins } from "../../../hooks/useAdminHook";
-import { useManageAccount } from "../../../hooks/useAccountHook";
 import { ADMIN_TRANSLATION_NAMESPACE } from ".";
 import { HasPermission } from "../../../components/auth";
 import { useLanguageStore } from "../../../store/language.store";
+import { useUnblockAccount } from "../../../hooks/account.hook";
 
 const ManageAdminsPage = () => {
   // Set up translation namespace and retrieve translation function `t`
@@ -64,10 +64,7 @@ const ManageAdminsPage = () => {
   };
 
   // Destructure unblock function and loading state from custom account management hook
-  const {
-    unblockAccount,
-    isUnblockAccountLoading,
-  } = useManageAccount();
+  const { mutate: unblockAccount, isPending: isUnblockAccountLoading } = useUnblockAccount();
 
   // Handle confirmation of unblocking a user account
   const handleConfirmUnblock = () => {

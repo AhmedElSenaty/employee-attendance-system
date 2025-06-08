@@ -11,11 +11,11 @@ import { DeleteAdminPopup, RenderAdminInputs, UnblockAdminPopup } from "./views"
 import { RenderDepartmentCheckboxes } from "../manage-departments/views";
 import { RenderPermissionCheckboxes } from "../manage-permissions/views";
 import { passwordUpdateSchema } from "../../../validation";
-import { useManageAccount } from "../../../hooks/useAccountHook";
 import { ADMIN_TRANSLATION_NAMESPACE } from ".";
 import { HasPermission } from "../../../components/auth";
 import { useUpdateUserPermissions } from "../../../hooks/permission.hooks";
 import { useUpdateUserDepartments } from "../../../hooks/department.hooks";
+import { useUnblockAccount, useUpdateAccountPassword } from "../../../hooks/account.hook";
 
 const EditAdminPage = () => {
   // Translation namespace setup for dynamic translation based on context
@@ -114,19 +114,14 @@ const EditAdminPage = () => {
     });
   };
 
-  // Destructuring functions and loading states for managing account password and unblock actions
-  const {
-    updateAccountPassword,   // Function to update account password
-    isUpdateAccountPasswordLoading, // Loading state for password update
-    unblockAccount,          // Function to unblock account
-    isUnblockAccountLoading, // Loading state for unblock account
-  } = useManageAccount();
+  const { mutate: updateAccountPassword, isPending: isUpdateAccountPasswordLoading } = useUpdateAccountPassword();
+  const { mutate: unblockAccount, isPending: isUnblockAccountLoading } = useUnblockAccount();
 
   // Handler for confirming the password update action
   const handleConfirmUpdatePassword: SubmitHandler<{password: string}> = async (request: { password: string }) => {
     updateAccountPassword({
       password: request.password, // Passing the new password
-      userID: id || "",           // Passing the user ID, falling back to empty string if unavailable
+      userId: id || "",           // Passing the user ID, falling back to empty string if unavailable
     });
   };
 

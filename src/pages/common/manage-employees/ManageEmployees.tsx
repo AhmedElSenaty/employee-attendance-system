@@ -7,12 +7,12 @@ import { useDebounce } from "../../../hooks/debounce.hook";
 import { useFiltersHook } from "../../../hooks/filter.hook";
 import { DeleteEmployeePopup, EmployeesTable, EmployeeTableFilters, UnblockEmployeePopup } from "./views";
 import { useGetAllEmployees, useGetEmployeesCount, useManageEmployees } from "../../../hooks/useEmployeesHook";
-import { useManageAccount } from "../../../hooks/useAccountHook";
 import { EMPLOYEE_BORDER_WIDTH, EMPLOYEE_GRAPH_BACKGROUND_COLORS, EMPLOYEE_GRAPH_BORDER_COLORS, EMPLOYEE_GRAPH_LABEL_KEYS, EMPLOYEE_TRANSLATION_NAMESPACE } from ".";
 import { HasPermission } from "../../../components/auth";
 import { useLanguageStore } from "../../../store/language.store";
 import { useUserStore } from "../../../store/user.store";
 import { ActionCard, BarChart, Button, CountCard, Graph, GraphSkeleton, Header, Paginator, SectionHeader } from "../../../components/ui";
+import { useUnblockAccount } from "../../../hooks/account.hook";
 
 export const ManageEmployeesPage = () => {
   const userRole = useUserStore((state) => state.role);
@@ -58,10 +58,7 @@ export const ManageEmployeesPage = () => {
     isDeleting,
   } = useManageEmployees();
 
-  const {
-    unblockAccount,
-    isUnblockAccountLoading,
-  } = useManageAccount();
+  const { mutate: unblockAccount, isPending: isUnblockAccountLoading } = useUnblockAccount();
 
   const handleConfirmDelete = () => {
     if (!selectedID) return;
