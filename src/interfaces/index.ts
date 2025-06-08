@@ -1,14 +1,14 @@
 //! Done
 export * from "./adminInterfaces"
-export * from "./paginationInterface"
-export * from "./metaDataInterface"
+export * from "./pagination.interface"
+export * from "./metadata.interface"
 export * from "./filtersInterfaces"
 export * from "./managerInterfaces";
 export * from "./profile.interface"
 export * from "./employeeInterfaces"
 export * from "./login.interfaces";
 export * from "./authInterfaces";
-export * from "./resetAccountInterfaces";
+export * from "./resetAccount.interfaces";
 export * from "./permission.interfaces"
 export * from "./officialVacation.Interfaces";
 export * from "./entity.interfaces";

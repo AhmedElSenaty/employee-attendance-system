@@ -1,4 +1,4 @@
-import { IMetadata } from "./metaDataInterface";
+import { IMetadata } from "./metadata.interface";
 
 /**
  * Represents the structure of a single manager.

@@ -1,4 +1,4 @@
-import { IMetadata } from "./metaDataInterface";
+import { IMetadata } from "./metadata.interface";
 
 /**
  * Represents a minimal Official Vacation (used in dropdowns or list items).

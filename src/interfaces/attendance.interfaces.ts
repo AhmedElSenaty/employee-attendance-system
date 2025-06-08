@@ -1,4 +1,4 @@
-import { IMetadata } from "./metaDataInterface";
+import { IMetadata } from "./metadata.interface";
 
 type DayType = "workday" | "holiday" | "weekend" | "absent" | "other";
 

@@ -1,4 +1,4 @@
-import { IPaginationData } from "./paginationInterface";
+import { IPaginationData } from "./pagination.interface";
 
 export interface IMetadata {
   pagination: IPaginationData;

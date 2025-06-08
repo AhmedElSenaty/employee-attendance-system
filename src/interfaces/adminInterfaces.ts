@@ -1,4 +1,4 @@
-import { IMetadata } from "./metaDataInterface";
+import { IMetadata } from "./metadata.interface";
 
 export interface IAdminCredentials {
   id?: string;               // Optional: The unique identifier for the admin. (Used for updating an existing admin)
