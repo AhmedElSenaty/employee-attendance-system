@@ -3,7 +3,7 @@ import { formatValue } from "../../../utils";
 import { NavLink } from "react-router";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
-import { useDebounce } from "../../../hooks/useDebounceHook";
+import { useDebounce } from "../../../hooks/debounce.hook";
 import { useFiltersHook } from "../../../hooks/useFiltersHook";
 import { DeleteManagerPopup, ManagersTable, ManagerTableFilters, UnblockManagerPopup } from "./views";
 import { useGetAllManagers, useGetManagersCount, useManageManagers } from "../../../hooks/useManagerHook";

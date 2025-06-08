@@ -4,7 +4,7 @@ import { formatValue } from "../../../utils"
 import { useTranslation } from "react-i18next"
 import { useState } from "react"
 import { useFiltersHook } from "../../../hooks/useFiltersHook"
-import { useDebounce } from "../../../hooks/useDebounceHook"
+import { useDebounce } from "../../../hooks/debounce.hook"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup";
 import { departmentSchema } from "../../../validation"

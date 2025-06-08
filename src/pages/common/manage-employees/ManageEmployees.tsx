@@ -3,7 +3,7 @@ import { formatValue } from "../../../utils";
 import { NavLink } from "react-router";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
-import { useDebounce } from "../../../hooks/useDebounceHook";
+import { useDebounce } from "../../../hooks/debounce.hook";
 import { useFiltersHook } from "../../../hooks/useFiltersHook";
 import { DeleteEmployeePopup, EmployeesTable, EmployeeTableFilters, UnblockEmployeePopup } from "./views";
 import { useGetAllEmployees, useGetEmployeesCount, useManageEmployees } from "../../../hooks/useEmployeesHook";

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { CirclePlus, Fingerprint } from "lucide-react";
 import { formatValue } from "../../../utils";
-import { useDebounce } from "../../../hooks/useDebounceHook";
+import { useDebounce } from "../../../hooks/debounce.hook";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useFiltersHook } from "../../../hooks/useFiltersHook";

@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import { useFiltersHook } from "../../../hooks/useFiltersHook";
-import { useDebounce } from "../../../hooks/useDebounceHook";
+import { useDebounce } from "../../../hooks/debounce.hook";
 import { CountCard, Header, ActionCard, Button, Paginator, SectionHeader } from "../../../components/ui";
 import { formatValue } from "../../../utils";
 import { NavLink } from "react-router";

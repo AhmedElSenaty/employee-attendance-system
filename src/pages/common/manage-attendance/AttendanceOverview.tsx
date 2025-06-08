@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { CalendarSearch } from "lucide-react";
 import { formatValue } from "../../../utils";
-import { useDebounce } from "../../../hooks/useDebounceHook";
+import { useDebounce } from "../../../hooks/debounce.hook";
 import { useFiltersHook } from "../../../hooks/useFiltersHook";
 import { AttendanceOverviewTable } from "./views";
 import AttendanceOverviewTableFilters from "./views/AttendanceOverviewTableFilters";
