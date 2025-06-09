@@ -1,20 +1,13 @@
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { Calendar, FilePlus2, RefreshCcw, ShieldCheck } from "lucide-react";
-
-import { ActionCard, Button, Field, Header, Input, Label, LeaveRequestCard, Paginator, SectionHeader, SelectBox, Tooltip } from "../../../components/ui";
-import ConditionsPopup from "./views/ConditionsPopup";
-
-import { ILeaveRequestCredentials, ILeaveRequestData } from "../../../interfaces/leaveRequest.interfaces";
-import AddLeaveRequestPopup from "./views/AddLeaveRequestPopup";
-import RenderLeaveRequestInputs from "./views/RenderLeaveRequestInputs";
+import { FilePlus2, ShieldCheck } from "lucide-react";
+import { ActionCard, Button, Header, Paginator, SectionHeader } from "../../../components/ui";
+import { ILeaveRequestCredentials } from "../../../interfaces/leaveRequest.interfaces";
 import { useCreateLeaveRequest, useGetLeaveRequestByID, useGetMyLeaveRequests, useUpdateLeaveRequest } from "../../../hooks/leaveRequest.hook";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { leaveRequestSchema } from "../../../validation/leaveRequestSchema";
-import EditLeaveRequestPopup from "./views/EditLeaveRequestPopup";
-import ShowLeaveRequestPopup from "./views/ShowLeaveRequestPopup";
 import useURLSearchParams from "../../../hooks/URLSearchParams.hook";
-import { LeaveRequestStatusType } from "../../../enums";
+import { AddLeaveRequestPopup, ConditionsPopup, EditLeaveRequestPopup, LeaveRequestFilters, LeaveRequestList, RenderLeaveRequestInputs, ShowLeaveRequestPopup } from "./views";
 
 const LeaveRequests = () => {
   const {getParam, setParam, clearParams} = useURLSearchParams();
@@ -56,10 +49,29 @@ const LeaveRequests = () => {
     setIsEditPopupOpen(false)
   }
 
-  
-  // Now pass only meaningful values to the hook
-  const { leaveRequests, metadata, isLeaveRequestsLoading } = useGetMyLeaveRequests();
-  
+  // Using the enhanced getParam with parser support from the improved hook
+  const rawPage = getParam('page', Number);
+  const rawPageSize = getParam('pageSize', Number);
+  const rawStartDate = getParam('startDate');
+  const rawEndDate = getParam('endDate');
+  const rawStatus = getParam('status', Number);
+
+  // Use nullish coalescing to default numeric values, undefined for dates if empty
+  const page = rawPage ?? 1;
+  const pageSize = rawPageSize ?? 10;
+  const startDate = rawStartDate || undefined;
+  const endDate = rawEndDate || undefined;
+  const status = rawStatus !== null && rawStatus !== 0 ? rawStatus : undefined;
+
+  // Pass filtered params to hook
+  const { leaveRequests, metadata, isLeaveRequestsLoading } = useGetMyLeaveRequests(
+    page,
+    pageSize,
+    startDate,
+    endDate,
+    status
+  );
+
   const { leaveRequest, isLeaveRequestLoading } = useGetLeaveRequestByID(selectedID, reset);
   const { mutate: createLeaveRequest, isPending: isAdding } = useCreateLeaveRequest()
   const { mutate: updateLeaveRequest, isPending: isUpdating } = useUpdateLeaveRequest()
@@ -129,66 +141,18 @@ const LeaveRequests = () => {
           description="View submitted leave requests with status, timing, and notes. Edit or manage them as needed." 
         />
 
-        <div className="flex flex-wrap items-end gap-4">
-          <Field className="flex flex-col space-y-2 w-fit">
-            <Label>Page Size</Label>
-            <SelectBox
-              value={getParam('pageSize') ?? 5}
-              onChange={(e) => setParam("pageSize", String(e.target.value ? parseInt(e.target.value) : 10))}
-            >
-              {[10, 20, 30, 40, 50].map(size => (
-                <option key={size} value={size}>{size}</option>
-              ))}
-            </SelectBox>
-          </Field>
+        <LeaveRequestFilters
+          getParam={getParam}
+          setParam={setParam}
+          clearParams={clearParams}
+        />
 
-          <Field className="flex flex-col space-y-2">
-            <Label>Start Date</Label>
-            <Input
-              type="date"
-              icon={<Calendar />}
-              value={getParam('startDate') ?? ""}
-              onChange={(e) => setParam("startDate", e.target.value)}
-            />
-          </Field>
-
-          <Field className="flex flex-col space-y-2">
-            <Label>End Date</Label>
-            <Input
-              type="date"
-              icon={<Calendar />}
-              value={getParam('endDate') ?? ""}
-              onChange={(e) => setParam("endDate", e.target.value)}
-            />
-          </Field>
-
-          <Field className="flex flex-col space-y-2">
-            <Label>Leave Status</Label>
-            <SelectBox
-              onChange={(e) => setParam("status", e.target.value)}
-              defaultValue=""
-            >
-              <option value="" disabled>Select leave status</option>
-              {Object.values(LeaveRequestStatusType)
-                .filter((v) => typeof v === "number")
-                .map((statusValue) => (
-                  <option key={statusValue} value={statusValue}>
-                    {LeaveRequestStatusType[statusValue as number]}
-                  </option>
-                ))}
-            </SelectBox>
-          </Field>
-          
-          <Tooltip content="Reset All">
-            <Button onClick={() => clearParams()} icon={<RefreshCcw />} />
-          </Tooltip>
-        </div>
-
-        <div className="w-full flex flex-wrap gap-2 justify-self-auto ">
-          {leaveRequests.map((request: ILeaveRequestData) => (
-            <LeaveRequestCard key={request.id} data={request} handleEdit={handleEditPopupOpen} handleShow={handleShowPopupOpen} />
-          ))}
-        </div>
+        <LeaveRequestList
+          leaveRequests={leaveRequests}
+          isLoading={isLeaveRequestsLoading}
+          handleEditPopupOpen={handleEditPopupOpen}
+          handleShowPopupOpen={handleShowPopupOpen}
+        />
 
         {/* Pagination Component */}
         <Paginator
@@ -208,6 +172,17 @@ const LeaveRequests = () => {
         handleClose={() => setIsConditionsOpen(false)}
       />
 
+      <ShowLeaveRequestPopup
+        isOpen={isShowPopupOpen}
+        handleClose={() => setIsShowPopupOpen(false)} 
+        handleEditPopupOpen={() => {
+          handleEditPopupOpen(selectedID)
+          setIsShowPopupOpen(false)
+        }}
+        leaveRequest={leaveRequest}
+        isLoading={isLeaveRequestLoading}
+      />
+
       {/* Add Leave Request Popup */}
       <AddLeaveRequestPopup
         isOpen={isAddPopupOpen}
@@ -224,6 +199,7 @@ const LeaveRequests = () => {
         }
         isLoading={isAdding}
       />
+
       <EditLeaveRequestPopup
         isOpen={isEditPopupOpen}
         handleClose={handleEditPopupClose}
@@ -236,16 +212,6 @@ const LeaveRequests = () => {
           />
         }
         isLoading={isUpdating}
-      />
-      <ShowLeaveRequestPopup
-        isOpen={isShowPopupOpen}
-        handleClose={() => setIsShowPopupOpen(false)} 
-        handleEditPopupOpen={() => {
-          handleEditPopupOpen(selectedID)
-          setIsShowPopupOpen(false)
-        }}
-        leaveRequest={leaveRequest}
-        isLoading={isLeaveRequestLoading}
       />
     </div>
   );

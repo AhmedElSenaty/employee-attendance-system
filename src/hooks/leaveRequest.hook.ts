@@ -7,29 +7,19 @@ import { getTranslatedMessage, handleApiError, showToast } from "../utils";
 import { LeaveRequestService } from "../services/leaveRequest.services";
 import { AxiosError } from "axios";
 import { IErrorResponse, initialMetadata } from "../interfaces";
-import useURLSearchParams from "./URLSearchParams.hook";
 
 export const MY_LEAVE_REQUESTS_QUERY_KEY = "myLeaveRequests";
 export const MY_LEAVE_REQUEST_DETAILS_QUERY_KEY = "myLeaveRequestDetails";
 
-export const useGetMyLeaveRequests = () => {
+export const useGetMyLeaveRequests = (
+  page = 1,
+  pageSize = 10,
+  startDate?: string,
+  endDate?: string,
+  status?: number
+) => {
   const token = useUserStore((state) => state.token);
   const leaveService = new LeaveRequestService(token);
-
-  const {
-    getParam,
-  } = useURLSearchParams();
-  const rawPage = getParam('page');
-  const rawPageSize = getParam('pageSize');
-  const rawStartDate = getParam('startDate');
-  const rawEndDate = getParam('endDate');
-  const rawStatus = getParam('status');
-  
-  const page = rawPage ? Number(rawPage) : 1;
-  const pageSize = rawPageSize ? Number(rawPageSize) : 10;
-  const startDate = rawStartDate || undefined;
-  const endDate = rawEndDate || undefined;
-  const status = rawStatus !== null && rawStatus !== '' ? Number(rawStatus) : undefined;
 
   const { data, isLoading } = useQuery({
     queryKey: [MY_LEAVE_REQUESTS_QUERY_KEY, page, pageSize, startDate, endDate, status],
