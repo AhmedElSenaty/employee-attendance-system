@@ -12,16 +12,12 @@ const LOADING_DELAY = 1500;
 const queryClient = new QueryClient()
 
 function App() {
-  
   const { isReady, t } = useI18nInitialization();
   
   const [loading, setLoading] = useState(true)
 
   const token = useUserStore((state) => state.token);
   const role = useUserStore((state) => state.role);
-  const id = useUserStore((state) => state.id);
-  console.log(id);
-  
   useEffect(() => {
     setTimeout(() => {
       setLoading(false)

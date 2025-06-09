@@ -23,14 +23,14 @@ const StatCard = ({
   return (
     <div
       className={clsx(
-        "p-6 rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 w-full",
+        "p-5 rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 w-full",
         cardBg
       )}
     >
       {/* Icon with background and color */}
       <div
         className={clsx(
-          "w-12 h-12 flex items-center justify-center rounded-xl mb-4 text-3xl",
+          "w-11 h-11 flex items-center justify-center rounded-xl mb-4 text-3xl",
           iconColor,
           iconBg
         )}
@@ -39,7 +39,7 @@ const StatCard = ({
       </div>
 
       {/* Amount */}
-      <p className="text-3xl font-bold text-gray-900 mb-1">{amount}</p>
+      <p className="text-2xl font-bold text-gray-900 mb-1">{amount}</p>
 
       {/* Description */}
       <p className="text-gray-600 text-xl">{description}</p>

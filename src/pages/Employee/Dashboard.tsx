@@ -3,16 +3,17 @@ import { StatCard } from '../../components/ui/StatCard';
 import { Header } from '../../components/ui/Header';
 import { NavLink } from 'react-router';  // Ensure to use NavLink from react-router-dom
 import { useFetchMe } from '../../hooks/me.hooks';
+import { Collapsible } from '../../components/ui';
 
 const Dashboard = () => {
   // Fetching user data
   const { me } = useFetchMe();
-
   // Extracting user details
   const userName = me?.fullName || 'User';
   const departmentName = me?.departmentName || 'No Department';
   const subDepartmentName = me?.subDepartmentName || 'No Sub-Department';
 
+  
   return (
     <div className="px-6 py-8 min-h-screen">
       {/* Header with greeting and department info */}
@@ -52,20 +53,30 @@ const Dashboard = () => {
             cardBg="bg-green-50"
           />
         </NavLink>
+      </div>
 
-        {/* Request Leave (Coming Soon) */}
-        <div>
+      <Collapsible title="Leave Requests" open={true}>
+        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8'>
           <StatCard
             icon={<Clipboard />}  // Lucid icon for leave request
-            amount="Request Leave (Coming Soon)"
-            description="This feature will be available soon."
-            note="Stay tuned for updates on requesting time off."
+            amount="My Leave Requests"
+            description="View your submitted leave requests and their statuses."
+            note="You can track your time off history here."
+            iconColor="text-white"
+            iconBg="bg-yellow-600"
+            cardBg="bg-yellow-50"
+          />
+          <StatCard
+            icon={<Clipboard />}  // Lucid icon for leave request
+            amount="Request Leave"
+            description="Submit a new leave request for approval."
+            note="Fill out the form to request time off."
             iconColor="text-white"
             iconBg="bg-yellow-600"
             cardBg="bg-yellow-50"
           />
         </div>
-      </div>
+      </Collapsible>
     </div>
   );
 };
