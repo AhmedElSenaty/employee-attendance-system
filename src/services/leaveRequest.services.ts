@@ -1,16 +1,14 @@
 import axiosInstance from "../config/axios.config";
-import { LeaveRequestStatusType } from "../enums";
 import { ILeaveRequestCredentials } from "../interfaces/leaveRequest.interfaces";
 import { BaseService } from "./base.services";
 
 export class LeaveRequestService extends BaseService {
-  
   fetchMyLeaveRequests = async (
     page?: number,
     pageSize?: number,
     startDate?: string,
     endDate?: string,
-    status?: LeaveRequestStatusType,
+    status?: number,
   ) => {
     try {
       const params = {
@@ -27,7 +25,7 @@ export class LeaveRequestService extends BaseService {
 
       return response.data;
     } catch (error) {
-      console.error("Error fetching all devices:", error);
+      console.error("Error fetching all leave requests:", error);
       throw error;
     }
   };

@@ -1,21 +1,23 @@
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { FilePlus2, ShieldCheck } from "lucide-react";
+import { Calendar, FilePlus2, RefreshCcw, ShieldCheck } from "lucide-react";
 
-import { ActionCard, Button, Header, LeaveRequestCard, Paginator, SectionHeader } from "../../../components/ui";
+import { ActionCard, Button, Field, Header, Input, Label, LeaveRequestCard, Paginator, SectionHeader, SelectBox, Tooltip } from "../../../components/ui";
 import ConditionsPopup from "./views/ConditionsPopup";
 
 import { ILeaveRequestCredentials, ILeaveRequestData } from "../../../interfaces/leaveRequest.interfaces";
 import AddLeaveRequestPopup from "./views/AddLeaveRequestPopup";
 import RenderLeaveRequestInputs from "./views/RenderLeaveRequestInputs";
 import { useCreateLeaveRequest, useGetLeaveRequestByID, useGetMyLeaveRequests, useUpdateLeaveRequest } from "../../../hooks/leaveRequest.hook";
-import { useFiltersHook } from "../../../hooks/filter.hook";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { leaveRequestSchema } from "../../../validation/leaveRequestSchema";
 import EditLeaveRequestPopup from "./views/EditLeaveRequestPopup";
 import ShowLeaveRequestPopup from "./views/ShowLeaveRequestPopup";
+import useURLSearchParams from "../../../hooks/URLSearchParams.hook";
+import { LeaveRequestStatusType } from "../../../enums";
 
 const LeaveRequests = () => {
+  const {getParam, setParam, clearParams} = useURLSearchParams();
 
   const [selectedID, setSelectedID] = useState<number>(0);
 
@@ -34,7 +36,6 @@ const LeaveRequests = () => {
     resolver: yupResolver(leaveRequestSchema),
     mode: "onChange"
   });  
-
 
   const handleShowPopupOpen = (id: number) => {
     setSelectedID(id)
@@ -55,10 +56,9 @@ const LeaveRequests = () => {
     setIsEditPopupOpen(false)
   }
 
-  const { page, pageSize, startDate, endDate, setFilters } = useFiltersHook()
-
-  const { leaveRequests, metadata, isLeaveRequestsLoading } = useGetMyLeaveRequests(page, pageSize, startDate, endDate)
-  console.log(leaveRequests);
+  
+  // Now pass only meaningful values to the hook
+  const { leaveRequests, metadata, isLeaveRequestsLoading } = useGetMyLeaveRequests();
   
   const { leaveRequest, isLeaveRequestLoading } = useGetLeaveRequestByID(selectedID, reset);
   const { mutate: createLeaveRequest, isPending: isAdding } = useCreateLeaveRequest()
@@ -129,23 +129,78 @@ const LeaveRequests = () => {
           description="View submitted leave requests with status, timing, and notes. Edit or manage them as needed." 
         />
 
-          <div className="w-full flex flex-wrap gap-2 justify-self-auto ">
-            {leaveRequests.map((request: ILeaveRequestData) => (
-              <LeaveRequestCard key={request.id} data={request} handleEdit={handleEditPopupOpen} handleShow={handleShowPopupOpen} />
-            ))}
-          </div>
+        <div className="flex flex-wrap items-end gap-4">
+          <Field className="flex flex-col space-y-2 w-fit">
+            <Label>Page Size</Label>
+            <SelectBox
+              value={getParam('pageSize') ?? 5}
+              onChange={(e) => setParam("pageSize", String(e.target.value ? parseInt(e.target.value) : 10))}
+            >
+              {[5, 10, 20, 30, 40, 50].map(size => (
+                <option key={size} value={size}>{size}</option>
+              ))}
+            </SelectBox>
+          </Field>
 
-          {/* Pagination Component */}
-          <Paginator
-            page={metadata?.pagination?.pageIndex || 0}
-            totalPages={metadata?.pagination?.totalPages || 1}
-            totalRecords={metadata?.pagination?.totalRecords || 0}
-            isLoading={isLeaveRequestsLoading}
-            onClickFirst={() => setFilters({ page: 1 })}
-            onClickPrev={() => setFilters({ page: Math.max((page || 1) - 1, 1) })}
-            onClickNext={() => setFilters({ page: Math.min((page || 1) + 1, metadata?.pagination?.totalPages || 1) })}
-          />
+          <Field className="flex flex-col space-y-2">
+            <Label>Start Date</Label>
+            <Input
+              type="date"
+              icon={<Calendar />}
+              value={getParam('startDate') ?? ""}
+              onChange={(e) => setParam("startDate", e.target.value)}
+            />
+          </Field>
+
+          <Field className="flex flex-col space-y-2">
+            <Label>End Date</Label>
+            <Input
+              type="date"
+              icon={<Calendar />}
+              value={getParam('endDate') ?? ""}
+              onChange={(e) => setParam("endDate", e.target.value)}
+            />
+          </Field>
+
+          <Field className="flex flex-col space-y-2">
+            <Label>Leave Status</Label>
+            <SelectBox
+              onChange={(e) => setParam("status", e.target.value)}
+              defaultValue=""
+            >
+              <option value="" disabled>Select leave status</option>
+              {Object.values(LeaveRequestStatusType)
+                .filter((v) => typeof v === "number")
+                .map((statusValue) => (
+                  <option key={statusValue} value={statusValue}>
+                    {LeaveRequestStatusType[statusValue as number]}
+                  </option>
+                ))}
+            </SelectBox>
+          </Field>
+          
+          <Tooltip content="Reset All">
+            <Button onClick={() => clearParams()} icon={<RefreshCcw />} />
+          </Tooltip>
         </div>
+
+        <div className="w-full flex flex-wrap gap-2 justify-self-auto ">
+          {leaveRequests.map((request: ILeaveRequestData) => (
+            <LeaveRequestCard key={request.id} data={request} handleEdit={handleEditPopupOpen} handleShow={handleShowPopupOpen} />
+          ))}
+        </div>
+
+        {/* Pagination Component */}
+        <Paginator
+          page={metadata?.pagination?.pageIndex || 0}
+          totalPages={metadata?.pagination?.totalPages || 1}
+          totalRecords={metadata?.pagination?.totalRecords || 0}
+          isLoading={isLeaveRequestsLoading}
+          onClickFirst={() => setParam("page", String(1))}
+          onClickPrev={() => setParam("page", String(Math.max((Number(getParam('endDate')) || 1) - 1, 1)))}
+          onClickNext={() => setParam("page", String(Math.min((Number(getParam('endDate')) || 1) + 1, metadata?.pagination?.totalPages || 1)))}
+        />
+      </div>
 
       {/* Conditions Popup */}
       <ConditionsPopup
