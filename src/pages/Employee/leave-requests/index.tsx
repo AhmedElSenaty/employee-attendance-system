@@ -136,7 +136,7 @@ const LeaveRequests = () => {
               value={getParam('pageSize') ?? 5}
               onChange={(e) => setParam("pageSize", String(e.target.value ? parseInt(e.target.value) : 10))}
             >
-              {[5, 10, 20, 30, 40, 50].map(size => (
+              {[10, 20, 30, 40, 50].map(size => (
                 <option key={size} value={size}>{size}</option>
               ))}
             </SelectBox>
