@@ -65,7 +65,7 @@ const LeaveRequests = () => {
   const pageSize = rawPageSize ?? 10;
   const startDate = rawStartDate || undefined;
   const endDate = rawEndDate || undefined;
-  const status = rawStatus !== null && rawStatus !== 0 ? rawStatus : undefined;
+  const status = rawStatus !== null ? rawStatus : undefined;
 
   // Pass filtered params to hook
   const { leaveRequests, metadata, isLeaveRequestsLoading } = useGetMyLeaveRequests(
@@ -94,8 +94,8 @@ const LeaveRequests = () => {
   return (
     <div className="sm:p-6 p-4 space-y-5">
       <Header
-        heading={t("header.heading")}
-        subtitle={t("header.subtitle")}
+        heading={t("employeeHeader.heading")}
+        subtitle={t("employeeHeader.subtitle")}
       />
 
       {/* Action Buttons Section */}
@@ -141,8 +141,8 @@ const LeaveRequests = () => {
 
       <div className="bg-white shadow-md space-y-5 p-5 rounded-lg">
         <SectionHeader 
-          title={t("sectionHeader.title")}
-          description={t("sectionHeader.description")}
+          title={t("employeeSectionHeader.title")}
+          description={t("employeeSectionHeader.description")}
         />
 
         <Filters

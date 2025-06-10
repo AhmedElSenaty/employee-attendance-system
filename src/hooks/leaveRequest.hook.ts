@@ -24,7 +24,7 @@ export const useGetLeaveRequests = (
 ) => {
   const token = useUserStore((state) => state.token);
   const leaveService = new LeaveRequestService(token);
-
+  
   const { data, isLoading } = useQuery({
     queryKey: [LEAVE_REQUESTS_QUERY_KEY, page, pageSize, startDate, endDate, status, searchType, searchQuery],
     queryFn: () => leaveService.fetchLeaveRequests(page, pageSize, startDate, endDate, status, searchType, searchQuery),
@@ -65,7 +65,6 @@ export const useGetMyLeaveRequests = (
 
 export const useGetLeaveRequestByID = (
   requestId: number,
-  resetInputs?: (data: ILeaveRequestData) => void
 ) => {
   const token = useUserStore((state) => state.token);
   const leaveService = new LeaveRequestService(token);
@@ -75,12 +74,6 @@ export const useGetLeaveRequestByID = (
     queryFn: () => leaveService.fetchLeaveRequestById(requestId),
     enabled: !!requestId && !!token,
   });
-
-  useEffect(() => {
-    if (data?.data) {
-      resetInputs?.(data.data);
-    }
-  }, [data, resetInputs]);
 
   return {
     leaveRequest: data?.data,

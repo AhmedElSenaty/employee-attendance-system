@@ -2,7 +2,6 @@ import { CalendarCheck } from "lucide-react";
 import { NormalSpinner, Button, Popup } from "../../../../components/ui/";
 import { useLanguageStore } from "../../../../store/language.store";
 import { ILeaveRequestData } from "../../../../interfaces/leaveRequest.interfaces";
-import { LeaveRequestStatusType } from "../../../../enums";
 import { useTranslation } from "react-i18next";
 import { TRANSLATION_NAMESPACE } from "..";
 import { formatValue } from "../../../../utils";
@@ -10,7 +9,6 @@ import { formatValue } from "../../../../utils";
 interface IShowPopupProps {
   isOpen: boolean;
   handleClose: () => void;
-  handleEditPopupOpen: () => void;
   leaveRequest: ILeaveRequestData | null;
   isLoading: boolean;
 }
@@ -18,7 +16,6 @@ interface IShowPopupProps {
 const ShowPopup = ({
   isOpen,
   handleClose,
-  handleEditPopupOpen,
   leaveRequest,
   isLoading,
 }: IShowPopupProps) => {
@@ -48,6 +45,14 @@ const ShowPopup = ({
           </div>
 
           <div className="mt-6 space-y-4 divide-y divide-gray-300">
+            <div className="grid grid-cols-2 py-2">
+              <span className="font-medium text-gray-600">{t("showPopup.fields.employeeId")}</span>
+              <span className="text-gray-900 font-semibold">{formatValue(leaveRequest?.employeeId || 0, language)}</span>
+            </div>
+            <div className="grid grid-cols-2 py-2">
+              <span className="font-medium text-gray-600">{t("showPopup.fields.employeeName")}</span>
+              <span className="text-gray-900 font-semibold">{leaveRequest?.employeeName}</span>
+            </div>
             <div className="grid grid-cols-2 py-2">
               <span className="font-medium text-gray-600">{t("showPopup.fields.id")}</span>
               <span className="text-gray-900 font-semibold">{formatValue(leaveRequest?.id || 0, language)}</span>
@@ -84,11 +89,6 @@ const ShowPopup = ({
         <Button variant="cancel" type="button" fullWidth onClick={handleClose}>
           {t("showPopup.buttons.close")}
         </Button>
-        {leaveRequest?.status == LeaveRequestStatusType.Pending &&
-          <Button variant="info" type="button" fullWidth onClick={handleEditPopupOpen}>
-            {t("showPopup.buttons.edit")}
-          </Button>
-        }
       </div>
     </Popup>
   );

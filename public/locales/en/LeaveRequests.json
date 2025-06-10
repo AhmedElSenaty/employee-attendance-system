@@ -1,5 +1,17 @@
 {
-  "header": {
+  "managerHeader": {
+    "title": "Leave Requests Management",
+    "subtitle": "Review, approve, or reject employee leave requests"
+  },
+  "countCard": {
+    "title": "Total Leave Requests",
+    "description": "Number of requests submitted"
+  },
+  "managerSectionHeader": {
+    "title": "All Leave Requests",
+    "description": "You can filter, view, and take action on pending leave requests"
+  },
+  "employeeHeader": {
     "heading": "Leave Requests Management",
     "subtitle": "Submit a new leave request or review the conditions for morning/evening permit applications."
   },
@@ -23,7 +35,17 @@
     "endDate": "End Date",
     "leaveStatus": "Leave Status",
     "defaultLeaveStatusOption": "Select leave status",
-    "toolTipResetFilters": "Reset All"
+    "toolTipResetFilters": "Reset All",
+    "searchBy": {
+      "default": "Choose your search method",
+      "label": "Search By",
+      "SearchByFullName": "Full Name",
+      "SearchBySSN": "SSN"
+    },
+    "search": {
+      "label": "Search",
+      "placeholder": "Enter the value you want to search for...."
+    }
   },
   "leaveRequestCard": {
     "leaveOn": "Leave on",
@@ -60,6 +82,8 @@
     "title": "Leave Request Details",
     "description":"Detailed information about the leave request",
     "fields": {
+      "employeeId": "#Employee ID",
+      "employeeName": "Employee Name",
       "id": "#ID",
       "leaveOn": "Leave on",
       "requestedAt": "Requested at",
@@ -112,6 +136,10 @@
         "max": "Reason for requesting leave can't exceed 500 characters",
         "required": "Reason for requesting leave is required"
       }
+    },
+    "comment": {
+      "label": "comment",
+      "placeholder": "Mention a comment about the reason for rejection.."
     }
   },
   "status": {
@@ -123,5 +151,41 @@
   "timeType": {
     "0": "Morning Permit",
     "1": "Evening Permit"
+  },
+  "table": {
+    "emptyTable": {
+      "title": "No Leave Requested Found",
+      "message": "Try adjusting your filters or adding a new Leave Requested."
+    },
+    "columns": {
+      "id": "#ID",
+      "employeeName": "Employee Name",
+      "date": "Date",
+      "requestedAt": "Requested At",
+      "type": "Type",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "buttons": {
+      "toolTipShow": "Show Leave Request",
+      "toolTipAccept": "Accept Leave Request",
+      "toolTipReject": "Reject Leave Request"
+    }
+  },
+  "acceptPopup": {
+    "title":"Accept Leave Request",
+    "description": "Are you sure you want to accept this leave request? This action will notify the employee and update the request status.",
+    "buttons": {
+      "accept": "Accept",
+      "close": "Close"
+    }
+  },
+  "rejectPopup": {
+    "title": "Reject Leave Request",
+    "description": "Are you sure you want to reject this leave request? This action will notify the employee and update the request status.",
+    "buttons": {
+      "reject": "Reject",
+      "close": "Close"
+    }
   }
 }

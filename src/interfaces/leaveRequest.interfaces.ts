@@ -23,4 +23,3 @@ export interface IRejectLeaveRequestCredentials {
   requestId: number;
   comment: string;
 }
-
