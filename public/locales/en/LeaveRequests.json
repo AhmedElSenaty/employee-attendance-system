@@ -25,7 +25,7 @@
     "description": "Read the requirements for applying for a morning or evening permit.",
     "button": "Read Conditions"
   },
-  "sectionHeader": {
+  "employeeSectionHeader": {
     "title":"Employee Leave Requests", 
     "description":"View submitted leave requests with status, timing, and notes. Edit or manage them as needed."
   },
