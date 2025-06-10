@@ -8,7 +8,7 @@ type Props = {
   handleShowPopupOpen: (id: number) => void;
 };
 
-const LeaveRequestList = ({
+const LeaveRequestsList = ({
   leaveRequests,
   isLoading,
   handleEditPopupOpen,
@@ -37,4 +37,4 @@ const LeaveRequestList = ({
   );
 };
 
-export default LeaveRequestList;
+export default LeaveRequestsList;

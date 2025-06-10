@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 import { TRANSLATION_NAMESPACE } from "..";
 import { formatValue } from "../../../../utils";
 
-interface IShowLeaveRequestPopupProps {
+interface IShowPopupProps {
   isOpen: boolean;
   handleClose: () => void;
   handleEditPopupOpen: () => void;
@@ -15,13 +15,13 @@ interface IShowLeaveRequestPopupProps {
   isLoading: boolean;
 }
 
-const ShowLeaveRequestPopup = ({
+const ShowPopup = ({
   isOpen,
   handleClose,
   handleEditPopupOpen,
   leaveRequest,
   isLoading,
-}: IShowLeaveRequestPopupProps) => {
+}: IShowPopupProps) => {
   const { language } = useLanguageStore();
   const { t } = useTranslation(TRANSLATION_NAMESPACE);
 
@@ -94,4 +94,4 @@ const ShowLeaveRequestPopup = ({
   );
 };
 
-export default ShowLeaveRequestPopup;
+export default ShowPopup;

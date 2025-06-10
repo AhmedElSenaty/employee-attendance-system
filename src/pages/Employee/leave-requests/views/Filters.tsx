@@ -6,17 +6,17 @@ import { TRANSLATION_NAMESPACE } from "..";
 import { formatValue } from "../../../../utils";
 import { useLanguageStore } from "../../../../store/language.store";
 
-interface LeaveRequestFiltersProps {
+interface FiltersProps {
   getParam: (key: string) => string | number | null;
   setParam: (key: string, value: string) => void;
   clearParams: () => void;
 }
 
-const LeaveRequestFilters = ({
+const Filters = ({
   getParam,
   setParam,
   clearParams,
-}: LeaveRequestFiltersProps) => {
+}: FiltersProps) => {
   const { t } = useTranslation(TRANSLATION_NAMESPACE);
   const { language } = useLanguageStore(); // Accessing the current language from the Redux state
 
@@ -89,4 +89,4 @@ const LeaveRequestFilters = ({
   );
 };
 
-export default LeaveRequestFilters;
+export default Filters;

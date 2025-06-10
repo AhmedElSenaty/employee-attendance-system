@@ -22,7 +22,7 @@ interface ILeaveRequestInputsProps {
   isLoading?: boolean;
 }
 
-const RenderLeaveRequestInputs = ({ register, errors, isLoading }: ILeaveRequestInputsProps) => {
+const Inputs = ({ register, errors, isLoading }: ILeaveRequestInputsProps) => {
   const { t } = useTranslation(TRANSLATION_NAMESPACE);
 
   return (
@@ -114,4 +114,4 @@ const RenderLeaveRequestInputs = ({ register, errors, isLoading }: ILeaveRequest
   );
 };
 
-export default RenderLeaveRequestInputs;
+export default Inputs;

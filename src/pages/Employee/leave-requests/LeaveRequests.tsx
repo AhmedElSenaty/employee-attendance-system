@@ -7,9 +7,9 @@ import { useCreateLeaveRequest, useGetLeaveRequestByID, useGetMyLeaveRequests, u
 import { yupResolver } from "@hookform/resolvers/yup";
 import { leaveRequestSchema } from "../../../validation/leaveRequestSchema";
 import useURLSearchParams from "../../../hooks/URLSearchParams.hook";
-import { AddLeaveRequestPopup, ConditionsPopup, EditLeaveRequestPopup, LeaveRequestFilters, LeaveRequestList, RenderLeaveRequestInputs, ShowLeaveRequestPopup } from "./views";
 import { TRANSLATION_NAMESPACE } from ".";
 import { useTranslation } from "react-i18next";
+import { AddPopup, ConditionsPopup, EditPopup, Filters, Inputs, LeaveRequestsList, ShowPopup } from "./views";
 
 const LeaveRequests = () => {
   const { t } = useTranslation(TRANSLATION_NAMESPACE);
@@ -145,13 +145,13 @@ const LeaveRequests = () => {
           description={t("sectionHeader.description")}
         />
 
-        <LeaveRequestFilters
+        <Filters
           getParam={getParam}
           setParam={setParam}
           clearParams={clearParams}
         />
 
-        <LeaveRequestList
+        <LeaveRequestsList
           leaveRequests={leaveRequests}
           isLoading={isLeaveRequestsLoading}
           handleEditPopupOpen={handleEditPopupOpen}
@@ -176,7 +176,7 @@ const LeaveRequests = () => {
         handleClose={() => setIsConditionsOpen(false)}
       />
 
-      <ShowLeaveRequestPopup
+      <ShowPopup
         isOpen={isShowPopupOpen}
         handleClose={() => setIsShowPopupOpen(false)} 
         handleEditPopupOpen={() => {
@@ -188,14 +188,14 @@ const LeaveRequests = () => {
       />
 
       {/* Add Leave Request Popup */}
-      <AddLeaveRequestPopup
+      <AddPopup
         isOpen={isAddPopupOpen}
         handleClose={() => {
           setIsAddPopupOpen(false);
         }}
         handleSubmit={handleSubmit(handleConfirmAdd)}
         formInputs={
-          <RenderLeaveRequestInputs
+          <Inputs
             register={register}
             errors={errors}
             isLoading={isAdding}
@@ -204,12 +204,12 @@ const LeaveRequests = () => {
         isLoading={isAdding}
       />
 
-      <EditLeaveRequestPopup
+      <EditPopup
         isOpen={isEditPopupOpen}
         handleClose={handleEditPopupClose}
         handleSubmit={handleSubmit(handleConfirmUpdate)}
         formInputs={
-          <RenderLeaveRequestInputs
+          <Inputs
             register={register}
             errors={errors}
             isLoading={isUpdating}
