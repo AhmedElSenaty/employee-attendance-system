@@ -3,7 +3,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { FilePlus2, ShieldCheck } from "lucide-react";
 import { ActionCard, Button, Header, Paginator, SectionHeader } from "../../../components/ui";
 import { ILeaveRequestCredentials } from "../../../interfaces/leaveRequest.interfaces";
-import { useCreateLeaveRequest, useGetLeaveRequestByID, useGetMyLeaveRequests, useUpdateLeaveRequest } from "../../../hooks/leaveRequest.hook";
+import { useCreateLeaveRequest, useGetMyLeaveRequestByID, useGetMyLeaveRequests, useUpdateLeaveRequest } from "../../../hooks/leaveRequest.hook";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { leaveRequestSchema } from "../../../validation/leaveRequestSchema";
 import useURLSearchParams from "../../../hooks/URLSearchParams.hook";
@@ -76,7 +76,7 @@ const LeaveRequests = () => {
     status
   );
 
-  const { leaveRequest, isLeaveRequestLoading } = useGetLeaveRequestByID(selectedID, reset);
+  const { leaveRequest, isLeaveRequestLoading } = useGetMyLeaveRequestByID(selectedID, reset);
   const { mutate: createLeaveRequest, isPending: isAdding } = useCreateLeaveRequest()
   const { mutate: updateLeaveRequest, isPending: isUpdating } = useUpdateLeaveRequest()
 

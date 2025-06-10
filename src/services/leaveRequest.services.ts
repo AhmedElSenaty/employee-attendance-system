@@ -1,8 +1,39 @@
 import axiosInstance from "../config/axios.config";
-import { ILeaveRequestCredentials } from "../interfaces/leaveRequest.interfaces";
+import { ILeaveRequestCredentials, IRejectLeaveRequestCredentials } from "../interfaces/leaveRequest.interfaces";
 import { BaseService } from "./base.services";
 
 export class LeaveRequestService extends BaseService {
+
+  fetchLeaveRequests = async (
+    page?: number,
+    pageSize?: number,
+    startDate?: string,
+    endDate?: string,
+    status?: number,
+    searchType?: string,
+    searchQuery?: string
+  ) => {
+    try {
+      const params = this.buildParams({
+        PageIndex: page ?? 1,
+        PageSize: pageSize,
+        StartDate: startDate,
+        EndDate: endDate,
+        Status: status,
+        ...(searchType && searchQuery ? { [searchType]: searchQuery } : {}),
+      });
+
+      const response = await axiosInstance.get("/LeaveRequests/Requests", {
+        params,
+        headers: this.getAuthHeaders(),
+      });
+
+      return response.data;
+    } catch (error) {
+      this.handleError(error, "Error fetching all leave requests");
+    }
+  };
+
   fetchMyLeaveRequests = async (
     page?: number,
     pageSize?: number,
@@ -25,8 +56,7 @@ export class LeaveRequestService extends BaseService {
 
       return response.data;
     } catch (error) {
-      console.error("Error fetching all leave requests:", error);
-      throw error;
+      this.handleError(error, "Error fetching all leave requests");
     }
   };
 
@@ -38,8 +68,19 @@ export class LeaveRequestService extends BaseService {
 
       return response.data;
     } catch (error) {
-      console.error(`Error fetching leave request with ID ${requestId}:`, error);
-      throw error;
+      this.handleError(error, `Error fetching leave request with ID ${requestId}`);
+    }
+  };
+
+  fetchLeaveRequestById = async (requestId: number) => {
+    try {
+      const response = await axiosInstance.get(`/LeaveRequests/Requests/${requestId}`, {
+        headers: this.getAuthHeaders(),
+      });
+
+      return response.data;
+    } catch (error) {
+      this.handleError(error, `Error fetching leave request with ID ${requestId}`);
     }
   };
 
@@ -54,4 +95,16 @@ export class LeaveRequestService extends BaseService {
       headers: this.getAuthHeaders(),
     });
   };
+
+  accept = (requestId: number) => {
+    return axiosInstance.put(`/LeaveRequests/AcceptRequest/${requestId}`, {}, {
+      headers: this.getAuthHeaders(),
+    });
+  }
+
+  reject = (rejectLeaveRequestData: IRejectLeaveRequestCredentials) => {
+    return axiosInstance.put(`/LeaveRequests/RejectRequest`, rejectLeaveRequestData, {
+      headers: this.getAuthHeaders(),
+    });
+  }
 }

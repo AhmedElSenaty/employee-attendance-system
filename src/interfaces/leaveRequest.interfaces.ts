@@ -15,5 +15,12 @@ export interface ILeaveRequestData {
   status: LeaveRequestStatusType;
   description: string;
   comment: string | null;
+  employeeId: number,
+  employeeName: string
+}
+
+export interface IRejectLeaveRequestCredentials {
+  requestId: number;
+  comment: string;
 }
 
