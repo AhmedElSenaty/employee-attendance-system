@@ -37,10 +37,10 @@ const RenderLeaveRequestInputs = ({ register, errors, isLoading }: ILeaveRequest
               <option value="" disabled>
                 Select leave type
               </option>
-                <option key={LeaveRequestTimeType.Evening} value={LeaveRequestTimeType.Evening}>
+                <option key={LeaveRequestTimeType.Morning} value={LeaveRequestTimeType.Morning}>
                   {LeaveRequestTimeType[0]}
                 </option>
-                <option key={LeaveRequestTimeType.Morning} value={LeaveRequestTimeType.Morning}>
+                <option key={LeaveRequestTimeType.Evening} value={LeaveRequestTimeType.Evening}>
                   {LeaveRequestTimeType[1]}
                 </option>
             </SelectBox>

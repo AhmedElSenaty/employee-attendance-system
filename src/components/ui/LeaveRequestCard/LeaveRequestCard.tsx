@@ -45,9 +45,9 @@ const LeaveRequestCard = ({ data, handleShow, handleEdit }: Props) => {
   };
 
   const getTimeLabel = (type: LeaveRequestTimeType): string => {
-    return type === LeaveRequestTimeType.Morning ? "Evening Permit" : "Morning Permit";
+    return type === LeaveRequestTimeType.Morning ? "Morning Permit" : "Evening Permit";
   };
-  // 
+
   const getBgColorClass = (status: LeaveRequestStatusType): string => {
     switch (status) {
       case LeaveRequestStatusType.Accepted:
@@ -112,7 +112,6 @@ const LeaveRequestCard = ({ data, handleShow, handleEdit }: Props) => {
             variant="primary"
             size="sm"
             onClick={() => handleShow(data.id)}
-            aria-label="View Leave Request"
             icon={<Eye className="w-full h-full" />}
           />
         </Tooltip>
@@ -122,7 +121,6 @@ const LeaveRequestCard = ({ data, handleShow, handleEdit }: Props) => {
               variant="info"
               size="sm"
               onClick={() => handleEdit(data.id)}
-              aria-label="Edit Leave Request"
               icon={<FilePenLine className="w-full h-full" />}
             />
           </Tooltip>

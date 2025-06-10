@@ -77,14 +77,14 @@ const ShowLeaveRequestPopup = ({
       )}
 
       <div className="flex items-center space-x-3 mt-4">
+        <Button variant="cancel" type="button" fullWidth onClick={handleClose}>
+          Close
+        </Button>
         {leaveRequest?.status == LeaveRequestStatusType.Pending &&
           <Button variant="info" type="button" fullWidth onClick={handleEditPopupOpen}>
             Edit
           </Button>
         }
-        <Button variant="cancel" type="button" fullWidth onClick={handleClose}>
-          Close
-        </Button>
       </div>
     </Popup>
   );

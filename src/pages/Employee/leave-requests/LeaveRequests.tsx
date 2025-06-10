@@ -8,8 +8,12 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { leaveRequestSchema } from "../../../validation/leaveRequestSchema";
 import useURLSearchParams from "../../../hooks/URLSearchParams.hook";
 import { AddLeaveRequestPopup, ConditionsPopup, EditLeaveRequestPopup, LeaveRequestFilters, LeaveRequestList, RenderLeaveRequestInputs, ShowLeaveRequestPopup } from "./views";
+import { TRANSLATION_NAMESPACE } from ".";
+import { useTranslation } from "react-i18next";
 
 const LeaveRequests = () => {
+  const { t } = useTranslation(["common", TRANSLATION_NAMESPACE]);
+
   const {getParam, setParam, clearParams} = useURLSearchParams();
 
   const [selectedID, setSelectedID] = useState<number>(0);
@@ -90,8 +94,8 @@ const LeaveRequests = () => {
   return (
     <div className="sm:p-6 p-4 space-y-5">
       <Header
-        heading="Leave Requests Management"
-        subtitle="Submit a new leave request or review the conditions for morning/evening permit applications."
+        heading={t("header.heading", { ns: TRANSLATION_NAMESPACE })}
+        subtitle={t("header.subtitle", { ns: TRANSLATION_NAMESPACE })}
       />
 
       {/* Action Buttons Section */}
@@ -102,15 +106,15 @@ const LeaveRequests = () => {
               icon={<FilePlus2 />}
               iconBgColor="bg-[#e0f7fa]"
               iconColor="text-[#00796b]"
-              title="Add New Leave Request"
-              description="Submit a request for personal, medical, or emergency leave."
+              title={t("addActionCard.title", { ns: TRANSLATION_NAMESPACE })}
+              description={t("addActionCard.description", { ns: TRANSLATION_NAMESPACE })}
             >
               <Button
                 fullWidth
                 variant="secondary"
                 onClick={handleAddPopupOpen}
               >
-                Create Request
+                {t("addActionCard.button", { ns: TRANSLATION_NAMESPACE })}
               </Button>
             </ActionCard>
           </div>
@@ -120,15 +124,15 @@ const LeaveRequests = () => {
               icon={<ShieldCheck />}
               iconBgColor="bg-[#fff3e0]"
               iconColor="text-[#f57c00]"
-              title="Permit Conditions"
-              description="Read the requirements for applying for a morning or evening permit."
+              title={t("conditionsActionCard.title", { ns: TRANSLATION_NAMESPACE })}
+              description={t("conditionsActionCard.description", { ns: TRANSLATION_NAMESPACE })}
             >
               <Button
                 fullWidth
                 variant="secondary"
                 onClick={() => setIsConditionsOpen(true)}
               >
-                View Conditions
+                {t("conditionsActionCard.button", { ns: TRANSLATION_NAMESPACE })}
               </Button>
             </ActionCard>
           </div>
@@ -137,8 +141,8 @@ const LeaveRequests = () => {
 
       <div className="bg-white shadow-md space-y-5 p-5 rounded-lg">
         <SectionHeader 
-          title="Employee Leave Requests" 
-          description="View submitted leave requests with status, timing, and notes. Edit or manage them as needed." 
+          title={t("sectionHeader.title", { ns: TRANSLATION_NAMESPACE })}
+          description={t("sectionHeader.description", { ns: TRANSLATION_NAMESPACE })}
         />
 
         <LeaveRequestFilters

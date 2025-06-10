@@ -15,7 +15,7 @@ const LeaveRequestList = ({
   handleShowPopupOpen,
 }: Props) => {
   return (
-    <div className="w-full flex flex-wrap gap-2 justify-self-auto">
+    <div className="w-full flex flex-wrap gap-2 items-center justify-center">
       {isLoading || !leaveRequests ? (
         // Show 3 skeletons while loading
         <>

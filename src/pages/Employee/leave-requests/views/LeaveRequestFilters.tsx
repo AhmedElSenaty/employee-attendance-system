@@ -13,6 +13,8 @@ const LeaveRequestFilters = ({
   setParam,
   clearParams,
 }: LeaveRequestFiltersProps) => {
+
+  
   return (
     <div className="flex flex-wrap items-end gap-4">
       <Field className="flex flex-col space-y-2 w-fit">
@@ -57,7 +59,11 @@ const LeaveRequestFilters = ({
           onChange={(e) => setParam("status", e.target.value)}
           defaultValue=""
         >
-          <option value="" disabled>
+          <option
+            value=""
+            selected={getParam("status") == null}
+            disabled
+          >
             Select leave status
           </option>
           {Object.values(LeaveRequestStatusType)
