@@ -1,8 +1,8 @@
-import { LeaveRequestStatusType, LeaveRequestTimeType } from "../enums";
+import { RequestStatusType, LeaveRequestType } from "../enums";
 
 export interface ILeaveRequestCredentials {
   requestId?: number;
-  type: LeaveRequestTimeType;
+  type: LeaveRequestType;
   date: string;
   description: string;
 }
@@ -11,8 +11,8 @@ export interface ILeaveRequestData {
   id: number;
   date: string;
   requestedAt: string;
-  type: LeaveRequestTimeType;
-  status: LeaveRequestStatusType;
+  type: LeaveRequestType;
+  status: RequestStatusType;
   description: string;
   comment: string | null;
   employeeId: number,

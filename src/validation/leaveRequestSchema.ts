@@ -1,12 +1,15 @@
 import * as yup from "yup";
-import { LeaveRequestTimeType } from "../enums";
+import { LeaveRequestType } from "../enums";
 
 export const leaveRequestSchema = yup.object({
   type: yup
-  .mixed<LeaveRequestTimeType>()
-  .transform((value) => (value !== "" ? Number(value) : undefined))
-  .oneOf([LeaveRequestTimeType.Morning, LeaveRequestTimeType.Evening], "Invalid leave request type")
-  .required("Leave request type is required"),
+    .mixed<LeaveRequestType>()
+    .transform((value) => (value !== "" ? Number(value) : undefined))
+    .oneOf(
+      [LeaveRequestType.Morning, LeaveRequestType.Evening],
+      "Invalid leave request type"
+    )
+    .required("Leave request type is required"),
 
   date: yup
     .string()

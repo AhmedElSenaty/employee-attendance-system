@@ -11,7 +11,7 @@ import {
   TextareaSkeleton,
 } from "../../../../components/ui";
 import { ILeaveRequestCredentials } from "../../../../interfaces/leaveRequest.interfaces";
-import { LeaveRequestTimeType } from "../../../../enums";
+import { LeaveRequestType } from "../../../../enums";
 import { Calendar } from "lucide-react";
 import { TRANSLATION_NAMESPACE } from "..";
 import { useTranslation } from "react-i18next";
@@ -38,23 +38,21 @@ const Inputs = ({ register, errors, isLoading }: ILeaveRequestInputsProps) => {
           <>
             <Label size="lg">{t("inputs.type.label")}</Label>
             <SelectBox {...register("type")} isError={!!errors.type}>
-              <option 
-                value=""
-                selected
-              >
+              <option value="" selected>
                 {t("inputs.type.defaultOption")}
               </option>
-              {Object.values(LeaveRequestTimeType)
+              {Object.values(LeaveRequestType)
                 .filter((v) => typeof v === "number")
                 .map((type) => (
                   <option key={type} value={type}>
                     {t(`timeType.${type as number}`)}
                   </option>
-                ))
-              }
+                ))}
             </SelectBox>
             {errors.type && (
-              <InputErrorMessage>{t(`inputs.type.validation.${errors.type.type}`)}</InputErrorMessage>
+              <InputErrorMessage>
+                {t(`inputs.type.validation.${errors.type.type}`)}
+              </InputErrorMessage>
             )}
           </>
         )}
@@ -78,12 +76,14 @@ const Inputs = ({ register, errors, isLoading }: ILeaveRequestInputsProps) => {
               {...register("date")}
               min={
                 new Date(new Date().setDate(new Date().getDate()))
-                .toISOString()
-                .split("T")[0]
+                  .toISOString()
+                  .split("T")[0]
               }
             />
             {errors.date && (
-              <InputErrorMessage>{t(`inputs.date.validation.${errors.date.type}`)}</InputErrorMessage>
+              <InputErrorMessage>
+                {t(`inputs.date.validation.${errors.date.type}`)}
+              </InputErrorMessage>
             )}
           </>
         )}
@@ -105,7 +105,9 @@ const Inputs = ({ register, errors, isLoading }: ILeaveRequestInputsProps) => {
               {...register("description")}
             />
             {errors.description && (
-              <InputErrorMessage>{t(`inputs.description.validation.${errors.description.type}`)}</InputErrorMessage>
+              <InputErrorMessage>
+                {t(`inputs.description.validation.${errors.description.type}`)}
+              </InputErrorMessage>
             )}
           </>
         )}

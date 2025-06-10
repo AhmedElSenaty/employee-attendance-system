@@ -1,13 +1,20 @@
 import { useTranslation } from "react-i18next";
 import { TRANSLATION_NAMESPACE } from "..";
 import { useLanguageStore } from "../../../../store/language.store";
-import { Button, Field, Input, Label, SelectBox, Tooltip } from "../../../../components/ui";
+import {
+  Button,
+  Field,
+  Input,
+  Label,
+  SelectBox,
+  Tooltip,
+} from "../../../../components/ui";
 import { formatValue } from "../../../../utils";
 import { Calendar, RefreshCcw, Search } from "lucide-react";
-import { LeaveRequestStatusType } from "../../../../enums";
+import { RequestStatusType } from "../../../../enums";
 
 interface FiltersProps {
-  searchBy: string[]
+  searchBy: string[];
   getParam: (key: string) => string | number | null;
   setParam: (key: string, value: string) => void;
   clearParams: () => void;
@@ -29,7 +36,10 @@ const TableFilters = ({
         <SelectBox
           value={getParam("pageSize") ?? 5}
           onChange={(e) =>
-            setParam("pageSize", String(e.target.value ? parseInt(e.target.value) : 10))
+            setParam(
+              "pageSize",
+              String(e.target.value ? parseInt(e.target.value) : 10)
+            )
           }
         >
           {[10, 20, 30, 40, 50].map((size) => (
@@ -62,38 +72,25 @@ const TableFilters = ({
 
       <Field className="flex flex-col space-y-2">
         <Label>{t("filters.leaveStatus")}</Label>
-        <SelectBox
-          onChange={(e) => setParam("status", e.target.value)}
-        >
-          <option
-            value=""
-            selected={getParam("status") == null}
-            disabled
-          >
+        <SelectBox onChange={(e) => setParam("status", e.target.value)}>
+          <option value="" selected={getParam("status") == null} disabled>
             {t("filters.defaultLeaveStatusOption")}
           </option>
-          {Object.values(LeaveRequestStatusType)
+          {Object.values(RequestStatusType)
             .filter((v) => typeof v === "number")
             .map((statusValue) => (
               <option key={statusValue} value={statusValue}>
                 {t(`status.${statusValue as number}`)}
               </option>
-            ))
-          }
+            ))}
         </SelectBox>
       </Field>
 
       {/* Search Type */}
       <Field className="flex flex-col space-y-2 w-fit">
         <Label size="md">{t("filters.searchBy.label")} </Label>
-        <SelectBox 
-          onChange={(e) => setParam("serachKey", e.target.value)}
-        >
-          <option 
-            value=""
-            selected={getParam("serachKey") == null} 
-            disabled
-          >
+        <SelectBox onChange={(e) => setParam("serachKey", e.target.value)}>
+          <option value="" selected={getParam("serachKey") == null} disabled>
             {t(`filters.searchBy.default`)}
           </option>
           {searchBy.map((search, idx) => (

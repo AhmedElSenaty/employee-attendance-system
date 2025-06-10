@@ -1,6 +1,13 @@
 import { Calendar, RefreshCcw } from "lucide-react";
-import { Button, Field, Input, Label, SelectBox, Tooltip } from "../../../../components/ui";
-import { LeaveRequestStatusType } from "../../../../enums";
+import {
+  Button,
+  Field,
+  Input,
+  Label,
+  SelectBox,
+  Tooltip,
+} from "../../../../components/ui";
+import { RequestStatusType } from "../../../../enums";
 import { useTranslation } from "react-i18next";
 import { TRANSLATION_NAMESPACE } from "..";
 import { formatValue } from "../../../../utils";
@@ -12,11 +19,7 @@ interface FiltersProps {
   clearParams: () => void;
 }
 
-const Filters = ({
-  getParam,
-  setParam,
-  clearParams,
-}: FiltersProps) => {
+const Filters = ({ getParam, setParam, clearParams }: FiltersProps) => {
   const { t } = useTranslation(TRANSLATION_NAMESPACE);
   const { language } = useLanguageStore(); // Accessing the current language from the Redux state
 
@@ -27,7 +30,10 @@ const Filters = ({
         <SelectBox
           value={getParam("pageSize") ?? 5}
           onChange={(e) =>
-            setParam("pageSize", String(e.target.value ? parseInt(e.target.value) : 10))
+            setParam(
+              "pageSize",
+              String(e.target.value ? parseInt(e.target.value) : 10)
+            )
           }
         >
           {[10, 20, 30, 40, 50].map((size) => (
@@ -64,21 +70,16 @@ const Filters = ({
           onChange={(e) => setParam("status", e.target.value)}
           defaultValue=""
         >
-          <option
-            value=""
-            selected={getParam("status") == null}
-            disabled
-          >
+          <option value="" selected={getParam("status") == null} disabled>
             {t("filters.defaultLeaveStatusOption")}
           </option>
-          {Object.values(LeaveRequestStatusType)
+          {Object.values(RequestStatusType)
             .filter((v) => typeof v === "number")
             .map((statusValue) => (
               <option key={statusValue} value={statusValue}>
                 {t(`status.${statusValue as number}`)}
               </option>
-            ))
-          }
+            ))}
         </SelectBox>
       </Field>
 
