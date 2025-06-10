@@ -1,11 +1,14 @@
 import { VariantProps } from "class-variance-authority";
-import { LeaveRequestStatusType, LeaveRequestTimeType } from "../../../enums";
+import { LeaveRequestStatusType } from "../../../enums";
 import { ILeaveRequestData } from "../../../interfaces/leaveRequest.interfaces";
 import { StatusBadge } from "../StatusBadge";
 import { Clock, FilePenLine, Info, MessageSquare, Eye } from "lucide-react";
 import { Button } from "../Button";
 import { Tooltip } from "../Tooltip";  // Assuming you have this
 import { truncateText } from "../../../utils";
+import { TRANSLATION_NAMESPACE } from "../../../pages/Employee";
+import { useTranslation } from "react-i18next";
+import { useLanguageStore } from "../../../store/language.store";
 
 type Props = {
   data: ILeaveRequestData;
@@ -14,6 +17,9 @@ type Props = {
 };
 
 const LeaveRequestCard = ({ data, handleShow, handleEdit }: Props) => {
+  const { t } = useTranslation(TRANSLATION_NAMESPACE);
+  const { language } = useLanguageStore();
+
   const getStatusVariant = (
     status: LeaveRequestStatusType
   ): VariantProps<typeof StatusBadge>["variant"] => {
@@ -28,24 +34,6 @@ const LeaveRequestCard = ({ data, handleShow, handleEdit }: Props) => {
       default:
         return "warning";
     }
-  };
-
-  const getStatusLabel = (status: LeaveRequestStatusType): string => {
-    switch (status) {
-      case LeaveRequestStatusType.Accepted:
-        return "Accepted";
-      case LeaveRequestStatusType.Rejected:
-        return "Rejected";
-      case LeaveRequestStatusType.Ignored:
-        return "Ignored";
-      case LeaveRequestStatusType.Pending:
-      default:
-        return "Pending";
-    }
-  };
-
-  const getTimeLabel = (type: LeaveRequestTimeType): string => {
-    return type === LeaveRequestTimeType.Morning ? "Morning Permit" : "Evening Permit";
   };
 
   const getBgColorClass = (status: LeaveRequestStatusType): string => {
@@ -65,23 +53,22 @@ const LeaveRequestCard = ({ data, handleShow, handleEdit }: Props) => {
   return (
     <div
       className={`w-full sm:w-[450px] min-h-[220px] rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow p-5 space-y-4
-      ${getBgColorClass(data.status)}
-      `}
+      ${getBgColorClass(data.status)}`}
     >
       {/* Header: Date and Status */}
       <div className="flex justify-between items-center">
         <div>
           <h3 className="text-xl font-semibold text-gray-800">
-            Leave on <span className="text-gray-900">{data.date}</span>
+            {t("leaveRequestCard.leaveOn")} <span className="text-gray-900">{new Date(data?.date || "").toLocaleDateString(language === "ar" ? "ar-EG" : "en-CA")}</span>
           </h3>
-          <p className="text-base text-gray-500">Requested at {data.requestedAt}</p>
+          <p className="text-base text-gray-500">{t("leaveRequestCard.requestedAt")} {new Date(data?.requestedAt || "").toLocaleDateString(language === "ar" ? "ar-EG" : "en-CA")}</p>
         </div>
         <StatusBadge
           variant={getStatusVariant(data.status)}
           size="medium"
           shape="rounded"
         >
-          {getStatusLabel(data.status)}
+          {t(`status.${data.status as number}`)}
         </StatusBadge>
       </div>
 
@@ -89,7 +76,7 @@ const LeaveRequestCard = ({ data, handleShow, handleEdit }: Props) => {
       <div className="space-y-3 text-base text-gray-700">
         <div className="flex items-start gap-2">
           <Clock className="w-4 h-4 text-gray-500 mt-0.5" />
-          <span className="text-gray-800">{getTimeLabel(data.type)}</span>
+          <span className="text-gray-800">{t(`timeType.${data.type as number}`)}</span>
         </div>
 
         <div className="flex items-start gap-2">
@@ -107,7 +94,7 @@ const LeaveRequestCard = ({ data, handleShow, handleEdit }: Props) => {
 
       {/* Action Buttons with Tooltips */}
       <div className="flex gap-3 justify-end">
-        <Tooltip content="View Leave Request Details" placement="top">
+        <Tooltip content={t("leaveRequestCard.toolTipViewButton")} placement="top">
           <Button
             variant="primary"
             size="sm"
@@ -116,7 +103,7 @@ const LeaveRequestCard = ({ data, handleShow, handleEdit }: Props) => {
           />
         </Tooltip>
         {data.status == LeaveRequestStatusType.Pending &&
-          <Tooltip content="Edit Leave Request" placement="top">
+          <Tooltip content={t("leaveRequestCard.toolTipEditButton")} placement="top">
             <Button
               variant="info"
               size="sm"

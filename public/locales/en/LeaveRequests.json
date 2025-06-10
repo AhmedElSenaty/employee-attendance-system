@@ -26,8 +26,6 @@
     "toolTipResetFilters": "Reset All"
   },
   "leaveRequestCard": {
-    "morning": "Morning Permit",
-    "evening": "Evening Permit",
     "leaveOn": "Leave on",
     "requestedAt": "Requested at",
     "toolTipViewButton": "View Leave Request",
@@ -93,14 +91,37 @@
   },
   "inputs": {
     "type": {
-      "lable": "Leave Type",
-      "defaultOption": "Select leave type"
+      "label": "Leave Type",
+      "defaultOption": "Select leave type",
+      "validation": {
+        "optionality": "Invalid leave request type",
+        "required": "Leave request type is required"
+      }
     },
     "date": {
-      "lable": "Date"
+      "label": "Date",
+      "validation": {
+        "matches": "Date must be in the format YYYY-MM-DD",
+        "required": "Date is required"
+      }
     },
     "description": {
-      "lable": "Description"
+      "label": "Reason for requesting leave",
+      "placeholder": "Enter the reason for requesting leave.",
+      "validation": {
+        "max": "Reason for requesting leave can't exceed 500 characters",
+        "required": "Reason for requesting leave is required"
+      }
     }
+  },
+  "status": {
+    "0":"Pending",
+    "1":"Accepted",
+    "2":"Rejected",
+    "3":"Ignored"
+  },
+  "timeType": {
+    "0": "Morning Permit",
+    "1": "Evening Permit"
   }
 }

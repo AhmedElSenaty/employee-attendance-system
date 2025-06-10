@@ -2,7 +2,10 @@ import { CalendarCheck } from "lucide-react";
 import { NormalSpinner, Button, Popup } from "../../../../components/ui/";
 import { useLanguageStore } from "../../../../store/language.store";
 import { ILeaveRequestData } from "../../../../interfaces/leaveRequest.interfaces";
-import { LeaveRequestStatusType, LeaveRequestTimeType } from "../../../../enums";
+import { LeaveRequestStatusType } from "../../../../enums";
+import { useTranslation } from "react-i18next";
+import { TRANSLATION_NAMESPACE } from "..";
+import { formatValue } from "../../../../utils";
 
 interface IShowLeaveRequestPopupProps {
   isOpen: boolean;
@@ -20,13 +23,14 @@ const ShowLeaveRequestPopup = ({
   isLoading,
 }: IShowLeaveRequestPopupProps) => {
   const { language } = useLanguageStore();
+  const { t } = useTranslation(TRANSLATION_NAMESPACE);
 
   return (
     <Popup
       isOpen={isOpen}
       closeModal={handleClose}
-      title="Leave Request Details"
-      description="Detailed information about the leave request"
+      title={t("showPopup.title")}
+      description={t("showPopup.description")}
     >
       {isLoading ? (
         <div className="bg-gradient-to-br from-gray-50 to-gray-100 p-6 rounded-xl shadow-lg flex items-center justify-center min-h-[100px]">
@@ -39,36 +43,36 @@ const ShowLeaveRequestPopup = ({
               <CalendarCheck size={80} className="text-gray-600" />
             </div>
             <h2 className="text-lg font-semibold text-gray-800">
-              Leave on {new Date(leaveRequest?.date || "").toLocaleDateString(language === "ar" ? "ar-EG" : "en-CA")}
+              {t("showPopup.fields.leaveOn")} {new Date(leaveRequest?.date || "").toLocaleDateString(language === "ar" ? "ar-EG" : "en-CA")}
             </h2>
           </div>
 
           <div className="mt-6 space-y-4 divide-y divide-gray-300">
             <div className="grid grid-cols-2 py-2">
-              <span className="font-medium text-gray-600">ID</span>
-              <span className="text-gray-900 font-semibold">{leaveRequest?.id}</span>
+              <span className="font-medium text-gray-600">{t("showPopup.fields.id")}</span>
+              <span className="text-gray-900 font-semibold">{formatValue(leaveRequest?.id || 0, language)}</span>
             </div>
             <div className="grid grid-cols-2 py-2">
-              <span className="font-medium text-gray-600">Requested At</span>
+              <span className="font-medium text-gray-600">{t("showPopup.fields.requestedAt")}</span>
               <span className="text-gray-900 font-semibold">
                 {new Date(leaveRequest?.requestedAt || "").toLocaleDateString(language === "ar" ? "ar-EG" : "en-CA")}
               </span>
             </div>
             <div className="grid grid-cols-2 py-2">
-              <span className="font-medium text-gray-600">Type</span>
-              <span className="text-gray-900 font-semibold">{LeaveRequestTimeType[Number(leaveRequest?.type)]}</span>
+              <span className="font-medium text-gray-600">{t("showPopup.fields.type")}</span>
+              <span className="text-gray-900 font-semibold">{t(`status.${leaveRequest?.type as number}`)}</span>
             </div>
             <div className="grid grid-cols-2 py-2">
-              <span className="font-medium text-gray-600">Status</span>
-              <span className="text-gray-900 font-semibold">{LeaveRequestStatusType[Number(leaveRequest?.status)]}</span>
+              <span className="font-medium text-gray-600">{t("showPopup.fields.status")}</span>
+              <span className="text-gray-900 font-semibold">{t(`status.${leaveRequest?.status as number}`)}</span>
             </div>
             <div className="grid grid-cols-2 py-2">
-              <span className="font-medium text-gray-600">Description</span>
+              <span className="font-medium text-gray-600">{t("showPopup.fields.description")}</span>
               <span className="text-gray-900 font-semibold">{leaveRequest?.description}</span>
             </div>
             {leaveRequest?.comment && (
               <div className="grid grid-cols-2 py-2">
-                <span className="font-medium text-gray-600">Comment</span>
+                <span className="font-medium text-gray-600">{t("showPopup.fields.comment")}</span>
                 <span className="text-gray-900 font-semibold">{leaveRequest?.comment}</span>
               </div>
             )}
@@ -78,11 +82,11 @@ const ShowLeaveRequestPopup = ({
 
       <div className="flex items-center space-x-3 mt-4">
         <Button variant="cancel" type="button" fullWidth onClick={handleClose}>
-          Close
+          {t("showPopup.buttons.close")}
         </Button>
         {leaveRequest?.status == LeaveRequestStatusType.Pending &&
           <Button variant="info" type="button" fullWidth onClick={handleEditPopupOpen}>
-            Edit
+            {t("showPopup.buttons.edit")}
           </Button>
         }
       </div>

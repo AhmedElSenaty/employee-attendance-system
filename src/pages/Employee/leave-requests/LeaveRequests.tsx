@@ -12,7 +12,7 @@ import { TRANSLATION_NAMESPACE } from ".";
 import { useTranslation } from "react-i18next";
 
 const LeaveRequests = () => {
-  const { t } = useTranslation(["common", TRANSLATION_NAMESPACE]);
+  const { t } = useTranslation(TRANSLATION_NAMESPACE);
 
   const {getParam, setParam, clearParams} = useURLSearchParams();
 
@@ -94,8 +94,8 @@ const LeaveRequests = () => {
   return (
     <div className="sm:p-6 p-4 space-y-5">
       <Header
-        heading={t("header.heading", { ns: TRANSLATION_NAMESPACE })}
-        subtitle={t("header.subtitle", { ns: TRANSLATION_NAMESPACE })}
+        heading={t("header.heading")}
+        subtitle={t("header.subtitle")}
       />
 
       {/* Action Buttons Section */}
@@ -106,15 +106,15 @@ const LeaveRequests = () => {
               icon={<FilePlus2 />}
               iconBgColor="bg-[#e0f7fa]"
               iconColor="text-[#00796b]"
-              title={t("addActionCard.title", { ns: TRANSLATION_NAMESPACE })}
-              description={t("addActionCard.description", { ns: TRANSLATION_NAMESPACE })}
+              title={t("addActionCard.title")}
+              description={t("addActionCard.description")}
             >
               <Button
                 fullWidth
                 variant="secondary"
                 onClick={handleAddPopupOpen}
               >
-                {t("addActionCard.button", { ns: TRANSLATION_NAMESPACE })}
+                {t("addActionCard.button")}
               </Button>
             </ActionCard>
           </div>
@@ -124,15 +124,15 @@ const LeaveRequests = () => {
               icon={<ShieldCheck />}
               iconBgColor="bg-[#fff3e0]"
               iconColor="text-[#f57c00]"
-              title={t("conditionsActionCard.title", { ns: TRANSLATION_NAMESPACE })}
-              description={t("conditionsActionCard.description", { ns: TRANSLATION_NAMESPACE })}
+              title={t("conditionsActionCard.title")}
+              description={t("conditionsActionCard.description")}
             >
               <Button
                 fullWidth
                 variant="secondary"
                 onClick={() => setIsConditionsOpen(true)}
               >
-                {t("conditionsActionCard.button", { ns: TRANSLATION_NAMESPACE })}
+                {t("conditionsActionCard.button")}
               </Button>
             </ActionCard>
           </div>
@@ -141,8 +141,8 @@ const LeaveRequests = () => {
 
       <div className="bg-white shadow-md space-y-5 p-5 rounded-lg">
         <SectionHeader 
-          title={t("sectionHeader.title", { ns: TRANSLATION_NAMESPACE })}
-          description={t("sectionHeader.description", { ns: TRANSLATION_NAMESPACE })}
+          title={t("sectionHeader.title")}
+          description={t("sectionHeader.description")}
         />
 
         <LeaveRequestFilters

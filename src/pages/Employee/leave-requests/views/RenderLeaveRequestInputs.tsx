@@ -13,6 +13,8 @@ import {
 import { ILeaveRequestCredentials } from "../../../../interfaces/leaveRequest.interfaces";
 import { LeaveRequestTimeType } from "../../../../enums";
 import { Calendar } from "lucide-react";
+import { TRANSLATION_NAMESPACE } from "..";
+import { useTranslation } from "react-i18next";
 
 interface ILeaveRequestInputsProps {
   register: UseFormRegister<ILeaveRequestCredentials>;
@@ -21,6 +23,8 @@ interface ILeaveRequestInputsProps {
 }
 
 const RenderLeaveRequestInputs = ({ register, errors, isLoading }: ILeaveRequestInputsProps) => {
+  const { t } = useTranslation(TRANSLATION_NAMESPACE);
+
   return (
     <>
       {/* Leave Type */}
@@ -32,20 +36,25 @@ const RenderLeaveRequestInputs = ({ register, errors, isLoading }: ILeaveRequest
           </>
         ) : (
           <>
-            <Label size="lg">Leave Type</Label>
-            <SelectBox {...register("type")} isError={!!errors.type} defaultValue="">
-              <option value="" disabled>
-                Select leave type
+            <Label size="lg">{t("inputs.type.label")}</Label>
+            <SelectBox {...register("type")} isError={!!errors.type}>
+              <option 
+                value=""
+                selected
+              >
+                {t("inputs.type.defaultOption")}
               </option>
-                <option key={LeaveRequestTimeType.Morning} value={LeaveRequestTimeType.Morning}>
-                  {LeaveRequestTimeType[0]}
-                </option>
-                <option key={LeaveRequestTimeType.Evening} value={LeaveRequestTimeType.Evening}>
-                  {LeaveRequestTimeType[1]}
-                </option>
+              {Object.values(LeaveRequestTimeType)
+                .filter((v) => typeof v === "number")
+                .map((type) => (
+                  <option key={type} value={type}>
+                    {t(`timeType.${type as number}`)}
+                  </option>
+                ))
+              }
             </SelectBox>
             {errors.type && (
-              <InputErrorMessage>{errors.type.message}</InputErrorMessage>
+              <InputErrorMessage>{t(`inputs.type.validation.${errors.type.type}`)}</InputErrorMessage>
             )}
           </>
         )}
@@ -60,7 +69,7 @@ const RenderLeaveRequestInputs = ({ register, errors, isLoading }: ILeaveRequest
           </>
         ) : (
           <>
-            <Label size="lg">Date</Label>
+            <Label size="lg">{t("inputs.date.label")}</Label>
             <Input
               type="date"
               placeholder="YYYY-MM-DD"
@@ -74,7 +83,7 @@ const RenderLeaveRequestInputs = ({ register, errors, isLoading }: ILeaveRequest
               }
             />
             {errors.date && (
-              <InputErrorMessage>{errors.date.message}</InputErrorMessage>
+              <InputErrorMessage>{t(`inputs.date.validation.${errors.date.type}`)}</InputErrorMessage>
             )}
           </>
         )}
@@ -89,14 +98,14 @@ const RenderLeaveRequestInputs = ({ register, errors, isLoading }: ILeaveRequest
           </>
         ) : (
           <>
-            <Label size="lg">Description</Label>
+            <Label size="lg">{t("inputs.description.label")}</Label>
             <Textarea
-              placeholder="Enter description"
+              placeholder={t("inputs.description.placeholder")}
               isError={!!errors.description}
               {...register("description")}
             />
             {errors.description && (
-              <InputErrorMessage>{errors.description.message}</InputErrorMessage>
+              <InputErrorMessage>{t(`inputs.description.validation.${errors.description.type}`)}</InputErrorMessage>
             )}
           </>
         )}

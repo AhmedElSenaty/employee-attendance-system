@@ -1,6 +1,10 @@
 import { Calendar, RefreshCcw } from "lucide-react";
 import { Button, Field, Input, Label, SelectBox, Tooltip } from "../../../../components/ui";
 import { LeaveRequestStatusType } from "../../../../enums";
+import { useTranslation } from "react-i18next";
+import { TRANSLATION_NAMESPACE } from "..";
+import { formatValue } from "../../../../utils";
+import { useLanguageStore } from "../../../../store/language.store";
 
 interface LeaveRequestFiltersProps {
   getParam: (key: string) => string | number | null;
@@ -13,12 +17,13 @@ const LeaveRequestFilters = ({
   setParam,
   clearParams,
 }: LeaveRequestFiltersProps) => {
+  const { t } = useTranslation(TRANSLATION_NAMESPACE);
+  const { language } = useLanguageStore(); // Accessing the current language from the Redux state
 
-  
   return (
     <div className="flex flex-wrap items-end gap-4">
       <Field className="flex flex-col space-y-2 w-fit">
-        <Label>Page Size</Label>
+        <Label>{t("filters.pageSize")}</Label>
         <SelectBox
           value={getParam("pageSize") ?? 5}
           onChange={(e) =>
@@ -27,14 +32,14 @@ const LeaveRequestFilters = ({
         >
           {[10, 20, 30, 40, 50].map((size) => (
             <option key={size} value={size}>
-              {size}
+              {formatValue(size, language)}
             </option>
           ))}
         </SelectBox>
       </Field>
 
       <Field className="flex flex-col space-y-2">
-        <Label>Start Date</Label>
+        <Label>{t("filters.startDate")}</Label>
         <Input
           type="date"
           icon={<Calendar />}
@@ -44,7 +49,7 @@ const LeaveRequestFilters = ({
       </Field>
 
       <Field className="flex flex-col space-y-2">
-        <Label>End Date</Label>
+        <Label>{t("filters.endDate")}</Label>
         <Input
           type="date"
           icon={<Calendar />}
@@ -54,7 +59,7 @@ const LeaveRequestFilters = ({
       </Field>
 
       <Field className="flex flex-col space-y-2">
-        <Label>Leave Status</Label>
+        <Label>{t("filters.leaveStatus")}</Label>
         <SelectBox
           onChange={(e) => setParam("status", e.target.value)}
           defaultValue=""
@@ -64,19 +69,20 @@ const LeaveRequestFilters = ({
             selected={getParam("status") == null}
             disabled
           >
-            Select leave status
+            {t("filters.defaultLeaveStatusOption")}
           </option>
           {Object.values(LeaveRequestStatusType)
             .filter((v) => typeof v === "number")
             .map((statusValue) => (
               <option key={statusValue} value={statusValue}>
-                {LeaveRequestStatusType[statusValue as number]}
+                {t(`status.${statusValue as number}`)}
               </option>
-            ))}
+            ))
+          }
         </SelectBox>
       </Field>
 
-      <Tooltip content="Reset All">
+      <Tooltip content={t("filters.toolTipResetFilters")}>
         <Button onClick={clearParams} icon={<RefreshCcw />} />
       </Tooltip>
     </div>
