@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ILeaveRequestCredentials, ILeaveRequestData, IRejectLeaveRequestCredentials } from "../interfaces/leaveRequest.interfaces";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useLanguageStore } from "../store/language.store";
 import { useUserStore } from "../store/user.store";
 import { getTranslatedMessage, handleApiError, showToast } from "../utils";
@@ -13,6 +13,16 @@ export const MY_LEAVE_REQUESTS_QUERY_KEY = "myLeaveRequests";
 export const LEAVE_REQUEST_DETAILS_QUERY_KEY = "leaveRequestDetails";
 export const MY_LEAVE_REQUEST_DETAILS_QUERY_KEY = "myLeaveRequestDetails";
 
+export const useLeaveRequestService = () => {
+  const token = useUserStore((state) => state.token);
+
+  const service = useMemo(() => {
+    return new LeaveRequestService(token);
+  }, [token]);
+
+  return service;
+};
+
 export const useGetLeaveRequests = (
   page = 1,
   pageSize = 10,
@@ -23,7 +33,7 @@ export const useGetLeaveRequests = (
   searchQuery?: string
 ) => {
   const token = useUserStore((state) => state.token);
-  const leaveService = new LeaveRequestService(token);
+  const leaveService = useLeaveRequestService();
   
   const { data, isLoading } = useQuery({
     queryKey: [LEAVE_REQUESTS_QUERY_KEY, page, pageSize, startDate, endDate, status, searchType, searchQuery],
@@ -47,7 +57,7 @@ export const useGetMyLeaveRequests = (
   status?: number
 ) => {
   const token = useUserStore((state) => state.token);
-  const leaveService = new LeaveRequestService(token);
+  const leaveService = useLeaveRequestService();
 
   const { data, isLoading } = useQuery({
     queryKey: [MY_LEAVE_REQUESTS_QUERY_KEY, page, pageSize, startDate, endDate, status],
@@ -67,7 +77,7 @@ export const useGetLeaveRequestByID = (
   requestId: number,
 ) => {
   const token = useUserStore((state) => state.token);
-  const leaveService = new LeaveRequestService(token);
+  const leaveService = useLeaveRequestService();
 
   const { data, isLoading } = useQuery({
     queryKey: [LEAVE_REQUEST_DETAILS_QUERY_KEY, requestId],
@@ -86,7 +96,7 @@ export const useGetMyLeaveRequestByID = (
   resetInputs?: (data: ILeaveRequestData) => void
 ) => {
   const token = useUserStore((state) => state.token);
-  const leaveService = new LeaveRequestService(token);
+  const leaveService = useLeaveRequestService();
 
   const { data, isLoading } = useQuery({
     queryKey: [MY_LEAVE_REQUEST_DETAILS_QUERY_KEY, requestId],
@@ -107,10 +117,9 @@ export const useGetMyLeaveRequestByID = (
 };
 
 export const useCreateLeaveRequest = () => {
-  const token = useUserStore((state) => state.token);
   const { language } = useLanguageStore();
   const queryClient = useQueryClient();
-  const leaveService = new LeaveRequestService(token);
+  const leaveService = useLeaveRequestService();
 
   return useMutation({
     mutationFn: (leaveData: ILeaveRequestCredentials) => leaveService.create(leaveData),
@@ -129,10 +138,9 @@ export const useCreateLeaveRequest = () => {
 };
 
 export const useUpdateLeaveRequest = () => {
-  const token = useUserStore((state) => state.token);
   const { language } = useLanguageStore();
   const queryClient = useQueryClient();
-  const leaveService = new LeaveRequestService(token);
+  const leaveService = useLeaveRequestService();
 
   return useMutation({
     mutationFn: (leaveData: ILeaveRequestCredentials) => leaveService.update(leaveData),
@@ -151,10 +159,9 @@ export const useUpdateLeaveRequest = () => {
 };
 
 export const useAcceptLeaveRequest = () => {
-  const token = useUserStore((state) => state.token);
   const { language } = useLanguageStore();
   const queryClient = useQueryClient();
-  const leaveService = new LeaveRequestService(token);
+  const leaveService = useLeaveRequestService();
 
   return useMutation({
     mutationFn: (requestId: number) => leaveService.accept(requestId),
@@ -173,10 +180,9 @@ export const useAcceptLeaveRequest = () => {
 };
 
 export const useRejectLeaveRequest = () => {
-  const token = useUserStore((state) => state.token);
   const { language } = useLanguageStore();
   const queryClient = useQueryClient();
-  const leaveService = new LeaveRequestService(token);
+  const leaveService = useLeaveRequestService();
 
   return useMutation({
     mutationFn: (rejectLeaveRequestData: IRejectLeaveRequestCredentials) => leaveService.reject(rejectLeaveRequestData),
