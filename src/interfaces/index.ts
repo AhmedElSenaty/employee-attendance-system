@@ -18,6 +18,7 @@ export * from "./subDepartment.interfaces";
 export * from "./attendance.interfaces";
 export * from "./report.interfaces"
 export * from "./meInterfaces"
+export * from "./mission.interfaces"
 
 
 export interface IErrorResponse {

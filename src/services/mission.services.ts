@@ -87,31 +87,31 @@ export class MissionService extends BaseService {
         }
     }
 
-    createMissionRequest = (missionRequest: IMissionCredentials) => {
+    create = (missionRequest: IMissionCredentials) => {
         return axiosInstance.post("/MissionRequest/Employee/RequestMission", missionRequest, {
             headers: this.getAuthHeaders(),
         });
     }
 
-    assignMission = (assignMissionCredentials: IAssignMissionCredentials) => {
+    assign = (assignMissionCredentials: IAssignMissionCredentials) => {
         return axiosInstance.post("/MissionRequest/Manager/AssignMission", assignMissionCredentials, {
             headers: this.getAuthHeaders(),
         });
     }
 
-    rejectMission = (rejectMissionCredentials: IRejectMissionCredentials) => {
+    reject = (rejectMissionCredentials: IRejectMissionCredentials) => {
         return axiosInstance.put("/MissionRequest/Manager/RejectMissionRequest", rejectMissionCredentials, {
             headers: this.getAuthHeaders(),
         });
     }
 
-    acceptMission = (requestId: number) => {
+    accept = (requestId: number) => {
         return axiosInstance.put(`/MissionRequest/Manager/AcceptMissionRequest/${requestId}`, {}, {
             headers: this.getAuthHeaders(),
         });
     }
 
-    updateMission = (missionRequest: IMissionCredentials) => {
+    update = (missionRequest: IMissionCredentials) => {
         return axiosInstance.put("/MissionRequest/Employee/UpdateMission", missionRequest, {
             headers: this.getAuthHeaders(),
         });
