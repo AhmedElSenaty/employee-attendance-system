@@ -3,7 +3,7 @@ import { useUserStore } from "../store/user.store";
 import { AxiosError } from "axios";
 import { IAssignMissionRequestCredentials, IErrorResponse, IMissionRequestCredentials, IMissionRequestData, initialMetadata, IRejectMissionRequestCredentials } from "../interfaces";
 import { useLanguageStore } from "../store/language.store";
-import { getTranslatedMessage, handleApiError, showToast } from "../utils";
+import { appendSecondsToTime, getTranslatedMessage, handleApiError, showToast } from "../utils";
 import { useEffect, useMemo } from "react";
 import { MissionRequestService } from "../services/mission.services";
 
@@ -142,7 +142,11 @@ export const useAssignMissionRequest = () => {
 	const missionService = useMissionRequestService();
 
 	return useMutation({
-			mutationFn: (missionData: IAssignMissionRequestCredentials) => missionService.assign(missionData),
+			mutationFn: (missionData: IAssignMissionRequestCredentials)=>{
+				missionData.startTime = appendSecondsToTime(missionData.startTime)
+				missionData.endTime = appendSecondsToTime(missionData.endTime)
+				return missionService.assign(missionData)
+			},
 			onSuccess: ({ status, data }) => {
 					queryClient.invalidateQueries({queryKey: [MISSION_REQUESTS_QUERY_KEY]});
 					if (status === 201) {
