@@ -40,7 +40,8 @@
       "default": "Choose your search method",
       "label": "Search By",
       "SearchByFullName": "Full Name",
-      "SearchBySSN": "SSN"
+      "SearchBySSN": "SSN",
+      "EmployeeId": "Employee ID"
     },
     "search": {
       "label": "Search",

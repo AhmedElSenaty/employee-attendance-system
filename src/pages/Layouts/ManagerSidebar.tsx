@@ -54,6 +54,8 @@ export const ManagerSidebar = () => {
       )}
 
       <SidebarItem icon={<TentTree size={23} />} name={t("leaveRequests")} to="/manager/leave-requests" />
+      
+      <SidebarItem icon={<TentTree size={23} />} name={t("missionRequests")} to="/manager/mission-requests" />
 
     </Sidebar>
   );

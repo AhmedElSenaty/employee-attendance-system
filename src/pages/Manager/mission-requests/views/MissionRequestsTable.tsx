@@ -10,27 +10,27 @@ import {
   TableSkeleton,
   Tooltip,
 } from "../../../../components/ui";
-import { ILeaveRequestData } from "../../../../interfaces/leaveRequest.interfaces";
 import { LEAVE_REQUESTS_TABLE_COLUMNS, TRANSLATION_NAMESPACE } from "..";
 import { useTranslation } from "react-i18next";
 import { useLanguageStore } from "../../../../store/language.store";
 import { formatValue, getRequestStatusVariant } from "../../../../utils";
 import { RequestStatusType } from "../../../../enums";
+import { IMissionRequestData } from "../../../../interfaces";
 
 interface ITableProps {
-  leaveRequests: ILeaveRequestData[];
+  missionRequests: IMissionRequestData[];
   isLoading: boolean;
-  handleShowLeaveRequests: (id: number) => void;
-  handleAcceptLeaveRequests: (id: number) => void;
-  handleRejectLeaveRequests: (id: number) => void;
+  handleShow: (id: number) => void;
+  handleAccept: (id: number) => void;
+  handleReject: (id: number) => void;
 }
 
-const LeaveRequestsTable = ({
-  leaveRequests,
+const MissionRequestsTable = ({
+  missionRequests,
   isLoading,
-  handleShowLeaveRequests,
-  handleAcceptLeaveRequests,
-  handleRejectLeaveRequests,
+  handleShow,
+  handleAccept,
+  handleReject,
 }: ITableProps) => {
   const { t } = useTranslation(TRANSLATION_NAMESPACE);
   const { language } = useLanguageStore();
@@ -49,40 +49,40 @@ const LeaveRequestsTable = ({
         />
       ) : (
         <Table columns={columns}>
-          {leaveRequests.length == 0 ? (
+          {missionRequests.length == 0 ? (
             <NoDataMessage
               title={t("table.emptyTable.title")}
               message={t("table.emptyTable.message")}
             />
           ) : (
-            leaveRequests.map((leaveRequest) => (
-              <TableRow key={leaveRequest.id} className="border-b">
+            missionRequests.map((missionRequest) => (
+              <TableRow key={missionRequest.id} className="border-b">
                 <TableCell label={columns[0]}>
-                  {formatValue(leaveRequest?.id || 0, language)}
+                  {formatValue(missionRequest?.id || 0, language)}
                 </TableCell>
                 <TableCell label={columns[1]}>
-                  {leaveRequest.employeeName}
+                  {missionRequest.employeeName}
                 </TableCell>
                 <TableCell label={columns[2]}>
-                  {new Date(leaveRequest.date || "").toLocaleDateString(
+                  {new Date(missionRequest.date || "").toLocaleDateString(
                     language === "ar" ? "ar-EG" : "en-CA"
                   )}
                 </TableCell>
                 <TableCell label={columns[3]}>
-                  {new Date(leaveRequest.requestedAt || "").toLocaleDateString(
+                  {new Date(missionRequest.requestedAt || "").toLocaleDateString(
                     language === "ar" ? "ar-EG" : "en-CA"
                   )}
                 </TableCell>
                 <TableCell label={columns[4]}>
-                  {t(`timeType.${leaveRequest?.type as number}`)}
+                  {t(`dayType.${missionRequest?.type as number}`)}
                 </TableCell>
                 <TableCell label={columns[5]}>
                   <StatusBadge
-                    variant={getRequestStatusVariant(leaveRequest.status)}
+                    variant={getRequestStatusVariant(missionRequest.status)}
                     size="medium"
                     shape="rounded"
                   >
-                    {t(`status.${leaveRequest.status as number}`)}
+                    {t(`status.${missionRequest.status as number}`)}
                   </StatusBadge>
                 </TableCell>
                 <TableCell label={columns[6]}>
@@ -93,10 +93,10 @@ const LeaveRequestsTable = ({
                         fullWidth={false}
                         size={"sm"}
                         icon={<Eye className="w-full h-full" />}
-                        onClick={() => handleShowLeaveRequests(leaveRequest.id)}
+                        onClick={() => handleShow(missionRequest.id)}
                       />
                     </Tooltip>
-                    {leaveRequest.status == RequestStatusType.Pending && (
+                    {missionRequest.status == RequestStatusType.Pending && (
                       <>
                         <Tooltip content={t("table.buttons.toolTipAccept")}>
                           <Button
@@ -105,7 +105,7 @@ const LeaveRequestsTable = ({
                             size={"sm"}
                             icon={<Check className="w-full h-full" />}
                             onClick={() =>
-                              handleAcceptLeaveRequests(leaveRequest.id)
+                              handleAccept(missionRequest.id)
                             }
                           />
                         </Tooltip>
@@ -116,7 +116,7 @@ const LeaveRequestsTable = ({
                             size={"sm"}
                             icon={<X className="w-full h-full" />}
                             onClick={() =>
-                              handleRejectLeaveRequests(leaveRequest.id)
+                              handleReject(missionRequest.id)
                             }
                           />
                         </Tooltip>
@@ -133,4 +133,4 @@ const LeaveRequestsTable = ({
   );
 };
 
-export default LeaveRequestsTable;
+export default MissionRequestsTable;

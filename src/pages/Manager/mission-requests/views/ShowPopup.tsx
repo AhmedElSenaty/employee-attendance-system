@@ -1,7 +1,6 @@
 import { CalendarCheck } from "lucide-react";
-import { NormalSpinner, Button, Popup } from "../../../../components/ui";
+import { NormalSpinner, Button, Popup } from "../../../../components/ui/";
 import { useLanguageStore } from "../../../../store/language.store";
-import { RequestStatusType } from "../../../../enums";
 import { useTranslation } from "react-i18next";
 import { TRANSLATION_NAMESPACE } from "..";
 import { formatValue } from "../../../../utils";
@@ -10,7 +9,6 @@ import { IMissionRequestData } from "../../../../interfaces";
 interface IShowPopupProps {
   isOpen: boolean;
   handleClose: () => void;
-  handleEditPopupOpen: () => void;
   missionRequest: IMissionRequestData | null;
   isLoading: boolean;
 }
@@ -18,7 +16,6 @@ interface IShowPopupProps {
 const ShowPopup = ({
   isOpen,
   handleClose,
-  handleEditPopupOpen,
   missionRequest,
   isLoading,
 }: IShowPopupProps) => {
@@ -43,64 +40,45 @@ const ShowPopup = ({
               <CalendarCheck size={80} className="text-gray-600" />
             </div>
             <h2 className="text-lg font-semibold text-gray-800">
-              {t("showPopup.fields.missionAt")}{" "}
-              {new Date(missionRequest?.date || "").toLocaleDateString(
-                language === "ar" ? "ar-EG" : "en-CA"
-              )}
+              {t("showPopup.fields.missionAt")} {new Date(missionRequest?.date || "").toLocaleDateString(language === "ar" ? "ar-EG" : "en-CA")}
             </h2>
           </div>
 
           <div className="mt-6 space-y-4 divide-y divide-gray-300">
             <div className="grid grid-cols-2 py-2">
-              <span className="font-medium text-gray-600">
-                {t("showPopup.fields.id")}
-              </span>
+              <span className="font-medium text-gray-600">{t("showPopup.fields.employeeId")}</span>
+              <span className="text-gray-900 font-semibold">{formatValue(missionRequest?.employeeId || 0, language)}</span>
+            </div>
+            <div className="grid grid-cols-2 py-2">
+              <span className="font-medium text-gray-600">{t("showPopup.fields.employeeName")}</span>
+              <span className="text-gray-900 font-semibold">{missionRequest?.employeeName}</span>
+            </div>
+            <div className="grid grid-cols-2 py-2">
+              <span className="font-medium text-gray-600">{t("showPopup.fields.id")}</span>
+              <span className="text-gray-900 font-semibold">{formatValue(missionRequest?.id || 0, language)}</span>
+            </div>
+            <div className="grid grid-cols-2 py-2">
+              <span className="font-medium text-gray-600">{t("showPopup.fields.requestedAt")}</span>
               <span className="text-gray-900 font-semibold">
-                {formatValue(missionRequest?.id || 0, language)}
+                {new Date(missionRequest?.requestedAt || "").toLocaleDateString(language === "ar" ? "ar-EG" : "en-CA")}
               </span>
             </div>
             <div className="grid grid-cols-2 py-2">
-              <span className="font-medium text-gray-600">
-                {t("showPopup.fields.requestedAt")}
-              </span>
-              <span className="text-gray-900 font-semibold">
-                {new Date(missionRequest?.requestedAt || "").toLocaleDateString(
-                  language === "ar" ? "ar-EG" : "en-CA"
-                )}
-              </span>
+              <span className="font-medium text-gray-600">{t("showPopup.fields.type")}</span>
+              <span className="text-gray-900 font-semibold">{t(`timeType.${missionRequest?.type as number}`)}</span>
             </div>
             <div className="grid grid-cols-2 py-2">
-              <span className="font-medium text-gray-600">
-                {t("showPopup.fields.type")}
-              </span>
-              <span className="text-gray-900 font-semibold">
-                {t(`timeType.${missionRequest?.type as number}`)}
-              </span>
+              <span className="font-medium text-gray-600">{t("showPopup.fields.status")}</span>
+              <span className="text-gray-900 font-semibold">{t(`status.${missionRequest?.status as number}`)}</span>
             </div>
             <div className="grid grid-cols-2 py-2">
-              <span className="font-medium text-gray-600">
-                {t("showPopup.fields.status")}
-              </span>
-              <span className="text-gray-900 font-semibold">
-                {t(`status.${missionRequest?.status as number}`)}
-              </span>
-            </div>
-            <div className="grid grid-cols-2 py-2">
-              <span className="font-medium text-gray-600">
-                {t("showPopup.fields.description")}
-              </span>
-              <span className="text-gray-900 font-semibold">
-                {missionRequest?.description}
-              </span>
+              <span className="font-medium text-gray-600">{t("showPopup.fields.description")}</span>
+              <span className="text-gray-900 font-semibold">{missionRequest?.description}</span>
             </div>
             {missionRequest?.comment && (
               <div className="grid grid-cols-2 py-2">
-                <span className="font-medium text-gray-600">
-                  {t("showPopup.fields.comment")}
-                </span>
-                <span className="text-gray-900 font-semibold">
-                  {missionRequest?.comment}
-                </span>
+                <span className="font-medium text-gray-600">{t("showPopup.fields.comment")}</span>
+                <span className="text-gray-900 font-semibold">{missionRequest?.comment}</span>
               </div>
             )}
           </div>
@@ -111,16 +89,6 @@ const ShowPopup = ({
         <Button variant="cancel" type="button" fullWidth onClick={handleClose}>
           {t("showPopup.buttons.close")}
         </Button>
-        {missionRequest?.status == RequestStatusType.Pending && (
-          <Button
-            variant="info"
-            type="button"
-            fullWidth
-            onClick={handleEditPopupOpen}
-          >
-            {t("showPopup.buttons.edit")}
-          </Button>
-        )}
       </div>
     </Popup>
   );

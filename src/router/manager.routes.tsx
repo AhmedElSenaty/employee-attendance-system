@@ -9,6 +9,7 @@ import { CalendarPage } from "../pages/common/Calender";
 import { AttendanceOverviewPage, ManageAttendancePage } from "../pages/common/manage-attendance";
 import ManagerAccountPage from "../pages/Manager/Account";
 import { LeaveRequestsPage } from "../pages/Manager/leave-requests";
+import { MissionRequestsPage } from "../pages/Manager/mission-requests";
 
 export const managerRoutes = (isLoggedIn: boolean, userRole: string) => (
   <Route 
@@ -42,5 +43,6 @@ export const managerRoutes = (isLoggedIn: boolean, userRole: string) => (
     <Route path="manage-attendance/overview/" element={<AttendanceOverviewPage />} />
 
     <Route path="leave-requests" element={<LeaveRequestsPage />} />
+    <Route path="mission-requests" element={<MissionRequestsPage />} />
   </Route>
 );

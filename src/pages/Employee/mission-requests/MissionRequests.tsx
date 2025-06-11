@@ -183,7 +183,7 @@ const MissionRequests = () => {
           handleEditPopupOpen(selectedID)
           setIsShowPopupOpen(false)
         }}
-        leaveRequest={missionRequest}
+        missionRequest={missionRequest}
         isLoading={isMissionRequestLoading}
       />
 

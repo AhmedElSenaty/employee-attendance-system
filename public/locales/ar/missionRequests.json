@@ -40,7 +40,8 @@
       "default": "اختر طريقة البحث",
       "label": "البحث بواسطة",
       "SearchByFullName": "الاسم الكامل",
-      "SearchBySSN": "الرقم القومي"
+      "SearchBySSN": "الرقم القومي",
+      "EmployeeId": "الرقم التعريفي للموظف"
     },
     "search": {
       "label": "بحث",

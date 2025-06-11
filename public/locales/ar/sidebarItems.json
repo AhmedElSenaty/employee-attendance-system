@@ -27,5 +27,6 @@
   "manageProfiles": "إدارة ملفات الصلاحيات",
   "profiles": "ملفات الصلاحيات",
   "addProfile": "إضافة ملف صلاحيات",
-  "leaveRequests": "طلبات الإجازة"
+  "leaveRequests": "طلبات الإجازة",
+  "missionRequests": "طلبات المهمة"
 }

@@ -27,5 +27,6 @@
   "manageProfiles": "Manage Profiles",
   "profiles": "Profiles",
   "addProfile": "Add Profile",
-  "leaveRequests": "Leave Requests"
+  "leaveRequests": "Leave Requests",
+  "missionRequests": "Mission Requests"
 }
