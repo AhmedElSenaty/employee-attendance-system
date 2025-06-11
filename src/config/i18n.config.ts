@@ -33,6 +33,7 @@ const namespaces = [
   "managerAccount",
   "empolyeeAccount",
   "LeaveRequests",
+  "missionRequests",
 ];
 
 i18n

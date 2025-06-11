@@ -1,0 +1,185 @@
+{
+  "managerHeader": {
+    "title": "Mission Requests Management",
+    "subtitle": "Review, approve, or reject employee mission requests"
+  },
+  "countCard": {
+    "title": "Total Mission Requests",
+    "description": "Number of requests submitted"
+  },
+  "managerSectionHeader": {
+    "title": "All Mission Requests",
+    "description": "You can filter, view, and take action on pending mission requests"
+  },
+  "employeeHeader": {
+    "heading": "Mission Requests Management",
+    "subtitle": "Submit a new mission request or review the conditions for half/full day applications."
+  },
+  "addActionCard": {
+    "title": "Add New Mission Request",
+    "description": "Submit a request for personal, medical, or emergency Mission.",
+    "button": "Create Request"
+  },
+  "conditionsActionCard": {
+    "title": "Mission Conditions",
+    "description": "Read the requirements for applying for a half or full day.",
+    "button": "Read Conditions"
+  },
+  "employeeSectionHeader": {
+    "title":"Employee Mission Requests", 
+    "description":"View submitted mission requests with status, timing, and notes. Edit or manage them as needed."
+  },
+  "filters": {
+    "pageSize": "Page Size",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "missionStatus": "Mission Status",
+    "defaultMissionStatusOption": "Select mission status",
+    "toolTipResetFilters": "Reset All",
+    "searchBy": {
+      "default": "Choose your search method",
+      "label": "Search By",
+      "SearchByFullName": "Full Name",
+      "SearchBySSN": "SSN"
+    },
+    "search": {
+      "label": "Search",
+      "placeholder": "Enter the value you want to search for...."
+    }
+  },
+  "missionRequestCard": {
+    "missionAt": "Mission at",
+    "requestedAt": "Requested at",
+    "toolTipViewButton": "View Mission Request",
+    "toolTipEditButton": "Edit Mission Request"
+  },
+  "conditionsPopup": {
+    "title": "Mission Request",
+    "description": "The manager can assign a mission to the employee at any time deemed appropriate.\n\nIf the employee wishes to request a mission, the request must be submitted at least one day in advance and before 2:00 PM.",
+    "halfDay": {
+      "title": "Half-Day Mission",
+      "rules": [
+        "The employee attends a half workday at their regular location.",
+        "They must clock in and out as usual."
+      ]
+    },
+    "fullDay": {
+      "title": "Full-Day Mission",
+      "rules": [
+        "The employee spends the entire day on the mission outside the workplace.",
+        "They are not required to clock in or out on that day."
+      ]
+    },
+    "close": "Close"
+  },
+  "showPopup": {
+    "title": "Mission Request Details",
+    "description":"Detailed information about the mission request",
+    "fields": {
+      "employeeId": "#Employee ID",
+      "employeeName": "Employee Name",
+      "id": "#ID",
+      "missionAt": "Mission At",
+      "requestedAt": "Requested at",
+      "type": "Type",
+      "status": "Status",
+      "description": "Description",
+      "comment": "Comment"
+    },
+    "buttons": {
+      "edit": "Edit",
+      "close": "Close"
+    }
+  },
+  "addPopup": {
+    "title":"Add Mission Request",
+    "description":"Fill in the details to submit a new mission request.",
+    "buttons": {
+      "add": "Add",
+      "close": "Close"
+    }
+  },
+  "editPopup": {
+    "title":"Edit Mission Request",
+    "description":"Update the details of your Mission request below.",
+    "buttons": {
+      "edit": "Edit",
+      "close": "Close"
+    }
+  },
+  "inputs": {
+    "type": {
+      "label": "Mission Type",
+      "defaultOption": "Select Mission type",
+      "validation": {
+        "optionality": "Invalid mission request type",
+        "required": "Mission request type is required"
+      }
+    },
+    "date": {
+      "label": "Date",
+      "validation": {
+        "matches": "Date must be in the format YYYY-MM-DD",
+        "required": "Date is required"
+      }
+    },
+    "description": {
+      "label": "Reason for requesting mission",
+      "placeholder": "Enter the reason for requesting mission.",
+      "validation": {
+        "max": "Reason for requesting mission can't exceed 500 characters",
+        "required": "Reason for requesting mission is required"
+      }
+    },
+    "comment": {
+      "label": "comment",
+      "placeholder": "Mention a comment about the reason for rejection.."
+    }
+  },
+  "status": {
+    "0":"Pending",
+    "1":"Accepted",
+    "2":"Rejected",
+    "3":"Ignored"
+  },
+  "dayType": {
+    "0": "Half Day",
+    "1": "Full Day"
+  },
+  "table": {
+    "emptyTable": {
+      "title": "No Mission Requested Found",
+      "message": "Try adjusting your filters or adding a new Mission Requested."
+    },
+    "columns": {
+      "id": "#ID",
+      "employeeName": "Employee Name",
+      "date": "Date",
+      "requestedAt": "Requested At",
+      "type": "Type",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "buttons": {
+      "toolTipShow": "Show Mission Request",
+      "toolTipAccept": "Accept Mission Request",
+      "toolTipReject": "Reject Mission Request"
+    }
+  },
+  "acceptPopup": {
+    "title":"Accept Mission Request",
+    "description": "Are you sure you want to accept this Mission request? This action will notify the employee and update the request status.",
+    "buttons": {
+      "accept": "Accept",
+      "close": "Close"
+    }
+  },
+  "rejectPopup": {
+    "title": "Reject Mission Request",
+    "description": "Are you sure you want to reject this Mission request? This action will notify the employee and update the request status.",
+    "buttons": {
+      "reject": "Reject",
+      "close": "Close"
+    }
+  }
+}

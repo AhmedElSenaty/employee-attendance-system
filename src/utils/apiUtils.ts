@@ -1,6 +1,6 @@
 import { AxiosError } from "axios";
 import { IErrorResponse } from "../interfaces";
-import { showToast } from "./toastUtils";
+import { showToast } from "./toast.utils";
 
 export const handleApiError = (error: AxiosError<IErrorResponse>, locale: "en" | "ar") => {
   if (error.response?.data?.errors && Array.isArray(error.response.data.errors)) {

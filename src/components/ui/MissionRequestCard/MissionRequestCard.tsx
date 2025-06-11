@@ -1,21 +1,21 @@
 import { RequestStatusType } from "../../../enums";
-import { ILeaveRequestData } from "../../../interfaces/leaveRequest.interfaces";
 import { StatusBadge } from "../StatusBadge";
 import { Clock, FilePenLine, Info, MessageSquare, Eye } from "lucide-react";
 import { Button } from "../Button";
 import { Tooltip } from "../Tooltip"; // Assuming you have this
 import { getRequestBgColorClass, getRequestStatusVariant, truncateText } from "../../../utils";
-import { TRANSLATION_NAMESPACE } from "../../../pages/Employee/leave-requests";
+import { TRANSLATION_NAMESPACE } from "../../../pages/Employee/mission-requests";
 import { useTranslation } from "react-i18next";
 import { useLanguageStore } from "../../../store/language.store";
+import { IMissionRequestData } from "../../../interfaces";
 
 type Props = {
-  data: ILeaveRequestData;
+  data: IMissionRequestData;
   handleShow: (id: number) => void;
   handleEdit: (id: number) => void;
 };
 
-const LeaveRequestCard = ({ data, handleShow, handleEdit }: Props) => {
+const MissionRequestCard = ({ data, handleShow, handleEdit }: Props) => {
   const { t } = useTranslation(TRANSLATION_NAMESPACE);
   const { language } = useLanguageStore();
 
@@ -28,7 +28,7 @@ const LeaveRequestCard = ({ data, handleShow, handleEdit }: Props) => {
       <div className="flex justify-between items-center">
         <div>
           <h3 className="text-xl font-semibold text-gray-800">
-            {t("leaveRequestCard.leaveOn")}{" "}
+            {t("missionRequestCard.missionAt")}{" "}
             <span className="text-gray-900">
               {new Date(data?.date || "").toLocaleDateString(
                 language === "ar" ? "ar-EG" : "en-CA"
@@ -36,7 +36,7 @@ const LeaveRequestCard = ({ data, handleShow, handleEdit }: Props) => {
             </span>
           </h3>
           <p className="text-base text-gray-500">
-            {t("leaveRequestCard.requestedAt")}{" "}
+            {t("missionRequestCard.requestedAt")}{" "}
             {new Date(data?.requestedAt || "").toLocaleDateString(
               language === "ar" ? "ar-EG" : "en-CA"
             )}
@@ -56,7 +56,7 @@ const LeaveRequestCard = ({ data, handleShow, handleEdit }: Props) => {
         <div className="flex items-start gap-2">
           <Clock className="w-4 h-4 text-gray-500 mt-0.5" />
           <span className="text-gray-800">
-            {t(`timeType.${data.type as number}`)}
+            {t(`dayType.${data.type as number}`)}
           </span>
         </div>
 
@@ -78,7 +78,7 @@ const LeaveRequestCard = ({ data, handleShow, handleEdit }: Props) => {
       {/* Action Buttons with Tooltips */}
       <div className="flex gap-3 justify-end">
         <Tooltip
-          content={t("leaveRequestCard.toolTipViewButton")}
+          content={t("missionRequestCard.toolTipViewButton")}
           placement="top"
         >
           <Button
@@ -90,7 +90,7 @@ const LeaveRequestCard = ({ data, handleShow, handleEdit }: Props) => {
         </Tooltip>
         {data.status == RequestStatusType.Pending && (
           <Tooltip
-            content={t("leaveRequestCard.toolTipEditButton")}
+            content={t("missionRequestCard.toolTipEditButton")}
             placement="top"
           >
             <Button
@@ -106,4 +106,4 @@ const LeaveRequestCard = ({ data, handleShow, handleEdit }: Props) => {
   );
 };
 
-export default LeaveRequestCard;
+export default MissionRequestCard;

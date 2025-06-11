@@ -1,18 +1,25 @@
-import { MissionStatusType, RequestStatusType } from "../enums";
+import { MissionRequestType, RequestStatusType } from "../enums";
 
-export interface IMissionCredentials {
-    requestedId?: string;
+export interface IMissionRequestCredentials {
+    requestId?: number;
+    type: MissionRequestType;
     date: string;
-    type: MissionStatusType;
     description: string;
 }
 
-export interface IRejectMissionCredentials {
-    requestId: number;
-    comment: string;
+export interface IMissionRequestData{
+    id: number;
+    date: string;
+    requestedAt: string;
+    type: MissionRequestType;
+    status: RequestStatusType;
+    description: string;
+    comment: string | null;
+    employeeId?: string;
+    employeeName?: string;
 }
 
-export interface IAssignMissionCredentials {
+export interface IAssignMissionRequestCredentials {
     employeeId: string;
     date: string;
     startTime: string;
@@ -20,15 +27,7 @@ export interface IAssignMissionCredentials {
     description: string;
 }
 
-export interface IMissionData{
-    id: number;
-    date: string;
-    requestedAt: string;
-    type: MissionStatusType;
-    status: RequestStatusType;
-    description: string;
-    comment: string | null;
-    employeeId: string;
-    employeeName: string;
+export interface IRejectMissionRequestCredentials {
+    requestId: number;
+    comment: string;
 }
-

@@ -10,25 +10,25 @@ import {
   Textarea,
   TextareaSkeleton,
 } from "../../../../components/ui";
-import { ILeaveRequestCredentials } from "../../../../interfaces/leaveRequest.interfaces";
-import { LeaveRequestType } from "../../../../enums";
+import { MissionRequestType } from "../../../../enums";
 import { Calendar } from "lucide-react";
 import { TRANSLATION_NAMESPACE } from "..";
 import { useTranslation } from "react-i18next";
 import { getTodayDateISO } from "../../../../utils";
+import { IMissionRequestCredentials } from "../../../../interfaces";
 
-interface ILeaveRequestInputsProps {
-  register: UseFormRegister<ILeaveRequestCredentials>;
-  errors: FieldErrors<ILeaveRequestCredentials>;
+interface IMissionRequestInputsProps {
+  register: UseFormRegister<IMissionRequestCredentials>;
+  errors: FieldErrors<IMissionRequestCredentials>;
   isLoading?: boolean;
 }
 
-const Inputs = ({ register, errors, isLoading }: ILeaveRequestInputsProps) => {
+const Inputs = ({ register, errors, isLoading }: IMissionRequestInputsProps) => {
   const { t } = useTranslation(TRANSLATION_NAMESPACE);
 
   return (
     <>
-      {/* Leave Type */}
+      {/* Mission Type */}
       <Field className="space-y-2">
         {isLoading ? (
           <>
@@ -42,11 +42,11 @@ const Inputs = ({ register, errors, isLoading }: ILeaveRequestInputsProps) => {
               <option value="" selected>
                 {t("inputs.type.defaultOption")}
               </option>
-              {Object.values(LeaveRequestType)
+              {Object.values(MissionRequestType)
                 .filter((v) => typeof v === "number")
                 .map((type) => (
                   <option key={type} value={type}>
-                    {t(`timeType.${type as number}`)}
+                    {t(`dayType.${type as number}`)}
                   </option>
                 ))}
             </SelectBox>
