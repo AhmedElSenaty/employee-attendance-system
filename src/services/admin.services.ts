@@ -4,14 +4,17 @@ import { BaseService } from "./base.services";
 
 export class AdminService extends BaseService {
   fetchAll = async (
-    page: number,
-    pageSize: number,
-    searchType: string,
-    searchQuery: string
+    page?: number,
+    pageSize?: number,
+    searchType?: string,
+    searchQuery?: string
   ) => {
     try {
-      const params = this.buildParams(page, pageSize, searchType, searchQuery);
-
+      const params = this.buildParams({
+        PageIndex: page ?? 1,
+        PageSize: pageSize,
+        ...(searchType && searchQuery ? { [searchType]: searchQuery } : {}),
+      });
       const response = await axiosInstance.get("/Admin", {
         params,
         headers: this.getAuthHeaders(),

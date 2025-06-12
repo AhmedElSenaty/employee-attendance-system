@@ -30,7 +30,7 @@ const StatCard = ({
       {/* Icon with background and color */}
       <div
         className={clsx(
-          "w-11 h-11 flex items-center justify-center rounded-xl mb-4 text-3xl",
+          "w-10 h-10 flex items-center justify-center rounded-xl mb-4 text-3xl",
           iconColor,
           iconBg
         )}

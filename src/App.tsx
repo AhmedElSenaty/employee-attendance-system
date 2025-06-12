@@ -19,7 +19,7 @@ function App() {
   const token = useUserStore((state) => state.token);
   const role = useUserStore((state) => state.role);
   const id = useUserStore((state) => state.id);
-  console.log(id);
+  console.log(token);
   
   useEffect(() => {
     setTimeout(() => {

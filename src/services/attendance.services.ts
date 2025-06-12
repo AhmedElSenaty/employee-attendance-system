@@ -4,32 +4,34 @@ import { BaseService } from "./base.services";
 
 export class AttendanceService extends BaseService {
   fetchAll = async (
-    page: number,
-    pageSize: number,
-    searchType: string,
-    searchQuery: string,
-    startDate: string,
-    endDate: string,
-    startTime: string,
-    endTime: string,
-    status: string,
-    searchByDepartmentId: number,
-    searchBySubDepartmentId: number
+    page?: number,
+    pageSize?: number,
+    searchType?: string,
+    searchQuery?: string,
+    startDate?: string,
+    endDate?: string,
+    startTime?: string,
+    endTime?: string,
+    status?: string,
+    searchByDepartmentId?: number,
+    searchBySubDepartmentId?: number
   ) => {
     try {
+      const params = this.buildParams({
+        PageIndex: page ?? 1,
+        PageSize: pageSize,
+        StartDate: startDate,
+        EndDate: endDate,
+        StartTime: startTime,
+        EndTime: endTime,
+        Status: status,
+        SearchByDeptartmentId: searchByDepartmentId === 0 ? "" : searchByDepartmentId,
+        SearchBySubDeptartmentId: searchBySubDepartmentId === 0 ? "" : searchBySubDepartmentId,
+        ...(searchType && searchQuery ? { [searchType]: searchQuery } : {}),
+      });
+
       const response = await axiosInstance.get(`/Attendance`, {
-        params: {
-          PageIndex: page,
-          PageSize: pageSize,
-          [searchType]: searchQuery,
-          StartDate: startDate,
-          EndDate: endDate,
-          StartTime: startTime,
-          EndTime: endTime,
-          Status: status,
-          SearchByDeptartmentId: searchByDepartmentId === 0 ? "" : searchByDepartmentId,
-          SearchBySubDeptartmentId: searchBySubDepartmentId === 0 ? "" : searchBySubDepartmentId,
-        },
+        params,
         headers: this.getAuthHeaders(),
       });
 
@@ -65,18 +67,20 @@ export class AttendanceService extends BaseService {
   };
 
   fetchDepartmentOverview = async (
-    startDate: string,
-    endDate: string,
-    departmentID: number
+    startDate?: string,
+    endDate?: string,
+    departmentID?: number
   ) => {
     try {
+      const params = this.buildParams({
+        StartDate: startDate,
+        EndDate: endDate,
+        DepartmentId: departmentID === 0 ? "" : departmentID,
+      });
+
       const response = await axiosInstance.get(`/Attendance/departmentOverView`, {
         headers: this.getAuthHeaders(),
-        params: {
-          StartDate: startDate,
-          EndDate: endDate,
-          DepartmentId: departmentID === 0 ? "" : departmentID,
-        },
+        params,
       });
 
       return response.data;
@@ -87,22 +91,23 @@ export class AttendanceService extends BaseService {
   };
 
   fetchSummary = async (
-    page: number,
-    pageSize: number,
-    searchType: string,
-    searchQuery: string,
-    startDate: string,
-    endDate: string
+    page?: number,
+    pageSize?: number,
+    startDate?: string,
+    endDate?: string,
+    searchType?: string,
+    searchQuery?: string
   ) => {
     try {
+      const params = this.buildParams({
+        PageIndex: page ?? 1,
+        PageSize: pageSize,
+        StartDate: startDate,
+        EndDate: endDate,
+        ...(searchType && searchQuery ? { [searchType]: searchQuery } : {}),
+      });
       const response = await axiosInstance.get(`/Attendance/summary`, {
-        params: {
-          PageIndex: page,
-          PageSize: pageSize,
-          [searchType]: searchQuery,
-          StartDate: startDate,
-          EndDate: endDate,
-        },
+        params,
         headers: this.getAuthHeaders(),
       });
 
@@ -144,17 +149,18 @@ export class AttendanceService extends BaseService {
   };
 
   fetchCalendar = async (
-    employeeID: string,
-    startDate: string,
-    endDate: string
+    employeeID?: string,
+    startDate?: string,
+    endDate?: string
   ) => {
     try {
+      const params = this.buildParams({
+        EmployeeId: employeeID,
+        StartDate: startDate,
+        EndDate: endDate,
+      });
       const response = await axiosInstance.get(`/Attendance/calendar`, {
-        params: {
-          EmployeeId: employeeID,
-          StartDate: startDate,
-          EndDate: endDate,
-        },
+        params,
         headers: this.getAuthHeaders(),
       });
 

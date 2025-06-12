@@ -11,8 +11,11 @@ export class ProfileService extends BaseService {
     searchQuery?: string
   ) => {
     try {
-      const params = this.buildParams(page, pageSize, searchType, searchQuery);
-
+      const params = this.buildParams({
+        PageIndex: page ?? 1,
+        PageSize: pageSize,
+        ...(searchType && searchQuery ? { [searchType]: searchQuery } : {}),
+      });
       const response = await axiosInstance.get("/Profiles", {
         params,
         headers: this.getAuthHeaders(),

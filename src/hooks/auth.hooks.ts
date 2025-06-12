@@ -44,7 +44,7 @@ export const useLogin = () => {
             : loggedInUser.role == "manager"
             ? "/manager"
             : loggedInUser.role == "employee"
-            ? "/employee/account"
+            ? "/employee"
             : "/";
         
         location.replace(target)

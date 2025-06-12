@@ -1,9 +1,8 @@
-import { UserCog, CalendarCheck, Clipboard } from 'lucide-react';  // Importing Lucid icons
+import { UserCog, CalendarDays, Plane, Briefcase } from 'lucide-react';  // Importing Lucid icons
 import { StatCard } from '../../components/ui/StatCard';
 import { Header } from '../../components/ui/Header';
 import { NavLink } from 'react-router';  // Ensure to use NavLink from react-router-dom
 import { useFetchMe } from '../../hooks/me.hooks';
-import { Collapsible } from '../../components/ui';
 
 const Dashboard = () => {
   // Fetching user data
@@ -25,14 +24,12 @@ const Dashboard = () => {
       {/* Grid for the StatCards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
         {/* Go to your account */}
-        <NavLink
-          to="/employee/account/"
-        >
+        <NavLink to="/employee/account/">
           <StatCard
-            icon={<UserCog />}  // Lucid icon for user settings
-            amount="Go to Your Account"
-            description="Manage your profile and settings."
-            note="Click here to view your account."
+            icon={<UserCog />} // Lucide icon
+            amount="Manage Account"
+            description="Update your profile and preferences."
+            note="Click to access your account."
             iconColor="text-white"
             iconBg="bg-blue-600"
             cardBg="bg-blue-50"
@@ -40,43 +37,45 @@ const Dashboard = () => {
         </NavLink>
 
         {/* Show attendance */}
-        <NavLink
-          to="/employee/calendar/"
-        >
+        <NavLink to="/employee/calendar/">
           <StatCard
-            icon={<CalendarCheck />}  // Lucid icon for attendance
-            amount="View Your Attendance"
-            description="Check your attendance records."
-            note="Click here to view your attendance."
+            icon={<CalendarDays />} // More distinct calendar icon
+            amount="Attendance Calendar"
+            description="Review your daily attendance logs."
+            note="Click to view your attendance."
             iconColor="text-white"
-            iconBg="bg-green-600"
-            cardBg="bg-green-50"
+            iconBg="bg-emerald-600"
+            cardBg="bg-emerald-50"
+          />
+        </NavLink>
+
+        {/* Leave Requests */}
+        <NavLink to="/employee/leave-requests/">
+          <StatCard
+            icon={<Plane />} // Icon for leave or travel
+            amount="Leave Requests"
+            description="Submit and track your leave."
+            note="Click to manage your leaves."
+            iconColor="text-white"
+            iconBg="bg-yellow-600"
+            cardBg="bg-yellow-50"
+          />
+        </NavLink>
+
+        {/* Mission Requests */}
+        <NavLink to="/employee/mission-requests/">
+          <StatCard
+            icon={<Briefcase />} // Icon for missions/work
+            amount="Mission Requests"
+            description="Request and view your missions."
+            note="Click to manage your missions."
+            iconColor="text-white"
+            iconBg="bg-purple-600"
+            cardBg="bg-purple-50"
           />
         </NavLink>
       </div>
 
-      <Collapsible title="Leave Requests" open={true}>
-        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8'>
-          <StatCard
-            icon={<Clipboard />}  // Lucid icon for leave request
-            amount="My Leave Requests"
-            description="View your submitted leave requests and their statuses."
-            note="You can track your time off history here."
-            iconColor="text-white"
-            iconBg="bg-yellow-600"
-            cardBg="bg-yellow-50"
-          />
-          <StatCard
-            icon={<Clipboard />}  // Lucid icon for leave request
-            amount="Request Leave"
-            description="Submit a new leave request for approval."
-            note="Fill out the form to request time off."
-            iconColor="text-white"
-            iconBg="bg-yellow-600"
-            cardBg="bg-yellow-50"
-          />
-        </div>
-      </Collapsible>
     </div>
   );
 };
