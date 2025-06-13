@@ -28,5 +28,6 @@
   "profiles": "Profiles",
   "addProfile": "Add Profile",
   "leaveRequests": "Leave Requests",
-  "missionRequests": "Mission Requests"
+  "missionRequests": "Mission Requests",
+  "ordinaryRequests": "Ordinary Requests"
 }

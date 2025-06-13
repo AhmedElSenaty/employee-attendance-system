@@ -10,6 +10,7 @@ import { AttendanceOverviewPage, ManageAttendancePage } from "../pages/common/ma
 import ManagerAccountPage from "../pages/Manager/Account";
 import { LeaveRequestsPage } from "../pages/Manager/leave-requests";
 import { MissionRequestsPage } from "../pages/Manager/mission-requests";
+import { OrdinaryRequestsPage } from "../pages/Manager/ordinary-requests";
 
 export const managerRoutes = (isLoggedIn: boolean, userRole: string) => (
   <Route 
@@ -44,5 +45,6 @@ export const managerRoutes = (isLoggedIn: boolean, userRole: string) => (
 
     <Route path="leave-requests" element={<LeaveRequestsPage />} />
     <Route path="mission-requests" element={<MissionRequestsPage />} />
+    <Route path="ordinary-requests" element={<OrdinaryRequestsPage />} />
   </Route>
 );

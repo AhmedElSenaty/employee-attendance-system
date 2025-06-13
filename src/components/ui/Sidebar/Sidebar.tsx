@@ -35,7 +35,7 @@ const Sidebar = ({ title, subtitle, children }: SidebarProps) => {
       {/* Sidebar Toggle Button */}
       <aside className="max-lg:hidden flex flex-col items-center sm:gap-5 py-8 w-11 sm:w-18 h-screen shadow-lg shadow-primary sticky bg-gray-100 left-0 top-0">
         {children && (
-          <div className="h-full flex flex-col justify-between sm:gap-5 gap-4">
+          <div className="h-full flex flex-col sm:gap-5 gap-4">
             {(Array.isArray(children) ? children : [children]).map((child, index) => (
             child.props?.icon ? (
               <button

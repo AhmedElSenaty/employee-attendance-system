@@ -1,7 +1,6 @@
 import { CalendarCheck } from "lucide-react";
 import { NormalSpinner, Button, Popup } from "../../../../components/ui";
 import { useLanguageStore } from "../../../../store/language.store";
-import { RequestStatusType } from "../../../../enums";
 import { useTranslation } from "react-i18next";
 import { TRANSLATION_NAMESPACE } from "..";
 import { formatValue } from "../../../../utils";
@@ -10,7 +9,6 @@ import { IOrdinaryRequestData } from "../../../../interfaces";
 interface IShowPopupProps {
   isOpen: boolean;
   handleClose: () => void;
-  handleEditPopupOpen: () => void;
   ordinaryRequest: IOrdinaryRequestData | null;
   isLoading: boolean;
 }
@@ -18,7 +16,6 @@ interface IShowPopupProps {
 const ShowPopup = ({
   isOpen,
   handleClose,
-  handleEditPopupOpen,
   ordinaryRequest,
   isLoading,
 }: IShowPopupProps) => {
@@ -52,6 +49,14 @@ const ShowPopup = ({
               <span className="text-gray-900 font-semibold">
                 {formatValue(ordinaryRequest?.id || 0, language)}
               </span>
+            </div>
+            <div className="grid grid-cols-2 py-2">
+              <span className="font-medium text-gray-600">{t("showPopup.fields.employeeId")}</span>
+              <span className="text-gray-900 font-semibold">{formatValue(ordinaryRequest?.employeeId || 0, language)}</span>
+            </div>
+            <div className="grid grid-cols-2 py-2">
+              <span className="font-medium text-gray-600">{t("showPopup.fields.employeeName")}</span>
+              <span className="text-gray-900 font-semibold">{ordinaryRequest?.employeeName}</span>
             </div>
             <div className="grid grid-cols-2 py-2">
               <span className="font-medium text-gray-600">
@@ -117,16 +122,6 @@ const ShowPopup = ({
         <Button variant="cancel" type="button" fullWidth onClick={handleClose}>
           {t("showPopup.buttons.close")}
         </Button>
-        {ordinaryRequest?.status == RequestStatusType.Pending && (
-          <Button
-            variant="info"
-            type="button"
-            fullWidth
-            onClick={handleEditPopupOpen}
-          >
-            {t("showPopup.buttons.edit")}
-          </Button>
-        )}
       </div>
     </Popup>
   );
