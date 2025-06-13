@@ -112,8 +112,8 @@ export const useGetMyOrdinaryRequestByID = (
   }, [data, resetInputs]);
 
   return {
-    leaveRequest: data?.data,
-    isLeaveRequestLoading: isLoading,
+    ordinaryRequest: data?.data,
+    isOrdinaryRequestLoading: isLoading,
   };
 };
 
@@ -137,7 +137,6 @@ export const useCreateOrdinaryRequest = () => {
     },
   });
 };
-
 export const useUpdateOrdinaryRequest = () => {
   const { language } = useLanguageStore();
   const queryClient = useQueryClient();
@@ -145,9 +144,8 @@ export const useUpdateOrdinaryRequest = () => {
 
   return useMutation({
     mutationFn: (ordinaryRequestData: IOrdinaryRequestCredentials) => ordinaryRequestService.update(ordinaryRequestData),
-    onSuccess: ({ status, data }, ordinaryRequestData) => {
+    onSuccess: ({ status, data }) => {
       queryClient.invalidateQueries({ queryKey: [MY_ORDINARY_REQUESTS_QUERY_KEY] });
-      queryClient.invalidateQueries({ queryKey: [MY_ORDINARY_REQUEST_DETAILS_QUERY_KEY, ordinaryRequestData.requestId] });
       if (status === 200) {
         const message = getTranslatedMessage(data.message ?? "", language);
         showToast("success", message);

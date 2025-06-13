@@ -5,6 +5,7 @@ import { CalendarPage } from "../pages/Employee/Calender";
 import EmpolyeeAccountPage from "../pages/Employee/Account";
 import { DashboardEmployee, LeaveRequestsPage } from "../pages/Employee";
 import { MissionRequestsPage } from "../pages/Employee/mission-requests";
+import { OrdinaryRequestsPage } from "../pages/Employee/ordinary-requests";
 
 export const employeeRoutes = (isLoggedIn: boolean, userRole: string) => (
   <Route 
@@ -24,5 +25,7 @@ export const employeeRoutes = (isLoggedIn: boolean, userRole: string) => (
     <Route path="leave-requests/" element={<LeaveRequestsPage />} />
 
     <Route path="mission-requests/" element={<MissionRequestsPage />} />
+    
+    <Route path="ordinary-requests/" element={<OrdinaryRequestsPage />} />
   </Route>
 );

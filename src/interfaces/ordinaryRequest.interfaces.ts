@@ -9,7 +9,8 @@ export interface IOrdinaryRequestCredentials {
 
 export interface IOrdinaryRequestData{
     id: number;
-    date: string;
+    startDate: string;
+    endDate: string;
     requestedAt: string;
     status: RequestStatusType;
     description: string;

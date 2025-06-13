@@ -34,6 +34,7 @@ const namespaces = [
   "empolyeeAccount",
   "LeaveRequests",
   "missionRequests",
+  "ordinaryRequests",
 ];
 
 i18n
