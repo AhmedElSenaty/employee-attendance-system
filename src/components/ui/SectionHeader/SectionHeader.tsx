@@ -13,11 +13,11 @@ const SectionHeader = ({
 }: SectionHeaderProps) => {
   return (
     <div className={`${className}`}>
-      <h2 className="text-2xl sm:text-3xl font-bold text-[#19355a] leading-tight">
+      <h2 className="text-lg sm:text-2xl font-bold text-[#19355a] leading-tight">
         {title}
       </h2>
       {description && (
-        <p className="mt-1 text-base sm:text-lg text-gray-600">
+        <p className="mt-1 text-sm sm:text-base text-gray-600">
           {description}
         </p>
       )}

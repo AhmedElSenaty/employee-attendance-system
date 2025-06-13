@@ -2,12 +2,13 @@ import { useTranslation } from "react-i18next";
 import { Logo } from "../../components/ui/Logo";
 import { Flyout, FlyoutMenu } from "../../components/ui/Flyout";
 import { Image } from "../../components/ui/Image";
-import { HomeIcon, LogIn, LogOut, User } from "lucide-react";
+import { HomeIcon, LogIn, LogOut, Menu, User, X } from "lucide-react";
 import { NavLink } from "react-router";
 import { Button } from "../../components/ui/Button";
 import { useLanguageStore } from "../../store/language.store";
 import { LanguageType } from "../../types";
 import { useUserStore } from "../../store/user.store";
+import { useSidebarStore } from "../../store/sidebar.store";
 
 export const Navbar = () => {
   const { setLanguage, flag, flags } = useLanguageStore();
@@ -18,15 +19,25 @@ export const Navbar = () => {
   const imageUrl = useUserStore((state) => state.imageUrl);
   const logoutUser = useUserStore((state) => state.logoutUser);
 
+  const sidebarisOpen = useSidebarStore((state) => state.isOpen);
+  const toggleSidebar = useSidebarStore((state) => state.toggleSidebar);
 
   return (
     <header className="z-30 shadow-lg sticky top-0 py-3 w-full h-fit bg-[var(--color-primary)]">
       <nav className="sm:mx-16 mx-3 flex justify-between items-center">
+      <button
+        onClick={toggleSidebar}
+        className="cursor-pointer inline-flex items-center justify-center p-2 text-white bg-secondary hover:bg-secondary-hover  rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+        aria-label="Toggle Sidebar"
+      >
+        {sidebarisOpen ? <X className="w-7 h-7" /> : <Menu className="w-7 h-7" />}
+      </button>
         <NavLink
           to="/"
         >
           <Logo width="w-15" height="h-15" />
         </NavLink>
+        
         <div className="flex items-center gap-5">
           <Flyout icon={<Logo src={flag} width="sm:w-10 w-8" height="sm:h-10 h-8" />}
             className="flex items-center justify-center focus:outline-none cursor-pointer"
