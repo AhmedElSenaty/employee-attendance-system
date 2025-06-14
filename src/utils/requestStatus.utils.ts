@@ -1,10 +1,18 @@
-import { VariantProps } from "class-variance-authority";
 import { RequestStatusType } from "../enums";
-import { StatusBadge } from "../components/ui";
+import { StatusBadgeType } from "../types/statusBadge.types";
 
+/**
+ * Maps a `RequestStatusType` to the corresponding visual variant of the `StatusBadge` component.
+ *
+ * @param status - The request status value (Accepted, Rejected, Ignored, or Pending).
+ * @returns A string representing the visual variant for the badge (e.g., "success", "error").
+ *
+ * @example
+ * getRequestStatusVariant(RequestStatusType.Accepted); // "success"
+ */
 export const getRequestStatusVariant = (
   status: RequestStatusType
-): VariantProps<typeof StatusBadge>["variant"] => {
+): StatusBadgeType => {
   switch (status) {
     case RequestStatusType.Accepted:
       return "success";
@@ -18,6 +26,15 @@ export const getRequestStatusVariant = (
   }
 };
 
+/**
+ * Returns a Tailwind CSS background color class based on the request status.
+ *
+ * @param status - The request status value (Accepted, Rejected, Ignored, or Pending).
+ * @returns A Tailwind CSS class for background color.
+ *
+ * @example
+ * getRequestBgColorClass(RequestStatusType.Rejected); // "bg-red-50"
+ */
 export const getRequestBgColorClass = (status: RequestStatusType): string => {
   switch (status) {
     case RequestStatusType.Accepted:

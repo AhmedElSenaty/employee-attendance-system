@@ -20,7 +20,7 @@ export class AdminService extends BaseService {
         headers: this.getAuthHeaders(),
       });
 
-      return response.data;
+      return response;
     } catch (error) {
       console.error("Error fetching admins:", error);
       throw error;
@@ -33,7 +33,7 @@ export class AdminService extends BaseService {
         headers: this.getAuthHeaders(),
       });
 
-      return response.data;
+      return response;
     } catch (error) {
       console.error("Error fetching admin by ID:", error);
       throw error;
@@ -41,6 +41,8 @@ export class AdminService extends BaseService {
   };
 
   create = (adminData: IAdminCredentials) => {
+    console.log(adminData);
+    
     return axiosInstance.post("/Account/RegisterAdmin", adminData, {
       headers: this.getAuthHeaders(),
     });

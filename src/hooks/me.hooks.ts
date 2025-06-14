@@ -20,7 +20,7 @@ export const useFetchMe = () => {
   });
 
   return {
-    me: data?.data,
+    me: data?.data?.data,
     isLoading,
   };
 };

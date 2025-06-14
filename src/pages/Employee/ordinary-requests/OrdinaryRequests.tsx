@@ -8,7 +8,7 @@ import { TRANSLATION_NAMESPACE } from ".";
 import { useTranslation } from "react-i18next";
 import { AddPopup, ConditionsPopup, EditPopup, Filters, Inputs, OrdinaryRequestsList, ShowPopup } from "./views";
 import { IOrdinaryRequestCredentials } from "../../../interfaces";
-import { ordinaryRequestSchema } from "../../../validation/ordinaryRequestSchema";
+import { ordinaryRequestSchema } from "../../../validation/ordinaryRequest.schema";
 import { useCreateOrdinaryRequest, useGetMyOrdinaryRequestByID, useGetMyOrdinaryRequests, useUpdateOrdinaryRequest } from "../../../hooks/ordinaryRequest.hooks";
 
 const OrdinaryRequests = () => {

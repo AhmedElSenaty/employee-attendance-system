@@ -2,11 +2,13 @@ import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 import HttpApi from "i18next-http-backend";
+import { FALLBACK_LANGUAGE, i18n_DEBUG, i18n_LOAD_PATH, SUPPORTED_LANGUAGES } from "../constants/settings.constants";
 
-const fallbackLng = import.meta.env.VITE_FALLBACK_LANGUAGE || "en";
-const supportedLngs = import.meta.env.VITE_SUPPORTED_LANGUAGES?.split(",") || ["en"];
-const loadPath = import.meta.env.VITE_I18N_LOAD_PATH || "/locales/{{lng}}/{{ns}}.json";
-const debug = import.meta.env.VITE_I18N_DEBUG === "true";
+const loadPath = i18n_LOAD_PATH || "/locales/{{lng}}/{{ns}}.json";
+const fallbackLng = FALLBACK_LANGUAGE || "en";
+const supportedLngs = SUPPORTED_LANGUAGES || ["en"];
+const debug = i18n_DEBUG || false;
+
 
 const namespaces = [
   "dashboard",

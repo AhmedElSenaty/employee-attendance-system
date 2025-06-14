@@ -3,7 +3,7 @@ import { Button, ButtonSkeleton, SectionHeader, Header, Field, Input, InputError
 import { useTranslation } from "react-i18next";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { getAdminSchema } from "../../../validation/adminSchema";
+import { getAdminSchema } from "../../../validation/admin.schema";
 import { IAdminCredentials } from "../../../interfaces/adminInterfaces";
 import { useNavigate, useParams } from "react-router";
 import { DeleteAdminPopup, RenderAdminInputs, UnblockAdminPopup } from "./views";

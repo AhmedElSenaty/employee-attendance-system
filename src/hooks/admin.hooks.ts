@@ -26,9 +26,9 @@ export const useGetAllAdmins = (
   });
 
   return {
-    admins: data?.data?.admins || [],
-    totalAdmins: data?.data?.totalCount || 0,
-    metadata: data?.data?.metadata || initialMetadata,
+    admins: data?.data?.data?.admins || [],
+    totalAdmins: data?.data?.data?.totalCount || 0,
+    metadata: data?.data?.data?.metadata || initialMetadata,
     isAdminsDataLoading: isLoading,
   };
 };
@@ -47,18 +47,18 @@ export const useGetAdminByID = (
   });
 
   useEffect(() => {
-    if (data?.data) {
+    if (data?.data?.data) {
       resetInputs?.({
-        username: data.data.username,
+        username: data.data.data.username,
         title: data.data.title,
-        email: data.data.email,
+        email: data.data.data.email,
         password: "", // clear password for security
       });
     }
   }, [data, resetInputs]);
 
   return {
-    admin: data?.data,
+    admin: data?.data?.data,
     isAdminDataLoading: isLoading,
   };
 };

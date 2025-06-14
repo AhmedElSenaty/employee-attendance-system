@@ -4,7 +4,7 @@ import useI18nInitialization from "./hooks/useI18nInitializationHook";
 import createAppRouter from "./router";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { BrandedLoader } from "./components/ui";
-import { useUserStore } from "./store/user.store";
+import { useUserStore } from "./store";
 
 const SPINNER_BG = "bg-[#19355a]";
 const LOADING_DELAY = 1500;

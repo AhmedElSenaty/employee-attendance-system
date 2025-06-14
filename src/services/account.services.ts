@@ -54,7 +54,7 @@ export class AccountService extends BaseService {
         headers: this.getAuthHeaders(),
       });
 
-      return response.data;
+      return response;
     } catch (error) {
       console.error("Error fetching my account:", error);
       throw error;

@@ -5,7 +5,7 @@ import { ActionCard, Button, Header, Paginator, SectionHeader } from "../../../c
 import { ILeaveRequestCredentials } from "../../../interfaces/leaveRequest.interfaces";
 import { useCreateLeaveRequest, useGetMyLeaveRequestByID, useGetMyLeaveRequests, useUpdateLeaveRequest } from "../../../hooks/leaveRequest.hook";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { leaveRequestSchema } from "../../../validation/leaveRequestSchema";
+import { leaveRequestSchema } from "../../../validation/leaveRequest.schema";
 import useURLSearchParams from "../../../hooks/URLSearchParams.hook";
 import { TRANSLATION_NAMESPACE } from ".";
 import { useTranslation } from "react-i18next";

@@ -8,7 +8,7 @@ import { TRANSLATION_NAMESPACE } from ".";
 import { useTranslation } from "react-i18next";
 import { AddPopup, ConditionsPopup, EditPopup, Filters, Inputs, MissionRequestsList, ShowPopup } from "./views";
 import { IMissionRequestCredentials } from "../../../interfaces";
-import { missionRequestSchema } from "../../../validation/missionRequestSchema";
+import { missionRequestSchema } from "../../../validation/missionRequest.schema";
 import { useCreateMissionRequest, useGetMyMissionRequestByID, useGetMyMissionRequests, useUpdateMissionRequest } from "../../../hooks/mission.hooks";
 
 const MissionRequests = () => {

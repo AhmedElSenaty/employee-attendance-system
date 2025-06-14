@@ -16,6 +16,12 @@ interface SelectBoxProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
   children: React.ReactNode;
 }
 
+const getLabelString = (child: React.ReactNode): string => {
+  if (typeof child === "string" || typeof child === "number") return String(child);
+  // If it's an array or React element, flatten to string or return empty string
+  return "";
+};
+
 const SelectBox = forwardRef(
   ({ isError = false, children, ...rest }: SelectBoxProps, ref: Ref<HTMLSelectElement>) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -30,11 +36,13 @@ const SelectBox = forwardRef(
           )
           .map((child) => ({
             value: child.props.value,
-            label: child.props.children as string,
+            label: getLabelString(child.props.children),
           }))
       : [];
 
-    const [selected, setSelected] = useState(rest.value?.toString() || rest.defaultValue?.toString() || "");
+    const [selected, setSelected] = useState(
+      rest.value?.toString() || rest.defaultValue?.toString() || ""
+    );
 
     const filteredOptions = options.filter((opt) =>
       opt.label.toLowerCase().includes(search.toLowerCase())

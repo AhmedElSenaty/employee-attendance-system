@@ -1,9 +1,7 @@
-// utils/index.ts
-export * from './apiUtils';
-export * from './dateUtils';
-export * from './fileUtils';
-export * from './formatUtils';
-
+export * from './api.utils';
+export * from './date.utils';
+export * from './file.utils';
+export * from './format.utils';
 export * from './requestStatus.utils';
 export * from './time.utils';
 export * from './toast.utils';
