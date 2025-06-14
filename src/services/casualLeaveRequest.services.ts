@@ -1,5 +1,5 @@
 import axiosInstance from "../config/axios.config";
-import { IAssignCasualLeaveRequestCredentials, ICasualLeaveRequestData, IRejectCasualLeaveRequestCredentials } from "../interfaces/casualLeaveRequest.interfaces";
+import { IAssignCasualLeaveRequestCredentials, ICasualLeaveRequestCredentials, IRejectCasualLeaveRequestCredentials } from "../interfaces/casualLeaveRequest.interfaces";
 import { BaseService } from "./base.services";
 
 export class CasualLeaveRequestService extends BaseService {
@@ -84,13 +84,13 @@ export class CasualLeaveRequestService extends BaseService {
     }
   };
 
-  create = (casualLeaveRequest: ICasualLeaveRequestData) => {
+  create = (casualLeaveRequest: ICasualLeaveRequestCredentials) => {
     return axiosInstance.post("/CasualLeave/Employee/RequestCasualLeave", casualLeaveRequest, {
       headers: this.getAuthHeaders(),
     });
   };
   
-  update = (casualLeaveRequest: ICasualLeaveRequestData) => {
+  update = (casualLeaveRequest: ICasualLeaveRequestCredentials) => {
     return axiosInstance.put("/CasualLeave/Employee/UpdateCasualLeave", casualLeaveRequest, {
       headers: this.getAuthHeaders(),
     });
