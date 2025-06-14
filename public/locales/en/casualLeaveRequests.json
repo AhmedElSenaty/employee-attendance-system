@@ -1,0 +1,187 @@
+{
+  "managerHeader": {
+    "title": "Ordinary Requests Management",
+    "subtitle": "Review, approve, or reject employee ordinary requests"
+  },
+  "countCard": {
+    "title": "Total Ordinary Requests",
+    "description": "Number of requests submitted"
+  },
+  "managerSectionHeader": {
+    "title": "All Ordinary Requests",
+    "description": "You can filter, view, and take action on pending ordinary requests"
+  },
+  "employeeHeader": {
+    "heading": "Ordinary Requests Management",
+    "subtitle": "Submit a new ordinary request or review the conditions for applications."
+  },
+  "addActionCard": {
+    "title": "Add New Ordinary Request",
+    "description": "Submit a request for personal, medical, or emergency leave.",
+    "button": "Create Request"
+  },
+  "conditionsActionCard": {
+    "title": "Ordinary Conditions",
+    "description": "Read the requirements for applying for a ordinary.",
+    "button": "Read Conditions"
+  },
+  "employeeSectionHeader": {
+    "title":"Employee Ordinary Requests", 
+    "description":"View submitted ordinary requests with status, timing, and notes. Edit or manage them as needed."
+  },
+  "filters": {
+    "pageSize": "Page Size",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "casualStatus": "Ordinary Status",
+    "defaultCasualStatusOption": "Select ordinary status",
+    "toolTipResetFilters": "Reset All",
+    "searchBy": {
+      "default": "Choose your search method",
+      "label": "Search By",
+      "SearchByFullName": "Full Name",
+      "SearchBySSN": "SSN",
+      "SearchByEmployeeId": "Employee ID"
+    },
+    "search": {
+      "label": "Search",
+      "placeholder": "Enter the value you want to search for...."
+    }
+  },
+  "casualLeaveRequestCard": {
+    "date": "The Casual Leave duration begins on {{start}} and concludes on {{end}}.",
+    "requestedAt": "Requested at",
+    "toolTipViewButton": "View Casual Leave Request",
+    "toolTipEditButton": "Edit Casual Leave Request"
+  },
+  "conditionsPopup": {
+    "title": "Permit Conditions",
+    "description": "Read the requirements for applying for morning or evening permits.",
+    "morning": {
+      "title": "Morning Permission",
+      "rules": [
+        "Submit the permission request at least <1>two hours before</1> the requested time.",
+        "If the scheduled permission time passes without usage, it will be <1>automatically rejected</1>.",
+        "After the permission ends, the employee must:",
+        "Clock in (register attendance) before the permission time ends.",
+        "Clocking in late will be considered a <1>late arrival</1>."
+      ]
+    },
+    "evening": {
+      "title": "Evening Permission",
+      "rules": [
+        "Submit the request at least <1>two hours in advance</1>.",
+        "If the scheduled time passes without usage, it will be <1>automatically rejected</1>.",
+        "Before leaving, the employee must:",
+        "Clock out (register departure) before leaving the workplace.",
+        "Failure to clock out will be considered a <1>policy violation</1>."
+      ]
+    },
+    "close": "Close"
+  },
+  "showPopup": {
+    "title": "Ordinary Request Details",
+    "description":"Detailed information about the ordinary request",
+    "fields": {
+      "employeeId": "#Employee ID",
+      "employeeName": "Employee Name",
+      "id": "#ID",
+      "startDate": "Ordinary start on",
+      "endDate": "Ordinary end on",
+      "requestedAt": "Requested at",
+      "status": "Status",
+      "description": "Description",
+      "comment": "Comment"
+    },
+    "buttons": {
+      "edit": "Edit",
+      "close": "Close"
+    }
+  },
+  "addPopup": {
+    "title":"Add Ordinary Request",
+    "description":"Fill in the details to submit a new ordinary request.",
+    "buttons": {
+      "add": "Add",
+      "close": "Close"
+    }
+  },
+  "editPopup": {
+    "title":"Edit Ordinary Request",
+    "description":"Update the details of your ordinary request below.",
+    "buttons": {
+      "edit": "Edit",
+      "close": "Close"
+    }
+  },
+  "inputs": {
+    "startDate": {
+      "label": "Start Date",
+      "validation": {
+        "matches": "Start date must be in the format YYYY-MM-DD",
+        "required": "End date is required"
+      }
+    },
+    "endDate": {
+      "label": "End Date",
+      "validation": {
+        "matches": "End date must be in the format YYYY-MM-DD",
+        "required": "End date is required"
+      }
+    },
+    "description": {
+      "label": "Reason for requesting leave",
+      "placeholder": "Enter the reason for requesting leave.",
+      "validation": {
+        "max": "Reason for requesting leave can't exceed 500 characters",
+        "required": "Reason for requesting leave is required"
+      }
+    },
+    "comment": {
+      "label": "comment",
+      "placeholder": "Mention a comment about the reason for rejection.."
+    }
+  },
+  "status": {
+    "0":"Pending",
+    "1":"Accepted",
+    "2":"Rejected",
+    "3":"Ignored"
+  },
+  "table": {
+    "emptyTable": {
+      "title": "No Ordinary Requested Found",
+      "message": "Try adjusting your filters or adding a new Ordinary Requested."
+    },
+    "columns": {
+      "id": "#ID",
+      "employeeName": "Employee Name",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "requestedAt": "Requested At",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "buttons": {
+      "toolTipShow": "Show Ordinary Request",
+      "toolTipAccept": "Accept Ordinary Request",
+      "toolTipReject": "Reject Ordinary Request"
+    }
+  },
+  "acceptPopup": {
+    "title":"Accept Ordinary Request",
+    "description": "Are you sure you want to accept this Ordinary request? This action will notify the employee and update the request status.",
+    "buttons": {
+      "accept": "Accept",
+      "close": "Close"
+    }
+  },
+  "rejectPopup": {
+    "title": "Reject Ordinary Request",
+    "description": "Are you sure you want to reject this Ordinary request? This action will notify the employee and update the request status.",
+    "buttons": {
+      "reject": "Reject",
+      "close": "Close"
+    }
+  }
+}

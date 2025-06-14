@@ -30,5 +30,6 @@ export const i18n_NAMESPACES = [
   "LeaveRequests",
   "missionRequests",
   "ordinaryRequests",
+  "casualLeaveRequests",
 ];
 ;

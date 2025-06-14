@@ -67,7 +67,7 @@ export const useGetMyCasualLeaveRequests = (
   });
 
   return {
-    csualLeaveRequests: data?.data?.requests || [],
+    casualLeaveRequests: data?.data?.requests || [],
     totalRequests: data?.data?.totalCount || 0,
     metadata: data?.data?.metadata || initialMetadata,
     isCasualLeaveRequestsLoading: isLoading,

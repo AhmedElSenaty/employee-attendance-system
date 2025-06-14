@@ -105,7 +105,7 @@ const SelectBox = forwardRef(
         </button>
 
         {isOpen && (
-          <div className="absolute z-10 mt-1 w-full rounded-md border border-gray-200 bg-white shadow-md">
+          <div className="absolute z-50 mt-1 w-full rounded-md border border-gray-200 bg-white shadow-md">
             <input
               type="text"
               value={search}

@@ -6,6 +6,7 @@ import EmpolyeeAccountPage from "../pages/Employee/Account";
 import { DashboardEmployee, LeaveRequestsPage } from "../pages/Employee";
 import { MissionRequestsPage } from "../pages/Employee/mission-requests";
 import { OrdinaryRequestsPage } from "../pages/Employee/ordinary-requests";
+import { CasualLeaveRequestsPage } from "../pages/Employee/casual-leave-requests";
 
 export const employeeRoutes = (isLoggedIn: boolean, userRole: string) => (
   <Route 
@@ -27,5 +28,6 @@ export const employeeRoutes = (isLoggedIn: boolean, userRole: string) => (
     <Route path="mission-requests/" element={<MissionRequestsPage />} />
     
     <Route path="ordinary-requests/" element={<OrdinaryRequestsPage />} />
+    <Route path="casual-leave-requests/" element={<CasualLeaveRequestsPage />} />
   </Route>
 );
