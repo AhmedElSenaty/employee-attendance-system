@@ -3,10 +3,6 @@ import {
   IEmployeeCredentials,
   IErrorResponse,
   initialMetadata,
-  UseGetAllEmployeesReturn,
-  UseGetEmployeeByIDReturn,
-  UseGetEmployeesCountReturn,
-  UseGetEmployeesListReturn,
 } from "../interfaces";
 import { getTranslatedMessage, handleApiError, showToast } from "../utils";
 import { AxiosError } from "axios";
@@ -25,7 +21,7 @@ export const useGetAllEmployees = (
   pageSize: number,
   searchKey: string,
   debouncedSearchQuery: string
-): UseGetAllEmployeesReturn => {
+) => {
   const token = useUserStore((state) => state.token);
   const employeeService = new EmployeeService(token);
 
@@ -45,7 +41,7 @@ export const useGetAllEmployees = (
 export const useGetEmployeeByID = (
   employeeID: string,
   resetInputs?: (data: IEmployeeCredentials) => void
-): UseGetEmployeeByIDReturn => {
+) => {
   const token = useUserStore((state) => state.token);
   const employeeService = new EmployeeService(token);
 
@@ -67,7 +63,7 @@ export const useGetEmployeeByID = (
   };
 };
 
-export const useGetEmployeesCount = (): UseGetEmployeesCountReturn => {
+export const useGetEmployeesCount = () => {
   const token = useUserStore((state) => state.token);
   const employeeService = new EmployeeService(token);
 
@@ -87,7 +83,7 @@ export const useGetEmployeesCount = (): UseGetEmployeesCountReturn => {
   };
 };
 
-export const useGetEmployeesList = (): UseGetEmployeesListReturn => {
+export const useGetEmployeesList = () => {
   const token = useUserStore((state) => state.token);
   const employeeService = new EmployeeService(token);
 

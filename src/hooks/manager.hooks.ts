@@ -3,9 +3,6 @@ import {
   IManagerCredentials,
   IErrorResponse,
   initialMetadata,
-  UseGetAllManagersReturn,
-  UseGetManagerByIDReturn,
-  UseGetManagersCountReturn,
 } from "../interfaces";
 import { getTranslatedMessage, handleApiError, showToast } from "../utils";
 import { AxiosError } from "axios";
@@ -23,7 +20,7 @@ export const useGetAllManagers = (
   pageSize: number,
   searchKey: string,
   debouncedSearchQuery: string
-): UseGetAllManagersReturn => {
+) => {
   const token = useUserStore((state) => state.token);
   const managerService = new ManagerService(token);
 
@@ -43,7 +40,7 @@ export const useGetAllManagers = (
 export const useGetManagerByID = (
   managerID: string,
   resetInputs?: (data: IManagerCredentials) => void
-): UseGetManagerByIDReturn => {
+) => {
   const token = useUserStore((state) => state.token);
   const managerService = new ManagerService(token);
 
@@ -69,7 +66,7 @@ export const useGetManagerByID = (
   };
 };
 
-export const useGetManagersCount = (): UseGetManagersCountReturn => {
+export const useGetManagersCount = () => {
   const token = useUserStore((state) => state.token);
   const managerService = new ManagerService(token);
 

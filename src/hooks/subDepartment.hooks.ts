@@ -5,10 +5,7 @@ import {
   ISubDepartmentCredentials,
   IErrorResponse,
   ISubDepartmentData,
-  UseGetAllSubDepartmentsReturn,
-  UseGetSubDepartmentnByIDReturn,
   initialMetadata,
-  UseGetSubDepartmentsListReturn,
 } from "../interfaces";
 import { getTranslatedMessage, handleApiError, showToast } from "../utils";
 import { useLanguageStore } from "../store/language.store";
@@ -24,7 +21,7 @@ export const useGetSubDepartments = (
   pageSize: number,
   searchKey: string,
   debouncedSearchQuery: string
-): UseGetAllSubDepartmentsReturn => {
+) => {
   const token = useUserStore((state) => state.token);
   const service = new SubDepartmentService(token);
 
@@ -45,7 +42,7 @@ export const useGetSubDepartments = (
 export const useGetSubDepartmentByID = (
   subDepartmentID: number,
   resetInputs?: (data: ISubDepartmentCredentials) => void
-): UseGetSubDepartmentnByIDReturn => {
+) => {
   const token = useUserStore((state) => state.token);
   const service = new SubDepartmentService(token);
 
@@ -74,7 +71,7 @@ export const useGetSubDepartmentByID = (
   };
 };
 
-export const useGetSubDepartmentsList = (): UseGetSubDepartmentsListReturn => {
+export const useGetSubDepartmentsList = () => {
   const token = useUserStore((state) => state.token);
   const service = new SubDepartmentService(token);
 
@@ -90,7 +87,7 @@ export const useGetSubDepartmentsList = (): UseGetSubDepartmentsListReturn => {
   };
 };
 
-export const useGetDepartmentSubDepartments = (departmentID: number): UseGetSubDepartmentsListReturn => {
+export const useGetDepartmentSubDepartments = (departmentID: number) => {
   const token = useUserStore((state) => state.token);
   const service = new SubDepartmentService(token);
 

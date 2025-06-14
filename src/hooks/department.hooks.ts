@@ -4,10 +4,7 @@ import { AxiosError } from "axios";
 import {
   IDepartmentCredentials,
   IErrorResponse,
-  UseGetAllDepartmentsReturn,
-  UseGetDepartmentnByIDReturn,
   initialMetadata,
-  UseGetDepartmentsListReturn,
 } from "../interfaces";
 import { getTranslatedMessage, handleApiError, showToast } from "../utils";
 import { useLanguageStore } from "../store/language.store";
@@ -23,7 +20,7 @@ export const useGetDepartments = (
   pageSize: number,
   searchKey: string,
   debouncedSearchQuery: string
-): UseGetAllDepartmentsReturn => {
+) => {
   const token = useUserStore((state) => state.token);
   const departmentService = new DepartmentService(token);
 
@@ -44,7 +41,7 @@ export const useGetDepartments = (
 export const useGetDepartmentByID = (
   departmentID: number,
   resetInputs?: (data: IDepartmentCredentials) => void
-): UseGetDepartmentnByIDReturn => {
+) => {
   const token = useUserStore((state) => state.token);
   const departmentService = new DepartmentService(token);
 
@@ -66,7 +63,7 @@ export const useGetDepartmentByID = (
   };
 };
 
-export const useGetDepartmentsList = (): UseGetDepartmentsListReturn => {
+export const useGetDepartmentsList = () => {
   const token = useUserStore((state) => state.token);
   const departmentService = new DepartmentService(token);
 

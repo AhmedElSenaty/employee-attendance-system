@@ -1,5 +1,3 @@
-import { IMetadata } from "./metadata.interface";
-
 export interface IEmployee {
   id: number;
   name: string;
@@ -41,29 +39,4 @@ export interface IEmployeeData {
   delegeteName?: string
   delegeteSubDepartmentName?: string
   isExcludedFromReports: boolean
-}
-
-export interface UseGetAllEmployeesReturn {
-  employees: IEmployeeData[];
-  metadata: IMetadata;
-  isEmployeesDataLoading: boolean;
-}
-
-export interface UseGetEmployeesCountReturn {
-  totalCount: number;
-  lockedCount: number;
-  blockedCount: number;
-  deactivatedCount: number;
-  activatedCount: number;
-  isEmployeesCountLoading: boolean;
-}
-
-export interface UseGetEmployeesListReturn {
-  employeesList: IEmployee[],
-  isEmployeesListLoading: boolean
-}
-
-export interface UseGetEmployeeByIDReturn {
-  employee: IEmployeeData | null; // admin might be null if no data is available yet
-  isEmployeeDataLoading: boolean; // A flag to indicate loading state
 }

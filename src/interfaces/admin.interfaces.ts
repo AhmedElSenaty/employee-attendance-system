@@ -1,5 +1,3 @@
-import { IMetadata } from "./metadata.interface";
-
 export interface IAdminCredentials {
   id?: string;               // Optional: The unique identifier for the admin. (Used for updating an existing admin)
   username: string;          // Required: The username of the admin.
@@ -21,17 +19,4 @@ export interface IAdminData {
   createdAt: string;         // Date when the admin account was created
   departments?: [];          // Optional list of departments the admin is associated with
   permissions?: [];          // Optional list of permissions granted to the admin
-}
-
-// Interface for the return type of `useGetAllAdmins` hook
-export interface UseGetAllAdminsReturn {
-  admins: IAdminData[];      // List of admin data
-  totalAdmins: number;       // Total number of admins (for pagination)
-  metadata: IMetadata;       // Metadata about the request (e.g., pagination info)
-  isAdminsDataLoading: boolean; // Boolean flag to indicate if the admin data is loading
-}
-
-export interface UseGetAdminByIDReturn {
-  admin: IAdminData | null; // admin might be null if no data is available yet
-  isAdminDataLoading: boolean; // A flag to indicate loading state
 }

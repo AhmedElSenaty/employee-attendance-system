@@ -5,12 +5,6 @@ import {
   IAttendanceCredentials,
   IErrorResponse,
   initialMetadata,
-  UseAttendanceDashboardResponse,
-  UseGetAllAttendanceReturn,
-  UseGetAllAttendanceSummaryReturn,
-  UseGetAttendanceCalenderByEmployeeIDReturn,
-  UseGetDetailedAttendanceReturn,
-  UseGetLatestAttendance,
 } from "../interfaces";
 import {
   appendSecondsToTime,
@@ -44,7 +38,7 @@ export const useGetAttendances = (
   status: string,
   departmentId: number,
   subDepartmentId: number
-): UseGetAllAttendanceReturn => {
+) => {
   const token = useUserStore((state) => state.token);
   const service = new AttendanceService(token);
 
@@ -96,7 +90,7 @@ export const useGetAttendanceSummary = (
   debouncedSearchQuery: string,
   startDate: string,
   endDate: string
-): UseGetAllAttendanceSummaryReturn => {
+) => {
   const token = useUserStore((state) => state.token);
   const service = new AttendanceService(token);
 
@@ -135,7 +129,7 @@ export const useGetAttendanceCalendar = (
   employeeID: string,
   startDate: string,
   endDate: string
-): UseGetAttendanceCalenderByEmployeeIDReturn => {
+) => {
   const token = useUserStore((state) => state.token);
   const service = new AttendanceService(token);
 
@@ -155,7 +149,7 @@ export const useGetAttendanceCalendar = (
 export const useGetAttendanceDetails = (
   attendanceID: number,
   resetInputs?: (data: IAttendanceCredentials) => void
-): UseGetDetailedAttendanceReturn => {
+) => {
   const token = useUserStore((state) => state.token);
   const service = new AttendanceService(token);
 
@@ -178,7 +172,7 @@ export const useGetAttendanceDetails = (
 };
 
 // Get attendance dashboard overview
-export const useGetAttendanceOverview = (): UseAttendanceDashboardResponse => {
+export const useGetAttendanceOverview = () => {
   const token = useUserStore((state) => state.token);
   const service = new AttendanceService(token);
 
@@ -196,7 +190,7 @@ export const useGetAttendanceOverview = (): UseAttendanceDashboardResponse => {
 };
 
 // Get latest attendance
-export const useGetLatestAttendance = (): UseGetLatestAttendance => {
+export const useGetLatestAttendance = () => {
   const token = useUserStore((state) => state.token);
   const service = new AttendanceService(token);
 

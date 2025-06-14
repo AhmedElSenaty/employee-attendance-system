@@ -6,10 +6,6 @@ import {
   IErrorResponse,
   initialMetadata,
   IProfileCredentials,
-  UseGetAllProfilesReturn,
-  UseGetProfileByIDReturn,
-  UseGetProfilePermissionsReturn,
-  UseGetProfilesListReturn
 } from "../interfaces";
 
 import { getTranslatedMessage, handleApiError, showToast } from "../utils";
@@ -27,7 +23,7 @@ export const useGetProfiles = (
   pageSize: number,
   searchKey: string,
   debouncedSearchQuery: string
-): UseGetAllProfilesReturn => {
+) => {
   const token = useUserStore((state) => state.token);
   const profileService = new ProfileService(token);
 
@@ -48,7 +44,7 @@ export const useGetProfiles = (
 export const useGetProfileByID = (
   id: string,
   resetInputs?: (data: IProfileCredentials) => void
-): UseGetProfileByIDReturn => {
+) => {
   const token = useUserStore((state) => state.token);
   const profileService = new ProfileService(token);
 
@@ -75,7 +71,7 @@ export const useGetProfileByID = (
   };
 };
 
-export const useGetProfilesList = (): UseGetProfilesListReturn => {
+export const useGetProfilesList = () => {
   const token = useUserStore((state) => state.token);
   const profileService = new ProfileService(token);
 
@@ -91,7 +87,7 @@ export const useGetProfilesList = (): UseGetProfilesListReturn => {
   };
 };
 
-export const useGetProfilePermissions = (id: number): UseGetProfilePermissionsReturn => {
+export const useGetProfilePermissions = (id: number) => {
   const token = useUserStore((state) => state.token);
   const profileService = new ProfileService(token);
 

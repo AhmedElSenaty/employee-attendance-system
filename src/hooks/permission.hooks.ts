@@ -1,5 +1,5 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { IErrorResponse, UseGetAllPermissionsReturn } from "../interfaces";
+import { IErrorResponse } from "../interfaces";
 import { getTranslatedMessage, handleApiError, showToast } from "../utils";
 import { AxiosError } from "axios";
 import { useLanguageStore } from "../store/language.store";
@@ -8,7 +8,7 @@ import { PermissionService } from "../services";
 
 export const PERMISSIONS_QUERY_KEY = "Permissions";
 
-export const useGetPermissions = (): UseGetAllPermissionsReturn => {
+export const useGetPermissions = () => {
   const token = useUserStore((state) => state.token);
   const permissionService = new PermissionService(token);
 

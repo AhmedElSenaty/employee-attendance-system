@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { getAdminSchema } from "../../../validation/admin.schema";
-import { IAdminCredentials } from "../../../interfaces/adminInterfaces";
+import { IAdminCredentials } from "../../../interfaces/admin.interfaces";
 import { useNavigate, useParams } from "react-router";
 import { DeleteAdminPopup, RenderAdminInputs, UnblockAdminPopup } from "./views";
 import { RenderDepartmentCheckboxes } from "../manage-departments/views";

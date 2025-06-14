@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { IDeviceCredentials, IErrorResponse, initialMetadata, UseGetAllDevicesReturn, UseGetDevicenByIDReturn, UseGetDevicesListReturn } from "../interfaces";
+import { IDeviceCredentials, IErrorResponse, initialMetadata } from "../interfaces";
 import { getTranslatedMessage, handleApiError, showToast } from "../utils";
 import { AxiosError } from "axios";
 import { useEffect } from "react";
@@ -16,7 +16,7 @@ export const useGetDevices = (
   pageSize: number,
   searchKey: string,
   debouncedSearchQuery: string
-): UseGetAllDevicesReturn => {
+) => {
   const token = useUserStore((state) => state.token);
   const deviceService = new DeviceService(token);
 
@@ -37,7 +37,7 @@ export const useGetDevices = (
 export const useGetDeviceByID = (
   deviceID: number,
   resetInputs?: (data: IDeviceCredentials) => void
-): UseGetDevicenByIDReturn => {
+) => {
   const token = useUserStore((state) => state.token);
   const deviceService = new DeviceService(token);
 
@@ -60,7 +60,7 @@ export const useGetDeviceByID = (
 };
 
 
-export const useGetDevicesList = (): UseGetDevicesListReturn => {
+export const useGetDevicesList = () => {
   const token = useUserStore((state) => state.token);
   const deviceService = new DeviceService(token);
 

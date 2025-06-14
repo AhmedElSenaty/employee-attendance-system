@@ -1,5 +1,3 @@
-import { IMetadata } from "./metadata.interface";
-
 export interface IDevice {
   id: number;
   name: string
@@ -16,20 +14,4 @@ export interface IDeviceData {
   device_name: string;
   iP_Address: string;
   port: number;
-}
-
-export interface UseGetAllDevicesReturn {
-  devices: IDeviceData[];
-  metadata: IMetadata;
-  totalDevices: number
-  isDevicesDataLoading: boolean;
-}
-
-export interface UseGetDevicenByIDReturn {
-  device: IDeviceData;
-  isDeviceDataLoading: boolean;
-}
-export interface UseGetDevicesListReturn {
-  devicesList: IDevice[];
-  devicesListIsLoading: boolean;
 }

@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import Cookies from "universal-cookie";
-import { ILoggedInUser } from "../interfaces/authInterfaces";
+import { ILoggedInUser } from "../interfaces/auth.interfaces";
 
 const cookies = new Cookies(null, { path: "/" });
 

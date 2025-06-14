@@ -1,5 +1,3 @@
-
-
 /**
  * Enum representing the time of day for a leave request.
  * 

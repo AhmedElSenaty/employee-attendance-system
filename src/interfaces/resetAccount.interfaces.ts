@@ -4,9 +4,3 @@ export interface IResetAccountCredentials {
   password: string;
   confirmPassword: string;
 }
-
-export interface IResetAccountFieldConfig {
-  label?: string;
-  name: "email" | "oldPassword" | "password" | "confirmPassword";
-  type: string;
-}

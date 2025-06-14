@@ -4,12 +4,6 @@ export interface ILoginCredentials {
   rememberMe: boolean;
 }
 
-export interface ILoginFieldConfig {
-  label?: string;
-  name: "email" | "password" | "rememberMe";
-  type: string;
-}
-
 export interface ILoginResponse {
   status: number
   message: string

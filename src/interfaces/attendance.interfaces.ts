@@ -1,6 +1,4 @@
-import { IMetadata } from "./metadata.interface";
-
-type DayType = "workday" | "holiday" | "weekend" | "absent" | "other";
+import { DayType } from "../types";
 
 export interface IAttendanceEntry {
   checkIn: string;
@@ -32,13 +30,6 @@ export interface IAttendanceData {
   delegeteSubdepartment?: string
 }
 
-export interface UseGetAllAttendanceReturn {
-  attendancesData: IAttendanceData[], 
-  totalAttendances: number, 
-  metadata: IMetadata,
-  isAttendancesDataLoading: boolean 
-}
-
 export interface IAttendanceSummaryData {
   employeeId: string,
   employeeName: string,
@@ -49,25 +40,6 @@ export interface IAttendanceSummaryData {
   attendanceDays: number,
   absenceDays: number,
   totalWorkingHours: number
-}
-
-export interface UseGetAllAttendanceSummaryReturn {
-  attendanceSummary: IAttendanceSummaryData[], 
-  totalAttendanceSummary: number
-  metadata: IMetadata
-  isAttendanceSummaryLoading: boolean
-}
-
-export interface UseGetAttendanceCalenderByEmployeeIDReturn {
-  calenderDays: {
-    [date: string]: IAttendanceEntry;
-  };
-  isAttendanceCalenderLoading: boolean
-}
-
-export interface UseGetDetailedAttendanceReturn {
-  detailedAttendance: IAttendanceData,
-  isDetailedAttendanceLoading: boolean
 }
 
 export interface DailyAttendanceDto {
@@ -83,12 +55,6 @@ export interface AttendanceOverviewDto {
   absence: number;
 }
 
-export interface UseAttendanceDashboardResponse {
-  dailyAttendanceDto: DailyAttendanceDto;
-  attendanceOverviewDtos: AttendanceOverviewDto[];
-  isAttendanceOverviewLoading: boolean
-}
-
 export interface AttendanceCardData {
   employeeName: string;
   departmentName: string;
@@ -96,9 +62,4 @@ export interface AttendanceCardData {
   checkIn: string | null;
   checkOut: string | null;
   profileImage: string | null;
-}
-
-export interface UseGetLatestAttendance {
-  latestAttendance: AttendanceCardData[];
-  islatestAttendanceLoading: boolean
 }

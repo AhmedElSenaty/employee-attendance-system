@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { IAdminCredentials, IErrorResponse, initialMetadata, UseGetAdminByIDReturn, UseGetAllAdminsReturn } from "../interfaces";
+import { IAdminCredentials, IErrorResponse, initialMetadata } from "../interfaces";
 import { getTranslatedMessage, handleApiError, showToast } from "../utils";
 import { AxiosError } from "axios";
 import { useEffect } from "react";
@@ -15,7 +15,7 @@ export const useGetAllAdmins = (
   pageSize: number,
   searchKey: string,
   debouncedSearchQuery: string
-): UseGetAllAdminsReturn => {
+) => {
   const token = useUserStore((state) => state.token);
   const adminService = new AdminService(token);
 
@@ -36,7 +36,7 @@ export const useGetAllAdmins = (
 export const useGetAdminByID = (
   adminID: string,
   resetInputs?: (data: IAdminCredentials) => void
-): UseGetAdminByIDReturn => {
+) => {
   const token = useUserStore((state) => state.token);
   const adminService = new AdminService(token);
 

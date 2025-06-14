@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { IErrorResponse, initialMetadata, IOfficialVacationCredentials, UseGetAllOfficialVacationsReturn, UseGetOfficialVacationByIDReturn } from "../interfaces";
+import { IErrorResponse, initialMetadata, IOfficialVacationCredentials } from "../interfaces";
 import { getTranslatedMessage, handleApiError, showToast } from "../utils";
 import { AxiosError } from "axios";
 import { useEffect } from "react";
@@ -15,7 +15,7 @@ export const useGetOfficialVacations = (
   pageSize: number,
   searchKey: string,
   debouncedSearchQuery: string
-): UseGetAllOfficialVacationsReturn => {
+) => {
   const token = useUserStore((state) => state.token);
 
   const officialVacationService = new OfficialVacationService(token);
@@ -37,7 +37,7 @@ export const useGetOfficialVacations = (
 export const useGetOfficialVacationById = (
   officialVacationID: number,
   resetInputs?: (data: IOfficialVacationCredentials) => void
-): UseGetOfficialVacationByIDReturn => {
+) => {
   const token = useUserStore((state) => state.token);
   const officialVacationService = new OfficialVacationService(token);
 

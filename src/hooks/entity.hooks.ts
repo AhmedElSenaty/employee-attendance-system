@@ -4,10 +4,7 @@ import { AxiosError } from "axios";
 import {
   IErrorResponse,
   IEntityCredentials,
-  UseGetAllEntitiesReturn,
-  UseGetEntityByIDReturn,
   initialMetadata,
-  UseGetEntitiesListReturn,
 } from "../interfaces";
 import { getTranslatedMessage, handleApiError, showToast } from "../utils";
 import { useLanguageStore } from "../store/language.store";
@@ -23,7 +20,7 @@ export const useGetEntities = (
   pageSize: number,
   searchKey: string,
   debouncedSearchQuery: string
-): UseGetAllEntitiesReturn => {
+) => {
   const token = useUserStore((state) => state.token);
   const entityService = new EntityService(token);
 
@@ -44,7 +41,7 @@ export const useGetEntities = (
 export const useGetEntityByID = (
   entityID: number,
   resetEditInputs?: (data: IEntityCredentials) => void
-): UseGetEntityByIDReturn => {
+) => {
   const token = useUserStore((state) => state.token);
   const entityService = new EntityService(token);
 
@@ -66,7 +63,7 @@ export const useGetEntityByID = (
   };
 };
 
-export const useGetEntitiesList = (): UseGetEntitiesListReturn => {
+export const useGetEntitiesList = () => {
   const token = useUserStore((state) => state.token);
   const entityService = new EntityService(token);
 
