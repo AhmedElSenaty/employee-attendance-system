@@ -22,6 +22,7 @@ export * from "./profile.interface"
 export * from "./report.interfaces"
 export * from "./resetAccount.interfaces";
 export * from "./subDepartment.interfaces";
+export * from "./systemData.interfaces";
 
 
 export interface IErrorResponse {

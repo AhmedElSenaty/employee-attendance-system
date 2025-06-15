@@ -13,6 +13,9 @@ export const QueryKeys = {
   Logs: {
     All :"logs",
     Details: "logDetails",
+  },
+  SystemData: {
+    All :"systemData",
   }
   // Add more domains/modules here
 };
