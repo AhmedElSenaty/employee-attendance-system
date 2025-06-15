@@ -3,7 +3,7 @@
  */
 export interface ISystemDataCredentials {
   /** Unique identifier for the system data entry */
-  id: number;
+  id?: number;
 
   /** Maximum allowed time (as string, e.g. "09:00") by which an employee must check-in */
   max_time_To_attend: string;

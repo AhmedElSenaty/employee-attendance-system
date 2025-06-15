@@ -22,7 +22,8 @@
     "toolTipResetFilters": "Reset All",
     "searchBy": {
       "default": "Choose your search method",
-      "UserId": "User ID"
+      "UserId": "User ID",
+      "IPAddress": "IP Address"
     },
     "search": {
       "label": "Search",
@@ -42,5 +43,6 @@
   "logType": "Log Type",
   "timestamp": "Timestamp",
   "message": "Message",
+  "ipAddress": "IP Address",
   "click": "Click to expand"
 }

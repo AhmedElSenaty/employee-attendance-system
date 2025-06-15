@@ -21,4 +21,10 @@ export interface ILogData {
 
   /** Detailed message or additional info related to the log entry */
   message: string;
+
+  /** 
+   * IP address from which the action was performed.
+   * Useful for tracking the origin of the log entry.
+   */
+  ipAddress: string;
 }

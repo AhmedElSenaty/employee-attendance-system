@@ -1,0 +1,82 @@
+{
+  "header": {
+    "heading": "System Data Configuration",
+    "subtitle": "Manage attendance and leave policies"
+  },
+  "infoPopup": {
+    "title": "System Data Settings",
+    "description": "Configure the system-wide rules for attendance, leave policies, and employee time restrictions."
+  },
+  "form": {
+    "max_time_To_attend": {
+      "label": "Max Time to Attend",
+      "description": "The latest allowed time for employee check-in (format: HH:mm).",
+      "inputValidation": {
+        "required": "This field is required",
+        "matches": "Time must be in HH:mm format"
+      }
+    },
+    "min_time_To_Go": {
+      "label": "Min Time to Go",
+      "description": "The earliest allowed time for employee check-out (format: HH:mm).",
+      "inputValidation": {
+        "required": "This field is required",
+        "matches": "Time must be in HH:mm format"
+      }
+    },
+    "annualVacationMax10Years": {
+      "label": "Annual Vacation (≤10 Years)",
+      "description": "Number of annual vacation days allowed for employees with up to 10 years of service.",
+      "inputValidation": {
+        "required": "Annual vacation for ≤10 years is required",
+        "typeError": "Annual vacation (≤10 years) must be a number",
+        "integer": "Must be an integer",
+        "min": "Value must be 0 or greater"
+      }
+    },
+    "annualVacationTillAgeIs50Years": {
+      "label": "Annual Vacation (≤50 Years)",
+      "description": "Number of annual vacation days allowed for employees aged up to 50 years.",
+      "inputValidation": {
+        "required": "Annual vacation for ≤50 years is required",
+        "typeError": "Annual vacation (≤50 years) must be a number",
+        "integer": "Must be an integer",
+        "min": "Value must be 0 or greater"
+      }
+    },
+    "annualVacationAfterAgeIs50Years": {
+      "label": "Annual Vacation (>50 Years)",
+      "description": "Number of annual vacation days allowed for employees aged above 50 years.",
+      "inputValidation": {
+        "required": "Annual vacation for >50 years is required",
+        "typeError": "Annual vacation (>50 years) must be a number",
+        "integer": "Must be an integer",
+        "min": "Value must be 0 or greater"
+      }
+    },
+    "maxNumberOfLeavesRequestPerMonth": {
+      "label": "Max Leave Requests per Month",
+      "description": "Maximum number of leave requests an employee is allowed to submit each month.",
+      "inputValidation": {
+        "required": "Max number of leave requests per month is required",
+        "typeError": "Max leave requests/month must be a number",
+        "integer": "Must be an integer",
+        "min": "Value must be 0 or greater"
+      }
+    },
+    "maxDaysInCasulVaccationPerYear": {
+      "label": "Max Casual Leave Days per Year",
+      "description": "Maximum number of casual leave days an employee can take in a single year.",
+      "inputValidation": {
+        "required": "Max casual leave days per year is required",
+        "typeError": "Max casual leave days/year must be a number",
+        "integer": "Must be an integer",
+        "min": "Value must be 0 or greater"
+      }
+    },
+    "buttons": {
+      "loading": "Loading",
+      "update": "Update"
+    }
+  }
+}

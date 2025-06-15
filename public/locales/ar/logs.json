@@ -22,7 +22,8 @@
     "toolTipResetFilters": "إعادة تعيين الكل",
     "searchBy": {
       "default": "اختر طريقة البحث",
-      "UserId": "معرف المستخدم"
+      "UserId": "معرف المستخدم",
+      "IPAddress": "عنوان الـ IP"
     },
     "search": {
       "label": "بحث",
@@ -42,5 +43,6 @@
   "logType": "نوع السجل",
   "timestamp": "الوقت",
   "message": "الرسالة",
+  "ipAddress": "عنوان الـ IP",
   "click": "انقر لعرض المزيد"
 }

@@ -34,3 +34,16 @@ export function getTodayDateISO(): string {
   const today = new Date();
   return today.toISOString().split("T")[0];
 }
+
+/**
+ * Formats a time string to HH:MM format by ensuring that both hours and minutes
+ * are two-digit numbers (e.g., "9:5" becomes "09:05").
+ *
+ * @param value - A time string in the format "H:M", "HH:M", "H:MM", or "HH:MM".
+ * @returns A formatted time string in "HH:MM" format.
+ */
+export const formatTimeHHMM = (value: string) => {
+  const [hours, minutes] = value.split(":");
+  // Ensure both hours and minutes are two digits
+  return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}`;
+};

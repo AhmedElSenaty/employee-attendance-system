@@ -66,6 +66,9 @@ const LogItem = ({ logData }: LogItemProps) => {
               <span className="font-bold">{t("userId")}:</span> {logData.userID}
             </p>
             <p>
+              <span className="font-bold">{t("ipAddress")}:</span> {logData.ipAddress}
+            </p>
+            <p>
               <span className="font-bold">{t("logType")}:</span> {t(`types.${logData.type}`)}
             </p>
             <p>
