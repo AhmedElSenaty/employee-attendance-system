@@ -13,9 +13,9 @@ import {
 import { ILeaveRequestCredentials } from "../../../../interfaces/leaveRequest.interfaces";
 import { LeaveRequestType } from "../../../../enums";
 import { Calendar } from "lucide-react";
-import { TRANSLATION_NAMESPACE } from "..";
 import { useTranslation } from "react-i18next";
 import { getTodayDateISO } from "../../../../utils";
+import { LEAVE_REQUESTS_NS } from "../../../../constants";
 
 interface ILeaveRequestInputsProps {
   register: UseFormRegister<ILeaveRequestCredentials>;
@@ -24,7 +24,7 @@ interface ILeaveRequestInputsProps {
 }
 
 const Inputs = ({ register, errors, isLoading }: ILeaveRequestInputsProps) => {
-  const { t } = useTranslation(TRANSLATION_NAMESPACE);
+  const { t } = useTranslation(LEAVE_REQUESTS_NS);
 
   return (
     <>

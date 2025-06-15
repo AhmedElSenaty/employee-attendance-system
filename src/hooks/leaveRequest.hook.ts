@@ -7,11 +7,7 @@ import { getTranslatedMessage, handleApiError, showToast } from "../utils";
 import { LeaveRequestService } from "../services/leaveRequest.services";
 import { AxiosError } from "axios";
 import { IErrorResponse, initialMetadata } from "../interfaces";
-
-export const LEAVE_REQUESTS_QUERY_KEY = "leaveRequests";
-export const MY_LEAVE_REQUESTS_QUERY_KEY = "myLeaveRequests";
-export const LEAVE_REQUEST_DETAILS_QUERY_KEY = "leaveRequestDetails";
-export const MY_LEAVE_REQUEST_DETAILS_QUERY_KEY = "myLeaveRequestDetails";
+import { QueryKeys } from "../constants";
 
 export const useLeaveRequestService = () => {
   const token = useUserStore((state) => state.token);
@@ -36,7 +32,9 @@ export const useGetLeaveRequests = (
   const leaveService = useLeaveRequestService();
   
   const { data, isLoading } = useQuery({
-    queryKey: [LEAVE_REQUESTS_QUERY_KEY, page, pageSize, startDate, endDate, status, searchType, searchQuery],
+    queryKey: [QueryKeys.LeaveRequests.All, page, pageSize, startDate, endDate, status,
+    `${searchType && searchQuery ? [searchType, searchQuery] : ""}`, 
+    ],
     queryFn: () => leaveService.fetchLeaveRequests(page, pageSize, startDate, endDate, status, searchType, searchQuery),
     enabled: !!token,
   });
@@ -60,7 +58,7 @@ export const useGetMyLeaveRequests = (
   const leaveService = useLeaveRequestService();
 
   const { data, isLoading } = useQuery({
-    queryKey: [MY_LEAVE_REQUESTS_QUERY_KEY, page, pageSize, startDate, endDate, status],
+    queryKey: [QueryKeys.LeaveRequests.My, page, pageSize, startDate, endDate, status],
     queryFn: () => leaveService.fetchMyLeaveRequests(page, pageSize, startDate, endDate, status),
     enabled: !!token,
   });
@@ -80,7 +78,7 @@ export const useGetLeaveRequestByID = (
   const leaveService = useLeaveRequestService();
 
   const { data, isLoading } = useQuery({
-    queryKey: [LEAVE_REQUEST_DETAILS_QUERY_KEY, requestId],
+    queryKey: [QueryKeys.LeaveRequests.Details, requestId],
     queryFn: () => leaveService.fetchLeaveRequestById(requestId),
     enabled: !!requestId && !!token,
   });
@@ -99,7 +97,7 @@ export const useGetMyLeaveRequestByID = (
   const leaveService = useLeaveRequestService();
 
   const { data, isLoading } = useQuery({
-    queryKey: [MY_LEAVE_REQUEST_DETAILS_QUERY_KEY, requestId],
+    queryKey: [QueryKeys.LeaveRequests.MyDetails, requestId],
     queryFn: () => leaveService.fetchMyLeaveRequestById(requestId),
     enabled: !!requestId && !!token,
   });
@@ -124,7 +122,7 @@ export const useCreateLeaveRequest = () => {
   return useMutation({
     mutationFn: (leaveData: ILeaveRequestCredentials) => leaveService.create(leaveData),
     onSuccess: ({ status, data }) => {
-      queryClient.invalidateQueries({ queryKey: [MY_LEAVE_REQUESTS_QUERY_KEY] });
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.LeaveRequests.My] });
       if (status === 201) {
         const message = getTranslatedMessage(data.message ?? "", language);
         showToast("success", message);
@@ -144,8 +142,9 @@ export const useUpdateLeaveRequest = () => {
 
   return useMutation({
     mutationFn: (leaveData: ILeaveRequestCredentials) => leaveService.update(leaveData),
-    onSuccess: ({ status, data }) => {
-      queryClient.invalidateQueries({ queryKey: [MY_LEAVE_REQUESTS_QUERY_KEY] });
+    onSuccess: ({ status, data }, leaveData) => {
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.LeaveRequests.My] });
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.LeaveRequests.Details, leaveData.requestId] });
       if (status === 200) {
         const message = getTranslatedMessage(data.message ?? "", language);
         showToast("success", message);
@@ -165,8 +164,9 @@ export const useAcceptLeaveRequest = () => {
 
   return useMutation({
     mutationFn: (requestId: number) => leaveService.accept(requestId),
-    onSuccess: ({ status, data }) => {
-      queryClient.invalidateQueries({ queryKey: [LEAVE_REQUESTS_QUERY_KEY] });
+    onSuccess: ({ status, data }, requestId) => {
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.LeaveRequests.All] });
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.LeaveRequests.Details, requestId] });
       if (status === 200) {
         const message = getTranslatedMessage(data.message ?? "", language);
         showToast("success", message);
@@ -186,8 +186,9 @@ export const useRejectLeaveRequest = () => {
 
   return useMutation({
     mutationFn: (rejectLeaveRequestData: IRejectLeaveRequestCredentials) => leaveService.reject(rejectLeaveRequestData),
-    onSuccess: ({ status, data }) => {
-      queryClient.invalidateQueries({ queryKey: [LEAVE_REQUESTS_QUERY_KEY] });
+    onSuccess: ({ status, data }, rejectLeaveRequestData) => {
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.LeaveRequests.All] });
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.LeaveRequests.Details, rejectLeaveRequestData.requestId] });
       if (status === 200) {
         const message = getTranslatedMessage(data.message ?? "", language);
         showToast("success", message);

@@ -6,11 +6,10 @@ import { AddEmployeePage, EditEmployeePage, ManageEmployeesPage } from "../pages
 import { AddManagerPage, EditManagerPage, ManageManagersPage } from "../pages/common/manage-managers";
 import { ManageSubDepartmentsPage } from "../pages/common/manage-sub-departments";
 import ManagerAccountPage from "../pages/Manager/Account";
-import { LeaveRequestsPage } from "../pages/Manager/leave-requests";
 import { MissionRequestsPage } from "../pages/Manager/mission-requests";
 import { OrdinaryRequestsPage } from "../pages/Manager/ordinary-requests";
 import { CasualLeaveRequestsPage } from "../pages/Manager/casual-leave-requests";
-import { AttendanceOverviewPage, AttendanceVacationsPage, ManageAttendancePage, CalendarPage } from "../pages/Manager";
+import { AttendanceOverviewPage, AttendanceVacationsPage, ManageAttendancePage, CalendarPage, LeaveRequestsPage } from "../pages/Manager";
 
 export const managerRoutes = (isLoggedIn: boolean, userRole: string) => (
   <Route 

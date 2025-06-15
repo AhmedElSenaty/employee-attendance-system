@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import { Eye, X, Check } from "lucide-react";
 import {
   Button,
@@ -10,35 +9,40 @@ import {
   TableSkeleton,
   Tooltip,
 } from "../../../../components/ui";
-import { ILeaveRequestData } from "../../../../interfaces/leaveRequest.interfaces";
-import { LEAVE_REQUESTS_TABLE_COLUMNS, TRANSLATION_NAMESPACE } from "..";
+import { ILeaveRequestData } from "../../../../interfaces/";
 import { useTranslation } from "react-i18next";
-import { useLanguageStore } from "../../../../store/language.store";
+import { useLanguageStore } from "../../../../store/";
 import { formatValue, getRequestStatusVariant } from "../../../../utils";
 import { RequestStatusType } from "../../../../enums";
+import { LEAVE_REQUESTS_NS } from "../../../../constants";
 
 interface ITableProps {
   leaveRequests: ILeaveRequestData[];
   isLoading: boolean;
-  handleShowLeaveRequests: (id: number) => void;
-  handleAcceptLeaveRequests: (id: number) => void;
-  handleRejectLeaveRequests: (id: number) => void;
+  handleShow: (id: number) => void;
+  handleAccept: (id: number) => void;
+  handleReject: (id: number) => void;
 }
 
 const LeaveRequestsTable = ({
   leaveRequests,
   isLoading,
-  handleShowLeaveRequests,
-  handleAcceptLeaveRequests,
-  handleRejectLeaveRequests,
+  handleShow,
+  handleAccept,
+  handleReject,
 }: ITableProps) => {
-  const { t } = useTranslation(TRANSLATION_NAMESPACE);
+  const { t } = useTranslation(LEAVE_REQUESTS_NS);
   const { language } = useLanguageStore();
-
-  const columns = useMemo(
-    () => LEAVE_REQUESTS_TABLE_COLUMNS.map((key) => t(key)),
-    [t]
-  );
+  const LEAVE_REQUESTS_TABLE_COLUMNS = [
+    "table.columns.id",
+    "table.columns.employeeName",
+    "table.columns.date",
+    "table.columns.requestedAt",
+    "table.columns.type",
+    "table.columns.status",
+    "table.columns.actions",
+  ]
+  const columns = LEAVE_REQUESTS_TABLE_COLUMNS.map((key) => t(key));
 
   return (
     <>
@@ -93,7 +97,7 @@ const LeaveRequestsTable = ({
                         fullWidth={false}
                         size={"sm"}
                         icon={<Eye className="w-full h-full" />}
-                        onClick={() => handleShowLeaveRequests(leaveRequest.id)}
+                        onClick={() => handleShow(leaveRequest.id)}
                       />
                     </Tooltip>
                     {leaveRequest.status == RequestStatusType.Pending && (
@@ -105,7 +109,7 @@ const LeaveRequestsTable = ({
                             size={"sm"}
                             icon={<Check className="w-full h-full" />}
                             onClick={() =>
-                              handleAcceptLeaveRequests(leaveRequest.id)
+                              handleAccept(leaveRequest.id)
                             }
                           />
                         </Tooltip>
@@ -116,7 +120,7 @@ const LeaveRequestsTable = ({
                             size={"sm"}
                             icon={<X className="w-full h-full" />}
                             onClick={() =>
-                              handleRejectLeaveRequests(leaveRequest.id)
+                              handleReject(leaveRequest.id)
                             }
                           />
                         </Tooltip>

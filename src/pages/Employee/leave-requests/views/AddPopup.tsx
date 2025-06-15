@@ -1,7 +1,7 @@
 import { FormEvent, ReactNode } from "react";
 import { Button, Popup } from "../../../../components/ui";
-import { TRANSLATION_NAMESPACE } from "..";
 import { useTranslation } from "react-i18next";
+import { LEAVE_REQUESTS_NS } from "../../../../constants";
 
 interface AddPopupProps {
   isOpen: boolean;
@@ -18,7 +18,7 @@ const AddPopup = ({
   formInputs,
   isLoading,
 }: AddPopupProps) => {
-  const { t } = useTranslation(TRANSLATION_NAMESPACE);
+  const { t } = useTranslation(LEAVE_REQUESTS_NS);
 
   return (
     <Popup

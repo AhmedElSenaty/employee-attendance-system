@@ -9,9 +9,9 @@ import {
 } from "../../../../components/ui";
 import { RequestStatusType } from "../../../../enums";
 import { useTranslation } from "react-i18next";
-import { TRANSLATION_NAMESPACE } from "..";
 import { formatValue } from "../../../../utils";
 import { useLanguageStore } from "../../../../store/language.store";
+import { LEAVE_REQUESTS_NS } from "../../../../constants";
 
 interface FiltersProps {
   getParam: (key: string) => string | number | null;
@@ -20,7 +20,7 @@ interface FiltersProps {
 }
 
 const Filters = ({ getParam, setParam, clearParams }: FiltersProps) => {
-  const { t } = useTranslation(TRANSLATION_NAMESPACE);
+  const { t } = useTranslation(LEAVE_REQUESTS_NS);
   const { language } = useLanguageStore(); // Accessing the current language from the Redux state
 
   return (

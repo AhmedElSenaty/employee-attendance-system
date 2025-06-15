@@ -28,5 +28,11 @@ export const QueryKeys = {
     Vacations: "attendanceWithVacations",
     EmployeeToday: "EmployeeTodayAttendance",
   },
+  LeaveRequests: {
+    All: "leaveRequests",
+    My: "myLeaveRequests",
+    Details: "leaveRequestDetails",
+    MyDetails: "myLeaveRequestDetails",
+  },
   // Add more domains/modules here
 };

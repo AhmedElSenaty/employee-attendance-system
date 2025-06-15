@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next"; // Import translation hook
-import { Building2, Calendar, CalendarCog, CalendarSearch, Contact, ContactRound, Home, LayoutDashboard, TentTree, TicketsPlane, User, UserCog, UserPlus, UserRoundPlus, Users } from "lucide-react";
+import { Building2, Calendar, CalendarCog, CalendarSearch, Contact, ContactRound, Handshake, Home, LayoutDashboard, TentTree, TicketsPlane, User, UserCog, UserPlus, UserRoundPlus, Users } from "lucide-react";
 import { Sidebar, SidebarDropdown, SidebarItem } from "../../components/ui/Sidebar";
 import { useUserStore } from "../../store/user.store";
 
@@ -54,7 +54,7 @@ export const ManagerSidebar = () => {
         </SidebarDropdown>
       )}
 
-      <SidebarItem icon={<TentTree size={23} />} name={t("leaveRequests")} to="/manager/leave-requests" />
+      <SidebarItem icon={<Handshake size={23} />} name={t("leaveRequests")} to="/manager/leave-requests" />
       
       <SidebarItem icon={<TentTree size={23} />} name={t("missionRequests")} to="/manager/mission-requests" />
 

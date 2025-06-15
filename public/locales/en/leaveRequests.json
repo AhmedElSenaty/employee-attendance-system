@@ -187,5 +187,15 @@
       "reject": "Reject",
       "close": "Close"
     }
+  },
+  "infoPopupLeaveRequestsManager": {
+    "title": "How to Use the Leave Requests Page (Manager)",
+    "description": "Watch this video tutorial to learn how managers can review, approve, reject, and manage employee leave requests effectively.",
+    "closeButton": "Close"
+  },
+  "infoPopupLeaveRequestsEmployees": {
+    "title": "How to Use the Leave Requests Page (Employee)",
+    "description": "Watch this video tutorial to learn how employees can submit, view, and track the status of their leave requests.",
+    "closeButton": "Close"
   }
 }

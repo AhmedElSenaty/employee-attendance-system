@@ -5,9 +5,9 @@ import { Clock, FilePenLine, Info, MessageSquare, Eye } from "lucide-react";
 import { Button } from "../Button";
 import { Tooltip } from "../Tooltip"; // Assuming you have this
 import { getRequestBgColorClass, getRequestStatusVariant, truncateText } from "../../../utils";
-import { TRANSLATION_NAMESPACE } from "../../../pages/Employee/leave-requests";
 import { useTranslation } from "react-i18next";
 import { useLanguageStore } from "../../../store/language.store";
+import { LEAVE_REQUESTS_NS } from "../../../constants";
 
 type Props = {
   data: ILeaveRequestData;
@@ -16,7 +16,7 @@ type Props = {
 };
 
 const LeaveRequestCard = ({ data, handleShow, handleEdit }: Props) => {
-  const { t } = useTranslation(TRANSLATION_NAMESPACE);
+  const { t } = useTranslation(LEAVE_REQUESTS_NS);
   const { language } = useLanguageStore();
 
   return (

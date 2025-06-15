@@ -1,7 +1,7 @@
 import { Sun, Moon } from "lucide-react";
 import { Popup, Button } from "../../../../components/ui";
 import { useTranslation, Trans } from "react-i18next";
-import { TRANSLATION_NAMESPACE } from "..";
+import { LEAVE_REQUESTS_NS } from "../../../../constants";
 
 interface ConditionsPopupProps {
   isOpen: boolean;
@@ -9,7 +9,7 @@ interface ConditionsPopupProps {
 }
 
 const ConditionsPopup = ({ isOpen, handleClose }: ConditionsPopupProps) => {
-  const { t } = useTranslation(TRANSLATION_NAMESPACE);
+  const { t } = useTranslation(LEAVE_REQUESTS_NS);
 
   return (
     <Popup

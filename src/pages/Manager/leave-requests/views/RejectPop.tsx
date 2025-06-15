@@ -1,8 +1,8 @@
 import { useTranslation } from "react-i18next";
-import { TRANSLATION_NAMESPACE } from "..";
 import { Button, Field, Label, Popup, Textarea } from "../../../../components/ui";
 import { UseFormRegister } from "react-hook-form";
 import { IRejectLeaveRequestCredentials } from "../../../../interfaces/leaveRequest.interfaces";
+import { LEAVE_REQUESTS_NS } from "../../../../constants";
 
 interface IRejectPopupProps {
   isOpen: boolean;
@@ -19,7 +19,7 @@ const RejectPopup = ({
   register,
   isLoading,
 }: IRejectPopupProps) => {
-  const { t } = useTranslation(TRANSLATION_NAMESPACE);
+  const { t } = useTranslation(LEAVE_REQUESTS_NS);
 
   return (
     <Popup

@@ -1,5 +1,5 @@
 import { LeaveRequestCard, LeaveRequestCardSkeleton } from "../../../../components/ui";
-import { ILeaveRequestData } from "../../../../interfaces/leaveRequest.interfaces";
+import { ILeaveRequestData } from "../../../../interfaces/";
 
 type Props = {
   leaveRequests: ILeaveRequestData[] | null;
