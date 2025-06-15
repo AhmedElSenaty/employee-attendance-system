@@ -30,6 +30,9 @@ export class AttendanceService extends BaseService {
         ...(searchType && searchQuery ? { [searchType]: searchQuery } : {}),
       });
 
+      console.log(params);
+      
+
       const response = await axiosInstance.get(`/Attendance`, {
         params,
         headers: this.getAuthHeaders(),
@@ -169,11 +172,15 @@ export class AttendanceService extends BaseService {
     pageSize?: number,
     searchType?: string,
     searchQuery?: string,
+    searchByDepartmentId?: number,
+    searchBySubDepartmentId?: number
   ) => {
     try {
       const params = this.buildParams({
         PageIndex: page ?? 1,
         PageSize: pageSize,
+        SearchByDeptartmentId: searchByDepartmentId === 0 ? "" : searchByDepartmentId,
+        SearchBySubDeptartmentId: searchBySubDepartmentId === 0 ? "" : searchBySubDepartmentId,
         ...(searchType && searchQuery ? { [searchType]: searchQuery } : {}),
       });
 

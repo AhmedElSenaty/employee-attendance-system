@@ -1,29 +1,36 @@
-import { TFunction } from "i18next";
 import { IAttendanceSummaryData } from "../../../../interfaces";
-import { useMemo } from "react";
 import { NavLink } from "react-router";
 import { Calendar } from "lucide-react";
-import { ATTENDANCE_SUMMARY_TABLE_COLUMNS, ATTENDANCE_TRANSLATION_NAMESPACE } from "..";
 import { formatValue } from "../../../../utils";
 import { HasPermission } from "../../../../components/auth";
-import { useLanguageStore } from "../../../../store/language.store";
-import { useUserStore } from "../../../../store/user.store";
+import { useUserStore, useLanguageStore } from "../../../../store/";
 import { Button, NoDataMessage, Table, TableCell, TableRow, TableSkeleton, Tooltip } from "../../../../components/ui";
+import { useTranslation } from "react-i18next";
+import { ATTENDANCE_NS } from "../../../../constants";
 
 interface IAttendanceOverviewTableProps {
   attendanceSummary: IAttendanceSummaryData[];
   isLoading: boolean;
-  t: TFunction;
 }
 
-const AttendanceOverviewTable = ({ attendanceSummary, isLoading, t }: IAttendanceOverviewTableProps) => {
+const OverviewTable = ({ attendanceSummary, isLoading }: IAttendanceOverviewTableProps) => {
   const userRole = useUserStore((state) => state.role);
+  const { t } = useTranslation([ATTENDANCE_NS]);
+  const { language } = useLanguageStore();
 
-  const columns = useMemo(
-    () => ATTENDANCE_SUMMARY_TABLE_COLUMNS.map(key => t(key, { ns: ATTENDANCE_TRANSLATION_NAMESPACE })),
-    [t]
-  )
-    const { language } = useLanguageStore();
+  const ATTENDANCE_SUMMARY_TABLE_COLUMNS = [
+    "tableSummary.columns.employeeName",
+    "tableSummary.columns.department",
+    "tableSummary.columns.subdepartment",
+    "tableSummary.columns.checkedInOnlyDays",
+    "tableSummary.columns.checkedOutOnlyDays",
+    "tableSummary.columns.attendanceDays",
+    "tableSummary.columns.absenceDays",
+    "tableSummary.columns.totalWorkingHours",
+    "tableSummary.columns.actions",
+  ]
+
+  const columns = ATTENDANCE_SUMMARY_TABLE_COLUMNS.map(key => t(key))
 
   return (
     <>
@@ -32,7 +39,7 @@ const AttendanceOverviewTable = ({ attendanceSummary, isLoading, t }: IAttendanc
       ) : (
         <Table columns={columns}>
           {attendanceSummary.length == 0 ? (
-            <NoDataMessage />
+            <NoDataMessage title={t("table.emptyTable.title")} message={t("table.emptyTable.message")} />
           ) : (
             attendanceSummary.map((attendance) => (
               <TableRow key={attendance.employeeId} className="border-b">
@@ -47,7 +54,7 @@ const AttendanceOverviewTable = ({ attendanceSummary, isLoading, t }: IAttendanc
                 <TableCell label={columns[8]}>
                   <div className="flex flex-wrap gap-2">
                     <HasPermission permission="View Attendances">
-                      <Tooltip content="View Attendances">
+                      <Tooltip content={t("buttons.toolTipViewAttendances")}>
                         <NavLink to={`/${userRole}/manage-employee/${attendance.employeeId}/calender`}>
                           <Button
                             variant="success"
@@ -69,4 +76,4 @@ const AttendanceOverviewTable = ({ attendanceSummary, isLoading, t }: IAttendanc
   )
 }
 
-export default AttendanceOverviewTable
+export default OverviewTable

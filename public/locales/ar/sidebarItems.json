@@ -17,6 +17,7 @@
   "attendance": "الحضور",
   "attendanceDetails": "تفاصيل الحضور",
   "attendanceSummary": "ملخص الحضور",
+  "attendanceVacation": "الحضور مع الإجازة",
   "devices": "الأجهزة",
   "manageDepartments": "إدارة الأقسام",
   "departments": "الأقسام",
@@ -30,5 +31,7 @@
   "leaveRequests": "طلبات الإجازة",
   "missionRequests": "طلبات المهمة",
   "ordinaryRequests": "الطلبات العادية",
-  "casualLeaveRequests": "طلبات الإجازة العرضية"
+  "casualLeaveRequests": "طلبات الإجازة العرضية",
+  "systemData": "بيانات النظام",
+  "logs": "سجلات النشاط"
 }

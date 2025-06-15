@@ -1,7 +1,7 @@
-import { TFunction } from "i18next";
+import { useTranslation } from "react-i18next";
 import { Button, Popup, StatusBadge } from "../../../../components/ui";
 import { AlertTriangle, CheckCircle, Fingerprint } from "lucide-react";
-import { ATTENDANCE_TRANSLATION_NAMESPACE } from "..";
+import { ATTENDANCE_NS } from "../../../../constants";
 
 interface IExportAttendancePopupProps {
   isOpen: boolean
@@ -19,17 +19,17 @@ interface IExportAttendancePopupProps {
     searchBySubDeptartmentId: number
   },
   isLoading: boolean
-  t: TFunction
 }
 
-const ExportAttendancePopup = ({ isOpen, handleClose, handleDownload, filteredData, isLoading, t }: IExportAttendancePopupProps) => {
-  
+const ExportAttendancePopup = ({ isOpen, handleClose, handleDownload, filteredData, isLoading }: IExportAttendancePopupProps) => {
+  const { t } = useTranslation([ATTENDANCE_NS]);
+
   return (
     <Popup
       isOpen={isOpen}
       closeModal={handleClose}
-      title={t("popup.exportAttendance.title", { ns: ATTENDANCE_TRANSLATION_NAMESPACE })}
-      description={t("popup.exportAttendance.description", { ns: ATTENDANCE_TRANSLATION_NAMESPACE })}
+      title={t("exportPopup.title")}
+      description={t("exportPopup.description")}
     >
       <div className="bg-gradient-to-br from-gray-50 to-gray-100 p-6 rounded-xl shadow-lg">
         {/* Device Icon */}
@@ -44,7 +44,7 @@ const ExportAttendancePopup = ({ isOpen, handleClose, handleDownload, filteredDa
           {
             filteredData.searchKey != "" && filteredData.search != "" && (
               <div className="grid grid-cols-2 py-2">
-                <span className="font-medium text-gray-600">{t(`searchBy.${filteredData.searchKey}`, { ns: ATTENDANCE_TRANSLATION_NAMESPACE }) ?? ""}</span>
+                <span className="font-medium text-gray-600">{t(`filters.searchBy.${filteredData.searchKey}`) ?? ""}</span>
                 <span className="text-gray-900 font-semibold">{filteredData.search}</span>
               </div>
             )
@@ -52,7 +52,7 @@ const ExportAttendancePopup = ({ isOpen, handleClose, handleDownload, filteredDa
           {
             filteredData.searchByDepartmentId != 0 && (
               <div className="grid grid-cols-2 py-2">
-                <span className="font-medium text-gray-600">{t(`searchBy.searchByDepartmentId`, { ns: ATTENDANCE_TRANSLATION_NAMESPACE }) ?? ""}</span>
+                <span className="font-medium text-gray-600">{t(`filters.searchBy.SearchByDeptartmentID`) ?? ""}</span>
                 <span className="text-gray-900 font-semibold">{filteredData.searchByDepartmentId}</span>
               </div>
             )
@@ -60,7 +60,7 @@ const ExportAttendancePopup = ({ isOpen, handleClose, handleDownload, filteredDa
           {
             filteredData.searchBySubDeptartmentId != 0 && (
               <div className="grid grid-cols-2 py-2">
-                <span className="font-medium text-gray-600">{t(`searchBy.SearchBySubDeptartmentId`, { ns: ATTENDANCE_TRANSLATION_NAMESPACE }) ?? ""}</span>
+                <span className="font-medium text-gray-600">{t(`filters.searchBy.SearchBySubDeptartmentId`) ?? ""}</span>
                 <span className="text-gray-900 font-semibold">{filteredData.searchBySubDeptartmentId}</span>
               </div>
             )
@@ -69,7 +69,7 @@ const ExportAttendancePopup = ({ isOpen, handleClose, handleDownload, filteredDa
             {
               filteredData.startDate != "" && (
                 <div className="grid grid-cols-2 py-1">
-                  <span className="font-medium text-gray-600">{t("dateAndTime.startDate")}</span>
+                  <span className="font-medium text-gray-600">{t("filters.startDate")}</span>
                   <span className="text-gray-900 font-semibold">{filteredData.startDate}</span>
                 </div>
               )
@@ -77,7 +77,7 @@ const ExportAttendancePopup = ({ isOpen, handleClose, handleDownload, filteredDa
             {
               filteredData.endDate != "" && (
                 <div className="grid grid-cols-2 py-1">
-                  <span className="font-medium text-gray-600">{t("dateAndTime.endDate")}</span>
+                  <span className="font-medium text-gray-600">{t("filters.endDate")}</span>
                   <span className="text-gray-900 font-semibold">{filteredData.endDate}</span>
                 </div>
               )
@@ -87,7 +87,7 @@ const ExportAttendancePopup = ({ isOpen, handleClose, handleDownload, filteredDa
             {
               filteredData.startTime != "" && (
                 <div className="grid grid-cols-2 py-1">
-                  <span className="font-medium text-gray-600">{t("dateAndTime.startTime")}</span>
+                  <span className="font-medium text-gray-600">{t("filters.startTime")}</span>
                   <span className="text-gray-900 font-semibold">{filteredData.startTime}</span>
                 </div>
               )
@@ -95,7 +95,7 @@ const ExportAttendancePopup = ({ isOpen, handleClose, handleDownload, filteredDa
             {
               filteredData.endTime != "" && (
                 <div className="grid grid-cols-2 py-1">
-                  <span className="font-medium text-gray-600">{t("dateAndTime.endTime")}</span>
+                  <span className="font-medium text-gray-600">{t("filters.endTime")}</span>
                   <span className="text-gray-900 font-semibold">{filteredData.endTime}</span>
                 </div>
               )
@@ -104,7 +104,7 @@ const ExportAttendancePopup = ({ isOpen, handleClose, handleDownload, filteredDa
           {
             filteredData.status != "" && (
               <div className="grid grid-cols-2 py-2">
-                <span className="font-medium text-gray-600">{t("status")}</span>
+                <span className="font-medium text-gray-600">{t("filters.status")}</span>
                 <StatusBadge
                   variant={filteredData.status == "حضور" ? "success" : "warning"}
                   size={"medium"}
@@ -119,11 +119,13 @@ const ExportAttendancePopup = ({ isOpen, handleClose, handleDownload, filteredDa
       </div>
 
       <div className="flex items-center space-x-3 mt-4">
-        <Button variant="success" type="button" fullWidth={true} onClick={handleDownload} isLoading={isLoading}>
-          {t("buttons.download")}
-        </Button>
         <Button variant="cancel" type="button" fullWidth={true} onClick={handleClose}>
           {t("buttons.close")}
+        </Button>
+        <Button variant="success" type="button" fullWidth={true} onClick={handleDownload} isLoading={isLoading}>
+          {(isLoading)
+            ? t("buttons.loading")
+            : t("buttons.download")}
         </Button>
       </div>
     </Popup>

@@ -1,9 +1,9 @@
-import { TFunction } from "i18next";
 import { AlertTriangle, CalendarSearch, CheckCircle } from "lucide-react";
 import { IAttendanceData } from "../../../../interfaces";
 import { Popup, Button, NormalSpinner, StatusBadge } from "../../../../components/ui";
-import { ATTENDANCE_TRANSLATION_NAMESPACE } from "..";
 import { HasPermission } from "../../../../components/auth";
+import { useTranslation } from "react-i18next";
+import { ATTENDANCE_NS } from "../../../../constants";
 
 interface IShowAttendancePopupProps {
   isOpen: boolean
@@ -11,17 +11,18 @@ interface IShowAttendancePopupProps {
   handleDeletePopupOpen: () => void;
   handleEditPopupOpen: () => void;
   attendance: IAttendanceData
-  t: TFunction
   isLoading: boolean
 }
 
-const ShowAttendancePopup = ({ isOpen, handleClose, handleDeletePopupOpen, handleEditPopupOpen, attendance, t, isLoading }: IShowAttendancePopupProps) => {
+const ShowPopup = ({ isOpen, handleClose, handleDeletePopupOpen, handleEditPopupOpen, attendance, isLoading }: IShowAttendancePopupProps) => {
+  const { t } = useTranslation([ATTENDANCE_NS]);
+
   return (
     <Popup
       isOpen={isOpen}
       closeModal={handleClose}
-      title={t("popup.viewAttendance.title", { ns: ATTENDANCE_TRANSLATION_NAMESPACE })}
-      description={t("popup.viewAttendance.description", { ns: ATTENDANCE_TRANSLATION_NAMESPACE })}
+      title={t("viewPopup.title")}
+      description={t("viewPopup.description")}
     >
       {/* Device Details */}
       {
@@ -42,39 +43,39 @@ const ShowAttendancePopup = ({ isOpen, handleClose, handleDeletePopupOpen, handl
             {/* Device Information */}
             <div className="mt-6 space-y-4 divide-y divide-gray-300">
               <div className="grid grid-cols-2 py-2">
-                <span className="font-medium text-gray-600">{t("table.columns.id", { ns: ATTENDANCE_TRANSLATION_NAMESPACE })}</span>
+                <span className="font-medium text-gray-600">{t("table.columns.id")}</span>
                 <span className="text-gray-900 font-semibold">{attendance?.id}</span>
               </div>
               <div className="grid grid-cols-1 py-2">
                 <div className="grid grid-cols-2 py-1">
-                  <span className="font-medium text-gray-600">{t("table.columns.deviceId", { ns: ATTENDANCE_TRANSLATION_NAMESPACE })}</span>
+                  <span className="font-medium text-gray-600">{t("table.columns.deviceId")}</span>
                   <span className="text-gray-900 font-semibold">{attendance?.deviceId}</span>
                 </div>
                 <div className="grid grid-cols-2 py-1">
-                  <span className="font-medium text-gray-600">{t("table.columns.deviceName", { ns: ATTENDANCE_TRANSLATION_NAMESPACE })}</span>
+                  <span className="font-medium text-gray-600">{t("table.columns.deviceName")}</span>
                   <span className="text-gray-900 font-semibold">{attendance?.deviceName}</span>
                 </div>
               </div>
               <div className="grid grid-cols-1 py-2">
                 <div className="grid grid-cols-2 py-1">
-                  <span className="font-medium text-gray-600">{t("table.columns.employeeId", { ns: ATTENDANCE_TRANSLATION_NAMESPACE })}</span>
+                  <span className="font-medium text-gray-600">{t("table.columns.employeeId")}</span>
                   <span className="text-gray-900 font-semibold">{attendance?.employeeId}</span>
                 </div>
                 <div className="grid grid-cols-2 py-1">
-                  <span className="font-medium text-gray-600">{t("table.columns.empName", { ns: ATTENDANCE_TRANSLATION_NAMESPACE })}</span>
+                  <span className="font-medium text-gray-600">{t("table.columns.empName")}</span>
                   <span className="text-gray-900 font-semibold">{attendance?.empName}</span>
                 </div>
               </div>
               <div className="grid grid-cols-2 py-2">
-                <span className="font-medium text-gray-600">{t("table.columns.attendanceDate", { ns: ATTENDANCE_TRANSLATION_NAMESPACE })}</span>
+                <span className="font-medium text-gray-600">{t("table.columns.attendanceDate")}</span>
                 <span className="text-gray-900 font-semibold">{attendance?.attendanceDate}</span>
               </div>
               <div className="grid grid-cols-2 py-2">
-                <span className="font-medium text-gray-600">{t("table.columns.attendanceTime", { ns: ATTENDANCE_TRANSLATION_NAMESPACE })}</span>
+                <span className="font-medium text-gray-600">{t("table.columns.attendanceTime")}</span>
                 <span className="text-gray-900 font-semibold">{attendance?.attendanceTime}</span>
               </div>
               <div className="grid grid-cols-2 py-2">
-                <span className="font-medium text-gray-600">{t("table.columns.status", { ns: ATTENDANCE_TRANSLATION_NAMESPACE })}</span>
+                <span className="font-medium text-gray-600">{t("table.columns.status")}</span>
                 <StatusBadge
                   variant={attendance?.status == "حضور" ? "success" : "warning"}
                   size={"medium"}
@@ -86,22 +87,22 @@ const ShowAttendancePopup = ({ isOpen, handleClose, handleDeletePopupOpen, handl
 
               <div className="grid grid-cols-1 py-2">
                 <div className="grid grid-cols-2 py-1">
-                  <span className="font-medium text-gray-600">{t("table.columns.department", { ns: ATTENDANCE_TRANSLATION_NAMESPACE })}</span>
+                  <span className="font-medium text-gray-600">{t("table.columns.department")}</span>
                   <span className="text-gray-900 font-semibold">{attendance?.department}</span>
                 </div>
                 <div className="grid grid-cols-2 py-1">
-                  <span className="font-medium text-gray-600">{t("table.columns.subdepartment", { ns: ATTENDANCE_TRANSLATION_NAMESPACE })}</span>
+                  <span className="font-medium text-gray-600">{t("table.columns.subdepartment")}</span>
                   <span className="text-gray-900 font-semibold">{attendance?.subdepartment}</span>
                 </div>
               </div>
 
               <div className="grid grid-cols-1 py-2">
                 <div className="grid grid-cols-2 py-1">
-                  <span className="font-medium text-gray-600">{t("table.columns.delegeteDepartment", { ns: ATTENDANCE_TRANSLATION_NAMESPACE })}</span>
+                  <span className="font-medium text-gray-600">{t("table.columns.delegeteDepartment")}</span>
                   <span className="text-gray-900 font-semibold">{attendance?.delegeteDepartment}</span>
                 </div>
                 <div className="grid grid-cols-2 py-1">
-                  <span className="font-medium text-gray-600">{t("table.columns.delegeteSubdepartment", { ns: ATTENDANCE_TRANSLATION_NAMESPACE })}</span>
+                  <span className="font-medium text-gray-600">{t("table.columns.delegeteSubdepartment")}</span>
                   <span className="text-gray-900 font-semibold">{attendance?.delegeteSubdepartment}</span>
                 </div>
               </div>
@@ -129,4 +130,4 @@ const ShowAttendancePopup = ({ isOpen, handleClose, handleDeletePopupOpen, handl
   )
 }
 
-export default ShowAttendancePopup
+export default ShowPopup

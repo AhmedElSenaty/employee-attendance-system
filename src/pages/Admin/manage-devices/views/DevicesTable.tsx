@@ -4,6 +4,8 @@ import { HasPermission } from "../../../../components/auth";
 import { Button, NoDataMessage, Table, TableCell, TableRow, TableSkeleton, Tooltip } from "../../../../components/ui";
 import { useTranslation } from "react-i18next";
 import { DEVICES_NS } from "../../../../constants";
+import { formatValue } from "../../../../utils";
+import { useLanguageStore } from "../../../../store";
 
 interface IDevicesTableProps {
   devices: IDeviceData[];
@@ -15,6 +17,7 @@ interface IDevicesTableProps {
 
 const DevicesTable = ({ devices, isLoading, handleShow, handleEdit, handleDelete }: IDevicesTableProps) => {
   const { t } = useTranslation([DEVICES_NS]);
+  const { language } = useLanguageStore();
 
   const DEVICE_TABLE_COLUMNS = [
     "table.columns.id",
@@ -37,10 +40,10 @@ const DevicesTable = ({ devices, isLoading, handleShow, handleEdit, handleDelete
           ) : (
             devices.map((device) => (
               <TableRow key={device.id} className="border-b">
-                <TableCell label={columns[0]}>{device.id}</TableCell>
+                <TableCell label={columns[0]}>{formatValue(device.id, language)}</TableCell>
                 <TableCell label={columns[1]}>{device.device_name}</TableCell>
                 <TableCell label={columns[2]}>{device.iP_Address}</TableCell>
-                <TableCell label={columns[3]}>{device.port}</TableCell>
+                <TableCell label={columns[3]}>{formatValue(device.port, language)}</TableCell>
                 <TableCell label={columns[4]}>
                   <div className="flex flex-wrap gap-2">
                     <HasPermission permission="View Devices">

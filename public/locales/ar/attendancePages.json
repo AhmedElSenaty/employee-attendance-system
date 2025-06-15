@@ -1,35 +1,49 @@
 {
+  "headerVacation": {
+    "heading": "نظرة عامة على الإجازات",
+    "subtitle": "تتبع وسجّل إدارة إجازات الموظفين، بما في ذلك الطلبات المعتمدة والمعلقة."
+  },
+  "sectionHeaderVacation": {
+    "title": "تفاصيل إجازات الموظف",
+    "description": "نظرة شاملة على سجل إجازات كل موظف، بما يشمل طلبات الإجازة، والموافقات، وأرصدة الإجازات المتبقية."
+  },
   "headerSummary": {
     "heading": "ملخص الحضور",
     "subtitle": "عرض وفهم تفاصيل الحضور لكل موظف في النظام."
   },
-  "header": {
-    "heading": "إدارة الحضور",
-    "subtitle": "إضافة وتحديث ومراقبة جميع سجلات الحضور في النظام."
-  },
   "sectionHeaderSummary": {
     "title": "نظرة عامة على حضور الموظفين",
-    "description": "ملخص لسجلات الحضور لكل موظف، بما في ذلك الدخول والخروج وتحديثات الحالة."
+    "description": "ملخص لسجلات الحضور لكل موظف، بما في ذلك أوقات الدخول والخروج وحالة الحضور."
+  },
+  "header": {
+    "heading": "إدارة الحضور",
+    "subtitle": "إضافة وتحديث ومتابعة جميع سجلات الحضور في النظام."
   },
   "sectionHeader": {
     "title": "إدارة الحضور",
-    "description": "عرض، إضافة، تعديل، وحذف سجلات الحضور داخل المؤسسة."
+    "description": "عرض وإضافة وتعديل وحذف سجلات الحضور داخل المؤسسة."
   },
   "tableSummary": {
     "columns": {
       "employeeName": "اسم الموظف",
       "department": "القسم",
       "subdepartment": "القسم الفرعي",
-      "checkedInOnlyDays": "أيام الدخول فقط",
-      "checkedOutOnlyDays": "أيام الخروج فقط",
+      "checkedInOnlyDays": "أيام بها تسجيل دخول فقط",
+      "checkedOutOnlyDays": "أيام بها تسجيل خروج فقط",
       "attendanceDays": "أيام الحضور",
       "absenceDays": "أيام الغياب",
       "totalWorkingHours": "إجمالي ساعات العمل",
       "actions": "الإجراءات"
-    },
-    "emptyTable": {
-      "title": "لم يتم العثور على سجلات فرعية للحضور",
-      "message": "جرّب تعديل الفلاتر أو إضافة سجل حضور جديد"
+    }
+  },
+  "tableVacation": {
+    "columns": {
+      "employeeId": "رقم الموظف",
+      "employeeName": "اسم الموظف",
+      "departmentName": "القسم",
+      "checkIn": "تسجيل الدخول",
+      "checkOut": "تسجيل الخروج",
+      "notes": "ملاحظات"
     }
   },
   "table": {
@@ -49,29 +63,13 @@
       "actions": "الإجراءات"
     },
     "emptyTable": {
-      "title": "لم يتم العثور على سجلات فرعية للحضور",
-      "message": "جرّب تعديل الفلاتر أو إضافة سجل حضور جديد"
+      "title": "لم يتم العثور على سجلات حضور",
+      "message": "جرّب تعديل عوامل التصفية أو أضف سجل حضور جديد."
     }
   },
-  "searchBySummary": {
-    "label": "البحث بواسطة",
-    "default": "يرجى اختيار خيار",
-    "SearchByEmployeeName": "اسم الموظف",
-    "SearchByEmployeeSSN": "الرقم القومي للموظف",
-    "SearchByEmployeeId": "معرف الموظف",
-    "SearchByDeptartmentID": "القسم",
-    "SearchBySubDeptartmentId": "القسم الفرعي",
-    "StartDate": "تاريخ البدء",
-    "EndDate": "تاريخ الانتهاء"
-  },
-  "searchBy": {
-    "label": "البحث بواسطة",
-    "default": "يرجى اختيار خيار",
-    "SearchByEmployeeName": "اسم الموظف",
-    "SearchByEmployeeSSN": "الرقم القومي للموظف",
-    "SearchByEmployeeId": "معرف الموظف",
-    "SearchByDeptartmentId": "القسم",
-    "SearchBySubDeptartmentId": "القسم الفرعي"
+  "CountCardVacation": {
+    "title": "إجمالي طلبات الإجازة",
+    "description": "إجمالي عدد طلبات الإجازة المقدمة من الموظفين."
   },
   "CountCardSummary": {
     "title": "إجمالي الموظفين",
@@ -79,90 +77,129 @@
   },
   "CountCard": {
     "title": "إجمالي الحضور",
-    "description": "إجمالي عدد سجلات الحضور المسجلة."
+    "description": "إجمالي عدد سجلات الحضور المسجلة في النظام."
   },
   "attendanceActions": {
     "addNew": {
-      "title": "إضافة سجل حضور جديد",
-      "description": "إنشاء سجل حضور جديد لموظف وجهاز محددين.",
+      "title": "إضافة حضور جديد",
+      "description": "إنشاء سجل حضور جديد لموظف وجهاز.",
       "button": "إضافة حضور"
     },
     "exportData": {
-      "title": "تصدير البيانات المفلترة",
-      "description": "تصدير البيانات المعروضة في الجدول حسب الفلاتر المحددة بالتنسيق المفضل لديك.",
+      "title": "تصدير البيانات المُفلترة",
+      "description": "تصدير البيانات المعروضة في الجدول وتحميلها بالتنسيق المفضل لديك.",
       "button": "تصدير"
     }
   },
   "form": {
     "deviceId": {
       "label": "الجهاز",
-      "placeholder": "أدخل الجهاز",
+      "placeholder": "أدخل اسم الجهاز",
+      "defaultValue": "اختر الجهاز",
       "inputValidation": {
         "required": "الجهاز مطلوب",
-        "typeError": "يجب أن يكون الجهاز رقماً صحيحًا",
-        "integer": "يجب أن يكون الجهاز عددًا صحيحًا",
-        "positive": "يجب أن يكون الجهاز رقمًا موجبًا",
+        "typeError": "يجب أن يكون معرف الجهاز رقماً صحيحاً",
+        "integer": "يجب أن يكون معرف الجهاز عدداً صحيحاً",
+        "positive": "يجب أن يكون معرف الجهاز عدداً موجباً",
         "min": "اختر الجهاز",
         "max": "اختر الجهاز"
       }
     },
     "employeeId": {
       "label": "الموظف",
-      "placeholder": "أدخل الموظف",
+      "placeholder": "أدخل اسم الموظف",
+      "defaultValue": "اختر الموظف",
       "inputValidation": {
         "required": "الموظف مطلوب",
-        "typeError": "يجب أن يكون الموظف رقماً صحيحًا",
-        "positive": "يجب أن يكون الموظف رقمًا موجبًا",
-        "integer": "يجب أن يكون الموظف عددًا صحيحًا",
+        "typeError": "يجب أن يكون معرف الموظف رقماً صحيحاً",
+        "positive": "يجب أن يكون معرف الموظف عدداً موجباً",
+        "integer": "يجب أن يكون معرف الموظف عدداً صحيحاً",
         "min": "اختر الموظف",
         "max": "اختر الموظف"
       }
     },
     "attendanceDate": {
       "label": "تاريخ الحضور",
-      "placeholder": "أدخل تاريخ الحضور باختصار",
+      "placeholder": "أدخل تاريخ الحضور",
       "inputValidation": {
         "required": "تاريخ الحضور مطلوب",
-        "matches": "تنسيق التاريخ غير صالح (YYYY-MM-DD)"
+        "matches": "صيغة التاريخ غير صحيحة (YYYY-MM-DD)"
       }
     },
     "attendanceTime": {
       "label": "وقت الحضور",
-      "placeholder": "أدخل وقت الحضور باختصار",
+      "placeholder": "أدخل وقت الحضور",
       "inputValidation": {
         "required": "وقت الحضور مطلوب",
-        "matches": "تنسيق الوقت غير صالح (HH:mm)"
+        "matches": "صيغة الوقت غير صحيحة (HH:mm)"
       }
     },
     "status": {
       "label": "الحالة",
       "placeholder": "أدخل الحالة",
+      "defaultValue": "اختر الحالة",
       "inputValidation": {
         "required": "الحالة مطلوبة",
-        "oneOf": "حالة غير صالحة"
+        "oneOf": "الحالة غير صالحة"
       }
     }
   },
-  "popup": {
-    "deleteAttendance": {
-      "title": "حذف الحضور",
-      "description": "هل أنت متأكد أنك تريد حذف هذا السجل؟ لا يمكن التراجع عن هذا الإجراء."
+  "viewPopup": {
+    "title": "عرض الحضور",
+    "description": "أنت الآن تقوم بعرض تفاصيل سجل الحضور، بما يشمل القسم والقسم الفرعي."
+  },
+  "addPopup": {
+    "title": "إضافة حضور جديد",
+    "description": "يرجى إدخال تفاصيل سجل الحضور الجديد لإضافته إلى النظام."
+  },
+  "deletePopup": {
+    "title": "حذف سجل الحضور",
+    "description": "هل أنت متأكد أنك تريد حذف سجل الحضور هذا؟ لا يمكن التراجع عن هذا الإجراء."
+  },
+  "editPopup": {
+    "title": "تعديل الحضور",
+    "description": "قم بتحديث معلومات الحضور حسب الحاجة واحفظ التغييرات."
+  },
+  "exportPopup": {
+    "title": "تصدير الحضور",
+    "description": "انقر أدناه لتصدير البيانات المعروضة حالياً بناءً على عوامل التصفية الخاصة بك. سيسمح ذلك بتنزيل السجلات بالتنسيق الذي تختاره."
+  },
+  "buttons": {
+    "close": "إغلاق",
+    "create": "إنشاء",
+    "edit": "تعديل",
+    "delete": "حذف",
+    "loading": "جارٍ التحميل...",
+    "download": "تنزيل",
+    "toolTipShow": "عرض الحضور",
+    "toolTipEdit": "قبول الحضور",
+    "toolTipDelete": "حذف الحضور",
+    "toolTipViewAttendances": "عرض سجلات الحضور"
+  },
+  "filters": {
+    "pageSize": "عدد العناصر في الصفحة",
+    "toolTipResetFilters": "إعادة تعيين الكل",
+    "startDate": "تاريخ البداية",
+    "endDate": "تاريخ النهاية",
+    "startTime": "وقت البداية",
+    "endTime": "وقت النهاية",
+    "status": "حالة الموظف",
+    "defaultStatusOption": "اختر حالة الموظف",
+    "defaultDepartmentpOption": "اختر القسم",
+    "defaultSubDepartmentpOption": "اختر القسم الفرعي",
+    "searchBy": {
+      "label": "البحث حسب",
+      "default": "اختر طريقة البحث",
+      "SearchByEmployeeName": "اسم الموظف",
+      "SearchByEmployeeSSN": "الرقم القومي للموظف",
+      "SearchByEmployeeId": "معرف الموظف",
+      "SearchByDeptartmentID": "القسم",
+      "SearchBySubDeptartmentId": "القسم الفرعي"
     },
-    "addAttendance": {
-      "title": "إضافة سجل حضور جديد",
-      "description": "يرجى إدخال تفاصيل السجل الجديد لإضافته إلى النظام."
-    },
-    "editAttendance": {
-      "title": "تعديل سجل الحضور",
-      "description": "قم بتحديث معلومات الحضور حسب الحاجة واحفظ التغييرات."
-    },
-    "viewAttendance": {
-      "title": "عرض سجل الحضور",
-      "description": "أنت الآن تشاهد تفاصيل هذا السجل، بما في ذلك القسم والكيان التابع له."
-    },
-    "exportAttendance": {
-      "title": "تصدير سجل الحضور",
-      "description": "انقر أدناه لتصدير البيانات المعروضة حاليًا في الجدول بناءً على الفلاتر التي قمت بتطبيقها، مما يتيح لك تحميل البيانات بالتنسيق الذي تفضله."
+    "search": {
+      "label": "بحث",
+      "placeholder": "أدخل القيمة التي تريد البحث عنها...."
     }
-  }
+  },
+  "NA": "غير متوفر"
 }

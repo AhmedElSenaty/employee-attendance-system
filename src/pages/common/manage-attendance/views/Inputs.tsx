@@ -9,26 +9,25 @@ import {
   InputSkeleton,
   LabelSkeleton
 } from "../../../../components/ui";
-import { TFunction } from "i18next";
-import { IAttendanceCredentials } from "../../../../interfaces";
+import { IAttendanceCredentials, IDevice } from "../../../../interfaces";
 import { Calendar, Timer } from "lucide-react";
-import { useGetDevicesList } from "../../../../hooks/device.hooks";
-import { useGetEmployeesList } from "../../../../hooks/employee.hooks";
-import { ATTENDANCE_TRANSLATION_NAMESPACE } from "..";
+import { useGetEmployeesList, useGetDevicesList } from "../../../../hooks/";
+import { useTranslation } from "react-i18next";
+import { ATTENDANCE_NS } from "../../../../constants";
 
-interface IRenderAttendanceInputsProps {
+interface IInputsProps {
   register: UseFormRegister<IAttendanceCredentials>;
   errors: FieldErrors<IAttendanceCredentials>;
-  t: TFunction;
   isLoading?: boolean;
 }
 
-const RenderAttendanceInputs = ({
+const Inputs = ({
   register,
   errors,
-  t,
   isLoading = false,
-}: IRenderAttendanceInputsProps) => {
+}: IInputsProps) => {
+  const { t } = useTranslation([ATTENDANCE_NS]);
+
   const { devicesList, devicesListIsLoading } = useGetDevicesList();
   const { employeesList, isEmployeesListLoading } = useGetEmployeesList();
 
@@ -49,14 +48,14 @@ const RenderAttendanceInputs = ({
     <>
       {/* Device ID */}
       <Field className="space-y-2">
-        <Label size="lg">{t("form.deviceId.label", { ns: ATTENDANCE_TRANSLATION_NAMESPACE })}</Label>
+        <Label size="lg">{t("form.deviceId.label")}</Label>
         {devicesListIsLoading ? (
           <SelectBoxSkeleton />
         ) : (
           <SelectBox isError={!!errors.deviceId} {...register("deviceId")}>
-            <option value="">Select device</option>
-            {devicesList?.map((device, idx) => (
-              <option key={idx} value={device.id}>
+            <option value="">{t("form.deviceId.defaultValue")}</option>
+            {devicesList?.map((device: IDevice) => (
+              <option key={device.id} value={device.id}>
                 {device.name}
               </option>
             ))}
@@ -64,19 +63,19 @@ const RenderAttendanceInputs = ({
         )}
         {errors.deviceId && (
           <InputErrorMessage>
-            {t(`form.deviceId.inputValidation.${errors.deviceId?.type}`, { ns: ATTENDANCE_TRANSLATION_NAMESPACE })}
+            {t(`form.deviceId.inputValidation.${errors.deviceId?.type}`)}
           </InputErrorMessage>
         )}
       </Field>
 
       {/* Employee ID */}
       <Field className="space-y-2">
-        <Label size="lg">{t("form.employeeId.label", { ns: ATTENDANCE_TRANSLATION_NAMESPACE })}</Label>
+        <Label size="lg">{t("form.employeeId.label")}</Label>
         {isEmployeesListLoading ? (
           <SelectBoxSkeleton />
         ) : (
           <SelectBox isError={!!errors.employeeId} {...register("employeeId")}>
-            <option value="">Select employee</option>
+            <option value="">{t("form.employeeId.defaultValue")}</option>
             {employeesList?.map((employee, idx) => (
               <option key={idx} value={employee.id}>
                 {employee.name}
@@ -86,7 +85,7 @@ const RenderAttendanceInputs = ({
         )}
         {errors.employeeId && (
           <InputErrorMessage>
-            {t(`form.employeeId.inputValidation.${errors.employeeId?.type}`, { ns: ATTENDANCE_TRANSLATION_NAMESPACE })}
+            {t(`form.employeeId.inputValidation.${errors.employeeId?.type}`)}
           </InputErrorMessage>
         )}
       </Field>
@@ -95,14 +94,14 @@ const RenderAttendanceInputs = ({
       <Field className="space-y-2">
         <Input
           type="date"
-          placeholder={t("form.attendanceDate.placeholder", { ns: ATTENDANCE_TRANSLATION_NAMESPACE })}
+          placeholder={t("form.attendanceDate.placeholder")}
           isError={!!errors.attendanceDate}
           icon={<Calendar />}
           {...register("attendanceDate")}
         />
         {errors.attendanceDate && (
           <InputErrorMessage>
-            {t(`form.attendanceDate.inputValidation.${errors.attendanceDate?.type}`, { ns: ATTENDANCE_TRANSLATION_NAMESPACE })}
+            {t(`form.attendanceDate.inputValidation.${errors.attendanceDate?.type}`)}
           </InputErrorMessage>
         )}
       </Field>
@@ -111,23 +110,23 @@ const RenderAttendanceInputs = ({
       <Field className="space-y-2">
         <Input
           type="time"
-          placeholder={t("form.attendanceTime.placeholder", { ns: ATTENDANCE_TRANSLATION_NAMESPACE })}
+          placeholder={t("form.attendanceTime.placeholder")}
           isError={!!errors.attendanceTime}
           icon={<Timer />}
           {...register("attendanceTime")}
         />
         {errors.attendanceTime && (
           <InputErrorMessage>
-            {t(`form.attendanceTime.inputValidation.${errors.attendanceTime?.type}`, { ns: ATTENDANCE_TRANSLATION_NAMESPACE })}
+            {t(`form.attendanceTime.inputValidation.${errors.attendanceTime?.type}`)}
           </InputErrorMessage>
         )}
       </Field>
 
       {/* Status */}
       <Field className="space-y-2">
-        <Label size="lg">{t("form.status.label", { ns: ATTENDANCE_TRANSLATION_NAMESPACE })}</Label>
+        <Label size="lg">{t("form.status.label")}</Label>
         <SelectBox isError={!!errors.status} {...register("status")}>
-          <option value="">Select Status</option>
+          <option value="">{t("form.status.defaultValue")}</option>
           {["حضور", "انصراف"].map((status, idx) => (
             <option key={idx} value={status}>
               {status}
@@ -136,7 +135,7 @@ const RenderAttendanceInputs = ({
         </SelectBox>
         {errors.status && (
           <InputErrorMessage>
-            {t(`form.status.inputValidation.${errors.status?.type}`, { ns: ATTENDANCE_TRANSLATION_NAMESPACE })}
+            {t(`form.status.inputValidation.${errors.status?.type}`)}
           </InputErrorMessage>
         )}
       </Field>
@@ -144,4 +143,4 @@ const RenderAttendanceInputs = ({
   );
 };
 
-export default RenderAttendanceInputs;
+export default Inputs;

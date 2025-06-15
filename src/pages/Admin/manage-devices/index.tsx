@@ -157,7 +157,6 @@ const ManageDevicesPage = () => {
           </div>
 
           {/* Pagination Component */}
-          {/* Pagination Component */}
           <Paginator
             page={metadata?.pagination?.pageIndex || 0}
             totalPages={metadata?.pagination?.totalPages || 1}

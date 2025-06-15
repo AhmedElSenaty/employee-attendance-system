@@ -17,6 +17,7 @@
   "attendance": "Attendance",
   "attendanceDetails": "Attendance Details",
   "attendanceSummary": "Attendance Summary",
+  "attendanceVacation": "Attendance With Vacation",
   "devices": "Devices",
   "manageDepartments": "Manage Departments",
   "departments": "Departments",
@@ -31,6 +32,6 @@
   "missionRequests": "Mission Requests",
   "ordinaryRequests": "Ordinary Requests",
   "casualLeaveRequests": "Casual Leave Requests",
-  "systemData": "System Date",
+  "systemData": "System Data",
   "logs": "Logs"
 }

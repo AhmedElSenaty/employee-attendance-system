@@ -1,15 +1,23 @@
 {
+  "headerVacation": {
+    "heading": "Vacation Overview",
+    "subtitle": "Track and manage employee vacation records, including approved and pending leave requests."
+  },
+  "sectionHeaderVacation": {
+    "title": "Employee Vacation Details",
+    "description": "A detailed overview of each employee’s vacation history, covering time-off requests, approvals, and remaining leave balances."
+  },
   "headerSummary": {
     "heading": "Attendance Summary",
     "subtitle": "View and understand attendance details for each employee in the system."
   },
-  "header": {
-    "heading": "Manage Attendance",
-    "subtitle": "Add, update, and monitor all attendance records in the system."
-  },
   "sectionHeaderSummary": {
     "title": "Employee Attendance Overview",
     "description": "A summary of attendance records for each employee, including check-ins, check-outs, and status updates."
+  },
+  "header": {
+    "heading": "Manage Attendance",
+    "subtitle": "Add, update, and monitor all attendance records in the system."
   },
   "sectionHeader": {
     "title": "Manage Attendance",
@@ -26,10 +34,16 @@
       "absenceDays": "Absent Days",
       "totalWorkingHours": "Total Working Hours",
       "actions": "Actions"
-    },
-    "emptyTable": {
-      "title": "No Attendance Records Found",
-      "message": "Try adjusting your filters or add a new attendance record."
+    }
+  },
+  "tableVacation": {
+    "columns": {
+      "employeeId": "#Employee ID",
+      "employeeName": "Employee Name",
+      "departmentName": "Department",
+      "checkIn": "Check-In",
+      "checkOut": "Check-out",
+      "notes": "Notes "
     }
   },
   "table": {
@@ -53,25 +67,9 @@
       "message": "Try adjusting your filters or add a new attendance record."
     }
   },
-  "searchBySummary": {
-    "label": "Search By",
-    "default": "Please Select an Option",
-    "SearchByEmployeeName": "Employee Name",
-    "SearchByEmployeeSSN": "Employee SSN",
-    "SearchByEmployeeId": "Employee ID",
-    "SearchByDeptartmentID": "Department",
-    "SearchBySubDeptartmentId": "Subdepartment",
-    "StartDate": "Start Date",
-    "EndDate": "End Date"
-  },
-  "searchBy": {
-    "label": "Search By",
-    "default": "Please Select an Option",
-    "SearchByEmployeeName": "Employee Name",
-    "SearchByEmployeeSSN": "Employee SSN",
-    "SearchByEmployeeId": "Employee ID",
-    "SearchByDeptartmentId": "Department",
-    "SearchBySubDeptartmentId": "Subdepartment"
+  "CountCardVacation": {
+    "title": "Total Vacation Requests",
+    "description": "Total number of vacation requests submitted by employees."
   },
   "CountCardSummary": {
     "title": "Total Employees",
@@ -96,7 +94,8 @@
   "form": {
     "deviceId": {
       "label": "Device",
-      "placeholder": "Enter Device ID",
+      "placeholder": "Enter Device",
+      "defaultValue": "Choose Device",
       "inputValidation": {
         "required": "Device is required",
         "typeError": "Device ID must be a valid number",
@@ -108,7 +107,8 @@
     },
     "employeeId": {
       "label": "Employee",
-      "placeholder": "Enter Employee ID",
+      "placeholder": "Enter Employee",
+      "defaultValue": "Choose Employee",
       "inputValidation": {
         "required": "Employee is required",
         "typeError": "Employee ID must be a valid number",
@@ -137,32 +137,69 @@
     "status": {
       "label": "Status",
       "placeholder": "Enter Status",
+      "defaultValue": "Choose Status",
       "inputValidation": {
         "required": "Status is required",
         "oneOf": "Invalid status"
       }
     }
   },
-  "popup": {
-    "deleteAttendance": {
-      "title": "Delete Attendance",
-      "description": "Are you sure you want to delete this attendance record? This action cannot be undone."
+  "viewPopup": {
+    "title": "View Attendance",
+    "description": "You are now viewing the details of this attendance record, including its department and subdepartment."
+  },
+  "addPopup": {
+    "title": "Add New Attendance",
+    "description": "Please enter the details of the new attendance record to add it to the system."
+  },
+  "deletePopup": {
+    "title": "Delete Attendance",
+    "description": "Are you sure you want to delete this attendance record? This action cannot be undone."
+  },
+  "editPopup": {
+    "title": "Edit Attendance",
+    "description": "Update the attendance information as needed and save the changes."
+  },
+  "exportPopup": {
+    "title": "Export Attendance",
+    "description": "Click below to export the currently displayed data based on your filters. This allows downloading relevant records in your chosen format."
+  },
+  "buttons": {
+    "close": "Close",
+    "create": "Create",
+    "edit": "Edit",
+    "delete": "Delete",
+    "loading": "Loading...",
+    "download": "download",
+    "toolTipShow": "Show Attendance",
+    "toolTipEdit": "Accept Attendance",
+    "toolTipDelete": "Delete Attendance",
+    "toolTipViewAttendances": "View Attendances"
+  },
+  "filters": {
+    "pageSize": "Page Size",
+    "toolTipResetFilters": "Reset All",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "startTime": "Start Time",
+    "endTime": "End Time",
+    "status": "Employee Status",
+    "defaultStatusOption": "Select Employee status",
+    "defaultDepartmentpOption": "Select Department",
+    "defaultSubDepartmentpOption": "Select Sub-Department",
+    "searchBy": {
+      "label": "Search By",
+      "default": "Choose your search method",
+      "SearchByEmployeeName": "Employee Name",
+      "SearchByEmployeeSSN": "Employee SSN",
+      "SearchByEmployeeId": "Employee ID",
+      "SearchByDeptartmentID": "Department",
+      "SearchBySubDeptartmentId": "Sub-Department"
     },
-    "addAttendance": {
-      "title": "Add New Attendance",
-      "description": "Please enter the details of the new attendance record to add it to the system."
-    },
-    "editAttendance": {
-      "title": "Edit Attendance",
-      "description": "Update the attendance information as needed and save the changes."
-    },
-    "viewAttendance": {
-      "title": "View Attendance",
-      "description": "You are now viewing the details of this attendance record, including its department and subdepartment."
-    },
-    "exportAttendance": {
-      "title": "Export Attendance",
-      "description": "Click below to export the currently displayed data based on your filters. This allows downloading relevant records in your chosen format."
+    "search": {
+      "label": "Search",
+      "placeholder": "Enter the value you want to search for...."
     }
-  }
+  },
+  "NA": "N/A"
 }

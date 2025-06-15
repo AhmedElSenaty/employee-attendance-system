@@ -2,23 +2,22 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { CalendarSearch, CirclePlus, FileDown } from "lucide-react";
 import { downloadFile, formatValue, showToast } from "../../../utils";
-import { useDebounce } from "../../../hooks/debounce.hook";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useFiltersHook } from "../../../hooks/filter.hook";
 import { IAttendanceCredentials } from "../../../interfaces";
 import { AttendanceSchema } from "../../../validation";
-import { AddAttendancePopup, AttendancesTable, AttendanceTableFilters, DeleteAttendancePopup, EditAttendancePopup, ExportAttendancePopup, RenderAttendanceInputs, ShowAttendancePopup } from "./views";
-import { ATTENDANCE_TRANSLATION_NAMESPACE } from ".";
 import { HasPermission } from "../../../components/auth";
-import { useLanguageStore } from "../../../store/language.store";
+import { useLanguageStore } from "../../../store/";
 import { ActionCard, Button, CountCard, Header, Paginator, SectionHeader } from "../../../components/ui";
-import { useCreateAttendance, useDeleteAttendance, useGetAttendanceDetails, useGetAttendances, useUpdateAttendance } from "../../../hooks/attendance.hooks";
-import { useExportEmployeesAttendanceReport } from "../../../hooks/report.hooks";
+import { useCreateAttendance, useDeleteAttendance, useGetAttendanceDetails, useGetAttendances, useUpdateAttendance, useExportEmployeesAttendanceReport, useDebounce } from "../../../hooks/";
+import { ATTENDANCE_NS } from "../../../constants";
+import { AddPopup, AttendanceTable, AttendanceTableFilters, DeletePopup, EditPopup, ExportPopup, Inputs, ShowPopup } from "./views";
+import useURLSearchParams from "../../../hooks/URLSearchParams.hook";
 
 const ManageAttendancePage = () => {
-  const { t } = useTranslation(["common", ATTENDANCE_TRANSLATION_NAMESPACE]);
+  const { t } = useTranslation([ATTENDANCE_NS]);
   const { language } = useLanguageStore();
+  const {getParam, setParam, clearParams} = useURLSearchParams();
 
   const { register, handleSubmit, formState: { errors }, reset} = useForm<IAttendanceCredentials>({
     resolver: yupResolver(AttendanceSchema),
@@ -57,31 +56,48 @@ const ManageAttendancePage = () => {
     setIsDeletePopupOpen(true) 
   }
 
-  const {
-    page, pageSize, searchKey, search, 
-    startDate, endDate, startTime, endTime, 
-    status, searchByDepartmentId,
-    searchBySubDeptartmentId, setFilters
-  } = useFiltersHook()
 
-  const debouncedSearchQuery = useDebounce(search, 650);
+  // Using the enhanced getParam with parser support from the improved hook
+  const rawPage = getParam('page', Number);
+  const rawPageSize = getParam('pageSize', Number);
+  const rawStartDate = getParam('startDate');
+  const rawEndDate = getParam('endDate');
+  const rawStartTime = getParam('startTime');
+  const rawEndTime = getParam('endTime');
+  const rawSearchKey = getParam('searchKey');
+  const rawSearchQuery = useDebounce(getParam('searchQuery'), 650);
+  const rawStatus = getParam('status');
+  const rawDepartmentId = getParam('searchByDepartmentId', Number);
+  const rawSubDeptartmentId = getParam('searchBySubDeptartmentId', Number);
+
+  // Use nullish coalescing to default numeric values, undefined for dates if empty
+  const page = rawPage ?? 1;
+  const pageSize = rawPageSize ?? 10;
+  const startDate = rawStartDate || undefined;
+  const endDate = rawEndDate || undefined;
+  const startTime = rawStartTime || undefined;
+  const endTime = rawEndTime || undefined;
+  const searchKey = rawSearchKey || undefined;
+  const status = rawStatus || undefined;
+  const searchQuery = useDebounce(rawSearchQuery, 650) || undefined;
+  const departmentId = rawDepartmentId || "";
+  const subDeptartmentId = rawSubDeptartmentId || "";
 
   const { attendancesData, totalAttendances, metadata, isAttendancesDataLoading } = useGetAttendances(
-    Number(page) || 1, Number(pageSize) || 5, searchKey || "", debouncedSearchQuery || "",
-    startDate || "", endDate || "", startTime || "", endTime || "", status || "", Number(searchByDepartmentId || ''),
-    Number(searchBySubDeptartmentId || "")
+    page, pageSize, searchKey, searchQuery, startDate, endDate, startTime, endTime, status ,departmentId || 0, subDeptartmentId || 0
+
   );
 
 
   // Use the custom hook to fetch data
   const { refetchExportData, isExportDataLoading } = useExportEmployeesAttendanceReport(
-    searchKey || "", debouncedSearchQuery || "", startDate || "", endDate || "", startTime || "", endTime || "", status || "", Number(searchByDepartmentId || ''),
-    Number(searchBySubDeptartmentId || ""));
+    searchKey || "", searchQuery || "", startDate || "", endDate || "", startTime || "", endTime || "", status || "" ,departmentId || 0, subDeptartmentId || 0
+  );
 
 
   const { detailedAttendance, isDetailedAttendanceLoading } = useGetAttendanceDetails(selectedID, reset);
 
-  const renderAttendanceInputs = <RenderAttendanceInputs register={register} errors={errors} t={t} />
+  const renderAttendanceInputs = <Inputs register={register} errors={errors} />
   
 
   const { mutate: addAttendance, isPending: isAdding } = useCreateAttendance();
@@ -119,11 +135,11 @@ const ManageAttendancePage = () => {
   return (
     <>
       <div className="sm:p-5 p-3 space-y-5">
-        <Header heading={t("header.heading", { ns: ATTENDANCE_TRANSLATION_NAMESPACE })} subtitle={t("header.subtitle", { ns: ATTENDANCE_TRANSLATION_NAMESPACE })} />
+        <Header heading={t("header.heading")} subtitle={t("header.subtitle")} />
         <div className="space-y-5 mx-auto w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl">
           <CountCard 
-            title={t("CountCard.title", { ns: ATTENDANCE_TRANSLATION_NAMESPACE })}
-            description={t("CountCard.description", { ns: ATTENDANCE_TRANSLATION_NAMESPACE })}
+            title={t("CountCard.title")}
+            description={t("CountCard.description")}
             count={formatValue(totalAttendances, language)}
             icon={<CalendarSearch size={28} />} 
             bgColor="bg-[#b38e19]" 
@@ -136,11 +152,11 @@ const ManageAttendancePage = () => {
               icon={<CirclePlus />}
               iconBgColor="bg-[#f5e4b2]"
               iconColor="text-[#b38e19]"
-              title={t("attendanceActions.addNew.title", { ns: ATTENDANCE_TRANSLATION_NAMESPACE })}
-              description={t("attendanceActions.addNew.description", { ns: ATTENDANCE_TRANSLATION_NAMESPACE })}
+              title={t("attendanceActions.addNew.title")}
+              description={t("attendanceActions.addNew.description")}
             >
               <Button fullWidth={true} variant="secondary" onClick={handleAddPopupOpen}>
-                {t("attendanceActions.addNew.button", { ns: ATTENDANCE_TRANSLATION_NAMESPACE })}
+                {t("attendanceActions.addNew.button")}
               </Button>
             </ActionCard>
           </HasPermission>
@@ -149,13 +165,13 @@ const ManageAttendancePage = () => {
               icon={<FileDown />}
               iconBgColor="bg-[#a7f3d0]"
               iconColor="text-[#10b981]"
-              title={t("attendanceActions.exportData.title", { ns: ATTENDANCE_TRANSLATION_NAMESPACE })}
-              description={t("attendanceActions.exportData.description", { ns: ATTENDANCE_TRANSLATION_NAMESPACE })}
+              title={t("attendanceActions.exportData.title")}
+              description={t("attendanceActions.exportData.description")}
             >
               <Button fullWidth={true} variant="success" isLoading={isExportDataLoading} onClick={() => {
                 setIsDownloadReportPopupOpen(true)
               }}>
-                {t("attendanceActions.exportData.button", { ns: ATTENDANCE_TRANSLATION_NAMESPACE })}
+                {t("attendanceActions.exportData.button")}
               </Button>
             </ActionCard>
           </HasPermission>
@@ -164,21 +180,20 @@ const ManageAttendancePage = () => {
 
         <div className="bg-white shadow-md space-y-5 p-5 rounded-lg">
           <SectionHeader 
-            title={t("sectionHeader.title", { ns: ATTENDANCE_TRANSLATION_NAMESPACE })} 
-            description={t("sectionHeader.description", { ns: ATTENDANCE_TRANSLATION_NAMESPACE })} 
+            title={t("sectionHeader.title")} 
+            description={t("sectionHeader.description")} 
           />
 
           <div className="flex flex-col gap-5">
-            <AttendanceTableFilters searchBy={metadata.searchBy} t={t} />
+            <AttendanceTableFilters searchBy={metadata.searchBy} getParam={getParam} setParam={setParam} clearParams={clearParams} />
           </div>
           <div className="w-full overflow-x-auto">
-            <AttendancesTable 
+            <AttendanceTable 
               attendances={attendancesData} 
               isLoading={isAttendancesDataLoading} 
-              handleShowAttendance={handleShowPopupOpen} 
-              handleEditAttendance={handleEditPopupOpen}
-              handleDeleteAttendance={handleDeletePopupOpen}
-              t={t}
+              handleShow={handleShowPopupOpen} 
+              handleEdit={handleEditPopupOpen}
+              handleDelete={handleDeletePopupOpen}
             />
           </div>
 
@@ -188,40 +203,37 @@ const ManageAttendancePage = () => {
             totalPages={metadata?.pagination?.totalPages || 1}
             totalRecords={metadata?.pagination?.totalRecords || 0}
             isLoading={isAttendancesDataLoading}
-            onClickFirst={() => setFilters({ page: 1 })}
-            onClickPrev={() => setFilters({ page: Math.max((page || 1) - 1, 1) })}
-            onClickNext={() => setFilters({ page: Math.min((page || 1) + 1, metadata?.pagination?.totalPages || 1) })}
+            onClickFirst={() => setParam("page", String(1))}
+            onClickPrev={() => setParam("page", String(Math.max((Number(getParam('page')) || 1) - 1, 1)))}
+            onClickNext={() => setParam("page", String(Math.min((Number(getParam('page')) || 1) + 1, metadata?.pagination?.totalPages || 1)))}
           />
         </div>
       </div>
 
-      <AddAttendancePopup
+      <AddPopup
         isOpen={isAddPopupOpen}
         formInputs={renderAttendanceInputs}
         handleSubmit={handleSubmit(handleConfirmAdd)}
         handleClose={() => setIsAddPopupOpen(false)}
         isLoading={isAdding}
-        t={t}
       />
 
-      <EditAttendancePopup
+      <EditPopup
         isOpen={isEditPopupOpen} 
         handleClose={handleEditPopupClose} 
         isLoading={isUpdating}
         handleSubmit={handleSubmit(handleConfirmUpdate)} 
         formInputs={renderAttendanceInputs}
-        t={t}
       />
 
-      <DeleteAttendancePopup
+      <DeletePopup
         isOpen={isDeletePopupOpen}
         handleClose={() => { setIsDeletePopupOpen(false) }}
         handleConfirmDelete={handleConfirmDelete}
         isLoading={isDeleting}
-        t={t}
       />;
 
-      <ShowAttendancePopup
+      <ShowPopup
         isOpen={isShowPopupOpen}
         handleClose={() => setIsShowPopupOpen(false)} 
         handleDeletePopupOpen={() => {
@@ -233,10 +245,9 @@ const ManageAttendancePage = () => {
         }}
         attendance={detailedAttendance}
         isLoading={isDetailedAttendanceLoading}
-        t={t}
       />
 
-      <ExportAttendancePopup
+      <ExportPopup
         isOpen={isDownloadReportPopupOpen}
         handleClose={() => setIsDownloadReportPopupOpen(false)} 
         handleDownload={() => {
@@ -244,17 +255,16 @@ const ManageAttendancePage = () => {
         }}
         filteredData={{
           searchKey: searchKey || "",
-          search: search || "",
+          search: searchQuery || "",
           startDate: startDate || "",
           endDate: endDate || "",
           startTime: startTime || "",
           endTime: endTime || "",
           status: status || "",
-          searchByDepartmentId: Number(searchByDepartmentId || 0),
-          searchBySubDeptartmentId: Number(searchBySubDeptartmentId || 0),
+          searchByDepartmentId: Number(departmentId || 0),
+          searchBySubDeptartmentId: Number(subDeptartmentId || 0),
         }}
         isLoading={isExportDataLoading}
-        t={t}
       />
     </>
   )
