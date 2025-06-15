@@ -5,13 +5,13 @@ import { ProtectedRoute } from "../components/auth";
 import { AddEmployeePage, EditEmployeePage, ManageEmployeesPage } from "../pages/common/manage-employees";
 import { AddManagerPage, EditManagerPage, ManageManagersPage } from "../pages/common/manage-managers";
 import { ManageSubDepartmentsPage } from "../pages/common/manage-sub-departments";
-import { CalendarPage } from "../pages/common/Calender";
 import { AttendanceOverviewPage, ManageAttendancePage } from "../pages/common/manage-attendance";
 import ManagerAccountPage from "../pages/Manager/Account";
 import { LeaveRequestsPage } from "../pages/Manager/leave-requests";
 import { MissionRequestsPage } from "../pages/Manager/mission-requests";
 import { OrdinaryRequestsPage } from "../pages/Manager/ordinary-requests";
 import { CasualLeaveRequestsPage } from "../pages/Manager/casual-leave-requests";
+import { CalendarPage } from "../pages/Manager";
 
 export const managerRoutes = (isLoggedIn: boolean, userRole: string) => (
   <Route 

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import {
@@ -15,15 +15,17 @@ import {
 import { useLanguageStore } from "../store/language.store";
 import { useUserStore } from "../store/user.store";
 import { AttendanceService } from "../services";
+import { QueryKeys } from "../constants";
 
-// Query keys
-export const ATTENDANCE_QUERY_KEY = "attendances";
-export const ATTENDANCE_DETAILS_QUERY_KEY = "attendanceDetails";
-export const ATTENDANCE_CALENDAR_QUERY_KEY = "attendanceCalendar";
-export const ATTENDANCE_SUMMARY_QUERY_KEY = "attendanceSummary";
-export const ATTENDANCE_OVERVIEW_QUERY_KEY = "attendanceOverview";
-export const LATEST_ATTENDANCE_QUERY_KEY = "latestAttendance";
-export const DEPARTMENT_ATTENDANCE_QUERY_KEY = "departmentAttendanceOverview";
+export const useAttendanceService = () => {
+  const token = useUserStore((state) => state.token);
+
+  const service = useMemo(() => {
+    return new AttendanceService(token);
+  }, [token]);
+
+  return service;
+};
 
 // Get all attendance records
 export const useGetAttendances = (
@@ -40,11 +42,11 @@ export const useGetAttendances = (
   subDepartmentId: number
 ) => {
   const token = useUserStore((state) => state.token);
-  const service = new AttendanceService(token);
+  const service = useAttendanceService();
 
   const { data, isLoading } = useQuery({
     queryKey: [
-      ATTENDANCE_QUERY_KEY,
+      QueryKeys.Attendance.All,
       page,
       pageSize,
       searchKey,
@@ -92,11 +94,11 @@ export const useGetAttendanceSummary = (
   endDate: string
 ) => {
   const token = useUserStore((state) => state.token);
-  const service = new AttendanceService(token);
+  const service = useAttendanceService();
 
   const { data, isLoading } = useQuery({
     queryKey: [
-      ATTENDANCE_SUMMARY_QUERY_KEY,
+      QueryKeys.Attendance.Summary,
       page,
       pageSize,
       searchKey,
@@ -131,10 +133,10 @@ export const useGetAttendanceCalendar = (
   endDate: string
 ) => {
   const token = useUserStore((state) => state.token);
-  const service = new AttendanceService(token);
+  const service = useAttendanceService();
 
   const { data, isLoading } = useQuery({
-    queryKey: [ATTENDANCE_CALENDAR_QUERY_KEY, employeeID, startDate, endDate],
+    queryKey: [QueryKeys.Attendance.Calendar, employeeID, startDate, endDate],
     queryFn: () => service.fetchCalendar(employeeID, startDate, endDate),
     enabled: !!token && !!employeeID,
   });
@@ -151,10 +153,10 @@ export const useGetAttendanceDetails = (
   resetInputs?: (data: IAttendanceCredentials) => void
 ) => {
   const token = useUserStore((state) => state.token);
-  const service = new AttendanceService(token);
+  const service = useAttendanceService();
 
   const { data, isLoading } = useQuery({
-    queryKey: [ATTENDANCE_DETAILS_QUERY_KEY, attendanceID],
+    queryKey: [QueryKeys.Attendance.Details, attendanceID],
     queryFn: () => service.fetchByID(attendanceID),
     enabled: !!attendanceID && !!token,
   });
@@ -174,10 +176,10 @@ export const useGetAttendanceDetails = (
 // Get attendance dashboard overview
 export const useGetAttendanceOverview = () => {
   const token = useUserStore((state) => state.token);
-  const service = new AttendanceService(token);
+  const service = useAttendanceService();
 
   const { data, isLoading } = useQuery({
-    queryKey: [ATTENDANCE_OVERVIEW_QUERY_KEY],
+    queryKey: [QueryKeys.Attendance.Overview],
     queryFn: () => service.fetchOverview(),
     enabled: !!token,
   });
@@ -192,10 +194,10 @@ export const useGetAttendanceOverview = () => {
 // Get latest attendance
 export const useGetLatestAttendance = () => {
   const token = useUserStore((state) => state.token);
-  const service = new AttendanceService(token);
+  const service = useAttendanceService();
 
   const { data, isLoading } = useQuery({
-    queryKey: [LATEST_ATTENDANCE_QUERY_KEY],
+    queryKey: [QueryKeys.Attendance.Latest],
     queryFn: () => service.fetchLatest(),
     enabled: !!token,
   });
@@ -213,10 +215,10 @@ export const useGetDepartmentAttendanceOverview = (
   departmentID: number
 ) => {
   const token = useUserStore((state) => state.token);
-  const service = new AttendanceService(token);
+  const service = useAttendanceService();
 
   const { data, isLoading } = useQuery({
-    queryKey: [DEPARTMENT_ATTENDANCE_QUERY_KEY, startDate, endDate, departmentID],
+    queryKey: [QueryKeys.Attendance.DepartmentOverview, startDate, endDate, departmentID],
     queryFn: () =>
       service.fetchDepartmentOverview(startDate, endDate, departmentID),
     enabled: !!token,
@@ -230,10 +232,9 @@ export const useGetDepartmentAttendanceOverview = (
 
 // Create Attendance
 export const useCreateAttendance = () => {
-  const token = useUserStore((state) => state.token);
   const { language } = useLanguageStore();
   const queryClient = useQueryClient();
-  const attendanceService = new AttendanceService(token);
+  const attendanceService = useAttendanceService();
 
   return useMutation({
     mutationFn: (attendanceData: IAttendanceCredentials) => {
@@ -244,7 +245,7 @@ export const useCreateAttendance = () => {
       return attendanceService.create(formatted);
     },
     onSuccess: ({ status, data }) => {
-      queryClient.invalidateQueries({ queryKey: [ATTENDANCE_QUERY_KEY] });
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.Attendance.All] });
       if (status === 201) {
         showToast("success", getTranslatedMessage(data.message ?? "", language));
       }
@@ -257,10 +258,9 @@ export const useCreateAttendance = () => {
 
 // Update Attendance
 export const useUpdateAttendance = () => {
-  const token = useUserStore((state) => state.token);
   const { language } = useLanguageStore();
   const queryClient = useQueryClient();
-  const attendanceService = new AttendanceService(token);
+  const attendanceService = useAttendanceService();
 
   return useMutation({
     mutationFn: (attendanceData: IAttendanceCredentials) => {
@@ -271,9 +271,9 @@ export const useUpdateAttendance = () => {
       return attendanceService.update(formatted);
     },
     onSuccess: ({ status, data }, variables) => {
-      queryClient.invalidateQueries({ queryKey: [ATTENDANCE_QUERY_KEY] });
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.Attendance.All] });
       queryClient.invalidateQueries({
-        queryKey: [ATTENDANCE_DETAILS_QUERY_KEY, variables.id],
+        queryKey: [QueryKeys.Attendance.Details, variables.id],
       });
       if (status === 200) {
         showToast("success", getTranslatedMessage(data.message ?? "", language));
@@ -287,15 +287,14 @@ export const useUpdateAttendance = () => {
 
 // Delete Attendance
 export const useDeleteAttendance = () => {
-  const token = useUserStore((state) => state.token);
   const { language } = useLanguageStore();
   const queryClient = useQueryClient();
-  const attendanceService = new AttendanceService(token);
+  const attendanceService = useAttendanceService();
 
   return useMutation({
     mutationFn: (attendanceID: number) => attendanceService.delete(attendanceID),
     onSuccess: ({ status, data }) => {
-      queryClient.invalidateQueries({ queryKey: [ATTENDANCE_QUERY_KEY] });
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.Attendance.All] });
       if (status === 200) {
         showToast("success", getTranslatedMessage(data.message ?? "", language));
       }

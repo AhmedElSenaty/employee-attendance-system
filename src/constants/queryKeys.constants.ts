@@ -16,6 +16,15 @@ export const QueryKeys = {
   },
   SystemData: {
     All :"systemData",
-  }
+  },
+  Attendance: {
+    All: "attendances",
+    Details: "attendanceDetails",
+    Calendar: "attendanceCalendar",
+    Summary: "attendanceSummary",
+    Overview: "attendanceOverview",
+    Latest: "latestAttendance",
+    DepartmentOverview: "departmentAttendanceOverview",
+  },
   // Add more domains/modules here
 };

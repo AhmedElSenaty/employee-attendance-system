@@ -8,6 +8,13 @@
     "friday": "Fri",
     "saturday": "Sat"
   },
+  "infoPopup": {
+    "title": "How to Use the Calendar Page",
+    "description": "Watch this video tutorial to learn how to view, navigate, and interpret attendance data on the calendar.",
+    "closeButton": "Close"
+  },
   "checkIn": "Check-in",
-  "checkOut": "Check-out"
+  "checkOut": "Check-out",
+  "toolTipPrev": "Previous Month",
+  "toolTipNext": "Next Month"
 }

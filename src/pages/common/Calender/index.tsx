@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   format,
   startOfMonth,
@@ -9,67 +9,90 @@ import {
 } from "date-fns";
 import { arEG, enUS } from "date-fns/locale";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useFiltersHook } from "../../../hooks/filter.hook";
 import { IAttendanceEntry } from "../../../interfaces";
-import { Button } from "../../../components/ui/Button";
-import { Header } from "../../../components/ui/Header";
-import { DayCard, DayCardSkeleton } from "../../../components/ui/Calendar";
+import { DayCard, DayCardSkeleton, Button, Header, Tooltip, InfoPopup } from "../../../components/ui";
 import { useTranslation } from "react-i18next";
-import { CALENDER_TRANSLATION_NAMESPACE, DAYS_LABELS } from ".";
-import { useLanguageStore } from "../../../store/language.store";
-import { useUserStore } from "../../../store/user.store";
-import { useGetAttendanceCalendar } from "../../../hooks/attendance.hooks";
+import { useUserStore, useLanguageStore } from "../../../store";
+import { CALENDER_NS, CALENDER_VIDEO } from "../../../constants";
+import { useGetAttendanceCalendar } from "../../../hooks";
 
 const CalendarPage = () => {
   const id = useUserStore((state) => state.id);
-
-  const { t } = useTranslation(["common", CALENDER_TRANSLATION_NAMESPACE]);
+  const { t } = useTranslation(CALENDER_NS);
   const { language } = useLanguageStore();
-  
   const [currentDate, setCurrentDate] = useState(new Date());
-  const { startDate, endDate, setFilters } = useFiltersHook()
+  const [startDate, setStartDate] = useState<Date>(startOfMonth(new Date()));
+  const [endDate, setEndDate] = useState<Date>(endOfMonth(new Date()));
+  
   
   const days = eachDayOfInterval({
     start: startOfMonth(currentDate),
     end: endOfMonth(currentDate),
   });
   
-  useEffect(() => {
-    const start = startOfMonth(currentDate);
-    const end = endOfMonth(currentDate);
-    setFilters({ startDate: format(start, 'yyyy-MM-dd'), endDate: format(end, 'yyyy-MM-dd') })
-  }, [currentDate, setFilters])
-  
-  const { calenderDays, isAttendanceCalenderLoading } = useGetAttendanceCalendar(id || "", startDate || format(startOfMonth(currentDate), 'yyyy-MM-dd'), endDate || format(endOfMonth(currentDate), 'yyyy-MM-dd'))
 
-  const daysLabels = useMemo(
-    () => DAYS_LABELS.map(key => t(key, { ns: CALENDER_TRANSLATION_NAMESPACE })),
-    [t]
+  useEffect(() => {
+    setStartDate(startOfMonth(currentDate));
+    setEndDate(endOfMonth(currentDate));
+  }, [currentDate]);
+  
+  const { calenderDays, isAttendanceCalenderLoading } = useGetAttendanceCalendar(
+    id || "",
+    format(startDate, 'yyyy-MM-dd'),
+    format(endDate, 'yyyy-MM-dd')
   );
+
+  const DAYS_LABELS = [
+    "days.sunday",
+    "days.monday",
+    "days.tuesday",
+    "days.wednesday",
+    "days.thursday",
+    "days.friday",
+    "days.saturday",
+  ]
+
+  const daysLabels = DAYS_LABELS.map(key => t(key))
   
   const locale = language === "ar" ? arEG : enUS;
   
   const handlePrevMonth = () => setCurrentDate(subMonths(currentDate, 1));
   const handleNextMonth = () => setCurrentDate(addMonths(currentDate, 1));
 
+  const isInCurrentMonth = new Date().getFullYear() === currentDate.getFullYear()
+  && new Date().getMonth() === currentDate.getMonth();
+
   return (
     <>
       <div className="w-full px-2 py-10 md:py-20 max-w-7xl mx-auto">
         <div className="flex ltr:flex-row rtl:flex-row-reverse justify-evenly items-center gap-4 mb-6 ">
-          <Button
-            fullWidth={false}
-            size={"md"}
-            shape="rounded"
-            icon={<ChevronLeft className="w-full h-full" />}
-            onClick={handlePrevMonth}
-          />
+          <Tooltip content={t("toolTipPrev")}>
+            <Button
+              fullWidth={false}
+              size={"md"}
+              shape="rounded"
+              icon={<ChevronLeft className="w-full h-full" />}
+              onClick={handlePrevMonth}
+            />
+          </Tooltip>
           <Header heading={format(currentDate, "MMMM yyyy", { locale })} />
-          <Button
-            fullWidth={false}
-            size={"md"}
-            shape="rounded"
-            icon={<ChevronRight className="w-full h-full" />}
-            onClick={handleNextMonth}
+          <Tooltip content={t("toolTipNext")}>
+            <Button
+              fullWidth={false}
+              size={"md"}
+              shape="rounded"
+              icon={<ChevronRight className="w-full h-full" />}
+              onClick={handleNextMonth}
+              disabled={isInCurrentMonth}
+            />
+          </Tooltip>
+        </div>
+
+        <div className="w-full flex items-center justify-center">
+          <InfoPopup
+            title={t("infoPopup.title")}
+            description={t("infoPopup.description")}
+            videoUrl={CALENDER_VIDEO}
           />
         </div>
 
@@ -87,7 +110,6 @@ const CalendarPage = () => {
                   dayType: "absent",
                 };
 
-                // 👇 Get weekday name
                 const weekdayLabel = daysLabels[day.getDay()];
 
                 return (
