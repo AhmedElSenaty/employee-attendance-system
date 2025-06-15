@@ -23,7 +23,7 @@
     "searchBy": {
       "default": "اختر طريقة البحث",
       "UserId": "معرف المستخدم",
-      "IPAddress": "عنوان الـ IP"
+      "IPAddress": "عنوان الآي بي"
     },
     "search": {
       "label": "بحث",
@@ -43,6 +43,6 @@
   "logType": "نوع السجل",
   "timestamp": "الوقت",
   "message": "الرسالة",
-  "ipAddress": "عنوان الـ IP",
+  "ipAddress": "عنوان الآي بي",
   "click": "انقر لعرض المزيد"
 }
