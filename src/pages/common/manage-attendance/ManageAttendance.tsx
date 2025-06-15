@@ -8,9 +8,9 @@ import { IAttendanceCredentials } from "../../../interfaces";
 import { AttendanceSchema } from "../../../validation";
 import { HasPermission } from "../../../components/auth";
 import { useLanguageStore } from "../../../store/";
-import { ActionCard, Button, CountCard, Header, Paginator, SectionHeader } from "../../../components/ui";
+import { ActionCard, Button, CountCard, Header, InfoPopup, Paginator, SectionHeader } from "../../../components/ui";
 import { useCreateAttendance, useDeleteAttendance, useGetAttendanceDetails, useGetAttendances, useUpdateAttendance, useExportEmployeesAttendanceReport, useDebounce } from "../../../hooks/";
-import { ATTENDANCE_NS } from "../../../constants";
+import { ATTENDANCE_NS, ATTENDANCE_VIDEO } from "../../../constants";
 import { AddPopup, AttendanceTable, AttendanceTableFilters, DeletePopup, EditPopup, ExportPopup, Inputs, ShowPopup } from "./views";
 import useURLSearchParams from "../../../hooks/URLSearchParams.hook";
 
@@ -137,6 +137,13 @@ const ManageAttendancePage = () => {
       <div className="sm:p-5 p-3 space-y-5">
         <Header heading={t("header.heading")} subtitle={t("header.subtitle")} />
         <div className="space-y-5 mx-auto w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl">
+          <div className="w-full flex items-center justify-center">
+            <InfoPopup
+              title={t("infoPopupAttendance.title")}
+              description={t("infoPopupAttendance.description")}
+              videoUrl={ATTENDANCE_VIDEO}
+            />
+          </div>
           <CountCard 
             title={t("CountCard.title")}
             description={t("CountCard.description")}

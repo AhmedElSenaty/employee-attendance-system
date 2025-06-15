@@ -201,5 +201,20 @@
       "placeholder": "Enter the value you want to search for...."
     }
   },
-  "NA": "N/A"
+  "NA": "N/A",
+  "infoPopupAttendance": {
+    "title": "How to Use the Attendance Page",
+    "description": "Watch this video tutorial to learn how to view, add, edit, and manage attendance records in the system.",
+    "closeButton": "Close"
+  },
+  "infoPopupSummary": {
+    "title": "How to Use the Attendance Overview Page",
+    "description": "Watch this video tutorial to understand employee attendance summaries, including check-ins, check-outs, and attendance status.",
+    "closeButton": "Close"
+  },
+  "infoPopupVacation": {
+    "title": "How to Use the Attendance with Vacations Page",
+    "description": "Watch this video tutorial to learn how to track and manage employee vacation records, including approved and pending leave requests.",
+    "closeButton": "Close"
+  }
 }

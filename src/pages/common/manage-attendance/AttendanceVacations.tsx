@@ -3,9 +3,9 @@ import { CalendarSearch } from "lucide-react";
 import { formatValue } from "../../../utils";
 import { useDebounce } from "../../../hooks/debounce.hook";
 import { useLanguageStore } from "../../../store/";
-import { CountCard, Header, Paginator, SectionHeader } from "../../../components/ui";
+import { CountCard, Header, InfoPopup, Paginator, SectionHeader } from "../../../components/ui";
 import { useGetAttendanceWithVacations } from "../../../hooks/";
-import { ATTENDANCE_NS } from "../../../constants";
+import { ATTENDANCE_NS, ATTENDANCE_VACATION_VIDEO } from "../../../constants";
 import useURLSearchParams from "../../../hooks/URLSearchParams.hook";
 import { VacationTable, VacationTableFilters } from "./views";
 
@@ -39,6 +39,13 @@ const AttendanceVacationsPage = () => {
       <div className="sm:p-5 p-3 space-y-5">
         <Header heading={t("headerVacation.heading")} subtitle={t("headerVacation.subtitle")} />
         <div className="space-y-5 mx-auto w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl">
+          <div className="w-full flex items-center justify-center">
+            <InfoPopup
+              title={t("infoPopupVacation.title")}
+              description={t("infoPopupVacation.description")}
+              videoUrl={ATTENDANCE_VACATION_VIDEO}
+            />
+          </div>
           <CountCard 
             title={t("CountCardVacation.title")}
             description={t("CountCardVacation.description")}
