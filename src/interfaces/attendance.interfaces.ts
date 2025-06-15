@@ -63,3 +63,19 @@ export interface AttendanceCardData {
   checkOut: string | null;
   profileImage: string | null;
 }
+
+export interface IAttendanceWithVacationsData {
+  employeeId: number,
+  employeeName: string,
+  departmentName: string,
+  checkIn: string,
+  checkOut: string,
+  notes: string
+}
+
+
+export const initialAttendanceEntry: IAttendanceEntry = {
+  checkIn: "",
+  checkOut: "",
+  dayType: "absent"
+}

@@ -15,22 +15,23 @@ import { useTranslation } from "react-i18next";
 import { useUserStore, useLanguageStore } from "../../../store";
 import { CALENDER_NS, CALENDER_VIDEO } from "../../../constants";
 import { useGetAttendanceCalendar } from "../../../hooks";
+import { EmplyeeCard } from "./views";
+import { useParams } from "react-router";
 
 const CalendarPage = () => {
-  const id = useUserStore((state) => state.id);
+  const { id } = useParams();
+  const role = useUserStore((state) => state.role);
   const { t } = useTranslation(CALENDER_NS);
   const { language } = useLanguageStore();
   const [currentDate, setCurrentDate] = useState(new Date());
   const [startDate, setStartDate] = useState<Date>(startOfMonth(new Date()));
   const [endDate, setEndDate] = useState<Date>(endOfMonth(new Date()));
   
-  
   const days = eachDayOfInterval({
     start: startOfMonth(currentDate),
     end: endOfMonth(currentDate),
   });
   
-
   useEffect(() => {
     setStartDate(startOfMonth(currentDate));
     setEndDate(endOfMonth(currentDate));
@@ -64,6 +65,9 @@ const CalendarPage = () => {
 
   return (
     <>
+      {role !== "employee" && (
+        <EmplyeeCard employeeId={id || ""} />
+      )}
       <div className="w-full px-2 py-10 md:py-20 max-w-7xl mx-auto">
         <div className="flex ltr:flex-row rtl:flex-row-reverse justify-evenly items-center gap-4 mb-6 ">
           <Tooltip content={t("toolTipPrev")}>

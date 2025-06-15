@@ -25,6 +25,8 @@ export const QueryKeys = {
     Overview: "attendanceOverview",
     Latest: "latestAttendance",
     DepartmentOverview: "departmentAttendanceOverview",
+    Vacations: "attendanceWithVacations",
+    EmployeeToday: "EmployeeTodayAttendance",
   },
   // Add more domains/modules here
 };

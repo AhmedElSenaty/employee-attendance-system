@@ -35,58 +35,9 @@ export class AttendanceService extends BaseService {
         headers: this.getAuthHeaders(),
       });
 
-      return response.data;
+      return response;
     } catch (error) {
-      console.error("Error fetching all attendances:", error);
-      throw error;
-    }
-  };
-
-  fetchOverview = async () => {
-    try {
-      const response = await axiosInstance.get(`/Attendance/overview`, {
-        headers: this.getAuthHeaders(),
-      });
-      return response.data;
-    } catch (error) {
-      console.error("Error fetching attendance overview:", error);
-      throw error;
-    }
-  };
-
-  fetchLatest = async () => {
-    try {
-      const response = await axiosInstance.get(`/Attendance/LatestAttendance`, {
-        headers: this.getAuthHeaders(),
-      });
-      return response.data;
-    } catch (error) {
-      console.error("Error fetching latest attendance:", error);
-      throw error;
-    }
-  };
-
-  fetchDepartmentOverview = async (
-    startDate?: string,
-    endDate?: string,
-    departmentID?: number
-  ) => {
-    try {
-      const params = this.buildParams({
-        StartDate: startDate,
-        EndDate: endDate,
-        DepartmentId: departmentID === 0 ? "" : departmentID,
-      });
-
-      const response = await axiosInstance.get(`/Attendance/departmentOverView`, {
-        headers: this.getAuthHeaders(),
-        params,
-      });
-
-      return response.data;
-    } catch (error) {
-      console.error("Error fetching department attendance overview:", error);
-      throw error;
+      this.handleError(error, "Error fetching all attendance");
     }
   };
 
@@ -111,10 +62,31 @@ export class AttendanceService extends BaseService {
         headers: this.getAuthHeaders(),
       });
 
-      return response.data;
+      return response;
     } catch (error) {
-      console.error("Error fetching attendance summary:", error);
-      throw error;
+      this.handleError(error, `Error fetching attendance summary:`);
+    }
+  };
+
+  fetchCalendar = async (
+    employeeID?: string,
+    startDate?: string,
+    endDate?: string
+  ) => {
+    try {
+      const params = this.buildParams({
+        EmployeeId: employeeID,
+        StartDate: startDate,
+        EndDate: endDate,
+      });
+      const response = await axiosInstance.get(`/Attendance/calendar`, {
+        params,
+        headers: this.getAuthHeaders(),
+      });
+
+      return response;
+    } catch (error) {
+      this.handleError(error, "Error fetching attendance calendar");
     }
   };
 
@@ -123,10 +95,54 @@ export class AttendanceService extends BaseService {
       const response = await axiosInstance.get(`/Attendance/GetDetailedAttendanceById/${attendanceID}`, {
         headers: this.getAuthHeaders(),
       });
-      return response.data;
+      return response;
     } catch (error) {
-      console.error(`Error fetching detailed attendance by ID ${attendanceID}:`, error);
-      throw error;
+      this.handleError(error, `Error fetching detailed attendance by ID ${attendanceID}:`);
+    }
+  };
+
+  fetchOverview = async () => {
+    try {
+      const response = await axiosInstance.get(`/Attendance/overview`, {
+        headers: this.getAuthHeaders(),
+      });
+      return response;
+    } catch (error) {
+      this.handleError(error, `Error fetching attendance overview:`);
+    }
+  };
+
+  fetchLatest = async () => {
+    try {
+      const response = await axiosInstance.get(`/Attendance/LatestAttendance`, {
+        headers: this.getAuthHeaders(),
+      });
+      return response;
+    } catch (error) {
+      this.handleError(error, `Error fetching latest attendance:`);
+    }
+  };
+
+  fetchDepartmentOverview = async (
+    startDate?: string,
+    endDate?: string,
+    departmentID?: number
+  ) => {
+    try {
+      const params = this.buildParams({
+        StartDate: startDate,
+        EndDate: endDate,
+        DepartmentId: departmentID === 0 ? "" : departmentID,
+      });
+
+      const response = await axiosInstance.get(`/Attendance/departmentOverView`, {
+        headers: this.getAuthHeaders(),
+        params,
+      });
+
+      return response;
+    } catch (error) {
+      this.handleError(error, `Error fetching department attendance overview:`);
     }
   };
 
@@ -148,26 +164,39 @@ export class AttendanceService extends BaseService {
     });
   };
 
-  fetchCalendar = async (
-    employeeID?: string,
-    startDate?: string,
-    endDate?: string
+  fetchWithVacations = async (
+    page?: number,
+    pageSize?: number,
+    searchType?: string,
+    searchQuery?: string,
   ) => {
     try {
       const params = this.buildParams({
-        EmployeeId: employeeID,
-        StartDate: startDate,
-        EndDate: endDate,
+        PageIndex: page ?? 1,
+        PageSize: pageSize,
+        ...(searchType && searchQuery ? { [searchType]: searchQuery } : {}),
       });
-      const response = await axiosInstance.get(`/Attendance/calendar`, {
+
+      const response = await axiosInstance.get(`/Attendance/AttendanceWithVacations`, {
         params,
         headers: this.getAuthHeaders(),
       });
 
-      return response.data;
+      return response;
     } catch (error) {
-      console.error("Error fetching attendance calendar:", error);
-      throw error;
+      this.handleError(error, "Error fetching all attendance with vacations");
     }
-  };
+  }
+
+  fetchEmployeeTodayAttendance = async () => {
+    try {
+      const response = await axiosInstance.get(`/Attendance/GetEmployeeTodayAttendance`, {
+        headers: this.getAuthHeaders(),
+      });
+
+      return response;
+    } catch (error) {
+      this.handleError(error, "Error fetching Employee Today Attendance");
+    }
+  }
 }

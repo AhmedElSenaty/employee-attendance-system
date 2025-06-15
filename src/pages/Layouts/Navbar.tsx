@@ -18,6 +18,7 @@ export const Navbar = () => {
   const isLoggedIn = Boolean(useUserStore((state) => state.token));
   const imageUrl = useUserStore((state) => state.imageUrl);
   const logoutUser = useUserStore((state) => state.logoutUser);
+  const id = useUserStore((state) => state.id);
 
   const sidebarisOpen = useSidebarStore((state) => state.isOpen);
   const toggleSidebar = useSidebarStore((state) => state.toggleSidebar);
@@ -109,7 +110,7 @@ export const Navbar = () => {
                     {userRole === "employee" ? (
                       <NavLink
                         className="flex items-center gap-3 rounded-lg py-2 px-3 transition hover:bg-black/5"
-                        to={`/employee/calendar/`}
+                        to={`/employee/calendar/${id}`}
                       >
                         <User className="text-black" />
                         <div>

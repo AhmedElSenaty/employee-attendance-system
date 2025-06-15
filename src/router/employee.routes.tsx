@@ -20,7 +20,7 @@ export const employeeRoutes = (isLoggedIn: boolean, userRole: string) => (
 
     <Route path="account/" element={<EmpolyeeAccountPage />} />
 
-    <Route path="calendar/" element={<CalendarPage />} />
+    <Route path="calendar/:id" element={<CalendarPage />} />
 
     <Route path="leave-requests/" element={<LeaveRequestsPage />} />
 

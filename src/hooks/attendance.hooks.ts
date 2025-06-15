@@ -4,6 +4,7 @@ import { AxiosError } from "axios";
 import {
   IAttendanceCredentials,
   IErrorResponse,
+  initialAttendanceEntry,
   initialMetadata,
 } from "../interfaces";
 import {
@@ -29,17 +30,17 @@ export const useAttendanceService = () => {
 
 // Get all attendance records
 export const useGetAttendances = (
-  page: number,
-  pageSize: number,
-  searchKey: string,
-  debouncedSearchQuery: string,
-  startDate: string,
-  endDate: string,
-  startTime: string,
-  endTime: string,
-  status: string,
-  departmentId: number,
-  subDepartmentId: number
+  page?: number,
+  pageSize?: number,
+  searchKey?: string,
+  debouncedSearchQuery?: string,
+  startDate?: string,
+  endDate?: string,
+  startTime?: string,
+  endTime?: string,
+  status?: string,
+  departmentId?: number,
+  subDepartmentId?: number
 ) => {
   const token = useUserStore((state) => state.token);
   const service = useAttendanceService();
@@ -49,8 +50,7 @@ export const useGetAttendances = (
       QueryKeys.Attendance.All,
       page,
       pageSize,
-      searchKey,
-      debouncedSearchQuery,
+      `${searchKey && debouncedSearchQuery ? [searchKey, debouncedSearchQuery] : ""}`, 
       startDate,
       endDate,
       startTime,
@@ -77,21 +77,21 @@ export const useGetAttendances = (
   });
 
   return {
-    attendancesData: data?.data.attendances || [],
-    totalAttendances: data?.data.totalCount || 0,
-    metadata: data?.data.metadata || initialMetadata,
+    attendancesData: data?.data?.data.attendances || [],
+    totalAttendances: data?.data?.data.totalCount || 0,
+    metadata: data?.data?.data.metadata || initialMetadata,
     isAttendancesDataLoading: isLoading,
   };
 };
 
 // Get attendance summary
 export const useGetAttendanceSummary = (
-  page: number,
-  pageSize: number,
-  searchKey: string,
-  debouncedSearchQuery: string,
-  startDate: string,
-  endDate: string
+  page?: number,
+  pageSize?: number,
+  searchKey?: string,
+  debouncedSearchQuery?: string,
+  startDate?: string,
+  endDate?: string
 ) => {
   const token = useUserStore((state) => state.token);
   const service = useAttendanceService();
@@ -101,8 +101,7 @@ export const useGetAttendanceSummary = (
       QueryKeys.Attendance.Summary,
       page,
       pageSize,
-      searchKey,
-      debouncedSearchQuery,
+      `${searchKey && debouncedSearchQuery ? [searchKey, debouncedSearchQuery] : ""}`, 
       startDate,
       endDate,
     ],
@@ -119,18 +118,18 @@ export const useGetAttendanceSummary = (
   });
 
   return {
-    attendanceSummary: data?.data.attendanceSummary || [],
-    totalAttendanceSummary: data?.data.totalCount || 0,
-    metadata: data?.data.metadata || initialMetadata,
+    attendanceSummary: data?.data?.data.attendanceSummary || [],
+    totalAttendanceSummary: data?.data?.data.totalCount || 0,
+    metadata: data?.data?.data.metadata || initialMetadata,
     isAttendanceSummaryLoading: isLoading,
   };
 };
 
 // Get calendar data by employee ID
 export const useGetAttendanceCalendar = (
-  employeeID: string,
-  startDate: string,
-  endDate: string
+  employeeID?: string,
+  startDate?: string,
+  endDate?: string
 ) => {
   const token = useUserStore((state) => state.token);
   const service = useAttendanceService();
@@ -142,7 +141,7 @@ export const useGetAttendanceCalendar = (
   });
 
   return {
-    calenderDays: data?.data,
+    calenderDays: data?.data?.data,
     isAttendanceCalenderLoading: isLoading,
   };
 };
@@ -162,13 +161,13 @@ export const useGetAttendanceDetails = (
   });
 
   useEffect(() => {
-    if (data?.data) {
-      resetInputs?.(data.data);
+    if (data?.data?.data) {
+      resetInputs?.(data.data.data);
     }
   }, [data, resetInputs]);
 
   return {
-    detailedAttendance: data?.data,
+    detailedAttendance: data?.data?.data,
     isDetailedAttendanceLoading: isLoading,
   };
 };
@@ -185,8 +184,8 @@ export const useGetAttendanceOverview = () => {
   });
 
   return {
-    attendanceOverviewDtos: data?.data.attendanceOverviewDtos,
-    dailyAttendanceDto: data?.data.dailyAttendanceDto,
+    attendanceOverviewDtos: data?.data?.data.attendanceOverviewDtos,
+    dailyAttendanceDto: data?.data?.data.dailyAttendanceDto,
     isAttendanceOverviewLoading: isLoading,
   };
 };
@@ -203,16 +202,16 @@ export const useGetLatestAttendance = () => {
   });
 
   return {
-    latestAttendance: data?.data?.latestAttendance || [],
+    latestAttendance: data?.data?.data?.latestAttendance || [],
     islatestAttendanceLoading: isLoading,
   };
 };
 
 // Get department attendance overview
 export const useGetDepartmentAttendanceOverview = (
-  startDate: string,
-  endDate: string,
-  departmentID: number
+  startDate?: string,
+  endDate?: string,
+  departmentID?: number
 ) => {
   const token = useUserStore((state) => state.token);
   const service = useAttendanceService();
@@ -225,7 +224,7 @@ export const useGetDepartmentAttendanceOverview = (
   });
 
   return {
-    departmentAttendanceOverview: data?.data,
+    departmentAttendanceOverview: data?.data?.data,
     isDepartmentAttendanceOverviewLoading: isLoading,
   };
 };
@@ -270,10 +269,10 @@ export const useUpdateAttendance = () => {
       };
       return attendanceService.update(formatted);
     },
-    onSuccess: ({ status, data }, variables) => {
+    onSuccess: ({ status, data }, attendanceData) => {
       queryClient.invalidateQueries({ queryKey: [QueryKeys.Attendance.All] });
       queryClient.invalidateQueries({
-        queryKey: [QueryKeys.Attendance.Details, variables.id],
+        queryKey: [QueryKeys.Attendance.Details, attendanceData.id],
       });
       if (status === 200) {
         showToast("success", getTranslatedMessage(data.message ?? "", language));
@@ -303,4 +302,57 @@ export const useDeleteAttendance = () => {
       handleApiError(error as AxiosError<IErrorResponse>, language);
     },
   });
+};
+
+// Get all attendance records
+export const useGetAttendanceWithVacations = (
+  page?: number,
+  pageSize?: number,
+  searchKey?: string,
+  debouncedSearchQuery?: string,
+) => {
+  const token = useUserStore((state) => state.token);
+  const service = useAttendanceService();
+
+  const { data, isLoading } = useQuery({
+    queryKey: [
+      QueryKeys.Attendance.Vacations,
+      page,
+      pageSize,
+      `${searchKey && debouncedSearchQuery ? [searchKey, debouncedSearchQuery] : ""}`, 
+    ],
+    queryFn: () =>
+      service.fetchWithVacations(
+        page,
+        pageSize,
+        searchKey,
+        debouncedSearchQuery,
+      ),
+    enabled: !!token,
+  });
+
+  return {
+    attendanceWithVacations: data?.data?.data.attendance || [],
+    totalAttendances: data?.data?.data.totalCount || 0,
+    metadata: data?.data?.data.metadata || initialMetadata,
+    isAttendanceWithVacationsLoading: isLoading,
+  };
+};
+
+// Get all attendance records
+export const useGetEmployeeTodayAttendance = () => {
+  const token = useUserStore((state) => state.token);
+  const service = useAttendanceService();
+
+  const { data, isLoading } = useQuery({
+    queryKey: [QueryKeys.Attendance.EmployeeToday],
+    queryFn: () =>
+      service.fetchEmployeeTodayAttendance(),
+    enabled: !!token,
+  });
+
+  return {
+    todayAttendance: data?.data?.data || initialAttendanceEntry,
+    isTodayAttendanceLoading: isLoading,
+  };
 };
