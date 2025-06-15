@@ -93,8 +93,8 @@ const LogsPage = () => {
           totalRecords={metadata?.pagination?.totalRecords || 0}
           isLoading={isLogsDataLoading}
           onClickFirst={() => setParam("page", String(1))}
-          onClickPrev={() => setParam("page", String(Math.max((Number(getParam('endDate')) || 1) - 1, 1)))}
-          onClickNext={() => setParam("page", String(Math.min((Number(getParam('endDate')) || 1) + 1, metadata?.pagination?.totalPages || 1)))}
+          onClickPrev={() => setParam("page", String(Math.max((Number(getParam('page')) || 1) - 1, 1)))}
+          onClickNext={() => setParam("page", String(Math.min((Number(getParam('page')) || 1) + 1, metadata?.pagination?.totalPages || 1)))}
         />
       </div>
     </div>
