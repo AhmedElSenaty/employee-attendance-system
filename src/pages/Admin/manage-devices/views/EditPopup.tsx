@@ -33,7 +33,7 @@ const EditDevicePopup = ({
           {t("buttons.close")}
         </Button>
         <Button variant="secondary" type="submit" fullWidth={true} isLoading={isLoading}>
-          {t("buttons.update")}
+          {t("buttons.edit")}
         </Button>
       </form>
     </Popup>
