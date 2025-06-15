@@ -47,7 +47,7 @@ const SystemDataPage = () => {
 
   return (
     <div className="flex justify-center items-center py-10 sm:px-4 px-8">
-      <div className="max-w-[650px] space-y-10 drop-shadow-xl w-full">
+      <div className="max-w-[1000px] space-y-10 drop-shadow-xl w-full">
         <Header
           heading={t("header.heading")}
           subtitle={t("header.subtitle")}
@@ -60,7 +60,9 @@ const SystemDataPage = () => {
           />
         </div>
         <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
-          <Inputs register={register} errors={errors} isLoading={isSystemDataLoading} />
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <Inputs register={register} errors={errors} isLoading={isSystemDataLoading} />
+          </div>
           <Button
             size="lg"
             variant="secondary"
