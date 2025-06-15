@@ -100,8 +100,8 @@
     "edit": "تعديل",
     "delete": "حذف",
     "loading": "جارٍ التحميل...",
-    "toolTipShow": "عرض طلب الإجازة",
-    "toolTipEdit": "قبول طلب الإجازة",
-    "toolTipDelete": "حذف طلب الإجازة"
+    "toolTipShow": "عرض الجهاز",
+    "toolTipEdit": "قبول الجهاز",
+    "toolTipDelete": "حذف الجهاز"
   }
 }

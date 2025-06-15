@@ -1,25 +1,25 @@
-import { TFunction } from "i18next"
 import { FormEvent, ReactNode } from "react"
-import { ATTENDANCE_TRANSLATION_NAMESPACE } from ".."
 import { Button, Popup } from "../../../../components/ui";
+import { ATTENDANCE_NS } from "../../../../constants";
+import { useTranslation } from "react-i18next";
 
-interface IAddAttendancePopupProps {
+interface IAddPopupProps {
   isOpen: boolean
   handleClose: () => void;
   handleSubmit: (event: FormEvent<HTMLFormElement>) => void;
   formInputs: ReactNode
   isLoading: boolean
-  t: TFunction
 }
 
-const AddAttendancePopup = ({ isOpen, handleClose, handleSubmit, formInputs, isLoading, t }: IAddAttendancePopupProps) => {
+const AddPopup = ({ isOpen, handleClose, handleSubmit, formInputs, isLoading }: IAddPopupProps) => {
+  const { t } = useTranslation([ATTENDANCE_NS]);
 
   return (
     <Popup
       isOpen={isOpen}
       closeModal={handleClose}
-      title={t("popup.addAttendance.title", { ns: ATTENDANCE_TRANSLATION_NAMESPACE })}
-      description={t("popup.addAttendance.description", { ns: ATTENDANCE_TRANSLATION_NAMESPACE })}
+      title={t("addPopup.title")}
+      description={t("addPopup.description")}
     >
       <div className="space-y-3">
         {formInputs}
@@ -29,11 +29,13 @@ const AddAttendancePopup = ({ isOpen, handleClose, handleSubmit, formInputs, isL
           {t("buttons.close")}
         </Button>
         <Button variant="secondary" type="submit" fullWidth={true}  isLoading={isLoading}>
-          {t("buttons.add")}
+          {(isLoading)
+            ? t("buttons.loading")
+            : t("buttons.create")}
         </Button>
       </form>
     </Popup>
   )
 }
 
-export default AddAttendancePopup
+export default AddPopup

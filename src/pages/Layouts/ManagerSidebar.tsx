@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next"; // Import translation hook
-import { Building2, Calendar, CalendarCog, CalendarSearch, Contact, ContactRound, Home, LayoutDashboard, TentTree, User, UserCog, UserPlus, UserRoundPlus, Users } from "lucide-react";
+import { Building2, Calendar, CalendarCog, CalendarSearch, Contact, ContactRound, Home, LayoutDashboard, TentTree, TicketsPlane, User, UserCog, UserPlus, UserRoundPlus, Users } from "lucide-react";
 import { Sidebar, SidebarDropdown, SidebarItem } from "../../components/ui/Sidebar";
 import { useUserStore } from "../../store/user.store";
 
@@ -50,6 +50,7 @@ export const ManagerSidebar = () => {
         <SidebarDropdown icon={<CalendarCog size={23} />} name={t("attendance")}>
           <SidebarItem icon={<CalendarSearch size={23} />} name={t("attendanceDetails")} to="/manager/manage-attendance" />
           <SidebarItem icon={<Calendar size={23} />} name={t("attendanceSummary")} to="/manager/manage-attendance/overview" />
+          <SidebarItem icon={<TicketsPlane size={23} />} name={t("attendanceVacation")} to="/manager/manage-attendance/vacations" />
         </SidebarDropdown>
       )}
 

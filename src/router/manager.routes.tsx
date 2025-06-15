@@ -5,13 +5,12 @@ import { ProtectedRoute } from "../components/auth";
 import { AddEmployeePage, EditEmployeePage, ManageEmployeesPage } from "../pages/common/manage-employees";
 import { AddManagerPage, EditManagerPage, ManageManagersPage } from "../pages/common/manage-managers";
 import { ManageSubDepartmentsPage } from "../pages/common/manage-sub-departments";
-import { AttendanceOverviewPage, ManageAttendancePage } from "../pages/common/manage-attendance";
 import ManagerAccountPage from "../pages/Manager/Account";
 import { LeaveRequestsPage } from "../pages/Manager/leave-requests";
 import { MissionRequestsPage } from "../pages/Manager/mission-requests";
 import { OrdinaryRequestsPage } from "../pages/Manager/ordinary-requests";
 import { CasualLeaveRequestsPage } from "../pages/Manager/casual-leave-requests";
-import { CalendarPage } from "../pages/Manager";
+import { AttendanceOverviewPage, AttendanceVacationsPage, ManageAttendancePage, CalendarPage } from "../pages/Manager";
 
 export const managerRoutes = (isLoggedIn: boolean, userRole: string) => (
   <Route 
@@ -43,6 +42,7 @@ export const managerRoutes = (isLoggedIn: boolean, userRole: string) => (
     {/* Attendance Routes */}
     <Route path="manage-attendance" element={<ManageAttendancePage />} />
     <Route path="manage-attendance/overview/" element={<AttendanceOverviewPage />} />
+    <Route path="manage-attendance/vacations/" element={<AttendanceVacationsPage />} />
 
     <Route path="leave-requests" element={<LeaveRequestsPage />} />
     <Route path="mission-requests" element={<MissionRequestsPage />} />

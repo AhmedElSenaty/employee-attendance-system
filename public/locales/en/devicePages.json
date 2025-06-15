@@ -100,8 +100,8 @@
     "edit": "Edit",
     "delete": "Delete",
     "loading": "Loading...",
-    "toolTipShow": "Show Leave Request",
-    "toolTipEdit": "Accept Leave Request",
-    "toolTipDelete": "Delete Leave Request"
+    "toolTipShow": "Show Devices",
+    "toolTipEdit": "Accept Devices",
+    "toolTipDelete": "Delete Devices"
   }
 }

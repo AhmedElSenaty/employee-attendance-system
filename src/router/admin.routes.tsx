@@ -1,7 +1,6 @@
 import { Route } from "react-router";
 import { DashboardPage } from "../pages/common/Dashboard";
 import { RootLayout } from "../pages/Layouts";
-import { AttendanceOverviewPage, ManageAttendancePage } from "../pages/common/manage-attendance";
 import { ProtectedRoute } from "../components/auth";
 import { ManagePermissionsPage } from "../pages/Admin/manage-permissions";
 import { AddProfilePage, EditProfilePage, ManageProfilesPage } from "../pages/Admin/manage-profiles";
@@ -13,7 +12,7 @@ import { ManageEntitiesPage } from "../pages/Admin/manage-entities";
 import { ManageDepartmentsPage } from "../pages/Admin/manage-departments";
 import { ManageSubDepartmentsPage } from "../pages/common/manage-sub-departments";
 import AdminAccountPage from "../pages/Admin/Account";
-import { LogsPage, ManageDevicesPage, SystemDataPage } from "../pages/Admin";
+import { AttendanceOverviewPage, AttendanceVacationsPage, LogsPage, ManageAttendancePage, ManageDevicesPage, SystemDataPage } from "../pages/Admin";
 import { CalendarPage } from "../pages/Admin";
 
 export const adminRoutes = (isLoggedIn: boolean, userRole: string) => (
@@ -48,6 +47,7 @@ export const adminRoutes = (isLoggedIn: boolean, userRole: string) => (
     {/* Attendance Routes */}
     <Route path="manage-attendance" element={<ManageAttendancePage />} />
     <Route path="manage-attendance/overview/" element={<AttendanceOverviewPage />} />
+    <Route path="manage-attendance/vacations/" element={<AttendanceVacationsPage />} />
     
     {/* Department Routes */}
     <Route path="manage-departments/" element={<ManageDepartmentsPage />} />

@@ -1,24 +1,19 @@
-import { Button, Field, Input, Label, SelectBox, SelectBoxSkeleton, Tooltip } from "../../../../components/ui"
 import { formatValue } from "../../../../utils";
-import { Calendar, RefreshCcw, Search, Timer } from "lucide-react";
-import { useGetDepartmentsList, useGetDepartmentSubDepartments } from "../../../../hooks/";
-import { useLanguageStore } from "../../../../store/";
-import { ATTENDANCE_NS } from "../../../../constants";
+import { RefreshCcw, Search } from "lucide-react";
+import { useLanguageStore } from "../../../../store/language.store";
+import { Button, Field, Input, Label, SelectBox, SelectBoxSkeleton, Tooltip } from "../../../../components/ui";
 import { useTranslation } from "react-i18next";
+import { ATTENDANCE_NS } from "../../../../constants";
+import { useGetDepartmentsList, useGetDepartmentSubDepartments } from "../../../../hooks";
 
-interface ISubDepartmentTableFiltersProps {
+interface ITableFiltersProps {
   searchBy: string[]
   getParam: (key: string) => string | number | null;
   setParam: (key: string, value: string) => void;
   clearParams: () => void;
 }
 
-const AttendanceTableFilters = ({
-  searchBy,
-  getParam,
-  setParam,
-  clearParams,
-}: ISubDepartmentTableFiltersProps) => {
+const VacationTableFilters = ({ searchBy, getParam, setParam, clearParams }: ITableFiltersProps) => {
   const { language } = useLanguageStore();
   const { t } = useTranslation([ATTENDANCE_NS]);
 
@@ -79,62 +74,6 @@ const AttendanceTableFilters = ({
           <Button onClick={clearParams} icon={<RefreshCcw />} />
         </Tooltip>
       </div>
-      <div className="w-full flex flex-wrap items-end gap-4">
-        <Field className="flex flex-col space-y-2 w-fit">
-          <Label>{t("filters.startDate")}</Label>
-          <Input
-            type="date"
-            icon={<Calendar />}
-            value={getParam("startDate") ?? ""}
-            onChange={(e) => setParam("startDate", e.target.value)}
-          />
-        </Field>
-
-        <Field className="flex flex-col space-y-2 w-fit">
-          <Label>{t("filters.endDate")}</Label>
-          <Input
-            type="date"
-            icon={<Calendar />}
-            value={getParam("endDate") ?? ""}
-            onChange={(e) => setParam("endDate", e.target.value)}
-          />
-        </Field>
-
-        <Field className="flex flex-col space-y-2 w-fit">
-          <Label>{t("filters.startTime")}</Label>
-          <Input
-            type="time"
-            icon={<Timer />}
-            value={getParam("startTime") ?? ""}
-            onChange={(e) => setParam("startTime", e.target.value)}
-          />
-        </Field>
-
-        <Field className="flex flex-col space-y-2 w-fit">
-          <Label>{t("filters.endTime")}</Label>
-          <Input
-            type="time"
-            icon={<Timer />}
-            value={getParam("endTime") ?? ""}
-            onChange={(e) => setParam("endTime", e.target.value)}
-          />
-        </Field>
-        <Field className="flex flex-col space-y-2 w-fit">
-          <Label size="md">{t("filters.status")}</Label>
-          <SelectBox 
-            onChange={(e) => setParam("status", e.target.value)}
-          >
-            <option value="" selected={getParam("status") == null} disabled>
-              {t(`filters.defaultStatusOption`)}
-            </option>
-            {["حضور", "انصراف"].map((state, idx) => (
-              <option key={idx} value={state}>
-                {state}
-              </option>
-            ))}
-          </SelectBox>
-        </Field>
-      </div>
       <div className="full flex flex-wrap items-end gap-4">
 
         <Field className="flex flex-col space-y-2 w-fit">
@@ -180,4 +119,4 @@ const AttendanceTableFilters = ({
   )
 }
 
-export default AttendanceTableFilters
+export default VacationTableFilters

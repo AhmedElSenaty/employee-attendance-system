@@ -101,18 +101,18 @@ export const useGetAttendanceSummary = (
       QueryKeys.Attendance.Summary,
       page,
       pageSize,
-      `${searchKey && debouncedSearchQuery ? [searchKey, debouncedSearchQuery] : ""}`, 
       startDate,
       endDate,
+      `${searchKey && debouncedSearchQuery ? [searchKey, debouncedSearchQuery] : ""}`, 
     ],
     queryFn: () =>
       service.fetchSummary(
         page,
         pageSize,
-        searchKey,
-        debouncedSearchQuery,
         startDate,
         endDate,
+        searchKey,
+        debouncedSearchQuery,
       ),
     enabled: !!token,
   });
@@ -310,6 +310,9 @@ export const useGetAttendanceWithVacations = (
   pageSize?: number,
   searchKey?: string,
   debouncedSearchQuery?: string,
+  departmentId?: number,
+  subDepartmentId?: number
+  
 ) => {
   const token = useUserStore((state) => state.token);
   const service = useAttendanceService();
@@ -320,6 +323,8 @@ export const useGetAttendanceWithVacations = (
       page,
       pageSize,
       `${searchKey && debouncedSearchQuery ? [searchKey, debouncedSearchQuery] : ""}`, 
+      departmentId,
+      subDepartmentId,
     ],
     queryFn: () =>
       service.fetchWithVacations(
@@ -327,6 +332,8 @@ export const useGetAttendanceWithVacations = (
         pageSize,
         searchKey,
         debouncedSearchQuery,
+        departmentId,
+        subDepartmentId,
       ),
     enabled: !!token,
   });
