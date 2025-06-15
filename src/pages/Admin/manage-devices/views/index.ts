@@ -1,7 +1,7 @@
-export { default as AddDevicePopup } from "./AddDevicePopup";
-export { default as DeleteDevicePopup } from "./DeleteDevicePopup";
-export { default as DeviceTableFilters } from "./DeviceTableFilters";
+export { default as AddPopup } from "./AddPopup";
+export { default as DeletePopup } from "./DeletePopup";
+export { default as TableFilters } from "./TableFilters";
 export { default as DevicesTable } from "./DevicesTable";
-export { default as EditDevicePopup } from "./EditDevicePopup";
-export { default as RenderDeviceInputs } from "./RenderDeviceInputs";
-export { default as ShowDevicePopup } from "./ShowDevicePopup";
+export { default as EditPopup } from "./EditPopup";
+export { default as Inputs } from "./Inputs";
+export { default as ShowPopup } from "./ShowPopup";

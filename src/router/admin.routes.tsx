@@ -11,12 +11,10 @@ import { ManageOfficialVacationsPage } from "../pages/Admin/manage-official-vaca
 import { AddManagerPage, EditManagerPage, ManageManagersPage } from "../pages/common/manage-managers";
 import { CalendarPage } from "../pages/common/Calender";
 import { ManageEntitiesPage } from "../pages/Admin/manage-entities";
-import { ManageDevicesPage } from "../pages/Admin/manage-devices";
 import { ManageDepartmentsPage } from "../pages/Admin/manage-departments";
 import { ManageSubDepartmentsPage } from "../pages/common/manage-sub-departments";
 import AdminAccountPage from "../pages/Admin/Account";
-import LogsPage from "../pages/Admin/manage-logs";
-import SystemDataPage from "../pages/Admin/manage-system-data";
+import { LogsPage, ManageDevicesPage, SystemDataPage } from "../pages/Admin";
 
 export const adminRoutes = (isLoggedIn: boolean, userRole: string) => (
   <Route 

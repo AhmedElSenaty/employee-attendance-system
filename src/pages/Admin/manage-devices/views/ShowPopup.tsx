@@ -1,10 +1,10 @@
 import { Popup } from "../../../../components/ui/Popup"
-import { TFunction } from "i18next";
 import { Fingerprint } from "lucide-react";
 import { IDeviceData } from "../../../../interfaces";
-import { DEVICE_TRANSLATION_NAMESPACE } from "..";
 import { HasPermission } from "../../../../components/auth";
 import { Button, NormalSpinner } from "../../../../components/ui";
+import { useTranslation } from "react-i18next";
+import { DEVICES_NS } from "../../../../constants";
 
 interface IShowDevicePopupProps {
   isOpen: boolean
@@ -12,18 +12,18 @@ interface IShowDevicePopupProps {
   handleDeletePopupOpen: () => void;
   handleEditPopupOpen: () => void;
   device: IDeviceData | null
-  t: TFunction
   isLoading: boolean
 }
 
-const ShowDevicePopup = ({ isOpen, handleClose, handleDeletePopupOpen, handleEditPopupOpen, device, t, isLoading }: IShowDevicePopupProps) => {
+const ShowDevicePopup = ({ isOpen, handleClose, handleDeletePopupOpen, handleEditPopupOpen, device, isLoading }: IShowDevicePopupProps) => {
+  const { t } = useTranslation([DEVICES_NS]);
 
   return (
     <Popup
       isOpen={isOpen}
       closeModal={handleClose}
-      title={t("popup.show.title", { ns: DEVICE_TRANSLATION_NAMESPACE })}
-      description={t("popup.show.description", { ns: DEVICE_TRANSLATION_NAMESPACE })}
+      title={t("showPopup.title")}
+      description={t("showPopup.description")}
     >
       {/* Device Details */}
       {
@@ -44,15 +44,15 @@ const ShowDevicePopup = ({ isOpen, handleClose, handleDeletePopupOpen, handleEdi
             {/* Device Information */}
             <div className="mt-6 space-y-4 divide-y divide-gray-300">
               <div className="grid grid-cols-2 py-2">
-                <span className="font-medium text-gray-600">{t("table.columns.id", { ns: DEVICE_TRANSLATION_NAMESPACE })}</span>
+                <span className="font-medium text-gray-600">{t("table.columns.id")}</span>
                 <span className="text-gray-900 font-semibold">{device?.id}</span>
               </div>
               <div className="grid grid-cols-2 py-2">
-                <span className="font-medium text-gray-600">{t("table.columns.ip_address", { ns: DEVICE_TRANSLATION_NAMESPACE })}</span>
+                <span className="font-medium text-gray-600">{t("table.columns.ip_address")}</span>
                 <span className="text-gray-900 font-semibold">{device?.iP_Address}</span>
               </div>
               <div className="grid grid-cols-2 py-2">
-                <span className="font-medium text-gray-600">{t("table.columns.port", { ns: DEVICE_TRANSLATION_NAMESPACE })}</span>
+                <span className="font-medium text-gray-600">{t("table.columns.port")}</span>
                 <span className="text-gray-900 font-semibold">{device?.port}</span>
               </div>
             </div>

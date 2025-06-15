@@ -2,22 +2,21 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { CirclePlus, Fingerprint } from "lucide-react";
 import { formatValue } from "../../../utils";
-import { useDebounce } from "../../../hooks/debounce.hook";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useFiltersHook } from "../../../hooks/filter.hook";
-import { AddDevicePopup, DeleteDevicePopup, DevicesTable, DeviceTableFilters, EditDevicePopup, RenderDeviceInputs, ShowDevicePopup } from "./views";
+import { AddPopup, DeletePopup, DevicesTable, EditPopup, Inputs, ShowPopup, TableFilters } from "./views";
 import { IDeviceCredentials } from "../../../interfaces";
 import { deviceSchema } from "../../../validation";
-import { DEVICE_TRANSLATION_NAMESPACE } from ".";
 import { HasPermission } from "../../../components/auth";
-import { useLanguageStore } from "../../../store/language.store";
+import { useLanguageStore } from "../../../store/";
 import { ActionCard, Button, CountCard, Header, InfoPopup, Paginator, SectionHeader } from "../../../components/ui";
-import { useCreateDevice, useDeleteDevice, useGetDeviceByID, useGetDevices, useUpdateDevice } from "../../../hooks/device.hooks";
+import { useCreateDevice, useDeleteDevice, useGetDeviceByID, useGetDevices, useUpdateDevice, useDebounce } from "../../../hooks/";
+import { DEVICES_NS, DEVICES_VIDEO } from "../../../constants";
+import useURLSearchParams from "../../../hooks/URLSearchParams.hook";
 
 const ManageDevicesPage = () => {
-  const { t } = useTranslation(["common", DEVICE_TRANSLATION_NAMESPACE]);
-    const { language } = useLanguageStore();
+  const { t } = useTranslation([DEVICES_NS]);
+  const { language } = useLanguageStore();
 
   const { register, handleSubmit, formState: { errors }, reset } = useForm<IDeviceCredentials>({
     resolver: yupResolver(deviceSchema),
@@ -53,26 +52,37 @@ const ManageDevicesPage = () => {
     setIsDeletePopupOpen(true) 
   }
 
-  const { page, pageSize, searchKey, search, setFilters } = useFiltersHook()
+  const {getParam, setParam, clearParams} = useURLSearchParams();
 
-  const debouncedSearchQuery = useDebounce(search, 650);
+  // Using the enhanced getParam with parser support from the improved hook
+  const rawPage = getParam('page', Number);
+  const rawPageSize = getParam('pageSize', Number);
+  const rawSearchKey = getParam('searchKey');
+  const rawSearchQuery = useDebounce(getParam('searchQuery'), 650);
+
+  // Use nullish coalescing to default numeric values, undefined for dates if empty
+  const page = rawPage ?? 1;
+  const pageSize = rawPageSize ?? 10;
+  const searchKey = rawSearchKey || undefined;
+  const searchQuery = rawSearchQuery || undefined;
+    
+  const debouncedSearchQuery = useDebounce(searchQuery, 650);
 
   const { devices, totalDevices, metadata, isDevicesDataLoading } = useGetDevices(
-    Number(page) || 1, 
-    Number(pageSize) || 5, 
-    searchKey || "", 
-    debouncedSearchQuery || ""
+    page, 
+    pageSize, 
+    searchKey, 
+    debouncedSearchQuery
   );
 
   const { device, isDeviceDataLoading } = useGetDeviceByID(selectedID, reset);
 
-  const renderDeviceInputs = <RenderDeviceInputs register={register} errors={errors} t={t} isLoading={isDeviceDataLoading} />
+  const renderDeviceInputs = <Inputs register={register} errors={errors} isLoading={isDeviceDataLoading} />
 
   const { mutate: addDevice, isPending: isAdding } = useCreateDevice();
   const { mutate: updateDevice, isPending: isUpdating } = useUpdateDevice();
   const { mutate: deleteDevice, isPending: isDeleting } = useDeleteDevice();
   
-
   /* ____________ HANDLER ____________ */
   const handleConfirmAdd: SubmitHandler<IDeviceCredentials> = (request: IDeviceCredentials) => {
     addDevice(request)
@@ -92,24 +102,22 @@ const ManageDevicesPage = () => {
   return (
     <>
       <div className="sm:p-5 p-3 space-y-5">
-      <Header
-        heading={
-          <div className="flex items-center justify-center gap-3">
-            <span>{t("header.heading", { ns: DEVICE_TRANSLATION_NAMESPACE })}</span>
-            <InfoPopup
-              title="Reset Your Password"
-              description="Watch this quick guide to reset your password safely."
-              videoUrl="https://www.youtube.com/embed/dQw4w9WgXcQ"
-            />
-          </div>
-        }
-        subtitle={t("header.subtitle", { ns: DEVICE_TRANSLATION_NAMESPACE })}
-      />
+        <Header
+          heading={t("header.heading")}
+          subtitle={t("header.subtitle")}
+        />
 
         <div className="space-y-5 mx-auto w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl">
+          <div className="w-full flex items-center justify-center">
+            <InfoPopup
+              title={t("infoPopup.title")}
+              description={t("infoPopup.description")}
+              videoUrl={DEVICES_VIDEO}
+            />
+          </div>
           <CountCard 
-            title={t("CountCard.title", { ns: DEVICE_TRANSLATION_NAMESPACE })}
-            description={t("CountCard.description", { ns: DEVICE_TRANSLATION_NAMESPACE })}
+            title={t("CountCard.title")}
+            description={t("CountCard.description")}
             count={formatValue(totalDevices, language)}
             icon={<Fingerprint size={28} />} 
             bgColor="bg-[#b38e19]" 
@@ -119,11 +127,11 @@ const ManageDevicesPage = () => {
               icon={<CirclePlus />}
               iconBgColor="bg-[#f5e4b2]"
               iconColor="text-[#b38e19]"
-              title={t("actions.add.title", { ns: DEVICE_TRANSLATION_NAMESPACE })}
-              description={t("actions.add.description", { ns: DEVICE_TRANSLATION_NAMESPACE })}
+              title={t("actions.add.title")}
+              description={t("actions.add.description")}
             >
               <Button fullWidth={true} variant="secondary" onClick={handleAddPopupOpen}>
-                {t("actions.add.button", { ns: DEVICE_TRANSLATION_NAMESPACE })}
+                {t("actions.add.button")}
               </Button>
             </ActionCard>
           </HasPermission>
@@ -131,64 +139,61 @@ const ManageDevicesPage = () => {
 
         <div className="bg-white shadow-md space-y-5 p-5 rounded-lg">
           <SectionHeader 
-            title={t("sectionHeader.title", { ns: DEVICE_TRANSLATION_NAMESPACE })} 
-            description={t("sectionHeader.description", { ns: DEVICE_TRANSLATION_NAMESPACE })} 
+            title={t("sectionHeader.title")} 
+            description={t("sectionHeader.description")} 
           />
 
           <div className="flex flex-wrap gap-4">
-            <DeviceTableFilters searchBy={metadata.searchBy} t={t} />
+            <TableFilters searchBy={metadata.searchBy} getParam={getParam} setParam={setParam} clearParams={clearParams} />
           </div>
           <div className="w-full overflow-x-auto">
             <DevicesTable
               devices={devices}
               isLoading={isDevicesDataLoading}
-              handleShowDevice={handleShowPopupOpen}
-              handleEditDevice={handleEditPopupOpen}
-              handleDeleteDevice={handleDeletePopupOpen}
-              t={t}
+              handleShow={handleShowPopupOpen}
+              handleEdit={handleEditPopupOpen}
+              handleDelete={handleDeletePopupOpen}
             />
           </div>
 
+          {/* Pagination Component */}
           {/* Pagination Component */}
           <Paginator
             page={metadata?.pagination?.pageIndex || 0}
             totalPages={metadata?.pagination?.totalPages || 1}
             totalRecords={metadata?.pagination?.totalRecords || 0}
             isLoading={isDevicesDataLoading}
-            onClickFirst={() => setFilters({ page: 1 })}
-            onClickPrev={() => setFilters({ page: Math.max((page || 1) - 1, 1) })}
-            onClickNext={() => setFilters({ page: Math.min((page || 1) + 1, metadata?.pagination?.totalPages || 1) })}
+            onClickFirst={() => setParam("page", String(1))}
+            onClickPrev={() => setParam("page", String(Math.max((Number(getParam('page')) || 1) - 1, 1)))}
+            onClickNext={() => setParam("page", String(Math.min((Number(getParam('page')) || 1) + 1, metadata?.pagination?.totalPages || 1)))}
           />
         </div>
       </div>
 
-      <AddDevicePopup
+      <AddPopup
         isOpen={isAddPopupOpen}
         formInputs={renderDeviceInputs}
         handleSubmit={handleSubmit(handleConfirmAdd)}
         handleClose={() => setIsAddPopupOpen(false)}
         isLoading={isAdding}
-        t={t}
       />
 
-      <EditDevicePopup
+      <EditPopup
         isOpen={isEditPopupOpen} 
         handleClose={handleEditPopupClose} 
         isLoading={isUpdating} 
         handleSubmit={handleSubmit(handleConfirmUpdate)} 
         formInputs={renderDeviceInputs} 
-        t={t}
       />
 
-      <DeleteDevicePopup
+      <DeletePopup
         isOpen={isDeletePopupOpen}
         handleClose={() => { setIsDeletePopupOpen(false) }}
         handleConfirmDelete={handleConfirmDelete}
         isLoading={isDeleting}
-        t={t}
       />
 
-      <ShowDevicePopup
+      <ShowPopup
         isOpen={isShowPopupOpen}
         handleClose={() => setIsShowPopupOpen(false)} 
         handleDeletePopupOpen={() => {
@@ -200,7 +205,6 @@ const ManageDevicesPage = () => {
         }}
         device={device}
         isLoading={isDeviceDataLoading}
-        t={t}
       />
     </>
   )

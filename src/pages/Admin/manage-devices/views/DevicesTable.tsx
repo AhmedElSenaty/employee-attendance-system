@@ -1,25 +1,30 @@
-import { useMemo } from "react";
 import { Eye, FilePenLine, Trash2 } from "lucide-react";
-import { TFunction } from "i18next";
 import { IDeviceData } from "../../../../interfaces";
-import { DEVICE_TABLE_COLUMNS, DEVICE_TRANSLATION_NAMESPACE } from "..";
 import { HasPermission } from "../../../../components/auth";
 import { Button, NoDataMessage, Table, TableCell, TableRow, TableSkeleton, Tooltip } from "../../../../components/ui";
+import { useTranslation } from "react-i18next";
+import { DEVICES_NS } from "../../../../constants";
 
 interface IDevicesTableProps {
   devices: IDeviceData[];
   isLoading: boolean;
-  t: TFunction;
-  handleShowDevice: (id: number) => void;
-  handleEditDevice: (id: number) => void;
-  handleDeleteDevice: (id: number) => void;
+  handleShow: (id: number) => void;
+  handleEdit: (id: number) => void;
+  handleDelete: (id: number) => void;
 }
 
-const DevicesTable = ({ devices, t, isLoading, handleShowDevice, handleEditDevice, handleDeleteDevice }: IDevicesTableProps) => {
-  const columns = useMemo(
-    () => DEVICE_TABLE_COLUMNS.map(key => t(key, { ns: DEVICE_TRANSLATION_NAMESPACE })),
-    [t]
-  );
+const DevicesTable = ({ devices, isLoading, handleShow, handleEdit, handleDelete }: IDevicesTableProps) => {
+  const { t } = useTranslation([DEVICES_NS]);
+
+  const DEVICE_TABLE_COLUMNS = [
+    "table.columns.id",
+    "table.columns.device_name",
+    "table.columns.ip_address",
+    "table.columns.port",
+    "table.columns.actions",
+  ]
+
+  const columns = DEVICE_TABLE_COLUMNS.map(key => t(key));
 
   return (
     <>
@@ -28,7 +33,7 @@ const DevicesTable = ({ devices, t, isLoading, handleShowDevice, handleEditDevic
       ) : (
         <Table columns={columns}>
           {devices.length == 0 ? (
-            <NoDataMessage title={t("table.emptyTable.title", { ns: DEVICE_TRANSLATION_NAMESPACE })} message={t("table.emptyTable.message", { ns: DEVICE_TRANSLATION_NAMESPACE })} />
+            <NoDataMessage title={t("table.emptyTable.title")} message={t("table.emptyTable.message")} />
           ) : (
             devices.map((device) => (
               <TableRow key={device.id} className="border-b">
@@ -40,7 +45,7 @@ const DevicesTable = ({ devices, t, isLoading, handleShowDevice, handleEditDevic
                   <div className="flex flex-wrap gap-2">
                     <HasPermission permission="View Devices">
                       <Tooltip 
-                        content="Show Device"
+                        content={t("buttons.toolTipShow")}
                       >
                         <Button 
                           variant="primary" 
@@ -48,13 +53,13 @@ const DevicesTable = ({ devices, t, isLoading, handleShowDevice, handleEditDevic
                           size={"sm"}
                           icon={<Eye className="w-full h-full" />} 
                           aria-label={t("buttons.view")}
-                          onClick={() => handleShowDevice(device.id)}
+                          onClick={() => handleShow(device.id)}
                         />
                       </Tooltip>
                     </HasPermission>
                     <HasPermission permission="Update Device">
                       <Tooltip 
-                        content="Update Device"
+                        content={t("buttons.toolTipEdit")}
                       >
                         <Button 
                           variant="info" 
@@ -62,13 +67,13 @@ const DevicesTable = ({ devices, t, isLoading, handleShowDevice, handleEditDevic
                           size={"sm"} 
                           icon={<FilePenLine className="w-full h-full" />} 
                           aria-label={t("buttons.edit")} 
-                          onClick={() => handleEditDevice(device.id)}
+                          onClick={() => handleEdit(device.id)}
                         />
                       </Tooltip>
                     </HasPermission>
                     <HasPermission permission="Delete Device">
                       <Tooltip 
-                        content="Delete Device"
+                        content={t("buttons.toolTipDelete")}
                       >
                         <Button
                           variant="danger"
@@ -76,7 +81,7 @@ const DevicesTable = ({ devices, t, isLoading, handleShowDevice, handleEditDevic
                           size={"sm"}
                           icon={<Trash2 className="w-full h-full" />}
                           aria-label={t("buttons.delete")}
-                          onClick={() => handleDeleteDevice(device.id)}
+                          onClick={() => handleDelete(device.id)}
                         />
                       </Tooltip>
                     </HasPermission>

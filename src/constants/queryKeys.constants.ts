@@ -5,10 +5,10 @@ export const QueryKeys = {
     Details: "profileDetails",
     Permissions: "profilePermissions",
   },
-  Users: {
-    All: "users",
-    Details: "userDetails",
-    Settings: "userSettings",
+  Devices: {
+    All: "devices",
+    Details: "deviceDetails",
+    List: "devicesList",
   },
   Logs: {
     All :"logs",

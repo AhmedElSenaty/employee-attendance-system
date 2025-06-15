@@ -1,5 +1,5 @@
 import axiosInstance from "../config/axios.config";
-import { IDevice, IDeviceCredentials } from "../interfaces";
+import { IDeviceCredentials } from "../interfaces";
 import { BaseService } from "./base.services";
 
 export class DeviceService extends BaseService {
@@ -15,13 +15,12 @@ export class DeviceService extends BaseService {
         PageSize: pageSize,
         ...(searchType && searchQuery ? { [searchType]: searchQuery } : {}),
       });
-      
       const response = await axiosInstance.get("/Devices", {
         params,
         headers: this.getAuthHeaders(),
       });
 
-      return response.data;
+      return response;
     } catch (error) {
       console.error("Error fetching all devices:", error);
       throw error;
@@ -34,20 +33,20 @@ export class DeviceService extends BaseService {
         headers: this.getAuthHeaders(),
       });
 
-      return response.data;
+      return response;
     } catch (error) {
       console.error(`Error fetching device with ID ${id}:`, error);
       throw error;
     }
   };
 
-  fetchList = async (): Promise<IDevice[] | null> => {
+  fetchList = async () => {
     try {
       const response = await axiosInstance.get("/Devices/List", {
         headers: this.getAuthHeaders(),
       });
 
-      return response.data.data;
+      return response;
     } catch (error) {
       console.error("Error fetching devices list:", error);
       throw error;

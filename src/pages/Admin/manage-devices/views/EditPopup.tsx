@@ -1,7 +1,7 @@
 import { FormEvent, ReactNode } from "react";
-import { TFunction } from "i18next";
-import { DEVICE_TRANSLATION_NAMESPACE } from "..";
 import { Button, Popup } from "../../../../components/ui";
+import { useTranslation } from "react-i18next";
+import { DEVICES_NS } from "../../../../constants";
 
 interface EditDevicePopupProps {
   isOpen: boolean;
@@ -9,7 +9,6 @@ interface EditDevicePopupProps {
   handleSubmit: (event: FormEvent<HTMLFormElement>) => void;
   formInputs: ReactNode;
   isLoading: boolean;
-  t: TFunction
 }
 
 const EditDevicePopup = ({
@@ -18,14 +17,15 @@ const EditDevicePopup = ({
   handleClose,
   handleSubmit,
   formInputs,
-  t,
 }: EditDevicePopupProps) => {
+  const { t } = useTranslation([DEVICES_NS]);
+
   return (
     <Popup
       isOpen={isOpen}
       closeModal={handleClose}
-      title={t("popup.edit.title", { ns: DEVICE_TRANSLATION_NAMESPACE })}
-      description={t("popup.edit.description", { ns: DEVICE_TRANSLATION_NAMESPACE })}
+      title={t("editPopup.title")}
+      description={t("editPopup.description")}
     >
       {formInputs}
       <form className="flex items-center space-x-3 mt-4" onSubmit={handleSubmit}>

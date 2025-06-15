@@ -20,13 +20,6 @@
       "actions": "Actions"
     }
   },
-  "searchBy": {
-    "label": "Search By",
-    "default": "Please Select an Option",
-    "SearchById": "ID",
-    "SearchByDeviceName": "Device Name",
-    "SearchByIP": "IP Address"
-  },
   "CountCard": {
     "title": "Total Fingerprint Devices",
     "description": "Devices registered for fingerprint authentication."
@@ -65,22 +58,50 @@
       }
     }
   },
-  "popup": {
-    "delete": {
-      "title": "Delete Device",
-      "description": "Are you sure you want to delete this device? This action cannot be undone."
+  "addPopup": {
+    "title": "Add New Device",
+    "description": "Please enter the details of the new device to add it to the system."
+  },
+  "deletePopup": {
+    "title": "Delete Device",
+    "description": "Are you sure you want to delete this device? This action cannot be undone."
+  },
+  "editPopup": {
+    "title": "Edit Device",
+    "description": "Update the device information as needed and save the changes."
+  },
+  "showPopup": {
+    "title": "View Device",
+    "description": "You are now viewing the details of this device. Here, you can check its specifications, status, and other important information."
+  },
+  "infoPopup": {
+    "title": "How to Use the Devices Page",
+    "description": "Watch this video tutorial to learn how to view, add, edit, and manage fingerprint devices connected to the system.",
+    "closeButton": "Close"
+  },
+  "filters": {
+    "pageSize": "Page Size",
+    "toolTipResetFilters": "Reset All",
+    "searchBy": {
+      "label": "Search By",
+      "default": "Choose your search method",
+      "SearchById": "ID",
+      "SearchByDeviceName": "Device Name",
+      "SearchByIP": "IP Address"
     },
-    "add": {
-      "title": "Add New Device",
-      "description": "Please enter the details of the new device to add it to the system."
-    },
-    "edit": {
-      "title": "Edit Device",
-      "description": "Update the device information as needed and save the changes."
-    },
-    "show": {
-      "title": "View Device",
-      "description": "You are now viewing the details of this device. Here, you can check its specifications, status, and other important information."
+    "search": {
+      "label": "Search",
+      "placeholder": "Enter the value you want to search for...."
     }
+  },
+  "buttons": {
+    "close": "Close",
+    "create": "Create",
+    "edit": "Edit",
+    "delete": "Delete",
+    "loading": "Loading...",
+    "toolTipShow": "Show Leave Request",
+    "toolTipEdit": "Accept Leave Request",
+    "toolTipDelete": "Delete Leave Request"
   }
 }

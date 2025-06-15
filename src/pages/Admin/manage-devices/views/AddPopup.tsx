@@ -1,25 +1,25 @@
-import { TFunction } from "i18next"
 import { FormEvent, ReactNode } from "react"
-import { DEVICE_TRANSLATION_NAMESPACE } from ".."
 import { Button, Popup } from "../../../../components/ui";
+import { useTranslation } from "react-i18next";
+import { DEVICES_NS } from "../../../../constants";
 
-interface IAddDevicePopupProps {
+interface IAddPopupProps {
   isOpen: boolean
   handleClose: () => void;
   handleSubmit: (event: FormEvent<HTMLFormElement>) => void;
   formInputs: ReactNode
   isLoading: boolean
-  t: TFunction
 }
 
-const AddDevicePopup = ({ isOpen, handleClose, handleSubmit, formInputs, isLoading, t }: IAddDevicePopupProps) => {
+const AddPopup = ({ isOpen, handleClose, handleSubmit, formInputs, isLoading }: IAddPopupProps) => {
+  const { t } = useTranslation([DEVICES_NS]);
 
   return (
     <Popup
       isOpen={isOpen}
       closeModal={handleClose}
-      title={t("popup.add.title", { ns: DEVICE_TRANSLATION_NAMESPACE })}
-      description={t("popup.add.description", { ns: DEVICE_TRANSLATION_NAMESPACE })}
+      title={t("addPopup.title")}
+      description={t("addPopup.description")}
     >
       {formInputs}
       <form className="flex items-center space-x-3 mt-4" onSubmit={handleSubmit}>
@@ -27,11 +27,13 @@ const AddDevicePopup = ({ isOpen, handleClose, handleSubmit, formInputs, isLoadi
           {t("buttons.close")}
         </Button>
         <Button variant="secondary" type="submit" fullWidth={true}  isLoading={isLoading}>
-          {t("buttons.add")}
+          {(isLoading)
+            ? t("buttons.loading")
+            : t("buttons.create")}
         </Button>
       </form>
     </Popup>
   )
 }
 
-export default AddDevicePopup
+export default AddPopup
