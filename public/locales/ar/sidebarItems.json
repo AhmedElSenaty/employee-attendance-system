@@ -29,5 +29,6 @@
   "addProfile": "إضافة ملف صلاحيات",
   "leaveRequests": "طلبات الإجازة",
   "missionRequests": "طلبات المهمة",
-  "ordinaryRequests": "الطلبات العادية"
+  "ordinaryRequests": "الطلبات العادية",
+  "casualLeaveRequests": "طلبات الإجازة العرضية"
 }

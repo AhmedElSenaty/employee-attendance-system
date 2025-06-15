@@ -9,6 +9,7 @@ export * from "./entity.interfaces";
 export * from "./filtersInterfaces"
 export * from "./leaveRequest.interfaces"
 export * from "./login.interfaces";
+export * from "./logs.interfaces";
 export * from "./manager.interfaces";
 export * from "./me.interfaces"
 export * from "./metadata.interface"

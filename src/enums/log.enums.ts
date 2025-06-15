@@ -6,7 +6,7 @@ export enum LogType {
    * Informational log.
    * Used for general system messages that are not errors or user-triggered changes.
    */
-  Info = 1,
+  Create = 1,
 
   /**
    * Update log.

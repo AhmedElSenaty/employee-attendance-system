@@ -7,6 +7,7 @@ export * from "./device.services"
 export * from "./employee.services"
 export * from "./entity.services"
 export * from "./login.services";
+export * from "./logs.services"
 export * from "./manager.services"
 export * from "./officialVacation.services"
 export * from "./permission.services"

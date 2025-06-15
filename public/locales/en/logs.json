@@ -1,0 +1,46 @@
+{
+  "header": {
+    "heading": "System Activity Logs",
+    "subtitle": "Review all recorded user actions, updates, and errors across the system."
+  },
+  "countCard": {
+    "title": "Total Logs",
+    "description": "Represents the total number of recorded log entries in the system."
+  },
+  "types": {
+    "1": "Created",
+    "2": "Updated",
+    "3": "Deleted",
+    "4": "Error"
+  },
+  "filters": {
+    "pageSize": "Page Size",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "logType": "Log Type",
+    "defaultLogTypeOption": "Select log type",
+    "toolTipResetFilters": "Reset All",
+    "searchBy": {
+      "default": "Choose your search method",
+      "UserId": "User ID"
+    },
+    "search": {
+      "label": "Search",
+      "placeholder": "Enter the value you want to search for...."
+    }
+  },
+  "emptyTable": {
+    "title": "No Logs Available",
+    "message": "There are currently no log entries to display."
+  },
+  "infoPopup": {
+    "title": "How to Use the Logs Page",
+    "description": "Watch this video tutorial to learn how to navigate, filter, and understand the system activity logs.",
+    "closeButton": "Close"
+  },
+  "userId": "#User ID",
+  "logType": "Log Type",
+  "timestamp": "Timestamp",
+  "message": "Message",
+  "click": "Click to expand"
+}

@@ -1,3 +1,5 @@
+import { LOGS_NS } from "./namespaces.constants";
+
 export const i18n_LOAD_PATH = "/locales/{{lng}}/{{ns}}.json";
 export const FALLBACK_LANGUAGE = "ar";
 export const SUPPORTED_LANGUAGES = ["en", "ar"];
@@ -31,5 +33,5 @@ export const i18n_NAMESPACES = [
   "missionRequests",
   "ordinaryRequests",
   "casualLeaveRequests",
+  LOGS_NS
 ];
-;

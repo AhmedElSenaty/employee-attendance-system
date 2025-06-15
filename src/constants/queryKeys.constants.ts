@@ -10,5 +10,9 @@ export const QueryKeys = {
     Details: "userDetails",
     Settings: "userSettings",
   },
+  Logs: {
+    All :"logs",
+    Details: "logDetails",
+  }
   // Add more domains/modules here
 };

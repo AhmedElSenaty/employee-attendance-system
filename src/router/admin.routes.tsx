@@ -15,6 +15,7 @@ import { ManageDevicesPage } from "../pages/Admin/manage-devices";
 import { ManageDepartmentsPage } from "../pages/Admin/manage-departments";
 import { ManageSubDepartmentsPage } from "../pages/common/manage-sub-departments";
 import AdminAccountPage from "../pages/Admin/Account";
+import LogsPage from "../pages/Admin/manage-logs";
 
 export const adminRoutes = (isLoggedIn: boolean, userRole: string) => (
   <Route 
@@ -71,5 +72,8 @@ export const adminRoutes = (isLoggedIn: boolean, userRole: string) => (
     <Route path="manage-profiles/" element={<ManageProfilesPage />} />
     <Route path="add-profile/" element={<AddProfilePage />} />
     <Route path="edit-profile/:id" element={<EditProfilePage />} />
+
+    <Route path="logs" element={<LogsPage />} />
+    <Route path="system-data" element={<h1>System Data</h1>} />
   </Route>
 );

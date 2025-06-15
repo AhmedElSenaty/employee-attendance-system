@@ -29,5 +29,8 @@
   "addProfile": "Add Profile",
   "leaveRequests": "Leave Requests",
   "missionRequests": "Mission Requests",
-  "ordinaryRequests": "Ordinary Requests"
+  "ordinaryRequests": "Ordinary Requests",
+  "casualLeaveRequests": "Casual Leave Requests",
+  "systemData": "System Date",
+  "logs": "Logs"
 }

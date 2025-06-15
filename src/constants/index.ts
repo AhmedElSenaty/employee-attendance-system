@@ -1,4 +1,6 @@
 export * from "./axios.constants"
 export * from "./i18n.constants"
+export * from "./namespaces.constants"
 export * from "./queryKeys.constants"
 export * from "./settings.constants"
+export * from "./videos.constants"

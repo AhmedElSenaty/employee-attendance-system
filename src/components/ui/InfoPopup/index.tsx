@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Popup } from "../Popup";
 import { Button } from "../Button";
 import { Video } from "lucide-react";
-import { Tooltip } from "../Tooltip";
+import { useTranslation } from "react-i18next";
 
 type InfoPopupProps = {
   title: string;
@@ -12,13 +12,12 @@ type InfoPopupProps = {
 
 export default function InfoPopup({ title, description, videoUrl }: InfoPopupProps) {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const { t } = useTranslation();
 
   return (
     <>
       {/* Button to open the popup */}
-      <Tooltip content="Click to learn how to use this page">
-        <Button variant="primary" type="button" size={"md"} shape={"rounded"} onClick={() => setIsPopupOpen(true)} icon={<Video className="w-full h-full" />} />
-      </Tooltip>
+      <Button variant="primary" type="button" size={"md"} shape={"rounded"} onClick={() => setIsPopupOpen(true)} icon={<Video className="w-full h-full" />}>{t("clickToWatch")}</Button>
       {/* The popup itself */}
       <Popup
         isOpen={isPopupOpen}
@@ -45,7 +44,7 @@ export default function InfoPopup({ title, description, videoUrl }: InfoPopupPro
             fullWidth={true}
             onClick={() => setIsPopupOpen(false)}
           >
-            Close
+            {t("buttons.close")}
           </Button>
         </div>
       </Popup>

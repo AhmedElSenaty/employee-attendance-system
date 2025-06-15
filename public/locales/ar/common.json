@@ -81,5 +81,6 @@
     "allowedFiles": "الملفات المسموح بها {{accept}}",
     "errorMessage": "{{error}}",
     "successMessage": "تم اختيار الملف بنجاح"
-  }
+  },
+  "clickToWatch": "انقر هنا لمشاهدة الفيديو حول كيفية استخدام الصفحة"
 }

@@ -81,5 +81,6 @@
     "allowedFiles": "{{accept}} files allowed",
     "errorMessage": "{{error}}",
     "successMessage": "File selected successfully"
-  }
+  },
+  "clickToWatch": "Click here to watch a video on how to use the page"
 }
