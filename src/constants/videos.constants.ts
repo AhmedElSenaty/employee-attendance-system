@@ -7,3 +7,5 @@ export const ATTENDANCE_OVERVIEW_VIDEO = "https://www.youtube.com/embed/dQw4w9Wg
 export const ATTENDANCE_VACATION_VIDEO = "https://www.youtube.com/embed/dQw4w9WgXcQ"
 export const LEAVE_REQUESTS_MANAGER_VIDEO = "https://www.youtube.com/embed/dQw4w9WgXcQ"
 export const LEAVE_REQUESTS_EMPLOYEE_VIDEO = "https://www.youtube.com/embed/dQw4w9WgXcQ"
+export const MISSION_REQUESTS_MANAGER_VIDEO = "https://www.youtube.com/embed/dQw4w9WgXcQ"
+export const MISSION_REQUESTS_EMPLOYEE_VIDEO = "https://www.youtube.com/embed/dQw4w9WgXcQ"

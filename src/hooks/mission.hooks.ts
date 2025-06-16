@@ -6,11 +6,7 @@ import { useLanguageStore } from "../store/language.store";
 import { appendSecondsToTime, getTranslatedMessage, handleApiError, showToast } from "../utils";
 import { useEffect, useMemo } from "react";
 import { MissionRequestService } from "../services/mission.services";
-
-export const MISSION_REQUESTS_QUERY_KEY = "missionRequests";
-export const MY_MISSION_REQUESTS_QUERY_KEY = "myMissionRequests";
-export const MISSION_REQUEST_DETAILS_QUERY_KEY = "missionRequestDetails";
-export const MY_MISSION_REQUEST_DETAILS_QUERY_KEY = "myMissionRequestDetails";
+import { QueryKeys } from "../constants";
 
 export const useMissionRequestService = () => {
 	const token = useUserStore((state) => state.token);
@@ -35,7 +31,9 @@ export const useGetMissionRequests = (
 	const missionService = useMissionRequestService();
 
 	const { data, isLoading } = useQuery({
-			queryKey: [MISSION_REQUESTS_QUERY_KEY, page, pageSize, startDate, endDate, status, searchType, searchQuery],
+			queryKey: [QueryKeys.MissionRequests.All, page, pageSize, startDate, endDate, status, 
+				`${searchType && searchQuery ? [searchType, searchQuery] : ""}`, 
+			],
 			queryFn: () => missionService.fetchMissionRequests(page, pageSize, startDate, endDate, status, searchType, searchQuery),
 			enabled: !!token,
 	})
@@ -59,7 +57,7 @@ export const useGetMyMissionRequests = (
 	const missionService = useMissionRequestService();
 
 	const { data , isLoading} = useQuery({
-			queryKey: [MY_MISSION_REQUESTS_QUERY_KEY, page, pageSize, startDate, endDate, status],
+			queryKey: [QueryKeys.MissionRequests.My, page, pageSize, startDate, endDate, status],
 			queryFn: ()=> missionService.fetchMyMissionRequests(page, pageSize, startDate, endDate, status),
 			enabled: !!token
 	});
@@ -79,7 +77,7 @@ export const useGetMissionRequestByID = (
 	const missionService = useMissionRequestService();
 
 	const { data, isLoading } = useQuery({
-			queryKey: [MISSION_REQUEST_DETAILS_QUERY_KEY, missionId],
+			queryKey: [QueryKeys.MissionRequests.Details, missionId],
 			queryFn: () => missionService.fetchMissionRequestById(missionId),
 			enabled: !!missionId && !!token,
 	});
@@ -98,7 +96,7 @@ export const useGetMyMissionRequestByID = (
 	const missionService = useMissionRequestService();
 	
 	const { data, isLoading } = useQuery({
-			queryKey: [MY_MISSION_REQUEST_DETAILS_QUERY_KEY, missionId],
+			queryKey: [QueryKeys.MissionRequests.MyDetails, missionId],
 			queryFn: () => missionService.fetchMyMissionRequestById(missionId),
 			enabled: !!missionId && !!token,
 	});
@@ -123,7 +121,7 @@ export const useCreateMissionRequest = () => {
 	return useMutation({
 		mutationFn: (missionData: IMissionRequestCredentials) => missionService.create(missionData),
 		onSuccess: ({ status, data }) => {
-				queryClient.invalidateQueries({queryKey: [MY_MISSION_REQUESTS_QUERY_KEY]});
+				queryClient.invalidateQueries({queryKey: [QueryKeys.MissionRequests.My]});
 				if (status === 201) {
 						const message = getTranslatedMessage(data.message ?? "", language);
 						showToast("success", message);
@@ -142,13 +140,16 @@ export const useAssignMissionRequest = () => {
 	const missionService = useMissionRequestService();
 
 	return useMutation({
-			mutationFn: (missionData: IAssignMissionRequestCredentials)=>{
-				missionData.startTime = appendSecondsToTime(missionData.startTime)
-				missionData.endTime = appendSecondsToTime(missionData.endTime)
-				return missionService.assign(missionData)
+			mutationFn: (missionData: IAssignMissionRequestCredentials)=> {
+				const formatted = {
+					...missionData,
+					startTime: appendSecondsToTime(missionData.startTime || ""),
+					endTime: appendSecondsToTime(missionData.endTime || ""),
+				};
+				return missionService.assign(formatted)
 			},
 			onSuccess: ({ status, data }) => {
-					queryClient.invalidateQueries({queryKey: [MISSION_REQUESTS_QUERY_KEY]});
+					queryClient.invalidateQueries({queryKey: [QueryKeys.MissionRequests.All]});
 					if (status === 201) {
 							const message = getTranslatedMessage(data.message ?? "", language);
 							showToast("success", message);
@@ -168,8 +169,9 @@ export const useUpdateMissionRequest = () => {
 
 	return useMutation({
 			mutationFn: (missionData: IMissionRequestCredentials) => missionService.update(missionData),
-			onSuccess: ({ status, data } ) => {
-					queryClient.invalidateQueries({queryKey: [MY_MISSION_REQUESTS_QUERY_KEY]});
+			onSuccess: ({ status, data }, missionData) => {
+					queryClient.invalidateQueries({queryKey: [QueryKeys.MissionRequests.My]});
+					queryClient.invalidateQueries({queryKey: [QueryKeys.MissionRequests.MyDetails, missionData.requestId]});
 					if (status === 200) {
 							const message = getTranslatedMessage(data.message ?? "", language);
 							showToast("success", message);
@@ -189,8 +191,9 @@ export const useAcceptMissionRequest = () => {
 
 	return useMutation({
 			mutationFn: (missionId: number) => missionService.accept(missionId),
-			onSuccess: ({ status, data }) => {
-					queryClient.invalidateQueries({queryKey: [MISSION_REQUESTS_QUERY_KEY]});
+			onSuccess: ({ status, data }, missionId) => {
+					queryClient.invalidateQueries({queryKey: [QueryKeys.MissionRequests.All]});
+					queryClient.invalidateQueries({queryKey: [QueryKeys.MissionRequests.Details, missionId]});
 					if (status === 200) {
 							const message = getTranslatedMessage(data.message ?? "", language);
 							showToast("success", message);
@@ -210,8 +213,9 @@ export const useRejectMissionRequest = () => {
 
 	return useMutation({
 			mutationFn: (missionData: IRejectMissionRequestCredentials) => missionService.reject(missionData),
-			onSuccess: ({ status, data }) => {
-					queryClient.invalidateQueries({queryKey: [MISSION_REQUESTS_QUERY_KEY]});
+			onSuccess: ({ status, data }, missionData) => {
+					queryClient.invalidateQueries({queryKey: [QueryKeys.MissionRequests.All]});
+					queryClient.invalidateQueries({queryKey: [QueryKeys.MissionRequests.Details, missionData.requestId]});
 					if (status === 200) {
 							const message = getTranslatedMessage(data.message ?? "", language);
 							showToast("success", message);

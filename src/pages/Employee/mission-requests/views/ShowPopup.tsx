@@ -3,9 +3,9 @@ import { NormalSpinner, Button, Popup } from "../../../../components/ui";
 import { useLanguageStore } from "../../../../store/language.store";
 import { RequestStatusType } from "../../../../enums";
 import { useTranslation } from "react-i18next";
-import { TRANSLATION_NAMESPACE } from "..";
 import { formatValue } from "../../../../utils";
 import { IMissionRequestData } from "../../../../interfaces";
+import { MISSION_REQUESTS_NS } from "../../../../constants";
 
 interface IShowPopupProps {
   isOpen: boolean;
@@ -23,7 +23,7 @@ const ShowPopup = ({
   isLoading,
 }: IShowPopupProps) => {
   const { language } = useLanguageStore();
-  const { t } = useTranslation(TRANSLATION_NAMESPACE);
+  const { t } = useTranslation(MISSION_REQUESTS_NS);
 
   return (
     <Popup

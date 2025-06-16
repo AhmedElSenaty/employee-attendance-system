@@ -20,7 +20,7 @@ export interface IMissionRequestData{
 }
 
 export interface IAssignMissionRequestCredentials {
-    employeeId: string;
+    employeeId: number;
     date: string;
     startTime: string;
     endTime: string;

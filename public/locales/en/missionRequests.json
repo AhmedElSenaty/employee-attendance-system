@@ -108,6 +108,25 @@
       "close": "Close"
     }
   },
+  "form": {
+    "attendanceDate": {
+      "label": "Attendance Date",
+      "placeholder": "Enter Attendance Date",
+      "inputValidation": {
+        "required": "Attendance Date is required",
+        "matches": "Invalid date format (YYYY-MM-DD)"
+      }
+    },
+    "status": {
+      "label": "Status",
+      "placeholder": "Enter Status",
+      "defaultValue": "Choose Status",
+      "inputValidation": {
+        "required": "Status is required",
+        "oneOf": "Invalid status"
+      }
+    }
+  },
   "inputs": {
     "type": {
       "label": "Mission Type",
@@ -115,6 +134,35 @@
       "validation": {
         "optionality": "Invalid mission request type",
         "required": "Mission request type is required"
+      }
+    },
+    "employeeId": {
+      "label": "Employee",
+      "placeholder": "Enter Employee",
+      "defaultValue": "Choose Employee",
+      "inputValidation": {
+        "required": "Employee is required",
+        "typeError": "Employee ID must be a valid number",
+        "positive": "Employee ID must be a positive number",
+        "integer": "Employee ID must be an integer",
+        "min": "Select Employee",
+        "max": "Select Employee"
+      }
+    },
+    "startTime": {
+      "label": "Start Time",
+      "placeholder": "Enter Start Time",
+      "inputValidation": {
+        "required": "Start Time is required",
+        "matches": "Invalid time format (HH:mm)"
+      }
+    },
+    "endTime": {
+      "label": "End Time",
+      "placeholder": "Enter End Time",
+      "inputValidation": {
+        "required": "End Time is required",
+        "matches": "Invalid time format (HH:mm)"
       }
     },
     "date": {
@@ -182,5 +230,29 @@
       "reject": "Reject",
       "close": "Close"
     }
+  },
+  "infoPopupMissionRequestsManager": {
+    "title": "How to Use the Mission Requests Page (Manager)",
+    "description": "Watch this video tutorial to learn how managers can review, approve, reject, and manage employee mission requests efficiently.",
+    "closeButton": "Close"
+  },
+  "infoPopupMissionRequestsEmployees": {
+    "title": "How to Use the Mission Requests Page (Employee)",
+    "description": "Watch this video tutorial to learn how employees can submit, view, and track the status of their mission requests.",
+    "closeButton": "Close"
+  },
+  "assignPopup": {
+    "title": "Assign Mission Request",
+    "description": "Are you sure you want to assign this Mission request? This action will notify the employee and update the assignment status.",
+    "buttons": {
+      "assign": "Assign",
+      "close": "Close",
+      "loading": "Loading..."
+    }
+  },
+  "assignMission": {
+    "title": "Assign Mission",
+    "description": "Assign a mission to a team member quickly and easily.",
+    "button": "Assign Now"
   }
 }

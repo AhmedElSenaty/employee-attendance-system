@@ -4,10 +4,10 @@ import { Clock, FilePenLine, Info, MessageSquare, Eye } from "lucide-react";
 import { Button } from "../Button";
 import { Tooltip } from "../Tooltip"; // Assuming you have this
 import { getRequestBgColorClass, getRequestStatusVariant, truncateText } from "../../../utils";
-import { TRANSLATION_NAMESPACE } from "../../../pages/Employee/mission-requests";
 import { useTranslation } from "react-i18next";
 import { useLanguageStore } from "../../../store/language.store";
 import { IMissionRequestData } from "../../../interfaces";
+import { MISSION_REQUESTS_NS } from "../../../constants";
 
 type Props = {
   data: IMissionRequestData;
@@ -16,7 +16,7 @@ type Props = {
 };
 
 const MissionRequestCard = ({ data, handleShow, handleEdit }: Props) => {
-  const { t } = useTranslation(TRANSLATION_NAMESPACE);
+  const { t } = useTranslation(MISSION_REQUESTS_NS);
   const { language } = useLanguageStore();
 
   return (

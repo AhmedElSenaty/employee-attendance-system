@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
-import { TRANSLATION_NAMESPACE } from "..";
 import { Button, Popup } from "../../../../components/ui";
+import { MISSION_REQUESTS_NS } from "../../../../constants";
 
 interface IAcceptPopupProps {
   isOpen: boolean;
@@ -10,7 +10,7 @@ interface IAcceptPopupProps {
 }
 
 const AcceptPopup = ({ isOpen, handleClose, handleConfirmAccept, isLoading }: IAcceptPopupProps) => {
-  const { t } = useTranslation(TRANSLATION_NAMESPACE);
+  const { t } = useTranslation(MISSION_REQUESTS_NS);
 
   return (
     <Popup

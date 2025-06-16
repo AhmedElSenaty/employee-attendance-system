@@ -1,18 +1,18 @@
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { FilePlus2, ShieldCheck } from "lucide-react";
-import { ActionCard, Button, Header, Paginator, SectionHeader } from "../../../components/ui";
+import { ActionCard, Button, Header, InfoPopup, Paginator, SectionHeader } from "../../../components/ui";
 import { yupResolver } from "@hookform/resolvers/yup";
 import useURLSearchParams from "../../../hooks/URLSearchParams.hook";
-import { TRANSLATION_NAMESPACE } from ".";
 import { useTranslation } from "react-i18next";
 import { AddPopup, ConditionsPopup, EditPopup, Filters, Inputs, MissionRequestsList, ShowPopup } from "./views";
 import { IMissionRequestCredentials } from "../../../interfaces";
-import { missionRequestSchema } from "../../../validation/missionRequest.schema";
+import { missionRequestSchema } from "../../../validation";
 import { useCreateMissionRequest, useGetMyMissionRequestByID, useGetMyMissionRequests, useUpdateMissionRequest } from "../../../hooks/mission.hooks";
+import { MISSION_REQUESTS_EMPLOYEE_VIDEO, MISSION_REQUESTS_NS } from "../../../constants";
 
-const MissionRequests = () => {
-  const { t } = useTranslation(TRANSLATION_NAMESPACE);
+const MissionRequestsPage = () => {
+  const { t } = useTranslation(MISSION_REQUESTS_NS);
 
   const {getParam, setParam, clearParams} = useURLSearchParams();
 
@@ -100,6 +100,13 @@ const MissionRequests = () => {
 
       {/* Action Buttons Section */}
       <div className="max-w-[1000px] mx-auto space-y-6">
+        <div className="w-full flex items-center justify-center">
+          <InfoPopup
+            title={t("infoPopupMissionRequestsEmployees.title")}
+            description={t("infoPopupMissionRequestsEmployees.description")}
+            videoUrl={MISSION_REQUESTS_EMPLOYEE_VIDEO}
+          />
+        </div>
         <div className="flex flex-col md:flex-row gap-5">
           <div className="w-full md:w-1/2">
             <ActionCard
@@ -165,8 +172,8 @@ const MissionRequests = () => {
           totalRecords={metadata?.pagination?.totalRecords || 0}
           isLoading={isMissionRequestsLoading}
           onClickFirst={() => setParam("page", String(1))}
-          onClickPrev={() => setParam("page", String(Math.max((Number(getParam('endDate')) || 1) - 1, 1)))}
-          onClickNext={() => setParam("page", String(Math.min((Number(getParam('endDate')) || 1) + 1, metadata?.pagination?.totalPages || 1)))}
+          onClickPrev={() => setParam("page", String(Math.max((Number(getParam('page')) || 1) - 1, 1)))}
+          onClickNext={() => setParam("page", String(Math.min((Number(getParam('page')) || 1) + 1, metadata?.pagination?.totalPages || 1)))}
         />
       </div>
 
@@ -221,4 +228,4 @@ const MissionRequests = () => {
   );
 };
 
-export default MissionRequests;
+export default MissionRequestsPage;

@@ -34,5 +34,11 @@ export const QueryKeys = {
     Details: "leaveRequestDetails",
     MyDetails: "myLeaveRequestDetails",
   },
+  MissionRequests: {
+    All: "missionRequests",
+    My: "myMissionRequests",
+    Details: "missionRequestDetails",
+    MyDetails: "myMissionRequestDetails",
+  },
   // Add more domains/modules here
 };

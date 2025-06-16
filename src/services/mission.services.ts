@@ -105,6 +105,7 @@ export class MissionRequestService extends BaseService {
 	}
 
 	assign = (missionRequest: IAssignMissionRequestCredentials) => {
+		console.log(missionRequest);
 		return axiosInstance.post("/MissionRequest/Manager/AssignMission", missionRequest, {
 				headers: this.getAuthHeaders(),
 		});

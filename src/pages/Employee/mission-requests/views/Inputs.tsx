@@ -12,10 +12,10 @@ import {
 } from "../../../../components/ui";
 import { MissionRequestType } from "../../../../enums";
 import { Calendar } from "lucide-react";
-import { TRANSLATION_NAMESPACE } from "..";
 import { useTranslation } from "react-i18next";
 import { getTodayDateISO } from "../../../../utils";
 import { IMissionRequestCredentials } from "../../../../interfaces";
+import { MISSION_REQUESTS_NS } from "../../../../constants";
 
 interface IMissionRequestInputsProps {
   register: UseFormRegister<IMissionRequestCredentials>;
@@ -24,7 +24,7 @@ interface IMissionRequestInputsProps {
 }
 
 const Inputs = ({ register, errors, isLoading }: IMissionRequestInputsProps) => {
-  const { t } = useTranslation(TRANSLATION_NAMESPACE);
+  const { t } = useTranslation(MISSION_REQUESTS_NS);
 
   return (
     <>
