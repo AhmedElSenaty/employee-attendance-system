@@ -104,9 +104,8 @@ const MissionRequestsPage = () => {
     setIsRejectPopupOpen(false);
   });
 
-  const onSubmit: SubmitHandler<IAssignMissionRequestCredentials> = (data: IAssignMissionRequestCredentials) => {
+  const onSubmit: SubmitHandler<IAssignMissionRequestCredentials> = (data: IAssignMissionRequestCredentials) => {  
     assignMissionRequest(data);
-    resetAssign();
     setIsAssignPopupOpen(false);
   };
 
@@ -129,7 +128,10 @@ const MissionRequestsPage = () => {
           title={t("assignMission.title")}
           description={t("assignMission.description")}
         >
-          <Button fullWidth variant="secondary" onClick={() => setIsAssignPopupOpen(true)}>
+          <Button fullWidth variant="secondary" onClick={() => {
+            resetAssign({ date: "", employeeId: 0, description: "", startTime: "", endTime: ""})
+            setIsAssignPopupOpen(true)
+          }}>
             {t("assignMission.button")}
           </Button>
         </ActionCard>

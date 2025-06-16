@@ -146,6 +146,8 @@ export const useAssignMissionRequest = () => {
 					startTime: appendSecondsToTime(missionData.startTime || ""),
 					endTime: appendSecondsToTime(missionData.endTime || ""),
 				};
+				console.log(formatted);
+				
 				return missionService.assign(formatted)
 			},
 			onSuccess: ({ status, data }) => {
