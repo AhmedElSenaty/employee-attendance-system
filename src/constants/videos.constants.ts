@@ -33,3 +33,5 @@ export const MISSION_REQUESTS_EMPLOYEE_VIDEO =
 // "https://www.youtube.com/embed/dQw4w9WgXcQ";
 export const ORDINARY_REQUESTS_MANAGER_VIDEO = "https://www.youtube.com/embed/dQw4w9WgXcQ"
 export const ORDINARY_REQUESTS_EMPLOYEE_VIDEO = "https://www.youtube.com/embed/dQw4w9WgXcQ"
+export const SICK_REQUESTS_MANAGER_VIDEO = "https://www.youtube.com/embed/dQw4w9WgXcQ"
+export const SICK_REQUESTS_EMPLOYEE_VIDEO = "https://www.youtube.com/embed/dQw4w9WgXcQ"

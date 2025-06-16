@@ -40,5 +40,11 @@ export const QueryKeys = {
     Details: "ordinaryRequestDetails",
     MyDetails: "myOrdinaryRequestDetails",
   },
+  SickLeaveRequests: {
+    All: ['sickLeaveRequests', 'all'],
+    My: ['sickLeaveRequests', 'my'],
+    Details: 'sickLeaveRequestDetails',        // + requestId
+    MyDetails: 'mySickLeaveRequestDetails',    // + requestId
+  },
   // Add more domains/modules here
 };

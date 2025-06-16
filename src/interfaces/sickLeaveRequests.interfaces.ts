@@ -16,19 +16,30 @@ export interface ISickLeaveRequestData {
 }
 
 export interface ISickLeaveRequestCredentials {
-  requestId?: number,
-  description: string,
-  permitApproval: string,
-  numberOfDays: number,
-  startDate: string
-  medicalReport: File
+  StartDate: string
+  NumberOfDays: number,
+  Description: string,
+  PermitApproval: string,
+  MedicalReport: File
 }
 
 export interface IAssignSickLeaveRequestCredentials extends ISickLeaveRequestCredentials {
-  employeeId: number
+  EmployeeId: number,
 }
 
 export interface IRejectSickLeaveRequestCredentials {
   requestId: number;
   comment: string;
+}
+
+export interface ISickLeaveRequestUpdateReportCredentials {
+  RequestId?: number,
+  MedicalReport: File
+}
+export interface ISickLeaveRequestUpdateTextCredentials {
+  requestId?: string,
+  description: string,
+  permitApproval: string,
+  numberOfDays: number,
+  startDate: string
 }
