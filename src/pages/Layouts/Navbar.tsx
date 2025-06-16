@@ -26,13 +26,15 @@ export const Navbar = () => {
   return (
     <header className="z-30 shadow-lg sticky top-0 py-3 w-full h-fit bg-[var(--color-primary)]">
       <nav className="sm:mx-16 mx-3 flex justify-between items-center">
-      <button
-        onClick={toggleSidebar}
-        className="cursor-pointer inline-flex items-center justify-center p-2 text-white bg-secondary hover:bg-secondary-hover  rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
-        aria-label="Toggle Sidebar"
-      >
-        {sidebarisOpen ? <X className="w-7 h-7" /> : <Menu className="w-7 h-7" />}
-      </button>
+        { isLoggedIn && userRole != "employee" &&
+          <button
+            onClick={toggleSidebar}
+            className="cursor-pointer inline-flex items-center justify-center p-2 text-white bg-secondary hover:bg-secondary-hover  rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+            aria-label="Toggle Sidebar"
+          >
+            {sidebarisOpen ? <X className="w-7 h-7" /> : <Menu className="w-7 h-7" />}
+          </button>
+        }
         <NavLink
           to="/"
         >
