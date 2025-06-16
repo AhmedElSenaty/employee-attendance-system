@@ -7,7 +7,7 @@ import { getRequestBgColorClass, getRequestStatusVariant, truncateText } from ".
 import { useTranslation } from "react-i18next";
 import { useLanguageStore } from "../../../store/language.store";
 import { ICasualLeaveRequestData } from "../../../interfaces";
-import { TRANSLATION_NAMESPACE } from "../../../pages/Employee/casual-leave-requests";
+import { CASUAL_REQUESTS_NS } from "../../../constants";
 
 type Props = {
   data: ICasualLeaveRequestData;
@@ -16,7 +16,7 @@ type Props = {
 };
 
 const CasualLeaveRequestCard = ({ data, handleShow, handleEdit }: Props) => {
-  const { t } = useTranslation(TRANSLATION_NAMESPACE);
+  const { t } = useTranslation(CASUAL_REQUESTS_NS);
   const { language } = useLanguageStore();
 
   return (

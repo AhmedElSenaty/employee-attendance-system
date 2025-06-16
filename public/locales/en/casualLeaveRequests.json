@@ -1,40 +1,40 @@
 {
   "managerHeader": {
-    "title": "Ordinary Requests Management",
-    "subtitle": "Review, approve, or reject employee ordinary requests"
+    "title": "Casual Leave Requests Management",
+    "subtitle": "Review, approve, or reject employee casual leave requests"
   },
   "countCard": {
-    "title": "Total Ordinary Requests",
+    "title": "Total Casual Leave Requests",
     "description": "Number of requests submitted"
   },
   "managerSectionHeader": {
-    "title": "All Ordinary Requests",
-    "description": "You can filter, view, and take action on pending ordinary requests"
+    "title": "All Casual Leave Requests",
+    "description": "You can filter, view, and take action on pending casual leave requests"
   },
   "employeeHeader": {
-    "heading": "Ordinary Requests Management",
-    "subtitle": "Submit a new ordinary request or review the conditions for applications."
+    "heading": "Casual Leave Requests Management",
+    "subtitle": "Submit a new casual leave request or review the conditions for applications."
   },
   "addActionCard": {
-    "title": "Add New Ordinary Request",
+    "title": "Add New Casual Leave Request",
     "description": "Submit a request for personal, medical, or emergency leave.",
     "button": "Create Request"
   },
   "conditionsActionCard": {
-    "title": "Ordinary Conditions",
-    "description": "Read the requirements for applying for a ordinary.",
+    "title": "Casual Leave Conditions",
+    "description": "Read the requirements for applying for a casual leave.",
     "button": "Read Conditions"
   },
   "employeeSectionHeader": {
-    "title":"Employee Ordinary Requests", 
-    "description":"View submitted ordinary requests with status, timing, and notes. Edit or manage them as needed."
+    "title":"Employee Casual Leave Requests", 
+    "description":"View submitted casual leave requests with status, timing, and notes. Edit or manage them as needed."
   },
   "filters": {
     "pageSize": "Page Size",
     "startDate": "Start Date",
     "endDate": "End Date",
-    "casualStatus": "Ordinary Status",
-    "defaultCasualStatusOption": "Select ordinary status",
+    "casualStatus": "Casual Leave Status",
+    "defaultCasualStatusOption": "Select Casual Leave status",
     "toolTipResetFilters": "Reset All",
     "searchBy": {
       "default": "Choose your search method",
@@ -55,7 +55,7 @@
     "toolTipEditButton": "Edit Casual Leave Request"
   },
   "conditionsPopup": {
-    "title": "Permit Conditions",
+    "title": "Casual Leave Conditions",
     "description": "Read the requirements for applying for morning or evening permits.",
     "morning": {
       "title": "Morning Permission",
@@ -80,14 +80,14 @@
     "close": "Close"
   },
   "showPopup": {
-    "title": "Ordinary Request Details",
-    "description":"Detailed information about the ordinary request",
+    "title": "Casual Leave Request Details",
+    "description":"Detailed information about the casual leave request",
     "fields": {
       "employeeId": "#Employee ID",
       "employeeName": "Employee Name",
       "id": "#ID",
-      "startDate": "Ordinary start on",
-      "endDate": "Ordinary end on",
+      "startDate": "Casual Leave start on",
+      "endDate": "Casual Leave end on",
       "requestedAt": "Requested at",
       "status": "Status",
       "description": "Description",
@@ -99,16 +99,16 @@
     }
   },
   "addPopup": {
-    "title":"Add Ordinary Request",
-    "description":"Fill in the details to submit a new ordinary request.",
+    "title":"Add Casual Leave Request",
+    "description":"Fill in the details to submit a new casual leave request.",
     "buttons": {
       "add": "Add",
       "close": "Close"
     }
   },
   "editPopup": {
-    "title":"Edit Ordinary Request",
-    "description":"Update the details of your ordinary request below.",
+    "title":"Edit Casual Leave Request",
+    "description":"Update the details of your casual leave request below.",
     "buttons": {
       "edit": "Edit",
       "close": "Close"
@@ -150,8 +150,8 @@
   },
   "table": {
     "emptyTable": {
-      "title": "No Ordinary Requested Found",
-      "message": "Try adjusting your filters or adding a new Ordinary Requested."
+      "title": "No Casual Leave Requested Found",
+      "message": "Try adjusting your filters or adding a new Casual Leave Requested."
     },
     "columns": {
       "id": "#ID",
@@ -163,9 +163,9 @@
       "actions": "Actions"
     },
     "buttons": {
-      "toolTipShow": "Show Ordinary Request",
-      "toolTipAccept": "Accept Ordinary Request",
-      "toolTipReject": "Reject Ordinary Request"
+      "toolTipShow": "Show Casual Leave Request",
+      "toolTipAccept": "Accept Casual Leave Request",
+      "toolTipReject": "Reject Casual Leave Request"
     }
   },
   "acceptPopup": {
@@ -183,5 +183,10 @@
       "reject": "Reject",
       "close": "Close"
     }
+  },
+  "assignCasual": {
+    "title": "Assign Casual Leave Request",
+    "description": "Assign a casual leave leave to a team member quickly and easily.",
+    "button": "Assign Now"
   }
 }

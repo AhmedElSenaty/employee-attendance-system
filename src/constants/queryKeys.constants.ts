@@ -46,5 +46,11 @@ export const QueryKeys = {
     Details: 'sickLeaveRequestDetails',        // + requestId
     MyDetails: 'mySickLeaveRequestDetails',    // + requestId
   },
+    CasualLeaveRequests: {
+      All: "casualLeaveRequests",
+      My: "myCasualLeaveRequests",
+      Details: "casualLeaveRequestDetails",
+      MyDetails: "myCasualLeaveRequestDetails",
+  },
   // Add more domains/modules here
 };

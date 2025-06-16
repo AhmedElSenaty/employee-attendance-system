@@ -1,14 +1,14 @@
 import { useTranslation } from "react-i18next";
 import { Button, Field, Label, Popup, Textarea } from "../../../../components/ui";
 import { UseFormRegister } from "react-hook-form";
-import { IRejectCasualLeaveRequestCredentials } from "../../../../interfaces";
-import { CASUAL_REQUESTS_NS } from "../../../../constants";
+import { SICK_REQUESTS_NS } from "../../../../constants";
+import { IRejectSickLeaveRequestCredentials } from "../../../../interfaces";
 
 interface IRejectPopupProps {
   isOpen: boolean;
   handleClose: () => void;
   handleConfirmReject: () => void;
-  register: UseFormRegister<IRejectCasualLeaveRequestCredentials>;
+  register: UseFormRegister<IRejectSickLeaveRequestCredentials>;
   isLoading: boolean;
 }
 
@@ -19,7 +19,7 @@ const RejectPopup = ({
   register,
   isLoading,
 }: IRejectPopupProps) => {
-  const { t } = useTranslation(CASUAL_REQUESTS_NS);
+  const { t } = useTranslation(SICK_REQUESTS_NS);
 
   return (
     <Popup

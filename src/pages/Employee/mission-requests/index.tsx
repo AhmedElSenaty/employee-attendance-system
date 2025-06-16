@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next";
 import { AddPopup, ConditionsPopup, EditPopup, Filters, Inputs, MissionRequestsList, ShowPopup } from "./views";
 import { IMissionRequestCredentials } from "../../../interfaces";
 import { missionRequestSchema } from "../../../validation";
-import { useCreateMissionRequest, useGetMyMissionRequestByID, useGetMyMissionRequests, useUpdateMissionRequest } from "../../../hooks/mission.hooks";
+import { useCreateMissionRequest, useGetMyMissionRequestByID, useGetMyMissionRequests, useUpdateMissionRequest } from "../../../hooks/missionRequest.hooks";
 import { MISSION_REQUESTS_EMPLOYEE_VIDEO, MISSION_REQUESTS_NS } from "../../../constants";
 
 const MissionRequestsPage = () => {

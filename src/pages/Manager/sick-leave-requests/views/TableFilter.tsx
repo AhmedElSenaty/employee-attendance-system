@@ -1,5 +1,4 @@
 import { useTranslation } from "react-i18next";
-import { useLanguageStore } from "../../../../store/language.store";
 import {
   Button,
   Field,
@@ -11,7 +10,8 @@ import {
 import { formatValue } from "../../../../utils";
 import { Calendar, RefreshCcw, Search } from "lucide-react";
 import { RequestStatusType } from "../../../../enums";
-import { CASUAL_REQUESTS_NS } from "../../../../constants";
+import { useLanguageStore } from "../../../../store";
+import { SICK_REQUESTS_NS } from "../../../../constants";
 
 interface FiltersProps {
   searchBy: string[];
@@ -26,7 +26,7 @@ const TableFilters = ({
   setParam,
   clearParams,
 }: FiltersProps) => {
-  const { t } = useTranslation(CASUAL_REQUESTS_NS);
+  const { t } = useTranslation(SICK_REQUESTS_NS);
   const { language } = useLanguageStore(); // Accessing the current language from the Redux state
 
   return (
@@ -71,10 +71,10 @@ const TableFilters = ({
       </Field>
 
       <Field className="flex flex-col space-y-2">
-        <Label>{t("filters.casualStatus")}</Label>
+        <Label>{t("filters.sickStatus")}</Label>
         <SelectBox onChange={(e) => setParam("status", e.target.value)}>
           <option value="" selected={getParam("status") == null} disabled>
-            {t("filters.defaultCasualStatusOption")}
+            {t("filters.defaultSickStatusOption")}
           </option>
           {Object.values(RequestStatusType)
             .filter((v) => typeof v === "number")

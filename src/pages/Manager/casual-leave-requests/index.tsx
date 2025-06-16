@@ -1,5 +1,4 @@
 import { useTranslation } from "react-i18next";
-import { TRANSLATION_NAMESPACE } from ".";
 import useURLSearchParams from "../../../hooks/URLSearchParams.hook";
 import { useState } from "react";
 import { IRejectLeaveRequestCredentials } from "../../../interfaces/leaveRequest.interfaces";
@@ -16,9 +15,10 @@ import AcceptPopup from "./views/AcceptPopup";
 import RejectPopup from "./views/RejectPop";
 import { IRejectCasualLeaveRequestCredentials } from "../../../interfaces";
 import { useAcceptCasualLeaveRequest, useGetCasualLeaveRequestByID, useGetCasualLeaveRequests, useRejectCasualLeaveRequest } from "../../../hooks";
+import { CASUAL_REQUESTS_NS } from "../../../constants";
 
 const CasualLeaveRequestsPage = () => {
-  const { t } = useTranslation(TRANSLATION_NAMESPACE);
+  const { t } = useTranslation(CASUAL_REQUESTS_NS);
   const { language } = useLanguageStore();
 
   const {getParam, setParam, clearParams} = useURLSearchParams();
@@ -141,8 +141,8 @@ const CasualLeaveRequestsPage = () => {
             totalRecords={metadata?.pagination?.totalRecords || 0}
             isLoading={isCasualLeaveRequestsLoading}
             onClickFirst={() => setParam("page", String(1))}
-            onClickPrev={() => setParam("page", String(Math.max((Number(getParam('endDate')) || 1) - 1, 1)))}
-            onClickNext={() => setParam("page", String(Math.min((Number(getParam('endDate')) || 1) + 1, metadata?.pagination?.totalPages || 1)))}
+            onClickPrev={() => setParam("page", String(Math.max((Number(getParam('page')) || 1) - 1, 1)))}
+            onClickNext={() => setParam("page", String(Math.min((Number(getParam('page')) || 1) + 1, metadata?.pagination?.totalPages || 1)))}
           />
         </div>
 

@@ -7,12 +7,7 @@ import { appendSecondsToTime, getTranslatedMessage, handleApiError, showToast } 
 import { CasualLeaveRequestService } from "../services/casualLeaveRequest.services";
 import { AxiosError } from "axios";
 import { IErrorResponse, initialMetadata } from "../interfaces";
-
-
-export const CASUAL_LEAVE_REQUESTS_QUERY_KEY = "casualLeaveRequests";
-export const MY_CASUAL_LEAVE_REQUESTS_QUERY_KEY = "myCasualLeaveRequests";
-export const CASUAL_LEAVE_REQUEST_DETAILS_QUERY_KEY = "casualLeaveRequestDetails";
-export const MY_CASUAL_LEAVE_REQUEST_DETAILS_QUERY_KEY = "myCasualLeaveRequestDetails";
+import { QueryKeys } from "../constants";
 
 export const useCasualLeaveRequestService = () => {
   const token = useUserStore((state) => state.token);
@@ -37,7 +32,9 @@ export const useGetCasualLeaveRequests = (
   const casualLeaveRequestService = useCasualLeaveRequestService();
   
   const { data, isLoading } = useQuery({
-    queryKey: [CASUAL_LEAVE_REQUESTS_QUERY_KEY, page, pageSize, startDate, endDate, status, searchType, searchQuery],
+    queryKey: [QueryKeys.CasualLeaveRequests.All, page, pageSize, startDate, endDate, status, 
+      `${searchType && searchQuery ? [searchType, searchQuery] : ""}`,
+    ],
     queryFn: () => casualLeaveRequestService.fetchCasualLeaveRequests(page, pageSize, startDate, endDate, status, searchType, searchQuery),
     enabled: !!token,
   });
@@ -61,7 +58,7 @@ export const useGetMyCasualLeaveRequests = (
   const casualLeaveRequestService = useCasualLeaveRequestService();
 
   const { data, isLoading } = useQuery({
-    queryKey: [MY_CASUAL_LEAVE_REQUESTS_QUERY_KEY, page, pageSize, startDate, endDate, status],
+    queryKey: [QueryKeys.CasualLeaveRequests.My, page, pageSize, startDate, endDate, status],
     queryFn: () => casualLeaveRequestService.fetchMyCasualLeaveRequests(page, pageSize, startDate, endDate, status),
     enabled: !!token,
   });
@@ -81,7 +78,7 @@ export const useGetCasualLeaveRequestByID = (
   const casualLeaveRequestService = useCasualLeaveRequestService();
 
   const { data, isLoading } = useQuery({
-    queryKey: [CASUAL_LEAVE_REQUEST_DETAILS_QUERY_KEY, requestId],
+    queryKey: [QueryKeys.CasualLeaveRequests.Details, requestId],
     queryFn: () => casualLeaveRequestService.fetchCasualLeaveRequestById(requestId),
     enabled: !!requestId && !!token,
   });
@@ -100,7 +97,7 @@ export const useGetMyCasualLeaveRequestByID = (
   const casualLeaveRequestService = useCasualLeaveRequestService();
 
   const { data, isLoading } = useQuery({
-    queryKey: [MY_CASUAL_LEAVE_REQUEST_DETAILS_QUERY_KEY, requestId],
+    queryKey: [QueryKeys.CasualLeaveRequests.MyDetails, requestId],
     queryFn: () => casualLeaveRequestService.fetchMyCasualLeaveRequestById(requestId),
     enabled: !!requestId && !!token,
   });
@@ -125,7 +122,7 @@ export const useCreateCasualLeaveRequest = () => {
   return useMutation({
     mutationFn: (casualLeaveRequestData: ICasualLeaveRequestCredentials) => casualLeaveRequestService.create(casualLeaveRequestData),
     onSuccess: ({ status, data }) => {
-      queryClient.invalidateQueries({ queryKey: [MY_CASUAL_LEAVE_REQUESTS_QUERY_KEY] });
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.CasualLeaveRequests.My] });
       if (status === 201) {
         const message = getTranslatedMessage(data.message ?? "", language);
         showToast("success", message);
@@ -137,6 +134,7 @@ export const useCreateCasualLeaveRequest = () => {
     },
   });
 };
+
 export const useUpdateCasualLeaveRequest = () => {
   const { language } = useLanguageStore();
   const queryClient = useQueryClient();
@@ -144,8 +142,9 @@ export const useUpdateCasualLeaveRequest = () => {
 
   return useMutation({
     mutationFn: (casualLeaveRequestData: ICasualLeaveRequestCredentials) => casualLeaveRequestService.update(casualLeaveRequestData),
-    onSuccess: ({ status, data }) => {
-      queryClient.invalidateQueries({ queryKey: [MY_CASUAL_LEAVE_REQUEST_DETAILS_QUERY_KEY] });
+    onSuccess: ({ status, data }, casualLeaveRequestData) => {
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.CasualLeaveRequests.My] });
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.CasualLeaveRequests.MyDetails, casualLeaveRequestData.requestId] });
       if (status === 200) {
         const message = getTranslatedMessage(data.message ?? "", language);
         showToast("success", message);
@@ -165,8 +164,9 @@ export const useAcceptCasualLeaveRequest = () => {
 
   return useMutation({
     mutationFn: (requestId: number) => casualLeaveRequestService.accept(requestId),
-    onSuccess: ({ status, data }) => {
-      queryClient.invalidateQueries({ queryKey: [CASUAL_LEAVE_REQUESTS_QUERY_KEY] });
+    onSuccess: ({ status, data }, requestId) => {
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.CasualLeaveRequests.All] });
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.CasualLeaveRequests.Details, requestId] });
       if (status === 200) {
         const message = getTranslatedMessage(data.message ?? "", language);
         showToast("success", message);
@@ -186,8 +186,9 @@ export const useRejectCasualLeaveRequest = () => {
 
   return useMutation({
     mutationFn: (rejectCasualLeaveRequestData: IRejectCasualLeaveRequestCredentials) => casualLeaveRequestService.reject(rejectCasualLeaveRequestData),
-    onSuccess: ({ status, data }) => {
-      queryClient.invalidateQueries({ queryKey: [CASUAL_LEAVE_REQUESTS_QUERY_KEY] });
+    onSuccess: ({ status, data }, rejectCasualLeaveRequestData) => {
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.CasualLeaveRequests.All] });
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.CasualLeaveRequests.Details, rejectCasualLeaveRequestData.requestId] });
       if (status === 200) {
         const message = getTranslatedMessage(data.message ?? "", language);
         showToast("success", message);
@@ -212,7 +213,7 @@ export const useAssignCasualLeaveRequest = () => {
 				return casualLeaveRequestService.assign(casualLeaveRequestData)
 			},
 			onSuccess: ({ status, data }) => {
-					queryClient.invalidateQueries({queryKey: [CASUAL_LEAVE_REQUESTS_QUERY_KEY]});
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.CasualLeaveRequests.All] });
 					if (status === 201) {
 							const message = getTranslatedMessage(data.message ?? "", language);
 							showToast("success", message);

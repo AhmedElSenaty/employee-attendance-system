@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import { Eye, X, Check } from "lucide-react";
 import {
   Button,
@@ -10,12 +9,12 @@ import {
   TableSkeleton,
   Tooltip,
 } from "../../../../components/ui";
-import { CASUAL_LEAVE_REQUESTS_TABLE_COLUMNS, TRANSLATION_NAMESPACE } from "..";
 import { useTranslation } from "react-i18next";
 import { useLanguageStore } from "../../../../store/language.store";
 import { formatValue, getRequestStatusVariant } from "../../../../utils";
 import { RequestStatusType } from "../../../../enums";
 import { ICasualLeaveRequestData } from "../../../../interfaces";
+import { CASUAL_REQUESTS_NS } from "../../../../constants";
 
 interface ITableProps {
   casualLeaveRequests: ICasualLeaveRequestData[];
@@ -32,13 +31,20 @@ const CasualLeaveRequestssTable = ({
   handleAccept,
   handleReject,
 }: ITableProps) => {
-  const { t } = useTranslation(TRANSLATION_NAMESPACE);
+  const { t } = useTranslation(CASUAL_REQUESTS_NS);
   const { language } = useLanguageStore();
 
-  const columns = useMemo(
-    () => CASUAL_LEAVE_REQUESTS_TABLE_COLUMNS.map((key) => t(key)),
-    [t]
-  );
+  const CASUAL_LEAVE_REQUESTS_TABLE_COLUMNS = [
+    "table.columns.id",
+    "table.columns.employeeName",
+    "table.columns.startDate",
+    "table.columns.endDate",
+    "table.columns.requestedAt",
+    "table.columns.status",
+    "table.columns.actions",
+  ]
+
+  const columns = CASUAL_LEAVE_REQUESTS_TABLE_COLUMNS.map((key) => t(key));
 
   return (
     <>
