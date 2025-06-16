@@ -1,10 +1,4 @@
 export const QueryKeys = {
-  Profiles: {
-    All: "profiles",
-    List: "profilesList",
-    Details: "profileDetails",
-    Permissions: "profilePermissions",
-  },
   Devices: {
     All: "devices",
     Details: "deviceDetails",
@@ -39,6 +33,12 @@ export const QueryKeys = {
     My: "myMissionRequests",
     Details: "missionRequestDetails",
     MyDetails: "myMissionRequestDetails",
+  },
+  OrdinaryRequests: {
+    All: "ordinaryRequests",
+    My: "myOrdinaryRequests",
+    Details: "ordinaryRequestDetails",
+    MyDetails: "myOrdinaryRequestDetails",
   },
   // Add more domains/modules here
 };

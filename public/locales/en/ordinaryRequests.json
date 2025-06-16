@@ -183,5 +183,13 @@
       "reject": "Reject",
       "close": "Close"
     }
+  },
+  "infoPopupOrdinaryRequestsManager": {
+    "title": "Ordinary Requests Management",
+    "description": "Manage all ordinary requests submitted by employees. You can review, approve, reject, and track requests efficiently using the filters and tools provided."
+  },
+  "infoPopupOrdinaryRequestsEmployee": {
+    "title": "Your Ordinary Requests",
+    "description": "View and track the status of your ordinary requests. Submit new requests and stay updated on approvals or rejections easily."
   }
 }

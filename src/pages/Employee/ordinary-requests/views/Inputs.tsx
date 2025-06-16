@@ -10,10 +10,10 @@ import {
   TextareaSkeleton,
 } from "../../../../components/ui";
 import { Calendar } from "lucide-react";
-import { TRANSLATION_NAMESPACE } from "..";
 import { useTranslation } from "react-i18next";
 import { getTodayDateISO } from "../../../../utils";
 import { IOrdinaryRequestCredentials } from "../../../../interfaces";
+import { ORDINARY_REQUESTS_NS } from "../../../../constants";
 
 interface IOrdinaryRequestInputsProps {
   register: UseFormRegister<IOrdinaryRequestCredentials>;
@@ -22,7 +22,7 @@ interface IOrdinaryRequestInputsProps {
 }
 
 const Inputs = ({ register, errors, isLoading }: IOrdinaryRequestInputsProps) => {
-  const { t } = useTranslation(TRANSLATION_NAMESPACE);
+  const { t } = useTranslation(ORDINARY_REQUESTS_NS);
 
   return (
     <>

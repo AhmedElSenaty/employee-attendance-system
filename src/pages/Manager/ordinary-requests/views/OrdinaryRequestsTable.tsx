@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import { Eye, X, Check } from "lucide-react";
 import {
   Button,
@@ -10,12 +9,12 @@ import {
   TableSkeleton,
   Tooltip,
 } from "../../../../components/ui";
-import { ORDINARY_REQUESTS_TABLE_COLUMNS, TRANSLATION_NAMESPACE } from "..";
 import { useTranslation } from "react-i18next";
 import { useLanguageStore } from "../../../../store/language.store";
 import { formatValue, getRequestStatusVariant } from "../../../../utils";
 import { RequestStatusType } from "../../../../enums";
 import { IOrdinaryRequestData } from "../../../../interfaces";
+import { ORDINARY_REQUESTS_NS } from "../../../../constants";
 
 interface ITableProps {
   ordinaryRequests: IOrdinaryRequestData[];
@@ -25,20 +24,27 @@ interface ITableProps {
   handleReject: (id: number) => void;
 }
 
-const OrdinaryRequestssTable = ({
+const OrdinaryRequestsTable = ({
   ordinaryRequests,
   isLoading,
   handleShow,
   handleAccept,
   handleReject,
 }: ITableProps) => {
-  const { t } = useTranslation(TRANSLATION_NAMESPACE);
+  const { t } = useTranslation(ORDINARY_REQUESTS_NS);
   const { language } = useLanguageStore();
 
-  const columns = useMemo(
-    () => ORDINARY_REQUESTS_TABLE_COLUMNS.map((key) => t(key)),
-    [t]
-  );
+  const ORDINARY_REQUESTS_TABLE_COLUMNS = [
+    "table.columns.id",
+    "table.columns.employeeName",
+    "table.columns.startDate",
+    "table.columns.endDate",
+    "table.columns.requestedAt",
+    "table.columns.status",
+    "table.columns.actions",
+  ]
+
+  const columns = ORDINARY_REQUESTS_TABLE_COLUMNS.map((key) => t(key));
 
   return (
     <>
@@ -135,4 +141,4 @@ const OrdinaryRequestssTable = ({
   );
 };
 
-export default OrdinaryRequestssTable;
+export default OrdinaryRequestsTable;

@@ -7,12 +7,7 @@ import { getTranslatedMessage, handleApiError, showToast } from "../utils";
 import { OrdinaryRequestService } from "../services/ordinaryRequest.services";
 import { AxiosError } from "axios";
 import { IErrorResponse, initialMetadata } from "../interfaces";
-
-
-export const ORDINARY_REQUESTS_QUERY_KEY = "ordinaryRequests";
-export const MY_ORDINARY_REQUESTS_QUERY_KEY = "myOrdinaryRequests";
-export const ORDINARY_REQUEST_DETAILS_QUERY_KEY = "ordinaryRequestDetails";
-export const MY_ORDINARY_REQUEST_DETAILS_QUERY_KEY = "myOrdinaryRequestDetails";
+import { QueryKeys } from "../constants";
 
 export const useOrdinaryRequestService = () => {
   const token = useUserStore((state) => state.token);
@@ -37,7 +32,9 @@ export const useGetOrdinaryRequests = (
   const ordinaryRequestService = useOrdinaryRequestService();
   
   const { data, isLoading } = useQuery({
-    queryKey: [ORDINARY_REQUESTS_QUERY_KEY, page, pageSize, startDate, endDate, status, searchType, searchQuery],
+    queryKey: [QueryKeys.OrdinaryRequests.All, page, pageSize, startDate, endDate, status, 
+      `${searchType && searchQuery ? [searchType, searchQuery] : ""}`, 
+    ],
     queryFn: () => ordinaryRequestService.fetchOrdinaryRequests(page, pageSize, startDate, endDate, status, searchType, searchQuery),
     enabled: !!token,
   });
@@ -61,7 +58,7 @@ export const useGetMyOrdinaryRequests = (
   const ordinaryRequestService = useOrdinaryRequestService();
 
   const { data, isLoading } = useQuery({
-    queryKey: [MY_ORDINARY_REQUESTS_QUERY_KEY, page, pageSize, startDate, endDate, status],
+    queryKey: [QueryKeys.OrdinaryRequests.My, page, pageSize, startDate, endDate, status],
     queryFn: () => ordinaryRequestService.fetchMyOrdinaryRequests(page, pageSize, startDate, endDate, status),
     enabled: !!token,
   });
@@ -81,7 +78,7 @@ export const useGetOrdinaryRequestByID = (
   const ordinaryRequestService = useOrdinaryRequestService();
 
   const { data, isLoading } = useQuery({
-    queryKey: [ORDINARY_REQUEST_DETAILS_QUERY_KEY, requestId],
+    queryKey: [QueryKeys.OrdinaryRequests.Details, requestId],
     queryFn: () => ordinaryRequestService.fetchOrdinaryRequestById(requestId),
     enabled: !!requestId && !!token,
   });
@@ -100,7 +97,7 @@ export const useGetMyOrdinaryRequestByID = (
   const ordinaryRequestService = useOrdinaryRequestService();
 
   const { data, isLoading } = useQuery({
-    queryKey: [MY_ORDINARY_REQUEST_DETAILS_QUERY_KEY, requestId],
+    queryKey: [QueryKeys.OrdinaryRequests.MyDetails, requestId],
     queryFn: () => ordinaryRequestService.fetchMyOrdinaryRequestById(requestId),
     enabled: !!requestId && !!token,
   });
@@ -125,7 +122,7 @@ export const useCreateOrdinaryRequest = () => {
   return useMutation({
     mutationFn: (ordinaryRequestData: IOrdinaryRequestCredentials) => ordinaryRequestService.create(ordinaryRequestData),
     onSuccess: ({ status, data }) => {
-      queryClient.invalidateQueries({ queryKey: [MY_ORDINARY_REQUESTS_QUERY_KEY] });
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.OrdinaryRequests.My] });
       if (status === 201) {
         const message = getTranslatedMessage(data.message ?? "", language);
         showToast("success", message);
@@ -144,8 +141,9 @@ export const useUpdateOrdinaryRequest = () => {
 
   return useMutation({
     mutationFn: (ordinaryRequestData: IOrdinaryRequestCredentials) => ordinaryRequestService.update(ordinaryRequestData),
-    onSuccess: ({ status, data }) => {
-      queryClient.invalidateQueries({ queryKey: [MY_ORDINARY_REQUESTS_QUERY_KEY] });
+    onSuccess: ({ status, data }, ordinaryRequestData) => {
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.OrdinaryRequests.My] });
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.OrdinaryRequests.MyDetails, ordinaryRequestData.requestId] });
       if (status === 200) {
         const message = getTranslatedMessage(data.message ?? "", language);
         showToast("success", message);
@@ -165,8 +163,9 @@ export const useAcceptOrdinaryRequest = () => {
 
   return useMutation({
     mutationFn: (requestId: number) => ordinaryRequestService.accept(requestId),
-    onSuccess: ({ status, data }) => {
-      queryClient.invalidateQueries({ queryKey: [ORDINARY_REQUESTS_QUERY_KEY] });
+    onSuccess: ({ status, data }, requestId) => {
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.OrdinaryRequests.All] });
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.OrdinaryRequests.Details, requestId] });
       if (status === 200) {
         const message = getTranslatedMessage(data.message ?? "", language);
         showToast("success", message);
@@ -186,8 +185,9 @@ export const useRejectOrdinaryRequest = () => {
 
   return useMutation({
     mutationFn: (rejectOrdinaryRequestData: IRejectOrdinaryRequestCredentials) => ordinaryRequestService.reject(rejectOrdinaryRequestData),
-    onSuccess: ({ status, data }) => {
-      queryClient.invalidateQueries({ queryKey: [ORDINARY_REQUESTS_QUERY_KEY] });
+    onSuccess: ({ status, data }, rejectOrdinaryRequestData) => {
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.OrdinaryRequests.All] });
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.OrdinaryRequests.Details, rejectOrdinaryRequestData.requestId] });
       if (status === 200) {
         const message = getTranslatedMessage(data.message ?? "", language);
         showToast("success", message);

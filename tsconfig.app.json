@@ -22,5 +22,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src", "public/logos", "public/icons", "public/images"]
+  "include": ["src", "public/logos", "public/icons", "public/images", "src/pages/Employee/ordinary-requests/.ts"]
 }

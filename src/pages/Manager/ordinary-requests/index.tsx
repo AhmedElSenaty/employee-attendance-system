@@ -1,25 +1,16 @@
 import { useTranslation } from "react-i18next";
-import { TRANSLATION_NAMESPACE } from ".";
 import useURLSearchParams from "../../../hooks/URLSearchParams.hook";
 import { useState } from "react";
-import { IRejectLeaveRequestCredentials } from "../../../interfaces/leaveRequest.interfaces";
 import { useForm } from "react-hook-form";
 import { useDebounce } from "../../../hooks/debounce.hook";
-import { CountCard, Header, Paginator, SectionHeader } from "../../../components/ui";
-import { formatValue } from "../../../utils";
-import { useLanguageStore } from "../../../store/language.store";
-import { CalendarCheck } from "lucide-react";
-import TableFilters from "./views/TableFilters";
-import OrdinaryRequestssTable from "./views/OrdinaryRequestssTable";
-import ShowPopup from "./views/ShowPopup";
-import AcceptPopup from "./views/AcceptPopup";
-import RejectPopup from "./views/RejectPop";
-import { IRejectOrdinaryRequestCredentials } from "../../../interfaces";
-import { useAcceptOrdinaryRequest, useGetOrdinaryRequestByID, useGetOrdinaryRequests, useRejectOrdinaryRequest } from "../../../hooks/ordinaryRequest.hooks";
+import { Header, InfoPopup, Paginator, SectionHeader } from "../../../components/ui";
+import { useAcceptOrdinaryRequest, useGetOrdinaryRequestByID, useGetOrdinaryRequests, useRejectOrdinaryRequest } from "../../../hooks/";
+import { ORDINARY_REQUESTS_MANAGER_VIDEO, ORDINARY_REQUESTS_NS } from "../../../constants";
+import { IRejectLeaveRequestCredentials, IRejectOrdinaryRequestCredentials } from "../../../interfaces";
+import { AcceptPopup, OrdinaryRequestsTable, RejectPopup, ShowPopup, TableFilters } from "./views";
 
-const OrdinaryRequests = () => {
-  const { t } = useTranslation(TRANSLATION_NAMESPACE);
-  const { language } = useLanguageStore();
+const OrdinaryRequestsPage = () => {
+  const { t } = useTranslation(ORDINARY_REQUESTS_NS);
 
   const {getParam, setParam, clearParams} = useURLSearchParams();
 
@@ -74,7 +65,7 @@ const OrdinaryRequests = () => {
   const searchQuery = rawSearchQuery || undefined;
 
   // Pass filtered params to hook
-  const { ordinaryRequests, totalRequests, metadata, isOrdinaryRequestsLoading } = useGetOrdinaryRequests(
+  const { ordinaryRequests, metadata, isOrdinaryRequestsLoading } = useGetOrdinaryRequests(
     page,
     pageSize,
     startDate,
@@ -111,13 +102,13 @@ const OrdinaryRequests = () => {
       />
 
       <div className="space-y-5 mx-auto w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl">
-        <CountCard 
-            title={t("countCard.title")}
-            description={t("countCard.description")}
-            count={formatValue(totalRequests, language)}
-            icon={<CalendarCheck size={28} />} 
-            bgColor="bg-[#b38e19]" 
+        <div className="w-full flex items-center justify-center">
+          <InfoPopup
+            title={t("infoPopupOrdinaryRequestsManager.title")}
+            description={t("infoPopupOrdinaryRequestsManager.description")}
+            videoUrl={ORDINARY_REQUESTS_MANAGER_VIDEO}
           />
+        </div>
       </div>
 
       <div className="bg-white shadow-md space-y-5 p-5 rounded-lg">
@@ -131,7 +122,7 @@ const OrdinaryRequests = () => {
           </div>
 
           <div className="w-full overflow-x-auto">
-            <OrdinaryRequestssTable ordinaryRequests={ordinaryRequests} isLoading={isOrdinaryRequestsLoading} handleShow={handleShowPopupOpen} handleAccept={handleAcceptPopupOpen} handleReject={handleRejectPopupOpen} />
+            <OrdinaryRequestsTable ordinaryRequests={ordinaryRequests} isLoading={isOrdinaryRequestsLoading} handleShow={handleShowPopupOpen} handleAccept={handleAcceptPopupOpen} handleReject={handleRejectPopupOpen} />
           </div>
 
           {/* Pagination Component */}
@@ -141,8 +132,8 @@ const OrdinaryRequests = () => {
             totalRecords={metadata?.pagination?.totalRecords || 0}
             isLoading={isOrdinaryRequestsLoading}
             onClickFirst={() => setParam("page", String(1))}
-            onClickPrev={() => setParam("page", String(Math.max((Number(getParam('endDate')) || 1) - 1, 1)))}
-            onClickNext={() => setParam("page", String(Math.min((Number(getParam('endDate')) || 1) + 1, metadata?.pagination?.totalPages || 1)))}
+            onClickPrev={() => setParam("page", String(Math.max((Number(getParam('page')) || 1) - 1, 1)))}
+            onClickNext={() => setParam("page", String(Math.min((Number(getParam('page')) || 1) + 1, metadata?.pagination?.totalPages || 1)))}
           />
         </div>
 
@@ -171,4 +162,4 @@ const OrdinaryRequests = () => {
   );
 };
 
-export default OrdinaryRequests;
+export default OrdinaryRequestsPage;
