@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next"; // Import translation hook
-import { Briefcase, Building2, Calendar, CalendarCog, CalendarSearch, Contact, ContactRound, Disc, Handshake, Home, LayoutDashboard, TentTree, TicketsPlane, User, UserCog, UserPlus, UserRoundPlus, Users } from "lucide-react";
+import { Bed, Briefcase, Building2, Calendar, CalendarCog, CalendarSearch, Contact, ContactRound, Disc, Handshake, Home, LayoutDashboard, PersonStanding, TicketsPlane, User, UserCog, UserPlus, UserRoundPlus, Users } from "lucide-react";
 import { Sidebar, SidebarDropdown, SidebarItem } from "../../components/ui/Sidebar";
 import { useUserStore } from "../../store/user.store";
 
@@ -60,7 +60,9 @@ export const ManagerSidebar = () => {
 
       <SidebarItem icon={<Disc size={23} />} name={t("ordinaryRequests")} to="/manager/ordinary-requests" />
 
-      <SidebarItem icon={<TentTree size={23} />} name={t("casualLeaveRequests")} to="/manager/casual-leave-requests" />
+      <SidebarItem icon={<PersonStanding size={23} />} name={t("casualLeaveRequests")} to="/manager/casual-leave-requests" />
+
+      <SidebarItem icon={<Bed size={23} />} name={t("sickRequests")} to="/manager/sick-requests" />
     </Sidebar>
   );
 };

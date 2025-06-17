@@ -8,7 +8,6 @@ interface IProps {
   icon?: ReactNode;
   successIcon?: ReactNode;
   validateFile?: (file: File) => string | null;
-  name: string
 }
 
 
@@ -18,7 +17,7 @@ const FileUpload = ({
   icon, 
   successIcon, 
   validateFile,
-  name = ""
+  ...rest
 }: IProps) => {
   const { t } = useTranslation();
   const [file, setFile] = useState<File | null>(null);
@@ -75,7 +74,7 @@ const FileUpload = ({
               className="sr-only" 
               accept={accept} 
               onChange={handleFileChange} 
-              name={name}
+              {...rest}
             />
           </label>
           <p className="pl-2">{t("fileUpload.dragAndDrop")}</p>

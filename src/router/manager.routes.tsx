@@ -6,7 +6,7 @@ import { AddEmployeePage, EditEmployeePage, ManageEmployeesPage } from "../pages
 import { AddManagerPage, EditManagerPage, ManageManagersPage } from "../pages/common/manage-managers";
 import { ManageSubDepartmentsPage } from "../pages/common/manage-sub-departments";
 import ManagerAccountPage from "../pages/Manager/Account";
-import { OrdinaryRequestsPage, AttendanceOverviewPage, AttendanceVacationsPage, ManageAttendancePage, CalendarPage, LeaveRequestsPage, MissionRequestsPage, CasualLeaveRequestsPage } from "../pages/Manager";
+import { OrdinaryRequestsPage, AttendanceOverviewPage, AttendanceVacationsPage, ManageAttendancePage, CalendarPage, LeaveRequestsPage, MissionRequestsPage, CasualLeaveRequestsPage, SickLRequestsPage } from "../pages/Manager";
 
 export const managerRoutes = (isLoggedIn: boolean, userRole: string) => (
   <Route 
@@ -44,5 +44,7 @@ export const managerRoutes = (isLoggedIn: boolean, userRole: string) => (
     <Route path="mission-requests" element={<MissionRequestsPage />} />
     <Route path="ordinary-requests" element={<OrdinaryRequestsPage />} />
     <Route path="casual-leave-requests" element={<CasualLeaveRequestsPage />} />
+
+    <Route path="sick-requests" element={<SickLRequestsPage />} />
   </Route>
 );

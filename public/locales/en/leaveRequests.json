@@ -3,10 +3,6 @@
     "title": "Leave Requests Management",
     "subtitle": "Review, approve, or reject employee leave requests"
   },
-  "countCard": {
-    "title": "Total Leave Requests",
-    "description": "Number of requests submitted"
-  },
   "managerSectionHeader": {
     "title": "All Leave Requests",
     "description": "You can filter, view, and take action on pending leave requests"

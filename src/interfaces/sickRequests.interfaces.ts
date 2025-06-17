@@ -1,6 +1,6 @@
 import { RequestStatusType } from "../enums";
 
-export interface ISickLeaveRequestData {
+export interface ISickRequestData {
   file?: string;
   requestId: number;
   description: string;
@@ -15,7 +15,7 @@ export interface ISickLeaveRequestData {
   employeeName?: string;
 }
 
-export interface ISickLeaveRequestCredentials {
+export interface ISickRequestCredentials {
   StartDate: string
   NumberOfDays: number,
   Description: string,
@@ -23,20 +23,20 @@ export interface ISickLeaveRequestCredentials {
   MedicalReport: File
 }
 
-export interface IAssignSickLeaveRequestCredentials extends ISickLeaveRequestCredentials {
+export interface IAssignSickRequestCredentials extends ISickRequestCredentials {
   EmployeeId: number,
 }
 
-export interface IRejectSickLeaveRequestCredentials {
+export interface IRejectSickRequestCredentials {
   requestId: number;
   comment: string;
 }
 
-export interface ISickLeaveRequestUpdateReportCredentials {
+export interface ISickRequestUpdateReportCredentials {
   RequestId?: number,
   MedicalReport: File
 }
-export interface ISickLeaveRequestUpdateTextCredentials {
+export interface ISickRequestUpdateTextCredentials {
   requestId?: string,
   description: string,
   permitApproval: string,

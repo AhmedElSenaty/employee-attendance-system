@@ -33,5 +33,6 @@
   "ordinaryRequests": "Ordinary Requests",
   "casualLeaveRequests": "Casual Leave Requests",
   "systemData": "System Data",
-  "logs": "Logs"
+  "logs": "Logs",
+  "sickRequests": "Sick Requests"
 }

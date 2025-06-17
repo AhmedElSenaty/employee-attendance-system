@@ -1,4 +1,4 @@
-import { DEVICES_NS, LOGS_NS, SYSTEM_DATA_NS } from "./namespaces.constants";
+import { DEVICES_NS, LOGS_NS, SICK_REQUESTS_NS, SYSTEM_DATA_NS } from "./namespaces.constants";
 
 export const i18n_LOAD_PATH = "/locales/{{lng}}/{{ns}}.json";
 export const FALLBACK_LANGUAGE = "ar";
@@ -34,5 +34,6 @@ export const i18n_NAMESPACES = [
   "ordinaryRequests",
   "casualLeaveRequests",
   LOGS_NS,
-  SYSTEM_DATA_NS
+  SYSTEM_DATA_NS,
+  SICK_REQUESTS_NS
 ];

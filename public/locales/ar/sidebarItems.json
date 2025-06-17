@@ -33,5 +33,6 @@
   "ordinaryRequests": "الطلبات العادية",
   "casualLeaveRequests": "طلبات الإجازة العرضية",
   "systemData": "بيانات النظام",
-  "logs": "سجلات النشاط"
+  "logs": "سجلات النشاط",
+  "sickRequests": "طلبات مرضية"
 }

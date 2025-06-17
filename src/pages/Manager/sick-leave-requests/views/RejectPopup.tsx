@@ -2,13 +2,13 @@ import { useTranslation } from "react-i18next";
 import { Button, Field, Label, Popup, Textarea } from "../../../../components/ui";
 import { UseFormRegister } from "react-hook-form";
 import { SICK_REQUESTS_NS } from "../../../../constants";
-import { IRejectSickLeaveRequestCredentials } from "../../../../interfaces";
+import { IRejectSickRequestCredentials } from "../../../../interfaces";
 
 interface IRejectPopupProps {
   isOpen: boolean;
   handleClose: () => void;
   handleConfirmReject: () => void;
-  register: UseFormRegister<IRejectSickLeaveRequestCredentials>;
+  register: UseFormRegister<IRejectSickRequestCredentials>;
   isLoading: boolean;
 }
 

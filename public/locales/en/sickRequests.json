@@ -1,0 +1,164 @@
+{
+  "managerHeader": {
+    "title": "Sick Requests Management",
+    "subtitle": "Review, approve, view report, or reject employee sick requests"
+  },
+  "managerSectionHeader": {
+    "title": "All Sick Requests",
+    "description": "You can filter, view, and take action on pending sick requests"
+  },
+  "inputs": {
+    "numberOfDays": {
+      "label": "Number Of Days",
+      "placeholder": "Enter Number Of Days",
+      "inputValidation": {
+        "required": "number of days is required",
+        "typeError": "number of days is required",
+        "min": "Number of days must be at least 1"
+      }
+    },
+    "employeeId": {
+      "label": "Employee",
+      "placeholder": "Choose Employee",
+      "defaultValue": "Choose Employee",
+      "inputValidation": {
+        "required": "Employee is required",
+        "typeError": "Employee is required"
+      }
+    },
+    "startDate": {
+      "label": "Start Date",
+      "validation": {
+        "matches": "Start Date must be in the format YYYY-MM-DD",
+        "required": "Start Date is required"
+      }
+    },
+    "description": {
+      "label": "Reason for requesting leave",
+      "placeholder": "Enter the reason for requesting leave.",
+      "validation": {
+        "max": "Reason for requesting leave can't exceed 500 characters",
+        "required": "Reason for requesting leave is required"
+      }
+    },
+    "permitApproval": {
+      "label": "Permit Approval",
+      "placeholder": "Enter the permit approval details.",
+      "validation": {
+        "max": "Permit Approval can't exceed 500 characters",
+        "required": "Permit Approval is required"
+      }
+    },
+    "comment": {
+      "label": "comment",
+      "placeholder": "Mention a comment about the reason for rejection.."
+    }
+  },
+  "status": {
+    "0":"Pending",
+    "1":"Accepted",
+    "2":"Rejected",
+    "3":"Ignored"
+  },
+  "filters": {
+    "pageSize": "Page Size",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "requestStatus": "Sick Request Status",
+    "defaultRequestStatusOption": "Select sick request status",
+    "toolTipResetFilters": "Reset All",
+    "searchBy": {
+      "label": "Search By",
+      "default": "Choose your search method",
+      "SearchByFullName": "Full Name",
+      "SearchBySSN": "SSN",
+      "SearchByEmployeeId": "Employee ID"
+    },
+    "search": {
+      "label": "Search",
+      "placeholder": "Enter the value you want to search for...."
+    }
+  },
+  "table": {
+    "emptyTable": {
+      "title": "No Sick Requested Found",
+      "message": "Try adjusting your filters or assign a new sick requested."
+    },
+    "columns": {
+      "id": "#ID",
+      "employeeName": "Employee Name",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "numberOfDays": "Number Of Days",
+      "requestedAt": "Requested At",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "buttons": {
+      "toolTipShow": "Show Sick Request",
+      "toolTipAccept": "Accept Sick Request",
+      "toolTipReject": "Reject Sick Request",
+      "toolOpenReport": "Open Employee Report"
+    }
+  },
+  "acceptPopup": {
+    "title":"Accept Sick Request",
+    "description": "Are you sure you want to accept this sick request? This action will notify the employee and update the request status.",
+    "buttons": {
+      "accept": "Accept",
+      "close": "Close"
+    }
+  },
+  "rejectPopup": {
+    "title": "Reject Sick Request",
+    "description": "Are you sure you want to reject this sick request? This action will notify the employee and update the request status.",
+    "buttons": {
+      "reject": "Reject",
+      "close": "Close"
+    }
+  },
+  "showPopup": {
+    "title": "Sick Request Details",
+    "description":"Detailed information about the sick request",
+    "fields": {
+      "numberOfDays": "Number Of Days",
+      "employeeId": "#Employee ID",
+      "employeeName": "Employee Name",
+      "id": "#Request ID",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "requestedAt": "Requested at",
+      "status": "Status",
+      "permitApproval": "Permit Approval",
+      "description": "Description",
+      "comment": "Comment"
+    },
+    "buttons": {
+      "edit": "Edit",
+      "close": "Close",
+      "openReport": "Report",
+      "accept": "Accept",
+      "reject": "Reject"
+    }
+  },
+  "assignPopup": {
+    "title": "Assign Sick Request",
+    "description": "Assign a sick to a employee quickly and easily.",
+    "button": "Assign Now",
+    "buttons": {
+      "assign": "assgin",
+      "close": "Close",
+      "loading": "Loading..."
+    }
+  },
+  "infoPopupManager": {
+    "title": "How to Use The Sick Requests Page (Manager)",
+    "description": "Watch this video tutorial to learn how managers can review, approve, reject, view report, and manage employee sick requests effectively.",
+    "closeButton": "Close"
+  },
+  "assignActionCard": {
+    "title": "Assign New Sick Request",
+    "description": "Assign sick request for employee.",
+    "button": "Assign Now"
+  }
+}

@@ -21,7 +21,7 @@ export * from "./permission.interfaces"
 export * from "./profile.interface"
 export * from "./report.interfaces"
 export * from "./resetAccount.interfaces";
-export * from "./sickLeaveRequests.interfaces";
+export * from "./sickRequests.interfaces";
 export * from "./subDepartment.interfaces";
 export * from "./systemData.interfaces";
 

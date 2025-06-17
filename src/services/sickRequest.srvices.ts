@@ -1,15 +1,14 @@
 import axiosInstance from "../config/axios.config";
 import {
-	IAssignSickLeaveRequestCredentials,
-	IRejectSickLeaveRequestCredentials,
-  ISickLeaveRequestCredentials,
-  ISickLeaveRequestUpdateReportCredentials,
-	ISickLeaveRequestUpdateTextCredentials,
+	IRejectSickRequestCredentials,
+  ISickRequestCredentials,
+  ISickRequestUpdateReportCredentials,
+	ISickRequestUpdateTextCredentials,
 } from "../interfaces";
 import { BaseService } from "./base.services";
 
-export class SickLeaveRequestsService extends BaseService {
-	fetchLeaveRequests = async (
+export class SickRequestsService extends BaseService {
+	fetchRequests = async (
     page?: number,
     pageSize?: number,
     startDate?: string,
@@ -33,13 +32,13 @@ export class SickLeaveRequestsService extends BaseService {
         headers: this.getAuthHeaders(),
       });
 
-      return response.data;
+      return response;
     } catch (error) {
-      this.handleError(error, "Error fetching all leave requests");
+      this.handleError(error, "Error fetching all sick requests");
     }
   };
 
-  fetchMySickRequests = async (
+  fetchMyRequests = async (
     page?: number,
     pageSize?: number,
     startDate?: string,
@@ -59,43 +58,46 @@ export class SickLeaveRequestsService extends BaseService {
         headers: this.getAuthHeaders(),
       });
 
-      return response.data;
+      return response;
     } catch (error) {
       this.handleError(error, "Error fetching all Sick requests");
     }
   };
 
-  fetchMySickRequestById = async (requestId: number) => {
+  fetchMyRequestById = async (requestId: number) => {
     try {
       const response = await axiosInstance.get(`/SickLeaveRequst/Employee/SickLeaveRequests/${requestId}`, {
         headers: this.getAuthHeaders(),
       });
 
-      return response.data;
+      return response;
     } catch (error) {
       this.handleError(error, `Error fetching Sick request with ID ${requestId}`);
     }
   };
 
-  fetchSickRequestById = async (requestId: number) => {
+  fetchRequestById = async (requestId: number) => {
     try {
       const response = await axiosInstance.get(`/SickLeaveRequst/Manager/SickLeaveRequests/${requestId}`, {
         headers: this.getAuthHeaders(),
       });
 
-      return response.data;
+      return response;
     } catch (error) {
       this.handleError(error, `Error fetching Sick request with ID ${requestId}`);
     }
   };
 
-	assign = (request: IAssignSickLeaveRequestCredentials) => {
-		return axiosInstance.post("/SickLeaveRequst/Manager/AssignSickLeave", request, {
-				headers: this.getAuthHeaders(),
-		});
-	}
+  assign = (formData: FormData) => {
+    return axiosInstance.post("/SickLeaveRequst/Manager/AssignSickLeave", formData, {
+      headers: {
+        ...this.getAuthHeaders(),
+        "Content-Type": "multipart/form-data",
+      },
+    });
+  };
 
-	create = (request: ISickLeaveRequestCredentials) => {
+	create = (request: ISickRequestCredentials) => {
 		return axiosInstance.post("/SickLeaveRequst/Employee/RequestSickLeave", request, {
 				headers: this.getAuthHeaders(),
 		});
@@ -107,13 +109,13 @@ export class SickLeaveRequestsService extends BaseService {
     });
   }
 
-  reject = (rejectLeaveRequestData: IRejectSickLeaveRequestCredentials) => {
+  reject = (rejectLeaveRequestData: IRejectSickRequestCredentials) => {
     return axiosInstance.put(`/SickLeaveRequst/Manager/SickLeave/Reject`, rejectLeaveRequestData, {
       headers: this.getAuthHeaders(),
     });
   }
 
-  updateReport = async (report: ISickLeaveRequestUpdateReportCredentials) => {
+  updateReport = async (report: ISickRequestUpdateReportCredentials) => {
 		return axiosInstance.put(
 			`/SickLeaveRequst/Employee/Request/Sick/UpdateReport`,
 			report,
@@ -126,7 +128,7 @@ export class SickLeaveRequestsService extends BaseService {
 		);
   };
 
-	updateText = async (data: ISickLeaveRequestUpdateTextCredentials) => {
+	updateText = async (data: ISickRequestUpdateTextCredentials) => {
     return axiosInstance.put(
 			`/SickLeaveRequst/Employee/Request/Sick/UpdateText`,
 			data,
