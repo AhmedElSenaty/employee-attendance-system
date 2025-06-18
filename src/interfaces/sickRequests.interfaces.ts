@@ -16,11 +16,11 @@ export interface ISickRequestData {
 }
 
 export interface ISickRequestCredentials {
-  StartDate: string
-  NumberOfDays: number,
-  Description: string,
-  PermitApproval: string,
-  MedicalReport: File
+  StartDate: string;
+  NumberOfDays: number;
+  Description: string;
+  PermitApproval: string;
+  MedicalReport: FileList|Array;
 }
 
 export interface IAssignSickRequestCredentials extends ISickRequestCredentials {

@@ -8,6 +8,14 @@
     "description": "You can filter, view, and take action on pending sick requests"
   },
   "inputs": {
+    "medicalReport": {
+      "label": "Medical Report",
+      "description": "Accepted formats: PDF, JPG, PNG, WEBP. Please upload a clear and valid medical report file.",
+      "inputValidation": {
+        "required": "Medical report file is required",
+        "fileType": "Only PDF or image files are allowed"
+      }
+    },
     "numberOfDays": {
       "label": "Number Of Days",
       "placeholder": "Enter Number Of Days",
@@ -106,7 +114,8 @@
     "description": "Are you sure you want to accept this sick request? This action will notify the employee and update the request status.",
     "buttons": {
       "accept": "Accept",
-      "close": "Close"
+      "close": "Close",
+      "loading": "Loading..."
     }
   },
   "rejectPopup": {
@@ -114,7 +123,8 @@
     "description": "Are you sure you want to reject this sick request? This action will notify the employee and update the request status.",
     "buttons": {
       "reject": "Reject",
-      "close": "Close"
+      "close": "Close",
+      "loading": "Loading..."
     }
   },
   "showPopup": {
@@ -144,9 +154,8 @@
   "assignPopup": {
     "title": "Assign Sick Request",
     "description": "Assign a sick to a employee quickly and easily.",
-    "button": "Assign Now",
     "buttons": {
-      "assign": "assgin",
+      "assign": "Assgin",
       "close": "Close",
       "loading": "Loading..."
     }

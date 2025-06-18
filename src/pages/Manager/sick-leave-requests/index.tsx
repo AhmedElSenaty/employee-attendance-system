@@ -29,7 +29,7 @@ const SickLRequestsPage = () => {
     reset
   } = useForm<IRejectSickRequestCredentials>();
 
-  const { register: assignRegister, handleSubmit: handleSubmitAssign, formState: { errors }, reset: resetAssign, control } = useForm<IAssignSickRequestCredentials>({
+  const { register: assignRegister, handleSubmit: handleSubmitAssign, formState: { errors }, reset: resetAssign, watch } = useForm<IAssignSickRequestCredentials>({
     resolver: yupResolver(assignSickRequestSchema),
     mode: "onChange"
   });
@@ -101,7 +101,7 @@ const SickLRequestsPage = () => {
   
   const handleConfirmAssign: SubmitHandler<IAssignSickRequestCredentials> = (request: IAssignSickRequestCredentials) => {
     assignSickRequest(request)
-    // setIsAssignPopupOpen(false)
+    setIsAssignPopupOpen(false)
   };
 
   return (
@@ -193,7 +193,7 @@ const SickLRequestsPage = () => {
           <AssignInputs 
             register={assignRegister}
             errors={errors}
-            control={control}
+            watch={watch}
           />
         }
         handleSubmit={handleSubmitAssign(handleConfirmAssign)}

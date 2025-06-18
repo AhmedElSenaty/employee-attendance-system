@@ -22,8 +22,26 @@ export const sickRequestSchema = yup.object().shape({
     .required("Permit approval is required"),
 
     MedicalReport: yup
-    .mixed<File>()
-    .required("Medical report file is required"),
+    .mixed()
+    .required("Medical report file is required")
+    .test("fileType", "Only PDF or image files are allowed", (value) => {
+      if (!value) return false;
+  
+      // value can be FileList or array of files
+      const file = value instanceof FileList ? value[0] : Array.isArray(value) ? value[0] : value;
+  
+      if (!file) return false;
+  
+      const allowedTypes = [
+        "application/pdf",
+        "image/jpeg",
+        "image/jpg",
+        "image/png",
+        "image/webp",
+      ];
+  
+      return allowedTypes.includes(file.type);
+    }),
 });
 
 export const assignSickRequestSchema = sickRequestSchema.shape({

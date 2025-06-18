@@ -23,8 +23,11 @@ const AcceptPopup = ({ isOpen, handleClose, handleConfirmAccept, isLoading }: IA
         <Button variant="cancel" type="button" fullWidth={true} onClick={handleClose}>
           {t("acceptPopup.buttons.close")}
         </Button>
-        <Button type="button" fullWidth={true} onClick={handleConfirmAccept} isLoading={isLoading}>
-          {t("acceptPopup.buttons.accept")}
+        <Button variant={"success"} type="button" fullWidth={true} onClick={handleConfirmAccept} isLoading={isLoading}>
+          {(isLoading)
+            ? t("acceptPopup.buttons.loading")
+            : t("acceptPopup.buttons.accept")
+          }
         </Button>
       </div>
     </Popup>
