@@ -3,7 +3,7 @@ import { StatusBadge } from "../StatusBadge";
 import { FilePenLine, Info, MessageSquare, Eye } from "lucide-react";
 import { Button } from "../Button";
 import { Tooltip } from "../Tooltip"; // Assuming you have this
-import { getRequestBgColorClass, getRequestStatusVariant, truncateText } from "../../../utils";
+import { formatValue, getRequestBgColorClass, getRequestStatusVariant, truncateText } from "../../../utils";
 import { useTranslation } from "react-i18next";
 import { useLanguageStore } from "../../../store/language.store";
 import { ISickRequestData } from "../../../interfaces";
@@ -28,18 +28,25 @@ const SickRequestCard = ({ data, handleShow, handleEdit }: Props) => {
       <div className="flex justify-between items-center">
         <div>
           <h3 className="text-lg font-semibold text-gray-800">
-            {t("ordinaryRequestCard.date", {
-              start: new Date(data?.startDate || "").toLocaleDateString(
-                language === "ar" ? "ar-EG" : "en-CA"
-              ),
-              end: new Date(data?.endDate || "").toLocaleDateString(
-                language === "ar" ? "ar-EG" : "en-CA"
-              ),
-            })}
+            {t("sickRequestCard.numberOfDays", { number: formatValue(data?.numberOfDays) })}
           </h3>
 
           <p className="text-base text-gray-500">
-            {t("ordinaryRequestCard.requestedAt")}{" "}
+            {t("sickRequestCard.startDate")}{" "}
+            {new Date(data?.startDate || "").toLocaleDateString(
+              language === "ar" ? "ar-EG" : "en-CA"
+            )}
+          </p>
+
+          <p className="text-base text-gray-500">
+            {t("sickRequestCard.endDate")}{" "}
+            {new Date(data?.endDate || "").toLocaleDateString(
+              language === "ar" ? "ar-EG" : "en-CA"
+            )}
+          </p>
+
+          <p className="text-base text-gray-500">
+            {t("sickRequestCard.requestedAt")}{" "}
             {new Date(data?.requestedAt || "").toLocaleDateString(
               language === "ar" ? "ar-EG" : "en-CA"
             )}
@@ -74,7 +81,7 @@ const SickRequestCard = ({ data, handleShow, handleEdit }: Props) => {
       {/* Action Buttons with Tooltips */}
       <div className="flex gap-3 justify-end">
         <Tooltip
-          content={t("ordinaryRequestCard.toolTipViewButton")}
+          content={t("sickRequestCard.toolTipViewButton")}
           placement="top"
         >
           <Button
@@ -86,7 +93,7 @@ const SickRequestCard = ({ data, handleShow, handleEdit }: Props) => {
         </Tooltip>
         {data.status == RequestStatusType.Pending && (
           <Tooltip
-            content={t("ordinaryRequestCard.toolTipEditButton")}
+            content={t("sickRequestCard.toolTipEditButton")}
             placement="top"
           >
             <Button

@@ -1,8 +1,6 @@
 import axiosInstance from "../config/axios.config";
 import {
 	IRejectSickRequestCredentials,
-  ISickRequestCredentials,
-  ISickRequestUpdateReportCredentials,
 	ISickRequestUpdateTextCredentials,
 } from "../interfaces";
 import { BaseService } from "./base.services";
@@ -97,9 +95,12 @@ export class SickRequestsService extends BaseService {
     });
   };
 
-	create = (request: ISickRequestCredentials) => {
-		return axiosInstance.post("/SickLeaveRequst/Employee/RequestSickLeave", request, {
-				headers: this.getAuthHeaders(),
+	create = (formData: FormData) => {
+		return axiosInstance.post("/SickLeaveRequst/Employee/RequestSickLeave", formData, {
+      headers: {
+        ...this.getAuthHeaders(),
+        "Content-Type": "multipart/form-data",
+      },
 		});
 	}
 
@@ -115,10 +116,10 @@ export class SickRequestsService extends BaseService {
     });
   }
 
-  updateReport = async (report: ISickRequestUpdateReportCredentials) => {
+  updateReport = async (formData: FormData) => {
 		return axiosInstance.put(
 			`/SickLeaveRequst/Employee/Request/Sick/UpdateReport`,
-			report,
+			formData,
 			{
 				headers: {
 					...this.getAuthHeaders(),
@@ -129,8 +130,9 @@ export class SickRequestsService extends BaseService {
   };
 
 	updateText = async (data: ISickRequestUpdateTextCredentials) => {
+    console.log(data);
     return axiosInstance.put(
-			`/SickLeaveRequst/Employee/Request/Sick/UpdateText`,
+			`/SickLeaveRequst/Employee/Request/SickLeave/UpdateText`,
 			data,
 			{
 				headers: {

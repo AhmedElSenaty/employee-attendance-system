@@ -1,61 +1,49 @@
-import { Control, Controller, FieldErrors, UseFormRegister } from "react-hook-form";
+import { FieldErrors, UseFormRegister, UseFormWatch } from "react-hook-form";
 import { ISickRequestCredentials } from "../../../../interfaces";
-import { Field, FileUpload, Input, InputErrorMessage, Label, Textarea } from "../../../../components/ui";
+import { Description, Field, Input, InputErrorMessage, Label, Textarea } from "../../../../components/ui";
 import { useTranslation } from "react-i18next";
 import { SICK_REQUESTS_NS } from "../../../../constants";
-import { Calendar, CheckCircle2, ImageIcon } from "lucide-react";
-
-const validateReport = (file: File): string | null => {
-  const allowedExtensions = [".jpg", ".jpeg", ".pdf"];
-  const maxSizeInMB = 1;
-  
-  const fileExtension = file.name.split(".").pop()?.toLowerCase();
-  const fileSizeInMB = file.size / (1024 * 1024);
-  
-  if (!fileExtension || !allowedExtensions.includes(`.${fileExtension}`)) {
-    return "Only PDF, JPG and JPEG files are allowed.";
-  }
-  
-  if (fileSizeInMB > maxSizeInMB) {
-    return "File size must not exceed 1MB.";
-  }
-  
-  return null;
-};
+import { Calendar } from "lucide-react";
+import { FileInputPreview } from "../../../../components/ui/Form/FileUpload";
 
 interface IInputsProps {
   register: UseFormRegister<ISickRequestCredentials>;
   errors: FieldErrors<ISickRequestCredentials>;
-  control: Control<ISickRequestCredentials>
+  watch: UseFormWatch<ISickRequestCredentials>
 }
-
 const AddInputs = ({
   register,
   errors,
-  control
+  watch
 }: IInputsProps) => {
 
   const { t } = useTranslation([SICK_REQUESTS_NS]);
-
+  const medicalReportFile = watch("MedicalReport") as FileList;
   return (
     <>
       <Field className="space-y-2">
         <Label size="lg">{t("inputs.medicalReport.label")}</Label>
-
-        <Controller
-          name="MedicalReport"
-          control={control}
-          rules={{ required: "Medical report is required" }}
-          render={({ field: { onChange } }) => (
-            <FileUpload
-              onFileSelect={(file) => onChange(file)}
-              accept=".jpg,.jpeg,.pdf"
-              icon={<ImageIcon className="w-full h-full text-[#19355a]" />}
-              successIcon={<CheckCircle2 className="w-full h-full text-green-500" />}
-              validateFile={validateReport}
-            />
-          )}
-          />
+        <FileInputPreview 
+          {...register("MedicalReport")} 
+          isSelected={Boolean(medicalReportFile?.length)} 
+          isError={!!errors.MedicalReport}
+        />
+        {medicalReportFile?.[0] && (
+          <a
+            href={URL.createObjectURL(medicalReportFile[0])}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block mt-2 text-sm text-blue-600 hover:underline"
+          >
+            {t("inputs.medicalReport.viewFileButton", "View Selected File")}
+          </a>
+        )}
+        <Description>{t(`inputs.medicalReport.description`)}</Description>
+        {errors.MedicalReport && (
+          <InputErrorMessage>
+            {t(`inputs.medicalReport.inputValidation.${errors.MedicalReport?.type}`)}
+          </InputErrorMessage>
+        )}
       </Field>
 
       <Field className="space-y-2">

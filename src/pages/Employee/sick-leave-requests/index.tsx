@@ -5,11 +5,11 @@ import { ActionCard, Button, Header, InfoPopup, Paginator, SectionHeader } from 
 import { yupResolver } from "@hookform/resolvers/yup";
 import useURLSearchParams from "../../../hooks/URLSearchParams.hook";
 import { useTranslation } from "react-i18next";
-import { ISickRequestCredentials } from "../../../interfaces";
-import { sickRequestSchema } from "../../../validation";
+import { ISickRequestCredentials, ISickRequestUpdateReportCredentials, ISickRequestUpdateTextCredentials } from "../../../interfaces";
+import { sickRequestSchema, sickRequestUpdateReportSchema, sickRequestUpdateTextSchema } from "../../../validation";
 import { SICK_REQUESTS_EMPLOYEE_VIDEO, SICK_REQUESTS_NS } from "../../../constants";
-import { useCreateSickRequest, useGetMySickRequestById, useGetMySickRequests } from "../../../hooks";
-import { AddInputs, AddPopup, ConditionsPopup, Filters, ShowPopup, SickRequestsList } from "./views";
+import { useCreateSickRequest, useGetMySickRequestById, useGetMySickRequests, useUpdateSickReport, useUpdateSickText } from "../../../hooks";
+import { AddInputs, AddPopup, ConditionsPopup, EditPopup, EditReportInputs, EditTextInputs, Filters, ShowPopup, SickRequestsList } from "./views";
 
 const SickRequestsPage = () => {
   const { t } = useTranslation(SICK_REQUESTS_NS);
@@ -22,15 +22,30 @@ const SickRequestsPage = () => {
 
   const [isShowPopupOpen, setIsShowPopupOpen] = useState(false);
   const [isAddPopupOpen, setIsAddPopupOpen] = useState(false);
+  const [isEditPopupOpen, setIsEditPopupOpen] = useState(false);
 
-  const { register, handleSubmit, formState: { errors }, reset, control } = useForm<ISickRequestCredentials>({
+  const { register, handleSubmit, formState: { errors }, reset, watch } = useForm<ISickRequestCredentials>({
     resolver: yupResolver(sickRequestSchema),
+    mode: "onChange"
+  });
+
+  const { register: textRegister, handleSubmit: handleSubmitText, formState: { errors: textErrors }, reset: resetText } = useForm<ISickRequestUpdateTextCredentials>({
+    resolver: yupResolver(sickRequestUpdateTextSchema),
+    mode: "onChange"
+  });
+
+  const { register: reportRegister, handleSubmit: handleSubmitReport, formState: { errors: reportErrors }, watch: watchReport } = useForm<ISickRequestUpdateReportCredentials>({
+    resolver: yupResolver(sickRequestUpdateReportSchema),
     mode: "onChange"
   });
 
   const handleShowPopupOpen = (id: number) => {
     setSelectedID(id)
     setIsShowPopupOpen(true) 
+  }
+  const handleEditPopupOpen = (id: number) => {
+    setSelectedID(id)
+    setIsEditPopupOpen(true) 
   }
   const handleAddPopupOpen = () => {
     setSelectedID(0)
@@ -61,12 +76,26 @@ const SickRequestsPage = () => {
     status
   );
 
-  const { sickRequest, isLoading: isSickRequestLoading } = useGetMySickRequestById(selectedID);
+  const { sickRequest, isLoading: isSickRequestLoading } = useGetMySickRequestById(selectedID, resetText);
   const { mutate: createSickRequest, isPending: isAdding } = useCreateSickRequest()
+  const { mutate: updateSickRequestReport, isPending: isUpdatingReport } = useUpdateSickReport()
+  const { mutate: updateSickRequestText, isPending: isUpdatingText } = useUpdateSickText()
 
   const handleConfirmAdd: SubmitHandler<ISickRequestCredentials> = (request: ISickRequestCredentials) => {
     createSickRequest(request);
     setIsAddPopupOpen(false)
+  };
+
+  const handleConfirmEditText: SubmitHandler<ISickRequestUpdateTextCredentials> = (request: ISickRequestUpdateTextCredentials) => {
+    console.log(request);
+    request.requestId = selectedID
+    updateSickRequestText(request)
+  };
+  const handleConfirmEditReport: SubmitHandler<ISickRequestUpdateReportCredentials> = (request: ISickRequestUpdateReportCredentials) => {
+    console.log(request);
+    request.RequestId = selectedID
+    updateSickRequestReport(request)
+
   };
 
   return (
@@ -80,8 +109,8 @@ const SickRequestsPage = () => {
       <div className="max-w-[1000px] mx-auto space-y-6">
         <div className="w-full flex items-center justify-center">
           <InfoPopup
-            title={t("infoPopupMissionRequestsEmployees.title")}
-            description={t("infoPopupMissionRequestsEmployees.description")}
+            title={t("infoPopupEmployees.title")}
+            description={t("infoPopupEmployees.description")}
             videoUrl={SICK_REQUESTS_EMPLOYEE_VIDEO}
           />
         </div>
@@ -139,7 +168,7 @@ const SickRequestsPage = () => {
         <SickRequestsList
           sickRequests={sickRequests}
           isLoading={isSickRequestsLoading}
-          handleEditPopupOpen={() => {}}
+          handleEditPopupOpen={handleEditPopupOpen}
           handleShowPopupOpen={handleShowPopupOpen}
         />
 
@@ -179,10 +208,28 @@ const SickRequestsPage = () => {
           <AddInputs
             register={register}
             errors={errors}
-            control={control}
+            watch={watch}
           />
         }
         isLoading={isAdding}
+      />
+      <EditPopup
+        isOpen={isEditPopupOpen}
+        handleClose={() => setIsEditPopupOpen(false)}
+        handleSubmitUpdateText={handleSubmitText(handleConfirmEditText)}
+        handleSubmitUpdateReport={handleSubmitReport(handleConfirmEditReport)}
+        formTextInputs={
+          <EditTextInputs
+            register={textRegister}
+            errors={textErrors}
+          />
+        }
+        formReportInput={<EditReportInputs 
+          watch={watchReport}
+          errors={reportErrors}
+          register={reportRegister}
+        />}
+        isLoading={isUpdatingReport || isUpdatingText}
       />
     </div>
   );

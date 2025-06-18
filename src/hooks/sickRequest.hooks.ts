@@ -91,7 +91,9 @@ export const useGetMySickRequestById = (requestId: number,   resetInputs?: (data
 
   // Populate form inputs
   useEffect(() => {
-    if (data?.data?.data && resetInputs) resetInputs(data.data);
+    if (data?.data?.data && resetInputs){
+      console.log(data.data.data);
+      resetInputs(data.data.data);}
   }, [data, resetInputs]);
 
   return {
@@ -107,7 +109,19 @@ export const useCreateSickRequest = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (data: ISickRequestCredentials) => service.create(data),
+    mutationFn: (data: ISickRequestCredentials) => {
+      const file = data.MedicalReport instanceof FileList
+      ? data.MedicalReport[0]
+      : data.MedicalReport;
+    
+      const formData = new FormData();
+      formData.append("StartDate", data.StartDate);
+      formData.append("NumberOfDays", data.NumberOfDays.toString());
+      formData.append("Description", data.Description);
+      formData.append("PermitApproval", data.PermitApproval);
+      formData.append("MedicalReport", file);
+      return service.create(formData)
+    },
     onSuccess: ({ data, status }) => {
       queryClient.invalidateQueries({ queryKey: [QueryKeys.SickRequests.My] });
       if (status === 201) showToast("success", getTranslatedMessage(data.message, language));
@@ -203,7 +217,16 @@ export const useUpdateSickReport = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (data: ISickRequestUpdateReportCredentials) => service.updateReport(data),
+    mutationFn: (data: ISickRequestUpdateReportCredentials) => {
+      const file = data.MedicalReport instanceof FileList
+      ? data.MedicalReport[0]
+      : data.MedicalReport;
+    
+      const formData = new FormData();
+      formData.append("RequestId", (data.RequestId || "").toString());
+      formData.append("MedicalReport", file);
+      return service.updateReport(formData)
+    },
     onSuccess: ({ data, status }, variables) => {
       queryClient.invalidateQueries({ queryKey: [QueryKeys.SickRequests.My] });
       queryClient.invalidateQueries({ queryKey: [QueryKeys.SickRequests.MyDetails, variables.RequestId] });

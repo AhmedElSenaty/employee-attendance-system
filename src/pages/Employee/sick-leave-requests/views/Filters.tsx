@@ -11,7 +11,7 @@ import { RequestStatusType } from "../../../../enums";
 import { useTranslation } from "react-i18next";
 import { formatValue } from "../../../../utils";
 import { useLanguageStore } from "../../../../store/language.store";
-import { LEAVE_REQUESTS_NS } from "../../../../constants";
+import { SICK_REQUESTS_NS } from "../../../../constants";
 
 interface FiltersProps {
   getParam: (key: string) => string | number | null;
@@ -20,7 +20,7 @@ interface FiltersProps {
 }
 
 const Filters = ({ getParam, setParam, clearParams }: FiltersProps) => {
-  const { t } = useTranslation(LEAVE_REQUESTS_NS);
+  const { t } = useTranslation(SICK_REQUESTS_NS);
   const { language } = useLanguageStore(); // Accessing the current language from the Redux state
 
   return (
@@ -65,13 +65,13 @@ const Filters = ({ getParam, setParam, clearParams }: FiltersProps) => {
       </Field>
 
       <Field className="flex flex-col space-y-2">
-        <Label>{t("filters.leaveStatus")}</Label>
+        <Label>{t("filters.requestStatus")}</Label>
         <SelectBox
           onChange={(e) => setParam("status", e.target.value)}
           defaultValue=""
         >
           <option value="" selected={getParam("status") == null} disabled>
-            {t("filters.defaultLeaveStatusOption")}
+            {t("filters.defaultRequestStatusOption")}
           </option>
           {Object.values(RequestStatusType)
             .filter((v) => typeof v === "number")

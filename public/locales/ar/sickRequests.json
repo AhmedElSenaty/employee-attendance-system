@@ -1,0 +1,233 @@
+{
+  "managerHeader": {
+  "title": "إدارة طلبات الإجازة المرضية",
+  "subtitle": "قم بمراجعة أو قبول أو رفض أو عرض تقرير طلبات الإجازة المرضية للموظفين"
+  },
+  "managerSectionHeader": {
+    "title": "جميع طلبات الإجازة المرضية",
+    "description": "يمكنك تصفية الطلبات أو عرضها أو اتخاذ إجراء بشأن الطلبات المعلقة"
+  },
+  "inputs": {
+    "medicalReport": {
+      "label": "التقرير الطبي",
+      "description": "الصيغ المقبولة: PDF, JPG, PNG, WEBP. يرجى رفع تقرير طبي واضح وصالح.",
+      "inputValidation": {
+        "required": "رفع التقرير الطبي مطلوب",
+        "fileType": "مسموح فقط برفع ملفات PDF أو صور"
+      }
+    },
+    "numberOfDays": {
+      "label": "عدد الأيام",
+      "placeholder": "أدخل عدد الأيام",
+      "inputValidation": {
+        "required": "عدد الأيام مطلوب",
+        "typeError": "عدد الأيام مطلوب",
+        "min": "يجب أن لا يقل عدد الأيام عن 1"
+      }
+    },
+    "employeeId": {
+      "label": "الموظف",
+      "placeholder": "اختر الموظف",
+      "defaultValue": "اختر الموظف",
+      "inputValidation": {
+        "required": "اختيار الموظف مطلوب",
+        "typeError": "اختيار الموظف مطلوب"
+      }
+    },
+    "startDate": {
+      "label": "تاريخ البداية",
+      "inputValidation": {
+        "matches": "يجب أن يكون التاريخ بصيغة YYYY-MM-DD",
+        "required": "تاريخ البداية مطلوب"
+      }
+    },
+    "description": {
+      "label": "سبب طلب الإجازة",
+      "placeholder": "أدخل سبب طلب الإجازة.",
+      "inputValidation": {
+        "max": "لا يمكن أن يتجاوز السبب 500 حرف",
+        "required": "سبب الإجازة مطلوب"
+      }
+    },
+    "permitApproval": {
+      "label": "موافقة التصريح",
+      "placeholder": "أدخل تفاصيل موافقة التصريح.",
+      "inputValidation": {
+        "max": "لا يمكن أن تتجاوز التفاصيل 500 حرف",
+        "required": "موافقة التصريح مطلوبة"
+      }
+    },
+    "comment": {
+      "label": "ملاحظة",
+      "placeholder": "أضف ملاحظة عن سبب الرفض..."
+    }
+  },
+  "status": {
+    "0": "قيد المراجعة",
+    "1": "مقبولة",
+    "2": "مرفوضة",
+    "3": "متجاهلة"
+  },
+  "filters": {
+    "pageSize": "عدد العناصر في الصفحة",
+    "startDate": "تاريخ البداية",
+    "endDate": "تاريخ النهاية",
+    "requestStatus": "حالة الطلب",
+    "defaultRequestStatusOption": "اختر حالة الطلب",
+    "toolTipResetFilters": "إعادة تعيين الكل",
+    "searchBy": {
+      "label": "البحث بواسطة",
+      "default": "اختر طريقة البحث",
+      "SearchByFullName": "الاسم الكامل",
+      "SearchBySSN": "الرقم القومي",
+      "SearchByEmployeeId": "رقم الموظف"
+    },
+    "search": {
+      "label": "بحث",
+      "placeholder": "أدخل القيمة التي تريد البحث عنها..."
+    }
+  },
+  "table": {
+    "emptyTable": {
+      "title": "لا توجد طلبات مرضية",
+      "message": "جرّب تعديل عوامل التصفية أو قم بإضافة طلب جديد."
+    },
+    "columns": {
+      "id": "#",
+      "employeeName": "اسم الموظف",
+      "startDate": "تاريخ البداية",
+      "endDate": "تاريخ النهاية",
+      "numberOfDays": "عدد الأيام",
+      "requestedAt": "تاريخ الطلب",
+      "status": "الحالة",
+      "actions": "إجراءات"
+    },
+    "buttons": {
+      "toolTipShow": "عرض الطلب",
+      "toolTipAccept": "قبول الطلب",
+      "toolTipReject": "رفض الطلب",
+      "toolOpenReport": "عرض تقرير الموظف"
+    }
+  },
+  "acceptPopup": {
+    "title": "قبول طلب الإجازة المرضية",
+    "description": "هل أنت متأكد من قبول هذا الطلب؟ سيتم إعلام الموظف وتحديث حالة الطلب.",
+    "buttons": {
+      "accept": "قبول",
+      "close": "إغلاق",
+      "loading": "جاري التحميل..."
+    }
+  },
+  "rejectPopup": {
+    "title": "رفض طلب الإجازة المرضية",
+    "description": "هل أنت متأكد من رفض هذا الطلب؟ سيتم إعلام الموظف وتحديث حالة الطلب.",
+    "buttons": {
+      "reject": "رفض",
+      "close": "إغلاق",
+      "loading": "جاري التحميل..."
+    }
+  },
+  "showPopup": {
+    "title": "تفاصيل الطلب المرضي",
+    "description": "معلومات تفصيلية عن الطلب المرضي",
+    "fields": {
+      "numberOfDays": "عدد الأيام",
+      "employeeId": "#رقم الموظف",
+      "employeeName": "اسم الموظف",
+      "id": "#رقم الطلب",
+      "startDate": "تاريخ البداية",
+      "endDate": "تاريخ النهاية",
+      "requestedAt": "تاريخ الطلب",
+      "status": "الحالة",
+      "permitApproval": "موافقة التصريح",
+      "description": "السبب",
+      "comment": "ملاحظة"
+    },
+    "buttons": {
+      "edit": "تعديل",
+      "close": "إغلاق",
+      "openReport": "التقرير",
+      "accept": "قبول",
+      "reject": "رفض"
+    }
+  },
+  "assignPopup": {
+    "title": "تعيين طلب مرضي",
+    "description": "قم بتعيين طلب مرضي لموظف بسهولة وسرعة.",
+    "buttons": {
+      "assign": "تعيين",
+      "close": "إغلاق",
+      "loading": "جاري التحميل..."
+    }
+  },
+  "infoPopupManager": {
+    "title": "كيفية استخدام صفحة الإجازات المرضية (المدير)",
+    "description": "شاهد هذا الفيديو التعليمي لتتعرف على كيفية مراجعة وقبول ورفض وإدارة طلبات الإجازة المرضية من قِبل المديرين.",
+    "closeButton": "إغلاق"
+  },
+  "assignActionCard": {
+    "title": "تعيين طلب مرضي جديد",
+    "description": "قم بتعيين طلب إجازة مرضية للموظف.",
+    "button": "تعيين الآن"
+  },
+  "infoPopupEmployees": {
+    "title": "كيفية استخدام صفحة الإجازات المرضية (الموظف)",
+    "description": "شاهد هذا الفيديو التعليمي لتتعرف على كيفية تقديم وتتبع طلبات الإجازة المرضية.",
+    "closeButton": "إغلاق"
+  },
+  "employeeHeader": {
+    "heading": "إدارة طلبات الإجازة المرضية",
+    "subtitle": "قدِّم طلبًا جديدًا أو راجع الشروط الخاصة بالإجازات."
+  },
+  "employeeSectionHeader": {
+    "title": "طلبات الموظف المرضية", 
+    "description": "عرض الطلبات المقدمة مع حالتها وتواريخها والملاحظات الخاصة بها. يمكنك تعديلها أو إدارتها."
+  },
+  "sickRequestCard": {
+    "numberOfDays": "عدد أيام الإجازة المرضية: {{number}}",
+    "startDate": "تاريخ البداية",
+    "endDate": "تاريخ النهاية",
+    "requestedAt": "تاريخ الطلب",
+    "toolTipViewButton": "عرض الطلب",
+    "toolTipEditButton": "تعديل الطلب"
+  },
+  "addActionCard": {
+    "title": "إضافة طلب مرضي جديد",
+    "description": "قدِّم طلبًا لإجازة شخصية أو طبية أو طارئة.",
+    "button": "إنشاء الطلب"
+  },
+  "conditionsPopup": {
+    "title": "شروط الإجازة المرضية",
+    "description": "اقرأ القواعد الخاصة بالتقديم على إجازة مرضية.",
+    "rules": [
+      "يُسمح للموظف بالحصول على 90 يومًا من الإجازة المرضية كل 3 سنوات.",
+      "في حال تجاوز 90 يومًا، تُحسب الأيام الإضافية كانقطاع مسموح به ولكن تُخصم من الراتب."
+    ],
+    "close": "إغلاق"
+  },
+  "conditionsActionCard": {
+    "title": "شروط الإجازة المرضية",
+    "description": "اطّلع على متطلبات التقديم على إجازة مرضية.",
+    "button": "قراءة الشروط"
+  },
+  "addPopup": {
+    "title": "إضافة طلب مرضي",
+    "description": "قم بإضافة طلب مرضي لموظف بسهولة وسرعة.",
+    "buttons": {
+      "add": "إضافة",
+      "close": "إغلاق",
+      "loading": "جاري التحميل..."
+    }
+  },
+  "editPopup": {
+    "title": "تعديل طلب مرضي",
+    "description": "قم بتعديل طلب مرضي لموظف بسهولة وسرعة.",
+    "buttons": {
+      "edit": "تعديل",
+      "upload": "رفع",
+      "close": "إغلاق",
+      "loading": "جاري التحميل..."
+    }
+  }
+
+}

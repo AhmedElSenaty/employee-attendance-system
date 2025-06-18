@@ -34,10 +34,10 @@ export interface IRejectSickRequestCredentials {
 
 export interface ISickRequestUpdateReportCredentials {
   RequestId?: number,
-  MedicalReport: File
+  MedicalReport: FileList|Array;
 }
 export interface ISickRequestUpdateTextCredentials {
-  requestId?: string,
+  requestId?: number,
   description: string,
   permitApproval: string,
   numberOfDays: number,

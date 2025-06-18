@@ -36,7 +36,7 @@
     },
     "startDate": {
       "label": "Start Date",
-      "validation": {
+      "inputValidation": {
         "matches": "Start Date must be in the format YYYY-MM-DD",
         "required": "Start Date is required"
       }
@@ -44,7 +44,7 @@
     "description": {
       "label": "Reason for requesting leave",
       "placeholder": "Enter the reason for requesting leave.",
-      "validation": {
+      "inputValidation": {
         "max": "Reason for requesting leave can't exceed 500 characters",
         "required": "Reason for requesting leave is required"
       }
@@ -52,7 +52,7 @@
     "permitApproval": {
       "label": "Permit Approval",
       "placeholder": "Enter the permit approval details.",
-      "validation": {
+      "inputValidation": {
         "max": "Permit Approval can't exceed 500 characters",
         "required": "Permit Approval is required"
       }
@@ -169,5 +169,64 @@
     "title": "Assign New Sick Request",
     "description": "Assign sick request for employee.",
     "button": "Assign Now"
+  },
+  "infoPopupEmployees": {
+    "title": "How to Use the Sick Requests Page (Employee)",
+    "description": "Watch this video tutorial to learn how employees can submit, view, and track the status of their sick requests.",
+    "closeButton": "Close"
+  },
+  "employeeHeader": {
+    "heading": "Sick Requests Management",
+    "subtitle": "Submit a new sick request or review the conditions for applications."
+  },
+  "employeeSectionHeader": {
+    "title":"Employee Sick Requests", 
+    "description":"View submitted sick requests with status, timing, and notes. Edit or manage them as needed."
+  },
+  "sickRequestCard": {
+    "numberOfDays": "Number of sick leave days {{number}}.",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "requestedAt": "Requested at",
+    "toolTipViewButton": "View Sick Request",
+    "toolTipEditButton": "Edit Sick Request"
+  },
+  "addActionCard": {
+    "title": "Add New Sick Request",
+    "description": "Submit a request for personal, medical, or emergency leave.",
+    "button": "Create Request"
+  },
+  "conditionsPopup": {
+    "title": "Sick Leave Conditions",
+    "description": "Read the rules for applying for sick leave.",
+    "rules": [
+      "Employees are allowed a maximum of 90 days of sick leave every 3 years.",
+      "If the 90-day limit is exceeded, additional days are considered as permitted absence but will be deducted from the salary."
+    ],
+    "close": "Close"
+  },
+  "conditionsActionCard": {
+    "title": "Sick Conditions",
+    "description": "Read the requirements for applying for a sick leave.",
+    "button": "Read Conditions"
+  },
+  "addPopup": {
+    "title": "Add Sick Request",
+    "description": "Add a sick to a employee quickly and easily.",
+    "buttons": {
+      "add": "Add",
+      "close": "Close",
+      "loading": "Loading..."
+    }
+  },
+  "editPopup": {
+    "title": "Edit Sick Request",
+    "description": "Edit a sick to a employee quickly and easily.",
+    "buttons": {
+      "edit": "Edit",
+      "upload": "Upload",
+      "close": "Close",
+      "loading": "Loading..."
+    }
   }
 }

@@ -24,20 +24,20 @@ const AddPopup = ({
     <Popup
       isOpen={isOpen}
       closeModal={handleClose}
-      title={t("assignPopup.title")}
-      description={t("assignPopup.description")}
+      title={t("addPopup.title")}
+      description={t("addPopup.description")}
     >
       <div className="space-y-3">
         {formInputs}
       </div>
       <form className="flex items-center space-x-3 mt-4" onSubmit={handleSubmit}>
         <Button variant="cancel" type="button" fullWidth={true} onClick={handleClose}>
-          {t("assignPopup.buttons.close")}
+          {t("addPopup.buttons.close")}
         </Button>
         <Button variant="secondary" type="submit" fullWidth={true}  isLoading={isLoading}>
           {(isLoading)
-            ? t("assignPopup.buttons.loading")
-            : t("assignPopup.buttons.assign")
+            ? t("addPopup.buttons.loading")
+            : t("addPopup.buttons.add")
           }
         </Button>
       </form>
