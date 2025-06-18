@@ -1,0 +1,44 @@
+{
+  "header": {
+    "heading": "Welcome to Your Dashboard",
+    "subtitle": "Manage your profile, attendance, and leave requests easily from one place."
+  },
+  "profile": {
+    "amount": "View Profile",
+    "description": "Check your personal information and update details.",
+    "note": "Click to view your profile."
+  },
+  "calendar": {
+    "amount": "Attendance Calendar",
+    "description": "Track your attendance and working days.",
+    "note": "Click to view your attendance."
+  },
+  "leave": {
+    "amount": "Leave Requests",
+    "description": "Manage your leave requests easily.",
+    "note": "Click to view and request leave."
+  },
+  "casual": {
+    "amount": "Casual Requests",
+    "description": "Submit and track your casual leaves.",
+    "note": "Click to manage casual leaves."
+  },
+  "ordinary": {
+    "amount": "Ordinary Requests",
+    "description": "Apply for ordinary time-off requests.",
+    "note": "Click to manage ordinary leaves."
+  },
+  "sick": {
+    "amount": "Sick Requests",
+    "description": "Submit and track your sick leave requests.",
+    "note": "Click to manage sick leaves."
+  },
+  "mission": {
+    "amount": "Mission Requests",
+    "description": "Request and view your missions.",
+    "note": "Click to manage your missions."
+  },
+  "allowedDays": {
+    "title": "Allowed Working Days:"
+  }
+}

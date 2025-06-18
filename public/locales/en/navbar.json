@@ -4,6 +4,10 @@
       "title": "Home",
       "description": "Go to Homepage"
     },
+    "employeeDashboard": {
+      "title": "Employee Dashboard",
+      "description": "Access your profile and work tools"
+    },
     "login": {
       "title": "Login",
       "description": "Log in to access the dashboard"

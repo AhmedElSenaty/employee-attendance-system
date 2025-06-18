@@ -1,5 +1,4 @@
-import { LeaveRequestCardSkeleton } from "../../../../components/ui";
-import CasualLeaveRequestCard from "../../../../components/ui/CasualLeaveRequestCard/OrdinaryRequestCard";
+import { CasualLeaveRequestCard, CasualLeaveRequestCardSkeleton } from "../../../../components/ui";
 import { ICasualLeaveRequestData } from "../../../../interfaces";
 
 type Props = {
@@ -20,9 +19,9 @@ const CasualLeaveRequestsList = ({
       {isLoading || !casualLeaveRequests ? (
         // Show 3 skeletons while loading
         <>
-          <LeaveRequestCardSkeleton />
-          <LeaveRequestCardSkeleton />
-          <LeaveRequestCardSkeleton />
+          <CasualLeaveRequestCardSkeleton />
+          <CasualLeaveRequestCardSkeleton />
+          <CasualLeaveRequestCardSkeleton />
         </>
       ) : (
         casualLeaveRequests.map((request) => (

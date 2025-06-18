@@ -1,2 +1,2 @@
-export { default as OrdinaryRequestCard } from "./OrdinaryRequestCard"
-export { default as OrdinaryRequestCardSkeleton } from "./Skeleton"
+export { default as CasualLeaveRequestCard } from "./CasualLeaveRequestCard"
+export { default as CasualLeaveRequestCardSkeleton } from "./Skeleton"

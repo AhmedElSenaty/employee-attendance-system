@@ -1,6 +1,7 @@
 export { default as DashboardEmployee } from "./Dashboard"
 export { default as CalendarPage } from "../common/Calender"
 export { default as LeaveRequestsPage } from "./leave-requests"
+export { default as CasualLeaveRequestsPage } from "./casual-requests"
 export { default as MissionRequestsPage } from "./mission-requests"
 export { default as OrdinaryRequestsPage } from "./ordinary-requests"
-export { default as SickLRequestsPage } from "./sick-leave-requests"
+export { default as SickLRequestsPage } from "./sick-requests"

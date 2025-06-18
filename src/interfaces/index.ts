@@ -24,6 +24,7 @@ export * from "./resetAccount.interfaces";
 export * from "./sickRequests.interfaces";
 export * from "./subDepartment.interfaces";
 export * from "./systemData.interfaces";
+export * from "./workingDays.interfaces";
 
 
 export interface IErrorResponse {

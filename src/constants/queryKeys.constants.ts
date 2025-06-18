@@ -52,5 +52,9 @@ export const QueryKeys = {
     Details: "casualLeaveRequestDetails",
     MyDetails: "myCasualLeaveRequestDetails",
   },
+  WorkingDays: {
+    Me: ["WorkingDays", "Me"],
+    ByID: "WorkingDaysByID",
+  },
   // Add more domains/modules here
 };

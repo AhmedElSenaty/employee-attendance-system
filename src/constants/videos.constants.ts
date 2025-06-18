@@ -33,5 +33,12 @@ export const MISSION_REQUESTS_EMPLOYEE_VIDEO =
 // "https://www.youtube.com/embed/dQw4w9WgXcQ";
 export const ORDINARY_REQUESTS_MANAGER_VIDEO = "https://www.youtube.com/embed/dQw4w9WgXcQ"
 export const ORDINARY_REQUESTS_EMPLOYEE_VIDEO = "https://www.youtube.com/embed/dQw4w9WgXcQ"
+
+export const CASUAL_REQUESTS_MANAGER_VIDEO =
+  "https://www.youtube.com/embed/Z5yx_szNx7Y?si=mbyUFV6AYf01Z_rw";
+
+export const CASUAL_REQUESTS_EMPLOYEE_VIDEO =
+  "https://www.youtube.com/embed/JxAqaMFEVBY?si=td9ZDtjejShtuo7s";
+
 export const SICK_REQUESTS_MANAGER_VIDEO = "https://www.youtube.com/embed/dQw4w9WgXcQ"
 export const SICK_REQUESTS_EMPLOYEE_VIDEO = "https://www.youtube.com/embed/dQw4w9WgXcQ"

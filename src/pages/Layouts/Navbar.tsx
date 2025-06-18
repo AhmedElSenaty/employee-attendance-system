@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import { Logo } from "../../components/ui/Logo";
 import { Flyout, FlyoutMenu } from "../../components/ui/Flyout";
 import { Image } from "../../components/ui/Image";
-import { HomeIcon, LogIn, LogOut, Menu, User, X } from "lucide-react";
+import { Briefcase, HomeIcon, LogIn, LogOut, Menu, User, X } from "lucide-react";
 import { NavLink } from "react-router";
 import { Button } from "../../components/ui/Button";
 import { useLanguageStore } from "../../store/language.store";
@@ -95,7 +95,23 @@ export const Navbar = () => {
                         <p className="text-black/50 text-base">{ t('userLinks.home.description', { ns: "navbar" }) }</p>
                       </div>
                     </NavLink>
-
+                    {/* Employee Dashboard Link */}
+                    {userRole == "employee" && (
+                      <NavLink
+                        className="flex items-center gap-3 rounded-lg py-2 px-3 transition hover:bg-black/5"
+                        to="/employee"
+                      >
+                        <Briefcase className="text-black" />
+                        <div>
+                          <p className="font-semibold text-black">
+                            {t('userLinks.employeeDashboard.title', { ns: 'navbar' })}
+                          </p>
+                          <p className="text-black/50 text-base">
+                            {t('userLinks.employeeDashboard.description', { ns: 'navbar' })}
+                          </p>
+                        </div>
+                      </NavLink>
+                    )}
                     {/* Profile Link */}
                     <NavLink
                       className="flex items-center gap-3 rounded-lg py-2 px-3 transition hover:bg-black/5"

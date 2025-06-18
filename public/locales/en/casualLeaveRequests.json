@@ -188,5 +188,15 @@
     "title": "Assign Casual Leave Request",
     "description": "Assign a casual leave leave to a team member quickly and easily.",
     "button": "Assign Now"
+  },
+  "infoPopupEmployees": {
+    "title": "How to Use the Sick Requests Page (Employee)",
+    "description": "Watch this video tutorial to learn how employees can submit, view, and track the status of their sick requests.",
+    "closeButton": "Close"
+  },
+  "infoPopupManager": {
+    "title": "How to Use The Sick Requests Page (Manager)",
+    "description": "Watch this video tutorial to learn how managers can review, approve, reject, view report, and manage employee sick requests effectively.",
+    "closeButton": "Close"
   }
 }

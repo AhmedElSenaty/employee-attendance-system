@@ -2,8 +2,7 @@ import { Route } from "react-router";
 import { RootLayout } from "../pages/Layouts";
 import { ProtectedRoute } from "../components/auth";
 import EmpolyeeAccountPage from "../pages/Employee/Account";
-import { CalendarPage, DashboardEmployee, LeaveRequestsPage, MissionRequestsPage, OrdinaryRequestsPage, SickLRequestsPage } from "../pages/Employee";
-import { CasualLeaveRequestsPage } from "../pages/Employee/casual-leave-requests";
+import { CalendarPage, CasualLeaveRequestsPage, DashboardEmployee, LeaveRequestsPage, MissionRequestsPage, OrdinaryRequestsPage, SickLRequestsPage } from "../pages/Employee";
 
 export const employeeRoutes = (isLoggedIn: boolean, userRole: string) => (
   <Route 
@@ -22,11 +21,11 @@ export const employeeRoutes = (isLoggedIn: boolean, userRole: string) => (
 
     <Route path="leave-requests/" element={<LeaveRequestsPage />} />
 
+    <Route path="casual-requests/" element={<CasualLeaveRequestsPage />} />
+
     <Route path="mission-requests/" element={<MissionRequestsPage />} />
     
     <Route path="ordinary-requests/" element={<OrdinaryRequestsPage />} />
-    
-    <Route path="casual-leave-requests/" element={<CasualLeaveRequestsPage />} />
 
     <Route path="sick-requests/" element={<SickLRequestsPage />} />
   </Route>

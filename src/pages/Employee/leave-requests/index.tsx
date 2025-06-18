@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { FilePlus2, ShieldCheck } from "lucide-react";
-import { ActionCard, Button, Header, InfoPopup, Paginator, SectionHeader } from "../../../components/ui";
+import { ActionCard, Button, Header, InfoPopup, NoDataMessage, Paginator, SectionHeader } from "../../../components/ui";
 import { ILeaveRequestCredentials } from "../../../interfaces/";
 import { useCreateLeaveRequest, useGetMyLeaveRequestByID, useGetMyLeaveRequests, useUpdateLeaveRequest } from "../../../hooks/";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -158,12 +158,19 @@ const LeaveRequestsPage = () => {
           clearParams={clearParams}
         />
 
-        <LeaveRequestsList
-          leaveRequests={leaveRequests}
-          isLoading={isLeaveRequestsLoading}
-          handleEditPopupOpen={handleEditPopupOpen}
-          handleShowPopupOpen={handleShowPopupOpen}
-        />
+        {leaveRequests.length > 0 ? (
+          <LeaveRequestsList
+            leaveRequests={leaveRequests}
+            isLoading={isLeaveRequestsLoading}
+            handleEditPopupOpen={handleEditPopupOpen}
+            handleShowPopupOpen={handleShowPopupOpen}
+          />
+        ) : (
+          <NoDataMessage
+            title={t("table.emptyTable.title")}
+            message={t("table.emptyTable.message")}
+          />
+        )}
 
         {/* Pagination Component */}
         <Paginator

@@ -1,18 +1,18 @@
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { FilePlus2, ShieldCheck } from "lucide-react";
-import { ActionCard, Button, Header, InfoPopup, Paginator, SectionHeader } from "../../../components/ui";
+import { ActionCard, Button, Header, InfoPopup, NoDataMessage, Paginator, SectionHeader } from "../../../components/ui";
 import { yupResolver } from "@hookform/resolvers/yup";
 import useURLSearchParams from "../../../hooks/URLSearchParams.hook";
 import { useTranslation } from "react-i18next";
-import { ISickRequestCredentials, ISickRequestUpdateReportCredentials, ISickRequestUpdateTextCredentials } from "../../../interfaces";
-import { sickRequestSchema, sickRequestUpdateReportSchema, sickRequestUpdateTextSchema } from "../../../validation";
-import { SICK_REQUESTS_EMPLOYEE_VIDEO, SICK_REQUESTS_NS } from "../../../constants";
-import { useCreateSickRequest, useGetMySickRequestById, useGetMySickRequests, useUpdateSickReport, useUpdateSickText } from "../../../hooks";
-import { AddInputs, AddPopup, ConditionsPopup, EditPopup, EditReportInputs, EditTextInputs, Filters, ShowPopup, SickRequestsList } from "./views";
+import { AddPopup, CasualLeaveRequestsList, ConditionsPopup, EditPopup, Filters, Inputs, ShowPopup } from "./views";
+import { ICasualLeaveRequestCredentials } from "../../../interfaces";
+import { casualLeaveRequestSchema } from "../../../validation";
+import { useCreateCasualLeaveRequest, useGetMyCasualLeaveRequestByID, useGetMyCasualLeaveRequests, useUpdateCasualLeaveRequest } from "../../../hooks";
+import { CASUAL_REQUESTS_EMPLOYEE_VIDEO, CASUAL_REQUESTS_NS } from "../../../constants";
 
-const SickRequestsPage = () => {
-  const { t } = useTranslation(SICK_REQUESTS_NS);
+const CasualLeaveRequestsPage = () => {
+  const { t } = useTranslation(CASUAL_REQUESTS_NS);
 
   const {getParam, setParam, clearParams} = useURLSearchParams();
 
@@ -24,33 +24,33 @@ const SickRequestsPage = () => {
   const [isAddPopupOpen, setIsAddPopupOpen] = useState(false);
   const [isEditPopupOpen, setIsEditPopupOpen] = useState(false);
 
-  const { register, handleSubmit, formState: { errors }, reset, watch } = useForm<ISickRequestCredentials>({
-    resolver: yupResolver(sickRequestSchema),
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset
+  } = useForm<ICasualLeaveRequestCredentials>({
+    resolver: yupResolver(casualLeaveRequestSchema),
     mode: "onChange"
-  });
-
-  const { register: textRegister, handleSubmit: handleSubmitText, formState: { errors: textErrors }, reset: resetText } = useForm<ISickRequestUpdateTextCredentials>({
-    resolver: yupResolver(sickRequestUpdateTextSchema),
-    mode: "onChange"
-  });
-
-  const { register: reportRegister, handleSubmit: handleSubmitReport, formState: { errors: reportErrors }, watch: watchReport } = useForm<ISickRequestUpdateReportCredentials>({
-    resolver: yupResolver(sickRequestUpdateReportSchema),
-    mode: "onChange"
-  });
+  });  
 
   const handleShowPopupOpen = (id: number) => {
     setSelectedID(id)
     setIsShowPopupOpen(true) 
   }
-  const handleEditPopupOpen = (id: number) => {
-    setSelectedID(id)
-    setIsEditPopupOpen(true) 
-  }
   const handleAddPopupOpen = () => {
     setSelectedID(0)
-    reset()
+    reset({ startDate: "", endDate: "", description: "" })
     setIsAddPopupOpen(true)
+  }
+  const handleEditPopupOpen = (id: number) => {
+    setSelectedID(id)
+    setIsEditPopupOpen(true)
+  }
+  const handleEditPopupClose = () => {
+    setSelectedID(0)
+    reset()
+    setIsEditPopupOpen(false)
   }
 
   // Using the enhanced getParam with parser support from the improved hook
@@ -68,7 +68,7 @@ const SickRequestsPage = () => {
   const status = rawStatus !== null ? rawStatus : undefined;
 
   // Pass filtered params to hook
-  const { sickRequests, metadata, isLoading: isSickRequestsLoading } = useGetMySickRequests(
+  const { casualLeaveRequests, metadata, isCasualLeaveRequestsLoading } = useGetMyCasualLeaveRequests(
     page,
     pageSize,
     startDate,
@@ -76,26 +76,19 @@ const SickRequestsPage = () => {
     status
   );
 
-  const { sickRequest, isLoading: isSickRequestLoading } = useGetMySickRequestById(selectedID, resetText);
-  const { mutate: createSickRequest, isPending: isAdding } = useCreateSickRequest()
-  const { mutate: updateSickRequestReport, isPending: isUpdatingReport } = useUpdateSickReport()
-  const { mutate: updateSickRequestText, isPending: isUpdatingText } = useUpdateSickText()
+  const { casualLeaveRequest, isCasualLeaveRequestLoading } = useGetMyCasualLeaveRequestByID(selectedID, reset);
+  const { mutate: createCasualLeaveRequest, isPending: isAdding } = useCreateCasualLeaveRequest()
+  const { mutate: updateCasualLeaveRequest, isPending: isUpdating } = useUpdateCasualLeaveRequest()
 
-  const handleConfirmAdd: SubmitHandler<ISickRequestCredentials> = (request: ISickRequestCredentials) => {
-    createSickRequest(request);
+  const handleConfirmAdd: SubmitHandler<ICasualLeaveRequestCredentials> = (request: ICasualLeaveRequestCredentials) => {
+    createCasualLeaveRequest(request);
     setIsAddPopupOpen(false)
   };
 
-  const handleConfirmEditText: SubmitHandler<ISickRequestUpdateTextCredentials> = (request: ISickRequestUpdateTextCredentials) => {
-    console.log(request);
+  const handleConfirmUpdate: SubmitHandler<ICasualLeaveRequestCredentials> = (request: ICasualLeaveRequestCredentials) => {
     request.requestId = selectedID
-    updateSickRequestText(request)
-  };
-  const handleConfirmEditReport: SubmitHandler<ISickRequestUpdateReportCredentials> = (request: ISickRequestUpdateReportCredentials) => {
-    console.log(request);
-    request.RequestId = selectedID
-    updateSickRequestReport(request)
-
+    updateCasualLeaveRequest(request)
+    setIsEditPopupOpen(false);
   };
 
   return (
@@ -111,7 +104,7 @@ const SickRequestsPage = () => {
           <InfoPopup
             title={t("infoPopupEmployees.title")}
             description={t("infoPopupEmployees.description")}
-            videoUrl={SICK_REQUESTS_EMPLOYEE_VIDEO}
+            videoUrl={CASUAL_REQUESTS_EMPLOYEE_VIDEO}
           />
         </div>
         <div className="flex flex-col md:flex-row gap-5">
@@ -165,19 +158,33 @@ const SickRequestsPage = () => {
           clearParams={clearParams}
         />
 
-        <SickRequestsList
-          sickRequests={sickRequests}
-          isLoading={isSickRequestsLoading}
+        <CasualLeaveRequestsList
+          casualLeaveRequests={casualLeaveRequests}
+          isLoading={isCasualLeaveRequestsLoading}
           handleEditPopupOpen={handleEditPopupOpen}
           handleShowPopupOpen={handleShowPopupOpen}
         />
+
+        {casualLeaveRequests.length > 0 ? (
+          <CasualLeaveRequestsList
+            casualLeaveRequests={casualLeaveRequests}
+            isLoading={isCasualLeaveRequestsLoading}
+            handleEditPopupOpen={handleEditPopupOpen}
+            handleShowPopupOpen={handleShowPopupOpen}
+          />
+        ) : (
+          <NoDataMessage
+            title={t("table.emptyTable.title")}
+            message={t("table.emptyTable.message")}
+          />
+        )}
 
         {/* Pagination Component */}
         <Paginator
           page={metadata?.pagination?.pageIndex || 0}
           totalPages={metadata?.pagination?.totalPages || 1}
           totalRecords={metadata?.pagination?.totalRecords || 0}
-          isLoading={isSickRequestsLoading}
+          isLoading={isCasualLeaveRequestsLoading}
           onClickFirst={() => setParam("page", String(1))}
           onClickPrev={() => setParam("page", String(Math.max((Number(getParam('page')) || 1) - 1, 1)))}
           onClickNext={() => setParam("page", String(Math.min((Number(getParam('page')) || 1) + 1, metadata?.pagination?.totalPages || 1)))}
@@ -193,8 +200,12 @@ const SickRequestsPage = () => {
       <ShowPopup
         isOpen={isShowPopupOpen}
         handleClose={() => setIsShowPopupOpen(false)} 
-        sickRequest={sickRequest}
-        isLoading={isSickRequestLoading}
+        handleEditPopupOpen={() => {
+          handleEditPopupOpen(selectedID)
+          setIsShowPopupOpen(false)
+        }}
+        casualLeaveRequest={casualLeaveRequest}
+        isLoading={isCasualLeaveRequestLoading}
       />
 
       {/* Add Leave Request Popup */}
@@ -205,34 +216,30 @@ const SickRequestsPage = () => {
         }}
         handleSubmit={handleSubmit(handleConfirmAdd)}
         formInputs={
-          <AddInputs
+          <Inputs
             register={register}
             errors={errors}
-            watch={watch}
+            isLoading={isAdding}
           />
         }
         isLoading={isAdding}
       />
+
       <EditPopup
         isOpen={isEditPopupOpen}
-        handleClose={() => setIsEditPopupOpen(false)}
-        handleSubmitUpdateText={handleSubmitText(handleConfirmEditText)}
-        handleSubmitUpdateReport={handleSubmitReport(handleConfirmEditReport)}
-        formTextInputs={
-          <EditTextInputs
-            register={textRegister}
-            errors={textErrors}
+        handleClose={handleEditPopupClose}
+        handleSubmit={handleSubmit(handleConfirmUpdate)}
+        formInputs={
+          <Inputs
+            register={register}
+            errors={errors}
+            isLoading={isUpdating}
           />
         }
-        formReportInput={<EditReportInputs 
-          watch={watchReport}
-          errors={reportErrors}
-          register={reportRegister}
-        />}
-        isLoading={isUpdatingReport || isUpdatingText}
+        isLoading={isUpdating}
       />
     </div>
   );
 };
 
-export default SickRequestsPage;
+export default CasualLeaveRequestsPage;
