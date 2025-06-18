@@ -1,5 +1,4 @@
-import { LeaveRequestCardSkeleton } from "../../../../components/ui";
-import OrdinaryRequestCard from "../../../../components/ui/OrdinaryRequestCard/OrdinaryRequestCard";
+import { OrdinaryRequestCardSkeleton, OrdinaryRequestCard } from "../../../../components/ui";
 import { IOrdinaryRequestData } from "../../../../interfaces";
 
 type Props = {
@@ -20,9 +19,9 @@ const OrdinaryRequestsList = ({
       {isLoading || !ordinaryRequests ? (
         // Show 3 skeletons while loading
         <>
-          <LeaveRequestCardSkeleton />
-          <LeaveRequestCardSkeleton />
-          <LeaveRequestCardSkeleton />
+          <OrdinaryRequestCardSkeleton />
+          <OrdinaryRequestCardSkeleton />
+          <OrdinaryRequestCardSkeleton />
         </>
       ) : (
         ordinaryRequests.map((request) => (

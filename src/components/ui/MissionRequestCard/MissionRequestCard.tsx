@@ -5,7 +5,7 @@ import { Button } from "../Button";
 import { Tooltip } from "../Tooltip"; // Assuming you have this
 import { getRequestBgColorClass, getRequestStatusVariant, truncateText } from "../../../utils";
 import { useTranslation } from "react-i18next";
-import { useLanguageStore } from "../../../store/language.store";
+import { useLanguageStore } from "../../../store/";
 import { IMissionRequestData } from "../../../interfaces";
 import { MISSION_REQUESTS_NS } from "../../../constants";
 

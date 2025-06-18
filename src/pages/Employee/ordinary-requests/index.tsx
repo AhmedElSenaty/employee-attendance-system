@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { FilePlus2, ShieldCheck } from "lucide-react";
-import { ActionCard, Button, Header, InfoPopup, Paginator, SectionHeader } from "../../../components/ui";
+import { ActionCard, Button, Header, InfoPopup, NoDataMessage, Paginator, SectionHeader } from "../../../components/ui";
 import { yupResolver } from "@hookform/resolvers/yup";
 import useURLSearchParams from "../../../hooks/URLSearchParams.hook";
 import { useTranslation } from "react-i18next";
@@ -158,12 +158,20 @@ const OrdinaryRequestsPage = () => {
           clearParams={clearParams}
         />
 
-        <OrdinaryRequestsList
-          ordinaryRequests={ordinaryRequests}
-          isLoading={isOrdinaryRequestsLoading}
-          handleEditPopupOpen={handleEditPopupOpen}
-          handleShowPopupOpen={handleShowPopupOpen}
-        />
+
+        {ordinaryRequests.length > 0 ? (
+          <OrdinaryRequestsList
+            ordinaryRequests={ordinaryRequests}
+            isLoading={isOrdinaryRequestsLoading}
+            handleEditPopupOpen={handleEditPopupOpen}
+            handleShowPopupOpen={handleShowPopupOpen}
+          />
+        ) : (
+          <NoDataMessage
+            title={t("table.emptyTable.title")}
+            message={t("table.emptyTable.message")}
+          />
+        )}
 
         {/* Pagination Component */}
         <Paginator

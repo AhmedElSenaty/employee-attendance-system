@@ -41,7 +41,10 @@ const RejectPopup = ({
           {t("rejectPopup.buttons.close")}
         </Button>
         <Button type="button" fullWidth={true} onClick={handleConfirmReject} isLoading={isLoading}>
-          {t("rejectPopup.buttons.reject")}
+          {(isLoading)
+            ? t("rejectPopup.buttons.loading")
+            : t("rejectPopup.buttons.reject")
+          }
         </Button>
       </div>
     </Popup>

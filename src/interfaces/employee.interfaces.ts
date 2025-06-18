@@ -3,6 +3,17 @@ export interface IEmployee {
   name: string;
 }
 
+export interface IEmployeeMyVactions {
+  availableCasualLeaves: number
+  availableLeaveRequests: number
+  availableOrdinaryLeaves: number
+  totalCasualLeaves: number
+  totalLeaveRequests: number
+  totalMissions: number
+  totalOrdinaryLeaves: number
+  totalSickLeave: number
+}
+
 export interface IEmployeeCredentials {
   id?: string
   username?: string,

@@ -43,7 +43,8 @@ export const managerRoutes = (isLoggedIn: boolean, userRole: string) => (
     <Route path="leave-requests" element={<LeaveRequestsPage />} />
     <Route path="mission-requests" element={<MissionRequestsPage />} />
     <Route path="ordinary-requests" element={<OrdinaryRequestsPage />} />
-    <Route path="casual-leave-requests" element={<CasualLeaveRequestsPage />} />
+    
+    <Route path="casual-requests" element={<CasualLeaveRequestsPage />} />
 
     <Route path="sick-requests" element={<SickLRequestsPage />} />
   </Route>

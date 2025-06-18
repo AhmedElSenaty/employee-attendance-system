@@ -89,8 +89,8 @@ const TableFilters = ({
       {/* Search Type */}
       <Field className="flex flex-col space-y-2 w-fit">
         <Label size="md">{t("filters.searchBy.label")} </Label>
-        <SelectBox onChange={(e) => setParam("serachKey", e.target.value)}>
-          <option value="" selected={getParam("serachKey") == null} disabled>
+        <SelectBox onChange={(e) => setParam("searchKey", e.target.value)}>
+          <option value="" selected={getParam("searchKey") == null} disabled>
             {t(`filters.searchBy.default`)}
           </option>
           {searchBy.map((search, idx) => (
@@ -107,8 +107,8 @@ const TableFilters = ({
         <Input
           placeholder={t("filters.search.placeholder")}
           icon={<Search size={18} className="text-gray-500" />}
-          value={getParam("serachQuery") ?? ""}
-          onChange={(e) => setParam("serachQuery", e.target.value)}
+          value={getParam("searchQuery") ?? ""}
+          onChange={(e) => setParam("searchQuery", e.target.value)}
         />
       </Field>
 

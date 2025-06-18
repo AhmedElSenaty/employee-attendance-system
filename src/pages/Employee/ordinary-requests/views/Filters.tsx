@@ -10,7 +10,7 @@ import {
 import { RequestStatusType } from "../../../../enums";
 import { useTranslation } from "react-i18next";
 import { formatValue } from "../../../../utils";
-import { useLanguageStore } from "../../../../store/language.store";
+import { useLanguageStore } from "../../../../store/";
 import { ORDINARY_REQUESTS_NS } from "../../../../constants";
 
 interface FiltersProps {

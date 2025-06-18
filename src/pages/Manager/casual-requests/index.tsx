@@ -1,25 +1,19 @@
 import { useTranslation } from "react-i18next";
 import useURLSearchParams from "../../../hooks/URLSearchParams.hook";
 import { useState } from "react";
-import { IRejectLeaveRequestCredentials } from "../../../interfaces/leaveRequest.interfaces";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { useDebounce } from "../../../hooks/debounce.hook";
-import { CountCard, Header, Paginator, SectionHeader } from "../../../components/ui";
-import { formatValue } from "../../../utils";
-import { useLanguageStore } from "../../../store/language.store";
-import { CalendarCheck } from "lucide-react";
-import TableFilters from "./views/TableFilters";
-import CasualLeaveRequestsTable from "./views/CasualLeaveRequestsTable";
-import ShowPopup from "./views/ShowPopup";
-import AcceptPopup from "./views/AcceptPopup";
-import RejectPopup from "./views/RejectPop";
-import { IRejectCasualLeaveRequestCredentials } from "../../../interfaces";
-import { useAcceptCasualLeaveRequest, useGetCasualLeaveRequestByID, useGetCasualLeaveRequests, useRejectCasualLeaveRequest } from "../../../hooks";
-import { CASUAL_REQUESTS_NS } from "../../../constants";
+import { ActionCard, Button, Header, InfoPopup, Paginator, SectionHeader } from "../../../components/ui";
+import { IAssignCasualLeaveRequestCredentials, IRejectCasualLeaveRequestCredentials } from "../../../interfaces";
+import { useAcceptCasualLeaveRequest, useAssignCasualLeaveRequest, useGetCasualLeaveRequestByID, useGetCasualLeaveRequests, useRejectCasualLeaveRequest } from "../../../hooks";
+import { CASUAL_REQUESTS_MANAGER_VIDEO, CASUAL_REQUESTS_NS } from "../../../constants";
+import { AcceptPopup, AssignInputs, AssignPopup, CasualLeaveRequestsTable, RejectPopup, ShowPopup, TableFilters } from "./views";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { assignCasualLeaveRequestSchema } from "../../../validation";
+import { CirclePlus } from "lucide-react";
 
 const CasualLeaveRequestsPage = () => {
   const { t } = useTranslation(CASUAL_REQUESTS_NS);
-  const { language } = useLanguageStore();
 
   const {getParam, setParam, clearParams} = useURLSearchParams();
 
@@ -28,12 +22,18 @@ const CasualLeaveRequestsPage = () => {
   const [isShowPopupOpen, setIsShowPopupOpen] = useState(false);
   const [isAcceptPopupOpen, setIsAcceptPopupOpen] = useState(false);
   const [isRejectPopupOpen, setIsRejectPopupOpen] = useState(false);
+  const [isAssignPopupOpen, setIsAssignPopupOpen] = useState(false);
+
+  const { register: assignRegister, handleSubmit: handleSubmitAssign, formState: { errors }, reset: resetAssign } = useForm<IAssignCasualLeaveRequestCredentials>({
+    resolver: yupResolver(assignCasualLeaveRequestSchema),
+    mode: "onChange"
+  });
 
   const {
     register,
     handleSubmit,
     reset
-  } = useForm<IRejectLeaveRequestCredentials>();
+  } = useForm<IRejectCasualLeaveRequestCredentials>();
 
   const handleShowPopupOpen = (id: number) => {
     setSelectedID(id)
@@ -74,7 +74,7 @@ const CasualLeaveRequestsPage = () => {
   const searchQuery = rawSearchQuery || undefined;
 
   // Pass filtered params to hook
-  const { casualLeaveRequests, totalRequests, metadata, isCasualLeaveRequestsLoading } = useGetCasualLeaveRequests(
+  const { casualLeaveRequests, metadata, isCasualLeaveRequestsLoading } = useGetCasualLeaveRequests(
     page,
     pageSize,
     startDate,
@@ -88,6 +88,7 @@ const CasualLeaveRequestsPage = () => {
 
   const { mutate: acceptCasualLeaveRequest, isPending: isAccepting } = useAcceptCasualLeaveRequest()
   const { mutate: rejectCasualLeaveRequest, isPending: isRejecting } = useRejectCasualLeaveRequest()
+  const { mutate: assignCasualLeaveRequest, isPending: isAssigning } = useAssignCasualLeaveRequest()
 
   const handleConfirmAccept = () => {
     acceptCasualLeaveRequest(selectedID);
@@ -101,6 +102,11 @@ const CasualLeaveRequestsPage = () => {
     rejectCasualLeaveRequest(request);
     setIsRejectPopupOpen(false);
   });
+
+  const handleConfirmAssign: SubmitHandler<IAssignCasualLeaveRequestCredentials> = (request: IAssignCasualLeaveRequestCredentials) => {
+    assignCasualLeaveRequest(request)
+    setIsAssignPopupOpen(false)
+  };
   
 
   return (
@@ -111,13 +117,27 @@ const CasualLeaveRequestsPage = () => {
       />
 
       <div className="space-y-5 mx-auto w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl">
-        <CountCard 
-            title={t("countCard.title")}
-            description={t("countCard.description")}
-            count={formatValue(totalRequests, language)}
-            icon={<CalendarCheck size={28} />} 
-            bgColor="bg-[#b38e19]" 
+        <div className="w-full flex items-center justify-center">
+          <InfoPopup
+            title={t("infoPopupManager.title")}
+            description={t("infoPopupManager.description")}
+            videoUrl={CASUAL_REQUESTS_MANAGER_VIDEO}
           />
+        </div>
+        <ActionCard
+          icon={<CirclePlus />}
+          iconBgColor="bg-[#f5e4b2]"
+          iconColor="text-[#b38e19]"
+          title={t("assignActionCard.title")}
+          description={t("assignActionCard.description")}
+        >
+          <Button fullWidth variant="secondary" onClick={() => {
+            resetAssign()
+            setIsAssignPopupOpen(true)
+          }}>
+            {t("assignActionCard.button")}
+          </Button>
+        </ActionCard>
       </div>
 
       <div className="bg-white shadow-md space-y-5 p-5 rounded-lg">
@@ -160,13 +180,29 @@ const CasualLeaveRequestsPage = () => {
           handleClose={() => setIsAcceptPopupOpen(false) }
         />
 
-        <RejectPopup 
+        <RejectPopup
           register={register}
           handleConfirmReject={handleConfirmReject}
           isLoading={isRejecting}
           isOpen={isRejectPopupOpen}
           handleClose={handleRejectPopupClose}
         />
+
+      <AssignPopup 
+        isOpen={isAssignPopupOpen}
+        handleClose={() => {
+          resetAssign()
+          setIsAssignPopupOpen(false)
+        }}
+        formInputs={
+          <AssignInputs 
+            register={assignRegister}
+            errors={errors}
+          />
+        }
+        handleSubmit={handleSubmitAssign(handleConfirmAssign)}
+        isLoading={isAssigning}
+      />
     </div>
   );
 };

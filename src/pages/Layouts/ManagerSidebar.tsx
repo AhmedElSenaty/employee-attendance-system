@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next"; // Import translation hook
-import { Bed, Briefcase, Building2, Calendar, CalendarCog, CalendarSearch, Contact, ContactRound, Disc, Handshake, Home, LayoutDashboard, PersonStanding, TicketsPlane, User, UserCog, UserPlus, UserRoundPlus, Users } from "lucide-react";
+import { Briefcase, Building2, Calendar, CalendarCog, CalendarSearch, Clock, Coffee, Contact, ContactRound, FileText, Home, LayoutDashboard, Thermometer, TicketsPlane, User, UserCog, UserPlus, UserRoundPlus, Users } from "lucide-react";
 import { Sidebar, SidebarDropdown, SidebarItem } from "../../components/ui/Sidebar";
 import { useUserStore } from "../../store/user.store";
 
@@ -54,15 +54,15 @@ export const ManagerSidebar = () => {
         </SidebarDropdown>
       )}
 
-      <SidebarItem icon={<Handshake size={23} />} name={t("leaveRequests")} to="/manager/leave-requests" />
+      <SidebarItem icon={<FileText size={23} />} name={t("leaveRequests")} to="/manager/leave-requests" />
       
       <SidebarItem icon={<Briefcase size={23} />} name={t("missionRequests")} to="/manager/mission-requests" />
 
-      <SidebarItem icon={<Disc size={23} />} name={t("ordinaryRequests")} to="/manager/ordinary-requests" />
+      <SidebarItem icon={<Clock size={23} />} name={t("ordinaryRequests")} to="/manager/ordinary-requests" />
 
-      <SidebarItem icon={<PersonStanding size={23} />} name={t("casualLeaveRequests")} to="/manager/casual-leave-requests" />
+      <SidebarItem icon={<Coffee size={23} />} name={t("casualLeaveRequests")} to="/manager/casual-requests" />
 
-      <SidebarItem icon={<Bed size={23} />} name={t("sickRequests")} to="/manager/sick-requests" />
+      <SidebarItem icon={<Thermometer size={23} />} name={t("sickRequests")} to="/manager/sick-requests" />
     </Sidebar>
   );
 };

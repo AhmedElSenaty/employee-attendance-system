@@ -40,9 +40,9 @@ export const useGetCasualLeaveRequests = (
   });
 
   return {
-    casualLeaveRequests: data?.data?.requests || [],
-    totalRequests: data?.data?.totalCount || 0,
-    metadata: data?.data?.metadata || initialMetadata,
+    casualLeaveRequests: data?.data?.data?.requests || [],
+    totalRequests: data?.data?.data?.totalCount || 0,
+    metadata: data?.data?.data?.metadata || initialMetadata,
     isCasualLeaveRequestsLoading: isLoading,
   };
 };
@@ -64,9 +64,9 @@ export const useGetMyCasualLeaveRequests = (
   });
 
   return {
-    casualLeaveRequests: data?.data?.requests || [],
-    totalRequests: data?.data?.totalCount || 0,
-    metadata: data?.data?.metadata || initialMetadata,
+    casualLeaveRequests: data?.data?.data?.requests || [],
+    totalRequests: data?.data?.data?.totalCount || 0,
+    metadata: data?.data?.data?.metadata || initialMetadata,
     isCasualLeaveRequestsLoading: isLoading,
   };
 };
@@ -84,7 +84,7 @@ export const useGetCasualLeaveRequestByID = (
   });
 
   return {
-    casualLeaveRequest: data?.data,
+    casualLeaveRequest: data?.data?.data,
     isCasualLeaveRequestLoading: isLoading,
   };
 };
@@ -103,13 +103,13 @@ export const useGetMyCasualLeaveRequestByID = (
   });
 
   useEffect(() => {
-    if (data?.data) {
-      resetInputs?.(data.data);
+    if (data?.data?.data) {
+      resetInputs?.(data.data.data);
     }
   }, [data, resetInputs]);
 
   return {
-    casualLeaveRequest: data?.data,
+    casualLeaveRequest: data?.data?.data,
     isCasualLeaveRequestLoading: isLoading,
   };
 };

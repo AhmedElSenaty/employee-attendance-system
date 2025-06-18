@@ -55,28 +55,14 @@
     "toolTipEditButton": "Edit ordinary Request"
   },
   "conditionsPopup": {
-    "title": "Permit Conditions",
-    "description": "Read the requirements for applying for morning or evening permits.",
-    "morning": {
-      "title": "Morning Permission",
-      "rules": [
-        "Submit the permission request at least <1>two hours before</1> the requested time.",
-        "If the scheduled permission time passes without usage, it will be <1>automatically rejected</1>.",
-        "After the permission ends, the employee must:",
-        "Clock in (register attendance) before the permission time ends.",
-        "Clocking in late will be considered a <1>late arrival</1>."
-      ]
-    },
-    "evening": {
-      "title": "Evening Permission",
-      "rules": [
-        "Submit the request at least <1>two hours in advance</1>.",
-        "If the scheduled time passes without usage, it will be <1>automatically rejected</1>.",
-        "Before leaving, the employee must:",
-        "Clock out (register departure) before leaving the workplace.",
-        "Failure to clock out will be considered a <1>policy violation</1>."
-      ]
-    },
+    "title": "Ordinary Leave Conditions",
+    "description": "Learn the conditions for applying for ordinary annual leave.",
+    "rules": [
+      "This leave is granted annually upon request and requires prior approval.",
+      "If the employee is over 50 years old, they are entitled to <1>45 days</1> of leave.",
+      "If the employee is under 50 and has worked for <1>more than 10 years</1>, they are entitled to <1>30 days</1>.",
+      "If the employee is under 50 and has worked for <1>less than 10 years</1>, they are entitled to <1>21 days</1>."
+    ],
     "close": "Close"
   },
   "showPopup": {
@@ -103,7 +89,8 @@
     "description":"Fill in the details to submit a new ordinary request.",
     "buttons": {
       "add": "Add",
-      "close": "Close"
+      "close": "Close",
+      "loading": "Loading..."
     }
   },
   "editPopup": {
@@ -111,7 +98,8 @@
     "description":"Update the details of your ordinary request below.",
     "buttons": {
       "edit": "Edit",
-      "close": "Close"
+      "close": "Close",
+      "loading": "Loading..."
     }
   },
   "inputs": {
@@ -173,7 +161,8 @@
     "description": "Are you sure you want to accept this Ordinary request? This action will notify the employee and update the request status.",
     "buttons": {
       "accept": "Accept",
-      "close": "Close"
+      "close": "Close",
+      "loading": "Loading..."
     }
   },
   "rejectPopup": {
@@ -181,7 +170,8 @@
     "description": "Are you sure you want to reject this Ordinary request? This action will notify the employee and update the request status.",
     "buttons": {
       "reject": "Reject",
-      "close": "Close"
+      "close": "Close",
+      "loading": "Loading..."
     }
   },
   "infoPopupOrdinaryRequestsManager": {

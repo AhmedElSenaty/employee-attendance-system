@@ -40,5 +40,25 @@
   },
   "allowedDays": {
     "title": "Allowed Working Days:"
+  },
+  "vacations": {
+    "loading": "Loading vacation data...",
+    "title": "My Vacation Stats",
+    "availableCasualLeaves": "Available Casual Leaves",
+    "availableLeaveRequests": "Available Annual Leaves",
+    "availableOrdinaryLeaves": "Available Ordinary Leaves",
+    "totalCasualLeaves": "Total Casual Leaves Taken",
+    "totalLeaveRequests": "Total Annual Leaves Taken",
+    "totalMissions": "Total Missions",
+    "totalOrdinaryLeaves": "Total Ordinary Leaves Taken",
+    "totalSickLeave": "Total Sick Leaves Taken"
+  },
+  "attendance": {
+    "loading": "Loading today's attendance...",
+    "title": "Today's Attendance",
+    "checkIn": "Check-in Time",
+    "checkOut": "Check-out Time",
+    "dayType": "Day Type",
+    "notAvailable": "No attendance data available"
   }
 }

@@ -15,6 +15,7 @@ export const EMPLOYEES_QUERY_KEY = "employees";
 export const EMPLOYEE_DETAILS_QUERY_KEY = "employeeDetails";
 export const EMPLOYEES_COUNT_QUERY_KEY = "employeesCount";
 export const EMPLOYEES_LIST_QUERY_KEY = "employeesList";
+export const EMPLOYEES_MY_VACATIONS_QUERY_KEY = "employeeMyVacations";
 
 export const useGetAllEmployees = (
   page: number,
@@ -96,6 +97,22 @@ export const useGetEmployeesList = () => {
   return {
     employeesList: data ?? [],
     isEmployeesListLoading: isLoading,
+  };
+};
+
+export const useGetEmployeeMyVacations = () => {
+  const token = useUserStore((state) => state.token);
+  const employeeService = new EmployeeService(token);
+
+  const { data, isLoading } = useQuery({
+    queryKey: [EMPLOYEES_MY_VACATIONS_QUERY_KEY],
+    queryFn: () => employeeService.fetchMyVacations(),
+    enabled: !!token,
+  });
+
+  return {
+    myVacations: data?.data?.data,
+    isMyVacationsLoading: isLoading,
   };
 };
 

@@ -98,7 +98,8 @@
     "description":"Fill in the details to submit a new leave request.",
     "buttons": {
       "add": "Add",
-      "close": "Close"
+      "close": "Close",
+      "loading": "Loading..."
     }
   },
   "editPopup": {
@@ -106,7 +107,8 @@
     "description":"Update the details of your leave request below.",
     "buttons": {
       "edit": "Edit",
-      "close": "Close"
+      "close": "Close",
+      "loading": "Loading..."
     }
   },
   "inputs": {
@@ -173,7 +175,8 @@
     "description": "Are you sure you want to accept this leave request? This action will notify the employee and update the request status.",
     "buttons": {
       "accept": "Accept",
-      "close": "Close"
+      "close": "Close",
+      "loading": "Loading..."
     }
   },
   "rejectPopup": {
@@ -181,7 +184,8 @@
     "description": "Are you sure you want to reject this leave request? This action will notify the employee and update the request status.",
     "buttons": {
       "reject": "Reject",
-      "close": "Close"
+      "close": "Close",
+      "loading": "Loading..."
     }
   },
   "infoPopupLeaveRequestsManager": {

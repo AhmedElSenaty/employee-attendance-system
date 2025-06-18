@@ -28,7 +28,7 @@ export class LeaveRequestService extends BaseService {
         headers: this.getAuthHeaders(),
       });
 
-      return response.data;
+      return response;
     } catch (error) {
       this.handleError(error, "Error fetching all leave requests");
     }
@@ -54,7 +54,7 @@ export class LeaveRequestService extends BaseService {
         headers: this.getAuthHeaders(),
       });
 
-      return response.data;
+      return response;
     } catch (error) {
       this.handleError(error, "Error fetching all leave requests");
     }
@@ -66,7 +66,7 @@ export class LeaveRequestService extends BaseService {
         headers: this.getAuthHeaders(),
       });
 
-      return response.data;
+      return response;
     } catch (error) {
       this.handleError(error, `Error fetching leave request with ID ${requestId}`);
     }
@@ -78,7 +78,7 @@ export class LeaveRequestService extends BaseService {
         headers: this.getAuthHeaders(),
       });
 
-      return response.data;
+      return response;
     } catch (error) {
       this.handleError(error, `Error fetching leave request with ID ${requestId}`);
     }

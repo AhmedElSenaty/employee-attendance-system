@@ -5,7 +5,7 @@ import { NavLink } from 'react-router'; // Ensure to use react-router-dom
 import { useLanguageStore, useUserStore } from '../../store';
 import { EMPLOYEE_DASHBOARD_NS } from '../../constants';
 import { useTranslation } from 'react-i18next';
-import { useGetMyWorkingDays } from '../../hooks';
+import { useGetEmployeeMyVacations, useGetEmployeeTodayAttendance, useGetMyWorkingDays } from '../../hooks';
 import { IDaydata } from '../../interfaces';
 
 const Dashboard = () => {
@@ -15,6 +15,8 @@ const Dashboard = () => {
   const id = useUserStore((state) => state.id);
 
   const { myWorkingDays = [], isLoadingMyWorkingDays } = useGetMyWorkingDays();
+  const { myVacations, isMyVacationsLoading } = useGetEmployeeMyVacations();
+  const { todayAttendance, isTodayAttendanceLoading } = useGetEmployeeTodayAttendance();
 
   return (
     <div className="px-6 py-8 min-h-screen">
@@ -23,6 +25,42 @@ const Dashboard = () => {
         heading={t('header.heading')}
         subtitle={t('header.subtitle')}
       />
+
+      {isTodayAttendanceLoading ? (
+        <div className="flex justify-center mt-10">
+          <p className="text-purple-700 text-lg">{t('attendance.loading')}</p>
+        </div>
+      ) : todayAttendance ? (
+        <div className="flex justify-center mt-10">
+          <div
+            className={`w-full max-w-md px-6 py-5 border rounded-2xl shadow-md text-white ${
+              todayAttendance.dayType === 'absent'
+                ? 'bg-red-500 border-red-800'
+                : 'bg-green-500 border-green-800'
+            }`}
+          >
+            <p className="text-xl font-bold mb-4 text-center">{t('attendance.title')}</p>
+            <ul className="space-y-2 text-xl">
+              <li className="flex justify-between">
+                <span className="font-medium">{t('attendance.checkIn')}:</span>
+                <span>{todayAttendance.checkIn || '-'}</span>
+              </li>
+              <li className="flex justify-between">
+                <span className="font-medium">{t('attendance.checkOut')}:</span>
+                <span>{todayAttendance.checkOut || '-'}</span>
+              </li>
+              <li className="flex justify-between">
+                <span className="font-medium">{t('attendance.dayType')}:</span>
+                <span>{todayAttendance.dayType}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      ) : (
+        <div className="flex justify-center mt-10">
+          <p className="text-purple-700 text-lg">{t('attendance.notAvailable')}</p>
+        </div>
+      )}
 
       {/* Stat Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
@@ -114,7 +152,7 @@ const Dashboard = () => {
       {isLoadingMyWorkingDays ? (
         <p className="text-green-700">{t('allowedDays.loading')}</p>
       ) : (
-        <div className="mt-6 px-4 py-3 bg-green-50 border border-green-200 rounded-xl shadow-sm text-green-900 text-2xl sm:text-base">
+        <div className="mt-6 px-4 py-3 bg-green-50 border border-green-200 rounded-xl shadow-sm text-green-900 text-3xl sm:text-base">
           <p className="font-semibold mb-2">{t('allowedDays.title')}</p>
           <div className="flex flex-wrap gap-2">
             {myWorkingDays.map((day: IDaydata) => (
@@ -128,6 +166,25 @@ const Dashboard = () => {
           </div>
         </div>
       )}
+
+      {isMyVacationsLoading ? (
+        <p className="text-blue-700 mt-6">{t('vacations.loading')}</p>
+      ) : myVacations && (
+        <div className="mt-6 px-4 py-3 bg-blue-50 border border-blue-200 rounded-xl shadow-sm text-blue-900 text-3xl sm:text-base">
+          <p className="font-semibold mb-2">{t('vacations.title')}</p>
+          <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 list-disc list-inside text-base text-blue-800">
+            <li>{t('vacations.availableCasualLeaves')}: {myVacations.availableCasualLeaves}</li>
+            <li>{t('vacations.availableLeaveRequests')}: {myVacations.availableLeaveRequests}</li>
+            <li>{t('vacations.availableOrdinaryLeaves')}: {myVacations.availableOrdinaryLeaves}</li>
+            <li>{t('vacations.totalCasualLeaves')}: {myVacations.totalCasualLeaves}</li>
+            <li>{t('vacations.totalLeaveRequests')}: {myVacations.totalLeaveRequests}</li>
+            <li>{t('vacations.totalMissions')}: {myVacations.totalMissions}</li>
+            <li>{t('vacations.totalOrdinaryLeaves')}: {myVacations.totalOrdinaryLeaves}</li>
+            <li>{t('vacations.totalSickLeave')}: {myVacations.totalSickLeave}</li>
+          </ul>
+        </div>
+      )}
+
     </div>
   );
 };

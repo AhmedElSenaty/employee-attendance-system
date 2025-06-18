@@ -46,6 +46,19 @@ export class EmployeeService extends BaseService {
     }
   };
 
+  fetchMyVacations = async () => {
+    try {
+      const response = await axiosInstance.get("/Employee/MyVacations", {
+        headers: this.getAuthHeaders(),
+      });
+
+      return response;
+    } catch (error) {
+      console.error("Error fetching employees vacations:", error);
+      throw error;
+    }
+  };
+
   fetchCount = async () => {
     try {
       const response = await axiosInstance.get("/Employee/Count", {

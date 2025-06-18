@@ -1,5 +1,4 @@
-import { LeaveRequestCardSkeleton } from "../../../../components/ui";
-import { MissionRequestCard } from "../../../../components/ui/MissionRequestCard";
+import { MissionRequestCardSkeleton, MissionRequestCard } from "../../../../components/ui";
 import { IMissionRequestData } from "../../../../interfaces";
 
 type Props = {
@@ -20,9 +19,9 @@ const MissionRequestsList = ({
       {isLoading || !missionRequests ? (
         // Show 3 skeletons while loading
         <>
-          <LeaveRequestCardSkeleton />
-          <LeaveRequestCardSkeleton />
-          <LeaveRequestCardSkeleton />
+          <MissionRequestCardSkeleton />
+          <MissionRequestCardSkeleton />
+          <MissionRequestCardSkeleton />
         </>
       ) : (
         missionRequests.map((request) => (

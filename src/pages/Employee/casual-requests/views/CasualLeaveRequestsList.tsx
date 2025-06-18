@@ -15,7 +15,7 @@ const CasualLeaveRequestsList = ({
   handleShowPopupOpen,
 }: Props) => {
   return (
-    <div className="w-full flex flex-wrap gap-2 items-center justify-center">
+    <div className="w-full flex flex-wrap gap-1 items-center justify-center">
       {isLoading || !casualLeaveRequests ? (
         // Show 3 skeletons while loading
         <>

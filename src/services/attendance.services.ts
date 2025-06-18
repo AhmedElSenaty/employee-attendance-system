@@ -200,7 +200,6 @@ export class AttendanceService extends BaseService {
       const response = await axiosInstance.get(`/Attendance/GetEmployeeTodayAttendance`, {
         headers: this.getAuthHeaders(),
       });
-
       return response;
     } catch (error) {
       this.handleError(error, "Error fetching Employee Today Attendance");

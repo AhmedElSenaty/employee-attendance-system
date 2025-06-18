@@ -18,27 +18,19 @@ export const ATTENDANCE_OVERVIEW_VIDEO =
 export const ATTENDANCE_VACATION_VIDEO =
   "https://www.youtube.com/embed/LX8n7SDgnkY?si=r5xjdn-Kv4QOhvpl";
 
-export const LEAVE_REQUESTS_MANAGER_VIDEO =
-  "https://www.youtube.com/embed/Z5yx_szNx7Y?si=mbyUFV6AYf01Z_rw";
+  
 
-export const LEAVE_REQUESTS_EMPLOYEE_VIDEO =
-  "https://www.youtube.com/embed/JxAqaMFEVBY?si=td9ZDtjejShtuo7s";
+export const LEAVE_REQUESTS_MANAGER_VIDEO ="https://www.youtube.com/embed/Z5yx_szNx7Y?si=mbyUFV6AYf01Z_rw";
+export const LEAVE_REQUESTS_EMPLOYEE_VIDEO = "https://www.youtube.com/embed/JxAqaMFEVBY?si=td9ZDtjejShtuo7s";
 
-export const MISSION_REQUESTS_MANAGER_VIDEO =
-  "https://www.youtube.com/embed/dQw4w9WgXcQ";
-export const MISSION_REQUESTS_EMPLOYEE_VIDEO =
-  "https://www.youtube.com/embed/dQw4w9WgXcQ";
+export const MISSION_REQUESTS_MANAGER_VIDEO = "https://www.youtube.com/embed/dQw4w9WgXcQ";
+export const MISSION_REQUESTS_EMPLOYEE_VIDEO = "https://www.youtube.com/embed/dQw4w9WgXcQ";
 
-// export const MISSION_REQUESTS_EMPLOYEE_VIDEO =
-// "https://www.youtube.com/embed/dQw4w9WgXcQ";
 export const ORDINARY_REQUESTS_MANAGER_VIDEO = "https://www.youtube.com/embed/dQw4w9WgXcQ"
 export const ORDINARY_REQUESTS_EMPLOYEE_VIDEO = "https://www.youtube.com/embed/dQw4w9WgXcQ"
 
-export const CASUAL_REQUESTS_MANAGER_VIDEO =
-  "https://www.youtube.com/embed/Z5yx_szNx7Y?si=mbyUFV6AYf01Z_rw";
-
-export const CASUAL_REQUESTS_EMPLOYEE_VIDEO =
-  "https://www.youtube.com/embed/JxAqaMFEVBY?si=td9ZDtjejShtuo7s";
+export const CASUAL_REQUESTS_MANAGER_VIDEO = "https://www.youtube.com/embed/Z5yx_szNx7Y?si=mbyUFV6AYf01Z_rw";
+export const CASUAL_REQUESTS_EMPLOYEE_VIDEO ="https://www.youtube.com/embed/JxAqaMFEVBY?si=td9ZDtjejShtuo7s";
 
 export const SICK_REQUESTS_MANAGER_VIDEO = "https://www.youtube.com/embed/dQw4w9WgXcQ"
 export const SICK_REQUESTS_EMPLOYEE_VIDEO = "https://www.youtube.com/embed/dQw4w9WgXcQ"

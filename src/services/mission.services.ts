@@ -28,7 +28,7 @@ export class MissionRequestService extends BaseService {
 							headers: this.getAuthHeaders(),
 						});
 
-						return response.data;
+						return response;
 
 			} catch (error) {
 					this.handleError(error, "Error fetching all mission requests");
@@ -56,7 +56,7 @@ export class MissionRequestService extends BaseService {
 							headers: this.getAuthHeaders(),
 					});
 
-					return response.data;
+					return response;
 			} catch (error) {
 					this.handleError(error, "Error fetching all mission requests");
 			}
@@ -68,7 +68,7 @@ export class MissionRequestService extends BaseService {
 							headers: this.getAuthHeaders(),
 					});
 
-					return response.data;
+					return response;
 			}catch(error){
 					this.handleError(error, "Error fetching mission");
 			}
@@ -80,7 +80,7 @@ export class MissionRequestService extends BaseService {
 							headers: this.getAuthHeaders(),
 					});
 					
-					return response.data;
+					return response;
 			}catch(error){
 					this.handleError(error, "Error fetching mission");
 			}

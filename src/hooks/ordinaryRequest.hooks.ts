@@ -40,9 +40,9 @@ export const useGetOrdinaryRequests = (
   });
 
   return {
-    ordinaryRequests: data?.data?.requests || [],
-    totalRequests: data?.data?.totalCount || 0,
-    metadata: data?.data?.metadata || initialMetadata,
+    ordinaryRequests: data?.data?.data?.requests || [],
+    totalRequests: data?.data?.data?.totalCount || 0,
+    metadata: data?.data?.data?.metadata || initialMetadata,
     isOrdinaryRequestsLoading: isLoading,
   };
 };
@@ -64,9 +64,9 @@ export const useGetMyOrdinaryRequests = (
   });
 
   return {
-    ordinaryRequests: data?.data?.requests || [],
-    totalRequests: data?.data?.totalCount || 0,
-    metadata: data?.data?.metadata || initialMetadata,
+    ordinaryRequests: data?.data?.data?.requests || [],
+    totalRequests: data?.data?.data?.totalCount || 0,
+    metadata: data?.data?.data?.metadata || initialMetadata,
     isOrdinaryRequestsLoading: isLoading,
   };
 };
@@ -84,7 +84,7 @@ export const useGetOrdinaryRequestByID = (
   });
 
   return {
-    ordinaryRequest: data?.data,
+    ordinaryRequest: data?.data?.data,
     isOrdinaryRequestLoading: isLoading,
   };
 };
@@ -103,8 +103,8 @@ export const useGetMyOrdinaryRequestByID = (
   });
 
   useEffect(() => {
-    if (data?.data) {
-      resetInputs?.(data.data);
+    if (data?.data?.data) {
+      resetInputs?.(data.data.data);
     }
   }, [data, resetInputs]);
 

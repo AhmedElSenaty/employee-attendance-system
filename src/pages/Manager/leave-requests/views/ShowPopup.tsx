@@ -1,7 +1,7 @@
 import { CalendarCheck } from "lucide-react";
 import { NormalSpinner, Button, Popup } from "../../../../components/ui/";
-import { useLanguageStore } from "../../../../store/language.store";
-import { ILeaveRequestData } from "../../../../interfaces/leaveRequest.interfaces";
+import { useLanguageStore } from "../../../../store/";
+import { ILeaveRequestData } from "../../../../interfaces/";
 import { useTranslation } from "react-i18next";
 import { formatValue } from "../../../../utils";
 import { LEAVE_REQUESTS_NS } from "../../../../constants";

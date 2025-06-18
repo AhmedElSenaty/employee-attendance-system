@@ -10,7 +10,7 @@ import {
   Textarea,
   TextareaSkeleton,
 } from "../../../../components/ui";
-import { ILeaveRequestCredentials } from "../../../../interfaces/leaveRequest.interfaces";
+import { ILeaveRequestCredentials } from "../../../../interfaces/";
 import { LeaveRequestType } from "../../../../enums";
 import { Calendar } from "lucide-react";
 import { useTranslation } from "react-i18next";

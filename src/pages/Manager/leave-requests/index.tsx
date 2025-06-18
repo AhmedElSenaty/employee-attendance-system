@@ -1,10 +1,10 @@
 import { useTranslation } from "react-i18next";
 import useURLSearchParams from "../../../hooks/URLSearchParams.hook";
 import { useState } from "react";
-import { IRejectLeaveRequestCredentials } from "../../../interfaces/leaveRequest.interfaces";
+import { IRejectLeaveRequestCredentials } from "../../../interfaces/";
 import { useForm } from "react-hook-form";
 import { useAcceptLeaveRequest, useGetLeaveRequestByID, useGetLeaveRequests, useRejectLeaveRequest } from "../../../hooks";
-import { useDebounce } from "../../../hooks/debounce.hook";
+import { useDebounce } from "../../../hooks/";
 import { Header, InfoPopup, Paginator, SectionHeader } from "../../../components/ui";
 import { LEAVE_REQUESTS_MANAGER_VIDEO, LEAVE_REQUESTS_NS } from "../../../constants";
 import { AcceptPopup, LeaveRequestsTable, ShowPopup, TableFilters } from "./views";
@@ -118,25 +118,25 @@ const LeaveRequestsPage = () => {
           description={t("managerSectionHeader.description")}
         />
 
-          <div className="flex flex-wrap gap-4">
-            <TableFilters searchBy={metadata.searchBy} getParam={getParam} setParam={setParam} clearParams={clearParams} />
-          </div>
-
-          <div className="w-full overflow-x-auto">
-            <LeaveRequestsTable leaveRequests={leaveRequests} isLoading={isLeaveRequestsLoading} handleShow={handleShowPopupOpen} handleAccept={handleAcceptPopupOpen} handleReject={handleRejectPopupOpen} />
-          </div>
-
-          {/* Pagination Component */}
-          <Paginator
-            page={metadata?.pagination?.pageIndex || 0}
-            totalPages={metadata?.pagination?.totalPages || 1}
-            totalRecords={metadata?.pagination?.totalRecords || 0}
-            isLoading={isLeaveRequestsLoading}
-            onClickFirst={() => setParam("page", String(1))}
-            onClickPrev={() => setParam("page", String(Math.max((Number(getParam('page')) || 1) - 1, 1)))}
-            onClickNext={() => setParam("page", String(Math.min((Number(getParam('page')) || 1) + 1, metadata?.pagination?.totalPages || 1)))}
-          />
+        <div className="flex flex-wrap gap-4">
+          <TableFilters searchBy={metadata.searchBy} getParam={getParam} setParam={setParam} clearParams={clearParams} />
         </div>
+
+        <div className="w-full overflow-x-auto">
+          <LeaveRequestsTable leaveRequests={leaveRequests} isLoading={isLeaveRequestsLoading} handleShow={handleShowPopupOpen} handleAccept={handleAcceptPopupOpen} handleReject={handleRejectPopupOpen} />
+        </div>
+
+        {/* Pagination Component */}
+        <Paginator
+          page={metadata?.pagination?.pageIndex || 0}
+          totalPages={metadata?.pagination?.totalPages || 1}
+          totalRecords={metadata?.pagination?.totalRecords || 0}
+          isLoading={isLeaveRequestsLoading}
+          onClickFirst={() => setParam("page", String(1))}
+          onClickPrev={() => setParam("page", String(Math.max((Number(getParam('page')) || 1) - 1, 1)))}
+          onClickNext={() => setParam("page", String(Math.min((Number(getParam('page')) || 1) + 1, metadata?.pagination?.totalPages || 1)))}
+        />
+      </div>
 
         <ShowPopup 
           leaveRequest={leaveRequest}

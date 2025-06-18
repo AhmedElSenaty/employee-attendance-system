@@ -39,9 +39,9 @@ export const useGetMissionRequests = (
 	})
 
 	return {
-			missionRequests: data?.data?.requests || [],
-			totalMissionRequests: data?.data?.totalCount || 0,
-			metadata: data?.data?.metadata || initialMetadata,
+			missionRequests: data?.data?.data?.requests || [],
+			totalMissionRequests: data?.data?.data?.totalCount || 0,
+			metadata: data?.data?.data?.metadata || initialMetadata,
 			isMissionRequestsLoading: isLoading,
 	}
 }
@@ -63,9 +63,9 @@ export const useGetMyMissionRequests = (
 	});
 
 	return {
-			missionRequests: data?.data?.requests || [],
-			totalMissionRequests: data?.data?.totalCount || 0,
-			metadata: data?.data?.metadata || initialMetadata,
+			missionRequests: data?.data?.data?.requests || [],
+			totalMissionRequests: data?.data?.data?.totalCount || 0,
+			metadata: data?.data?.data?.metadata || initialMetadata,
 			isMissionRequestsLoading: isLoading,
 	}
 }
@@ -83,7 +83,7 @@ export const useGetMissionRequestByID = (
 	});
 
 	return {
-			missionRequest: data?.data,
+			missionRequest: data?.data?.data,
 			isMissionRequestLoading: isLoading,
 	}
 }
@@ -102,13 +102,13 @@ export const useGetMyMissionRequestByID = (
 	});
 	
   useEffect(() => {
-    if (data?.data) {
-      resetInputs?.(data.data);
+    if (data?.data?.data) {
+      resetInputs?.(data.data.data);
     }
   }, [data, resetInputs]);
 
 	return {
-			missionRequest: data?.data,
+			missionRequest: data?.data?.data,
 			isMissionRequestLoading: isLoading,
 	}
 }

@@ -40,9 +40,9 @@ export const useGetLeaveRequests = (
   });
 
   return {
-    leaveRequests: data?.data?.requests || [],
-    totalRequests: data?.data?.totalCount || 0,
-    metadata: data?.data?.metadata || initialMetadata,
+    leaveRequests: data?.data?.data?.requests || [],
+    totalRequests: data?.data?.data?.totalCount || 0,
+    metadata: data?.data?.data?.metadata || initialMetadata,
     isLeaveRequestsLoading: isLoading,
   };
 };
@@ -64,9 +64,9 @@ export const useGetMyLeaveRequests = (
   });
 
   return {
-    leaveRequests: data?.data?.requests || [],
-    totalRequests: data?.data?.totalCount || 0,
-    metadata: data?.data?.metadata || initialMetadata,
+    leaveRequests: data?.data?.data?.requests || [],
+    totalRequests: data?.data?.data?.totalCount || 0,
+    metadata: data?.data?.data?.metadata || initialMetadata,
     isLeaveRequestsLoading: isLoading,
   };
 };
@@ -84,7 +84,7 @@ export const useGetLeaveRequestByID = (
   });
 
   return {
-    leaveRequest: data?.data,
+    leaveRequest: data?.data?.data,
     isLeaveRequestLoading: isLoading,
   };
 };
@@ -103,13 +103,13 @@ export const useGetMyLeaveRequestByID = (
   });
 
   useEffect(() => {
-    if (data?.data) {
-      resetInputs?.(data.data);
+    if (data?.data?.data) {
+      resetInputs?.(data.data.data);
     }
   }, [data, resetInputs]);
 
   return {
-    leaveRequest: data?.data,
+    leaveRequest: data?.data?.data,
     isLeaveRequestLoading: isLoading,
   };
 };

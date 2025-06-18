@@ -56,27 +56,15 @@
   },
   "conditionsPopup": {
     "title": "Casual Leave Conditions",
-    "description": "Read the requirements for applying for morning or evening permits.",
-    "morning": {
-      "title": "Morning Permission",
-      "rules": [
-        "Submit the permission request at least <1>two hours before</1> the requested time.",
-        "If the scheduled permission time passes without usage, it will be <1>automatically rejected</1>.",
-        "After the permission ends, the employee must:",
-        "Clock in (register attendance) before the permission time ends.",
-        "Clocking in late will be considered a <1>late arrival</1>."
-      ]
-    },
-    "evening": {
-      "title": "Evening Permission",
-      "rules": [
-        "Submit the request at least <1>two hours in advance</1>.",
-        "If the scheduled time passes without usage, it will be <1>automatically rejected</1>.",
-        "Before leaving, the employee must:",
-        "Clock out (register departure) before leaving the workplace.",
-        "Failure to clock out will be considered a <1>policy violation</1>."
-      ]
-    },
+    "description": "Understand the policies around taking casual leave throughout the year.",
+    "rules": [
+      "Employees are allowed <1>7 days</1> of casual leave annually.",
+      "Casual leave does not require prior approval — the employee can take the day off and submit the request later.",
+      "An employee <1>cannot take 3 consecutive days</1> of casual leave, even if approved by a manager.",
+      "An employee <1>cannot request casual leave on a non-working day</1>, even if added by a manager.",
+      "An employee <1>cannot submit a request for a past date</1>, even with managerial assistance.",
+      "If an employee takes <1>Thursday and Sunday</1> consecutively and their workdays are Sunday to Thursday, <1>four days</1> will be deducted (including Friday and Saturday)."
+    ],
     "close": "Close"
   },
   "showPopup": {
@@ -103,7 +91,8 @@
     "description":"Fill in the details to submit a new casual leave request.",
     "buttons": {
       "add": "Add",
-      "close": "Close"
+      "close": "Close",
+      "loading": "Loading..."
     }
   },
   "editPopup": {
@@ -111,10 +100,34 @@
     "description":"Update the details of your casual leave request below.",
     "buttons": {
       "edit": "Edit",
-      "close": "Close"
+      "close": "Close",
+      "loading": "Loading..."
+    }
+  },
+  "assignActionCard": {
+    "title": "Assign New Casual Request",
+    "description": "Assign casual leave request for employee.",
+    "button": "Assign Now"
+  },
+  "assignPopup": {
+    "title": "Assign Casual leave Request",
+    "description": "Assign a casual leave to a employee quickly and easily.",
+    "buttons": {
+      "assign": "Assgin",
+      "close": "Close",
+      "loading": "Loading..."
     }
   },
   "inputs": {
+    "employeeId": {
+      "label": "Employee",
+      "placeholder": "Choose Employee",
+      "defaultValue": "Choose Employee",
+      "inputValidation": {
+        "required": "Employee is required",
+        "typeError": "Employee is required"
+      }
+    },
     "startDate": {
       "label": "Start Date",
       "validation": {
@@ -173,7 +186,8 @@
     "description": "Are you sure you want to accept this Ordinary request? This action will notify the employee and update the request status.",
     "buttons": {
       "accept": "Accept",
-      "close": "Close"
+      "close": "Close",
+      "loading": "Loading..."
     }
   },
   "rejectPopup": {
@@ -181,7 +195,8 @@
     "description": "Are you sure you want to reject this Ordinary request? This action will notify the employee and update the request status.",
     "buttons": {
       "reject": "Reject",
-      "close": "Close"
+      "close": "Close",
+      "loading": "Loading..."
     }
   },
   "assignCasual": {

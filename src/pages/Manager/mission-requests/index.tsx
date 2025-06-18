@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import useURLSearchParams from "../../../hooks/URLSearchParams.hook";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useDebounce } from "../../../hooks/debounce.hook";
+import { useDebounce } from "../../../hooks/";
 import { ActionCard, Button, Header, InfoPopup, Paginator, SectionHeader } from "../../../components/ui";
 import {
   useAcceptMissionRequest,

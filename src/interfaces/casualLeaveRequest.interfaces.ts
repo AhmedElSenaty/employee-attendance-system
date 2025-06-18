@@ -24,9 +24,6 @@ export interface IRejectCasualLeaveRequestCredentials {
   comment: string;
 }
 
-export interface IAssignCasualLeaveRequestCredentials {
-  employeeId: string;
-  startTime: string;
-  endTime: string;
-  description: string;
+export interface IAssignCasualLeaveRequestCredentials extends ICasualLeaveRequestCredentials {
+  employeeId: number;
 }

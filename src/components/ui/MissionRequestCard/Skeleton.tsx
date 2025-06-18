@@ -1,4 +1,4 @@
-const LeaveRequestCardSkeleton = () => {
+const MissionRequestCardSkeleton = () => {
   return (
     <div className="w-full sm:w-[450px] min-h-[220px] rounded-2xl border border-gray-200 shadow-sm p-5 space-y-4 bg-gray-50 animate-pulse">
       {/* Header: Date & Status */}
@@ -37,4 +37,4 @@ const LeaveRequestCardSkeleton = () => {
   );
 };
 
-export default LeaveRequestCardSkeleton;
+export default MissionRequestCardSkeleton;

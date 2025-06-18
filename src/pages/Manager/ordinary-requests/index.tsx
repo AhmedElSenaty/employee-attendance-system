@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import useURLSearchParams from "../../../hooks/URLSearchParams.hook";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useDebounce } from "../../../hooks/debounce.hook";
+import { useDebounce } from "../../../hooks/";
 import { Header, InfoPopup, Paginator, SectionHeader } from "../../../components/ui";
 import { useAcceptOrdinaryRequest, useGetOrdinaryRequestByID, useGetOrdinaryRequests, useRejectOrdinaryRequest } from "../../../hooks/";
 import { ORDINARY_REQUESTS_MANAGER_VIDEO, ORDINARY_REQUESTS_NS } from "../../../constants";

@@ -21,7 +21,7 @@ const CasualLeaveRequestCard = ({ data, handleShow, handleEdit }: Props) => {
 
   return (
     <div
-      className={`w-full sm:w-[600px] min-h-[220px] rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow p-5 space-y-4
+      className={`w-full sm:w-[550px] min-h-[220px] rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow p-5 space-y-4
       ${getRequestBgColorClass(data.status)}`}
     >
       {/* Header: Date and Status */}

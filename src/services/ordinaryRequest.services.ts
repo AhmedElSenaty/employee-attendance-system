@@ -28,7 +28,7 @@ export class OrdinaryRequestService extends BaseService {
 							headers: this.getAuthHeaders(),
 						});
 
-						return response.data;
+						return response;
 
 			} catch (error) {
 					this.handleError(error, "Error fetching all ordinary requests");
@@ -56,7 +56,7 @@ export class OrdinaryRequestService extends BaseService {
 							headers: this.getAuthHeaders(),
 					});
 
-					return response.data;
+					return response;
 			} catch (error) {
 					this.handleError(error, "Error fetching all ordinary requests");
 			}
@@ -68,7 +68,7 @@ export class OrdinaryRequestService extends BaseService {
 							headers: this.getAuthHeaders(),
 					});
 
-					return response.data;
+					return response;
 			}catch(error){
 					this.handleError(error, "Error fetching ordinary request");
 			}
@@ -80,7 +80,7 @@ export class OrdinaryRequestService extends BaseService {
 							headers: this.getAuthHeaders(),
 					});
 					
-					return response.data;
+					return response;
 			}catch(error){
 					this.handleError(error, "Error fetching ordinary request");
 			}

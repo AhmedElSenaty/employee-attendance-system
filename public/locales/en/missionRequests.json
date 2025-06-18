@@ -97,7 +97,8 @@
     "description":"Fill in the details to submit a new mission request.",
     "buttons": {
       "add": "Add",
-      "close": "Close"
+      "close": "Close",
+      "loading": "Loading..."
     }
   },
   "editPopup": {
@@ -105,7 +106,8 @@
     "description":"Update the details of your Mission request below.",
     "buttons": {
       "edit": "Edit",
-      "close": "Close"
+      "close": "Close",
+      "loading": "Loading..."
     }
   },
   "form": {

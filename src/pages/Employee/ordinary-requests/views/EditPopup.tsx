@@ -35,7 +35,10 @@ const EditPopup = ({
           {t("editPopup.buttons.close")}
         </Button>
         <Button variant="secondary" type="submit" fullWidth={true} isLoading={isLoading}>
-          {t("editPopup.buttons.edit")}
+          {(isLoading)
+            ? t("editPopup.buttons.loading")
+            : t("editPopup.buttons.add")
+          }
         </Button>
       </form>
     </Popup>

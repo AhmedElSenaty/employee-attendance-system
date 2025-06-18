@@ -10,7 +10,7 @@ import {
   Tooltip,
 } from "../../../../components/ui";
 import { useTranslation } from "react-i18next";
-import { useLanguageStore } from "../../../../store/language.store";
+import { useLanguageStore } from "../../../../store/";
 import { formatValue, getRequestStatusVariant } from "../../../../utils";
 import { RequestStatusType } from "../../../../enums";
 import { IOrdinaryRequestData } from "../../../../interfaces";

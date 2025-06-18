@@ -40,5 +40,25 @@
   },
   "allowedDays": {
     "title": "أيام العمل المسموح بها:"
+  },
+  "vacations": {
+    "loading": "جاري تحميل بيانات الإجازات...",
+    "title": "إحصائيات إجازاتي",
+    "availableCasualLeaves": "الإجازات العارضة المتاحة",
+    "availableLeaveRequests": "الإجازات السنوية المتاحة",
+    "availableOrdinaryLeaves": "الإجازات الاعتيادية المتاحة",
+    "totalCasualLeaves": "إجمالي الإجازات العارضة المستخدمة",
+    "totalLeaveRequests": "إجمالي الإجازات السنوية المستخدمة",
+    "totalMissions": "إجمالي المهمات",
+    "totalOrdinaryLeaves": "إجمالي الإجازات الاعتيادية المستخدمة",
+    "totalSickLeave": "إجمالي الإجازات المرضية المستخدمة"
+  },
+  "attendance": {
+    "loading": "جاري تحميل بيانات الحضور اليوم...",
+    "title": "حضور اليوم",
+    "checkIn": "وقت الحضور",
+    "checkOut": "وقت الانصراف",
+    "dayType": "نوع اليوم",
+    "notAvailable": "لا توجد بيانات حضور متاحة"
   }
 }
