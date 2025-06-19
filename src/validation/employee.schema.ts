@@ -49,4 +49,28 @@ export const getEmployeeSchema = (isUpdate: boolean) =>
     oldId: yup
       .string()
       .required("Old ID is required"),
+
+    avilableLeaveRequestsPerMonth: yup
+      .string()
+      .when([], {
+        is: () => !isUpdate,
+        then: (schema) => schema.required("Available leave requests per month is required"),
+        otherwise: (schema) => schema.strip(),
+      }),
+
+    avilableOrdinaryLeaveeRequestsPerYear: yup
+      .string()
+      .when([], {
+        is: () => !isUpdate,
+        then: (schema) => schema.required("Available ordinary leave requests per year is required"),
+        otherwise: (schema) => schema.strip(),
+      }),
+
+    avilableCasualLeaveeRequestsPerYear: yup
+      .string()
+      .when([], {
+        is: () => !isUpdate,
+        then: (schema) => schema.required("Available casual leave requests per year is required"),
+        otherwise: (schema) => schema.strip(),
+      }),
   });

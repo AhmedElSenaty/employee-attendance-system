@@ -67,7 +67,14 @@
         "title": "Add Employee",
         "description": "Add a new employee and grant them system access.",
         "button": "Add New"
+      },
+          "actions": {
+      "rest": {
+        "title": "Reset Leave Balance",
+        "description": "Reset employee leave balance based on selected period.",
+        "button": "Reset Balance"
       }
+    }
     }
   },
   "addEmployeePage": {
@@ -214,9 +221,34 @@
         "required": "Confirmation is required",
         "oneOf": "Passwords do not match"
       }
+    },
+    "avilableLeaveRequestsPerMonth": {
+      "label": "Available Monthly Leave Requests",
+      "placeholder": "Enter number of monthly leave requests",
+      "inputValidation": {
+        "required": "Available leave requests per month is required"
+      }
+    },
+    "avilableOrdinaryLeaveeRequestsPerYear": {
+      "label": "Available Ordinary Leaves Per Year",
+      "placeholder": "Enter number of ordinary leaves per year",
+      "inputValidation": {
+        "required": "Available ordinary leave requests per year is required"
+      }
+    },
+    "avilableCasualLeaveeRequestsPerYear": {
+      "label": "Available Casual Leaves Per Year",
+      "placeholder": "Enter number of casual leaves per year",
+      "inputValidation": {
+        "required": "Available casual leave requests per year is required"
+      }
     }
   },
   "popup": {
+    "rest": {
+      "title": "Reset Employee Leave Balance",
+      "description": "Choose the type of reset you want to apply for employee leaves."
+    },
     "delete": {
       "title": "Remove Employee",
       "description": "Are you sure you want to permanently delete this employee? This action cannot be undone."
@@ -229,6 +261,35 @@
       "title": "Change User Status in Report",
       "description": "Click the button to toggle the user's status between included or excluded from the report."
     }
-
-  }
+  },
+  "leaveStatsPopup": {
+    "title": "Employee Leave Summary",
+    "description": "Detailed statistics of the employee's leave status",
+    "buttons": {
+      "close": "Close"
+    },
+    "fields": {
+      "totalOrdinaryLeaves": "Total Ordinary Leaves",
+      "availableOrdinaryLeaves": "Available Ordinary Leaves",
+      "totalCasualLeaves": "Total Casual Leaves",
+      "availableCasualLeaves": "Available Casual Leaves",
+      "totalLeaveRequests": "Total Leave Requests",
+      "availableLeaveRequests": "Available Leave Requests",
+      "totalSickLeave": "Total Sick Leaves",
+      "totalMissions": "Total Missions"
+    }
+  },
+  "filters": {
+      "leaveStatus": "Leave Reset Type",
+      "defaultLeaveStatusOption": "Select a reset type"
+    },
+    "status": {
+      "1": "Monthly",
+      "2": "Yearly",
+      "3": "Every 3 Years"
+    },
+    "buttons": {
+      "close": "Close",
+      "rest": "Reset"
+    }
 }

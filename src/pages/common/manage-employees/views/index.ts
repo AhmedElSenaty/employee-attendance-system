@@ -7,3 +7,4 @@ export { default as RenderEmployeeDelegateInputs } from "./RenderEmployeeDelegat
 export { default as RenderEmployeeDepartmentInputs } from "./RenderEmployeeDepartmentInputs"
 export { default as UnblockEmployeePopup } from "./UnblockEmployeePopup"
 export { default as WorkingDaysCheckboxes } from "./WorkingDaysCheckboxes"
+export { default as EmployeeLeaveStatsPopup } from "./EmployeeLeaveStatsPopup"

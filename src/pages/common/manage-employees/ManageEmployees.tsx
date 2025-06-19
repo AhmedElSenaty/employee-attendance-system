@@ -5,8 +5,8 @@ import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import { useDebounce } from "../../../hooks/debounce.hook";
 import { useFiltersHook } from "../../../hooks/filter.hook";
-import { DeleteEmployeePopup, EmployeesTable, EmployeeTableFilters, UnblockEmployeePopup } from "./views";
-import { useDeleteEmployee, useGetAllEmployees, useGetEmployeesCount, useToggleReportEmployeeStatus } from "../../../hooks/employee.hooks";
+import { DeleteEmployeePopup, EmployeeLeaveStatsPopup, EmployeesTable, EmployeeTableFilters, UnblockEmployeePopup } from "./views";
+import { useDeleteEmployee, useGetAllEmployees, useGetEmployeesCount, useGetEmployeeVacationsByID, useRestEmployeeTimeVacations, useToggleReportEmployeeStatus } from "../../../hooks/employee.hooks";
 import { EMPLOYEE_BORDER_WIDTH, EMPLOYEE_GRAPH_BACKGROUND_COLORS, EMPLOYEE_GRAPH_BORDER_COLORS, EMPLOYEE_GRAPH_LABEL_KEYS, EMPLOYEE_TRANSLATION_NAMESPACE } from ".";
 import { HasPermission } from "../../../components/auth";
 import { useLanguageStore } from "../../../store/language.store";
@@ -14,6 +14,8 @@ import { useUserStore } from "../../../store/user.store";
 import { ActionCard, BarChart, Button, CountCard, Graph, GraphSkeleton, Header, Paginator, SectionHeader } from "../../../components/ui";
 import { useUnblockAccount } from "../../../hooks/account.hook";
 import ChangeIncludedStatusPopup from "./views/ChangeIncludedStatusPopup";
+import { TimeToRest } from "../../../enums";
+import RestEmployeePopup from "./views/RestVacationsPopup";
 
 export const ManageEmployeesPage = () => {
   const userRole = useUserStore((state) => state.role);
@@ -24,6 +26,13 @@ export const ManageEmployeesPage = () => {
   const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
   const [isUnblockPopupOpen, setIsUnblockPopupOpen] = useState(false)
   const [isChangeIncludedStatusPopupOpen, setIsChangeIncludedStatusPopupOpen] = useState(false)
+  const [isLeaveStatsPopupOpen, setIsLeaveStatsPopupOpen] = useState(false);
+  const { mutate: restEmployeeVacations, isPending: isResting } = useRestEmployeeTimeVacations();
+  const [isRestPopupOpen, setIsRestPopupOpen] = useState(false);
+
+  const handleConfirmRest = (time: TimeToRest) => {
+    restEmployeeVacations(time);
+  };
 
   const handleDeletePopupOpen = (id: string) => {
     setSelectedID(id)
@@ -45,6 +54,8 @@ export const ManageEmployeesPage = () => {
   const { employees, metadata, isEmployeesDataLoading } = useGetAllEmployees(Number(page) || 1, Number(pageSize) || 5, searchKey || "", debouncedSearchQuery || "");;
 
   const { totalCount, activatedCount, deactivatedCount, lockedCount, blockedCount, isEmployeesCountLoading } = useGetEmployeesCount()
+
+  const { employeeVacations, isEmployeeVacationsLoading } = useGetEmployeeVacationsByID(selectedID)
 
   const barData = {
     labels: EMPLOYEE_GRAPH_LABEL_KEYS.map(key => t(key, { ns: EMPLOYEE_TRANSLATION_NAMESPACE })),
@@ -71,6 +82,10 @@ export const ManageEmployeesPage = () => {
     setIsDeletePopupOpen(false)
   };
 
+const handleLeaveStatsPopupOpen = (id: string) => {
+  setSelectedID(id);
+  setIsLeaveStatsPopupOpen(true);
+};
 
   const handleConfirmUnblock = () => {
     if (!selectedID) return;
@@ -83,6 +98,8 @@ export const ManageEmployeesPage = () => {
     toggleReport(selectedID)
     setIsChangeIncludedStatusPopupOpen(false)
   };
+
+  console.log(employeeVacations);
 
   return (
     <div className="sm:p-5 p-3 space-y-5">
@@ -140,6 +157,23 @@ export const ManageEmployeesPage = () => {
               </ActionCard>
             </HasPermission>
           </div>
+            <div className="w-full md:w-1/2 h-fit">
+              <ActionCard
+                icon={<UserCog />}
+                iconBgColor="bg-[#d7f0f6]"
+                iconColor="text-[#007fa4]"
+                title={t("manageEmployeesPage.actions.rest.title", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}
+                description={t("manageEmployeesPage.actions.rest.description", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}
+              >
+                <Button
+                  fullWidth
+                  variant="primary"
+                  onClick={() => setIsRestPopupOpen(true)}
+                >
+                  {t("manageEmployeesPage.actions.rest.button", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}
+                </Button>
+              </ActionCard>
+            </div>
         </div>
       </div>
 
@@ -159,6 +193,7 @@ export const ManageEmployeesPage = () => {
             handleDeleteEmployee={handleDeletePopupOpen}
             handleUnblockEmployee={handleUnblockPopupOpen}
             handleChangeIncludedStatusEmployee={handleChangeIncludedStatusPopupOpen}
+            handleShowLeaveStats={handleLeaveStatsPopupOpen}
             t={t}
           />
         </div>
@@ -193,6 +228,19 @@ export const ManageEmployeesPage = () => {
         handleConfirmChange={handleConfirmToggleReport}
         isLoading={isToggleReportLoading}
         t={t}
+      />
+
+      <EmployeeLeaveStatsPopup
+        isOpen={isLeaveStatsPopupOpen}
+        handleClose={() => setIsLeaveStatsPopupOpen(false)}
+        stats={employeeVacations || null}
+        isLoading={isEmployeeVacationsLoading}
+      />
+      <RestEmployeePopup
+        isOpen={isRestPopupOpen}
+        handleClose={() => setIsRestPopupOpen(false)}
+        handleConfirmRest={handleConfirmRest}
+        isLoading={isResting}
       />
     </div>
   );

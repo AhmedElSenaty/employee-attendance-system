@@ -16,6 +16,8 @@ export const EMPLOYEE_DETAILS_QUERY_KEY = "employeeDetails";
 export const EMPLOYEES_COUNT_QUERY_KEY = "employeesCount";
 export const EMPLOYEES_LIST_QUERY_KEY = "employeesList";
 export const EMPLOYEES_MY_VACATIONS_QUERY_KEY = "employeeMyVacations";
+export const EMPLOYEES_VACATIONS_QUERY_KEY = "employeeVacations";
+
 
 export const useGetAllEmployees = (
   page: number,
@@ -61,6 +63,24 @@ export const useGetEmployeeByID = (
   return {
     employee: data?.data,
     isEmployeeDataLoading: isLoading,
+  };
+};
+
+export const useGetEmployeeVacationsByID = (
+  employeeID: string,
+) => {
+  const token = useUserStore((state) => state.token);
+  const employeeService = new EmployeeService(token);
+
+  const { data, isLoading } = useQuery({
+    queryKey: [EMPLOYEES_VACATIONS_QUERY_KEY, employeeID],
+    queryFn: () => employeeService.fetchVacationsByID(employeeID),
+    enabled: !!employeeID && !!token,
+  });
+
+  return {
+    employeeVacations: data?.data,
+    isEmployeeVacationsLoading: isLoading,
   };
 };
 
@@ -192,6 +212,26 @@ export const useDeleteEmployee = () => {
     mutationFn: (employeeID: string) => employeeService.delete(employeeID),
     onSuccess: ({ status, data }) => {
       queryClient.invalidateQueries({ queryKey: [EMPLOYEES_QUERY_KEY] });
+      if (status === 200) {
+        const message = getTranslatedMessage(data.message ?? "", language);
+        showToast("success", message);
+      }
+    },
+    onError: (error) => {
+      const axiosError = error as AxiosError<IErrorResponse>;
+      handleApiError(axiosError, language);
+    },
+  });
+};
+
+export const useRestEmployeeTimeVacations = () => {
+  const token = useUserStore((state) => state.token);
+  const { language } = useLanguageStore()
+  const employeeService = new EmployeeService(token);
+
+  return useMutation({
+    mutationFn: (time: number) => employeeService.resetEmployeeVacations(time),
+    onSuccess: ({ status, data }) => {
       if (status === 200) {
         const message = getTranslatedMessage(data.message ?? "", language);
         showToast("success", message);

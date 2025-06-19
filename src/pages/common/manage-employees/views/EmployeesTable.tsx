@@ -16,9 +16,10 @@ interface IEmployeesTableProps {
   handleDeleteEmployee: (id: string) => void;
   handleUnblockEmployee: (id: string) => void;
   handleChangeIncludedStatusEmployee: (id: string) => void;
+  handleShowLeaveStats: (id: string) => void;
 }
 
-const EmployeesTable = ({ employees, t, isLoading, handleDeleteEmployee, handleUnblockEmployee, handleChangeIncludedStatusEmployee }: IEmployeesTableProps) => {
+const EmployeesTable = ({ employees, t, isLoading, handleDeleteEmployee, handleUnblockEmployee, handleChangeIncludedStatusEmployee, handleShowLeaveStats }: IEmployeesTableProps) => {
   const userRole = useUserStore((state) => state.role);
 
   const columns = useMemo(
@@ -151,6 +152,16 @@ const EmployeesTable = ({ employees, t, isLoading, handleDeleteEmployee, handleU
                           />
                         </Tooltip>
                     </HasPermission>
+                    <Tooltip content="View Leave Stats">
+                      <Button
+                        variant="success"
+                        fullWidth={false}
+                        size="sm"
+                        icon={<FileSpreadsheet className="w-full h-full" />}
+                        onClick={() => handleShowLeaveStats(id)}
+                      />
+                    </Tooltip>
+
                   </div>
                 </TableCell>
               </TableRow>

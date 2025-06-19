@@ -85,6 +85,19 @@ export class EmployeeService extends BaseService {
     }
   };
 
+    fetchVacationsByID = async (employeeID: string) => {
+    try {
+      const response = await axiosInstance.get(`/Employee/EmployeesVacations/${employeeID}`, {
+        headers: this.getAuthHeaders(),
+      });
+
+      return response.data;
+    } catch (error) {
+      console.error(`Error fetching employee by ID (${employeeID}):`, error);
+      throw error;
+    }
+  };
+
   create = (employeeData: IEmployeeCredentials) => {
     return axiosInstance.post("/Account/RegisterEmployee", employeeData, {
       headers: this.getAuthHeaders(),
@@ -144,4 +157,10 @@ export class EmployeeService extends BaseService {
       throw error;
     }
   };
+
+  resetEmployeeVacations = (timeToRest: number) => {
+    return axiosInstance.put(`/Employee/reset-employees-data?time=${timeToRest}`, {},{
+      headers: this.getAuthHeaders(),
+    })
+  }
 }

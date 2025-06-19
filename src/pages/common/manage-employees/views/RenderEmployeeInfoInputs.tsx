@@ -164,6 +164,69 @@ const RenderEmployeeInputs = ({
           </InputErrorMessage>
         )}
       </Field>
+
+      {/* Available Leave Requests Per Month */}
+      {!isUpdateEmployee && (
+        <Field className="space-y-2">
+          <Label size="lg">{t("form.avilableLeaveRequestsPerMonth.label", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}</Label>
+          <Input
+            placeholder={t("form.avilableLeaveRequestsPerMonth.placeholder", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}
+            type="number"
+            {...register("avilableLeaveRequestsPerMonth")}
+            isError={!!errors["avilableLeaveRequestsPerMonth"]}
+          />
+          {errors["avilableLeaveRequestsPerMonth"] && (
+            <InputErrorMessage>
+              {t(`form.avilableLeaveRequestsPerMonth.inputValidation.${errors["avilableLeaveRequestsPerMonth"].type}`, {
+                ns: EMPLOYEE_TRANSLATION_NAMESPACE
+              })}
+            </InputErrorMessage>
+          )}
+        </Field>
+      )}
+
+      {/* Available Ordinary Leaves Per Year */}
+      {!isUpdateEmployee && (
+        <Field className="space-y-2">
+          <Label size="lg">{t("form.avilableOrdinaryLeaveeRequestsPerYear.label", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}</Label>
+          <Input
+            placeholder={t("form.avilableOrdinaryLeaveeRequestsPerYear.placeholder", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}
+            type="number"
+            {...register("avilableOrdinaryLeaveeRequestsPerYear")}
+            isError={!!errors["avilableOrdinaryLeaveeRequestsPerYear"]}
+          />
+          {errors["avilableOrdinaryLeaveeRequestsPerYear"] && (
+            <InputErrorMessage>
+              {t(
+                `form.avilableOrdinaryLeaveeRequestsPerYear.inputValidation.${errors["avilableOrdinaryLeaveeRequestsPerYear"].type}`,
+                { ns: EMPLOYEE_TRANSLATION_NAMESPACE }
+              )}
+            </InputErrorMessage>
+          )}
+        </Field>
+      )}
+
+      {/* Available Casual Leaves Per Year */}
+      {!isUpdateEmployee && (
+        <Field className="space-y-2">
+          <Label size="lg">{t("form.avilableCasualLeaveeRequestsPerYear.label", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}</Label>
+          <Input
+            placeholder={t("form.avilableCasualLeaveeRequestsPerYear.placeholder", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}
+            type="number"
+            {...register("avilableCasualLeaveeRequestsPerYear")}
+            isError={!!errors["avilableCasualLeaveeRequestsPerYear"]}
+          />
+          {errors["avilableCasualLeaveeRequestsPerYear"] && (
+            <InputErrorMessage>
+              {t(
+                `form.avilableCasualLeaveeRequestsPerYear.inputValidation.${errors["avilableCasualLeaveeRequestsPerYear"].type}`,
+                { ns: EMPLOYEE_TRANSLATION_NAMESPACE }
+              )}
+            </InputErrorMessage>
+          )}
+        </Field>
+      )}
+
     </>
   );
 };
