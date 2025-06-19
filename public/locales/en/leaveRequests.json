@@ -162,6 +162,9 @@
       "requestedAt": "Requested At",
       "type": "Type",
       "status": "Status",
+      "leaveType": "Leave Type",
+      "checkIn": "Check In",
+      "checkOut": "Check Out",
       "actions": "Actions"
     },
     "buttons": {

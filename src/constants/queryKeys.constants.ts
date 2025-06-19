@@ -29,12 +29,14 @@ export const QueryKeys = {
     My: "myLeaveRequests",
     Details: "leaveRequestDetails",
     MyDetails: "myLeaveRequestDetails",
+    WithAttendance: "leaveRequestsWithAttendance",
   },
   MissionRequests: {
     All: "missionRequests",
     My: "myMissionRequests",
     Details: "missionRequestDetails",
     MyDetails: "myMissionRequestDetails",
+    WithAttendance: "missionRequestsWithAttendance",
   },
   OrdinaryRequests: {
     All: "ordinaryRequests",

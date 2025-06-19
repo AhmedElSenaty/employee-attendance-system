@@ -55,7 +55,7 @@ export const ManagerSidebar = () => {
       )}
 
       <SidebarItem icon={<FileText size={23} />} name={t("leaveRequests")} to="/manager/leave-requests" />
-      
+      <SidebarItem icon={<FileText size={23} />} name={"leave attendance"} to="/manager/leave-requests-with-attendance" />
       <SidebarItem icon={<Briefcase size={23} />} name={t("missionRequests")} to="/manager/mission-requests" />
 
       <SidebarItem icon={<Clock size={23} />} name={t("ordinaryRequests")} to="/manager/ordinary-requests" />

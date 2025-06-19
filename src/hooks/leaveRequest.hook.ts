@@ -47,6 +47,34 @@ export const useGetLeaveRequests = (
   };
 };
 
+export const useGetLeaveRequestsWithAttendance = (
+  page = 1,
+  pageSize = 10,
+  startDate?: string,
+  endDate?: string,
+  status?: number,
+  searchType?: string,
+  searchQuery?: string
+) => {
+  const token = useUserStore((state) => state.token);
+  const leaveService = useLeaveRequestService();
+  
+  const { data, isLoading } = useQuery({
+    queryKey: [QueryKeys.LeaveRequests.WithAttendance, page, pageSize, startDate, endDate, status,
+    `${searchType && searchQuery ? [searchType, searchQuery] : ""}`, 
+    ],
+    queryFn: () => leaveService.fetchLeaveRequestsWithAttendance(page, pageSize, startDate, endDate, status, searchType, searchQuery),
+    enabled: !!token,
+  });
+
+  return {
+    leaveRequests: data?.data?.data?.requests || [],
+    totalRequests: data?.data?.data?.totalCount || 0,
+    metadata: data?.data?.data?.metadata || initialMetadata,
+    isLeaveRequestsLoading: isLoading,
+  };
+};
+
 export const useGetMyLeaveRequests = (
   page = 1,
   pageSize = 10,

@@ -23,3 +23,10 @@ export interface IRejectLeaveRequestCredentials {
   requestId: number;
   comment: string;
 }
+
+export interface ILeaveRequestsWithAttendance {
+  employeeName: string,
+  leaveType: number,
+  checkIn: string,
+  checkOut: string
+}

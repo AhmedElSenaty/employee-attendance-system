@@ -34,6 +34,36 @@ export class LeaveRequestService extends BaseService {
     }
   };
 
+  fetchLeaveRequestsWithAttendance = async (
+    page?: number,
+    pageSize?: number,
+    startDate?: string,
+    endDate?: string,
+    status?: number,
+    searchType?: string,
+    searchQuery?: string
+  ) => {
+    try {
+      const params = this.buildParams({
+        PageIndex: page ?? 1,
+        PageSize: pageSize,
+        StartDate: startDate,
+        EndDate: endDate,
+        Status: status,
+        ...(searchType && searchQuery ? { [searchType]: searchQuery } : {}),
+      });
+
+      const response = await axiosInstance.get("/LeaveRequests/LeaveRequestsWithAttendance", {
+        params,
+        headers: this.getAuthHeaders(),
+      });
+
+      return response;
+    } catch (error) {
+      this.handleError(error, "Error fetching all leave requests");
+    }
+  };
+
   fetchMyLeaveRequests = async (
     page?: number,
     pageSize?: number,

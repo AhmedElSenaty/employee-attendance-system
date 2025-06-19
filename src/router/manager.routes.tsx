@@ -6,7 +6,7 @@ import { AddEmployeePage, EditEmployeePage, ManageEmployeesPage } from "../pages
 import { AddManagerPage, EditManagerPage, ManageManagersPage } from "../pages/common/manage-managers";
 import { ManageSubDepartmentsPage } from "../pages/common/manage-sub-departments";
 import ManagerAccountPage from "../pages/Manager/Account";
-import { OrdinaryRequestsPage, AttendanceOverviewPage, AttendanceVacationsPage, ManageAttendancePage, CalendarPage, LeaveRequestsPage, MissionRequestsPage, CasualLeaveRequestsPage, SickLRequestsPage } from "../pages/Manager";
+import { OrdinaryRequestsPage, AttendanceOverviewPage, AttendanceVacationsPage, ManageAttendancePage, CalendarPage, MissionRequestsPage, CasualLeaveRequestsPage, SickLRequestsPage, LeaveRequestsPage, LeaveRequestsWithAttendance, MissionRequestsWithAttendance } from "../pages/Manager";
 
 export const managerRoutes = (isLoggedIn: boolean, userRole: string) => (
   <Route 
@@ -41,7 +41,9 @@ export const managerRoutes = (isLoggedIn: boolean, userRole: string) => (
     <Route path="manage-attendance/vacations/" element={<AttendanceVacationsPage />} />
 
     <Route path="leave-requests" element={<LeaveRequestsPage />} />
+    <Route path="leave-requests-with-attendance" element={<LeaveRequestsWithAttendance />} />
     <Route path="mission-requests" element={<MissionRequestsPage />} />
+    <Route path="mission-requests-with-attendance" element={<MissionRequestsWithAttendance />} />
     <Route path="ordinary-requests" element={<OrdinaryRequestsPage />} />
     
     <Route path="casual-requests" element={<CasualLeaveRequestsPage />} />

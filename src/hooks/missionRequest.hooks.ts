@@ -46,6 +46,34 @@ export const useGetMissionRequests = (
 	}
 }
 
+export const useGetMissionRequestsWithAttendance = (
+  page = 1,
+  pageSize = 10,
+  startDate?: string,
+  endDate?: string,
+  status?: number,
+  searchType?: string,
+  searchQuery?: string
+) => {
+  const token = useUserStore((state) => state.token);
+  const leaveService = useMissionRequestService();
+  
+  const { data, isLoading } = useQuery({
+	queryKey: [QueryKeys.MissionRequests.WithAttendance, page, pageSize, startDate, endDate, status,
+	`${searchType && searchQuery ? [searchType, searchQuery] : ""}`, 
+	],
+	queryFn: () => leaveService.fetchMissionRequestsWithAttendance(page, pageSize, startDate, endDate, status, searchType, searchQuery),
+	enabled: !!token,
+  });
+
+  return {
+	missionRequests: data?.data?.data?.requests || [],
+	totalMissionRequests: data?.data?.data?.totalCount || 0,
+	metadata: data?.data?.data?.metadata || initialMetadata,
+	isMissionRequestsLoading: isLoading,
+  };
+};
+
 export const useGetMyMissionRequests = (
 	page = 1,
 	pageSize = 10,

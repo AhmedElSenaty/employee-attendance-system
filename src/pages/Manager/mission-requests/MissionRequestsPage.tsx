@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import useURLSearchParams from "../../../hooks/URLSearchParams.hook";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useDebounce } from "../../../hooks/";
+import { useDebounce } from "../../../hooks";
 import { ActionCard, Button, Header, InfoPopup, Paginator, SectionHeader } from "../../../components/ui";
 import {
   useAcceptMissionRequest,
@@ -10,7 +10,7 @@ import {
   useGetMissionRequestByID,
   useGetMissionRequests,
   useRejectMissionRequest,
-} from "../../../hooks/";
+} from "../../../hooks";
 import { IAssignMissionRequestCredentials, IRejectMissionRequestCredentials } from "../../../interfaces";
 import { MISSION_REQUESTS_MANAGER_VIDEO, MISSION_REQUESTS_NS } from "../../../constants";
 import { AcceptPopup, AssignInputs, AssignPopup, MissionRequestsTable, ShowPopup, TableFilters } from "./views";

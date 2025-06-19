@@ -35,6 +35,36 @@ export class MissionRequestService extends BaseService {
 			}
 	}
 
+  fetchMissionRequestsWithAttendance = async (
+    page?: number,
+    pageSize?: number,
+    startDate?: string,
+    endDate?: string,
+    status?: number,
+    searchType?: string,
+    searchQuery?: string
+  ) => {
+    try {
+      const params = this.buildParams({
+        PageIndex: page ?? 1,
+        PageSize: pageSize,
+        StartDate: startDate,
+        EndDate: endDate,
+        Status: status,
+        ...(searchType && searchQuery ? { [searchType]: searchQuery } : {}),
+      });
+
+      const response = await axiosInstance.get("/MissionRequest/Manager/LeaveRequestsWithAttendance", {
+        params,
+        headers: this.getAuthHeaders(),
+      });
+
+      return response;
+    } catch (error) {
+      this.handleError(error, "Error fetching all leave requests");
+    }
+  };
+
 	fetchMyMissionRequests = async(
 			page?: number,
 			pageSize?: number,
