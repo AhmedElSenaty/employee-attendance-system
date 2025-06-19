@@ -1,18 +1,19 @@
 import { useTranslation } from "react-i18next";
-import { DeleteEmployeePopup, RenderEmployeeDelegateInputs, RenderEmployeeInfoInputs, UnblockEmployeePopup } from "./views"
+import { DeleteEmployeePopup, RenderEmployeeDelegateInputs, RenderEmployeeInfoInputs, UnblockEmployeePopup, WorkingDaysCheckboxes } from "./views"
 import { SubmitHandler, useForm } from "react-hook-form";
-import { IEmployeeCredentials } from "../../../interfaces";
+import { IDaydata, IEmployeeCredentials, IUpdateWorkingDays } from "../../../interfaces";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { getEmployeeSchema, passwordUpdateSchema } from "../../../validation";
 import { RenderEmployeeDepartmentInputs } from "./views/";
 import { SectionHeader, Button, ButtonSkeleton, Header, StatusBadge, Description, Field, Input, InputErrorMessage, Label } from "../../../components/ui";
 import { useNavigate, useParams } from "react-router";
 import { EMPLOYEE_TRANSLATION_NAMESPACE } from ".";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AlertTriangle, CheckCircle } from "lucide-react";
 import { HasPermission } from "../../../components/auth";
 import { useUnblockAccount, useUpdateAccountPassword } from "../../../hooks/account.hook";
 import { useDeleteEmployee, useGetEmployeeByID, useUpdateEmployee } from "../../../hooks/employee.hooks";
+import { useGetWorkingDaysByID, useUpdateWorkingDays } from "../../../hooks";
 
 const EditEmployeePage = () => {
   const { t } = useTranslation(["common", EMPLOYEE_TRANSLATION_NAMESPACE]);
@@ -22,6 +23,7 @@ const EditEmployeePage = () => {
 
   const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
   const [isUnblockPopupOpen, setIsUnblockPopupOpen] = useState(false);
+  const [selectedWorkingDays, setSelectedWorkingDays] = useState<number[]>([]);
 
   const {
     register,
@@ -33,6 +35,8 @@ const EditEmployeePage = () => {
     mode: "onChange",
   });
 
+  const { handleSubmit: handleSubmitWorkingDays } = useForm<IUpdateWorkingDays>();
+
   // Form handling for updating password (separate form for password change)
   const {
     register: updatePasswordRegister,  // Register function for the password form
@@ -42,7 +46,6 @@ const EditEmployeePage = () => {
     resolver: yupResolver(passwordUpdateSchema(false)), // Validation schema for password form
     mode: "onChange", // Trigger validation on input change
   });
-
 
   const { employee , isEmployeeDataLoading} = useGetEmployeeByID(id || "", reset)
 
@@ -63,6 +66,8 @@ const EditEmployeePage = () => {
 
   const { mutate: updateAccountPassword, isPending: isUpdateAccountPasswordLoading } = useUpdateAccountPassword();
   const { mutate: unblockAccount, isPending: isUnblockAccountLoading } = useUnblockAccount();
+  const { mutate: updateWorkingDays, isPending: isUpdateDaysLoading } = useUpdateWorkingDays();
+
 
 
   const handleConfirmUpdatePassword: SubmitHandler<{password: string}> = async (request: { password: string }) => {
@@ -72,11 +77,25 @@ const EditEmployeePage = () => {
     });
   };
 
+  const handleConfirmUpdateWorkingDays: SubmitHandler<IUpdateWorkingDays> = async (request: IUpdateWorkingDays) => {
+    request.employeeId = id || ""
+    request.workingDays = selectedWorkingDays
+    updateWorkingDays(request)
+  };
+
   const handleConfirmUnblock = () => {
     unblockAccount(id || "")
     setIsUnblockPopupOpen(false)
   };
 
+  const { workingDays = [], isWorkingDaysLoading } = useGetWorkingDaysByID(id || "");
+
+  useEffect(() => {
+    if (!isWorkingDaysLoading && workingDays.length > 0) {
+      const dayIds = workingDays.map((day: IDaydata) => day.dayId);
+      setSelectedWorkingDays(dayIds);
+    }
+  }, [workingDays, isWorkingDaysLoading]);
 
   return (
     <>
@@ -269,6 +288,22 @@ const EditEmployeePage = () => {
             </form>
           </div>
         </HasPermission>
+        <form
+          className="space-y-5"
+          onSubmit={handleSubmitWorkingDays(handleConfirmUpdateWorkingDays)}
+        >
+          <WorkingDaysCheckboxes
+            checkedDays={selectedWorkingDays}
+            setCheckedDays={setSelectedWorkingDays}
+            isLoading={isEmployeeDataLoading || isWorkingDaysLoading}
+          />
+
+          <div className="flex flex-wrap gap-3 justify-end">
+            <Button fullWidth={false} isLoading={isUpdateDaysLoading}>
+              {t("editEmployeePage.updateWorkingDaysButton", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}
+            </Button>
+          </div>
+        </form>
       </div>
       <DeleteEmployeePopup
         isOpen={isDeletePopupOpen}

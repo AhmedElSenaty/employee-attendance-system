@@ -49,10 +49,6 @@ const Dashboard = () => {
                 <span className="font-medium">{t('attendance.checkOut')}:</span>
                 <span>{todayAttendance.checkOut || '-'}</span>
               </li>
-              <li className="flex justify-between">
-                <span className="font-medium">{t('attendance.dayType')}:</span>
-                <span>{todayAttendance.dayType}</span>
-              </li>
             </ul>
           </div>
         </div>

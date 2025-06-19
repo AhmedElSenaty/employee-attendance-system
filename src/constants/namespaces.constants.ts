@@ -12,3 +12,4 @@ export const ORDINARY_REQUESTS_NS = "ordinaryRequests";
 export const CASUAL_REQUESTS_NS = "casualLeaveRequests"
 export const SICK_REQUESTS_NS = "sickRequests";
 export const EMPLOYEE_DASHBOARD_NS = "employeeDashboard";
+export const EMPLOYEE_PROFILE_NS = "empolyeeAccount";

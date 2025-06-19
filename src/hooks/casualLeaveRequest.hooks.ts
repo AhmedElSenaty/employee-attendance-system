@@ -3,7 +3,7 @@ import { IAssignCasualLeaveRequestCredentials, ICasualLeaveRequestCredentials, I
 import { useEffect, useMemo } from "react";
 import { useLanguageStore } from "../store/language.store";
 import { useUserStore } from "../store/user.store";
-import { appendSecondsToTime, getTranslatedMessage, handleApiError, showToast } from "../utils";
+import { getTranslatedMessage, handleApiError, showToast } from "../utils";
 import { CasualLeaveRequestService } from "../services/casualLeaveRequest.services";
 import { AxiosError } from "axios";
 import { IErrorResponse, initialMetadata } from "../interfaces";
@@ -208,8 +208,6 @@ export const useAssignCasualLeaveRequest = () => {
 
 	return useMutation({
 			mutationFn: (casualLeaveRequestData: IAssignCasualLeaveRequestCredentials)=>{
-				casualLeaveRequestData.startTime = appendSecondsToTime(casualLeaveRequestData.startTime)
-				casualLeaveRequestData.endTime = appendSecondsToTime(casualLeaveRequestData.endTime)
 				return casualLeaveRequestService.assign(casualLeaveRequestData)
 			},
 			onSuccess: ({ status, data }) => {

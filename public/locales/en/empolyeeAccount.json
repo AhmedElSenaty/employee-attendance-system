@@ -1,20 +1,40 @@
 {
-  "profile": {
-    "header": {
-      "heading": "My Profile",
-      "subtitle": "View and manage your personal details, department information, and contact data."
-    },
-    "updateSection": {
-      "title": "Update Your Information",
-      "description": "Keep your personal information up to date to ensure accurate records and communication."
-    },
-    "updatePassword": {
-      "title": "Update Your Password",
-      "description": "Change your password regularly to maintain account security."
-    },
-    "updatePasswordButton": "Update Password"
+  "header": {
+    "heading": "My Profile",
+    "subtitle": "View and manage your personal details, department information, and contact data."
+  },
+  "updateSection": {
+    "title": "Update Your Information",
+    "description": "Keep your personal information up to date to ensure accurate records and communication.",
+    "buttons": {
+      "update": "Update Informations",
+      "loading": "Loading..."
+    }
+  },
+  "updatePassword": {
+    "title": "Update Your Password",
+    "description": "Change your password regularly to maintain account security.",
+    "buttons": {
+      "update": "Update Password",
+      "loading": "Loading..."
+    }
+  },
+  "imageUpload": {
+    "title": "Upload Profile Image",
+    "buttons": {
+      "update": "Update Profile Image",
+      "loading": "Loading..."
+    }
   },
   "form": {
+    "profileImage": {
+      "label": "Profile Image",
+      "description": "Accepted formats: JPG, PNG, WEBP. Please upload a clear and valid profile image.",
+      "inputValidation": {
+        "required": "Profile Image file is required",
+        "fileType": "Only image files are allowed"
+      }
+    },
     "username": {
       "label": "Username",
       "placeholder": "Enter username",
@@ -93,15 +113,5 @@
     "delegate": "Delegate",
     "dateOfBirth": "Date of Birth",
     "hiringDate": "Hiring Date"
-  },
-  "imageUpload": {
-    "title": "Upload Profile Image",
-    "noFileSelected": "Please select an image file first.",
-    "userMissing": "User information is missing.",
-    "file": "File",
-    "size": "Size",
-    "invalidExtension": "Only JPG and JPEG files are allowed.",
-    "fileTooLarge": "File size must not exceed 1MB.",
-    "button": "Upload Image"
   }
 }

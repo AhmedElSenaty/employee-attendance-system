@@ -25,6 +25,9 @@ export interface IEmployeeCredentials {
   hiringDate: string,
   oldId: string,
   delegateId?: string
+  avilableLeaveRequestsPerMonth: string,
+  avilableOrdinaryLeaveeRequestsPerYear: string,
+  avilableCasualLeaveeRequestsPerYear: string,
 }
 
 export interface IEmployeeData {

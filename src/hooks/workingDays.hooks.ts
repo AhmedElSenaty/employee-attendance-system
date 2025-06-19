@@ -29,7 +29,7 @@ export const useGetMyWorkingDays = () => {
   };
 };
 
-export const useGetWorkingDaysByID = (employeeID: number) => {
+export const useGetWorkingDaysByID = (employeeID: string) => {
   const token = useUserStore((state) => state.token);
   const service = useWorkingDaysService();
 

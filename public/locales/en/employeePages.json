@@ -111,6 +111,10 @@
       "title": "Update Password",
       "description": "Create a new password for the employee's account."
     },
+    "workingDaysSectionHeader": {
+      "title": "Working Days",
+      "description": "Select the working days assigned to the employee."
+    },
     "updateButton": "Save Changes",
     "deleteButton": "Remove Employee",
     "updatePasswordButton": "Update Password",

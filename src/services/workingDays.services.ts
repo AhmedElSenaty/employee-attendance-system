@@ -16,7 +16,7 @@ export class WorkingDaysService extends BaseService {
     }
   };
 
-  fetchByID = async (id: number) => {
+  fetchByID = async (id: string) => {
     try {
       const response = await axiosInstance.get(`/EmployeeWorkingDays/GetEmployeeWorkingDays/${id}`, {
         headers: this.getAuthHeaders(),

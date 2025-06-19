@@ -1,3 +1,5 @@
+import * as yup from "yup";
+
 export * from "./admin.schema"
 export * from "./attendance.schema"
 export * from "./department.schema"
@@ -19,3 +21,26 @@ export * from "./ordinaryRequest.schema"
 export * from "./missionRequest.schema"
 export * from "./casualLeaveRequest.schema copy"
 export * from "./sickRequest.schema"
+
+export const uploadProfileImageSchema = yup.object().shape({
+  profileImage: yup
+  .mixed()
+  .required("Profile image file is required")
+  .test("fileType", "Only image files are allowed", (value) => {
+    if (!value) return false;
+
+    // value can be FileList or array of files
+    const file = value instanceof FileList ? value[0] : Array.isArray(value) ? value[0] : value;
+
+    if (!file) return false;
+
+    const allowedTypes = [
+      "image/jpeg",
+      "image/jpg",
+      "image/png",
+      "image/webp",
+    ];
+
+    return allowedTypes.includes(file.type);
+  }),
+});

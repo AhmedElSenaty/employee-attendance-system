@@ -1,4 +1,6 @@
 export const QueryKeys = {
+  FETCH_ME: "me",
+
   Devices: {
     All: "devices",
     Details: "deviceDetails",

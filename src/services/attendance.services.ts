@@ -30,9 +30,6 @@ export class AttendanceService extends BaseService {
         ...(searchType && searchQuery ? { [searchType]: searchQuery } : {}),
       });
 
-      console.log(params);
-      
-
       const response = await axiosInstance.get(`/Attendance`, {
         params,
         headers: this.getAuthHeaders(),

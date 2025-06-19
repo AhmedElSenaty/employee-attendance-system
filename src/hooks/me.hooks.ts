@@ -5,16 +5,27 @@ import { useLanguageStore } from "../store/language.store";
 import { useUserStore } from "../store/user.store";
 import { AccountService, AdminService, EmployeeService } from "../services";
 import { AdminProfileCredentials, EmployeeProfileCredentials, IErrorResponse } from "../interfaces";
+import { QueryKeys } from "../constants";
+import { useMemo } from "react";
 
-const FETCH_ME_QUERY_KEY = "me";
+export const useAccountService = () => {
+  const token = useUserStore((state) => state.token);
+
+  const service = useMemo(() => {
+    return new AccountService(token);
+  }, [token]);
+
+  return service;
+};
+
 
 export const useFetchMe = () => {
   const token = useUserStore((state) => state.token);
   const userRole = useUserStore((state) => state.role);
-  const accountService = new AccountService(token);
+  const accountService = useAccountService();
 
   const { data, isLoading } = useQuery({
-    queryKey: [FETCH_ME_QUERY_KEY, userRole],
+    queryKey: [QueryKeys.FETCH_ME, userRole],
     queryFn: () => accountService.fetchMe(userRole),
     enabled: !!token && !!userRole,
   });
@@ -35,7 +46,7 @@ export const useUpdateAdminProfile = () => {
     mutationFn: (adminData: AdminProfileCredentials) => adminService.updateMyProfile(adminData),
     onSuccess: ({ status, data }) => {
       if (status === 200) {
-        queryClient.invalidateQueries({ queryKey: [FETCH_ME_QUERY_KEY, "Admin"] });
+        queryClient.invalidateQueries({ queryKey: [QueryKeys.FETCH_ME, "admin"] });
         const message = getTranslatedMessage(data?.message ?? "", language);
         showToast("success", message);
       }
@@ -57,7 +68,7 @@ export const useUpdateEmployeeProfile = () => {
     mutationFn: (employeeData: EmployeeProfileCredentials) => employeeService.updateMyProfile(employeeData),
     onSuccess: ({ status, data }) => {
       if (status === 200) {
-        queryClient.invalidateQueries({ queryKey: [FETCH_ME_QUERY_KEY, "Employee"] });
+        queryClient.invalidateQueries({ queryKey: [QueryKeys.FETCH_ME, "employee"] });
         const message = getTranslatedMessage(data?.message ?? "", language);
         showToast("success", message);
       }
@@ -82,7 +93,7 @@ export const useUploadEmployeeImage = () => {
     mutationFn: (file: File) => employeeService.uploadImage(userID, file),
     onSuccess: ({ status, data }) => {
       if (status === 200) {
-        queryClient.invalidateQueries({ queryKey: [FETCH_ME_QUERY_KEY, "Employee"] });
+        queryClient.invalidateQueries({ queryKey: [QueryKeys.FETCH_ME, "employee"] });
 
         if (data?.data?.profileImage) {
           setUser({ ...currentUser, imageUrl: data.data.profileImage });
