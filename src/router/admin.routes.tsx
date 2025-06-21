@@ -2,17 +2,14 @@ import { Route } from "react-router";
 import { DashboardPage } from "../pages/common/Dashboard";
 import { RootLayout } from "../pages/Layouts";
 import { ProtectedRoute } from "../components/auth";
-import { ManagePermissionsPage } from "../pages/Admin/manage-permissions";
-import { AddProfilePage, EditProfilePage, ManageProfilesPage } from "../pages/Admin/manage-profiles";
 import { AddAdminPage, EditAdminPage, ManageAdminsPage } from "../pages/Admin/manage-admins";
 import { AddEmployeePage, EditEmployeePage, ManageEmployeesPage } from "../pages/common/manage-employees";
-import { ManageOfficialVacationsPage } from "../pages/Admin/manage-official-vacation";
 import { AddManagerPage, EditManagerPage, ManageManagersPage } from "../pages/common/manage-managers";
 import { ManageEntitiesPage } from "../pages/Admin/manage-entities";
 import { ManageDepartmentsPage } from "../pages/Admin/manage-departments";
 import { ManageSubDepartmentsPage } from "../pages/common/manage-sub-departments";
 import AdminAccountPage from "../pages/Admin/Account";
-import { AttendanceOverviewPage, AttendanceVacationsPage, LogsPage, ManageAttendancePage, ManageDevicesPage, SystemDataPage } from "../pages/Admin";
+import { AddProfilePage, AttendanceOverviewPage, AttendanceVacationsPage, EditProfilePage, LogsPage, ManageAttendancePage, ManageDevicesPage, ManageOfficialVacationsPage, ManagePermissionsPage, ManageProfilesPage, SystemDataPage } from "../pages/Admin";
 import { CalendarPage } from "../pages/Admin";
 
 export const adminRoutes = (isLoggedIn: boolean, userRole: string) => (

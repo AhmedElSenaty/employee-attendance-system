@@ -5,7 +5,7 @@ import { useMemo } from "react";
 import { useUserStore, useLanguageStore } from "../store/";
 import { SystemDataService } from "../services";
 import { QueryKeys } from "../constants";
-import { IErrorResponse, initialSystemData, ISystemDataCredentials } from "../interfaces";
+import { IErrorResponse, initialSystemData, SystemDataCredentials } from "../interfaces";
 
 /**
  * Custom hook to create an instance of `SystemDataService` using the current user's token.
@@ -42,7 +42,7 @@ export const useGetSystemData = () => {
 
   return {
     systemData: data?.data?.data || initialSystemData,
-    isSystemDataLoading: isLoading,
+    isLoading,
   };
 };
 
@@ -61,7 +61,7 @@ export const useUpdateSystemData = () => {
   const systemDataService = useSystemDataService();
 
   return useMutation({
-    mutationFn: (systemData: ISystemDataCredentials) => {
+    mutationFn: (systemData: SystemDataCredentials) => {
       const formatted = {
         ...systemData,
         max_time_To_attend: appendSecondsToTime(systemData.max_time_To_attend || ""),

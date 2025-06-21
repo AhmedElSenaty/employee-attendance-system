@@ -1,11 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { IDeviceCredentials, IErrorResponse, initialMetadata } from "../interfaces";
+import { DeviceCredentials, IErrorResponse, initialMetadata } from "../interfaces";
 import { getTranslatedMessage, handleApiError, showToast } from "../utils";
 import { AxiosError } from "axios";
 import { useEffect, useMemo } from "react";
 import { useUserStore, useLanguageStore } from "../store/";
 import { DeviceService } from "../services";
 import { QueryKeys } from "../constants";
+import { DeviceFormValues } from "../validation";
 
 export const useDeviceService = () => {
   const token = useUserStore((state) => state.token);
@@ -21,7 +22,7 @@ export const useGetDevices = (
   page?: number,
   pageSize?: number,
   searchKey?: string,
-  debouncedSearchQuery?: string
+  searchQuery?: string
 ) => {
   const token = useUserStore((state) => state.token);
   const deviceService = useDeviceService();
@@ -31,31 +32,31 @@ export const useGetDevices = (
       QueryKeys.Devices.All, 
       page, 
       pageSize, 
-      `${searchKey && debouncedSearchQuery ? [searchKey, debouncedSearchQuery] : ""}`, 
+      `${searchKey && searchQuery ? [searchKey, searchQuery] : ""}`, 
     ],
-    queryFn: () => deviceService.fetchAll(page, pageSize, searchKey, debouncedSearchQuery),
+    queryFn: () => deviceService.fetchAll(page, pageSize, searchKey, searchQuery),
     enabled: !!token,
   });
 
   return {
     devices: data?.data?.data?.devices || [],
-    totalDevices: data?.data?.data?.totalCount || 0,
+    count: data?.data?.data?.totalCount || 0,
     metadata: data?.data?.data?.metadata || initialMetadata,
-    isDevicesDataLoading: isLoading,
+    isLoading,
   };
 };
 
 export const useGetDeviceByID = (
-  deviceID: number,
-  resetInputs?: (data: IDeviceCredentials) => void
+  deviceId: number,
+  resetInputs?: (data: DeviceFormValues) => void
 ) => {
   const token = useUserStore((state) => state.token);
   const deviceService = useDeviceService();
 
   const { data, isLoading } = useQuery({
-    queryKey: [QueryKeys.Devices.Details, deviceID],
-    queryFn: () => deviceService.fetchByID(deviceID),
-    enabled: !!deviceID && !!token,
+    queryKey: [QueryKeys.Devices.Details, deviceId],
+    queryFn: () => deviceService.fetchByID(deviceId),
+    enabled: !!deviceId && !!token,
   });
 
   useEffect(() => {
@@ -66,7 +67,7 @@ export const useGetDeviceByID = (
 
   return {
     device: data?.data?.data,
-    isDeviceDataLoading: isLoading,
+    isLoading,
   };
 };
 
@@ -82,8 +83,8 @@ export const useGetDevicesList = () => {
   });
 
   return {
-    devicesList: data?.data?.data || [],
-    devicesListIsLoading: isLoading,
+    devices: data?.data?.data || [],
+    isLoading,
   };
 };
 
@@ -93,7 +94,7 @@ export const useCreateDevice = () => {
   const deviceService = useDeviceService();
 
   return useMutation({
-    mutationFn: (deviceData: IDeviceCredentials) => deviceService.create(deviceData),
+    mutationFn: (deviceData: DeviceCredentials) => deviceService.create(deviceData),
     onSuccess: ({ status, data }) => {
       queryClient.invalidateQueries({ queryKey: [QueryKeys.Devices.All] });
       if (status === 201) {
@@ -114,7 +115,7 @@ export const useUpdateDevice = () => {
   const deviceService = useDeviceService();
 
   return useMutation({
-    mutationFn: (deviceData: IDeviceCredentials) => deviceService.update(deviceData),
+    mutationFn: (deviceData: DeviceCredentials) => deviceService.update(deviceData),
     onSuccess: ({ status, data }) => {
       queryClient.invalidateQueries({ queryKey: [QueryKeys.Devices.All] });
       if (status === 200) {
@@ -135,7 +136,7 @@ export const useDeleteDevice = () => {
   const deviceService = useDeviceService();
 
   return useMutation({
-    mutationFn: (deviceID: number) => deviceService.delete(deviceID),
+    mutationFn: (deviceId: number) => deviceService.delete(deviceId),
     onSuccess: ({ status, data }) => {
       queryClient.invalidateQueries({ queryKey: [QueryKeys.Devices.All] });
       if (status === 200) {

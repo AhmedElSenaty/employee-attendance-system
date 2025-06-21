@@ -1,1 +1,1 @@
-export { default as RenderPermissionCheckboxes } from "./RenderPermissionCheckboxes"
+export { default as PermissionCheckboxes } from "./PermissionCheckboxes"

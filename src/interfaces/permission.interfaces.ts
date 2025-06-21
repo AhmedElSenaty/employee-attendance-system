@@ -1,4 +1,4 @@
-export interface IPermissionsData {
+export interface PermissionsData {
   id: string,
   nameEn: string,
   nameAr: string

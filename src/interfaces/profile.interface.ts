@@ -1,17 +1,17 @@
-export interface IProfile {
+export interface ProfileSummary {
   id: string;
   nameEn: string;
   nameAr: string;
 }
 
-export interface IProfileCredentials {
+export interface ProfileCredentials {
   id?: string;
   nameEn?: string;
   nameAr: string;
   permissionsIds?: string[];
 }
 
-export interface IProfileData {
+export interface ProfileData {
   id: string,
   nameEn: string,
   nameAr: string,

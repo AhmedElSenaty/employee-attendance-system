@@ -2,7 +2,7 @@ import { CountCard, Header, InfoPopup, LogItem, LogItemSkeleton, NoDataMessage, 
 import { useTranslation } from "react-i18next";
 import { LOGS_NS, LOGS_VIDEO } from "../../../constants";
 import { useGetLogs } from "../../../hooks/";
-import { ILogData } from "../../../interfaces";
+import { Log } from "../../../interfaces";
 import { FileClock } from "lucide-react";
 import { useLanguageStore } from "../../../store";
 import { formatValue } from "../../../utils";
@@ -35,7 +35,7 @@ const LogsPage = () => {
   const startDate = rawStartDate || undefined;
   const endDate = rawEndDate || undefined;
 
-  const { logs, totalCountLogs, metadata, isLogsDataLoading } = useGetLogs(page, pageSize, searchKey, searchQuery, type, startDate, endDate)
+  const { logs, count, metadata, isLoading: isLogsDataLoading } = useGetLogs(page, pageSize, searchKey, searchQuery, type, startDate, endDate)
 
   return (
     <div className="sm:p-5 p-3 space-y-6">
@@ -56,7 +56,7 @@ const LogsPage = () => {
         <CountCard 
           title={t("countCard.title")}
           description={t("countCard.description")}
-          count={formatValue(totalCountLogs, language)}
+          count={formatValue(count, language)}
           icon={<FileClock size={28} />} 
           bgColor="bg-[#b38e19]" 
         />
@@ -72,15 +72,15 @@ const LogsPage = () => {
           isLogsDataLoading ?
           (
             <>
-              <LogItemSkeleton />
-              <LogItemSkeleton />
-              <LogItemSkeleton />
+              {Array.from({ length: 3 }).map((_, index) => (
+                <LogItemSkeleton key={index} />
+              ))}
             </>
           ) : (
             logs.length == 0 ? (
               <NoDataMessage title={t("emptyTable.title")} message={t("emptyTable.message")} />
             ) : (
-              logs.map((log: ILogData) => (
+              logs.map((log: Log) => (
                 <LogItem key={log.id} logData={log} />
               ))
             )

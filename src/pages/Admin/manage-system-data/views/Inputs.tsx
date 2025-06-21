@@ -1,12 +1,12 @@
 import { FieldErrors, UseFormRegister } from "react-hook-form";
-import { ISystemDataCredentials } from "../../../../interfaces";
 import { Description, DescriptionSkeleton, Field, Input, InputErrorMessage, InputSkeleton, Label, LabelSkeleton } from "../../../../components/ui";
 import { useTranslation } from "react-i18next";
 import { SYSTEM_DATA_NS } from "../../../../constants";
+import { SystemDataFormValues } from "../../../../validation";
 
 interface InputsProps {
-  register: UseFormRegister<ISystemDataCredentials>;
-  errors: FieldErrors<ISystemDataCredentials>;
+  register: UseFormRegister<SystemDataFormValues>;
+  errors: FieldErrors<SystemDataFormValues>;
   isLoading: boolean;
 }
 
@@ -31,32 +31,32 @@ const Inputs = ({ register, errors, isLoading }: InputsProps) => {
     <>
       {/* max_time_To_attend */}
       <Field className="space-y-2">
-        <Label>{t("form.max_time_To_attend.label")}</Label>
+        <Label>{t("inputs.max_time_To_attend.label")}</Label>
         <Input
           type="time"
           isError={!!errors.max_time_To_attend}
           {...register("max_time_To_attend")}
         />
-        <Description>{t("form.max_time_To_attend.description")}</Description>
+        <Description>{t("inputs.max_time_To_attend.description")}</Description>
         {errors.max_time_To_attend && (
           <InputErrorMessage>
-            {t(`form.max_time_To_attend.inputValidation.${errors.max_time_To_attend.type}`)}
+            {t(`inputs.max_time_To_attend.inputValidation.${errors.max_time_To_attend.type}`)}
           </InputErrorMessage>
         )}
       </Field>
 
       {/* min_time_To_Go */}
       <Field className="space-y-2">
-        <Label>{t("form.min_time_To_Go.label")}</Label>
+        <Label>{t("inputs.min_time_To_Go.label")}</Label>
         <Input
           type="time"
           isError={!!errors.min_time_To_Go}
           {...register("min_time_To_Go")}
         />
-        <Description>{t("form.min_time_To_Go.description")}</Description>
+        <Description>{t("inputs.min_time_To_Go.description")}</Description>
         {errors.min_time_To_Go && (
           <InputErrorMessage>
-            {t(`form.min_time_To_Go.inputValidation.${errors.min_time_To_Go.type}`)}
+            {t(`inputs.min_time_To_Go.inputValidation.${errors.min_time_To_Go.type}`)}
           </InputErrorMessage>
         )}
       </Field>
@@ -70,16 +70,16 @@ const Inputs = ({ register, errors, isLoading }: InputsProps) => {
         "maxDaysInCasulVaccationPerYear",
       ].map((field) => (
         <Field key={field} className="space-y-2">
-          <Label>{t(`form.${field}.label`)}</Label>
+          <Label>{t(`inputs.${field}.label`)}</Label>
           <Input
             type="number"
-            isError={!!errors[field as keyof ISystemDataCredentials]}
-            {...register(field as keyof ISystemDataCredentials)}
+            isError={!!errors[field as keyof SystemDataFormValues]}
+            {...register(field as keyof SystemDataFormValues)}
           />
-          <Description>{t(`form.${field}.description`)}</Description>
-          {errors[field as keyof ISystemDataCredentials] && (
+          <Description>{t(`inputs.${field}.description`)}</Description>
+          {errors[field as keyof SystemDataFormValues] && (
             <InputErrorMessage>
-              {t(`form.${field}.inputValidation.${errors[field as keyof ISystemDataCredentials]?.type}`)}
+              {t(`inputs.${field}.inputValidation.${errors[field as keyof SystemDataFormValues]?.type}`)}
             </InputErrorMessage>
           )}
         </Field>

@@ -2,10 +2,10 @@ import { useTranslation } from "react-i18next";
 import { useLanguageStore } from "../../../../store/";
 import {
   Button,
+  CustomSelect,
   Field,
   Input,
   Label,
-  SelectBox,
   Tooltip,
 } from "../../../../components/ui";
 import { formatValue } from "../../../../utils";
@@ -29,25 +29,41 @@ const TableFilters = ({
   const { t } = useTranslation(LOGS_NS);
   const { language } = useLanguageStore(); // Accessing the current language from the Redux state
 
+  const pageSizeOptions = [10, 20, 30, 40, 50].map((size) => ({
+    value: size,
+    label: formatValue(size, language),
+  }));
+  
+  const selectedPageSizeValue = pageSizeOptions.find(opt => opt.value === (getParam("pageSize") ? Number(getParam("pageSize")) : 10));
+  
+  const logTypeOptions = Object.values(LogType).filter((v) => typeof v === "number").map((statusValue) => ({
+    value: statusValue,
+    label: t(`types.${statusValue as number}`),
+  }));
+  
+  const selectedLogTypeValue = logTypeOptions.find(opt => opt.value === (getParam("type") ? Number(getParam("type")) : ""));
+  
+  
+  const searchByOptions = searchBy.map((search) => ({
+    value: search || "",
+    label: t(`filters.searchBy.${String(search)}`) ?? "",
+  }));
+  
+  const selectedSearchByValue = searchByOptions.find(opt => opt.value === (getParam("searchKey") ? getParam("searchKey") : ""));
+  
+
   return (
     <div className="w-full flex flex-wrap items-end gap-4">
       <Field className="flex flex-col space-y-2 w-fit">
         <Label>{t("filters.pageSize")}</Label>
-        <SelectBox
-          value={getParam("pageSize") ?? 5}
-          onChange={(e) =>
-            setParam(
-              "pageSize",
-              String(e.target.value ? parseInt(e.target.value) : 10)
-            )
+        <CustomSelect
+          options={pageSizeOptions}
+          value={selectedPageSizeValue}
+          onChange={(option) => 
+            setParam("pageSize", String(option?.value ?? 10))
           }
-        >
-          {[10, 20, 30, 40, 50].map((size) => (
-            <option key={size} value={size}>
-              {formatValue(size, language)}
-            </option>
-          ))}
-        </SelectBox>
+          className="w-25"
+        />
       </Field>
 
       <Field className="flex flex-col space-y-2">
@@ -72,33 +88,26 @@ const TableFilters = ({
 
       <Field className="flex flex-col space-y-2">
         <Label>{t("filters.logType")}</Label>
-        <SelectBox onChange={(e) => setParam("type", e.target.value)}>
-          <option value="" selected={getParam("type") == null} disabled>
-            {t("filters.defaultLogTypeOption")}
-          </option>
-          {Object.values(LogType)
-            .filter((v) => typeof v === "number")
-            .map((statusValue) => (
-              <option key={statusValue} value={statusValue}>
-                {t(`types.${statusValue as number}`)}
-              </option>
-            ))}
-        </SelectBox>
+        <CustomSelect
+          options={logTypeOptions}
+          value={selectedLogTypeValue}
+          onChange={(option) => 
+            setParam("type", String(option?.value))
+          }
+        />
       </Field>
 
       {/* Search Type */}
-      <Field className="flex flex-col space-y-2 w-fit">
-        <Label size="md">{t("filters.search.label")} </Label>
-        <SelectBox onChange={(e) => setParam("searchKey", e.target.value)}>
-          <option value="" selected={getParam("searchKey") == null} disabled>
-            {t(`filters.searchBy.default`)}
-          </option>
-          {searchBy.map((search, idx) => (
-            <option key={idx} value={String(search)}>
-              {t(`filters.searchBy.${String(search)}`) ?? ""}
-            </option>
-          ))}
-        </SelectBox>
+      <Field className="flex flex-col space-y-2">
+        <Label size="md">{t("filters.searchBy.label")} </Label>
+        <CustomSelect
+          options={searchByOptions}
+          value={selectedSearchByValue}
+          onChange={(option) => 
+            setParam("searchKey", String(option?.value))
+          }
+          isSearchable
+        />
       </Field>
 
       {/* Search Input */}

@@ -1,17 +1,16 @@
-import { Popup } from "../../../../components/ui/Popup"
 import { Fingerprint } from "lucide-react";
-import { IDeviceData } from "../../../../interfaces";
 import { HasPermission } from "../../../../components/auth";
-import { Button, NormalSpinner } from "../../../../components/ui";
+import { Button, NormalSpinner, Popup } from "../../../../components/ui";
 import { useTranslation } from "react-i18next";
 import { DEVICES_NS } from "../../../../constants";
+import { Device } from "../../../../interfaces";
 
 interface IShowDevicePopupProps {
   isOpen: boolean
   handleClose: () => void;
   handleDeletePopupOpen: () => void;
   handleEditPopupOpen: () => void;
-  device: IDeviceData | null
+  device: Device | null
   isLoading: boolean
 }
 

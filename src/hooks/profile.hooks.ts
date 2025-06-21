@@ -1,118 +1,120 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import { useEffect } from "react";
-
+import { useEffect, useMemo } from "react";
 import {
   IErrorResponse,
   initialMetadata,
-  IProfileCredentials,
+  ProfileCredentials,
 } from "../interfaces";
-
 import { getTranslatedMessage, handleApiError, showToast } from "../utils";
-import { useLanguageStore } from "../store/language.store";
-import { useUserStore } from "../store/user.store";
 import { ProfileService } from "../services"; // Assuming you have this service class
+import { QueryKeys } from "../constants";
+import { useLanguageStore, useUserStore } from "../store";
+import { ProfileFormValues } from "../validation";
 
-export const PROFILES_QUERY_KEY = "profiles";
-export const PROFILES_LIST_QUERY_KEY = "profilesList";
-export const PROFILE_DETAILS_QUERY_KEY = "profileDetails";
-export const PROFILE_PERMISSIONS_QUERY_KEY = "profilePermissions";
+
+export const useProfileService = () => {
+  const token = useUserStore((state) => state.token);
+
+  const service = useMemo(() => {
+    return new ProfileService(token);
+  }, [token]);
+
+  return service;
+};
 
 export const useGetProfiles = (
-  page: number,
-  pageSize: number,
-  searchKey: string,
-  debouncedSearchQuery: string
+  page?: number,
+  pageSize?: number,
+  searchKey?: string,
+  searchQuery?: string
 ) => {
   const token = useUserStore((state) => state.token);
-  const profileService = new ProfileService(token);
+  const profileService = useProfileService();
 
   const { data, isLoading } = useQuery({
-    queryKey: [PROFILES_QUERY_KEY, page, pageSize, searchKey, debouncedSearchQuery],
-    queryFn: () => profileService.fetchAll(page, pageSize, searchKey, debouncedSearchQuery),
+    queryKey: [
+      QueryKeys.Profiles.All, page, pageSize, 
+      `${searchKey && searchQuery ? [searchKey, searchQuery] : ""}`, 
+    ],
+    queryFn: () => profileService.fetchAll(page, pageSize, searchKey, searchQuery),
     enabled: !!token,
   });
 
   return {
-    profiles: data?.data?.profiles || [],
-    metadata: data?.data?.metadata || initialMetadata,
-    totalProfiles: data?.data?.totalCount || 0,
-    isProfilesDataLoading: isLoading,
+    profiles: data?.data?.data?.profiles || [],
+    metadata: data?.data?.data?.metadata || initialMetadata,
+    count: data?.data?.data?.totalCount || 0,
+    isLoading,
   };
 };
 
 export const useGetProfileByID = (
   id: string,
-  resetInputs?: (data: IProfileCredentials) => void
+  resetInputs?: (data: ProfileFormValues) => void
 ) => {
   const token = useUserStore((state) => state.token);
-  const profileService = new ProfileService(token);
+  const profileService = useProfileService();
 
   const { data, isLoading } = useQuery({
-    queryKey: [PROFILE_DETAILS_QUERY_KEY, id],
+    queryKey: [QueryKeys.Profiles.Details, id],
     queryFn: () => profileService.fetchByID(id),
     enabled: !!id && !!token,
   });
 
   useEffect(() => {
-    if (data?.data) {
-      resetInputs?.({
-        id: data.data.id,
-        nameEn: data.data.nameEn,
-        nameAr: data.data.nameAr,
-        permissionsIds: data.data.permissionsIds,
-      });
+    if (data?.data?.data) {
+      resetInputs?.(data?.data?.data);
     }
   }, [data, resetInputs]);
 
   return {
-    profile: data?.data,
-    isProfileDataLoading: isLoading,
+    profile: data?.data?.data,
+    isLoading,
   };
 };
 
 export const useGetProfilesList = () => {
   const token = useUserStore((state) => state.token);
-  const profileService = new ProfileService(token);
+  const profileService = useProfileService();
 
   const { data, isLoading } = useQuery({
-    queryKey: [PROFILES_LIST_QUERY_KEY],
+    queryKey: [QueryKeys.Profiles.List],
     queryFn: () => profileService.fetchList(),
     enabled: !!token,
   });
 
   return {
-    profilesList: data ?? [],
-    profilesListIsLoading: isLoading,
+    profilesList: data?.data?.data ?? [],
+    isLoading,
   };
 };
 
 export const useGetProfilePermissions = (id: number) => {
   const token = useUserStore((state) => state.token);
-  const profileService = new ProfileService(token);
+  const profileService = useProfileService();
 
   const { data, isLoading } = useQuery({
-    queryKey: [PROFILE_PERMISSIONS_QUERY_KEY, id],
+    queryKey: [QueryKeys.Profiles.Permissions, id],
     queryFn: () => profileService.fetchPermissions(id),
     enabled: !!token && !!id,
   });
 
   return {
-    profilePermissions: data ?? [],
-    profilePermissionsIsLoading: isLoading,
+    permissions: data?.data?.data?.permissions ?? [],
+    isLoading,
   };
 };
 
 export const useCreateProfile = () => {
-  const token = useUserStore((state) => state.token);
   const { language } = useLanguageStore();
   const queryClient = useQueryClient();
-  const profileService = new ProfileService(token);
+  const profileService = useProfileService();
 
   return useMutation({
-    mutationFn: (profile: IProfileCredentials) => profileService.create(profile),
+    mutationFn: (profile: ProfileCredentials) => profileService.create(profile),
     onSuccess: ({ status, data }) => {
-      queryClient.invalidateQueries({ queryKey: [PROFILES_QUERY_KEY] });
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.Profiles.All] });
 
       if (status === 201) {
         const message = getTranslatedMessage(data.message ?? "", language);
@@ -126,15 +128,14 @@ export const useCreateProfile = () => {
 };
 
 export const useUpdateProfile = () => {
-  const token = useUserStore((state) => state.token);
   const { language } = useLanguageStore();
   const queryClient = useQueryClient();
-  const profileService = new ProfileService(token);
+  const profileService = useProfileService();
 
   return useMutation({
-    mutationFn: (profile: IProfileCredentials) => profileService.update(profile),
+    mutationFn: (profile: ProfileCredentials) => profileService.update(profile),
     onSuccess: ({ status, data }) => {
-      queryClient.invalidateQueries({ queryKey: [PROFILES_QUERY_KEY] });
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.Profiles.All] });
 
       if (status === 200) {
         const message = getTranslatedMessage(data.message ?? "", language);
@@ -148,15 +149,14 @@ export const useUpdateProfile = () => {
 };
 
 export const useDeleteProfile = () => {
-  const token = useUserStore((state) => state.token);
   const { language } = useLanguageStore();
   const queryClient = useQueryClient();
-  const profileService = new ProfileService(token);
+  const profileService = useProfileService();
 
   return useMutation({
     mutationFn: (id: string) => profileService.delete(id),
     onSuccess: ({ status, data }) => {
-      queryClient.invalidateQueries({ queryKey: [PROFILES_QUERY_KEY] });
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.Profiles.All] });
 
       if (status === 200) {
         const message = getTranslatedMessage(data.message ?? "", language);

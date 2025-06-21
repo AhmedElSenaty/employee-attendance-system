@@ -7,7 +7,13 @@
     "title": "Total Permissions",
     "description": "Permissions assigned to users"
   },
+  "infoPopup": {
+    "title": "Understanding User Permissions",
+    "description": "This video explains how to view, manage, and assign permissions to different profiles and users within the system."
+  },
   "yourPermissions": "Your Permissions",
   "notYourPermissions": "Permissions you don't have access to",
-  "key": "Key"
+  "key": "Key",
+  "deselectAll": "Deselect All",
+  "selectAll": "Select All"
 }

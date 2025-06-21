@@ -1,21 +1,21 @@
 import { Eye, FilePenLine, Trash2 } from "lucide-react";
-import { IDeviceData } from "../../../../interfaces";
 import { HasPermission } from "../../../../components/auth";
 import { Button, NoDataMessage, Table, TableCell, TableRow, TableSkeleton, Tooltip } from "../../../../components/ui";
 import { useTranslation } from "react-i18next";
 import { DEVICES_NS } from "../../../../constants";
 import { formatValue } from "../../../../utils";
 import { useLanguageStore } from "../../../../store";
+import { Device } from "../../../../interfaces";
 
-interface IDevicesTableProps {
-  devices: IDeviceData[];
+interface Props {
+  devices: Device[];
   isLoading: boolean;
   handleShow: (id: number) => void;
   handleEdit: (id: number) => void;
   handleDelete: (id: number) => void;
 }
 
-const DevicesTable = ({ devices, isLoading, handleShow, handleEdit, handleDelete }: IDevicesTableProps) => {
+const DevicesTable = ({ devices, isLoading, handleShow, handleEdit, handleDelete }: Props) => {
   const { t } = useTranslation([DEVICES_NS]);
   const { language } = useLanguageStore();
 
@@ -43,7 +43,7 @@ const DevicesTable = ({ devices, isLoading, handleShow, handleEdit, handleDelete
                 <TableCell label={columns[0]}>{formatValue(device.id, language)}</TableCell>
                 <TableCell label={columns[1]}>{device.device_name}</TableCell>
                 <TableCell label={columns[2]}>{device.iP_Address}</TableCell>
-                <TableCell label={columns[3]}>{formatValue(device.port, language)}</TableCell>
+                <TableCell label={columns[3]}>{device.port}</TableCell>
                 <TableCell label={columns[4]}>
                   <div className="flex flex-wrap gap-2">
                     <HasPermission permission="View Devices">
@@ -55,7 +55,6 @@ const DevicesTable = ({ devices, isLoading, handleShow, handleEdit, handleDelete
                           fullWidth={false}
                           size={"sm"}
                           icon={<Eye className="w-full h-full" />} 
-                          aria-label={t("buttons.view")}
                           onClick={() => handleShow(device.id)}
                         />
                       </Tooltip>
@@ -69,7 +68,6 @@ const DevicesTable = ({ devices, isLoading, handleShow, handleEdit, handleDelete
                           fullWidth={false}
                           size={"sm"} 
                           icon={<FilePenLine className="w-full h-full" />} 
-                          aria-label={t("buttons.edit")} 
                           onClick={() => handleEdit(device.id)}
                         />
                       </Tooltip>
@@ -83,7 +81,6 @@ const DevicesTable = ({ devices, isLoading, handleShow, handleEdit, handleDelete
                           fullWidth={false}
                           size={"sm"}
                           icon={<Trash2 className="w-full h-full" />}
-                          aria-label={t("buttons.delete")}
                           onClick={() => handleDelete(device.id)}
                         />
                       </Tooltip>

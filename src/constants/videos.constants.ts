@@ -1,13 +1,14 @@
-export const LOGS_VIDEO =
-  "https://www.youtube.com/embed/N94Q0SmpXig?si=8WUI07cry7MjToHn";
+export const LOGS_VIDEO = "";
+export const SYSTEM_DATA_VIDEO = "";
+export const DEVICES_VIDEO = "";
+export const PROFILE_VIDEO = "";
+export const PERMISSION_VIDEO = "";
+export const OFFICIAL_VACATION_VIDEO = "";
 
 export const CALENDER_VIDEO =
   "https://www.youtube.com/embed/N75508C2hbs?si=D34e6srFNk2G3vZf";
 
-export const SYSTEM_DATA_VIDEO = "https://www.youtube.com/embed/dQw4w9WgXcQ";
 
-export const DEVICES_VIDEO =
-  "https://www.youtube.com/embed/-35TdV6ro-w?si=ZA4hdd9ukHSVG9Um";
 
 export const ATTENDANCE_VIDEO =
   "https://www.youtube.com/embed/1OtHVXCYRKE?si=gFbOgUfnOntLXmUk";

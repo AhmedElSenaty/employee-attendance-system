@@ -18,9 +18,9 @@
     "startDate": "Start Date",
     "endDate": "End Date",
     "logType": "Log Type",
-    "defaultLogTypeOption": "Select log type",
     "toolTipResetFilters": "Reset All",
     "searchBy": {
+      "label": "search Type",
       "default": "Choose your search method",
       "UserId": "User ID",
       "IPAddress": "IP Address"

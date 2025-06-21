@@ -1,7 +1,7 @@
 /**
  * Interface representing the structure of system data used for employee attendance and leave policies.
  */
-export interface ISystemDataCredentials {
+export interface SystemDataCredentials {
   /** Unique identifier for the system data entry */
   id?: number;
 
@@ -31,7 +31,7 @@ export interface ISystemDataCredentials {
  * Initial/default values for the system data object.
  * Useful as a placeholder before actual system configuration data is loaded.
  */
-export const initialSystemData: ISystemDataCredentials = {
+export const initialSystemData: SystemDataCredentials = {
   id: 0,
   max_time_To_attend: "",
   min_time_To_Go: "",

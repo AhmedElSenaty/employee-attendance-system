@@ -1,6 +1,6 @@
 import { FieldErrors, UseFormRegister, useWatch, UseFormSetValue, Control } from "react-hook-form";
 import { Field, Input, InputErrorMessage, InputSkeleton, Label, LabelSkeleton, SelectBox, SelectBoxSkeleton } from "../../../../components/ui";
-import { IAdminCredentials } from "../../../../interfaces";
+import { IAdminCredentials, ProfileData } from "../../../../interfaces";
 import { TFunction } from "i18next";
 import { useEffect, useState } from "react";
 import { useGetProfilePermissions, useGetProfilesList } from "../../../../hooks/profile.hooks";
@@ -28,13 +28,13 @@ const RenderAdminInputs = ({
   checkedPermissionsHandler, 
   isLoading 
 }: IAdminInputsProps) => {
-  const { profilesList, profilesListIsLoading } = useGetProfilesList(); // Fetch profiles list for selection
+  const { profilesList, isLoading: profilesListIsLoading } = useGetProfilesList(); // Fetch profiles list for selection
     const { language } = useLanguageStore(); // Current language for localization
   const [selectedProfile, setSelectedProfile] = useState<number>(0); // Store the selected profile ID
   const username = useWatch({ control, name: "username" }); // Watch for changes in the username field
 
   // Fetch profile permissions when profile is selected
-  const { profilePermissions, profilePermissionsIsLoading } = useGetProfilePermissions(selectedProfile);
+  const { permissions: profilePermissions, isLoading: profilePermissionsIsLoading } = useGetProfilePermissions(selectedProfile);
 
   useEffect(() => {
     if (selectedProfile !== 0 && !profilePermissionsIsLoading) {
@@ -159,7 +159,7 @@ const RenderAdminInputs = ({
             }}
           >
             <option value={0}>{t("form.profile.defaultValue", { ns: ADMIN_TRANSLATION_NAMESPACE })}</option>
-            {profilesList.map(profile => (
+            {profilesList.map((profile: ProfileData) => (
               <option key={profile.id} value={profile.id}>
                 {language === "en" ? profile.nameEn : profile.nameAr }
               </option>

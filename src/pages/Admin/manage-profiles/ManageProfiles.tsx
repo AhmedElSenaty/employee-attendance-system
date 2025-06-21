@@ -1,20 +1,19 @@
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
-import { useFiltersHook } from "../../../hooks/filter.hook";
-import { useDebounce } from "../../../hooks/debounce.hook";
-import { Header, CountCard, ActionCard, Button, Paginator, SectionHeader } from "../../../components/ui/";
+import { Header, CountCard, ActionCard, Button, Paginator, SectionHeader, InfoPopup } from "../../../components/ui/";
 import { formatValue } from "../../../utils";
 import { BookType, CirclePlus } from "lucide-react";
 import { NavLink } from "react-router";
-import { DeleteProfilePopup, ProfilesTable, ProfileTableFilters } from "./views";
-import { PROFILE_TRANSLATION_NAMESPACE } from ".";
 import { HasPermission } from "../../../components/auth";
-import { useLanguageStore } from "../../../store/language.store";
-import { useDeleteProfile, useGetProfiles } from "../../../hooks/profile.hooks";
+import { PROFILE_NS, PROFILE_VIDEO } from "../../../constants";
+import { useLanguageStore } from "../../../store";
+import { useDebounce, useDeleteProfile, useGetProfiles } from "../../../hooks";
+import useURLSearchParams from "../../../hooks/URLSearchParams.hook";
+import { DeletePopup, ProfilesTable, TableFilters } from "./views";
 
 const ManageProfilesPage = () => {
-  const { t } = useTranslation(["common", PROFILE_TRANSLATION_NAMESPACE]);
-    const { language } = useLanguageStore();
+  const { t } = useTranslation([PROFILE_NS]);
+  const { language } = useLanguageStore();
 
   const [selectedID, setSelectedID] = useState<string>("");
   const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
@@ -24,19 +23,30 @@ const ManageProfilesPage = () => {
     setIsDeletePopupOpen(true) 
   }
 
-  const { page, pageSize, searchKey, search, setFilters } = useFiltersHook()
+  const {getParam, setParam, clearParams} = useURLSearchParams();
 
-  const debouncedSearchQuery = useDebounce(search, 650);
+  // Using the enhanced getParam with parser support from the improved hook
+  const rawPage = getParam('page', Number);
+  const rawPageSize = getParam('pageSize', Number);
+  const rawSearchKey = getParam('searchKey');
+  const rawSearchQuery = useDebounce(getParam('searchQuery'), 650);
 
-  const { profiles, totalProfiles, metadata, isProfilesDataLoading } = useGetProfiles(
-    Number(page) || 1, 
-    Number(pageSize) || 5, 
-    searchKey || "", 
-    debouncedSearchQuery || ""
+  // Use nullish coalescing to default numeric values, undefined for dates if empty
+  const page = rawPage ?? 1;
+  const pageSize = rawPageSize ?? 10;
+  const searchKey = rawSearchKey || undefined;
+  const searchQuery = rawSearchQuery || undefined;
+    
+  const debouncedSearchQuery = useDebounce(searchQuery, 650);
+
+  const { profiles, count, metadata, isLoading: isProfilesDataLoading } = useGetProfiles(
+    page, 
+    pageSize, 
+    searchKey, 
+    debouncedSearchQuery
   );
 
   const { mutate: deleteProfile, isPending: isDeleting } = useDeleteProfile();
-
   
   const handleConfirmDelete = () => {
     if (!selectedID) return;
@@ -47,14 +57,21 @@ const ManageProfilesPage = () => {
   return (
     <div className="sm:p-5 p-3 space-y-5">
       <Header 
-        heading={t("manageProfilesPage.header.heading", { ns: PROFILE_TRANSLATION_NAMESPACE })} 
-        subtitle={t("manageProfilesPage.header.subtitle", { ns: PROFILE_TRANSLATION_NAMESPACE })} 
+        heading={t("header.heading")} 
+        subtitle={t("header.subtitle")} 
       />
       <div className="space-y-5 mx-auto w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl">
+        <div className="w-full flex items-center justify-center">
+          <InfoPopup
+            title={t("infoPopup.title")}
+            description={t("infoPopup.description")}
+            videoUrl={PROFILE_VIDEO}
+          />
+        </div>
         <CountCard 
-          title={t("manageProfilesPage.CountCard.title", { ns: PROFILE_TRANSLATION_NAMESPACE })}
-          description={t("manageProfilesPage.CountCard.description", { ns: PROFILE_TRANSLATION_NAMESPACE })}
-          count={formatValue(totalProfiles || 0, language)}
+          title={t("CountCard.title")}
+          description={t("CountCard.description")}
+          count={formatValue(count || 0, language)}
           icon={<BookType size={28} />} 
           bgColor="bg-[#b38e19]" 
         />
@@ -64,12 +81,12 @@ const ManageProfilesPage = () => {
             icon={<CirclePlus />}
             iconBgColor="bg-[#f5e4b2]"
             iconColor="text-[#b38e19]"
-            title={t("manageProfilesPage.profileActions.add.title", { ns: PROFILE_TRANSLATION_NAMESPACE })}
-            description={t("manageProfilesPage.profileActions.add.description", { ns: PROFILE_TRANSLATION_NAMESPACE })}
+            title={t("addActionCard.title")}
+            description={t("addActionCard.description")}
           >
             <NavLink to={"/admin/add-profile"}>
               <Button fullWidth={true} variant="secondary">
-                {t("manageProfilesPage.profileActions.add.button", { ns: PROFILE_TRANSLATION_NAMESPACE })}
+                {t("addActionCard.button")}
               </Button>
             </NavLink>
           </ActionCard>
@@ -78,19 +95,17 @@ const ManageProfilesPage = () => {
 
       <div className="bg-white shadow-md space-y-5 p-5 rounded-lg">
         <SectionHeader 
-          title={t("manageProfilesPage.sectionHeader.title", { ns: PROFILE_TRANSLATION_NAMESPACE })} 
-          description={t("manageProfilesPage.sectionHeader.description", { ns: PROFILE_TRANSLATION_NAMESPACE })} 
+          title={t("sectionHeader.title")} 
+          description={t("sectionHeader.description")} 
         />
 
-        <div className="flex flex-wrap gap-4">
-          <ProfileTableFilters searchBy={metadata.searchBy} t={t} />
-        </div>
+        <TableFilters searchBy={metadata.searchBy} getParam={getParam} setParam={setParam} clearParams={clearParams} />
+
         <div className="w-full overflow-x-auto">
           <ProfilesTable
             profiles={profiles}
             isLoading={isProfilesDataLoading}
-            handleDeleteProfile={handleDeletePopupOpen}
-            t={t}
+            handleDelete={handleDeletePopupOpen}
           />
         </div>
 
@@ -100,18 +115,17 @@ const ManageProfilesPage = () => {
           totalPages={metadata?.pagination?.totalPages || 1}
           totalRecords={metadata?.pagination?.totalRecords || 0}
           isLoading={isProfilesDataLoading}
-          onClickFirst={() => setFilters({ page: 1 })}
-          onClickPrev={() => setFilters({ page: Math.max((page || 1) - 1, 1) })}
-          onClickNext={() => setFilters({ page: Math.min((page || 1) + 1, metadata?.pagination?.totalPages || 1) })}
+          onClickFirst={() => setParam("page", String(1))}
+          onClickPrev={() => setParam("page", String(Math.max((Number(getParam('page')) || 1) - 1, 1)))}
+          onClickNext={() => setParam("page", String(Math.min((Number(getParam('page')) || 1) + 1, metadata?.pagination?.totalPages || 1)))}
         />
       </div>
 
-      <DeleteProfilePopup
+      <DeletePopup
         isOpen={isDeletePopupOpen}
         handleClose={() => { setIsDeletePopupOpen(false) }}
         handleConfirmDelete={handleConfirmDelete}
         isLoading={isDeleting}
-        t={t}
       />
     </div>
   )

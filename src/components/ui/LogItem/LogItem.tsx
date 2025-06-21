@@ -2,14 +2,14 @@ import { JSX, useState } from "react";
 import { Info, Edit3, Trash2, AlertCircle } from "lucide-react";
 import { LogType } from "../../../enums";
 import { cva } from "class-variance-authority";
-import { ILogData } from "../../../interfaces/";
+import { Log } from "../../../interfaces/";
 import { useLanguageStore } from "../../../store";
 import { formatValue } from "../../../utils";
 import { LOGS_NS } from "../../../constants";
 import { useTranslation } from "react-i18next";
 
 interface LogItemProps {
-  logData: ILogData;
+  logData: Log;
 }
 
 const cardStyles = cva(

@@ -7,7 +7,7 @@ import { IManagerCredentials } from "../../../interfaces";
 import { getManagerSchema } from "../../../validation";
 import { RenderManagerInputs } from "./views";
 import { Description } from "../../../components/ui/Form";
-import { RenderPermissionCheckboxes } from "../../Admin/manage-permissions/views";
+import { PermissionCheckboxes } from "../../Admin/manage-permissions/views";
 import { RenderDepartmentCheckboxes } from "../../Admin/manage-departments/views";
 import { MANAGER_TRANSLATION_NAMESPACE } from ".";
 import { Button, Header, SectionHeader } from "../../../components/ui";
@@ -86,9 +86,9 @@ const AddManagerPage = () => {
           title={t("addManagerPage.permissionsSectionHeader.title", { ns: MANAGER_TRANSLATION_NAMESPACE })}
           description={t("addManagerPage.permissionsSectionHeader.description", { ns: MANAGER_TRANSLATION_NAMESPACE })}
         />
-        <RenderPermissionCheckboxes
-          checkedPermissions={checkedPermissions}
-          setCheckedPermissions={setCheckedPermissions}
+        <PermissionCheckboxes
+          checked={checkedPermissions}
+          setChecked={setCheckedPermissions}
         />
       </div>
 

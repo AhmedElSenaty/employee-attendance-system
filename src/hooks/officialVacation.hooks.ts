@@ -1,78 +1,90 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { IErrorResponse, initialMetadata, IOfficialVacationCredentials } from "../interfaces";
+import { IErrorResponse, initialMetadata, OfficialVacationCredentials } from "../interfaces";
 import { getTranslatedMessage, handleApiError, showToast } from "../utils";
 import { AxiosError } from "axios";
-import { useEffect } from "react";
-import { useLanguageStore } from "../store/language.store";
-import { useUserStore } from "../store/user.store";
+import { useEffect, useMemo } from "react";
+import { useLanguageStore, useUserStore } from "../store/";
 import { OfficialVacationService } from "../services";
+import { QueryKeys } from "../constants";
+import { OfficialVacationFormValues } from "../validation";
 
-export const OFFICIAL_VACATIONS_QUERY_KEY = "OfficialVacations";
-export const OFFICIAL_VACATION_DETAILS_QUERY_KEY = "OfficialVacationDetails";
+export const useOfficialVacationService = () => {
+  const token = useUserStore((state) => state.token);
+
+  const service = useMemo(() => {
+    return new OfficialVacationService(token);
+  }, [token]);
+
+  return service;
+};
 
 export const useGetOfficialVacations = (
-  page: number,
-  pageSize: number,
-  searchKey: string,
-  debouncedSearchQuery: string
+  page?: number,
+  pageSize?: number,
+  startDate?: string,
+  endDate?: string,
+  searchKey?: string,
+  searchQuery?: string
 ) => {
   const token = useUserStore((state) => state.token);
 
-  const officialVacationService = new OfficialVacationService(token);
+  const officialVacationService = useOfficialVacationService();
 
   const { data, isLoading } = useQuery({
-    queryKey: [OFFICIAL_VACATIONS_QUERY_KEY, page, pageSize, searchKey, debouncedSearchQuery],
-    queryFn: () => officialVacationService.fetchAll(page, pageSize, searchKey, debouncedSearchQuery),
+    queryKey: [
+      QueryKeys.OfficialVacations.All, 
+      page, 
+      pageSize, 
+      startDate,
+      endDate,
+      `${searchKey && searchQuery ? [searchKey, searchQuery] : ""}`
+    ],
+    queryFn: () => officialVacationService.fetchAll(page, pageSize, startDate, endDate, searchKey, searchQuery),
     enabled: !!token,
   });
 
   return {
-    officialVacations: data?.data?.officialVacations || [],
-    metadata: data?.data?.metadata || initialMetadata,
-    totalOfficialVacations: data?.data?.totalCount,
-    isOfficialVacationsDataLoading: isLoading,
+    officialVacations: data?.data?.data?.officialVacations || [],
+    count: data?.data?.data?.totalCount,
+    metadata: data?.data?.data?.metadata || initialMetadata,
+    isLoading,
   };
 };
 
 export const useGetOfficialVacationById = (
-  officialVacationID: number,
-  resetInputs?: (data: IOfficialVacationCredentials) => void
+  id: number,
+  resetInputs?: (data: OfficialVacationFormValues) => void
 ) => {
   const token = useUserStore((state) => state.token);
-  const officialVacationService = new OfficialVacationService(token);
+  const officialVacationService = useOfficialVacationService();
 
   const { data, isLoading } = useQuery({
-    queryKey: [OFFICIAL_VACATION_DETAILS_QUERY_KEY, officialVacationID],
-    queryFn: () => officialVacationService.fetchByID(officialVacationID),
-    enabled: !!officialVacationID && !!token,
+    queryKey: [QueryKeys.OfficialVacations.Details, id],
+    queryFn: () => officialVacationService.fetchByID(id),
+    enabled: !!id && !!token,
   });
 
   useEffect(() => {
-    if (data?.data) {
-      resetInputs?.({
-        name: data?.data?.name,
-        startDate: data?.data?.startDate,
-        endDate: data?.data?.endDate,
-      });
+    if (data?.data?.data) {
+      resetInputs?.(data?.data?.data);
     }
   }, [data, resetInputs]);
 
   return {
-    officialVacation: data?.data,
-    isOfficialVacationDataLoading: isLoading,
+    officialVacation: data?.data?.data,
+    isLoading,
   };
 };
 export const useCreateOfficialVacation = () => {
-  const token = useUserStore((state) => state.token);
   const { language } = useLanguageStore();
   const queryClient = useQueryClient();
-  const officialVacationService = new OfficialVacationService(token);
+  const officialVacationService = useOfficialVacationService();
 
   return useMutation({
-    mutationFn: (officialVacationData: IOfficialVacationCredentials) =>
+    mutationFn: (officialVacationData: OfficialVacationCredentials) =>
       officialVacationService.create(officialVacationData),
     onSuccess: ({ status, data }) => {
-      queryClient.invalidateQueries({ queryKey: [OFFICIAL_VACATIONS_QUERY_KEY] });
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.OfficialVacations.All] });
 
       if (status === 201) {
         const message = getTranslatedMessage(data.message ?? "", language);
@@ -87,16 +99,15 @@ export const useCreateOfficialVacation = () => {
 };
 
 export const useUpdateOfficialVacation = () => {
-  const token = useUserStore((state) => state.token);
   const { language } = useLanguageStore();
   const queryClient = useQueryClient();
-  const officialVacationService = new OfficialVacationService(token);
+  const officialVacationService = useOfficialVacationService();
 
   return useMutation({
-    mutationFn: (officialVacationData: IOfficialVacationCredentials) =>
+    mutationFn: (officialVacationData: OfficialVacationCredentials) =>
       officialVacationService.update(officialVacationData),
     onSuccess: ({ status, data }) => {
-      queryClient.invalidateQueries({ queryKey: [OFFICIAL_VACATIONS_QUERY_KEY] });
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.OfficialVacations.All] });
 
       if (status === 200) {
         const message = getTranslatedMessage(data.message ?? "", language);
@@ -111,15 +122,14 @@ export const useUpdateOfficialVacation = () => {
 };
 
 export const useDeleteOfficialVacation = () => {
-  const token = useUserStore((state) => state.token);
   const { language } = useLanguageStore();
   const queryClient = useQueryClient();
-  const officialVacationService = new OfficialVacationService(token);
+  const officialVacationService = useOfficialVacationService();
 
   return useMutation({
     mutationFn: (officialVacationID: number) => officialVacationService.delete(officialVacationID),
     onSuccess: ({ status, data }) => {
-      queryClient.invalidateQueries({ queryKey: [OFFICIAL_VACATIONS_QUERY_KEY] });
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.OfficialVacations.All] });
 
       if (status === 200) {
         const message = getTranslatedMessage(data.message ?? "", language);

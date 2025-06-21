@@ -1,5 +1,5 @@
 import axiosInstance from "../config/axios.config";
-import { IProfile, IProfileCredentials } from "../interfaces";
+import { ProfileCredentials } from "../interfaces";
 import { BaseService } from "./base.services";
 
 export class ProfileService extends BaseService {
@@ -21,7 +21,7 @@ export class ProfileService extends BaseService {
         headers: this.getAuthHeaders(),
       });
 
-      return response.data;
+      return response;
     } catch (error) {
       console.error("Error fetching profiles:", error);
       throw error;
@@ -33,20 +33,20 @@ export class ProfileService extends BaseService {
       const response = await axiosInstance.get(`/Profiles/${id}`, {
         headers: this.getAuthHeaders(),
       });
-      return response.data;
+      return response;
     } catch (error) {
       console.error(`Error fetching profile with ID ${id}:`, error);
       throw error;
     }
   };
 
-  create = (profile: IProfileCredentials) => {
+  create = (profile: ProfileCredentials) => {
     return axiosInstance.post("/Profiles", profile, {
       headers: this.getAuthHeaders(),
     });
   };
 
-  update = (profile: IProfileCredentials) => {
+  update = (profile: ProfileCredentials) => {
     return axiosInstance.put("/Profiles", profile, {
       headers: this.getAuthHeaders(),
     });
@@ -58,24 +58,24 @@ export class ProfileService extends BaseService {
     });
   };
 
-  fetchList = async (): Promise<IProfile[]> => {
+  fetchList = async () => {
     try {
       const response = await axiosInstance.get("/Profiles/List", {
         headers: this.getAuthHeaders(),
       });
-      return response.data.data;
+      return response;
     } catch (error) {
       console.error("Error fetching profiles list:", error);
       throw error;
     }
   };
 
-  fetchPermissions = async (id: number): Promise<string[]> => {
+  fetchPermissions = async (id: number) => {
     try {
       const response = await axiosInstance.get(`/Profiles/${id}/permissions`, {
         headers: this.getAuthHeaders(),
       });
-      return response.data?.data?.permission;
+      return response;
     } catch (error) {
       console.error(`Error fetching permissions for profile ID ${id}:`, error);
       throw error;

@@ -5,8 +5,7 @@ import { formatValue } from "../../../utils";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { AddPopup, DeletePopup, DevicesTable, EditPopup, Inputs, ShowPopup, TableFilters } from "./views";
-import { IDeviceCredentials } from "../../../interfaces";
-import { deviceSchema } from "../../../validation";
+import { DeviceFormValues, deviceSchema } from "../../../validation";
 import { HasPermission } from "../../../components/auth";
 import { useLanguageStore } from "../../../store/";
 import { ActionCard, Button, CountCard, Header, InfoPopup, Paginator, SectionHeader } from "../../../components/ui";
@@ -18,7 +17,7 @@ const ManageDevicesPage = () => {
   const { t } = useTranslation([DEVICES_NS]);
   const { language } = useLanguageStore();
 
-  const { register, handleSubmit, formState: { errors }, reset } = useForm<IDeviceCredentials>({
+  const { register, handleSubmit, formState: { errors }, reset } = useForm<DeviceFormValues>({
     resolver: yupResolver(deviceSchema),
     mode: "onChange"
   });
@@ -35,7 +34,7 @@ const ManageDevicesPage = () => {
   }
   const handleAddPopupOpen = () => {
     setSelectedID(0)
-    reset({ id: 0, device_name: "", iP_Address: "", port: 4370 })
+    reset({ device_name: "", iP_Address: "", port: 4350 })
     setIsAddPopupOpen(true)
   }
   const handleEditPopupOpen = (id: number) => {
@@ -44,7 +43,7 @@ const ManageDevicesPage = () => {
   }
   const handleEditPopupClose = () => {
     setSelectedID(0)
-    reset( {id: 0, device_name: "", iP_Address: "" })
+    reset()
     setIsEditPopupOpen(false)
   }
   const handleDeletePopupOpen = (id: number) => {
@@ -66,16 +65,15 @@ const ManageDevicesPage = () => {
   const searchKey = rawSearchKey || undefined;
   const searchQuery = rawSearchQuery || undefined;
     
-  const debouncedSearchQuery = useDebounce(searchQuery, 650);
 
-  const { devices, totalDevices, metadata, isDevicesDataLoading } = useGetDevices(
+  const { devices, count, metadata, isLoading: isDevicesDataLoading } = useGetDevices(
     page, 
     pageSize, 
     searchKey, 
-    debouncedSearchQuery
+    searchQuery
   );
 
-  const { device, isDeviceDataLoading } = useGetDeviceByID(selectedID, reset);
+  const { device, isLoading: isDeviceDataLoading } = useGetDeviceByID(selectedID, reset);
 
   const renderDeviceInputs = <Inputs register={register} errors={errors} isLoading={isDeviceDataLoading} />
 
@@ -84,13 +82,15 @@ const ManageDevicesPage = () => {
   const { mutate: deleteDevice, isPending: isDeleting } = useDeleteDevice();
   
   /* ____________ HANDLER ____________ */
-  const handleConfirmAdd: SubmitHandler<IDeviceCredentials> = (request: IDeviceCredentials) => {
+  const handleConfirmAdd: SubmitHandler<DeviceFormValues> = (request) => {
     addDevice(request)
     setIsAddPopupOpen(false)
   };
-  const handleConfirmUpdate: SubmitHandler<IDeviceCredentials> = (request: IDeviceCredentials) => {
+  const handleConfirmUpdate: SubmitHandler<DeviceFormValues> = (request) => {
+    console.log(request);
+    
     updateDevice(request)
-    setIsEditPopupOpen(false)
+    // setIsEditPopupOpen(false)
   };
   const handleConfirmDelete = () => {
     if (!selectedID) return;
@@ -118,7 +118,7 @@ const ManageDevicesPage = () => {
           <CountCard 
             title={t("CountCard.title")}
             description={t("CountCard.description")}
-            count={formatValue(totalDevices, language)}
+            count={formatValue(count, language)}
             icon={<Fingerprint size={28} />} 
             bgColor="bg-[#b38e19]" 
           />
@@ -127,11 +127,11 @@ const ManageDevicesPage = () => {
               icon={<CirclePlus />}
               iconBgColor="bg-[#f5e4b2]"
               iconColor="text-[#b38e19]"
-              title={t("actions.add.title")}
-              description={t("actions.add.description")}
+              title={t("addActionCard.title")}
+              description={t("addActionCard.description")}
             >
               <Button fullWidth={true} variant="secondary" onClick={handleAddPopupOpen}>
-                {t("actions.add.button")}
+                {t("addActionCard.button")}
               </Button>
             </ActionCard>
           </HasPermission>

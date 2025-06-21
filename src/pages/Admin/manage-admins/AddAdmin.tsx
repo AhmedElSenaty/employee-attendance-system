@@ -8,7 +8,7 @@ import { IAdminCredentials } from "../../../interfaces";
 import { getAdminSchema } from "../../../validation";
 import { RenderDepartmentCheckboxes } from "../manage-departments/views";
 import { RenderAdminInputs } from "./views";
-import { RenderPermissionCheckboxes } from "../manage-permissions/views";
+import { PermissionCheckboxes } from "../manage-permissions/views";
 import { ADMIN_TRANSLATION_NAMESPACE } from ".";
 import { useCreateAdmin } from "../../../hooks/admin.hooks";
 
@@ -101,9 +101,9 @@ const AddAdminPage = () => {
         />
         
         {/* Render permission checkboxes */}
-        <RenderPermissionCheckboxes
-          checkedPermissions={checkedPermissions}
-          setCheckedPermissions={setCheckedPermissions}
+        <PermissionCheckboxes
+          checked={checkedPermissions}
+          setChecked={setCheckedPermissions}
         />
       </div>
 

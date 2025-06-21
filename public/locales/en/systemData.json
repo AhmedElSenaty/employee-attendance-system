@@ -7,7 +7,7 @@
     "title": "System Data Settings",
     "description": "Configure the system-wide rules for attendance, leave policies, and employee time restrictions."
   },
-  "form": {
+  "inputs": {
     "max_time_To_attend": {
       "label": "Max Time to Attend",
       "description": "The latest allowed time for employee check-in (format: HH:mm).",
@@ -30,7 +30,7 @@
       "inputValidation": {
         "required": "Annual vacation for ≤10 years is required",
         "typeError": "Annual vacation (≤10 years) must be a number",
-        "integer": "Must be an integer",
+        "integer": "Annual vacation (≤10 years) must be a integar number",
         "min": "Value must be 0 or greater"
       }
     },
@@ -40,7 +40,7 @@
       "inputValidation": {
         "required": "Annual vacation for ≤50 years is required",
         "typeError": "Annual vacation (≤50 years) must be a number",
-        "integer": "Must be an integer",
+        "integer": "Annual vacation (≤50 years) must be a number",
         "min": "Value must be 0 or greater"
       }
     },
@@ -50,7 +50,7 @@
       "inputValidation": {
         "required": "Annual vacation for >50 years is required",
         "typeError": "Annual vacation (>50 years) must be a number",
-        "integer": "Must be an integer",
+        "integer": "Annual vacation (>50 years) must be a integar number",
         "min": "Value must be 0 or greater"
       }
     },
@@ -60,7 +60,7 @@
       "inputValidation": {
         "required": "Max number of leave requests per month is required",
         "typeError": "Max leave requests/month must be a number",
-        "integer": "Must be an integer",
+        "integer": "Max leave requests/month must be a integar number",
         "min": "Value must be 0 or greater"
       }
     },
@@ -70,13 +70,13 @@
       "inputValidation": {
         "required": "Max casual leave days per year is required",
         "typeError": "Max casual leave days/year must be a number",
-        "integer": "Must be an integer",
+        "integer": "Max casual leave days/year must be a integar number",
         "min": "Value must be 0 or greater"
       }
-    },
-    "buttons": {
-      "loading": "Loading",
-      "update": "Update"
     }
+  },
+  "buttons": {
+    "loading": "Loading",
+    "update": "Update"
   }
 }

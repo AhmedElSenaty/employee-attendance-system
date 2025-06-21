@@ -1,4 +1,4 @@
-export { default as RenderProfileInputs } from "./RenderProfileInputs"
+export { default as Inputs } from "./Inputs"
 export { default as ProfilesTable } from "./ProfilesTable"
-export { default as ProfileTableFilters } from "./ProfileTableFilters"
-export { default as DeleteProfilePopup } from "./DeleteProfilePopup"
+export { default as TableFilters } from "./TableFilters"
+export { default as DeletePopup } from "./DeletePopup"

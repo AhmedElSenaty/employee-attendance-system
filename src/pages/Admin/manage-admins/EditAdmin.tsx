@@ -8,7 +8,7 @@ import { IAdminCredentials } from "../../../interfaces/admin.interfaces";
 import { useNavigate, useParams } from "react-router";
 import { DeleteAdminPopup, RenderAdminInputs, UnblockAdminPopup } from "./views";
 import { RenderDepartmentCheckboxes } from "../manage-departments/views";
-import { RenderPermissionCheckboxes } from "../manage-permissions/views";
+import { PermissionCheckboxes } from "../manage-permissions/views";
 import { passwordUpdateSchema } from "../../../validation";
 import { ADMIN_TRANSLATION_NAMESPACE } from ".";
 import { HasPermission } from "../../../components/auth";
@@ -274,9 +274,9 @@ const EditAdminPage = () => {
               title={t("updateAdminPage.permissionsSectionHeader.title", { ns: ADMIN_TRANSLATION_NAMESPACE })} 
               description={t("updateAdminPage.permissionsSectionHeader.description", { ns: ADMIN_TRANSLATION_NAMESPACE })}
             />
-            <RenderPermissionCheckboxes
-              checkedPermissions={checkedPermissions}
-              setCheckedPermissions={setCheckedPermissions}
+            <PermissionCheckboxes
+              checked={checkedPermissions}
+              setChecked={setCheckedPermissions}
               isLoading={isAdminDataLoading}
             />
             {isAdminDataLoading ? (

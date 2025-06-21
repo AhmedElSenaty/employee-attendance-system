@@ -1,9 +1,9 @@
 import { formatValue } from "../../../../utils";
-import { RefreshCcw, Search } from "lucide-react";
+import { Calendar, RefreshCcw, Search } from "lucide-react";
 import { useLanguageStore } from "../../../../store/";
 import { Button, CustomSelect, Field, Input, Label, Tooltip } from "../../../../components/ui";
 import { useTranslation } from "react-i18next";
-import { DEVICES_NS } from "../../../../constants";
+import { OFFICIAL_VACATION_NS } from "../../../../constants";
 
 interface Props {
   searchBy: string[]
@@ -19,7 +19,7 @@ const TableFilters = ({
   clearParams,
 }: Props) => {
   const { language } = useLanguageStore();
-  const { t } = useTranslation([DEVICES_NS]);
+  const { t } = useTranslation([OFFICIAL_VACATION_NS]);
 
   const pageSizeOptions = [10, 20, 30, 40, 50].map((size) => ({
     value: size,
@@ -47,6 +47,26 @@ const TableFilters = ({
               setParam("pageSize", String(option?.value ?? 10))
             }
             className="w-25"
+          />
+        </Field>
+
+        <Field className="flex flex-col space-y-2">
+          <Label>{t("filters.startDate")}</Label>
+          <Input
+            type="date"
+            icon={<Calendar />}
+            value={getParam("startDate") ?? ""}
+            onChange={(e) => setParam("startDate", e.target.value)}
+          />
+        </Field>
+
+        <Field className="flex flex-col space-y-2">
+          <Label>{t("filters.endDate")}</Label>
+          <Input
+            type="date"
+            icon={<Calendar />}
+            value={getParam("endDate") ?? ""}
+            onChange={(e) => setParam("endDate", e.target.value)}
           />
         </Field>
 

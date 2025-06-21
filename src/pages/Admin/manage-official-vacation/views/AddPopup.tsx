@@ -1,34 +1,36 @@
-import { TFunction } from "i18next"
+import { useTranslation } from "react-i18next";
 import { Button, Popup } from "../../../../components/ui"
 import { FormEvent, ReactNode } from "react"
-import { OFFICIAL_VACATIONS_TRANSLATION_NAMESPACE } from ".."
+import { OFFICIAL_VACATION_NS } from "../../../../constants";
 
-interface IAddOfficialVacationPopupProps {
+interface Props {
   isOpen: boolean
   handleClose: () => void;
   handleSubmit: (event: FormEvent<HTMLFormElement>) => void;
   formInputs: ReactNode
   isLoading: boolean
-  t: TFunction
 }
 
-const AddOfficialVacationPopup = ({ isOpen, handleClose, handleSubmit, formInputs, isLoading, t }: IAddOfficialVacationPopupProps) => {
+const AddPopup = ({ isOpen, handleClose, handleSubmit, formInputs, isLoading }: Props) => {
+  const { t } = useTranslation([OFFICIAL_VACATION_NS]);
 
   return (
     <Popup
       isOpen={isOpen}
       closeModal={handleClose}
-      title={t("popup.add.title", { ns: OFFICIAL_VACATIONS_TRANSLATION_NAMESPACE })}
-      description={t("popup.add.description", { ns: OFFICIAL_VACATIONS_TRANSLATION_NAMESPACE })}
+      title={t("addPopup.title")}
+      description={t("addPopup.description")}
     >
       <div className="space-y-4">
         {formInputs}
         <form className="flex items-center space-x-3 mt-4" onSubmit={handleSubmit}>
           <Button variant="cancel" type="button" fullWidth={true} onClick={handleClose}>
-            {t("popup.add.closeButton", { ns: OFFICIAL_VACATIONS_TRANSLATION_NAMESPACE })}
+            {t("buttons.close")}
           </Button>
           <Button variant="secondary" type="submit" fullWidth={true}  isLoading={isLoading}>
-            {t("popup.add.addButton", { ns: OFFICIAL_VACATIONS_TRANSLATION_NAMESPACE })}
+            {(isLoading)
+              ? t("buttons.loading")
+              : t("buttons.create")}
           </Button>
         </form>
       </div>
@@ -36,4 +38,4 @@ const AddOfficialVacationPopup = ({ isOpen, handleClose, handleSubmit, formInput
   )
 }
 
-export default AddOfficialVacationPopup
+export default AddPopup

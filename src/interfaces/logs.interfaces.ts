@@ -3,7 +3,7 @@ import { LogType } from "../enums";
 /**
  * Interface representing the structure of a log entry.
  */
-export interface ILogData {
+export interface Log {
   /** Unique identifier of the log entry */
   id: number;
 

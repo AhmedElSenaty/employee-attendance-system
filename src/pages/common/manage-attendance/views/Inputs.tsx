@@ -1,4 +1,4 @@
-import { FieldErrors, UseFormRegister } from "react-hook-form";
+import { Control, Controller, FieldErrors, UseFormRegister } from "react-hook-form";
 import {
   Field,
   Input,
@@ -9,27 +9,37 @@ import {
   InputSkeleton,
   LabelSkeleton
 } from "../../../../components/ui";
-import { IAttendanceCredentials, IDevice } from "../../../../interfaces";
+import { DeviceSummary, IAttendanceCredentials } from "../../../../interfaces";
 import { Calendar, Timer } from "lucide-react";
 import { useGetEmployeesList, useGetDevicesList } from "../../../../hooks/";
 import { useTranslation } from "react-i18next";
 import { ATTENDANCE_NS } from "../../../../constants";
+import Select from 'react-select'
 
 interface IInputsProps {
   register: UseFormRegister<IAttendanceCredentials>;
   errors: FieldErrors<IAttendanceCredentials>;
   isLoading?: boolean;
+  control: Control<IAttendanceCredentials>
 }
 
 const Inputs = ({
   register,
   errors,
   isLoading = false,
+  control
 }: IInputsProps) => {
   const { t } = useTranslation([ATTENDANCE_NS]);
 
-  const { devicesList, devicesListIsLoading } = useGetDevicesList();
+  const { devices: devicesList, isLoading: devicesListIsLoading } = useGetDevicesList();
   const { employeesList, isEmployeesListLoading } = useGetEmployeesList();
+
+  const deviceOptions = devicesList?.map((device: DeviceSummary) => ({
+    value: device.id,
+    label: device.name,
+  })) || [];
+
+  console.log(devicesList);
 
   if (isLoading) {
     return (
@@ -49,18 +59,29 @@ const Inputs = ({
       {/* Device ID */}
       <Field className="space-y-2">
         <Label size="lg">{t("form.deviceId.label")}</Label>
+
         {devicesListIsLoading ? (
           <SelectBoxSkeleton />
         ) : (
-          <SelectBox isError={!!errors.deviceId} {...register("deviceId")}>
-            <option value="">{t("form.deviceId.defaultValue")}</option>
-            {devicesList?.map((device: IDevice) => (
-              <option key={device.id} value={device.id}>
-                {device.name}
-              </option>
-            ))}
-          </SelectBox>
+          <Controller
+            name="deviceId"
+            control={control}
+            rules={{ required: true }} // or your custom validation
+            render={({ field }) => (
+              <Select
+                {...field}
+                options={deviceOptions}
+                placeholder={t("form.deviceId.defaultValue")}
+                classNamePrefix="react-select"
+                value={deviceOptions.find((option: {value: number, label: string}) => option.value === field.value) || null}
+                onChange={(selectedOption) => field.onChange(selectedOption?.value)}
+                isClearable
+                isSearchable
+              />
+            )}
+          />
         )}
+
         {errors.deviceId && (
           <InputErrorMessage>
             {t(`form.deviceId.inputValidation.${errors.deviceId?.type}`)}

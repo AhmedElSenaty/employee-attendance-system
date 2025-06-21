@@ -1,6 +1,3 @@
-export const LOGS_NS = "logs"
-export const SYSTEM_DATA_NS = "systemData"
-export const DEVICES_NS = "devicePages"
 export const CALENDER_NS = "calenderPage"
 export const ATTENDANCE_NS = "attendancePages"
 
@@ -13,3 +10,12 @@ export const CASUAL_REQUESTS_NS = "casualLeaveRequests"
 export const SICK_REQUESTS_NS = "sickRequests";
 export const EMPLOYEE_DASHBOARD_NS = "employeeDashboard";
 export const EMPLOYEE_PROFILE_NS = "empolyeeAccount";
+
+
+
+export const DEVICES_NS = "devicePages"
+export const SYSTEM_DATA_NS = "systemData"
+export const LOGS_NS = "logs"
+export const PROFILE_NS = "profilePages"
+export const PERMISSION_NS = "permissionPages"
+export const OFFICIAL_VACATION_NS = "officialVacationPages"

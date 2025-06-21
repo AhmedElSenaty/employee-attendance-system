@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { Collapsible, SectionHeader } from "../../../../components/ui";
-import { IPermissionsData } from "../../../../interfaces";
+import { PermissionsData } from "../../../../interfaces";
 import { useLanguageStore } from "../../../../store/language.store";
 
 const TRANSLATION_NAMESPACE = "adminAccount";
@@ -14,7 +14,7 @@ const RenderPermissions = ({ permissions = [] }: IProps) => {
   const { language } = useLanguageStore();
 
   // Render permissions dynamically
-  const renderPermissions = permissions?.map(({ id, nameAr, nameEn }: IPermissionsData) => (
+  const renderPermissions = permissions?.map(({ id, nameAr, nameEn }: PermissionsData) => (
     <div
       key={id}
       className="p-3 bg-green-600 text-white shadow-md rounded-lg flex gap-4 justify-between items-center"

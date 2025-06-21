@@ -1,5 +1,5 @@
 import axiosInstance from "../config/axios.config";
-import { ISystemDataCredentials } from "../interfaces";
+import { SystemDataCredentials } from "../interfaces";
 import { BaseService } from "./base.services";
 
 /**
@@ -36,7 +36,7 @@ export class SystemDataService extends BaseService {
    * 
    * @returns A Promise that resolves with the Axios response from the server.
    */
-  update = (systemData: ISystemDataCredentials) => {
+  update = (systemData: SystemDataCredentials) => {
     return axiosInstance.put("/SystemData", systemData, {
       headers: this.getAuthHeaders(),
     });

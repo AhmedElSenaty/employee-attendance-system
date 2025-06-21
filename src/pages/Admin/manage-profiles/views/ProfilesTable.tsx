@@ -1,27 +1,33 @@
-import { useMemo } from "react";
 import { Button, NoDataMessage, Table, TableCell, TableRow, TableSkeleton, Tooltip } from "../../../../components/ui";
 import { FilePenLine, Trash2 } from "lucide-react";
-import { TFunction } from "i18next";
-import { IProfileData } from "../../../../interfaces";
+import { ProfileData } from "../../../../interfaces";
 import { NavLink } from "react-router";
-import { PROFILE_TABLE_COLUMNS, PROFILE_TRANSLATION_NAMESPACE } from "..";
 import { HasPermission } from "../../../../components/auth";
-import { useLanguageStore } from "../../../../store/language.store";
+import { useLanguageStore } from "../../../../store/";
+import { PROFILE_NS } from "../../../../constants";
+import { useTranslation } from "react-i18next";
+import { formatValue } from "../../../../utils";
 
 interface IProfilesTableProps {
-  profiles: IProfileData[];
+  profiles: ProfileData[];
   isLoading: boolean;
-  t: TFunction;
-  handleDeleteProfile: (id: string) => void;
+  handleDelete: (id: string) => void;
 }
 
-const ProfilesTable = ({ profiles, t, isLoading, handleDeleteProfile }: IProfilesTableProps) => {
-    const { language } = useLanguageStore();
+const ProfilesTable = ({ profiles, isLoading, handleDelete }: IProfilesTableProps) => {
+  const { t } = useTranslation([PROFILE_NS]);
 
-  const columns = useMemo(
-    () => PROFILE_TABLE_COLUMNS.map(key => t(key, { ns: PROFILE_TRANSLATION_NAMESPACE })),
-    [t]
-  );
+  const { language } = useLanguageStore();
+
+  const PROFILE_TABLE_COLUMNS = [
+    "table.columns.id",
+    "table.columns.nameEn",
+    "table.columns.nameAr",
+    "table.columns.createdAt",
+    "table.columns.actions",
+  ]
+
+  const columns = PROFILE_TABLE_COLUMNS.map(key => t(key));
 
   return (
     <>
@@ -30,38 +36,40 @@ const ProfilesTable = ({ profiles, t, isLoading, handleDeleteProfile }: IProfile
       ) : (
         <Table columns={columns}>
           {profiles.length == 0 ? (
-            <NoDataMessage title={t("manageProfilesPage.table.emptyTable.title", { ns: PROFILE_TRANSLATION_NAMESPACE })} message={t("manageProfilesPage.table.emptyTable.message", { ns: PROFILE_TRANSLATION_NAMESPACE })} />
+            <NoDataMessage title={t("table.emptyTable.title")} message={t("table.emptyTable.message")} />
           ) : (
             profiles.map((profile) => (
               <TableRow key={profile.id} className="border-b">
-                <TableCell label={columns[0]}>{profile.id}</TableCell>
-                <TableCell label={columns[1]}>{profile.nameEn}</TableCell>
-                <TableCell label={columns[2]}>{profile.nameAr}</TableCell>
+                <TableCell label={columns[0]}>{formatValue(profile.id, language)}</TableCell>
+                <TableCell label={columns[1]}>{profile.nameEn || t("NA")}</TableCell>
+                <TableCell label={columns[2]}>{profile.nameAr || t("NA")}</TableCell>
                 <TableCell label={columns[3]}>{new Date(profile.createdAt).toLocaleDateString(language == "ar" ? "ar-EG" : "en-CA")}</TableCell>
                 <TableCell label={columns[4]}>
                   <div className="flex flex-wrap gap-2">
                     <HasPermission permission="View Profiles">
-                      <Tooltip content="View Profiles">
+                      <Tooltip 
+                        content={t("buttons.toolTipEdit")}
+                      >
                         <NavLink to={`/admin/edit-profile/${profile.id}`}>
                           <Button 
                             variant="info" 
                             fullWidth={false}
                             size={"sm"} 
                             icon={<FilePenLine className="w-full h-full" />} 
-                            aria-label={t("buttons.edit")} 
                           />
                         </NavLink>
                       </Tooltip>
                     </HasPermission>
                     <HasPermission permission="Delete Profile">
-                      <Tooltip content="Delete Profile">
+                      <Tooltip 
+                        content={t("buttons.toolTipDelete")}
+                      >
                         <Button
                           variant="danger"
                           fullWidth={false}
                           size={"sm"}
                           icon={<Trash2 className="w-full h-full" />}
-                          aria-label={t("buttons.delete")}
-                          onClick={() => handleDeleteProfile(profile.id)}
+                          onClick={() => handleDelete(profile.id)}
                         />
                       </Tooltip>
                     </HasPermission>

@@ -1,30 +1,31 @@
-import { TFunction } from "i18next";
 import { TreePalm } from "lucide-react";
 import { NormalSpinner, Button, Popup } from "../../../../components/ui/";
-import { IOfficialVacationData } from "../../../../interfaces";
-import { OFFICIAL_VACATIONS_TRANSLATION_NAMESPACE } from "..";
 import { HasPermission } from "../../../../components/auth";
-import { useLanguageStore } from "../../../../store/language.store";
+import { useLanguageStore } from "../../../../store/";
+import { OfficialVacation } from "../../../../interfaces";
+import { useTranslation } from "react-i18next";
+import { OFFICIAL_VACATION_NS } from "../../../../constants";
+import { formatValue } from "../../../../utils";
 
-interface IShowOfficialVacationPopupProps {
+interface Props {
   isOpen: boolean
   handleClose: () => void;
   handleDeletePopupOpen: () => void;
   handleEditPopupOpen: () => void;
-  officialVacation: IOfficialVacationData | null
-  t: TFunction
+  officialVacation: OfficialVacation | null
   isLoading: boolean
 }
 
-const ShowOfficialVacationPopup = ({ isOpen, handleClose, handleDeletePopupOpen, handleEditPopupOpen, officialVacation, t, isLoading }: IShowOfficialVacationPopupProps) => {
-    const { language } = useLanguageStore();
+const ShowPopup = ({ isOpen, handleClose, handleDeletePopupOpen, handleEditPopupOpen, officialVacation, isLoading }: Props) => {
+  const { language } = useLanguageStore();
+  const { t } = useTranslation([OFFICIAL_VACATION_NS]);
 
   return (
     <Popup
       isOpen={isOpen}
       closeModal={handleClose}
-      title={t("popup.show.title", { ns: OFFICIAL_VACATIONS_TRANSLATION_NAMESPACE })}
-      description={t("popup.show.description", { ns: OFFICIAL_VACATIONS_TRANSLATION_NAMESPACE })}
+      title={t("showPopup.title")}
+      description={t("showPopup.description")}
     >
       {/* Device Details */}
       {
@@ -45,15 +46,15 @@ const ShowOfficialVacationPopup = ({ isOpen, handleClose, handleDeletePopupOpen,
             {/* Device Information */}
             <div className="mt-6 space-y-4 divide-y divide-gray-300">
               <div className="grid grid-cols-2 py-2">
-                <span className="font-medium text-gray-600">{t("table.columns.id", { ns: OFFICIAL_VACATIONS_TRANSLATION_NAMESPACE })}</span>
-                <span className="text-gray-900 font-semibold">{officialVacation?.id}</span>
+                <span className="font-medium text-gray-600">{t("table.columns.id")}</span>
+                <span className="text-gray-900 font-semibold">{formatValue(officialVacation?.id || "", language)}</span>
               </div>
               <div className="grid grid-cols-2 py-2">
-                <span className="font-medium text-gray-600">{t("table.columns.startDate", { ns: OFFICIAL_VACATIONS_TRANSLATION_NAMESPACE })}</span>
+                <span className="font-medium text-gray-600">{t("table.columns.startDate")}</span>
                 <span className="text-gray-900 font-semibold">{new Date(officialVacation?.startDate || "").toLocaleDateString(language == "ar" ? "ar-EG" : "en-CA")}</span>
               </div>
               <div className="grid grid-cols-2 py-2">
-                <span className="font-medium text-gray-600">{t("table.columns.endDate", { ns: OFFICIAL_VACATIONS_TRANSLATION_NAMESPACE })}</span>
+                <span className="font-medium text-gray-600">{t("table.columns.endDate")}</span>
                 <span className="text-gray-900 font-semibold">{new Date(officialVacation?.endDate || "").toLocaleDateString(language == "ar" ? "ar-EG" : "en-CA")}</span>
               </div>
             </div>
@@ -64,20 +65,20 @@ const ShowOfficialVacationPopup = ({ isOpen, handleClose, handleDeletePopupOpen,
       <div className="flex items-center space-x-3 mt-4">
         <HasPermission permission="Update Official Vacation">
           <Button variant="info" type="button" fullWidth={true} onClick={handleEditPopupOpen}>
-            {t("popup.show.editButton", { ns: OFFICIAL_VACATIONS_TRANSLATION_NAMESPACE })}
+            {t("buttons.edit")}
           </Button>
         </HasPermission>
         <HasPermission permission="Delete Official Vacation">
           <Button variant="danger" type="button" fullWidth={true} onClick={handleDeletePopupOpen}>
-            {t("popup.show.deleteButton", { ns: OFFICIAL_VACATIONS_TRANSLATION_NAMESPACE })}
+            {t("buttons.delete")}
           </Button>
         </HasPermission>
         <Button variant="cancel" type="button" fullWidth={true} onClick={handleClose}>
-          {t("popup.show.closeButton", { ns: OFFICIAL_VACATIONS_TRANSLATION_NAMESPACE })}
+          {t("buttons.close")}
         </Button>
       </div>
     </Popup>
   )
 }
 
-export default ShowOfficialVacationPopup
+export default ShowPopup

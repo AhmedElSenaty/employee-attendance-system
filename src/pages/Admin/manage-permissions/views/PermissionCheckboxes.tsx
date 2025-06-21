@@ -1,46 +1,47 @@
 import { Checkbox, CheckboxSkeleton, Field, Label, LabelSkeleton, Button, ButtonSkeleton } from '../../../../components/ui';
 import { Dispatch, SetStateAction } from 'react';
-import { IPermissionsData } from '../../../../interfaces/';
+import { PermissionsData } from '../../../../interfaces';
 import { ListChecks } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { useGetPermissions } from '../../../../hooks/permission.hooks';
-import { useLanguageStore } from '../../../../store/language.store';
+import { useGetPermissions } from '../../../../hooks/';
+import { useLanguageStore } from '../../../../store/';
+import { PERMISSION_NS } from '../../../../constants';
 
-interface RenderPermissionCheckboxesProps {
-  checkedPermissions: string[];
-  setCheckedPermissions: Dispatch<SetStateAction<string[]>>;
+interface Props {
+  checked: string[];
+  setChecked: Dispatch<SetStateAction<string[]>>;
   isLoading?: boolean
 }
 
-const RenderPermissionCheckboxes = ({ checkedPermissions, setCheckedPermissions, isLoading }: RenderPermissionCheckboxesProps) => {
-  const { t } = useTranslation();
-    const { language } = useLanguageStore();
-  const { permissions, isPermissionsDataLoading } = useGetPermissions();
+const PermissionCheckboxes = ({ checked, setChecked, isLoading }: Props) => {
+  const { t } = useTranslation([PERMISSION_NS]);
+  const { language } = useLanguageStore();
+  const { permissions, isLoading: isPermissionsDataLoading } = useGetPermissions();
 
-  const allPermissionIDs = permissions.map((permission) => permission.id);
+  const allPermissionIDs = permissions.map((permission: PermissionsData) => permission.id);
 
   // Select All / Deselect All handler
   const toggleSelectAll = () => {
-    if (checkedPermissions.length === allPermissionIDs.length) {
-      setCheckedPermissions([]); // Deselect all
+    if (checked.length === allPermissionIDs.length) {
+      setChecked([]); // Deselect all
     } else {
-      setCheckedPermissions(allPermissionIDs); // Select all
+      setChecked(allPermissionIDs); // Select all
     }
   };
 
 
   const handleCheckboxChange = (permissionKey: string) => {
-    setCheckedPermissions((prev) =>
+    setChecked((prev) =>
       prev.includes(permissionKey)
         ? prev.filter((key) => key !== permissionKey)
         : [...prev, permissionKey]
     );
   };
 
-  const renderCheckboxes = permissions.map(({ id, nameEn, nameAr }: IPermissionsData) => (
+  const renderCheckboxes = permissions.map(({ id, nameEn, nameAr }: PermissionsData) => (
     <Field key={id} className="flex items-center space-x-2">
       <Checkbox
-        checked={checkedPermissions.includes(id)}
+        checked={checked.includes(id)}
         onChange={() => handleCheckboxChange(id)}
       />
       <Label>
@@ -86,7 +87,7 @@ const RenderPermissionCheckboxes = ({ checkedPermissions, setCheckedPermissions,
                   size={'md'}
                   icon={<ListChecks className="w-full h-full" />}
                 >
-                  {checkedPermissions.length === allPermissionIDs.length
+                  {checked.length === allPermissionIDs.length
                     ? t("deselectAll")
                     : t("selectAll")}
                 </Button>
@@ -99,4 +100,4 @@ const RenderPermissionCheckboxes = ({ checkedPermissions, setCheckedPermissions,
   );
 }
 
-export default RenderPermissionCheckboxes;
+export default PermissionCheckboxes;

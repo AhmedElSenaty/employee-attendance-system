@@ -2,18 +2,18 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { profileSchema } from "../../../validation";
-import { IProfileCredentials } from "../../../interfaces";
 import { Description, Button, Header, SectionHeader } from "../../../components/ui/";
-import { RenderProfileInputs } from "./views";
 import { useNavigate } from "react-router";
-import { RenderPermissionCheckboxes } from "../manage-permissions/views";
-import { PROFILE_TRANSLATION_NAMESPACE } from ".";
-import { useCreateProfile } from "../../../hooks/profile.hooks";
+import { PermissionCheckboxes } from "../manage-permissions/views";
+import { PROFILE_NS } from "../../../constants";
+import { ProfileFormValues, profileSchema } from "../../../validation";
+import { useCreateProfile } from "../../../hooks";
+import { ProfileCredentials } from "../../../interfaces";
+import { Inputs } from "./views";
 
 const AddProfilePage = () => {
   const navigate = useNavigate();
-  const { t } = useTranslation(["common", PROFILE_TRANSLATION_NAMESPACE]);
+  const { t } = useTranslation([PROFILE_NS]);
 
   const [checkedPermissions, setCheckedPermissions] = useState<string[]>([]);
 
@@ -21,16 +21,16 @@ const AddProfilePage = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<IProfileCredentials>({
+  } = useForm<ProfileFormValues>({
     resolver: yupResolver(profileSchema),
     mode: "onChange",
   });
 
   const { mutateAsync: addProfile, isPending: isAdding } = useCreateProfile();
 
-  const submitForm: SubmitHandler<IProfileCredentials> = async (formData) => {
+  const submitForm: SubmitHandler<ProfileFormValues> = async (formData) => {
     try {
-      const request: IProfileCredentials = {
+      const request: ProfileCredentials = {
         ...formData,
         permissionsIds: checkedPermissions ?? [],
       };
@@ -51,30 +51,36 @@ const AddProfilePage = () => {
     <>
       <div className="sm:p-5 p-3 space-y-5">
         <Header
-          heading={t("addProfilePage.header.heading", { ns: PROFILE_TRANSLATION_NAMESPACE })}
-          subtitle={t("addProfilePage.header.subtitle", { ns: PROFILE_TRANSLATION_NAMESPACE })}
+          heading={t("addPage.header.heading")}
+          subtitle={t("addPage.header.subtitle")}
         />
         <div className="bg-white shadow-md space-y-5 p-5 rounded-lg">
           <SectionHeader 
-            title={t("addProfilePage.profileInformationsSectionHeader.title", { ns: PROFILE_TRANSLATION_NAMESPACE })} 
-            description={t("addProfilePage.profileInformationsSectionHeader.description", { ns: PROFILE_TRANSLATION_NAMESPACE })} 
+            title={t("addPage.informationsSectionHeader.title")} 
+            description={t("addPage.informationsSectionHeader.description")} 
           />
           <form className="space-y-5" onSubmit={handleSubmit(submitForm)}>
             <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6">
-              {<RenderProfileInputs register={register} errors={errors} t={t}  />}
+              <Inputs register={register} errors={errors} />
             </div>
-            <Description>{t("form.note", { ns: PROFILE_TRANSLATION_NAMESPACE })}</Description>
-            <Button fullWidth={false} isLoading={isAdding} >{t("addProfilePage.saveProfileButton", { ns: PROFILE_TRANSLATION_NAMESPACE })}</Button>
+            <Description>{t("inputs.note")}</Description>
+            <Button fullWidth={false} isLoading={isAdding} >
+              {
+                isAdding ? 
+                t("buttons.loading") 
+                : t("addPage.saveProfileButton")
+              }
+            </Button>
           </form>
         </div>
         <div className="bg-white shadow-md space-y-5 p-5 rounded-lg">
           <SectionHeader 
-            title={t("addProfilePage.permissionsSectionHeader.title", { ns: PROFILE_TRANSLATION_NAMESPACE })} 
-            description={t("addProfilePage.permissionsSectionHeader.description", { ns: PROFILE_TRANSLATION_NAMESPACE })} 
+            title={t("addPage.permissionsSectionHeader.title")} 
+            description={t("addPage.permissionsSectionHeader.description")} 
           />
-          <RenderPermissionCheckboxes 
-            checkedPermissions={checkedPermissions}
-            setCheckedPermissions={setCheckedPermissions}
+          <PermissionCheckboxes 
+            checked={checkedPermissions}
+            setChecked={setCheckedPermissions}
           />
         </div>
       </div>

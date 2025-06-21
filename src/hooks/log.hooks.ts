@@ -71,9 +71,9 @@ export const useGetLogs = (
   // Return structured data and loading state for consumption in components
   return {
     logs: data?.data?.data?.logs || [],
-    totalCountLogs: data?.data?.data?.totalCount || 0,
+    count: data?.data?.data?.totalCount || 0,
     metadata: data?.data?.data?.metadata || initialMetadata,
-    isLogsDataLoading: isLoading,
+    isLoading,
   };
 };
 
@@ -104,6 +104,6 @@ export const useGetLogByID = (
   // Return the log data and loading status for use in UI
   return {
     log: data?.data?.data,
-    isLogDataLoading: isLoading,
+    isLoading,
   };
 };

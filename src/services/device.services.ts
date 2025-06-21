@@ -1,5 +1,5 @@
 import axiosInstance from "../config/axios.config";
-import { IDeviceCredentials } from "../interfaces";
+import { DeviceCredentials } from "../interfaces";
 import { BaseService } from "./base.services";
 
 export class DeviceService extends BaseService {
@@ -53,7 +53,7 @@ export class DeviceService extends BaseService {
     }
   };
 
-  create = (device: IDeviceCredentials) => {
+  create = (device: DeviceCredentials) => {
     const payload = {
       ...device,
       port: device.port || 4370,
@@ -64,7 +64,7 @@ export class DeviceService extends BaseService {
     });
   };
   
-  update = (device: IDeviceCredentials) => {
+  update = (device: DeviceCredentials) => {
     const payload = {
       ...device,
       port: device.port || 4370,

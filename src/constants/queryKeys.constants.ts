@@ -1,18 +1,31 @@
 export const QueryKeys = {
-  FETCH_ME: "me",
-
   Devices: {
     All: "devices",
     Details: "deviceDetails",
     List: "devicesList",
   },
+  SystemData: {
+    All :"systemData",
+  },
   Logs: {
     All :"logs",
     Details: "logDetails",
   },
-  SystemData: {
-    All :"systemData",
+  Profiles: {
+    All: "profiles",
+    List: "profilesList",
+    Details: "profileDetails",
+    Permissions: "profilePermissions",
   },
+  Permissions: {
+    All: "Permissions",
+  },
+  OfficialVacations: {
+    All: "officialVacations",
+    Details: "officialVacationDetails",
+  },
+  
+  FETCH_ME: "me",
   Attendance: {
     All: "attendances",
     Details: "attendanceDetails",

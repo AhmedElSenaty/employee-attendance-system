@@ -33,7 +33,7 @@ export const useLogin = () => {
         const permissionService = new PermissionService(loggedInUser.token);
 
         const permissions = await permissionService.fetchAuthorizedUserPermissions();
-        loggedInUser.permissions = permissions;
+        loggedInUser.permissions = permissions.data?.data?.permission;
         loggedInUser.imageUrl = data.data?.imageUrl;
 
         setUser(loggedInUser);

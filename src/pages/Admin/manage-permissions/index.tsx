@@ -1,23 +1,23 @@
 import { useTranslation } from "react-i18next";
-import { CountCard, Header } from "../../../components/ui";
+import { CountCard, Header, InfoPopup } from "../../../components/ui";
 import { formatValue } from "../../../utils";
 import { Signature } from "lucide-react";
-import { IPermissionsData } from "../../../interfaces";
-import { useGetPermissions } from "../../../hooks/permission.hooks";
+import { PermissionsData } from "../../../interfaces";
+import { useGetPermissions } from "../../../hooks/";
 import { HasPermission } from "../../../components/auth";
-import { useLanguageStore } from "../../../store/language.store";
-import { useUserStore } from "../../../store/user.store";
+import { useLanguageStore, useUserStore } from "../../../store";
+import { PERMISSION_NS, PERMISSION_VIDEO } from "../../../constants";
 
-export const PERMISSION_TRANSLATION_NAMESPACE = "permissionPages";
 
-export const ManagePermissionsPage = () => {
-  const { t } = useTranslation(["common", PERMISSION_TRANSLATION_NAMESPACE]);
+const ManagePermissionsPage = () => {
+  const { t } = useTranslation([PERMISSION_NS]);
   const language = useLanguageStore((state) => state.language);
-  const { permissions, totalPermissions } = useGetPermissions();
   const myPermissions = useUserStore((state) => state.permissions);
 
-  const renderPermissions = permissions?.map(({ id, nameAr, nameEn }: IPermissionsData) => {
-    const hasAccess = myPermissions.includes(nameEn); // Adjust based on how your permission matching works
+  const { permissions, totalPermissions } = useGetPermissions();
+
+  const renderPermissions = permissions?.map(({ id, nameAr, nameEn }: PermissionsData) => {
+    const hasAccess = myPermissions.includes(nameEn);
     return (
       <div
         key={id}
@@ -33,13 +33,20 @@ export const ManagePermissionsPage = () => {
   return (
     <div className="sm:p-5 p-3 space-y-5 flex flex-col items-center">
       <Header
-        heading={t("header.heading", { ns: PERMISSION_TRANSLATION_NAMESPACE })}
-        subtitle={t("header.subtitle", { ns: PERMISSION_TRANSLATION_NAMESPACE })}
+        heading={t("header.heading")}
+        subtitle={t("header.subtitle")}
       />
+      <div className="w-full flex items-center justify-center">
+        <InfoPopup
+          title={t("infoPopup.title")}
+          description={t("infoPopup.description")}
+          videoUrl={PERMISSION_VIDEO}
+        />
+      </div>
       <div className="w-[500px] max-md:w-full">
         <CountCard
-          title={t("CountCard.title", { ns: PERMISSION_TRANSLATION_NAMESPACE })}
-          description={t("CountCard.description", { ns: PERMISSION_TRANSLATION_NAMESPACE })}
+          title={t("CountCard.title")}
+          description={t("CountCard.description")}
           count={formatValue(totalPermissions, language)}
           icon={<Signature size={28} />}
           bgColor="bg-[#b38e19]"
@@ -50,11 +57,11 @@ export const ManagePermissionsPage = () => {
       <div className="flex items-center gap-5 mt-2">
         <div className="flex items-center gap-2">
           <div className="w-4 h-4 rounded bg-green-600" />
-          <p className="text-sm text-gray-700">{t("yourPermissions", { ns: PERMISSION_TRANSLATION_NAMESPACE })}</p>
+          <p className="text-sm text-gray-700">{t("yourPermissions")}</p>
         </div>
         <div className="flex items-center gap-2">
           <div className="w-4 h-4 rounded bg-primary" />
-          <p className="text-sm text-gray-700">{t("notYourPermissions", { ns: PERMISSION_TRANSLATION_NAMESPACE })}</p>
+          <p className="text-sm text-gray-700">{t("notYourPermissions")}</p>
         </div>
       </div>
 
@@ -67,3 +74,5 @@ export const ManagePermissionsPage = () => {
     </div>
   );
 };
+
+export default ManagePermissionsPage

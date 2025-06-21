@@ -41,8 +41,6 @@ export class LogService extends BaseService {
         ...(searchType && searchQuery ? { [searchType]: searchQuery } : {}),
       });
 
-      console.log("yes");
-
       // Make GET request to "/Logs" endpoint with query params and auth headers
       const response = await axiosInstance.get("/Logs", {
         params,

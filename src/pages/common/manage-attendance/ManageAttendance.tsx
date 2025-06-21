@@ -19,7 +19,7 @@ const ManageAttendancePage = () => {
   const { language } = useLanguageStore();
   const {getParam, setParam, clearParams} = useURLSearchParams();
 
-  const { register, handleSubmit, formState: { errors }, reset} = useForm<IAttendanceCredentials>({
+  const { register, handleSubmit, formState: { errors }, reset, control} = useForm<IAttendanceCredentials>({
     resolver: yupResolver(AttendanceSchema),
     mode: "onChange"
   });
@@ -97,7 +97,7 @@ const ManageAttendancePage = () => {
 
   const { detailedAttendance, isDetailedAttendanceLoading } = useGetAttendanceDetails(selectedID, reset);
 
-  const renderAttendanceInputs = <Inputs register={register} errors={errors} />
+  const renderAttendanceInputs = <Inputs register={register} errors={errors} control={control} />
   
 
   const { mutate: addAttendance, isPending: isAdding } = useCreateAttendance();

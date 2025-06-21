@@ -2,39 +2,46 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { IErrorResponse } from "../interfaces";
 import { getTranslatedMessage, handleApiError, showToast } from "../utils";
 import { AxiosError } from "axios";
-import { useLanguageStore } from "../store/language.store";
-import { useUserStore } from "../store/user.store";
 import { PermissionService } from "../services";
+import { QueryKeys } from "../constants";
+import { useMemo } from "react";
+import { useLanguageStore, useUserStore } from "../store";
 
-export const PERMISSIONS_QUERY_KEY = "Permissions";
+export const usePermissionService = () => {
+  const token = useUserStore((state) => state.token);
+
+  const service = useMemo(() => {
+    return new PermissionService(token);
+  }, [token]);
+
+  return service;
+};
 
 export const useGetPermissions = () => {
   const token = useUserStore((state) => state.token);
-  const permissionService = new PermissionService(token);
+  const permissionService = usePermissionService();
 
   const { data, isLoading } = useQuery({
-    queryKey: [PERMISSIONS_QUERY_KEY],
+    queryKey: [QueryKeys.Permissions.All],
     queryFn: () => permissionService.fetchAll(),
     enabled: !!token,
   });
 
   return {
-    permissions: data ?? [],
-    totalPermissions: data?.length || 0,
-    isPermissionsDataLoading: isLoading,
+    permissions: data?.data?.data?.permission ?? [],
+    totalPermissions: data?.data?.data?.permission?.length || 0,
+    isLoading,
   };
 };
 
 export const useUpdateUserPermissions = () => {
-  const token = useUserStore((state) => state.token);
   const { language } = useLanguageStore();
-  const permissionService = new PermissionService(token);
+  const permissionService = usePermissionService();
 
   return useMutation({
     mutationFn: ({ userID, permissions }: { userID: string; permissions: string[] }) =>
       permissionService.updateUserPermissions(userID, permissions),
     onSuccess: ({ status, data }) => {
-
       if (status === 200) {
         const message = getTranslatedMessage(data.message ?? "", language);
         showToast("success", message);

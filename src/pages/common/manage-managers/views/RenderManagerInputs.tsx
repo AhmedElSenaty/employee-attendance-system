@@ -1,6 +1,6 @@
 import { FieldErrors, UseFormRegister, useWatch, UseFormSetValue, Control } from "react-hook-form";
 import { Field, Input, InputErrorMessage, InputSkeleton, Label, LabelSkeleton, SelectBox, SelectBoxSkeleton } from "../../../../components/ui";
-import { IManagerCredentials } from "../../../../interfaces";
+import { IManagerCredentials, ProfileData } from "../../../../interfaces";
 import { TFunction } from "i18next";
 import { useEffect, useState } from "react";
 import { useGetProfilePermissions, useGetProfilesList } from "../../../../hooks/profile.hooks";
@@ -20,11 +20,11 @@ interface IRenderManagerInputsProps {
 
 const RenderRenderManagerInputs = ({ register, errors, t, isUpdateManager = false, control, setValue, checkedPermissionsHandler, isLoading }: IRenderManagerInputsProps) => {
   const { language } = useLanguageStore();
-  const { profilesList, profilesListIsLoading } = useGetProfilesList();
+  const { profilesList, isLoading: profilesListIsLoading } = useGetProfilesList();
   const [selectedProfile, setSelectedProfile] = useState<number>(0)
   const username = useWatch({ control, name: "username" });
 
-  const { profilePermissions, profilePermissionsIsLoading } = useGetProfilePermissions(selectedProfile)
+  const { permissions: profilePermissions, isLoading: profilePermissionsIsLoading } = useGetProfilePermissions(selectedProfile)
 
   useEffect(() => {
     if (selectedProfile != 0 && !profilePermissionsIsLoading) {
@@ -121,7 +121,7 @@ const RenderRenderManagerInputs = ({ register, errors, t, isUpdateManager = fals
               }}
             >
               <option value={0}>{t("form.profile.defaultValue", { ns: MANAGER_TRANSLATION_NAMESPACE })}</option>
-              {profilesList.map(profile => (
+              {profilesList.map((profile: ProfileData) => (
                 <option key={profile.id} value={profile.id}>{language == "en" ? profile.nameEn : profile.nameAr }</option>
               ))}
             </SelectBox>

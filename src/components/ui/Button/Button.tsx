@@ -19,11 +19,11 @@ const ButtonVariants = cva(
         outline: "bg-transparent border-2 border-[#19355a] text-[#19355a] hover:bg-[#27285d] hover:text-white",
       },
       size: {
-        xs: "text-xs px-2 py-1 h-6",
-        sm: "text-sm px-3 py-1.5 h-8",
-        md: "text-base px-4 py-2 h-10",
-        lg: "text-lg px-6 py-3 h-12",
-        xl: "text-xl px-8 py-4 h-14",
+        xs: "text-xs px-2 py-1 h-fit",
+        sm: "text-sm px-3 py-1.5 h-fit",
+        md: "text-base px-4 py-2 h-fit",
+        lg: "text-lg px-6 py-3 h-fit",
+        xl: "text-xl px-8 py-4 h-fit",
       },
       shape: {
         square: "rounded-none",

@@ -4,15 +4,16 @@ import Inputs from "./views/Inputs";
 import { SYSTEM_DATA_NS, SYSTEM_DATA_VIDEO } from "../../../constants";
 import { useGetSystemData, useUpdateSystemData } from "../../../hooks";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { ISystemDataCredentials } from "../../../interfaces";
 import { useForm } from "react-hook-form";
-import { SystemDataSchema } from "../../../validation";
+import { SystemDataFormValues, SystemDataSchema } from "../../../validation";
 import { useEffect } from "react";
 import { formatTimeHHMM } from "../../../utils";
 
 const SystemDataPage = () => {
   const { t } = useTranslation([SYSTEM_DATA_NS]);
-  const { systemData, isSystemDataLoading } = useGetSystemData();
+
+  const { systemData, isLoading: isSystemDataLoading } = useGetSystemData();
+
   const { mutate: updateSystemData, isPending: isUpdating } = useUpdateSystemData();
 
   const {
@@ -20,7 +21,7 @@ const SystemDataPage = () => {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<ISystemDataCredentials>({
+  } = useForm<SystemDataFormValues>({
     resolver: yupResolver(SystemDataSchema),
     mode: "onChange",
     defaultValues: systemData,
@@ -37,14 +38,11 @@ const SystemDataPage = () => {
     }
   }, [systemData, reset]);
 
-  const onSubmit = (data: ISystemDataCredentials) => {
-    console.log(data);
-    
+  const onSubmit = (data: SystemDataFormValues) => {
     updateSystemData(data);
   };
 
   
-
   return (
     <div className="flex justify-center items-center py-10 sm:px-4 px-8">
       <div className="max-w-[1000px] space-y-10 drop-shadow-xl w-full">
@@ -71,8 +69,8 @@ const SystemDataPage = () => {
             type="submit"
           >
             {(isSystemDataLoading || isUpdating)
-              ? t("form.buttons.loading")
-              : t("form.buttons.update")}
+              ? t("buttons.loading")
+              : t("buttons.update")}
           </Button>
         </form>
       </div>

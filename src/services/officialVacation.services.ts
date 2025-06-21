@@ -1,5 +1,5 @@
 import axiosInstance from "../config/axios.config";
-import { IOfficialVacationCredentials } from "../interfaces";
+import { OfficialVacationCredentials } from "../interfaces";
 import { BaseService } from "./base.services";
 
 export class OfficialVacationService extends BaseService {
@@ -7,13 +7,17 @@ export class OfficialVacationService extends BaseService {
   fetchAll = async (
     page?: number,
     pageSize?: number,
+    startDate?: string,
+    endDate?: string,
     searchType?: string,
-    searchQuery?: string
+    searchQuery?: string,
   ) => {
     try {
       const params = this.buildParams({
         PageIndex: page ?? 1,
         PageSize: pageSize,
+        StartDate: startDate,
+        EndDate: endDate,
         ...(searchType && searchQuery ? { [searchType]: searchQuery } : {}),
       });
       const response = await axiosInstance.get(`/OfficialVacation`, {
@@ -21,7 +25,7 @@ export class OfficialVacationService extends BaseService {
         headers: this.getAuthHeaders(),
       });
   
-      return response.data;
+      return response;
     } catch (error) {
       console.error("Error fetching all official vacations:", error);
       throw error;
@@ -33,20 +37,20 @@ export class OfficialVacationService extends BaseService {
       const response = await axiosInstance.get(`/OfficialVacation/${id}`, {
         headers: this.getAuthHeaders()
       });
-      return response.data;
+      return response;
     } catch (error) {
       console.error(`Error fetching official vacation with ID ${id}:`, error);
       throw error;
     }
   };
 
-  create = (officialVacation: IOfficialVacationCredentials) => {
+  create = (officialVacation: OfficialVacationCredentials) => {
     return axiosInstance.post("/OfficialVacation", officialVacation, {
       headers: this.getAuthHeaders()
     });
   };
 
-  update = (officialVacation: IOfficialVacationCredentials) => {
+  update = (officialVacation: OfficialVacationCredentials) => {
     return axiosInstance.put("/OfficialVacation", officialVacation, {
       headers: this.getAuthHeaders()
     });

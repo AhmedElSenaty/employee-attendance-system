@@ -1,9 +1,9 @@
+import { Button, CustomSelect, Field, Input, Label, Tooltip } from "../../../../components/ui"
 import { formatValue } from "../../../../utils";
 import { RefreshCcw, Search } from "lucide-react";
-import { useLanguageStore } from "../../../../store/";
-import { Button, CustomSelect, Field, Input, Label, Tooltip } from "../../../../components/ui";
+import { useLanguageStore } from "../../../../store";
+import { PROFILE_NS } from "../../../../constants";
 import { useTranslation } from "react-i18next";
-import { DEVICES_NS } from "../../../../constants";
 
 interface Props {
   searchBy: string[]
@@ -19,7 +19,7 @@ const TableFilters = ({
   clearParams,
 }: Props) => {
   const { language } = useLanguageStore();
-  const { t } = useTranslation([DEVICES_NS]);
+  const { t } = useTranslation([PROFILE_NS]);
 
   const pageSizeOptions = [10, 20, 30, 40, 50].map((size) => ({
     value: size,
@@ -35,9 +35,11 @@ const TableFilters = ({
   
   const selectedSearchByValue = searchByOptions.find(opt => opt.value === (getParam("searchKey") ? getParam("searchKey") : ""));
   
+
   return (
     <>
       <div className="w-full flex flex-wrap items-end gap-4">
+        {/* Page Size */}
         <Field className="flex flex-col space-y-2 w-fit">
           <Label>{t("filters.pageSize")}</Label>
           <CustomSelect

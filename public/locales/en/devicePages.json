@@ -24,23 +24,24 @@
     "title": "Total Fingerprint Devices",
     "description": "Devices registered for fingerprint authentication."
   },
-  "actions": {
-    "add": {
-      "title": "Add New Device",
-      "description": "Register a new device to the system.",
-      "button": "Add Device"
-    }
+  "addActionCard": {
+    "title": "Add New Device",
+    "description": "Register a new device to the system.",
+    "button": "Add Device"
   },
-  "form": {
+  "inputs": {
     "device_name": {
       "label": "Device Name",
       "placeholder": "Enter device name",
       "inputValidation": {
+        "min": "Device name must be at least 3 characters",
+        "max": "Device name must be at most 100 characters",
         "required": "Device name is required"
       }
     },
     "ip_address": {
       "label": "IP Address",
+      "description": "Please enter a valid IPv4 address, e.g. 192.168.0.1.",
       "placeholder": "Enter IP address (e.g., 192.168.1.1)",
       "inputValidation": {
         "required": "IP Address is required",
@@ -50,11 +51,13 @@
     "port": {
       "label": "Port",
       "placeholder": "Enter port number (1-65535)",
+      "description": "Enter a valid port number between 1 and 65535.",
       "inputValidation": {
         "required": "Port is required",
         "min": "Port must be at least 1",
         "max": "Port must be at most 65535",
-        "typeError": "Port must be a valid number"
+        "typeError": "Port must be a valid number",
+        "integer": "Port must be an integer"
       }
     }
   },
@@ -83,8 +86,8 @@
     "pageSize": "Page Size",
     "toolTipResetFilters": "Reset All",
     "searchBy": {
-      "label": "Search By",
-      "default": "Choose your search method",
+      "label": "Search Type",
+      "default": "search method",
       "SearchById": "ID",
       "SearchByDeviceName": "Device Name",
       "SearchByIP": "IP Address"
@@ -98,6 +101,7 @@
     "close": "Close",
     "create": "Create",
     "edit": "Edit",
+    "update": "Update",
     "delete": "Delete",
     "loading": "Loading...",
     "toolTipShow": "Show Devices",

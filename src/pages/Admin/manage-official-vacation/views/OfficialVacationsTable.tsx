@@ -1,28 +1,33 @@
-import { useMemo } from "react";
 import { Button, NoDataMessage, Table, TableCell, TableRow, TableSkeleton, Tooltip } from "../../../../components/ui";
 import { Eye, FilePenLine, Trash2 } from "lucide-react";
-import { TFunction } from "i18next";
-import { IOfficialVacationData } from "../../../../interfaces";
-import { OFFICIAL_VACATIONS_TABLE_COLUMNS, OFFICIAL_VACATIONS_TRANSLATION_NAMESPACE } from "..";
 import { HasPermission } from "../../../../components/auth";
-import { useLanguageStore } from "../../../../store/language.store";
+import { useLanguageStore } from "../../../../store/";
+import { OfficialVacation } from "../../../../interfaces";
+import { useTranslation } from "react-i18next";
+import { OFFICIAL_VACATION_NS } from "../../../../constants";
+import { formatValue } from "../../../../utils";
 
-interface IOfficialVacationsTableProps {
-  officialVacations: IOfficialVacationData[];
+interface Props {
+  officialVacations: OfficialVacation[];
   isLoading: boolean;
-  t: TFunction;
   handleShow: (id: number) => void;
   handleEdit: (id: number) => void;
   handleDelete: (id: number) => void;
 }
 
-const DevicesTable = ({ officialVacations, t, isLoading, handleShow, handleEdit, handleDelete }: IOfficialVacationsTableProps) => {
+const DevicesTable = ({ officialVacations, isLoading, handleShow, handleEdit, handleDelete }: Props) => {
     const { language } = useLanguageStore();
+    const { t } = useTranslation([OFFICIAL_VACATION_NS]);
 
-  const columns = useMemo(
-    () => OFFICIAL_VACATIONS_TABLE_COLUMNS.map(key => t(key, { ns: OFFICIAL_VACATIONS_TRANSLATION_NAMESPACE })),
-    [t]
-  );
+    const OFFICIAL_VACATIONS_TABLE_COLUMNS = [
+      "table.columns.id",
+      "table.columns.name",
+      "table.columns.startDate",
+      "table.columns.endDate",
+      "table.columns.actions",
+    ]
+
+    const columns = OFFICIAL_VACATIONS_TABLE_COLUMNS.map(key => t(key));
 
   return (
     <>
@@ -31,49 +36,52 @@ const DevicesTable = ({ officialVacations, t, isLoading, handleShow, handleEdit,
       ) : (
         <Table columns={columns}>
           {officialVacations.length == 0 ? (
-            <NoDataMessage title={t("table.emptyTable.title", { ns: OFFICIAL_VACATIONS_TRANSLATION_NAMESPACE })} message={t("table.emptyTable.message", { ns: OFFICIAL_VACATIONS_TRANSLATION_NAMESPACE })} />
+            <NoDataMessage title={t("table.emptyTable.title")} message={t("table.emptyTable.message")} />
           ) : (
-            officialVacations.map(({ id, name, startDate, endDate }: IOfficialVacationData) => (
+            officialVacations.map(({ id, name, startDate, endDate }: OfficialVacation) => (
               <TableRow key={id} className="border-b">
-                <TableCell label={columns[0]}>{id}</TableCell>
+                <TableCell label={columns[0]}>{formatValue(id, language)}</TableCell>
                 <TableCell label={columns[1]}>{name}</TableCell>
                 <TableCell label={columns[2]}>{new Date(startDate).toLocaleDateString(language == "ar" ? "ar-EG" : "en-CA")}</TableCell>
                 <TableCell label={columns[3]}>{new Date(endDate).toLocaleDateString(language == "ar" ? "ar-EG" : "en-CA")}</TableCell>
                 <TableCell label={columns[4]}>
                   <div className="flex flex-wrap gap-2">
                     <HasPermission permission="View Official Vacations">
-                      <Tooltip content="View Official Vacations">
+                      <Tooltip 
+                        content={t("buttons.toolTipShow")}
+                      >
                         <Button 
                           variant="primary" 
                           fullWidth={false}
                           size={"sm"}
                           icon={<Eye className="w-full h-full" />} 
-                          aria-label={t("buttons.view")}
                           onClick={() => handleShow(id)}
                         />
                       </Tooltip>
                     </HasPermission>
                     <HasPermission permission="Update Official Vacation">
-                      <Tooltip content="Update Official Vacation">
+                      <Tooltip 
+                        content={t("buttons.toolTipEdit")}
+                      >
                         <Button 
                           variant="info" 
                           fullWidth={false}
                           size={"sm"} 
                           icon={<FilePenLine className="w-full h-full" />} 
-                          aria-label={t("buttons.edit")} 
                           onClick={() => handleEdit(id)}
                         />
                       </Tooltip>
                     </HasPermission>
 
                     <HasPermission permission="Delete Official Vacation">
-                      <Tooltip content="Delete Official Vacation">
+                      <Tooltip 
+                        content={t("buttons.toolTipDelete")}
+                      >
                         <Button
                           variant="danger"
                           fullWidth={false}
                           size={"sm"}
                           icon={<Trash2 className="w-full h-full" />}
-                          aria-label={t("buttons.delete")}
                           onClick={() => handleDelete(id)}
                         />
                       </Tooltip>

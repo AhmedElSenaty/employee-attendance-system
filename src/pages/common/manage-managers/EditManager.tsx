@@ -8,7 +8,7 @@ import { Button, ButtonSkeleton, Field, Header, Input, InputErrorMessage, Label,
 import { getManagerSchema, passwordUpdateSchema } from "../../../validation";
 import { IManagerCredentials } from "../../../interfaces";
 import { useUpdateUserPermissions } from "../../../hooks/permission.hooks";
-import { RenderPermissionCheckboxes } from "../../Admin/manage-permissions/views";
+import { PermissionCheckboxes } from "../../Admin/manage-permissions/views";
 import { RenderDepartmentCheckboxes } from "../../Admin/manage-departments/views";
 import { MANAGER_TRANSLATION_NAMESPACE } from ".";
 import { HasPermission } from "../../../components/auth";
@@ -253,9 +253,9 @@ const EditManagerPage = () => {
               title={t("updateManagerPage.permissionsSectionHeader.title", { ns: MANAGER_TRANSLATION_NAMESPACE })} 
               description={t("updateManagerPage.permissionsSectionHeader.description", { ns: MANAGER_TRANSLATION_NAMESPACE })} 
             />
-            <RenderPermissionCheckboxes
-              checkedPermissions={checkedPermissions}
-              setCheckedPermissions={setCheckedPermissions}
+            <PermissionCheckboxes
+              checked={checkedPermissions}
+              setChecked={setCheckedPermissions}
               isLoading={isManagerDataLoading}
             />
             {isManagerDataLoading ? (

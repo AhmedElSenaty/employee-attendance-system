@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
-import { Button, Popup } from "../../../../components/ui";
-import { DEVICES_NS } from "../../../../constants";
+import { Popup, Button } from "../../../../components/ui";
+import { OFFICIAL_VACATION_NS } from "../../../../constants";
 
 interface Props {
   isOpen: boolean;
@@ -10,7 +10,7 @@ interface Props {
 }
 
 const DeletePopup = ({ isOpen, handleClose, handleConfirmDelete, isLoading }: Props) => {
-  const { t } = useTranslation([DEVICES_NS]);
+  const { t } = useTranslation([OFFICIAL_VACATION_NS]);
 
   return (
     <Popup

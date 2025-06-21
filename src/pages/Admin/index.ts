@@ -1,5 +1,8 @@
 export { default as ManageDevicesPage } from "./manage-devices"
 export { default as LogsPage } from "./manage-logs"
 export { default as SystemDataPage } from "./manage-system-data"
+export { default as ManagePermissionsPage } from "./manage-permissions"
+export * from "./manage-profiles"
+export { default as ManageOfficialVacationsPage } from "./manage-official-vacation"
 export { default as CalendarPage } from "../common/Calender"
 export * from "../common/manage-attendance"
