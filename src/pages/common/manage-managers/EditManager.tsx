@@ -9,7 +9,7 @@ import { getManagerSchema, passwordUpdateSchema } from "../../../validation";
 import { IManagerCredentials } from "../../../interfaces";
 import { useUpdateUserPermissions } from "../../../hooks/permission.hooks";
 import { PermissionCheckboxes } from "../../Admin/manage-permissions/views";
-import { RenderDepartmentCheckboxes } from "../../Admin/manage-departments/views";
+import { DepartmentCheckboxes } from "../../Admin/manage-departments/views";
 import { MANAGER_TRANSLATION_NAMESPACE } from ".";
 import { HasPermission } from "../../../components/auth";
 import { useUpdateUserDepartments } from "../../../hooks/department.hooks";
@@ -280,9 +280,9 @@ const EditManagerPage = () => {
               title={t("updateManagerPage.departmentsSectionHeader.title", { ns: MANAGER_TRANSLATION_NAMESPACE })} 
               description={t("updateManagerPage.departmentsSectionHeader.description", { ns: MANAGER_TRANSLATION_NAMESPACE })} 
             />
-            <RenderDepartmentCheckboxes
-              checkedDepartments={checkedDepartments}
-              setCheckedDepartments={setCheckedDepartments}
+            <DepartmentCheckboxes
+              checked={checkedDepartments}
+              setChecked={setCheckedDepartments}
               needSelectOne={true}
               isLoading={isManagerDataLoading}
             />

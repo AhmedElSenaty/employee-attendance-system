@@ -1,16 +1,22 @@
-export interface IEntity {
+// Reusable base interface
+export interface BaseEntity {
+  name: string;
+  description?: string | null;
+}
+
+// Minimal entity representation (e.g., for dropdowns or lists)
+export interface EntitySummary {
   id: number;
   name: string;
 }
 
-export interface IEntityCredentials {
+// Entity credentials input (e.g., for forms or creation DTO)
+export interface EntityCredentials extends Partial<BaseEntity> {
   id?: number;
-  name: string;
-  description?: string;
 }
 
-export interface IEntityData {
+// Full entity from API or DB
+export interface Entity extends BaseEntity {
   id: number;
-  name: string;
-  description: string | null;
+  description: string | null; // explicitly normalized to ensure null for empty
 }

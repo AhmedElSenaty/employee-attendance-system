@@ -8,7 +8,7 @@ import { getManagerSchema } from "../../../validation";
 import { RenderManagerInputs } from "./views";
 import { Description } from "../../../components/ui/Form";
 import { PermissionCheckboxes } from "../../Admin/manage-permissions/views";
-import { RenderDepartmentCheckboxes } from "../../Admin/manage-departments/views";
+import { DepartmentCheckboxes } from "../../Admin/manage-departments/views";
 import { MANAGER_TRANSLATION_NAMESPACE } from ".";
 import { Button, Header, SectionHeader } from "../../../components/ui";
 import { useCreateManager } from "../../../hooks/manager.hooks";
@@ -97,9 +97,9 @@ const AddManagerPage = () => {
           title={t("addManagerPage.departmentsSectionHeader.title", { ns: MANAGER_TRANSLATION_NAMESPACE })}
           description={t("addManagerPage.departmentsSectionHeader.description", { ns: MANAGER_TRANSLATION_NAMESPACE })}
         />
-        <RenderDepartmentCheckboxes
-          checkedDepartments={checkedDepartment}
-          setCheckedDepartments={setCheckedDepartment}
+        <DepartmentCheckboxes
+          checked={checkedDepartment}
+          setChecked={setCheckedDepartment}
           needSelectOne={true}
         />
       </div>

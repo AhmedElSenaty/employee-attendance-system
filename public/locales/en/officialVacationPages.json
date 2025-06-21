@@ -101,5 +101,6 @@
   "infoPopup": {
     "title": "Managing Official Vacations",
     "description": "Learn how to add, edit, and manage official holidays in the system to ensure accurate scheduling and attendance tracking."
-  }
+  },
+  "NA": "N/A"
 }

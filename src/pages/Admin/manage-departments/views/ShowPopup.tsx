@@ -1,28 +1,31 @@
-import { TFunction } from "i18next";
 import { Building } from "lucide-react";
 import { NormalSpinner, Button, Popup } from "../../../../components/ui";
-import { IDepartmentData } from "../../../../interfaces";
-import { DEPARTMENT_TRANSLATION_NAMESPACE } from "..";
+import { Department } from "../../../../interfaces";
 import { HasPermission } from "../../../../components/auth";
+import { useTranslation } from "react-i18next";
+import { DEPARTMENT_NS } from "../../../../constants";
+import { useLanguageStore } from "../../../../store";
+import { formatValue } from "../../../../utils";
 
-interface IShowDepartmentPopupProps {
+interface Props {
   isOpen: boolean
   handleClose: () => void;
   handleDeletePopupOpen: () => void;
   handleEditPopupOpen: () => void;
-  department: IDepartmentData | null
-  t: TFunction
+  department: Department | null
   isLoading: boolean
 }
 
-const ShowDepartmentPopup = ({ isOpen, handleClose, handleDeletePopupOpen, handleEditPopupOpen, department, t, isLoading }: IShowDepartmentPopupProps) => {
+const ShowPopup = ({ isOpen, handleClose, handleDeletePopupOpen, handleEditPopupOpen, department, isLoading }: Props) => {
+  const { t } = useTranslation([DEPARTMENT_NS]);
+  const { language } = useLanguageStore();
 
   return (
     <Popup
       isOpen={isOpen}
       closeModal={handleClose}
-      title={t("popup.viewDepartment.title", { ns: DEPARTMENT_TRANSLATION_NAMESPACE })}
-      description={t("popup.viewDepartment.description", { ns: DEPARTMENT_TRANSLATION_NAMESPACE })}
+      title={t("showPopup.title")}
+      description={t("showPopup.description")}
     >
       {/* Device Details */}
       {
@@ -43,12 +46,12 @@ const ShowDepartmentPopup = ({ isOpen, handleClose, handleDeletePopupOpen, handl
             {/* Device Information */}
             <div className="mt-6 space-y-4 divide-y divide-gray-300">
               <div className="grid grid-cols-2 py-2">
-                <span className="font-medium text-gray-600">{t("table.columns.id", { ns: DEPARTMENT_TRANSLATION_NAMESPACE })}</span>
-                <span className="text-gray-900 font-semibold">{department?.id}</span>
+                <span className="font-medium text-gray-600">{t("table.columns.id")}</span>
+                <span className="text-gray-900 font-semibold">{formatValue(department?.id || "", language)}</span>
               </div>
               <div className="grid grid-cols-1 gap-2 py-2">
-                <span className="font-medium text-gray-600">{t("table.columns.description", { ns: DEPARTMENT_TRANSLATION_NAMESPACE })}</span>
-                <span className="text-gray-900 font-semibold">{department?.description != null ? department?.description : t("table.NA")}</span>
+                <span className="font-medium text-gray-600">{t("table.columns.description")}</span>
+                <span className="text-gray-900 font-semibold">{department?.description != null ? department?.description : t("NA")}</span>
               </div>
             </div>
           </div>
@@ -75,4 +78,4 @@ const ShowDepartmentPopup = ({ isOpen, handleClose, handleDeletePopupOpen, handl
   )
 }
 
-export default ShowDepartmentPopup
+export default ShowPopup

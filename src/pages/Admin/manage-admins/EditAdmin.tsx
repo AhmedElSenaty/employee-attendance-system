@@ -7,7 +7,7 @@ import { getAdminSchema } from "../../../validation/admin.schema";
 import { IAdminCredentials } from "../../../interfaces/admin.interfaces";
 import { useNavigate, useParams } from "react-router";
 import { DeleteAdminPopup, RenderAdminInputs, UnblockAdminPopup } from "./views";
-import { RenderDepartmentCheckboxes } from "../manage-departments/views";
+import { DepartmentCheckboxes } from "../manage-departments/views";
 import { PermissionCheckboxes } from "../manage-permissions/views";
 import { passwordUpdateSchema } from "../../../validation";
 import { ADMIN_TRANSLATION_NAMESPACE } from ".";
@@ -302,9 +302,9 @@ const EditAdminPage = () => {
               title={t("updateAdminPage.departmentsSectionHeader.title", { ns: ADMIN_TRANSLATION_NAMESPACE })} 
               description={t("updateAdminPage.departmentsSectionHeader.description", { ns: ADMIN_TRANSLATION_NAMESPACE })}
             />
-            <RenderDepartmentCheckboxes
-              checkedDepartments={checkedDepartments}
-              setCheckedDepartments={setCheckedDepartments}
+            <DepartmentCheckboxes
+              checked={checkedDepartments}
+              setChecked={setCheckedDepartments}
               isLoading={isAdminDataLoading}
             />
             {isAdminDataLoading ? (

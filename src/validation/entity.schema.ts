@@ -9,6 +9,10 @@ export const entitySchema = yup.object().shape({
   
   description: yup
     .string()
-    .nonNullable()
+    .trim()
+    .nullable()
+    .transform((_, originalValue) => originalValue === null ? "" : originalValue)
     .max(500, "Description cannot exceed 500 characters"),
 });
+
+export type EntityFormValues = yup.InferType<typeof entitySchema>;

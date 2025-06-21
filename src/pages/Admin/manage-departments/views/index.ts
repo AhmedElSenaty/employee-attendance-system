@@ -1,7 +1,7 @@
-export { default as DeleteDepartmentPopup } from "./DeleteDepartmentPopup";
-export { default as EditDepartmentPopup } from "./EditDepartmentPopup";
+export { default as DeletePopup } from "./DeletePopup";
+export { default as EditPopup } from "./EditPopup";
 export { default as DepartmentsTable } from "./DepartmentsTable";
-export { default as DepartmentTableFilters } from "./DepartmentTableFilters";
-export { default as RenderDepartmentInputs } from "./RenderDepartmentInputs";
-export { default as ShowDepartmentPopup } from "./ShowDepartmentPopup";
-export { default as RenderDepartmentCheckboxes } from "./RenderDepartmentCheckboxes";
+export { default as TableFilters } from "./TableFilters";
+export { default as Inputs } from "./Inputs";
+export { default as ShowPopup } from "./ShowPopup";
+export { default as DepartmentCheckboxes } from "./DepartmentCheckboxes";

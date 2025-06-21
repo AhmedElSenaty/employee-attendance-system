@@ -1,94 +1,101 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import {
-  IErrorResponse,
-  IEntityCredentials,
-  initialMetadata,
-} from "../interfaces";
+import { EntityCredentials, IErrorResponse, initialMetadata } from "../interfaces";
 import { getTranslatedMessage, handleApiError, showToast } from "../utils";
-import { useLanguageStore } from "../store/language.store";
-import { useUserStore } from "../store/user.store";
+import { useLanguageStore, useUserStore } from "../store/";
 import { EntityService } from "../services";
+import { QueryKeys } from "../constants";
+import { EntityFormValues } from "../validation";
 
-export const ENTITIES_QUERY_KEY = "Entities";
-export const ENTITY_DETAILS_QUERY_KEY = "EntityDetails";
-export const ENTITIES_LIST_QUERY_KEY = "entitiesList";
+export const useEntityService = () => {
+  const token = useUserStore((state) => state.token);
+
+  const service = useMemo(() => {
+    return new EntityService(token);
+  }, [token]);
+
+  return service;
+};
 
 export const useGetEntities = (
-  page: number,
-  pageSize: number,
-  searchKey: string,
-  debouncedSearchQuery: string
+  page?: number,
+  pageSize?: number,
+  searchKey?: string,
+  searchQuery?: string
 ) => {
   const token = useUserStore((state) => state.token);
-  const entityService = new EntityService(token);
+  const entityService = useEntityService();
 
   const { data, isLoading } = useQuery({
-    queryKey: [ENTITIES_QUERY_KEY, page, pageSize, searchKey, debouncedSearchQuery],
-    queryFn: () => entityService.fetchAll(page, pageSize, searchKey, debouncedSearchQuery),
+    queryKey: [
+      QueryKeys.Entities.All, 
+      page, 
+      pageSize, 
+      `${searchKey && searchQuery ? [searchKey, searchQuery] : ""}`
+    ],
+    queryFn: () => entityService.fetchAll(page, pageSize, searchKey, searchQuery),
     enabled: !!token,
   });
 
   return {
-    entities: data?.data?.entities || [],
-    metadata: data?.data?.metadata || initialMetadata,
-    totalEntities: data?.data?.totalCount || 0,
-    isEntitiesDataLoading: isLoading,
+    entities: data?.data?.data?.entities || [],
+    metadata: data?.data?.data?.metadata || initialMetadata,
+    count: data?.data?.data?.totalCount || 0,
+    isLoading,
   };
 };
 
 export const useGetEntityByID = (
   entityID: number,
-  resetEditInputs?: (data: IEntityCredentials) => void
+  resetEditInputs?: (data: EntityFormValues) => void
 ) => {
   const token = useUserStore((state) => state.token);
-  const entityService = new EntityService(token);
+  const entityService = useEntityService();
 
   const { data, isLoading } = useQuery({
-    queryKey: [ENTITY_DETAILS_QUERY_KEY, entityID],
+    queryKey: [QueryKeys.Entities.Details, entityID],
     queryFn: () => entityService.fetchByID(entityID),
     enabled: !!entityID && !!token,
   });
 
   useEffect(() => {
-    if (data?.data) {
-      resetEditInputs?.(data.data);
+    if (data?.data?.data) {
+      resetEditInputs?.(data.data?.data);
     }
   }, [data, resetEditInputs]);
 
   return {
-    entity: data?.data,
-    isEntityDataLoading: isLoading,
+    entity: data?.data?.data,
+    isLoading,
   };
 };
 
 export const useGetEntitiesList = () => {
   const token = useUserStore((state) => state.token);
-  const entityService = new EntityService(token);
+  const entityService = useEntityService();
 
   const { data, isLoading } = useQuery({
-    queryKey: [ENTITIES_LIST_QUERY_KEY],
+    queryKey: [QueryKeys.Entities.List],
     queryFn: () => entityService.fetchList(),
     enabled: !!token,
   });
 
   return {
-    entitiesList: data ?? [],
-    entitiesListIsLoading: isLoading,
+    entitiesList: data?.data?.data ?? [],
+    isLoading,
   };
 };
 
 export const useCreateEntity = () => {
-  const token = useUserStore((state) => state.token);
   const { language } = useLanguageStore();
   const queryClient = useQueryClient();
-  const entityService = new EntityService(token);
+  const entityService = useEntityService();
 
   return useMutation({
-    mutationFn: (entityData: IEntityCredentials) => entityService.create(entityData),
+    mutationFn: (entityData: EntityCredentials) => entityService.create(entityData),
     onSuccess: ({ status, data }) => {
-      queryClient.invalidateQueries({ queryKey: [ENTITIES_QUERY_KEY] });
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.Entities.All] });
 
       if (status === 201) {
         const message = getTranslatedMessage(data.message ?? "", language);
@@ -103,15 +110,14 @@ export const useCreateEntity = () => {
 };
 
 export const useUpdateEntity = () => {
-  const token = useUserStore((state) => state.token);
   const { language } = useLanguageStore();
   const queryClient = useQueryClient();
-  const entityService = new EntityService(token);
+  const entityService = useEntityService();
 
   return useMutation({
-    mutationFn: (entityData: IEntityCredentials) => entityService.update(entityData),
+    mutationFn: (entityData: EntityCredentials) => entityService.update(entityData),
     onSuccess: ({ status, data }) => {
-      queryClient.invalidateQueries({ queryKey: [ENTITIES_QUERY_KEY] });
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.Entities.All] });
 
       if (status === 200) {
         const message = getTranslatedMessage(data.message ?? "", language);
@@ -126,15 +132,14 @@ export const useUpdateEntity = () => {
 };
 
 export const useDeleteEntity = () => {
-  const token = useUserStore((state) => state.token);
   const { language } = useLanguageStore();
   const queryClient = useQueryClient();
-  const entityService = new EntityService(token);
+  const entityService = useEntityService();
 
   return useMutation({
     mutationFn: (entityID: number) => entityService.delete(entityID),
     onSuccess: ({ status, data }) => {
-      queryClient.invalidateQueries({ queryKey: [ENTITIES_QUERY_KEY] });
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.Entities.All] });
 
       if (status === 200) {
         const message = getTranslatedMessage(data.message ?? "", language);

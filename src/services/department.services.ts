@@ -1,5 +1,5 @@
 import axiosInstance from "../config/axios.config";
-import { IDepartment, IDepartmentCredentials } from "../interfaces/department.interfaces";
+import { DepartmentCredentials } from "../interfaces";
 import { BaseService } from "./base.services";
 
 export class DepartmentService extends BaseService {
@@ -21,22 +21,22 @@ export class DepartmentService extends BaseService {
         headers: this.getAuthHeaders(),
       });
 
-      return response.data;
+      return response;
     } catch (error) {
       console.error("Error fetching all departments:", error);
       throw error;
     }
   };
 
-  fetchList = async (): Promise<IDepartment[]> => {
+  fetchList = async () => {
     try {
       const response = await axiosInstance.get(`/Department/List`, {
         headers: this.getAuthHeaders(),
       });
-      return response.data.data;
+      return response;
     } catch (error) {
-      console.error("Error fetching departments list:", error);
-      return [];
+      console.error("Error fetching all departments:", error);
+      throw error;
     }
   };
 
@@ -45,20 +45,20 @@ export class DepartmentService extends BaseService {
       const response = await axiosInstance.get(`/Department/${departmentID}`, {
         headers: this.getAuthHeaders(),
       });
-      return response.data;
+      return response;
     } catch (error) {
       console.error(`Error fetching department with ID ${departmentID}:`, error);
       throw error;
     }
   };
 
-  create = (department: IDepartmentCredentials) => {
+  create = (department: DepartmentCredentials) => {
     return axiosInstance.post(`/Department`, department, {
       headers: this.getAuthHeaders(),
     });
   };
 
-  update = (department: IDepartmentCredentials) => {
+  update = (department: DepartmentCredentials) => {
     return axiosInstance.put(`/Department`, department, {
       headers: this.getAuthHeaders(),
     });

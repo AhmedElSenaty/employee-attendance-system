@@ -1,6 +1,6 @@
-export { default as DeleteEntityPopup } from "./DeleteEntityPopup";
-export { default as EditEntityPopup } from "./EditEntityPopup";
+export { default as DeletePopup } from "./DeletePopup";
+export { default as EditPopup } from "./EditPopup";
 export { default as EntitiesTable } from "./EntitiesTable";
-export { default as EntityTableFilters } from "./EntityTableFilters";
-export { default as RenderEntityInputs } from "./RenderEntityInputs";
-export { default as ShowEntityPopup } from "./ShowEntityPopup";
+export { default as TableFilters } from "./TableFilters";
+export { default as Inputs } from "./Inputs";
+export { default as ShowPopup } from "./ShowPopup";

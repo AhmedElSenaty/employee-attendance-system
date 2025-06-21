@@ -5,11 +5,9 @@ import { ProtectedRoute } from "../components/auth";
 import { AddAdminPage, EditAdminPage, ManageAdminsPage } from "../pages/Admin/manage-admins";
 import { AddEmployeePage, EditEmployeePage, ManageEmployeesPage } from "../pages/common/manage-employees";
 import { AddManagerPage, EditManagerPage, ManageManagersPage } from "../pages/common/manage-managers";
-import { ManageEntitiesPage } from "../pages/Admin/manage-entities";
-import { ManageDepartmentsPage } from "../pages/Admin/manage-departments";
 import { ManageSubDepartmentsPage } from "../pages/common/manage-sub-departments";
 import AdminAccountPage from "../pages/Admin/Account";
-import { AddProfilePage, AttendanceOverviewPage, AttendanceVacationsPage, EditProfilePage, LogsPage, ManageAttendancePage, ManageDevicesPage, ManageOfficialVacationsPage, ManagePermissionsPage, ManageProfilesPage, SystemDataPage } from "../pages/Admin";
+import { AddProfilePage, AttendanceOverviewPage, AttendanceVacationsPage, EditProfilePage, LogsPage, ManageAttendancePage, ManageDepartmentsPage, ManageDevicesPage, ManageEntitiesPage, ManageOfficialVacationsPage, ManagePermissionsPage, ManageProfilesPage, SystemDataPage } from "../pages/Admin";
 import { CalendarPage } from "../pages/Admin";
 
 export const adminRoutes = (isLoggedIn: boolean, userRole: string) => (

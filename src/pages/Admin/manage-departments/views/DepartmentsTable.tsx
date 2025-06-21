@@ -1,29 +1,32 @@
-import { useMemo } from "react";
 import { NoDataMessage, Table, TableCell, TableRow, TableSkeleton, Button, Tooltip } from "../../../../components/ui";
 import { Eye, FilePenLine, Trash2 } from "lucide-react";
-import { TFunction } from "i18next";
 import { formatValue, truncateText } from "../../../../utils";
-import { IDepartmentData } from "../../../../interfaces";
-import { DEPARTMENT_TABLE_COLUMNS, DEPARTMENT_TRANSLATION_NAMESPACE } from "..";
+import { Department } from "../../../../interfaces";
 import { HasPermission } from "../../../../components/auth";
-import { useLanguageStore } from "../../../../store/language.store";
+import { useLanguageStore } from "../../../../store/";
+import { useTranslation } from "react-i18next";
+import { DEPARTMENT_NS } from "../../../../constants";
 
-interface IDepartmentsTableProps {
-  departments: IDepartmentData[];
+interface Props {
+  departments: Department[];
   isLoading: boolean;
-  t: TFunction;
-  handleShowDepartment: (id: number) => void;
-  handleEditDepartment: (id: number) => void;
-  handleDeleteDepartment: (id: number) => void;
+  handleShow: (id: number) => void;
+  handleEdit: (id: number) => void;
+  handleDelete: (id: number) => void;
 }
 
-const DepartmentsTable = ({ departments, t, isLoading, handleShowDepartment, handleEditDepartment, handleDeleteDepartment }: IDepartmentsTableProps) => {
-    const { language } = useLanguageStore();
+const DepartmentsTable = ({ departments, isLoading, handleShow, handleEdit, handleDelete }: Props) => {
+  const { t } = useTranslation([DEPARTMENT_NS]);
+  const { language } = useLanguageStore();
 
-  const columns = useMemo(
-    () => DEPARTMENT_TABLE_COLUMNS.map(key => t(key, { ns: DEPARTMENT_TRANSLATION_NAMESPACE })),
-    [t]
-  );
+  const DEPARTMENT_TABLE_COLUMNS = [
+    "table.columns.id",
+    "table.columns.name",
+    "table.columns.description",
+    "table.columns.actions",
+  ]
+
+  const columns = DEPARTMENT_TABLE_COLUMNS.map(key => t(key));
 
   return (
     <>
@@ -32,49 +35,52 @@ const DepartmentsTable = ({ departments, t, isLoading, handleShowDepartment, han
       ) : (
         <Table columns={columns}>
           {departments.length == 0 ? (
-            <NoDataMessage title={t("table.emptyTable.title", { ns: DEPARTMENT_TRANSLATION_NAMESPACE })} message={t("table.emptyTable.message", { ns: DEPARTMENT_TRANSLATION_NAMESPACE })} />
+            <NoDataMessage title={t("table.emptyTable.title")} message={t("table.emptyTable.message")} />
           ): (
 
             departments.map((department) => (
               <TableRow key={department.id} className="border-b">
                 <TableCell label={columns[0]}>{formatValue(department.id, language)}</TableCell>
                 <TableCell label={columns[1]}>{department.name}</TableCell>
-                <TableCell label={columns[2]}>{department.description != null ? truncateText(department.description, 30) : t("table.NA")}</TableCell>
+                <TableCell label={columns[2]}>{department.description != null ? truncateText(department.description, 30) : t("NA")}</TableCell>
                 <TableCell label={columns[4]}>
                   <div className="flex flex-wrap gap-2">
                     <HasPermission permission="View Departments">
-                      <Tooltip content="View Departments">
+                      <Tooltip 
+                        content={t("buttons.toolTipShow")}
+                      >
                         <Button 
                           variant="primary" 
                           fullWidth={false}
                           size={"sm"}
                           icon={<Eye className="w-full h-full" />} 
-                          aria-label={t("buttons.view")}
-                          onClick={() => handleShowDepartment(department.id)}
+                          onClick={() => handleShow(department.id)}
                         />
                       </Tooltip>
                     </HasPermission>
                     <HasPermission permission="Update Department">
-                      <Tooltip content="Update Department">
+                      <Tooltip 
+                        content={t("buttons.toolTipEdit")}
+                      >
                         <Button 
                           variant="info" 
                           fullWidth={false}
                           size={"sm"} 
                           icon={<FilePenLine className="w-full h-full" />} 
-                          aria-label={t("buttons.edit")} 
-                          onClick={() => handleEditDepartment(department.id)}
+                          onClick={() => handleEdit(department.id)}
                         />
                       </Tooltip>
                     </HasPermission>
                     <HasPermission permission="Delete Department">
-                      <Tooltip content="Delete Department">
+                      <Tooltip 
+                        content={t("buttons.toolTipDelete")}
+                      >
                         <Button
                           variant="danger"
                           fullWidth={false}
                           size={"sm"}
                           icon={<Trash2 className="w-full h-full" />}
-                          aria-label={t("buttons.delete")}
-                          onClick={() => handleDeleteDepartment(department.id)}
+                          onClick={() => handleDelete(department.id)}
                         />
                       </Tooltip>
                     </HasPermission>

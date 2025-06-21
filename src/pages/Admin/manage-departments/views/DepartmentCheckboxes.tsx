@@ -1,37 +1,38 @@
 import { useGetDepartmentsList } from '../../../../hooks/department.hooks';
 import { Checkbox, CheckboxSkeleton, Field, Label, LabelSkeleton, Radio, RadioSkeleton, Button, ButtonSkeleton } from '../../../../components/ui';
 import { Dispatch, SetStateAction } from 'react';
-import { IDepartment } from '../../../../interfaces';
 import { ListChecks } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { DepartmentSummary } from '../../../../interfaces';
+import { DEPARTMENT_NS } from '../../../../constants';
 
-interface RenderDepartmentCheckboxesProps {
-  checkedDepartments: number[];
-  setCheckedDepartments: Dispatch<SetStateAction<number[]>>;
+interface Props {
+  checked: number[];
+  setChecked: Dispatch<SetStateAction<number[]>>;
   isLoading?: boolean
   needSelectOne?: boolean
 }
 
-const RenderDepartmentCheckboxes = ({ checkedDepartments, setCheckedDepartments, isLoading, needSelectOne = false }: RenderDepartmentCheckboxesProps) => {
-  const { t } = useTranslation();
-  const { departmentsList, isDepartmentsLoading } = useGetDepartmentsList();
+const DepartmentCheckboxes = ({ checked, setChecked, isLoading, needSelectOne = false }: Props) => {
+  const { t } = useTranslation([DEPARTMENT_NS]);
+  const { departmentsList, isLoading: isDepartmentsLoading } = useGetDepartmentsList();
 
-  const alldepartmentIDs = departmentsList.map((department) => department.id);
+  const alldepartmentIDs = departmentsList.map((department: DepartmentSummary) => department.id);
 
   // Select All / Deselect All handler
   const toggleSelectAll = () => {
-    if (checkedDepartments.length === alldepartmentIDs.length) {
-      setCheckedDepartments([]); // Deselect all
+    if (checked.length === alldepartmentIDs.length) {
+      setChecked([]); // Deselect all
     } else {
-      setCheckedDepartments(alldepartmentIDs); // Select all
+      setChecked(alldepartmentIDs); // Select all
     }
   };
 
   const handleDepartmentSelect = (departmentID: number) => {
     if (needSelectOne) {
-      setCheckedDepartments([departmentID]);
+      setChecked([departmentID]);
     } else {
-      setCheckedDepartments((prev) =>
+      setChecked((prev) =>
         prev.includes(departmentID)
           ? prev.filter((key) => key !== departmentID)
           : [...prev, departmentID]
@@ -39,17 +40,17 @@ const RenderDepartmentCheckboxes = ({ checkedDepartments, setCheckedDepartments,
     }
   };
 
-  const renderDepartmentFields = departmentsList.map(({ id, name }: IDepartment) => (
+  const renderDepartmentFields = departmentsList.map(({ id, name }: DepartmentSummary) => (
     <Field key={id} className="flex items-center space-x-2">
       {needSelectOne ? (
         <Radio
-          checked={checkedDepartments.includes(id)}
+          checked={checked.includes(id)}
           onChange={() => handleDepartmentSelect(id)}
           name="departmentRadio"
         />
       ) : (
         <Checkbox
-          checked={checkedDepartments.includes(id)}
+          checked={checked.includes(id)}
           onChange={() => handleDepartmentSelect(id)}
         />
       )}
@@ -102,7 +103,7 @@ const RenderDepartmentCheckboxes = ({ checkedDepartments, setCheckedDepartments,
                     size={'md'}
                     icon={<ListChecks className="w-full h-full" />}
                   >
-                    {checkedDepartments.length === alldepartmentIDs.length
+                    {checked.length === alldepartmentIDs.length
                       ? t("deselectAll")
                       : t("selectAll")}
                   </Button>
@@ -116,4 +117,4 @@ const RenderDepartmentCheckboxes = ({ checkedDepartments, setCheckedDepartments,
   );
 }
 
-export default RenderDepartmentCheckboxes;
+export default DepartmentCheckboxes;

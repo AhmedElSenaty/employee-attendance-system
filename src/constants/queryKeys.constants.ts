@@ -24,7 +24,16 @@ export const QueryKeys = {
     All: "officialVacations",
     Details: "officialVacationDetails",
   },
-  
+  Entities: {
+    All: "entities",
+    Details: "entityDetails",
+    List: "entitiesList",
+  },
+  Departments: {
+    All: "departments",
+    Details: "departmentDetails",
+    List: "departmentsList",
+  },
   FETCH_ME: "me",
   Attendance: {
     All: "attendances",

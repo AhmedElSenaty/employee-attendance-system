@@ -1,31 +1,31 @@
-import { TFunction } from "i18next";
 import { Building } from "lucide-react";
-import { Button, NormalSpinner, Popup } from "../../../../components/ui/";
-import { IEntityData } from "../../../../interfaces";
-import { ENTITY_TRANSLATION_NAMESPACE } from "..";
+import { Button, NormalSpinner, Popup } from "../../../../components/ui";
 import { formatValue } from "../../../../utils";
 import { HasPermission } from "../../../../components/auth";
-import { useLanguageStore } from "../../../../store/language.store";
+import { useLanguageStore } from "../../../../store/";
+import { Entity } from "../../../../interfaces";
+import { useTranslation } from "react-i18next";
+import { ENTITY_NS } from "../../../../constants";
 
-interface IShowEntityPopupProps {
+interface Props {
   isOpen: boolean
   handleClose: () => void;
   handleDeletePopupOpen: () => void;
   handleEditPopupOpen: () => void;
-  entity: IEntityData | null
-  t: TFunction
+  entity: Entity | null
   isLoading: boolean
 }
 
-const ShowEntityPopup = ({ isOpen, handleClose, handleDeletePopupOpen, handleEditPopupOpen, entity, t, isLoading }: IShowEntityPopupProps) => {
-    const { language } = useLanguageStore();
+const ShowPopup = ({ isOpen, handleClose, handleDeletePopupOpen, handleEditPopupOpen, entity, isLoading }: Props) => {
+  const { t } = useTranslation([ENTITY_NS]);
+  const { language } = useLanguageStore();
 
   return (
     <Popup
       isOpen={isOpen}
       closeModal={handleClose}
-      title={t("popup.show.title", { ns: ENTITY_TRANSLATION_NAMESPACE })}
-      description={t("popup.show.description", { ns: ENTITY_TRANSLATION_NAMESPACE })}
+      title={t("showPopup.title")}
+      description={t("showPopup.description")}
     >
       {/* Device Details */}
       {
@@ -46,12 +46,12 @@ const ShowEntityPopup = ({ isOpen, handleClose, handleDeletePopupOpen, handleEdi
             {/* Device Information */}
             <div className="mt-6 space-y-4 divide-y divide-gray-300">
               <div className="grid grid-cols-2 py-2">
-                <span className="font-medium text-gray-600">{t("table.columns.id", { ns: ENTITY_TRANSLATION_NAMESPACE })}</span>
+                <span className="font-medium text-gray-600">{t("table.columns.id")}</span>
                 <span className="text-gray-900 font-semibold">{formatValue(entity?.id || "", language)}</span>
               </div>
               <div className="grid grid-cols-1 gap-2 py-2">
-                <span className="font-medium text-gray-600">{t("table.columns.description", { ns: ENTITY_TRANSLATION_NAMESPACE })}</span>
-                <span className="text-gray-900 font-semibold">{entity?.description != null ? entity?.description: t("table.NA")}</span>
+                <span className="font-medium text-gray-600">{t("table.columns.description")}</span>
+                <span className="text-gray-900 font-semibold">{entity?.description != null ? entity?.description: t("NA")}</span>
               </div>
             </div>
           </div>
@@ -77,4 +77,4 @@ const ShowEntityPopup = ({ isOpen, handleClose, handleDeletePopupOpen, handleEdi
   )
 }
 
-export default ShowEntityPopup
+export default ShowPopup

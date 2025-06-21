@@ -1,33 +1,36 @@
+import { useTranslation } from "react-i18next";
 import { Button, Popup } from "../../../../components/ui";
-import { TFunction } from "i18next";
-import { DEPARTMENT_TRANSLATION_NAMESPACE } from "..";
+import { DEPARTMENT_NS } from "../../../../constants";
 
-interface IDeleteDepartmentPopupProps {
+interface Props {
   isOpen: boolean;
   handleClose: () => void;
   handleConfirmDelete: () => void;
   isLoading: boolean;
-  t: TFunction;
 }
 
-const DeleteDepartmentPopup = ({ isOpen, handleClose, handleConfirmDelete, isLoading, t }: IDeleteDepartmentPopupProps) => {
+const DeletePopup = ({ isOpen, handleClose, handleConfirmDelete, isLoading }: Props) => {
+  const { t } = useTranslation([DEPARTMENT_NS]);
+
   return (
     <Popup
       isOpen={isOpen}
       closeModal={handleClose}
-      title={t("popup.deleteDepartment.title", { ns: DEPARTMENT_TRANSLATION_NAMESPACE })}
-      description={t("popup.deleteDepartment.description", { ns: DEPARTMENT_TRANSLATION_NAMESPACE })}
+      title={t("deletePopup.title")}
+      description={t("deletePopup.description")}
     >
       <div className="flex items-center space-x-3 mt-4">
         <Button variant="cancel" type="button" fullWidth={true} onClick={handleClose}>
           {t("buttons.close")}
         </Button>
         <Button variant="danger" type="button" fullWidth={true} onClick={handleConfirmDelete} isLoading={isLoading}>
-          {t("buttons.delete")}
+          {(isLoading)
+            ? t("buttons.loading")
+            : t("buttons.delete")}
         </Button>
       </div>
     </Popup>
   );
 };
 
-export default DeleteDepartmentPopup;
+export default DeletePopup;

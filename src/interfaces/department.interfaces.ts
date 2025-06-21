@@ -1,22 +1,22 @@
-export interface IDepartment {
+// Reusable base interface
+export interface BaseDepartment {
+  name: string;
+  description?: string | null;
+}
+
+// Minimal department representation (e.g., for dropdowns or summaries)
+export interface DepartmentSummary {
   id: number;
   name: string;
 }
 
-export interface IDepartmentCredentials {
-  id: number;
-  name: string;
-  description?: string;
+// Department credentials input (e.g., for form data or creation DTO)
+export interface DepartmentCredentials extends Partial<BaseDepartment> {
+  id?: number;
 }
 
-export interface IDepartmentFieldConfig {
-  label?: string;
-  name: "id" | "name" | "description";
-  type: string;
-}
-
-export interface IDepartmentData {
+// Full department entity from API or DB
+export interface Department extends BaseDepartment {
   id: number;
-  name: string;
-  description: string;
+  description: string | null;
 }

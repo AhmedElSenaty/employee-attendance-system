@@ -1,94 +1,105 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import {
-  IDepartmentCredentials,
+  DepartmentCredentials,
   IErrorResponse,
   initialMetadata,
 } from "../interfaces";
 import { getTranslatedMessage, handleApiError, showToast } from "../utils";
-import { useLanguageStore } from "../store/language.store";
-import { useUserStore } from "../store/user.store";
+import { useUserStore, useLanguageStore } from "../store/";
 import { DepartmentService } from "../services";
+import { QueryKeys } from "../constants";
+import { DepartmentFormValues } from "../validation";
 
-export const DEPARTMENTS_QUERY_KEY = "departments";
-export const DEPARTMENT_DETAILS_QUERY_KEY = "departmentDetails";
-export const DEPARTMENTS_LIST_QUERY_KEY = "departmentsList";
+export const useDepartmentService = () => {
+  const token = useUserStore((state) => state.token);
+
+  const service = useMemo(() => {
+    return new DepartmentService(token);
+  }, [token]);
+
+  return service;
+};
 
 export const useGetDepartments = (
-  page: number,
-  pageSize: number,
-  searchKey: string,
-  debouncedSearchQuery: string
+  page?: number,
+  pageSize?: number,
+  searchKey?: string,
+  searchQuery?: string
 ) => {
   const token = useUserStore((state) => state.token);
-  const departmentService = new DepartmentService(token);
+  const departmentService = useDepartmentService();
 
   const { data, isLoading } = useQuery({
-    queryKey: [DEPARTMENTS_QUERY_KEY, page, pageSize, searchKey, debouncedSearchQuery],
-    queryFn: () => departmentService.fetchAll(page, pageSize, searchKey, debouncedSearchQuery),
+    queryKey: [
+      QueryKeys.Departments.All, 
+      page, 
+      pageSize, 
+      `${searchKey && searchQuery ? [searchKey, searchQuery] : ""}`
+    ],
+    queryFn: () => departmentService.fetchAll(page, pageSize, searchKey, searchQuery),
     enabled: !!token,
   });
 
   return {
-    departments: data?.data?.departments || [],
-    metadata: data?.data?.metadata || initialMetadata,
-    totalDepartments: data?.data?.totalCount || 0,
-    isDepartmentsDataLoading: isLoading,
+    departments: data?.data?.data?.departments || [],
+    metadata: data?.data?.data?.metadata || initialMetadata,
+    count: data?.data?.data?.totalCount || 0,
+    isLoading,
   };
 };
 
 export const useGetDepartmentByID = (
   departmentID: number,
-  resetInputs?: (data: IDepartmentCredentials) => void
+  resetInputs?: (data: DepartmentFormValues) => void
 ) => {
   const token = useUserStore((state) => state.token);
-  const departmentService = new DepartmentService(token);
+  const departmentService = useDepartmentService();
 
   const { data, isLoading } = useQuery({
-    queryKey: [DEPARTMENT_DETAILS_QUERY_KEY, departmentID],
+    queryKey: [QueryKeys.Departments.Details, departmentID],
     queryFn: () => departmentService.fetchByID(departmentID),
     enabled: !!departmentID && !!token,
   });
 
   useEffect(() => {
-    if (data?.data) {
-      resetInputs?.(data.data);
+    if (data?.data?.data) {
+      resetInputs?.(data.data.data);
     }
   }, [data, resetInputs]);
 
   return {
-    department: data?.data,
-    isDepartmentDataLoading: isLoading,
+    department: data?.data?.data,
+    isLoading,
   };
 };
 
 export const useGetDepartmentsList = () => {
   const token = useUserStore((state) => state.token);
-  const departmentService = new DepartmentService(token);
+  const departmentService = useDepartmentService();
 
   const { data, isLoading } = useQuery({
-    queryKey: [DEPARTMENTS_LIST_QUERY_KEY],
+    queryKey: [QueryKeys.Departments.List],
     queryFn: () => departmentService.fetchList(),
     enabled: !!token,
   });
 
   return {
-    departmentsList: data ?? [],
-    isDepartmentsLoading: isLoading,
+    departmentsList: data?.data?.data ?? [],
+    isLoading,
   };
 };
 
 export const useCreateDepartment = () => {
-  const token = useUserStore((state) => state.token);
   const { language } = useLanguageStore();
   const queryClient = useQueryClient();
-  const departmentService = new DepartmentService(token);
+  const departmentService = useDepartmentService();
 
   return useMutation({
-    mutationFn: (departmentData: IDepartmentCredentials) => departmentService.create(departmentData),
+    mutationFn: (departmentData: DepartmentCredentials) => departmentService.create(departmentData),
     onSuccess: ({ status, data }) => {
-      queryClient.invalidateQueries({ queryKey: [DEPARTMENTS_QUERY_KEY] });
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.Departments.All] });
 
       if (status === 201) {
         const message = getTranslatedMessage(data.message ?? "", language);
@@ -103,15 +114,14 @@ export const useCreateDepartment = () => {
 };
 
 export const useUpdateDepartment = () => {
-  const token = useUserStore((state) => state.token);
   const { language } = useLanguageStore();
   const queryClient = useQueryClient();
-  const departmentService = new DepartmentService(token);
+  const departmentService = useDepartmentService();
 
   return useMutation({
-    mutationFn: (departmentData: IDepartmentCredentials) => departmentService.update(departmentData),
+    mutationFn: (departmentData: DepartmentCredentials) => departmentService.update(departmentData),
     onSuccess: ({ status, data }) => {
-      queryClient.invalidateQueries({ queryKey: [DEPARTMENTS_QUERY_KEY] });
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.Departments.All] });
 
       if (status === 200) {
         const message = getTranslatedMessage(data.message ?? "", language);
@@ -126,15 +136,14 @@ export const useUpdateDepartment = () => {
 };
 
 export const useDeleteDepartment = () => {
-  const token = useUserStore((state) => state.token);
   const { language } = useLanguageStore();
   const queryClient = useQueryClient();
-  const departmentService = new DepartmentService(token);
+  const departmentService = useDepartmentService();
 
   return useMutation({
     mutationFn: (departmentID: number) => departmentService.delete(departmentID),
     onSuccess: ({ status, data }) => {
-      queryClient.invalidateQueries({ queryKey: [DEPARTMENTS_QUERY_KEY] });
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.Departments.All] });
 
       if (status === 200) {
         const message = getTranslatedMessage(data.message ?? "", language);
@@ -149,9 +158,8 @@ export const useDeleteDepartment = () => {
 };
 
 export const useUpdateUserDepartments = () => {
-  const token = useUserStore((state) => state.token);
   const { language } = useLanguageStore();
-  const departmentService = new DepartmentService(token);
+  const departmentService = useDepartmentService();
 
   return useMutation({
     mutationFn: ({ userID, departments }: { userID: string; departments: number[] }) => {

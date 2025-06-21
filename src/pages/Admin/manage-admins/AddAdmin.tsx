@@ -6,7 +6,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { IAdminCredentials } from "../../../interfaces";
 import { getAdminSchema } from "../../../validation";
-import { RenderDepartmentCheckboxes } from "../manage-departments/views";
+import { DepartmentCheckboxes } from "../manage-departments/views";
 import { RenderAdminInputs } from "./views";
 import { PermissionCheckboxes } from "../manage-permissions/views";
 import { ADMIN_TRANSLATION_NAMESPACE } from ".";
@@ -116,9 +116,9 @@ const AddAdminPage = () => {
         />
         
         {/* Render department checkboxes */}
-        <RenderDepartmentCheckboxes
-          checkedDepartments={checkedDepartments}
-          setCheckedDepartments={setCheckedDepartments}
+        <DepartmentCheckboxes
+          checked={checkedDepartments}
+          setChecked={setCheckedDepartments}
         />
       </div>
     </div>

@@ -1,5 +1,5 @@
 import axiosInstance from "../config/axios.config";
-import { IEntity, IEntityCredentials } from "../interfaces/entity.interfaces";
+import { EntityCredentials } from "../interfaces";
 import { BaseService } from "./base.services";
 
 export class EntityService extends BaseService {
@@ -21,22 +21,22 @@ export class EntityService extends BaseService {
         headers: this.getAuthHeaders(),
       });
 
-      return response.data;
+      return response;
     } catch (error) {
       console.error("Error fetching all entities:", error);
       throw error;
     }
   };
 
-  fetchList = async (): Promise<IEntity[]> => {
+  fetchList = async () => {
     try {
       const response = await axiosInstance.get(`/Entities/List`, {
         headers: this.getAuthHeaders(),
       });
-      return response.data.data;
+      return response;
     } catch (error) {
-      console.error("Error fetching entities list:", error);
-      return [];
+      console.error("Error fetching all devices:", error);
+      throw error;
     }
   };
 
@@ -45,20 +45,20 @@ export class EntityService extends BaseService {
       const response = await axiosInstance.get(`/Entities/${entityID}`, {
         headers: this.getAuthHeaders(),
       });
-      return response.data;
+      return response;
     } catch (error) {
       console.error(`Error fetching entity with ID ${entityID}:`, error);
       throw error;
     }
   };
 
-  create = (entity: IEntityCredentials) => {
+  create = (entity: EntityCredentials) => {
     return axiosInstance.post(`/Entities`, entity, {
       headers: this.getAuthHeaders(),
     });
   };
   
-  update = (entity: IEntityCredentials) => {
+  update = (entity: EntityCredentials) => {
     return axiosInstance.put(`/Entities`, entity, {
       headers: this.getAuthHeaders(),
     });

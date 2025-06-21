@@ -9,18 +9,19 @@ import {
   Textarea,
   TextareaSkeleton
 } from "../../../../components/ui";
-import { TFunction } from "i18next";
-import { IEntityCredentials } from "../../../../interfaces";
-import { ENTITY_TRANSLATION_NAMESPACE } from "..";
+import { EntityFormValues } from "../../../../validation";
+import { useTranslation } from "react-i18next";
+import { ENTITY_NS } from "../../../../constants";
 
-interface IEntityInputsProps {
-  register: UseFormRegister<IEntityCredentials>;
-  errors: FieldErrors<IEntityCredentials>;
-  t: TFunction;
+interface Props {
+  register: UseFormRegister<EntityFormValues>;
+  errors: FieldErrors<EntityFormValues>;
   isLoading?: boolean;
 }
 
-const RenderEntityInputs = ({ register, errors, t, isLoading = false }: IEntityInputsProps) => {
+const Inputs = ({ register, errors, isLoading = false }: Props) => {
+  const { t } = useTranslation([ENTITY_NS]);
+
   if (isLoading) {
     return (
       <>
@@ -43,17 +44,17 @@ const RenderEntityInputs = ({ register, errors, t, isLoading = false }: IEntityI
       {/* Entity Name */}
       <Field className="space-y-2">
         <Label size="lg">
-          {t("form.name.label", { ns: ENTITY_TRANSLATION_NAMESPACE })}
+          {t("inputs.name.label")}
         </Label>
         <Input
           type="text"
-          placeholder={t("form.name.placeholder", { ns: ENTITY_TRANSLATION_NAMESPACE })}
+          placeholder={t("inputs.name.placeholder")}
           isError={!!errors.name}
           {...register("name")}
         />
         {errors.name && (
           <InputErrorMessage>
-            {t(`form.name.inputValidation.${errors.name?.type}`, { ns: ENTITY_TRANSLATION_NAMESPACE })}
+            {t(`inputs.name.inputValidation.${errors.name?.type}`)}
           </InputErrorMessage>
         )}
       </Field>
@@ -61,16 +62,16 @@ const RenderEntityInputs = ({ register, errors, t, isLoading = false }: IEntityI
       {/* Description */}
       <Field className="space-y-2">
         <Label size="lg">
-          {t("form.description.label", { ns: ENTITY_TRANSLATION_NAMESPACE })}
+          {t("inputs.description.label")}
         </Label>
         <Textarea
-          placeholder={t("form.description.placeholder", { ns: ENTITY_TRANSLATION_NAMESPACE })}
+          placeholder={t("inputs.description.placeholder")}
           isError={!!errors.description}
           {...register("description")}
         />
         {errors.description && (
           <InputErrorMessage>
-            {t(`form.description.inputValidation.${errors.description?.type}`, { ns: ENTITY_TRANSLATION_NAMESPACE })}
+            {t(`inputs.description.inputValidation.${errors.description?.type}`)}
           </InputErrorMessage>
         )}
       </Field>
@@ -78,4 +79,4 @@ const RenderEntityInputs = ({ register, errors, t, isLoading = false }: IEntityI
   );
 };
 
-export default RenderEntityInputs;
+export default Inputs;

@@ -16,5 +16,10 @@ export const departmentSchema = yup.object().shape({
 
   description: yup
     .string()
+    .trim()
+    .nullable()
+    .transform((_, originalValue) => originalValue === null ? "" : originalValue)
     .max(500, "Description cannot exceed 500 characters"),
 });
+
+export type DepartmentFormValues = yup.InferType<typeof departmentSchema>;

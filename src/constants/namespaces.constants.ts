@@ -19,3 +19,5 @@ export const LOGS_NS = "logs"
 export const PROFILE_NS = "profilePages"
 export const PERMISSION_NS = "permissionPages"
 export const OFFICIAL_VACATION_NS = "officialVacationPages"
+export const ENTITY_NS = "entityPages";
+export const DEPARTMENT_NS = "departmentPages";
