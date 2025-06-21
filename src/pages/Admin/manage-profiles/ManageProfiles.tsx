@@ -37,13 +37,11 @@ const ManageProfilesPage = () => {
   const searchKey = rawSearchKey || undefined;
   const searchQuery = rawSearchQuery || undefined;
     
-  const debouncedSearchQuery = useDebounce(searchQuery, 650);
-
   const { profiles, count, metadata, isLoading: isProfilesDataLoading } = useGetProfiles(
     page, 
     pageSize, 
     searchKey, 
-    debouncedSearchQuery
+    searchQuery
   );
 
   const { mutate: deleteProfile, isPending: isDeleting } = useDeleteProfile();
