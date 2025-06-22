@@ -10,7 +10,6 @@ export * from "./metadata.interface"
 export * from "./pagination.interface"
 export * from "./report.interfaces"
 export * from "./resetAccount.interfaces";
-export * from "./subDepartment.interfaces";
 export * from "./workingDays.interfaces";
 export * from "./leaveRequest.interfaces"
 export * from "./mission.interfaces"
@@ -26,6 +25,7 @@ export * from "./permission.interfaces"
 export * from "./officialVacation.interfaces";
 export * from "./entity.interfaces";
 export * from "./department.interfaces";
+export * from "./subDepartment.interfaces";
 
 export interface IErrorResponse {
   errors?: string[]; // The API might return an array of error messages

@@ -34,6 +34,12 @@ export const QueryKeys = {
     Details: "departmentDetails",
     List: "departmentsList",
   },
+  SubDepartments: {
+    All: "subDepartments",
+    Details: "subDepartmentDetails",
+    List: "subDepartmentsList",
+  },
+
   FETCH_ME: "me",
   Attendance: {
     All: "attendances",

@@ -8,6 +8,10 @@
     "description": "View, add, edit, and remove sub-departments within the organization."
   },
   "table": {
+    "emptyTable": {
+      "title": "No sub Departments found",
+      "message": "Try adjusting your filters or add a new Sub-Department"
+    },
     "columns": {
       "id": "#ID",
       "name": "Sub-Department Name",
@@ -17,34 +21,18 @@
       "entityName": "Entity Name",
       "description": "Description",
       "actions": "Actions"
-    },
-    "emptyTable": {
-      "title": "No sub Departments found",
-      "message": "Try adjusting your filters or add a new Sub-Department"
     }
-  },
-  "searchBy": {
-    "label": "Search By",
-    "default": "Please Select an Option",
-    "SearchBySubDepartmentId": "Sub-Department ID",
-    "SearchBySubDeptName": "Sub-Department Name",
-    "SearchByDepartmentId": "Department ID",
-    "SearchByDepartmentName": "Department Name",
-    "SearchByEntityId": "Entity ID",
-    "SearchByEntityTypeName": "Entity Name"
   },
   "CountCard": {
     "title": "Total Sub-Departments",
     "description": "Total number of registered sub-departments."
   },
-  "subDepartmentActions": {
-    "addNew": {
-      "title": "Add New Sub-Department",
-      "description": "Create a new sub-department within a department.",
-      "button": "Add Sub-Department"
-    }
+  "addActionCard": {
+    "title": "Add New Sub-Department",
+    "description": "Create a new sub-department within a department.",
+    "button": "Add Sub-Department"
   },
-  "form": {
+  "inputs": {
     "id": {
       "label": "Sub-Department ID",
       "placeholder": "Enter sub-department ID",
@@ -63,58 +51,86 @@
       "inputValidation": {
         "required": "Sub-Department Name is required",
         "min": "Sub-Department Name must be at least 3 characters long",
-        "max": "Sub-Department Name cannot exceed 50 characters"
+        "max": "Sub-Department Name cannot exceed 100 characters"
       }
     },
     "description": {
       "label": "Description",
       "placeholder": "Enter a brief description",
       "inputValidation": {
-        "max": "Description cannot exceed 255 characters",
-        "nullable": ""
+        "max": "Description cannot exceed 500 characters"
       }
     },
     "departmentID": {
       "label": "Department",
       "placeholder": "Enter department",
       "inputValidation": {
-        "required": "Select Department Is Required",
-        "typeError": "Department ID must be a valid number",
-        "positive": "Department ID must be a positive number",
-        "integer": "Department ID must be an integer",
-        "min": "Select Department Is Required",
-        "max": "Select Department Is Required"
+        "required": "Please select a department",
+        "typeError": "Please select a department",
+        "positive": "Please select a valid department",
+        "integer": "Please select a valid department"
       }
     },
     "entityId": {
       "label": "Entity",
       "placeholder": "Enter entity",
       "inputValidation": {
-        "required": "Select Entity Is Required",
-        "typeError": "Entity ID must be a valid number",
-        "positive": "Entity ID must be a positive number",
-        "integer": "Entity ID must be an integer",
-        "min": "Select Entity Is Required",
-        "max": "Select Entity Is Required"
+        "required": "Please select a entity",
+        "typeError": "Please select a entity",
+        "positive": "Please select a valid entity",
+        "integer": "Please select a valid entity"
       }
     }
   },  
-  "popup": {
-    "deleteSubDepartment": {
-      "title": "Delete Sub-Department",
-      "description": "Are you sure you want to delete this sub-department? This action cannot be undone."
+  "deletePopup": {
+    "title": "Delete Sub-Department",
+    "description": "Are you sure you want to delete this sub-department? This action cannot be undone."
+  },
+  "addPopup": {
+    "title": "Add New Sub-Department",
+    "description": "Please enter the details of the new sub-department to add it to the system."
+  },
+  "editPopup": {
+    "title": "Edit Sub-Department",
+    "description": "Update the sub-department information as needed and save the changes."
+  },
+  "showPopup": {
+    "title": "View Sub-Department",
+    "description": "You are now viewing the details of this sub-department, including its department and entity."
+  },
+  "infoPopup": {
+    "title": "How to Use the Sub-Department Page",
+    "description": "Watch this video tutorial to learn how to view, add, edit, and manage sub-departments within your organization structure.",
+    "closeButton": "Close"
+  },
+  "filters": {
+    "pageSize": "Page Size",
+    "toolTipResetFilters": "Reset All",
+    "searchBy": {
+      "label": "Search Type",
+      "default": "search method",
+      "SearchBySubDepartmentId": "Sub-Department ID",
+      "SearchBySubDeptName": "Sub-Department Name",
+      "SearchByDepartmentId": "Department ID",
+      "SearchByDepartmentName": "Department Name",
+      "SearchByEntityId": "Entity ID",
+      "SearchByEntityTypeName": "Entity Name"
     },
-    "addSubDepartment": {
-      "title": "Add New Sub-Department",
-      "description": "Please enter the details of the new sub-department to add it to the system."
-    },
-    "editSubDepartment": {
-      "title": "Edit Sub-Department",
-      "description": "Update the sub-department information as needed and save the changes."
-    },
-    "viewSubDepartment": {
-      "title": "View Sub-Department",
-      "description": "You are now viewing the details of this sub-department, including its department and entity."
+    "search": {
+      "label": "Search",
+      "placeholder": "Enter the value you want to search for...."
     }
-  }
+  },
+  "buttons": {
+    "close": "Close",
+    "create": "Create",
+    "edit": "Edit",
+    "update": "Update",
+    "delete": "Delete",
+    "loading": "Loading...",
+    "toolTipShow": "Show Sub-Department",
+    "toolTipEdit": "Accept Sub-Department",
+    "toolTipDelete": "Delete Sub-Department"
+  },
+  "NA": "N/A"
 }

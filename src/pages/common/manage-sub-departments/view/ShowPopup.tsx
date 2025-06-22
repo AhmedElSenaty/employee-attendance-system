@@ -1,29 +1,28 @@
-import { TFunction } from "i18next";
 import { Building2 } from "lucide-react";
-import { ISubDepartmentData } from "../../../../interfaces";
-import { truncateText } from "../../../../utils";
-import { SUB_DEPARTMENT_TRANSLATION_NAMESPACE } from "..";
 import { HasPermission } from "../../../../components/auth";
 import { Button, NormalSpinner, Popup } from "../../../../components/ui";
+import { SubDepartment } from "../../../../interfaces";
+import { useTranslation } from "react-i18next";
+import { SUB_DEPARTMENT_NS } from "../../../../constants";
 
-interface IShowSubDepartmentPopupProps {
+interface Props {
   isOpen: boolean
   handleClose: () => void;
   handleDeletePopupOpen: () => void;
   handleEditPopupOpen: () => void;
-  subDepartment: ISubDepartmentData
-  t: TFunction
+  subDepartment: SubDepartment
   isLoading: boolean
 }
 
-const ShowSubDepartmentPopup = ({ isOpen, handleClose, handleDeletePopupOpen, handleEditPopupOpen, subDepartment, t, isLoading }: IShowSubDepartmentPopupProps) => {
+const ShowPopup = ({ isOpen, handleClose, handleDeletePopupOpen, handleEditPopupOpen, subDepartment, isLoading }: Props) => {
+  const { t } = useTranslation([SUB_DEPARTMENT_NS]);
 
   return (
     <Popup
       isOpen={isOpen}
       closeModal={handleClose}
-      title={t("popup.viewSubDepartment.title", { ns: SUB_DEPARTMENT_TRANSLATION_NAMESPACE })}
-      description={t("popup.viewSubDepartment.description", { ns: SUB_DEPARTMENT_TRANSLATION_NAMESPACE })}
+      title={t("popup.viewSubDepartment.title")}
+      description={t("popup.viewSubDepartment.description")}
     >
       {/* Device Details */}
       {
@@ -44,36 +43,36 @@ const ShowSubDepartmentPopup = ({ isOpen, handleClose, handleDeletePopupOpen, ha
             {/* Device Information */}
             <div className="mt-6 space-y-4 divide-y divide-gray-300">
               <div className="grid grid-cols-2 py-2">
-                <span className="font-medium text-gray-600">{t("table.columns.id", { ns: SUB_DEPARTMENT_TRANSLATION_NAMESPACE })}</span>
+                <span className="font-medium text-gray-600">{t("table.columns.id")}</span>
                 <span className="text-gray-900 font-semibold">{subDepartment?.subDepartmentId}</span>
               </div>
               <div className="grid grid-cols-2 py-2">
-                <span className="font-medium text-gray-600">{t("table.columns.name", { ns: SUB_DEPARTMENT_TRANSLATION_NAMESPACE })}</span>
+                <span className="font-medium text-gray-600">{t("table.columns.name")}</span>
                 <span className="text-gray-900 font-semibold">{subDepartment?.name}</span>
               </div>
               <div className="grid grid-cols-1 py-2">
                 <div className="grid grid-cols-2 py-1">
-                  <span className="font-medium text-gray-600">{t("table.columns.departmentID", { ns: SUB_DEPARTMENT_TRANSLATION_NAMESPACE })}</span>
+                  <span className="font-medium text-gray-600">{t("table.columns.departmentID")}</span>
                   <span className="text-gray-900 font-semibold">{subDepartment?.departmentId}</span>
                 </div>
                 <div className="grid grid-cols-2 py-1">
-                  <span className="font-medium text-gray-600">{t("table.columns.departmentName", { ns: SUB_DEPARTMENT_TRANSLATION_NAMESPACE })}</span>
+                  <span className="font-medium text-gray-600">{t("table.columns.departmentName")}</span>
                   <span className="text-gray-900 font-semibold">{subDepartment?.departmentName}</span>
                 </div>
               </div>
               <div className="grid grid-cols-1 py-2">
                 <div className="grid grid-cols-2 py-1">
-                  <span className="font-medium text-gray-600">{t("table.columns.entityID", { ns: SUB_DEPARTMENT_TRANSLATION_NAMESPACE })}</span>
+                  <span className="font-medium text-gray-600">{t("table.columns.entityID")}</span>
                   <span className="text-gray-900 font-semibold">{subDepartment?.entityId}</span>
                 </div>
                 <div className="grid grid-cols-2 py-1">
-                  <span className="font-medium text-gray-600">{t("table.columns.entityName", { ns: SUB_DEPARTMENT_TRANSLATION_NAMESPACE })}</span>
+                  <span className="font-medium text-gray-600">{t("table.columns.entityName")}</span>
                   <span className="text-gray-900 font-semibold">{subDepartment?.entityName}</span>
                 </div>
               </div>
               <div className="grid grid-cols-1 gap-2 py-2">
-                <span className="font-medium text-gray-600">{t("table.columns.description", { ns: SUB_DEPARTMENT_TRANSLATION_NAMESPACE })}</span>
-                <span className="text-gray-900 font-semibold">{subDepartment?.description != null ? truncateText(subDepartment?.description) : t("table.NA")}</span>
+                <span className="font-medium text-gray-600">{t("table.columns.description")}</span>
+                <span className="text-gray-900 font-semibold">{subDepartment?.description != null ? subDepartment?.description : t("NA")}</span>
               </div>
             </div>
           </div>
@@ -99,4 +98,4 @@ const ShowSubDepartmentPopup = ({ isOpen, handleClose, handleDeletePopupOpen, ha
   )
 }
 
-export default ShowSubDepartmentPopup
+export default ShowPopup

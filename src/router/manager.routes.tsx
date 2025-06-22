@@ -4,9 +4,8 @@ import { RootLayout } from "../pages/Layouts";
 import { ProtectedRoute } from "../components/auth";
 import { AddEmployeePage, EditEmployeePage, ManageEmployeesPage } from "../pages/common/manage-employees";
 import { AddManagerPage, EditManagerPage, ManageManagersPage } from "../pages/common/manage-managers";
-import { ManageSubDepartmentsPage } from "../pages/common/manage-sub-departments";
 import ManagerAccountPage from "../pages/Manager/Account";
-import { OrdinaryRequestsPage, AttendanceOverviewPage, AttendanceVacationsPage, ManageAttendancePage, CalendarPage, MissionRequestsPage, CasualLeaveRequestsPage, SickLRequestsPage, LeaveRequestsPage, LeaveRequestsWithAttendance, MissionRequestsWithAttendance } from "../pages/Manager";
+import { OrdinaryRequestsPage, AttendanceOverviewPage, AttendanceVacationsPage, ManageAttendancePage, CalendarPage, MissionRequestsPage, CasualLeaveRequestsPage, SickLRequestsPage, LeaveRequestsPage, LeaveRequestsWithAttendance, MissionRequestsWithAttendance, ManageSubDepartmentsPage } from "../pages/Manager";
 
 export const managerRoutes = (isLoggedIn: boolean, userRole: string) => (
   <Route 

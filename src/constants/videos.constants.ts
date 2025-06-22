@@ -6,6 +6,7 @@ export const PERMISSION_VIDEO = "";
 export const OFFICIAL_VACATION_VIDEO = "";
 export const ENTITY_VIDEO = "";
 export const DEPARTMENT_VIEDO = "";
+export const SUB_DEPARTMENT_VIEDO = "";
 
 export const CALENDER_VIDEO =
   "https://www.youtube.com/embed/N75508C2hbs?si=D34e6srFNk2G3vZf";

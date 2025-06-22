@@ -1,28 +1,32 @@
-import { useMemo } from "react";
 import { Button, NoDataMessage, Table, TableCell, TableRow, TableSkeleton, Tooltip } from "../../../../components/ui";
 import { Eye, FilePenLine, Trash2 } from "lucide-react";
-import { TFunction } from "i18next";
 import { truncateText } from "../../../../utils";
-import { ISubDepartmentData } from "../../../../interfaces";
-import { SUB_DEPARTMENT_TABLE_COLUMNS, SUB_DEPARTMENT_TRANSLATION_NAMESPACE } from "..";
+import { SubDepartment } from "../../../../interfaces";
+import { useTranslation } from "react-i18next";
+import { SUB_DEPARTMENT_NS } from "../../../../constants";
 import { HasPermission } from "../../../../components/auth";
 
-interface ISubDepartmentsTableProps {
-  subDepartments: ISubDepartmentData[];
+interface Props {
+  subDepartments: SubDepartment[];
   isLoading: boolean;
-  t: TFunction;
-  handleShowSubDepartment: (id: number) => void;
-  handleEditSubDepartment: (id: number) => void;
-  handleDeleteSubDepartment: (id: number) => void;
+  handleShow: (id: number) => void;
+  handleEdit: (id: number) => void;
+  handleDelete: (id: number) => void;
 }
 
-const SubDepartmentsTable = ({ subDepartments, t, isLoading, handleShowSubDepartment, handleEditSubDepartment, handleDeleteSubDepartment }: ISubDepartmentsTableProps) => {
+const SubDepartmentsTable = ({ subDepartments, isLoading, handleShow, handleEdit, handleDelete }: Props) => {
+  const { t } = useTranslation([SUB_DEPARTMENT_NS]);
 
-  const columns = useMemo(
-    () => SUB_DEPARTMENT_TABLE_COLUMNS.map(key => t(key, { ns: SUB_DEPARTMENT_TRANSLATION_NAMESPACE })),
-    [t]
-  );
+  const SUB_DEPARTMENT_TABLE_COLUMNS = [
+    "table.columns.id",
+    "table.columns.name",
+    "table.columns.departmentName",
+    "table.columns.entityName",
+    "table.columns.description",
+    "table.columns.actions",
+  ]
 
+  const columns = SUB_DEPARTMENT_TABLE_COLUMNS.map(key => t(key));
 
   return (
     <>
@@ -31,7 +35,7 @@ const SubDepartmentsTable = ({ subDepartments, t, isLoading, handleShowSubDepart
       ) : (
         <Table columns={columns}>
           {subDepartments.length == 0 ? (
-            <NoDataMessage title={t("table.emptyTable.title", { ns: SUB_DEPARTMENT_TRANSLATION_NAMESPACE })} message={t("table.emptyTable.message", { ns: SUB_DEPARTMENT_TRANSLATION_NAMESPACE })} />
+            <NoDataMessage title={t("table.emptyTable.title")} message={t("table.emptyTable.message")} />
           ) : (
             subDepartments.map((subDepartment) => (
               <TableRow key={subDepartment.subDepartmentId} className="border-b">
@@ -39,42 +43,48 @@ const SubDepartmentsTable = ({ subDepartments, t, isLoading, handleShowSubDepart
                 <TableCell label={columns[1]}>{subDepartment.name}</TableCell>
                 <TableCell label={columns[2]}>{subDepartment.departmentName}</TableCell>
                 <TableCell label={columns[3]}>{subDepartment.entityName}</TableCell>
-                <TableCell label={columns[4]}>{subDepartment.description != null ? truncateText(subDepartment.description, 30) : t("table.NA")}</TableCell>
+                <TableCell label={columns[4]}>{subDepartment.description ? truncateText(subDepartment.description, 30) : t("NA")}</TableCell>
                 <TableCell label={columns[5]}>
                   <div className="flex flex-wrap gap-2">
                     <HasPermission permission="View SubDepartments">
-                      <Tooltip content="View Sub-Departments">
+                      <Tooltip 
+                        content={t("buttons.toolTipShow")}
+                      >
                         <Button 
                           variant="primary" 
                           fullWidth={false}
                           size={"sm"}
                           icon={<Eye className="w-full h-full" />} 
                           aria-label={t("buttons.view")}
-                          onClick={() => handleShowSubDepartment(subDepartment.subDepartmentId)}
+                          onClick={() => handleShow(subDepartment.subDepartmentId)}
                         />
                       </Tooltip>
                     </HasPermission>
                     <HasPermission permission="Update SubDepartment">
-                      <Tooltip content="Update Sub-Department">
+                      <Tooltip 
+                        content={t("buttons.toolTipEdit")}
+                      >
                         <Button 
                           variant="info" 
                           fullWidth={false}
                           size={"sm"}
                           icon={<FilePenLine className="w-full h-full" />} 
                           aria-label={t("buttons.edit")} 
-                          onClick={() => handleEditSubDepartment(subDepartment.subDepartmentId)}
+                          onClick={() => handleEdit(subDepartment.subDepartmentId)}
                         />
                       </Tooltip>
                     </HasPermission>
                     <HasPermission permission="Delete SubDepartment">
-                      <Tooltip content="Delete Sub-Department">
+                      <Tooltip 
+                        content={t("buttons.toolTipDelete")}
+                      >
                         <Button
                           variant="danger"
                           fullWidth={false}
                           size={"sm"}
                           icon={<Trash2 className="w-full h-full" />}
                           aria-label={t("buttons.delete")}
-                          onClick={() => handleDeleteSubDepartment(subDepartment.subDepartmentId)}
+                          onClick={() => handleDelete(subDepartment.subDepartmentId)}
                         />
                       </Tooltip>
                     </HasPermission>

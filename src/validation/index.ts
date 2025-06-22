@@ -9,7 +9,6 @@ export * from "./manager.schema"
 export * from "./officialVacation.schema"
 export * from "./profile.schema"
 export * from "./resetAccount.schema"
-export * from "./subDepartment.schema"
 export * from "./systemData.schema"
 export * from "./updateAccount.schema"
 export * from "./updatePassword.schema"
@@ -21,6 +20,7 @@ export * from "./casualLeaveRequest.schema copy"
 export * from "./sickRequest.schema"
 export * from "./entity.schema"
 export * from "./department.schema"
+export * from "./subDepartment.schema"
 
 export const uploadProfileImageSchema = yup.object().shape({
   profileImage: yup

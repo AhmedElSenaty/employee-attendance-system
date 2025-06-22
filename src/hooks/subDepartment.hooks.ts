@@ -1,118 +1,126 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import {
-  ISubDepartmentCredentials,
   IErrorResponse,
-  ISubDepartmentData,
   initialMetadata,
 } from "../interfaces";
 import { getTranslatedMessage, handleApiError, showToast } from "../utils";
-import { useLanguageStore } from "../store/language.store";
-import { useUserStore } from "../store/user.store";
+import { useLanguageStore, useUserStore } from "../store/";
 import { SubDepartmentService } from "../services";
+import { QueryKeys } from "../constants";
+import { SubDepartmentFormValues } from "../validation";
 
-export const SUB_DEPARTMENTS_QUERY_KEY = "subDepartments";
-export const SUB_DEPARTMENT_DETAILS_QUERY_KEY = "subDepartmentDetails";
-export const SUB_DEPARTMENTS_LIST_QUERY_KEY = "subDepartmentsList";
+export const useSubDepartmentService = () => {
+  const token = useUserStore((state) => state.token);
+
+  const service = useMemo(() => {
+    return new SubDepartmentService(token);
+  }, [token]);
+
+  return service;
+};
 
 export const useGetSubDepartments = (
-  page: number,
-  pageSize: number,
-  searchKey: string,
-  debouncedSearchQuery: string
+  page?: number,
+  pageSize?: number,
+  searchKey?: string,
+  searchQuery?: string
 ) => {
   const token = useUserStore((state) => state.token);
-  const service = new SubDepartmentService(token);
+  const service = useSubDepartmentService();
 
   const { data, isLoading } = useQuery({
-    queryKey: [SUB_DEPARTMENTS_QUERY_KEY, page, pageSize, searchKey, debouncedSearchQuery],
-    queryFn: () => service.fetchAll(page, pageSize, searchKey, debouncedSearchQuery),
+    queryKey: [
+      QueryKeys.SubDepartments.All,
+      page, 
+      pageSize, 
+      `${searchKey && searchQuery ? [searchKey, searchQuery] : ""}`
+    ],
+    queryFn: () => service.fetchAll(page, pageSize, searchKey, searchQuery),
     enabled: !!token,
   });
 
   return {
-    subDepartments: data?.data?.subDepartments || [],
-    metadata: data?.data?.metadata || initialMetadata,
-    totalSubDepartments: data?.data?.totalCount || 0,
-    isSubDepartmentsDataLoading: isLoading,
+    subDepartments: data?.data?.data?.subDepartments || [],
+    metadata: data?.data?.data?.metadata || initialMetadata,
+    count: data?.data?.data?.totalCount || 0,
+    isLoading,
   };
 };
 
 export const useGetSubDepartmentByID = (
   subDepartmentID: number,
-  resetInputs?: (data: ISubDepartmentCredentials) => void
+  resetInputs: (data: SubDepartmentFormValues) => void
 ) => {
   const token = useUserStore((state) => state.token);
-  const service = new SubDepartmentService(token);
+  const service = useSubDepartmentService();
 
   const { data, isLoading } = useQuery({
-    queryKey: [SUB_DEPARTMENT_DETAILS_QUERY_KEY, subDepartmentID],
+    queryKey: [QueryKeys.SubDepartments.Details, subDepartmentID],
     queryFn: () => service.fetchByID(subDepartmentID),
     enabled: !!subDepartmentID && !!token,
   });
 
   useEffect(() => {
-    if (data?.data && resetInputs) {
-      const sub = data.data as ISubDepartmentData;
+    if (data?.data?.data) {
       resetInputs({
-        id: sub.subDepartmentId,
-        name: sub.name,
-        entityId: sub.entityId,
-        departmentID: sub.departmentId,
-        description: sub.description,
+        id: data?.data?.data.subDepartmentId,
+        name: data?.data?.data.name,
+        entityId: data?.data?.data.entityId,
+        departmentID: data?.data?.data.departmentId,
+        description: data?.data?.data.description,
       });
     }
   }, [data, resetInputs]);
 
   return {
-    subDepartment: data?.data,
-    isSubDepartmentDataLoading: isLoading,
+    subDepartment: data?.data?.data,
+    isLoading,
   };
 };
 
 export const useGetSubDepartmentsList = () => {
   const token = useUserStore((state) => state.token);
-  const service = new SubDepartmentService(token);
+  const service = useSubDepartmentService();
 
   const { data, isLoading } = useQuery({
-    queryKey: [SUB_DEPARTMENTS_LIST_QUERY_KEY],
+    queryKey: [QueryKeys.SubDepartments.List],
     queryFn: () => service.fetchList(),
     enabled: !!token,
   });
 
   return {
-    subDepartmentsList: data ?? [],
-    isSubDepartmentsLoading: isLoading,
+    subDepartmentsList: data?.data?.data ?? [],
+    isLoading,
   };
 };
 
 export const useGetDepartmentSubDepartments = (departmentID: number) => {
   const token = useUserStore((state) => state.token);
-  const service = new SubDepartmentService(token);
+  const service = useSubDepartmentService();
 
   const { data, isLoading } = useQuery({
-    queryKey: [SUB_DEPARTMENTS_LIST_QUERY_KEY, departmentID],
+    queryKey: [QueryKeys.SubDepartments.List, departmentID],
     queryFn: () => service.fetchDepartmentSubDepartments(departmentID),
     enabled: !!token && !!departmentID,
   });
 
   return {
-    subDepartmentsList: data ?? [],
-    isSubDepartmentsLoading: isLoading,
+    subDepartmentsList: data?.data?.data ?? [],
+    isLoading,
   };
 };
 
 export const useCreateSubDepartment = () => {
-  const token = useUserStore((state) => state.token);
   const { language } = useLanguageStore();
   const queryClient = useQueryClient();
-  const service = new SubDepartmentService(token);
+  const service = useSubDepartmentService();
 
   return useMutation({
-    mutationFn: (data: ISubDepartmentCredentials) => service.create(data),
+    mutationFn: (data: SubDepartmentFormValues) => service.create(data),
     onSuccess: ({ status, data }) => {
-      queryClient.invalidateQueries({ queryKey: [SUB_DEPARTMENTS_QUERY_KEY] });
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.SubDepartments.All] });
 
       if (status === 201) {
         const message = getTranslatedMessage(data.message ?? "", language);
@@ -127,15 +135,14 @@ export const useCreateSubDepartment = () => {
 };
 
 export const useUpdateSubDepartment = () => {
-  const token = useUserStore((state) => state.token);
   const { language } = useLanguageStore();
   const queryClient = useQueryClient();
-  const service = new SubDepartmentService(token);
+  const service = useSubDepartmentService();
 
   return useMutation({
-    mutationFn: (data: ISubDepartmentCredentials) => service.update(data),
+    mutationFn: (data: SubDepartmentFormValues) => service.update(data),
     onSuccess: ({ status, data }) => {
-      queryClient.invalidateQueries({ queryKey: [SUB_DEPARTMENTS_QUERY_KEY] });
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.SubDepartments.All] });
 
       if (status === 200) {
         const message = getTranslatedMessage(data.message ?? "", language);
@@ -150,15 +157,14 @@ export const useUpdateSubDepartment = () => {
 };
 
 export const useDeleteSubDepartment = () => {
-  const token = useUserStore((state) => state.token);
   const { language } = useLanguageStore();
   const queryClient = useQueryClient();
-  const service = new SubDepartmentService(token);
+  const service = useSubDepartmentService();
 
   return useMutation({
     mutationFn: (subDepartmentID: number) => service.delete(subDepartmentID),
     onSuccess: ({ status, data }) => {
-      queryClient.invalidateQueries({ queryKey: [SUB_DEPARTMENTS_QUERY_KEY] });
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.SubDepartments.All] });
 
       if (status === 200) {
         const message = getTranslatedMessage(data.message ?? "", language);

@@ -1,4 +1,5 @@
 export { default as CalendarPage } from "../common/Calender"
+export { default as ManageSubDepartmentsPage } from "../common/manage-sub-departments"
 export * from "../common/manage-attendance"
 export * from "./leave-requests"
 export * from "./mission-requests"

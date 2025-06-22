@@ -1,4 +1,4 @@
-import { DEPARTMENT_NS, DEVICES_NS, ENTITY_NS, LOGS_NS, OFFICIAL_VACATION_NS, PERMISSION_NS, PROFILE_NS, SICK_REQUESTS_NS, SYSTEM_DATA_NS } from "./namespaces.constants";
+import { DEPARTMENT_NS, DEVICES_NS, ENTITY_NS, LOGS_NS, OFFICIAL_VACATION_NS, PERMISSION_NS, PROFILE_NS, SICK_REQUESTS_NS, SUB_DEPARTMENT_NS, SYSTEM_DATA_NS } from "./namespaces.constants";
 
 export const i18n_LOAD_PATH = "/locales/{{lng}}/{{ns}}.json";
 export const FALLBACK_LANGUAGE = "ar";
@@ -14,6 +14,7 @@ export const i18n_NAMESPACES = [
   OFFICIAL_VACATION_NS,
   ENTITY_NS,
   DEPARTMENT_NS,
+  SUB_DEPARTMENT_NS,
   "dashboard",
   "adminPages",
   "attendancePages",
@@ -27,7 +28,6 @@ export const i18n_NAMESPACES = [
   "navbar",
   "resetAccount",
   "sidebarItems",
-  "subDepartmentPages",
   "adminAccount",
   "managerAccount",
   "empolyeeAccount",

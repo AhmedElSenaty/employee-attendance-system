@@ -1,5 +1,5 @@
 import axiosInstance from "../config/axios.config";
-import { ISubDepartment, ISubDepartmentCredentials } from "../interfaces";
+import { SubDepartmentFormValues } from "../validation";
 import { BaseService } from "./base.services";
 
 export class SubDepartmentService extends BaseService {
@@ -21,22 +21,22 @@ export class SubDepartmentService extends BaseService {
         headers: this.getAuthHeaders(),
       });
 
-      return response.data;
+      return response;
     } catch (error) {
       console.error("Error fetching all sub-departments:", error);
       throw error;
     }
   };
 
-  fetchList = async (): Promise<ISubDepartment[]> => {
+  fetchList = async () => {
     try {
       const response = await axiosInstance.get(`/SubDepartment/List`, {
         headers: this.getAuthHeaders(),
       });
-      return response.data.data;
+      return response;
     } catch (error) {
       console.error("Error fetching sub-departments list:", error);
-      return [];
+      throw error;
     }
   };
 
@@ -45,20 +45,20 @@ export class SubDepartmentService extends BaseService {
       const response = await axiosInstance.get(`/SubDepartment/${subDepartmentID}`, {
         headers: this.getAuthHeaders(),
       });
-      return response.data;
+      return response;
     } catch (error) {
       console.error(`Error fetching sub-department with ID ${subDepartmentID}:`, error);
       throw error;
     }
   };
 
-  create = (subDepartment: ISubDepartmentCredentials) => {
+  create = (subDepartment: SubDepartmentFormValues) => {
     return axiosInstance.post(`/SubDepartment`, subDepartment, {
       headers: this.getAuthHeaders(),
     });
   };
 
-  update = (subDepartment: ISubDepartmentCredentials) => {
+  update = (subDepartment: SubDepartmentFormValues) => {
     return axiosInstance.put(`/SubDepartment`, subDepartment, {
       headers: this.getAuthHeaders(),
     });
@@ -72,15 +72,15 @@ export class SubDepartmentService extends BaseService {
 
   fetchDepartmentSubDepartments = async (
     departmentID: number
-  ): Promise<ISubDepartment[]> => {
+  ) => {
     try {
       const response = await axiosInstance.get(`/SubDepartment/list/${departmentID}`, {
         headers: this.getAuthHeaders(),
       });
-      return response.data.data;
+      return response;
     } catch (error) {
       console.error(`Error fetching sub-departments for department ${departmentID}:`, error);
-      return [];
+      throw error;
     }
   };
 }

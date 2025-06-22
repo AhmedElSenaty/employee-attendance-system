@@ -1,17 +1,17 @@
-export interface ISubDepartment {
+export interface SubDepartmentSummary {
   id: number;
   name: string;
 }
 
-export interface ISubDepartmentCredentials {
-  id: number;
+export interface SubDepartmentCredentials {
+  id?: number;
   name: string;
   description?: string;
   departmentID: number;
   entityId: number;
 }
 
-export interface ISubDepartmentData {
+export interface SubDepartment {
   subDepartmentId: number,
   name: string,
   description: string,
