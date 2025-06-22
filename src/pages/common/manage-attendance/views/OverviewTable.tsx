@@ -1,4 +1,3 @@
-import { IAttendanceSummaryData } from "../../../../interfaces";
 import { NavLink } from "react-router";
 import { Calendar } from "lucide-react";
 import { formatValue } from "../../../../utils";
@@ -7,13 +6,14 @@ import { useUserStore, useLanguageStore } from "../../../../store/";
 import { Button, NoDataMessage, Table, TableCell, TableRow, TableSkeleton, Tooltip } from "../../../../components/ui";
 import { useTranslation } from "react-i18next";
 import { ATTENDANCE_NS } from "../../../../constants";
+import { AttendanceSummaryData } from "../../../../interfaces";
 
-interface IAttendanceOverviewTableProps {
-  attendanceSummary: IAttendanceSummaryData[];
+interface Props {
+  attendance: AttendanceSummaryData[];
   isLoading: boolean;
 }
 
-const OverviewTable = ({ attendanceSummary, isLoading }: IAttendanceOverviewTableProps) => {
+const OverviewTable = ({ attendance, isLoading }: Props) => {
   const userRole = useUserStore((state) => state.role);
   const { t } = useTranslation([ATTENDANCE_NS]);
   const { language } = useLanguageStore();
@@ -38,10 +38,10 @@ const OverviewTable = ({ attendanceSummary, isLoading }: IAttendanceOverviewTabl
         <TableSkeleton numberOfColumns={columns.length} defaultNumberOfRows={5} />
       ) : (
         <Table columns={columns}>
-          {attendanceSummary.length == 0 ? (
+          {attendance.length == 0 ? (
             <NoDataMessage title={t("table.emptyTable.title")} message={t("table.emptyTable.message")} />
           ) : (
-            attendanceSummary.map((attendance) => (
+            attendance.map((attendance) => (
               <TableRow key={attendance.employeeId} className="border-b">
                 <TableCell label={columns[0]}>{attendance.employeeName}</TableCell>
                 <TableCell label={columns[1]}>{attendance.department}</TableCell>

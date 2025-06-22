@@ -1,5 +1,5 @@
 import axiosInstance from "../config/axios.config";
-import { IAttendanceCredentials } from "../interfaces";
+import { AttendanceCredentials } from "../interfaces";
 import { BaseService } from "./base.services";
 
 export class AttendanceService extends BaseService {
@@ -146,13 +146,13 @@ export class AttendanceService extends BaseService {
     }
   };
 
-  create = (attendance: IAttendanceCredentials) => {
+  create = (attendance: AttendanceCredentials) => {
     return axiosInstance.post(`/Attendance`, attendance, {
       headers: this.getAuthHeaders(),
     });
   };
 
-  update = (attendance: IAttendanceCredentials) => {
+  update = (attendance: AttendanceCredentials) => {
     return axiosInstance.put(`/Attendance`, attendance, {
       headers: this.getAuthHeaders(),
     });

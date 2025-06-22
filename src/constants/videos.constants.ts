@@ -7,22 +7,12 @@ export const OFFICIAL_VACATION_VIDEO = "";
 export const ENTITY_VIDEO = "";
 export const DEPARTMENT_VIEDO = "";
 export const SUB_DEPARTMENT_VIEDO = "";
+export const ATTENDANCE_VIDEO = "";
+export const ATTENDANCE_OVERVIEW_VIDEO = "";
+export const ATTENDANCE_VACATION_VIDEO = "";
+export const CALENDER_MANAGER_VIDEO = "";
+export const CALENDER_EMPLOYEE_VIDEO = "";
 
-export const CALENDER_VIDEO =
-  "https://www.youtube.com/embed/N75508C2hbs?si=D34e6srFNk2G3vZf";
-
-
-
-export const ATTENDANCE_VIDEO =
-  "https://www.youtube.com/embed/1OtHVXCYRKE?si=gFbOgUfnOntLXmUk";
-
-export const ATTENDANCE_OVERVIEW_VIDEO =
-  "https://www.youtube.com/embed/rlEfsEVSkts?si=S3dtrqTCq3eQ_G_q";
-
-export const ATTENDANCE_VACATION_VIDEO =
-  "https://www.youtube.com/embed/LX8n7SDgnkY?si=r5xjdn-Kv4QOhvpl";
-
-  
 
 export const LEAVE_REQUESTS_MANAGER_VIDEO ="https://www.youtube.com/embed/Z5yx_szNx7Y?si=mbyUFV6AYf01Z_rw";
 export const LEAVE_REQUESTS_EMPLOYEE_VIDEO = "https://www.youtube.com/embed/JxAqaMFEVBY?si=td9ZDtjejShtuo7s";

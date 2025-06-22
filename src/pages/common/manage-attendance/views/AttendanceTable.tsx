@@ -1,20 +1,22 @@
 import { AlertTriangle, CheckCircle, Eye, FilePenLine, Trash2 } from "lucide-react";
-import { IAttendanceData } from "../../../../interfaces";
 import { HasPermission } from "../../../../components/auth";
 import { Button, NoDataMessage, StatusBadge, Table, TableCell, TableRow, TableSkeleton, Tooltip } from "../../../../components/ui";
 import { useTranslation } from "react-i18next";
 import { ATTENDANCE_NS } from "../../../../constants";
+import { useLanguageStore } from "../../../../store";
+import { AttendanceData } from "../../../../interfaces";
 
-interface IAttendanceTableProps {
-  attendances: IAttendanceData[];
+interface Props {
+  attendances: AttendanceData[];
   isLoading: boolean;
   handleShow: (id: number) => void;
   handleEdit: (id: number) => void;
   handleDelete: (id: number) => void;
 }
 
-const AttendanceTable = ({ attendances, isLoading, handleShow, handleEdit, handleDelete }: IAttendanceTableProps) => {
+const AttendanceTable = ({ attendances, isLoading, handleShow, handleEdit, handleDelete }: Props) => {
   const { t } = useTranslation([ATTENDANCE_NS]);
+  const { language } = useLanguageStore();
 
   const ATTENDANCE_TABLE_COLUMNS = [
     "table.columns.id",
@@ -41,7 +43,7 @@ const AttendanceTable = ({ attendances, isLoading, handleShow, handleEdit, handl
             attendances.map((attendance) => (
               <TableRow key={attendance.id} className="border-b">
                 <TableCell label={columns[0]}>{attendance.id}</TableCell>
-                <TableCell label={columns[1]}>{attendance.attendanceDate}</TableCell>
+                <TableCell label={columns[1]}>{new Date(attendance.attendanceDate).toLocaleDateString(language == "ar" ? "ar-EG" : "en-CA")}</TableCell>
                 <TableCell label={columns[2]}>{attendance.attendanceTime}</TableCell>
                 <TableCell label={columns[3]}>{attendance.empName}</TableCell>
                 <TableCell label={columns[4]}>

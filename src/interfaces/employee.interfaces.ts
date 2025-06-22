@@ -1,4 +1,4 @@
-export interface IEmployee {
+export interface EmployeeSummary {
   id: number;
   name: string;
 }
@@ -30,7 +30,7 @@ export interface IEmployeeCredentials {
   avilableCasualLeaveeRequestsPerYear?: string,
 }
 
-export interface IEmployeeData {
+export interface EmployeeData {
   id: string,
   ssn: string,
   fullName: string,

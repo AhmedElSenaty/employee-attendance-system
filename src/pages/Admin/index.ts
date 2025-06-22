@@ -1,6 +1,4 @@
 export { default as CalendarPage } from "../common/Calender"
-export { default as ManageSubDepartmentsPage } from "../common/manage-sub-departments"
-export * from "../common/manage-attendance"
 
 export { default as ManageDevicesPage } from "./manage-devices"
 export { default as LogsPage } from "./manage-logs"
@@ -10,3 +8,5 @@ export { default as ManagePermissionsPage } from "./manage-permissions"
 export { default as ManageOfficialVacationsPage } from "./manage-official-vacation"
 export { default as ManageEntitiesPage } from "./manage-entities"
 export { default as ManageDepartmentsPage } from "./manage-departments"
+export { default as ManageSubDepartmentsPage } from "../common/manage-sub-departments"
+export * from "../common/manage-attendance"

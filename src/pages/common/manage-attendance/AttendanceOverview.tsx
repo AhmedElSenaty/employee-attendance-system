@@ -30,7 +30,7 @@ const AttendanceOverviewPage = () => {
     const searchKey = rawSearchKey || undefined;
     const searchQuery = useDebounce(rawSearchQuery, 650) || undefined;
 
-  const { attendanceSummary, totalAttendanceSummary, metadata, isAttendanceSummaryLoading } = useGetAttendanceSummary(
+  const { attendanceSummary, count: totalAttendanceSummary, metadata, isLoading: isAttendanceSummaryLoading } = useGetAttendanceSummary(
     page, pageSize, searchKey, searchQuery, startDate, endDate);
 
 
@@ -67,7 +67,7 @@ const AttendanceOverviewPage = () => {
           </div>
           <div className="w-full overflow-x-auto">
             <OverviewTable 
-              attendanceSummary={attendanceSummary}
+              attendance={attendanceSummary}
               isLoading={isAttendanceSummaryLoading} 
             />
           </div>

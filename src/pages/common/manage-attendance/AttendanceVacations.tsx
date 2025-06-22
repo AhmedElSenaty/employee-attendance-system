@@ -30,7 +30,7 @@ const AttendanceVacationsPage = () => {
     const departmentId = rawDepartmentId || "";
     const subDeptartmentId = rawSubDeptartmentId || "";
 
-  const { attendanceWithVacations, totalAttendances, metadata, isAttendanceWithVacationsLoading } = useGetAttendanceWithVacations(
+  const { attendanceWithVacations, count: totalAttendances, metadata, isLoading: isAttendanceWithVacationsLoading } = useGetAttendanceWithVacations(
     page, pageSize, searchKey, searchQuery, departmentId || 0, subDeptartmentId || 0);
 
 
@@ -67,7 +67,7 @@ const AttendanceVacationsPage = () => {
           </div>
           <div className="w-full overflow-x-auto">
             <VacationTable 
-              attendanceWithVacations={attendanceWithVacations}
+              attendance={attendanceWithVacations}
               isLoading={isAttendanceWithVacationsLoading} 
             />
           </div>

@@ -1,5 +1,4 @@
 export * from "./admin.interfaces"
-export * from "./attendance.interfaces";
 export * from "./auth.interfaces";
 export * from "./employee.interfaces"
 export * from "./filtersInterfaces"
@@ -8,7 +7,6 @@ export * from "./manager.interfaces";
 export * from "./me.interfaces"
 export * from "./metadata.interface"
 export * from "./pagination.interface"
-export * from "./report.interfaces"
 export * from "./resetAccount.interfaces";
 export * from "./workingDays.interfaces";
 export * from "./leaveRequest.interfaces"
@@ -26,6 +24,8 @@ export * from "./officialVacation.interfaces";
 export * from "./entity.interfaces";
 export * from "./department.interfaces";
 export * from "./subDepartment.interfaces";
+export * from "./attendance.interfaces";
+export * from "./report.interfaces"
 
 export interface IErrorResponse {
   errors?: string[]; // The API might return an array of error messages

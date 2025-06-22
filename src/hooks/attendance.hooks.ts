@@ -2,7 +2,7 @@ import { useEffect, useMemo } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import {
-  IAttendanceCredentials,
+  AttendanceCredentials,
   IErrorResponse,
   initialAttendanceEntry,
   initialMetadata,
@@ -13,10 +13,9 @@ import {
   handleApiError,
   showToast,
 } from "../utils";
-import { useLanguageStore } from "../store/language.store";
-import { useUserStore } from "../store/user.store";
 import { AttendanceService } from "../services";
 import { QueryKeys } from "../constants";
+import { useLanguageStore, useUserStore } from "../store";
 
 export const useAttendanceService = () => {
   const token = useUserStore((state) => state.token);
@@ -33,7 +32,7 @@ export const useGetAttendances = (
   page?: number,
   pageSize?: number,
   searchKey?: string,
-  debouncedSearchQuery?: string,
+  searchQuery?: string,
   startDate?: string,
   endDate?: string,
   startTime?: string,
@@ -50,7 +49,7 @@ export const useGetAttendances = (
       QueryKeys.Attendance.All,
       page,
       pageSize,
-      `${searchKey && debouncedSearchQuery ? [searchKey, debouncedSearchQuery] : ""}`, 
+      `${searchKey && searchQuery ? [searchKey, searchQuery] : ""}`, 
       startDate,
       endDate,
       startTime,
@@ -64,7 +63,7 @@ export const useGetAttendances = (
         page,
         pageSize,
         searchKey,
-        debouncedSearchQuery,
+        searchQuery,
         startDate,
         endDate,
         startTime,
@@ -78,9 +77,9 @@ export const useGetAttendances = (
 
   return {
     attendancesData: data?.data?.data.attendances || [],
-    totalAttendances: data?.data?.data.totalCount || 0,
+    count: data?.data?.data.totalCount || 0,
     metadata: data?.data?.data.metadata || initialMetadata,
-    isAttendancesDataLoading: isLoading,
+    isLoading,
   };
 };
 
@@ -89,7 +88,7 @@ export const useGetAttendanceSummary = (
   page?: number,
   pageSize?: number,
   searchKey?: string,
-  debouncedSearchQuery?: string,
+  searchQuery?: string,
   startDate?: string,
   endDate?: string
 ) => {
@@ -103,7 +102,7 @@ export const useGetAttendanceSummary = (
       pageSize,
       startDate,
       endDate,
-      `${searchKey && debouncedSearchQuery ? [searchKey, debouncedSearchQuery] : ""}`, 
+      `${searchKey && searchQuery ? [searchKey, searchQuery] : ""}`, 
     ],
     queryFn: () =>
       service.fetchSummary(
@@ -112,16 +111,16 @@ export const useGetAttendanceSummary = (
         startDate,
         endDate,
         searchKey,
-        debouncedSearchQuery,
+        searchQuery,
       ),
     enabled: !!token,
   });
 
   return {
     attendanceSummary: data?.data?.data.attendanceSummary || [],
-    totalAttendanceSummary: data?.data?.data.totalCount || 0,
+    count: data?.data?.data.totalCount || 0,
     metadata: data?.data?.data.metadata || initialMetadata,
-    isAttendanceSummaryLoading: isLoading,
+    isLoading,
   };
 };
 
@@ -142,14 +141,14 @@ export const useGetAttendanceCalendar = (
 
   return {
     calenderDays: data?.data?.data,
-    isAttendanceCalenderLoading: isLoading,
+    isLoading,
   };
 };
 
 // Get detailed attendance
 export const useGetAttendanceDetails = (
   attendanceID: number,
-  resetInputs?: (data: IAttendanceCredentials) => void
+  resetInputs?: (data: AttendanceCredentials) => void
 ) => {
   const token = useUserStore((state) => state.token);
   const service = useAttendanceService();
@@ -168,7 +167,7 @@ export const useGetAttendanceDetails = (
 
   return {
     detailedAttendance: data?.data?.data,
-    isDetailedAttendanceLoading: isLoading,
+    isLoading,
   };
 };
 
@@ -186,7 +185,7 @@ export const useGetAttendanceOverview = () => {
   return {
     attendanceOverviewDtos: data?.data?.data.attendanceOverviewDtos,
     dailyAttendanceDto: data?.data?.data.dailyAttendanceDto,
-    isAttendanceOverviewLoading: isLoading,
+    isLoading,
   };
 };
 
@@ -203,7 +202,7 @@ export const useGetLatestAttendance = () => {
 
   return {
     latestAttendance: data?.data?.data?.latestAttendance || [],
-    islatestAttendanceLoading: isLoading,
+    isLoading,
   };
 };
 
@@ -225,7 +224,7 @@ export const useGetDepartmentAttendanceOverview = (
 
   return {
     departmentAttendanceOverview: data?.data?.data,
-    isDepartmentAttendanceOverviewLoading: isLoading,
+    isLoading,
   };
 };
 
@@ -236,7 +235,7 @@ export const useCreateAttendance = () => {
   const attendanceService = useAttendanceService();
 
   return useMutation({
-    mutationFn: (attendanceData: IAttendanceCredentials) => {
+    mutationFn: (attendanceData: AttendanceCredentials) => {
       const formatted = {
         ...attendanceData,
         attendanceTime: appendSecondsToTime(attendanceData.attendanceTime || ""),
@@ -262,7 +261,7 @@ export const useUpdateAttendance = () => {
   const attendanceService = useAttendanceService();
 
   return useMutation({
-    mutationFn: (attendanceData: IAttendanceCredentials) => {
+    mutationFn: (attendanceData: AttendanceCredentials) => {
       const formatted = {
         ...attendanceData,
         attendanceTime: appendSecondsToTime(attendanceData.attendanceTime || ""),
@@ -309,7 +308,7 @@ export const useGetAttendanceWithVacations = (
   page?: number,
   pageSize?: number,
   searchKey?: string,
-  debouncedSearchQuery?: string,
+  searchQuery?: string,
   departmentId?: number,
   subDepartmentId?: number
   
@@ -322,7 +321,7 @@ export const useGetAttendanceWithVacations = (
       QueryKeys.Attendance.Vacations,
       page,
       pageSize,
-      `${searchKey && debouncedSearchQuery ? [searchKey, debouncedSearchQuery] : ""}`, 
+      `${searchKey && searchQuery ? [searchKey, searchQuery] : ""}`, 
       departmentId,
       subDepartmentId,
     ],
@@ -331,7 +330,7 @@ export const useGetAttendanceWithVacations = (
         page,
         pageSize,
         searchKey,
-        debouncedSearchQuery,
+        searchQuery,
         departmentId,
         subDepartmentId,
       ),
@@ -340,9 +339,9 @@ export const useGetAttendanceWithVacations = (
 
   return {
     attendanceWithVacations: data?.data?.data.attendance || [],
-    totalAttendances: data?.data?.data.totalCount || 0,
+    count: data?.data?.data.totalCount || 0,
     metadata: data?.data?.data.metadata || initialMetadata,
-    isAttendanceWithVacationsLoading: isLoading,
+    isLoading,
   };
 };
 
@@ -360,6 +359,6 @@ export const useGetEmployeeTodayAttendance = () => {
 
   return {
     todayAttendance: data?.data?.data || initialAttendanceEntry,
-    isTodayAttendanceLoading: isLoading,
+    isLoading,
   };
 };

@@ -2,14 +2,14 @@ import { useTranslation } from "react-i18next";
 import { Button, Popup } from "../../../../components/ui";
 import { ATTENDANCE_NS } from "../../../../constants";
 
-interface IDeletePopupProps {
+interface Props {
   isOpen: boolean;
   handleClose: () => void;
   handleConfirmDelete: () => void;
   isLoading: boolean;
 }
 
-const DeletePopup = ({ isOpen, handleClose, handleConfirmDelete, isLoading }: IDeletePopupProps) => {
+const DeletePopup = ({ isOpen, handleClose, handleConfirmDelete, isLoading }: Props) => {
   const { t } = useTranslation([ATTENDANCE_NS]);
 
   return (

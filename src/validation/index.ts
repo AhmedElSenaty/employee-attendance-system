@@ -1,7 +1,6 @@
 import * as yup from "yup";
 
 export * from "./admin.schema"
-export * from "./attendance.schema"
 export * from "./device.schema"
 export * from "./employee.schema"
 export * from "./login.schema"
@@ -21,6 +20,7 @@ export * from "./sickRequest.schema"
 export * from "./entity.schema"
 export * from "./department.schema"
 export * from "./subDepartment.schema"
+export * from "./attendance.schema"
 
 export const uploadProfileImageSchema = yup.object().shape({
   profileImage: yup

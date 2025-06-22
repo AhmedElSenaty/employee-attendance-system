@@ -1,19 +1,19 @@
 import * as yup from "yup";
 
-export const AttendanceSchema = yup.object().shape({
+export const attendanceSchema = yup.object().shape({
   deviceId: yup
     .number()
-    .typeError("Device ID must be a valid number")
-    .integer("Device ID must be a whole number")
-    .positive("Device ID must be greater than 0")
-    .required("Device ID is required"),
+    .typeError("Please select a device")
+    .required("Please select a device")
+    .positive("Please select a valid device")
+    .integer("Please select a valid device"),
 
   employeeId: yup
     .number()
-    .typeError("Employee ID must be a valid number")
-    .integer("Employee ID must be a whole number")
-    .positive("Employee ID must be greater than 0")
-    .required("Employee ID is required"),
+    .typeError("Please select a employee")
+    .required("Please select a employee")
+    .positive("Please select a valid employee")
+    .integer("Please select a valid employee"),
 
   attendanceDate: yup
     .string()
@@ -30,3 +30,5 @@ export const AttendanceSchema = yup.object().shape({
     .required("Status is required")
     .oneOf(["حضور", "انصراف"], "Invalid status selection"),
 });
+
+export type AttendanceFormValues = yup.InferType<typeof attendanceSchema>;

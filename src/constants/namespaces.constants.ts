@@ -1,5 +1,3 @@
-export const CALENDER_NS = "calenderPage"
-export const ATTENDANCE_NS = "attendancePages"
 
 
 
@@ -22,3 +20,5 @@ export const OFFICIAL_VACATION_NS = "officialVacationPages"
 export const ENTITY_NS = "entityPages";
 export const DEPARTMENT_NS = "departmentPages";
 export const SUB_DEPARTMENT_NS = "subDepartmentPages";
+export const ATTENDANCE_NS = "attendancePages"
+export const CALENDER_NS = "calenderPage"

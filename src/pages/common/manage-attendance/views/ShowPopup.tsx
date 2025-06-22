@@ -1,28 +1,28 @@
 import { AlertTriangle, CalendarSearch, CheckCircle } from "lucide-react";
-import { IAttendanceData } from "../../../../interfaces";
+import { AttendanceData } from "../../../../interfaces";
 import { Popup, Button, NormalSpinner, StatusBadge } from "../../../../components/ui";
 import { HasPermission } from "../../../../components/auth";
 import { useTranslation } from "react-i18next";
 import { ATTENDANCE_NS } from "../../../../constants";
 
-interface IShowAttendancePopupProps {
+interface Props {
   isOpen: boolean
   handleClose: () => void;
   handleDeletePopupOpen: () => void;
   handleEditPopupOpen: () => void;
-  attendance: IAttendanceData
+  attendance: AttendanceData
   isLoading: boolean
 }
 
-const ShowPopup = ({ isOpen, handleClose, handleDeletePopupOpen, handleEditPopupOpen, attendance, isLoading }: IShowAttendancePopupProps) => {
+const ShowPopup = ({ isOpen, handleClose, handleDeletePopupOpen, handleEditPopupOpen, attendance, isLoading }: Props) => {
   const { t } = useTranslation([ATTENDANCE_NS]);
 
   return (
     <Popup
       isOpen={isOpen}
       closeModal={handleClose}
-      title={t("viewPopup.title")}
-      description={t("viewPopup.description")}
+      title={t("showPopup.title")}
+      description={t("showPopup.description")}
     >
       {/* Device Details */}
       {
@@ -46,7 +46,7 @@ const ShowPopup = ({ isOpen, handleClose, handleDeletePopupOpen, handleEditPopup
                 <span className="font-medium text-gray-600">{t("table.columns.id")}</span>
                 <span className="text-gray-900 font-semibold">{attendance?.id}</span>
               </div>
-              <div className="grid grid-cols-1 py-2">
+              <div className="grid grid-cols-1 gap-3 py-2">
                 <div className="grid grid-cols-2 py-1">
                   <span className="font-medium text-gray-600">{t("table.columns.deviceId")}</span>
                   <span className="text-gray-900 font-semibold">{attendance?.deviceId}</span>
@@ -56,7 +56,7 @@ const ShowPopup = ({ isOpen, handleClose, handleDeletePopupOpen, handleEditPopup
                   <span className="text-gray-900 font-semibold">{attendance?.deviceName}</span>
                 </div>
               </div>
-              <div className="grid grid-cols-1 py-2">
+              <div className="grid grid-cols-1 gap-3 py-2">
                 <div className="grid grid-cols-2 py-1">
                   <span className="font-medium text-gray-600">{t("table.columns.employeeId")}</span>
                   <span className="text-gray-900 font-semibold">{attendance?.employeeId}</span>
@@ -85,7 +85,7 @@ const ShowPopup = ({ isOpen, handleClose, handleDeletePopupOpen, handleEditPopup
                 </StatusBadge>
               </div>
 
-              <div className="grid grid-cols-1 py-2">
+              <div className="grid grid-cols-1 gap-3 py-2">
                 <div className="grid grid-cols-2 py-1">
                   <span className="font-medium text-gray-600">{t("table.columns.department")}</span>
                   <span className="text-gray-900 font-semibold">{attendance?.department}</span>
@@ -96,7 +96,7 @@ const ShowPopup = ({ isOpen, handleClose, handleDeletePopupOpen, handleEditPopup
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 py-2">
+              <div className="grid grid-cols-1 gap-3 py-2">
                 <div className="grid grid-cols-2 py-1">
                   <span className="font-medium text-gray-600">{t("table.columns.delegeteDepartment")}</span>
                   <span className="text-gray-900 font-semibold">{attendance?.delegeteDepartment}</span>

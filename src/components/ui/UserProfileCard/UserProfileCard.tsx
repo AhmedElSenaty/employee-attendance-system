@@ -5,17 +5,17 @@ import { AlertTriangle, CheckCircle } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { EMPLOYEE_TRANSLATION_NAMESPACE } from "../../../pages/common/manage-employees";
 import { NavLink } from "react-router";
-import { IEmployeeData } from "../../../interfaces";
+import { EmployeeData } from "../../../interfaces";
 import { useUserStore } from "../../../store/user.store";
 
 type UserProps = {
-  user: IEmployeeData;
+  user: EmployeeData;
 };
 
 const UserProfileCard: React.FC<UserProps> = ({ user }) => {
   const { t } = useTranslation(["common", EMPLOYEE_TRANSLATION_NAMESPACE]);
   const userRole = useUserStore((state) => state.role);
-
+  console.log(user);
   return (
     <div className="max-w-[1000px] h-fit mx-auto bg-white shadow rounded-lg overflow-hidden flex flex-wrap items-center justify-center gap-4 p-6 space-x-6">
       <img
@@ -66,9 +66,9 @@ const UserProfileCard: React.FC<UserProps> = ({ user }) => {
               <StatusBadge
                 variant={user.isBlocked ? "neutral" : "info"}
                 size="medium"
-                icon={user.isActive ? <AlertTriangle className="w-4 h-4" /> : <CheckCircle className="w-4 h-4" />}
+                icon={user.isBlocked ? <AlertTriangle className="w-4 h-4" /> : <CheckCircle className="w-4 h-4" />}
               >
-                {user.isActive
+                {user.isBlocked
                   ? t("manageEmployeesPage.table.status.blocked", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })
                   : t("manageEmployeesPage.table.status.active", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}
               </StatusBadge>

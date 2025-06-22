@@ -4,12 +4,11 @@ import { CalendarSearch, CirclePlus, FileDown } from "lucide-react";
 import { downloadFile, formatValue, showToast } from "../../../utils";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { IAttendanceCredentials } from "../../../interfaces";
-import { AttendanceSchema } from "../../../validation";
+import { AttendanceFormValues, attendanceSchema } from "../../../validation";
 import { HasPermission } from "../../../components/auth";
 import { useLanguageStore } from "../../../store/";
 import { ActionCard, Button, CountCard, Header, InfoPopup, Paginator, SectionHeader } from "../../../components/ui";
-import { useCreateAttendance, useDeleteAttendance, useGetAttendanceDetails, useGetAttendances, useUpdateAttendance, useExportEmployeesAttendanceReport, useDebounce } from "../../../hooks/";
+import { useCreateAttendance, useDeleteAttendance, useGetAttendanceDetails, useGetAttendances, useUpdateAttendance, useExportAttendanceReport, useDebounce } from "../../../hooks/";
 import { ATTENDANCE_NS, ATTENDANCE_VIDEO } from "../../../constants";
 import { AddPopup, AttendanceTable, AttendanceTableFilters, DeletePopup, EditPopup, ExportPopup, Inputs, ShowPopup } from "./views";
 import useURLSearchParams from "../../../hooks/URLSearchParams.hook";
@@ -19,8 +18,8 @@ const ManageAttendancePage = () => {
   const { language } = useLanguageStore();
   const {getParam, setParam, clearParams} = useURLSearchParams();
 
-  const { register, handleSubmit, formState: { errors }, reset, control} = useForm<IAttendanceCredentials>({
-    resolver: yupResolver(AttendanceSchema),
+  const { register, handleSubmit, formState: { errors }, reset, control} = useForm<AttendanceFormValues>({
+    resolver: yupResolver(attendanceSchema),
     mode: "onChange"
   });
 
@@ -48,7 +47,7 @@ const ManageAttendancePage = () => {
 
   const handleEditPopupClose = () => {
     setSelectedID(0)
-    reset({ id: 0, deviceId: 0, employeeId: 0, attendanceDate: "", attendanceTime: "", status: "" })
+    reset({ deviceId: 0, employeeId: 0, attendanceDate: "", attendanceTime: "", status: "" })
     setIsEditPopupOpen(false)
   }
   const handleDeletePopupOpen = (id: number) => {
@@ -83,19 +82,19 @@ const ManageAttendancePage = () => {
   const departmentId = rawDepartmentId || "";
   const subDeptartmentId = rawSubDeptartmentId || "";
 
-  const { attendancesData, totalAttendances, metadata, isAttendancesDataLoading } = useGetAttendances(
+  const { attendancesData, count: totalAttendances, metadata, isLoading: isAttendancesDataLoading } = useGetAttendances(
     page, pageSize, searchKey, searchQuery, startDate, endDate, startTime, endTime, status ,departmentId || 0, subDeptartmentId || 0
 
   );
 
 
   // Use the custom hook to fetch data
-  const { refetchExportData, isExportDataLoading } = useExportEmployeesAttendanceReport(
-    searchKey || "", searchQuery || "", startDate || "", endDate || "", startTime || "", endTime || "", status || "" ,departmentId || 0, subDeptartmentId || 0
+  const { refetchExportData, isLoading: isExportDataLoading } = useExportAttendanceReport(
+    searchKey, searchQuery, startDate, endDate, startTime, endTime, status ,departmentId || 0, subDeptartmentId || 0
   );
 
 
-  const { detailedAttendance, isDetailedAttendanceLoading } = useGetAttendanceDetails(selectedID, reset);
+  const { detailedAttendance, isLoading: isDetailedAttendanceLoading } = useGetAttendanceDetails(selectedID, reset);
 
   const renderAttendanceInputs = <Inputs register={register} errors={errors} control={control} />
   
@@ -105,11 +104,11 @@ const ManageAttendancePage = () => {
   const { mutate: deleteAttendance, isPending: isDeleting } = useDeleteAttendance();
 
   /* ____________ HANDLER ____________ */
-  const handleConfirmAdd: SubmitHandler<IAttendanceCredentials> = (request: IAttendanceCredentials) => {
+  const handleConfirmAdd: SubmitHandler<AttendanceFormValues> = (request: AttendanceFormValues) => {
     addAttendance(request)
     setIsAddPopupOpen(false)
   };
-  const handleConfirmUpdate: SubmitHandler<IAttendanceCredentials> = (request: IAttendanceCredentials) => {
+  const handleConfirmUpdate: SubmitHandler<AttendanceFormValues> = (request: AttendanceFormValues) => {
     updateAttendance(request)
     setIsEditPopupOpen(false)
   };
@@ -159,11 +158,11 @@ const ManageAttendancePage = () => {
               icon={<CirclePlus />}
               iconBgColor="bg-[#f5e4b2]"
               iconColor="text-[#b38e19]"
-              title={t("attendanceActions.addNew.title")}
-              description={t("attendanceActions.addNew.description")}
+              title={t("addActionCard.title")}
+              description={t("addActionCard.description")}
             >
               <Button fullWidth={true} variant="secondary" onClick={handleAddPopupOpen}>
-                {t("attendanceActions.addNew.button")}
+                {t("addActionCard.button")}
               </Button>
             </ActionCard>
           </HasPermission>
@@ -172,13 +171,22 @@ const ManageAttendancePage = () => {
               icon={<FileDown />}
               iconBgColor="bg-[#a7f3d0]"
               iconColor="text-[#10b981]"
-              title={t("attendanceActions.exportData.title")}
-              description={t("attendanceActions.exportData.description")}
+              title={t("exportActionCard.title")}
+              description={t("exportActionCard.description")}
             >
-              <Button fullWidth={true} variant="success" isLoading={isExportDataLoading} onClick={() => {
-                setIsDownloadReportPopupOpen(true)
-              }}>
-                {t("attendanceActions.exportData.button")}
+              <Button 
+                fullWidth 
+                variant="success"
+                isLoading={isExportDataLoading}
+                onClick={() => {
+                  if (!(startDate && endDate)) {
+                    showToast("error", t("exportActionCard.validation.selectDateRange"))
+                    return
+                  }
+                  setIsDownloadReportPopupOpen(true)
+                }}
+              >
+                {t("exportActionCard.button")}
               </Button>
             </ActionCard>
           </HasPermission>

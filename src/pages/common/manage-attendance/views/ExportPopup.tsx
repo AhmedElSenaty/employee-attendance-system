@@ -3,7 +3,7 @@ import { Button, Popup, StatusBadge } from "../../../../components/ui";
 import { AlertTriangle, CheckCircle, Fingerprint } from "lucide-react";
 import { ATTENDANCE_NS } from "../../../../constants";
 
-interface IExportAttendancePopupProps {
+interface Props {
   isOpen: boolean
   handleClose: () => void;
   handleDownload: () => void;
@@ -21,7 +21,7 @@ interface IExportAttendancePopupProps {
   isLoading: boolean
 }
 
-const ExportAttendancePopup = ({ isOpen, handleClose, handleDownload, filteredData, isLoading }: IExportAttendancePopupProps) => {
+const ExportAttendancePopup = ({ isOpen, handleClose, handleDownload, filteredData, isLoading }: Props) => {
   const { t } = useTranslation([ATTENDANCE_NS]);
 
   return (

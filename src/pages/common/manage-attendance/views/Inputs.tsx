@@ -4,23 +4,23 @@ import {
   Input,
   InputErrorMessage,
   Label,
-  SelectBox,
   SelectBoxSkeleton,
   InputSkeleton,
-  LabelSkeleton
+  LabelSkeleton,
+  CustomSelect
 } from "../../../../components/ui";
-import { DeviceSummary, IAttendanceCredentials } from "../../../../interfaces";
+import { DeviceSummary, EmployeeSummary } from "../../../../interfaces";
 import { Calendar, Timer } from "lucide-react";
 import { useGetEmployeesList, useGetDevicesList } from "../../../../hooks/";
 import { useTranslation } from "react-i18next";
 import { ATTENDANCE_NS } from "../../../../constants";
-import Select from 'react-select'
+import { AttendanceFormValues } from "../../../../validation";
 
-interface IInputsProps {
-  register: UseFormRegister<IAttendanceCredentials>;
-  errors: FieldErrors<IAttendanceCredentials>;
+interface Props {
+  register: UseFormRegister<AttendanceFormValues>;
+  errors: FieldErrors<AttendanceFormValues>;
   isLoading?: boolean;
-  control: Control<IAttendanceCredentials>
+  control: Control<AttendanceFormValues>
 }
 
 const Inputs = ({
@@ -28,7 +28,7 @@ const Inputs = ({
   errors,
   isLoading = false,
   control
-}: IInputsProps) => {
+}: Props) => {
   const { t } = useTranslation([ATTENDANCE_NS]);
 
   const { devices: devicesList, isLoading: devicesListIsLoading } = useGetDevicesList();
@@ -39,7 +39,16 @@ const Inputs = ({
     label: device.name,
   })) || [];
 
-  console.log(devicesList);
+  const employeeOptions = employeesList?.map((employee: EmployeeSummary) => ({
+    value: employee.id,
+    label: employee.name,
+  })) || [];
+
+  const statusOptions = ["حضور", "انصراف"].map((state) => ({
+    value: state,
+    label: state,
+  }));
+
 
   if (isLoading) {
     return (
@@ -58,105 +67,111 @@ const Inputs = ({
     <>
       {/* Device ID */}
       <Field className="space-y-2">
-        <Label size="lg">{t("form.deviceId.label")}</Label>
-
+        <Label size="lg">{t("inputs.deviceId.label")}</Label>
         {devicesListIsLoading ? (
           <SelectBoxSkeleton />
         ) : (
           <Controller
             name="deviceId"
             control={control}
-            rules={{ required: true }} // or your custom validation
             render={({ field }) => (
-              <Select
-                {...field}
+              <CustomSelect
+                className="w-full"
                 options={deviceOptions}
-                placeholder={t("form.deviceId.defaultValue")}
-                classNamePrefix="react-select"
-                value={deviceOptions.find((option: {value: number, label: string}) => option.value === field.value) || null}
-                onChange={(selectedOption) => field.onChange(selectedOption?.value)}
-                isClearable
-                isSearchable
+                value={deviceOptions.find((opt: {value: number, label: string}) => opt.value === field.value) || null}
+                onChange={(option) => field.onChange(option?.value)}
+                error={!!errors.deviceId}
               />
             )}
           />
         )}
-
         {errors.deviceId && (
           <InputErrorMessage>
-            {t(`form.deviceId.inputValidation.${errors.deviceId?.type}`)}
+            {t(`inputs.deviceId.inputValidation.${errors.deviceId?.type}`)}
           </InputErrorMessage>
         )}
       </Field>
 
       {/* Employee ID */}
       <Field className="space-y-2">
-        <Label size="lg">{t("form.employeeId.label")}</Label>
+        <Label size="lg">{t("inputs.employeeId.label")}</Label>
         {isEmployeesListLoading ? (
           <SelectBoxSkeleton />
         ) : (
-          <SelectBox isError={!!errors.employeeId} {...register("employeeId")}>
-            <option value="">{t("form.employeeId.defaultValue")}</option>
-            {employeesList?.map((employee, idx) => (
-              <option key={idx} value={employee.id}>
-                {employee.name}
-              </option>
-            ))}
-          </SelectBox>
+          <Controller
+            name="employeeId"
+            control={control}
+            render={({ field }) => (
+              <CustomSelect
+                className="w-full"
+                options={employeeOptions}
+                value={employeeOptions.find((opt: {value: number, label: string}) => opt.value === field.value) || null}
+                onChange={(option) => field.onChange(option?.value)}
+                error={!!errors.employeeId}
+              />
+            )}
+          />
         )}
         {errors.employeeId && (
           <InputErrorMessage>
-            {t(`form.employeeId.inputValidation.${errors.employeeId?.type}`)}
+            {t(`inputs.employeeId.inputValidation.${errors.employeeId?.type}`)}
           </InputErrorMessage>
         )}
       </Field>
 
       {/* Attendance Date */}
       <Field className="space-y-2">
+        <Label size="lg">{t("inputs.attendanceDate.label")}</Label>
         <Input
           type="date"
-          placeholder={t("form.attendanceDate.placeholder")}
+          placeholder={t("inputs.attendanceDate.placeholder")}
           isError={!!errors.attendanceDate}
           icon={<Calendar />}
           {...register("attendanceDate")}
         />
         {errors.attendanceDate && (
           <InputErrorMessage>
-            {t(`form.attendanceDate.inputValidation.${errors.attendanceDate?.type}`)}
+            {t(`inputs.attendanceDate.inputValidation.${errors.attendanceDate?.type}`)}
           </InputErrorMessage>
         )}
       </Field>
 
       {/* Attendance Time */}
       <Field className="space-y-2">
+        <Label size="lg">{t("inputs.attendanceTime.label")}</Label>
         <Input
           type="time"
-          placeholder={t("form.attendanceTime.placeholder")}
+          placeholder={t("inputs.attendanceTime.placeholder")}
           isError={!!errors.attendanceTime}
           icon={<Timer />}
           {...register("attendanceTime")}
         />
         {errors.attendanceTime && (
           <InputErrorMessage>
-            {t(`form.attendanceTime.inputValidation.${errors.attendanceTime?.type}`)}
+            {t(`inputs.attendanceTime.inputValidation.${errors.attendanceTime?.type}`)}
           </InputErrorMessage>
         )}
       </Field>
 
       {/* Status */}
       <Field className="space-y-2">
-        <Label size="lg">{t("form.status.label")}</Label>
-        <SelectBox isError={!!errors.status} {...register("status")}>
-          <option value="">{t("form.status.defaultValue")}</option>
-          {["حضور", "انصراف"].map((status, idx) => (
-            <option key={idx} value={status}>
-              {status}
-            </option>
-          ))}
-        </SelectBox>
+        <Label size="lg">{t("inputs.status.label")}</Label>
+        <Controller
+            name="status"
+            control={control}
+            render={({ field }) => (
+              <CustomSelect
+                className="w-full"
+                options={statusOptions}
+                value={statusOptions.find((opt) => opt.value === field.value) || null}
+                onChange={(option) => field.onChange(option?.value)}
+                error={!!errors.status}
+              />
+            )}
+          />
         {errors.status && (
           <InputErrorMessage>
-            {t(`form.status.inputValidation.${errors.status?.type}`)}
+            {t(`inputs.status.inputValidation.${errors.status?.type}`)}
           </InputErrorMessage>
         )}
       </Field>

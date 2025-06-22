@@ -1,26 +1,36 @@
 import { useQuery } from "@tanstack/react-query";
 import { ReportsService } from "../services/report.services";
 import { useUserStore } from "../store/user.store";
+import { useMemo } from "react";
+import { QueryKeys } from "../constants";
 
-const EXPORT_EMPLOYEE_ATTENDANCE_QUERY_KEY = "exportEmployeeAttendance"
 
-export const useExportEmployeesAttendanceReport = (
-  searchKey: string,
-  debouncedSearchQuery: string,
-  startDate: string,
-  endDate: string,
-  startTime: string,
-  endTime: string,
-  status: string,
-  departmentId: number,
-  subDepartmentId: number
-) => {
+export const useReportService = () => {
   const token = useUserStore((state) => state.token);
-  const service = new ReportsService(token);
+
+  const service = useMemo(() => {
+    return new ReportsService(token);
+  }, [token]);
+
+  return service;
+};
+
+export const useExportAttendanceReport = (
+  searchKey?: string,
+  debouncedSearchQuery?: string,
+  startDate?: string,
+  endDate?: string,
+  startTime?: string,
+  endTime?: string,
+  status?: string,
+  departmentId?: number,
+  subDepartmentId?: number
+) => {
+  const service = useReportService();
 
   const { refetch, isLoading } = useQuery({
     queryKey: [
-      EXPORT_EMPLOYEE_ATTENDANCE_QUERY_KEY,
+      QueryKeys.Export,
       searchKey,
       debouncedSearchQuery,
       startDate,
@@ -49,6 +59,6 @@ export const useExportEmployeesAttendanceReport = (
 
   return {
     refetchExportData: refetch,
-    isExportDataLoading: isLoading,
+    isLoading,
   };
 };

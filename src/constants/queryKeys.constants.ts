@@ -39,8 +39,6 @@ export const QueryKeys = {
     Details: "subDepartmentDetails",
     List: "subDepartmentsList",
   },
-
-  FETCH_ME: "me",
   Attendance: {
     All: "attendances",
     Details: "attendanceDetails",
@@ -52,6 +50,8 @@ export const QueryKeys = {
     Vacations: "attendanceWithVacations",
     EmployeeToday: "EmployeeTodayAttendance",
   },
+  Export: "exportEmployeeAttendance",
+  FETCH_ME: "me",
   LeaveRequests: {
     All: "leaveRequests",
     My: "myLeaveRequests",

@@ -1,12 +1,12 @@
 import { DayType } from "../types";
 
-export interface IAttendanceEntry {
+export interface AttendanceEntry {
   checkIn: string;
   checkOut: string;
   dayType: DayType;
 }
 
-export interface IAttendanceCredentials {
+export interface AttendanceCredentials {
   id?: number
   deviceId: number,
   employeeId: number,
@@ -15,7 +15,7 @@ export interface IAttendanceCredentials {
   status: string
 }
 
-export interface IAttendanceData {
+export interface AttendanceData {
   id: number
   deviceId: number,
   employeeId: number,
@@ -30,7 +30,7 @@ export interface IAttendanceData {
   delegeteSubdepartment?: string
 }
 
-export interface IAttendanceSummaryData {
+export interface AttendanceSummaryData {
   employeeId: string,
   employeeName: string,
   department: string,
@@ -64,7 +64,7 @@ export interface AttendanceCardData {
   profileImage: string | null;
 }
 
-export interface IAttendanceWithVacationsData {
+export interface AttendanceWithVacationsData {
   employeeId: number,
   employeeName: string,
   departmentName: string,
@@ -74,7 +74,7 @@ export interface IAttendanceWithVacationsData {
 }
 
 
-export const initialAttendanceEntry: IAttendanceEntry = {
+export const initialAttendanceEntry: AttendanceEntry = {
   checkIn: "",
   checkOut: "",
   dayType: "absent"

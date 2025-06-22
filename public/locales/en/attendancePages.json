@@ -79,30 +79,29 @@
     "title": "Total Attendance",
     "description": "Total number of attendance records registered in the system."
   },
-  "attendanceActions": {
-    "addNew": {
-      "title": "Add New Attendance",
-      "description": "Create a new attendance record for an employee and device.",
-      "button": "Add Attendance"
-    },
-    "exportData": {
-      "title": "Export Filtered Data",
-      "description": "Export the filtered data shown in the table and download it in your preferred format.",
-      "button": "Export"
+  "addActionCard": {
+    "title": "Add New Attendance",
+    "description": "Create a new attendance record for an employee and device.",
+    "button": "Add Attendance"
+  },
+  "exportActionCard": {
+    "title": "Export Filtered Data",
+    "description": "Export the filtered data shown in the table and download it in your preferred format.",
+    "button": "Export",
+    "validation": {
+      "selectDateRange": "You must select both start and end dates first."
     }
   },
-  "form": {
+  "inputs": {
     "deviceId": {
       "label": "Device",
       "placeholder": "Enter Device",
       "defaultValue": "Choose Device",
       "inputValidation": {
-        "required": "Device is required",
-        "typeError": "Device ID must be a valid number",
-        "integer": "Device ID must be an integer",
-        "positive": "Device ID must be a positive number",
-        "min": "Select Device",
-        "max": "Select Device"
+        "required": "Please select a device",
+        "typeError": "Please select a device",
+        "positive": "Please select a valid device",
+        "integer": "Please select a valid device"
       }
     },
     "employeeId": {
@@ -110,12 +109,10 @@
       "placeholder": "Enter Employee",
       "defaultValue": "Choose Employee",
       "inputValidation": {
-        "required": "Employee is required",
-        "typeError": "Employee ID must be a valid number",
-        "positive": "Employee ID must be a positive number",
-        "integer": "Employee ID must be an integer",
-        "min": "Select Employee",
-        "max": "Select Employee"
+        "required": "Please select a emplyee",
+        "typeError": "Please select a emplyee",
+        "positive": "Please select a valid emplyee",
+        "integer": "Please select a valid emplyee"
       }
     },
     "attendanceDate": {
@@ -140,11 +137,11 @@
       "defaultValue": "Choose Status",
       "inputValidation": {
         "required": "Status is required",
-        "oneOf": "Invalid status"
+        "oneOf": "Invalid status selection"
       }
     }
   },
-  "viewPopup": {
+  "showPopup": {
     "title": "View Attendance",
     "description": "You are now viewing the details of this attendance record, including its department and subdepartment."
   },
@@ -169,6 +166,7 @@
     "create": "Create",
     "edit": "Edit",
     "delete": "Delete",
+    "update": "Update",
     "loading": "Loading...",
     "download": "download",
     "toolTipShow": "Show Attendance",
@@ -184,9 +182,6 @@
     "startTime": "Start Time",
     "endTime": "End Time",
     "status": "Employee Status",
-    "defaultStatusOption": "Select Employee status",
-    "defaultDepartmentpOption": "Select Department",
-    "defaultSubDepartmentpOption": "Select Sub-Department",
     "searchBy": {
       "label": "Search By",
       "default": "Choose your search method",

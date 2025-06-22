@@ -3,7 +3,7 @@ import { Button, Popup } from "../../../../components/ui";
 import { ATTENDANCE_NS } from "../../../../constants";
 import { useTranslation } from "react-i18next";
 
-interface IAddPopupProps {
+interface Props {
   isOpen: boolean
   handleClose: () => void;
   handleSubmit: (event: FormEvent<HTMLFormElement>) => void;
@@ -11,7 +11,7 @@ interface IAddPopupProps {
   isLoading: boolean
 }
 
-const AddPopup = ({ isOpen, handleClose, handleSubmit, formInputs, isLoading }: IAddPopupProps) => {
+const AddPopup = ({ isOpen, handleClose, handleSubmit, formInputs, isLoading }: Props) => {
   const { t } = useTranslation([ATTENDANCE_NS]);
 
   return (

@@ -9,11 +9,11 @@ import {
 } from "date-fns";
 import { arEG, enUS } from "date-fns/locale";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { IAttendanceEntry } from "../../../interfaces";
+import { AttendanceEntry } from "../../../interfaces";
 import { DayCard, DayCardSkeleton, Button, Header, Tooltip, InfoPopup } from "../../../components/ui";
 import { useTranslation } from "react-i18next";
 import { useUserStore, useLanguageStore } from "../../../store";
-import { CALENDER_NS, CALENDER_VIDEO } from "../../../constants";
+import { CALENDER_EMPLOYEE_VIDEO, CALENDER_MANAGER_VIDEO, CALENDER_NS } from "../../../constants";
 import { useGetAttendanceCalendar } from "../../../hooks";
 import { EmplyeeCard } from "./views";
 import { useParams } from "react-router";
@@ -37,7 +37,7 @@ const CalendarPage = () => {
     setEndDate(endOfMonth(currentDate));
   }, [currentDate]);
   
-  const { calenderDays, isAttendanceCalenderLoading } = useGetAttendanceCalendar(
+  const { calenderDays, isLoading: isAttendanceCalenderLoading } = useGetAttendanceCalendar(
     id || "",
     format(startDate, 'yyyy-MM-dd'),
     format(endDate, 'yyyy-MM-dd')
@@ -96,7 +96,7 @@ const CalendarPage = () => {
           <InfoPopup
             title={t("infoPopup.title")}
             description={t("infoPopup.description")}
-            videoUrl={CALENDER_VIDEO}
+            videoUrl={role == "employee" ? CALENDER_EMPLOYEE_VIDEO : CALENDER_MANAGER_VIDEO}
           />
         </div>
 
@@ -108,7 +108,7 @@ const CalendarPage = () => {
             ) : (
               days.map((day, i) => {
                 const dateKey = format(day, "yyyy-MM-dd");
-                const info: IAttendanceEntry = calenderDays?.[dateKey] || {
+                const info: AttendanceEntry = calenderDays?.[dateKey] || {
                   checkIn: "N/A",
                   checkOut: "N/A",
                   dayType: "absent",
