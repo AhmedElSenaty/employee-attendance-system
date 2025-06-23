@@ -143,9 +143,8 @@ const ManageDevicesPage = () => {
             description={t("sectionHeader.description")} 
           />
 
-          <div className="flex flex-wrap gap-4">
-            <TableFilters searchBy={metadata.searchBy} getParam={getParam} setParam={setParam} clearParams={clearParams} />
-          </div>
+          <TableFilters searchBy={metadata.searchBy} getParam={getParam} setParam={setParam} clearParams={clearParams} />
+          
           <div className="w-full overflow-x-auto">
             <DevicesTable
               devices={devices}

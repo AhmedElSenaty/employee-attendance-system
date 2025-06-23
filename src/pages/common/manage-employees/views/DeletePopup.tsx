@@ -1,41 +1,36 @@
-import { Button, Popup } from "../../../../components/ui";
 import { useTranslation } from "react-i18next";
+import { Button, Popup } from "../../../../components/ui";
 import { EMPLOYEE_NS } from "../../../../constants";
 
 interface Props {
   isOpen: boolean;
   handleClose: () => void;
-  handleConfirmChange: () => void;
+  handleConfirmDelete: () => void;
   isLoading: boolean;
 }
 
-const ChangeIncludedStatusPopup = ({
-  isOpen,
-  handleClose,
-  handleConfirmChange,
-  isLoading,
-}: Props) => {
+const DeletePopup = ({ isOpen, handleClose, handleConfirmDelete, isLoading }: Props) => {
   const { t } = useTranslation([EMPLOYEE_NS]);
 
   return (
     <Popup
       isOpen={isOpen}
       closeModal={handleClose}
-      title={t("toggleIncludedStatusPopup.title")}
-      description={t("toggleIncludedStatusPopup.description")}
+      title={t("deletePopup.title")}
+      description={t("deletePopup.description")}
     >
       <div className="flex items-center space-x-3 mt-4">
         <Button variant="cancel" type="button" fullWidth={true} onClick={handleClose}>
           {t("buttons.close")}
         </Button>
-        <Button variant={"secondary"} type="button" fullWidth={true} onClick={handleConfirmChange} isLoading={isLoading}>
+        <Button variant="danger" type="button" fullWidth={true} onClick={handleConfirmDelete} isLoading={isLoading}>
           {(isLoading)
             ? t("buttons.loading")
-            : t("buttons.toggle")}
+            : t("buttons.delete")}
         </Button>
       </div>
     </Popup>
   );
 };
 
-export default ChangeIncludedStatusPopup;
+export default DeletePopup;

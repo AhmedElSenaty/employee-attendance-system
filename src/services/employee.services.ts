@@ -1,17 +1,16 @@
 import axiosInstance from "../config/axios.config";
 import {
   EmployeeProfileCredentials,
-  IEmployee,
-  IEmployeeCredentials,
 } from "../interfaces";
+import { EmployeeFormValues } from "../validation";
 import { BaseService } from "./base.services";
 
 export class EmployeeService extends BaseService {
   fetchAll = async (
-    page: number,
-    pageSize: number,
-    searchType: string,
-    searchQuery: string
+    page?: number,
+    pageSize?: number,
+    searchType?: string,
+    searchQuery?: string
   ) => {
     try {
       const params = this.buildParams({
@@ -26,22 +25,93 @@ export class EmployeeService extends BaseService {
       });
       console.log(response.data);
       
-      return response.data;
+      return response;
     } catch (error) {
       console.error("Error fetching employees:", error);
       throw error;
     }
   };
 
-  fetchList = async (): Promise<IEmployee[]> => {
+  fetchList = async () => {
     try {
       const response = await axiosInstance.get("/Employee/List", {
         headers: this.getAuthHeaders(),
       });
 
-      return response.data.data;
+      return response;
     } catch (error) {
       console.error("Error fetching employees list:", error);
+      throw error;
+    }
+  };
+
+
+  fetchCount = async () => {
+    try {
+      const response = await axiosInstance.get("/Employee/Count", {
+        headers: this.getAuthHeaders(),
+      });
+
+      return response;
+    } catch (error) {
+      console.error("Error fetching employees count:", error);
+      throw error;
+    }
+  };
+
+  fetchByID = async (employeeID: string) => {
+    try {
+      const response = await axiosInstance.get(`/Employee/${employeeID}`, {
+        headers: this.getAuthHeaders(),
+      });
+
+      return response;
+    } catch (error) {
+      console.error(`Error fetching employee by ID (${employeeID}):`, error);
+      throw error;
+    }
+  };
+
+  create = (employeeData: EmployeeFormValues) => {
+    return axiosInstance.post("/Account/RegisterEmployee", employeeData, {
+      headers: this.getAuthHeaders(),
+    });
+  };
+
+  update = (employeeData: EmployeeFormValues) => {
+    return axiosInstance.put("/Employee", employeeData, {
+      headers: this.getAuthHeaders(),
+    });
+  };
+  
+  delete = (employeeID: string) => {
+    return axiosInstance.delete(`/Employee/${employeeID}`, {
+      headers: this.getAuthHeaders(),
+    });
+  };
+
+  fetchVacationsByID = async (employeeID: string) => {
+    try {
+      const response = await axiosInstance.get(`/Employee/EmployeesVacations/${employeeID}`, {
+        headers: this.getAuthHeaders(),
+      });
+
+      return response;
+    } catch (error) {
+      console.error(`Error fetching employee by ID (${employeeID}):`, error);
+      throw error;
+    }
+  };
+
+  updateMyProfile = async (employeeData: EmployeeProfileCredentials) => {
+    try {
+      const response = await axiosInstance.put("/Employee/me", employeeData, {
+        headers: this.getAuthHeaders(),
+      });
+
+      return response;
+    } catch (error) {
+      console.error("Error updating employee profile:", error);
       throw error;
     }
   };
@@ -57,69 +127,6 @@ export class EmployeeService extends BaseService {
       console.error("Error fetching employees vacations:", error);
       throw error;
     }
-  };
-
-  fetchCount = async () => {
-    try {
-      const response = await axiosInstance.get("/Employee/Count", {
-        headers: this.getAuthHeaders(),
-      });
-
-      return response.data;
-    } catch (error) {
-      console.error("Error fetching employees count:", error);
-      throw error;
-    }
-  };
-
-  fetchByID = async (employeeID: string) => {
-    try {
-      const response = await axiosInstance.get(`/Employee/${employeeID}`, {
-        headers: this.getAuthHeaders(),
-      });
-
-      return response.data;
-    } catch (error) {
-      console.error(`Error fetching employee by ID (${employeeID}):`, error);
-      throw error;
-    }
-  };
-
-    fetchVacationsByID = async (employeeID: string) => {
-    try {
-      const response = await axiosInstance.get(`/Employee/EmployeesVacations/${employeeID}`, {
-        headers: this.getAuthHeaders(),
-      });
-
-      return response.data;
-    } catch (error) {
-      console.error(`Error fetching employee by ID (${employeeID}):`, error);
-      throw error;
-    }
-  };
-
-  create = (employeeData: IEmployeeCredentials) => {
-    return axiosInstance.post("/Account/RegisterEmployee", employeeData, {
-      headers: this.getAuthHeaders(),
-    });
-  };
-
-  update = (employeeData: IEmployeeCredentials) => {
-    return axiosInstance.put("/Employee", employeeData, {
-      headers: this.getAuthHeaders(),
-    });
-  };
-  
-  delete = (employeeID: string) => {
-    return axiosInstance.delete(`/Employee/${employeeID}`, {
-      headers: this.getAuthHeaders(),
-    });
-  };
-
-  toggleReportStatus = (employeeID: string) => {
-    return axiosInstance.put(`/Employee/toggle-report/${employeeID}`, {}, {
-      headers: this.getAuthHeaders(),
-    });
   };
 
   uploadImage = async (employeeId: string, imageFile: File) => {
@@ -145,17 +152,10 @@ export class EmployeeService extends BaseService {
     }
   };
 
-  updateMyProfile = async (employeeData: EmployeeProfileCredentials) => {
-    try {
-      const response = await axiosInstance.put("/Employee/me", employeeData, {
-        headers: this.getAuthHeaders(),
-      });
-
-      return response;
-    } catch (error) {
-      console.error("Error updating employee profile:", error);
-      throw error;
-    }
+  toggleReportStatus = (employeeID: string) => {
+    return axiosInstance.put(`/Employee/toggle-report/${employeeID}`, {}, {
+      headers: this.getAuthHeaders(),
+    });
   };
 
   resetEmployeeVacations = (timeToRest: number) => {

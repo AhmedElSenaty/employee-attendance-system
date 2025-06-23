@@ -1,23 +1,31 @@
 import { useState } from "react";
-import { Popup, Button, Field, Label, SelectBox } from "../../../../components/ui";
-import { EMPLOYEE_TRANSLATION_NAMESPACE } from "..";
+import { Popup, Button, Field, Label, CustomSelect } from "../../../../components/ui";
 import { useTranslation } from "react-i18next";
 import { TimeToRest } from "../../../../enums";
+import { EMPLOYEE_NS } from "../../../../constants";
 
-interface IRestEmployeePopupProps {
+interface Props {
   isOpen: boolean;
   handleClose: () => void;
   handleConfirmRest: (time: TimeToRest) => void;
   isLoading: boolean;
 }
 
-const RestEmployeePopup = ({ isOpen, handleClose, handleConfirmRest, isLoading }: IRestEmployeePopupProps) => {
-  const { t } = useTranslation([EMPLOYEE_TRANSLATION_NAMESPACE]);
-  const [selectedTime, setSelectedTime] = useState<string>("");
+const RestVacationsPopup = ({ isOpen, handleClose, handleConfirmRest, isLoading }: Props) => {
+  const { t } = useTranslation([EMPLOYEE_NS]);
+  const [selectedTime, setSelectedTime] = useState<number>();
+
+  const statusOptions = Object.values(TimeToRest)
+    .filter((v) => typeof v === "number")
+    .map((value) => ({
+      value: value as number,
+      label: t(`status.${value}`),
+    }));
+
 
   const onConfirm = () => {
     if (selectedTime) {
-      handleConfirmRest(Number(selectedTime));
+      handleConfirmRest(selectedTime);
     }
   };
 
@@ -25,44 +33,35 @@ const RestEmployeePopup = ({ isOpen, handleClose, handleConfirmRest, isLoading }
     <Popup
       isOpen={isOpen}
       closeModal={handleClose}
-      title={t("popup.rest.title")}
-      description={t("popup.rest.description")}
+      title={t("restPopup.title")}
+      description={t("restPopup.description")}
     >
       <Field className="flex flex-col space-y-2">
         <Label>{t("filters.leaveStatus")}</Label>
-        <SelectBox
-          value={selectedTime}
-          onChange={(e) => setSelectedTime(e.target.value)}
-        >
-          <option value="" disabled>
-            {t("filters.defaultLeaveStatusOption")}
-          </option>
-          {Object.values(TimeToRest)
-            .filter((v) => typeof v === "number")
-            .map((statusValue) => (
-              <option key={statusValue} value={statusValue}>
-                {t(`status.${statusValue}`)}
-              </option>
-            ))}
-        </SelectBox>
+        <CustomSelect
+          options={statusOptions}
+          onChange={(option) => setSelectedTime(Number(option?.value))}
+          className="w-full"
+        />
       </Field>
       <div className="flex items-center space-x-3 mt-4">
         <Button variant="cancel" type="button" fullWidth onClick={handleClose}>
           {t("buttons.close")}
         </Button>
         <Button
-          variant="black"
           type="button"
           fullWidth
           onClick={onConfirm}
           isLoading={isLoading}
           disabled={!selectedTime}
         >
-          {t("buttons.rest")}
+          {isLoading 
+            ? t("buttons.loading")
+            : t("buttons.reset")}
         </Button>
       </div>
     </Popup>
   );
 };
 
-export default RestEmployeePopup;
+export default RestVacationsPopup;

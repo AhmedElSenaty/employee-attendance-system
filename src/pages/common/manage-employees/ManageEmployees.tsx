@@ -3,37 +3,57 @@ import { formatValue } from "../../../utils";
 import { NavLink } from "react-router";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
-import { useDebounce } from "../../../hooks/debounce.hook";
-import { useFiltersHook } from "../../../hooks/filter.hook";
-import { DeleteEmployeePopup, EmployeeLeaveStatsPopup, EmployeesTable, EmployeeTableFilters, UnblockEmployeePopup } from "./views";
-import { useDeleteEmployee, useGetAllEmployees, useGetEmployeesCount, useGetEmployeeVacationsByID, useRestEmployeeTimeVacations, useToggleReportEmployeeStatus } from "../../../hooks/employee.hooks";
-import { EMPLOYEE_BORDER_WIDTH, EMPLOYEE_GRAPH_BACKGROUND_COLORS, EMPLOYEE_GRAPH_BORDER_COLORS, EMPLOYEE_GRAPH_LABEL_KEYS, EMPLOYEE_TRANSLATION_NAMESPACE } from ".";
+import { useDebounce, useUnblockAccount, useDeleteEmployee, useGetAllEmployees, useGetEmployeesCount, useGetEmployeeVacationsByID, useRestEmployeeTimeVacations, useToggleReportEmployeeStatus } from "../../../hooks/";
 import { HasPermission } from "../../../components/auth";
-import { useLanguageStore } from "../../../store/language.store";
-import { useUserStore } from "../../../store/user.store";
+import { useLanguageStore, useUserStore } from "../../../store/";
 import { ActionCard, BarChart, Button, CountCard, Graph, GraphSkeleton, Header, Paginator, SectionHeader } from "../../../components/ui";
-import { useUnblockAccount } from "../../../hooks/account.hook";
-import ChangeIncludedStatusPopup from "./views/ChangeIncludedStatusPopup";
 import { TimeToRest } from "../../../enums";
-import RestEmployeePopup from "./views/RestVacationsPopup";
+import { RestVacationsPopup, ChangeIncludedStatusPopup, DeletePopup, EmployeeLeaveStatsPopup, EmployeesTable, TableFilters, UnblockPopup } from "./views";
+import { EMPLOYEE_NS } from "../../../constants";
+import useURLSearchParams from "../../../hooks/URLSearchParams.hook";
+
+const EMPLOYEE_BORDER_WIDTH = 2;
+
+const EMPLOYEE_GRAPH_LABEL_KEYS = [
+  "manageEmployeesPage.graph.labels.active",
+  "manageEmployeesPage.graph.labels.deactivated",
+  "manageEmployeesPage.graph.labels.locked",
+  "manageEmployeesPage.graph.labels.blocked",
+];
+
+const EMPLOYEE_GRAPH_BACKGROUND_COLORS = [
+  "#33FF57",
+  "#FFAA33",
+  "#3357FF",
+  "#FF3370",
+];
+
+const EMPLOYEE_GRAPH_BORDER_COLORS = [
+  "#27AE60",
+  "#E67E22",
+  "#2980B9",
+  "#D81B60",
+];
 
 export const ManageEmployeesPage = () => {
   const userRole = useUserStore((state) => state.role);
-  const { t } = useTranslation(["common", EMPLOYEE_TRANSLATION_NAMESPACE]);
+  const { t } = useTranslation([EMPLOYEE_NS]);
+
   const { language } = useLanguageStore();
 
   const [selectedID, setSelectedID] = useState<string>("");
+  
   const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
   const [isUnblockPopupOpen, setIsUnblockPopupOpen] = useState(false)
   const [isChangeIncludedStatusPopupOpen, setIsChangeIncludedStatusPopupOpen] = useState(false)
   const [isLeaveStatsPopupOpen, setIsLeaveStatsPopupOpen] = useState(false);
-  const { mutate: restEmployeeVacations, isPending: isResting } = useRestEmployeeTimeVacations();
   const [isRestPopupOpen, setIsRestPopupOpen] = useState(false);
+
+  const { mutate: restEmployeeVacations, isPending: isResting } = useRestEmployeeTimeVacations();
 
   const handleConfirmRest = (time: TimeToRest) => {
     restEmployeeVacations(time);
   };
-
   const handleDeletePopupOpen = (id: string) => {
     setSelectedID(id)
     setIsDeletePopupOpen(true) 
@@ -47,21 +67,37 @@ export const ManageEmployeesPage = () => {
     setIsChangeIncludedStatusPopupOpen(true) 
   }
 
-  const { page, pageSize, searchKey, search, setFilters } = useFiltersHook()
+  const {getParam, setParam, clearParams} = useURLSearchParams();
 
-  const debouncedSearchQuery = useDebounce(search, 650);
+  // Using the enhanced getParam with parser support from the improved hook
+  const rawPage = getParam('page', Number);
+  const rawPageSize = getParam('pageSize', Number);
+  const rawSearchKey = getParam('searchKey');
+  const rawSearchQuery = useDebounce(getParam('searchQuery'), 650);
 
-  const { employees, metadata, isEmployeesDataLoading } = useGetAllEmployees(Number(page) || 1, Number(pageSize) || 5, searchKey || "", debouncedSearchQuery || "");;
+  // Use nullish coalescing to default numeric values, undefined for dates if empty
+  const page = rawPage ?? 1;
+  const pageSize = rawPageSize ?? 10;
+  const searchKey = rawSearchKey || undefined;
+  const searchQuery = rawSearchQuery || undefined;
 
-  const { totalCount, activatedCount, deactivatedCount, lockedCount, blockedCount, isEmployeesCountLoading } = useGetEmployeesCount()
 
-  const { employeeVacations, isEmployeeVacationsLoading } = useGetEmployeeVacationsByID(selectedID)
+  const { employees, metadata, isLoading: isEmployeesDataLoading } = useGetAllEmployees(
+    page, 
+    pageSize, 
+    searchKey, 
+    searchQuery
+  );;
+
+  const { totalCount, activatedCount, deactivatedCount, lockedCount, blockedCount, isLoading: isEmployeesCountLoading } = useGetEmployeesCount()
+
+  const { employeeVacations, isLoading: isEmployeeVacationsLoading } = useGetEmployeeVacationsByID(selectedID)
 
   const barData = {
-    labels: EMPLOYEE_GRAPH_LABEL_KEYS.map(key => t(key, { ns: EMPLOYEE_TRANSLATION_NAMESPACE })),
+    labels: EMPLOYEE_GRAPH_LABEL_KEYS.map(key => t(key)),
     datasets: [
       {
-        label: t("manageEmployeesPage.graph.label", { ns: EMPLOYEE_TRANSLATION_NAMESPACE }),
+        label: t("manageEmployeesPage.graph.label"),
         data: [activatedCount, deactivatedCount, lockedCount, blockedCount],
         backgroundColor: EMPLOYEE_GRAPH_BACKGROUND_COLORS,
         borderColor: EMPLOYEE_GRAPH_BORDER_COLORS,
@@ -99,46 +135,26 @@ const handleLeaveStatsPopupOpen = (id: string) => {
     setIsChangeIncludedStatusPopupOpen(false)
   };
 
-  console.log(employeeVacations);
 
   return (
     <div className="sm:p-5 p-3 space-y-5">
       <Header 
-        heading={t("manageEmployeesPage.header.heading", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })} 
-        subtitle={t("manageEmployeesPage.header.subtitle", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })} 
+        heading={t("manageEmployeesPage.header.heading")} 
+        subtitle={t("manageEmployeesPage.header.subtitle")} 
       />
       <div className="max-w-[1000px] mx-auto space-y-6">
         {/* Count Card */}
         <div className="flex justify-center">
           <CountCard 
-            title={t("manageEmployeesPage.countCard.title", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })} 
-            description={t("manageEmployeesPage.countCard.description", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })} 
+            title={t("manageEmployeesPage.countCard.title")} 
+            description={t("manageEmployeesPage.countCard.description")} 
             count={formatValue(totalCount, language)}
             icon={<UserCog size={28} />} 
             bgColor="bg-[#b38e19]"
           />
         </div>
 
-        {/* Chart & Action Card */}
         <div className="flex flex-col md:flex-row gap-5">
-          {/* Chart Section */}
-          <div className="w-full md:w-1/2">
-            {
-              isEmployeesCountLoading ? (
-                <GraphSkeleton />
-              ) : (
-              <Graph
-                title={t("manageEmployeesPage.graph.title", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })} 
-                description={t("manageEmployeesPage.graph.description", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })} 
-                width="w-full"
-                height="h-[320px]"
-                >
-                <BarChart datasetIdKey="employees-bar" data={barData} height={200}  />
-              </Graph>
-              )
-            }
-          </div>
-
           {/* Action Card Section */}
           <div className="w-full md:w-1/2 h-fit">
             <HasPermission permission="Add Employee">
@@ -146,12 +162,12 @@ const handleLeaveStatsPopupOpen = (id: string) => {
                 icon={<UserPlus />}
                 iconBgColor="bg-[#f5e4b2]"
                 iconColor="text-[#b38e19]"
-                title={t("manageEmployeesPage.actions.add.title", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })} 
-                description={t("manageEmployeesPage.actions.add.description", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })} 
+                title={t("manageEmployeesPage.addActionCard.title")} 
+                description={t("manageEmployeesPage.addActionCard.description")} 
               >
                 <NavLink to={`/${userRole}/add-employee`}>
                   <Button fullWidth variant="secondary">
-                  {t("manageEmployeesPage.actions.add.button", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}
+                  {t("manageEmployeesPage.addActionCard.button")}
                   </Button>
                 </NavLink>
               </ActionCard>
@@ -162,72 +178,85 @@ const handleLeaveStatsPopupOpen = (id: string) => {
                 icon={<UserCog />}
                 iconBgColor="bg-[#d7f0f6]"
                 iconColor="text-[#007fa4]"
-                title={t("manageEmployeesPage.actions.rest.title", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}
-                description={t("manageEmployeesPage.actions.rest.description", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}
+                title={t("manageEmployeesPage.restActionCard.title")}
+                description={t("manageEmployeesPage.restActionCard.description")}
               >
                 <Button
                   fullWidth
                   variant="primary"
                   onClick={() => setIsRestPopupOpen(true)}
                 >
-                  {t("manageEmployeesPage.actions.rest.button", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}
+                  {t("manageEmployeesPage.restActionCard.button")}
                 </Button>
               </ActionCard>
             </div>
+        </div>
+
+        <div className="w-full">
+          {
+            isEmployeesCountLoading ? (
+              <GraphSkeleton />
+            ) : (
+            <Graph
+              title={t("manageEmployeesPage.graph.title")} 
+              description={t("manageEmployeesPage.graph.description")} 
+              width="w-full"
+              height="h-[320px]"
+              >
+              <BarChart datasetIdKey="employees-bar" data={barData} height={200}  />
+            </Graph>
+            )
+          }
         </div>
       </div>
 
       <div className="bg-white shadow-md space-y-5 p-5 rounded-lg">
         <SectionHeader 
-          title={t("manageEmployeesPage.sectionHeader.title", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}
-          description={t("manageEmployeesPage.sectionHeader.description", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}
+          title={t("manageEmployeesPage.sectionHeader.title")}
+          description={t("manageEmployeesPage.sectionHeader.description")}
         />
 
-        <div className="flex flex-wrap gap-4">
-          <EmployeeTableFilters searchBy={metadata?.searchBy} t={t} />
-        </div>
+        <TableFilters searchBy={metadata?.searchBy} getParam={getParam} setParam={setParam} clearParams={clearParams} />
+        
         <div className="w-full overflow-x-auto">
           <EmployeesTable
             employees={employees}
             isLoading={isEmployeesDataLoading}
-            handleDeleteEmployee={handleDeletePopupOpen}
-            handleUnblockEmployee={handleUnblockPopupOpen}
-            handleChangeIncludedStatusEmployee={handleChangeIncludedStatusPopupOpen}
+            handleDelete={handleDeletePopupOpen}
+            handleUnblock={handleUnblockPopupOpen}
+            handleChangeIncludedStatus={handleChangeIncludedStatusPopupOpen}
             handleShowLeaveStats={handleLeaveStatsPopupOpen}
-            t={t}
           />
         </div>
+
         {/* Pagination Component */}
         <Paginator
           page={metadata?.pagination?.pageIndex || 0}
           totalPages={metadata?.pagination?.totalPages || 1}
           totalRecords={metadata?.pagination?.totalRecords || 0}
           isLoading={isEmployeesDataLoading}
-          onClickFirst={() => setFilters({ page: 1 })}
-          onClickPrev={() => setFilters({ page: Math.max((page || 1) - 1, 1) })}
-          onClickNext={() => setFilters({ page: Math.min((page || 1) + 1, metadata?.pagination?.totalPages || 1) })}
+          onClickFirst={() => setParam("page", String(1))}
+          onClickPrev={() => setParam("page", String(Math.max((Number(getParam('page')) || 1) - 1, 1)))}
+          onClickNext={() => setParam("page", String(Math.min((Number(getParam('page')) || 1) + 1, metadata?.pagination?.totalPages || 1)))}
         />
       </div>
-      <DeleteEmployeePopup
+      <DeletePopup
         isOpen={isDeletePopupOpen}
         handleClose={() => { setIsDeletePopupOpen(false) }}
         handleConfirmDelete={handleConfirmDelete}
         isLoading={isDeleting}
-        t={t}
       />
-      <UnblockEmployeePopup
+      <UnblockPopup
         isOpen={isUnblockPopupOpen}
         handleClose={() => { setIsUnblockPopupOpen(false) }}
         handleConfirmUnblock={handleConfirmUnblock}
         isLoading={isUnblockAccountLoading}
-        t={t}
       />
       <ChangeIncludedStatusPopup
         isOpen={isChangeIncludedStatusPopupOpen}
         handleClose={() => { setIsChangeIncludedStatusPopupOpen(false) }}
         handleConfirmChange={handleConfirmToggleReport}
         isLoading={isToggleReportLoading}
-        t={t}
       />
 
       <EmployeeLeaveStatsPopup
@@ -236,7 +265,7 @@ const handleLeaveStatsPopupOpen = (id: string) => {
         stats={employeeVacations || null}
         isLoading={isEmployeeVacationsLoading}
       />
-      <RestEmployeePopup
+      <RestVacationsPopup
         isOpen={isRestPopupOpen}
         handleClose={() => setIsRestPopupOpen(false)}
         handleConfirmRest={handleConfirmRest}

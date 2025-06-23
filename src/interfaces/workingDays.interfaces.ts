@@ -1,10 +1,10 @@
-export interface IDaydata {
+export interface Daydata {
     dayId: number,
     dayEnglishName: string,
     dayArabicName: string
 }
 
-export interface IUpdateWorkingDays {
+export interface UpdateWorkingDays {
   employeeId: string,
   workingDays: number[]
 }

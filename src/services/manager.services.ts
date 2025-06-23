@@ -1,5 +1,5 @@
 import axiosInstance from "../config/axios.config";
-import { IManagerCredentials } from "../interfaces";
+import { ManagerCredentials } from "../interfaces";
 import { BaseService } from "./base.services";
 
 export class ManagerService extends BaseService {
@@ -20,7 +20,7 @@ export class ManagerService extends BaseService {
         headers: this.getAuthHeaders(),
       });
 
-      return response.data;
+      return response;
     } catch (error) {
       console.error("Error fetching all managers:", error);
       throw error;
@@ -33,7 +33,7 @@ export class ManagerService extends BaseService {
         headers: this.getAuthHeaders(),
       });
 
-      return response.data;
+      return response;
     } catch (error) {
       console.error(`Error fetching manager with ID ${managerID}:`, error);
       throw error;
@@ -46,20 +46,20 @@ export class ManagerService extends BaseService {
         headers: this.getAuthHeaders(),
       });
 
-      return response.data;
+      return response;
     } catch (error) {
       console.error("Error fetching managers count:", error);
       throw error;
     }
   };
 
-  create = (managerData: IManagerCredentials) => {
+  create = (managerData: ManagerCredentials) => {
     return axiosInstance.post("/Account/RegisterManager", managerData, {
       headers: this.getAuthHeaders(),
     });
   };
 
-  update = (managerData: IManagerCredentials) => {
+  update = (managerData: ManagerCredentials) => {
     return axiosInstance.put("/Manager", managerData, {
       headers: this.getAuthHeaders(),
     });

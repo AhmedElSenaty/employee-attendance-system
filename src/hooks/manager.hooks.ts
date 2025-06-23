@@ -1,100 +1,112 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
-  IManagerCredentials,
   IErrorResponse,
   initialMetadata,
+  ManagerCredentials,
 } from "../interfaces";
 import { getTranslatedMessage, handleApiError, showToast } from "../utils";
 import { AxiosError } from "axios";
-import { useEffect } from "react";
-import { useLanguageStore } from "../store/language.store";
-import { useUserStore } from "../store/user.store";
+import { useEffect, useMemo } from "react";
+import { useLanguageStore, useUserStore } from "../store/";
 import { ManagerService } from "../services";
+import { QueryKeys } from "../constants";
+import { ManagerFormValues } from "../validation";
 
-export const MANAGERS_QUERY_KEY = "managers";
-export const MANAGER_DETAILS_QUERY_KEY = "managerDetails";
-export const MANAGERS_COUNT_QUERY_KEY = "managersCount";
+
+export const useManagerService = () => {
+  const token = useUserStore((state) => state.token);
+
+  const service = useMemo(() => {
+    return new ManagerService(token);
+  }, [token]);
+
+  return service;
+};
 
 export const useGetAllManagers = (
-  page: number,
-  pageSize: number,
-  searchKey: string,
-  debouncedSearchQuery: string
+  page?: number,
+  pageSize?: number,
+  searchKey?: string,
+  searchQuery?: string
 ) => {
   const token = useUserStore((state) => state.token);
-  const managerService = new ManagerService(token);
+  const managerService = useManagerService();
 
   const { data, isLoading } = useQuery({
-    queryKey: [MANAGERS_QUERY_KEY, page, pageSize, searchKey, debouncedSearchQuery],
-    queryFn: () => managerService.fetchAll(page, pageSize, searchKey, debouncedSearchQuery),
+    queryKey: [
+      QueryKeys.Managers.All, 
+      page, 
+      pageSize, 
+      `${searchKey && searchQuery ? [searchKey, searchQuery] : ""}`
+    ],
+    queryFn: () => managerService.fetchAll(page, pageSize, searchKey, searchQuery),
     enabled: !!token,
   });
 
   return {
-    managers: data?.data?.managers || [],
-    metadata: data?.data?.metadata || initialMetadata,
-    isManagersDataLoading: isLoading,
+    managers: data?.data?.data?.managers || [],
+    metadata: data?.data?.data?.metadata || initialMetadata,
+    isLoading,
   };
 };
 
 export const useGetManagerByID = (
   managerID: string,
-  resetInputs?: (data: IManagerCredentials) => void
+  resetInputs?: (data: ManagerFormValues) => void
 ) => {
   const token = useUserStore((state) => state.token);
-  const managerService = new ManagerService(token);
+  const managerService = useManagerService();
 
   const { data, isLoading } = useQuery({
-    queryKey: [MANAGER_DETAILS_QUERY_KEY, managerID],
+    queryKey: [QueryKeys.Managers.Details, managerID],
     queryFn: () => managerService.fetchByID(managerID),
     enabled: !!managerID && !!token,
   });
 
   useEffect(() => {
-    if (data?.data) {
+    if (data?.data?.data) {
       resetInputs?.({
-        username: data.data.username,
-        email: data.data.email,
+        username: data.data.data.username,
+        email: data.data.data.email,
         password: "",
       });
     }
   }, [data, resetInputs]);
 
   return {
-    manager: data?.data,
-    isManagerDataLoading: isLoading,
+    manager: data?.data?.data,
+    isLoading,
   };
 };
 
 export const useGetManagersCount = () => {
   const token = useUserStore((state) => state.token);
-  const managerService = new ManagerService(token);
+  const managerService = useManagerService();
 
   const { data, isLoading } = useQuery({
-    queryKey: [MANAGERS_COUNT_QUERY_KEY],
+    queryKey: [QueryKeys.Managers.Count],
     queryFn: () => managerService.fetchCount(),
     enabled: !!token,
   });
 
   return {
-    totalCount: data?.data?.totalCount || 0,
-    lockedCount: data?.data?.lockedCount || 0,
-    blockedCount: data?.data?.blockedCount || 0,
-    isManagersCountLoading: isLoading,
+    totalCount: data?.data?.data?.totalCount || 0,
+    lockedCount: data?.data?.data?.lockedCount || 0,
+    blockedCount: data?.data?.data?.blockedCount || 0,
+    isLoading,
   };
 };
 
 export const useCreateManager = () => {
-  const token = useUserStore((state) => state.token);
   const { language } = useLanguageStore();
   const queryClient = useQueryClient();
-  const managerService = new ManagerService(token);
+  const managerService = useManagerService();
 
   return useMutation({
-    mutationFn: (managerData: IManagerCredentials) => managerService.create(managerData),
+    mutationFn: (managerData: ManagerCredentials) => managerService.create(managerData),
     onSuccess: ({ status, data }) => {
-      queryClient.invalidateQueries({ queryKey: [MANAGERS_QUERY_KEY] });
-      queryClient.invalidateQueries({ queryKey: [MANAGERS_COUNT_QUERY_KEY] });
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.Managers.All] });
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.Managers.Count] });
 
       if (status === 201) {
         const message = getTranslatedMessage(data.message ?? "", language);
@@ -109,15 +121,14 @@ export const useCreateManager = () => {
 };
 
 export const useUpdateManager = () => {
-  const token = useUserStore((state) => state.token);
   const { language } = useLanguageStore();
   const queryClient = useQueryClient();
-  const managerService = new ManagerService(token);
+  const managerService = useManagerService();
 
   return useMutation({
-    mutationFn: (managerData: IManagerCredentials) => managerService.update(managerData),
+    mutationFn: (managerData: ManagerCredentials) => managerService.update(managerData),
     onSuccess: ({ status, data }) => {
-      queryClient.invalidateQueries({ queryKey: [MANAGERS_QUERY_KEY] });
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.Managers.All] });
 
       if (status === 200) {
         const message = getTranslatedMessage(data.message ?? "", language);
@@ -132,16 +143,15 @@ export const useUpdateManager = () => {
 };
 
 export const useDeleteManager = () => {
-  const token = useUserStore((state) => state.token);
   const { language } = useLanguageStore();
   const queryClient = useQueryClient();
-  const managerService = new ManagerService(token);
+  const managerService = useManagerService();
 
   return useMutation({
     mutationFn: (managerID: string) => managerService.delete(managerID),
     onSuccess: ({ status, data }) => {
-      queryClient.invalidateQueries({ queryKey: [MANAGERS_QUERY_KEY] });
-      queryClient.invalidateQueries({ queryKey: [MANAGERS_COUNT_QUERY_KEY] });
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.Managers.All] });
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.Managers.Count] });
 
       if (status === 200) {
         const message = getTranslatedMessage(data.message ?? "", language);

@@ -32,7 +32,7 @@ const Inputs = ({
   const { t } = useTranslation([ATTENDANCE_NS]);
 
   const { devices: devicesList, isLoading: devicesListIsLoading } = useGetDevicesList();
-  const { employeesList, isEmployeesListLoading } = useGetEmployeesList();
+  const { employeesList, isLoading: isEmployeesListLoading } = useGetEmployeesList();
 
   const deviceOptions = devicesList?.map((device: DeviceSummary) => ({
     value: device.id,

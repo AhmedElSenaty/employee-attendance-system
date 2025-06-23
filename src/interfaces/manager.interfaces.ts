@@ -2,7 +2,7 @@
 /**
  * Represents the structure of a single manager.
  */
-export interface IManagerData {
+export interface ManagerData {
   id: string;
   username: string;
   email: string;
@@ -18,7 +18,7 @@ export interface IManagerData {
 /**
  * Represents the credentials used when creating or updating a manager.
  */
-export interface IManagerCredentials {
+export interface ManagerCredentials {
   id?: string;
   username: string;
   email?: string;

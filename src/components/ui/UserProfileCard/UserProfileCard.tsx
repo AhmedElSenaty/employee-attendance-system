@@ -3,17 +3,18 @@ import { Button } from "../Button";
 import { StatusBadge } from "../StatusBadge";
 import { AlertTriangle, CheckCircle } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { EMPLOYEE_TRANSLATION_NAMESPACE } from "../../../pages/common/manage-employees";
 import { NavLink } from "react-router";
 import { EmployeeData } from "../../../interfaces";
 import { useUserStore } from "../../../store/user.store";
+import { EMPLOYEE_NS } from "../../../constants";
 
 type UserProps = {
   user: EmployeeData;
 };
 
 const UserProfileCard: React.FC<UserProps> = ({ user }) => {
-  const { t } = useTranslation(["common", EMPLOYEE_TRANSLATION_NAMESPACE]);
+  const { t } = useTranslation([EMPLOYEE_NS]);
+
   const userRole = useUserStore((state) => state.role);
   console.log(user);
   return (
@@ -38,39 +39,39 @@ const UserProfileCard: React.FC<UserProps> = ({ user }) => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-2 text-sm">
-          <p><span className="font-medium">{t("manageEmployeesPage.table.columns.email", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}:</span> {user.email}</p>
-          <p><span className="font-medium">{t("manageEmployeesPage.table.columns.username", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}:</span> {user.username}</p>
-          <p><span className="font-medium">{t("manageEmployeesPage.table.columns.phoneNumber", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}:</span> {user.phoneNumber ?? "N/A"}</p>
-          <p><span className="font-medium">{t("manageEmployeesPage.table.columns.ssn", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}:</span> {user.ssn}</p>
-          <p><span className="font-medium">{t("manageEmployeesPage.table.columns.dateOfBirth", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}:</span> {user.dateOfBirth}</p>
-          <p><span className="font-medium">{t("manageEmployeesPage.table.columns.hiringDate", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}:</span> {user.hiringDate}</p>
-          <p><span className="font-medium">{t("manageEmployeesPage.table.columns.delegateDepartmentName", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}:</span> {user.delegeteName}</p>
-          <p><span className="font-medium">{t("manageEmployeesPage.table.columns.delegateSubDepartmentName", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}:</span> {user.delegeteSubDepartmentName}</p>
+          <p><span className="font-medium">{t("table.columns.email")}:</span> {user.email}</p>
+          <p><span className="font-medium">{t("table.columns.username")}:</span> {user.username}</p>
+          <p><span className="font-medium">{t("table.columns.phoneNumber")}:</span> {user.phoneNumber ?? "N/A"}</p>
+          <p><span className="font-medium">{t("table.columns.ssn")}:</span> {user.ssn}</p>
+          <p><span className="font-medium">{t("table.columns.dateOfBirth")}:</span> {user.dateOfBirth}</p>
+          <p><span className="font-medium">{t("table.columns.hiringDate")}:</span> {user.hiringDate}</p>
+          <p><span className="font-medium">{t("table.columns.delegateDepartmentName")}:</span> {user.delegeteName}</p>
+          <p><span className="font-medium">{t("table.columns.delegateSubDepartmentName")}:</span> {user.delegeteSubDepartmentName}</p>
         </div>
 
         <div className="flex space-x-8 pt-4 text-center">
           <div className="block">
-          <p className="text-gray-400 text-sm mb-2">{t("manageEmployeesPage.table.columns.accountStatus", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}</p>
+          <p className="text-gray-400 text-sm mb-2">{t("table.columns.accountStatus")}</p>
             <StatusBadge
               variant={user.isActive ? "success" : "warning"}
               size="medium"
               icon={user.isActive ? <CheckCircle className="w-4 h-4" /> : <AlertTriangle className="w-4 h-4" />}
             >
               {user.isActive
-                ? t("manageEmployeesPage.table.status.active", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })
-                : t("manageEmployeesPage.table.status.notActive", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}
+                ? t("table.status.active")
+                : t("table.status.notActive")}
             </StatusBadge>
           </div>
             <div className="block">
-              <p className="text-gray-400 text-sm mb-2">{t("manageEmployeesPage.table.columns.isBlocked", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}</p>
+              <p className="text-gray-400 text-sm mb-2">{t("table.columns.isBlocked")}</p>
               <StatusBadge
                 variant={user.isBlocked ? "neutral" : "info"}
                 size="medium"
                 icon={user.isBlocked ? <AlertTriangle className="w-4 h-4" /> : <CheckCircle className="w-4 h-4" />}
               >
                 {user.isBlocked
-                  ? t("manageEmployeesPage.table.status.blocked", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })
-                  : t("manageEmployeesPage.table.status.active", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}
+                  ? t("table.status.blocked")
+                  : t("table.status.active")}
               </StatusBadge>
             </div>
         </div>

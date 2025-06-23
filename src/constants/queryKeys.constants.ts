@@ -51,6 +51,23 @@ export const QueryKeys = {
     EmployeeToday: "EmployeeTodayAttendance",
   },
   Export: "exportEmployeeAttendance",
+  Employees: {
+    All: "employees",
+    Details: "employeeDetails",
+    Count: "employeesCount",
+    List: "employeesList",
+    MyVacations: "employeeMyVacations",
+    Vacations: "employeeVacations",
+  },
+  WorkingDays: {
+    Me: ["WorkingDays", "Me"],
+    ByID: "WorkingDaysByID",
+  },
+  Managers: {
+    All: "managers",
+    Details: "managerDetails",
+    Count: "managersCount",
+  },
   FETCH_ME: "me",
   LeaveRequests: {
     All: "leaveRequests",
@@ -83,10 +100,6 @@ export const QueryKeys = {
     My: "myCasualLeaveRequests",
     Details: "casualLeaveRequestDetails",
     MyDetails: "myCasualLeaveRequestDetails",
-  },
-  WorkingDays: {
-    Me: ["WorkingDays", "Me"],
-    ByID: "WorkingDaysByID",
   },
   // Add more domains/modules here
 };

@@ -3,6 +3,7 @@ export { default as ManageSubDepartmentsPage } from "../common/manage-sub-depart
 export * from "../common/manage-attendance"
 export * from "./leave-requests"
 export * from "./mission-requests"
+export * from "../common/manage-employees"
 export { default as OrdinaryRequestsPage } from "./ordinary-requests"
 export { default as CasualLeaveRequestsPage } from "./casual-requests"
 export { default as SickLRequestsPage } from "./sick-requests"

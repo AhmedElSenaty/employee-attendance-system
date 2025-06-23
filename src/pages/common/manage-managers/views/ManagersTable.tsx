@@ -1,33 +1,38 @@
-import { useMemo } from "react";
 import { StatusBadge, Button, NoDataMessage, Table, TableCell, TableRow, TableSkeleton, Tooltip } from "../../../../components/ui/";
 import { AlertTriangle, Ban, CheckCircle, FilePenLine, Trash2 } from "lucide-react";
-import { TFunction } from "i18next";
-import { IManagerData } from "../../../../interfaces";
 import { NavLink } from "react-router";
 import { truncateText } from "../../../../utils";
-import { MANAGER_TABLE_COLUMNS, MANAGER_TRANSLATION_NAMESPACE } from "..";
 import { HasPermission } from "../../../../components/auth";
-import { useLanguageStore } from "../../../../store/language.store";
-import { useUserStore } from "../../../../store/user.store";
+import { useLanguageStore, useUserStore } from "../../../../store/";
+import { ManagerData } from "../../../../interfaces";
+import { MANAGER_NS } from "../../../../constants";
+import { useTranslation } from "react-i18next";
 
-interface IManagersTableProps {
-  managers: IManagerData[];
+interface Props {
+  managers: ManagerData[];
   isLoading: boolean;
-  t: TFunction;
   handleDeleteManager: (id: string) => void;
   handleUnblockManager: (id: string) => void;
 }
 
-const ManagersTable = ({ managers, t, isLoading, handleDeleteManager, handleUnblockManager }: IManagersTableProps) => {
+const ManagersTable = ({ managers, isLoading, handleDeleteManager, handleUnblockManager }: Props) => {
   const { language } = useLanguageStore();
+  const { t } = useTranslation([MANAGER_NS]);
+
   const userRole = useUserStore((state) => state.role);
 
+  const MANAGER_TABLE_COLUMNS = [
+    "table.columns.username",
+    "table.columns.email",
+    "table.columns.department",
+    "table.columns.status",
+    "table.columns.createdAt",
+    "table.columns.actions",
+  ]
 
-  const columns = useMemo(
-    () => MANAGER_TABLE_COLUMNS.map(key => t(key, { ns: MANAGER_TRANSLATION_NAMESPACE })),
-    [t]
-  );
-  
+  const columns = MANAGER_TABLE_COLUMNS.map(key => t(key))
+
+
   return (
     <>
       {isLoading ? (
@@ -35,13 +40,13 @@ const ManagersTable = ({ managers, t, isLoading, handleDeleteManager, handleUnbl
       ) : (
         <Table columns={columns}>
           {managers.length == 0 ? (
-            <NoDataMessage title={t("manageManagersPage.table.emptyTable.title", { ns: MANAGER_TRANSLATION_NAMESPACE })} message={t("manageManagersPage.table.emptyTable.message", { ns: MANAGER_TRANSLATION_NAMESPACE })} />
+            <NoDataMessage title={t("table.emptyTable.title")} message={t("table.emptyTable.message")} />
           ) : (
-            managers.map(({ id, username, email, department, isBlocked, createdAt }: IManagerData) => (
+            managers.map(({ id, username, email, department, isBlocked, createdAt }: ManagerData) => (
               <TableRow key={id} className="border-b">
                 <TableCell label={columns[0]}>{truncateText(username, 20)}</TableCell>
                 <TableCell label={columns[1]}>
-                  {truncateText(email, 20)}
+                  {truncateText(email, 15)}
                 </TableCell>
                 <TableCell label={columns[2]}>{department.name}</TableCell>
                 <TableCell label={columns[3]}>
@@ -52,8 +57,8 @@ const ManagersTable = ({ managers, t, isLoading, handleDeleteManager, handleUnbl
                     >
                     {
                       isBlocked ? 
-                        t("manageManagersPage.table.isBlocked.blocked", { ns: MANAGER_TRANSLATION_NAMESPACE })
-                        : t("manageManagersPage.table.isBlocked.notBlocked", { ns: MANAGER_TRANSLATION_NAMESPACE })
+                        t("table.isBlocked.blocked")
+                        : t("table.isBlocked.notBlocked")
                     }
                   </StatusBadge>
                 </TableCell>
@@ -63,7 +68,7 @@ const ManagersTable = ({ managers, t, isLoading, handleDeleteManager, handleUnbl
                 <TableCell label={columns[5]}>
                   <div className="flex flex-wrap gap-2">
                     <HasPermission permission="Update Manager">
-                      <Tooltip content="Update Manager">
+                      <Tooltip content={t("buttons.editToolTip")}>
                         <NavLink to={`/${userRole}/edit-manager/${id}`}>
                           <Button 
                             variant="info" 
@@ -76,7 +81,7 @@ const ManagersTable = ({ managers, t, isLoading, handleDeleteManager, handleUnbl
                       </Tooltip>
                     </HasPermission>
                     <HasPermission permission="Delete Manager">
-                      <Tooltip content="Delete Manager">
+                      <Tooltip content={t("buttons.deleteToolTip")}>
                         <Button
                           variant="danger"
                           fullWidth={false}
@@ -90,7 +95,7 @@ const ManagersTable = ({ managers, t, isLoading, handleDeleteManager, handleUnbl
                     <HasPermission permission="Unlock Account">
                       {
                         isBlocked &&
-                        <Tooltip content="Unlock Account">
+                        <Tooltip content={t("buttons.unlockToolTip")}>
                           <Button
                             variant="black"
                             fullWidth={false}

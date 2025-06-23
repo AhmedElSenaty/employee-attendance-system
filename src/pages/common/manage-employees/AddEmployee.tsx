@@ -1,30 +1,31 @@
 import { useTranslation } from "react-i18next";
-import { RenderEmployeeDelegateInputs, RenderEmployeeInfoInputs } from "./views"
 import { SubmitHandler, useForm } from "react-hook-form";
-import { IEmployeeCredentials } from "../../../interfaces";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { getEmployeeSchema } from "../../../validation";
-import RenderEmployeeDepartmentInputs from "./views/RenderEmployeeDepartmentInputs";
+import { EmployeeFormValues, getEmployeeSchema } from "../../../validation";
 import { useNavigate } from "react-router";
-import { EMPLOYEE_TRANSLATION_NAMESPACE } from ".";
 import { Button, Description, Header, SectionHeader } from "../../../components/ui";
-import { useCreateEmployee } from "../../../hooks/employee.hooks";
+import { EMPLOYEE_NS } from "../../../constants";
+import { useCreateEmployee } from "../../../hooks";
+import { DelegateInputs, DepartmentInputs, Inputs } from "./views";
 
 const AddEmployeePage = () => {
-  const { t } = useTranslation(["common", EMPLOYEE_TRANSLATION_NAMESPACE]);
+  const { t } = useTranslation([EMPLOYEE_NS]);
   const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<IEmployeeCredentials>({
+    control
+  } = useForm<EmployeeFormValues>({
     resolver: yupResolver(getEmployeeSchema(false)),
     mode: "onChange",
   });
   
-  const { mutateAsync: addEmployeeAndGetUserID } = useCreateEmployee();
+  const { mutateAsync: addEmployeeAndGetUserID, isPending } = useCreateEmployee();
 
-  const handleConfirmAdd: SubmitHandler<IEmployeeCredentials> = async (request: IEmployeeCredentials) => {
+  const handleConfirmAdd: SubmitHandler<EmployeeFormValues> = async (request: EmployeeFormValues) => {
+    console.log(request);
     try {
       const response = await addEmployeeAndGetUserID(request);
       const userID = response?.data?.data?.userId;
@@ -41,40 +42,40 @@ const AddEmployeePage = () => {
   return (
     <div className="sm:p-5 p-3 space-y-5">
       <Header
-        heading={t("addEmployeePage.header.heading", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}
-        subtitle={t("addEmployeePage.header.subtitle", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}
+        heading={t("addEmployeePage.header.heading")}
+        subtitle={t("addEmployeePage.header.subtitle")}
       />
       <form className="bg-white shadow-md space-y-10 p-5 rounded-lg" onSubmit={handleSubmit(handleConfirmAdd)}>
         <div className="space-y-5 border-b-2 pb-10 border-gray-200">
           <SectionHeader 
-            title={t("addEmployeePage.emplyeeInformationsSectionHeader.title", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}
-            description={t("addEmployeePage.emplyeeInformationsSectionHeader.description", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}
+            title={t("addEmployeePage.informationsSectionHeader.title")}
+            description={t("addEmployeePage.informationsSectionHeader.description")}
           />
           <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <RenderEmployeeInfoInputs errors={errors} register={register} t={t} />
+            <Inputs errors={errors} register={register} />
           </div>
         </div>
         <div className="space-y-5 border-b-2 pb-10 border-gray-200">
           <SectionHeader 
-            title={t("addEmployeePage.departmentSectionHeader.title", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}
-            description={t("addEmployeePage.departmentSectionHeader.description", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}
+            title={t("addEmployeePage.departmentSectionHeader.title")}
+            description={t("addEmployeePage.departmentSectionHeader.description")}
           />
           <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <RenderEmployeeDepartmentInputs errors={errors} register={register} t={t} />
+            <DepartmentInputs errors={errors} register={register} control={control} />
           </div>
         </div>
         <div className="space-y-5 border-b-2 pb-10 border-gray-200">
           <SectionHeader 
-            title={t("addEmployeePage.delegateSectionHeader.title", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}
-            description={t("addEmployeePage.delegateSectionHeader.description", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}
+            title={t("addEmployeePage.delegateSectionHeader.title")}
+            description={t("addEmployeePage.delegateSectionHeader.description")}
           />
           <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <RenderEmployeeDelegateInputs errors={errors} register={register} t={t} />
+            <DelegateInputs errors={errors} register={register} control={control} />
           </div>
-          <Description>{t("addEmployeePage.note", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}</Description>
+          <Description>{t("addEmployeePage.note")}</Description>
         </div>
 
-        <Button fullWidth={false} isLoading={false} >{t("addEmployeePage.saveEmployeeButton", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}</Button>
+        <Button fullWidth={false} isLoading={isPending} >{isPending ? t("buttons.loading") : t("buttons.create")}</Button>
       </form>
     </div>
   )

@@ -1,68 +1,76 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
-  IEmployeeCredentials,
   IErrorResponse,
   initialMetadata,
 } from "../interfaces";
 import { getTranslatedMessage, handleApiError, showToast } from "../utils";
 import { AxiosError } from "axios";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useLanguageStore } from "../store/language.store";
 import { useUserStore } from "../store/user.store";
 import { EmployeeService } from "../services";
+import { EmployeeFormValues } from "../validation";
+import { QueryKeys } from "../constants";
 
-export const EMPLOYEES_QUERY_KEY = "employees";
-export const EMPLOYEE_DETAILS_QUERY_KEY = "employeeDetails";
-export const EMPLOYEES_COUNT_QUERY_KEY = "employeesCount";
-export const EMPLOYEES_LIST_QUERY_KEY = "employeesList";
-export const EMPLOYEES_MY_VACATIONS_QUERY_KEY = "employeeMyVacations";
-export const EMPLOYEES_VACATIONS_QUERY_KEY = "employeeVacations";
+export const useEmployeeService = () => {
+  const token = useUserStore((state) => state.token);
 
+  const service = useMemo(() => {
+    return new EmployeeService(token);
+  }, [token]);
+
+  return service;
+};
 
 export const useGetAllEmployees = (
-  page: number,
-  pageSize: number,
-  searchKey: string,
-  debouncedSearchQuery: string
+  page?: number,
+  pageSize?: number,
+  searchKey?: string,
+  searchQuery?: string
 ) => {
   const token = useUserStore((state) => state.token);
-  const employeeService = new EmployeeService(token);
+  const employeeService = useEmployeeService();
 
   const { data, isLoading } = useQuery({
-    queryKey: [EMPLOYEES_QUERY_KEY, page, pageSize, searchKey, debouncedSearchQuery],
-    queryFn: () => employeeService.fetchAll(page, pageSize, searchKey, debouncedSearchQuery),
+    queryKey: [
+      QueryKeys.Employees.All, 
+      page, 
+      pageSize, 
+      `${searchKey && searchQuery ? [searchKey, searchQuery] : ""}`
+    ],
+    queryFn: () => employeeService.fetchAll(page, pageSize, searchKey, searchQuery),
     enabled: !!token,
   });
 
   return {
-    employees: data?.data?.employees || [],
-    metadata: data?.data?.metadata || initialMetadata,
-    isEmployeesDataLoading: isLoading,
+    employees: data?.data?.data?.employees || [],
+    metadata: data?.data?.data?.metadata || initialMetadata,
+    isLoading,
   };
 };
 
 export const useGetEmployeeByID = (
   employeeID: string,
-  resetInputs?: (data: IEmployeeCredentials) => void
+  resetInputs?: (data: EmployeeFormValues) => void
 ) => {
   const token = useUserStore((state) => state.token);
-  const employeeService = new EmployeeService(token);
+  const employeeService = useEmployeeService();
 
   const { data, isLoading } = useQuery({
-    queryKey: [EMPLOYEE_DETAILS_QUERY_KEY, employeeID],
+    queryKey: [QueryKeys.Employees.Details, employeeID],
     queryFn: () => employeeService.fetchByID(employeeID),
     enabled: !!employeeID && !!token,
   });
 
   useEffect(() => {
-    if (data?.data) {
-      resetInputs?.(data.data);
+    if (data?.data?.data) {
+      resetInputs?.(data.data.data);
     }
   }, [data, resetInputs]);
 
   return {
-    employee: data?.data,
-    isEmployeeDataLoading: isLoading,
+    employee: data?.data?.data,
+    isLoading,
   };
 };
 
@@ -70,82 +78,81 @@ export const useGetEmployeeVacationsByID = (
   employeeID: string,
 ) => {
   const token = useUserStore((state) => state.token);
-  const employeeService = new EmployeeService(token);
+  const employeeService = useEmployeeService();
 
   const { data, isLoading } = useQuery({
-    queryKey: [EMPLOYEES_VACATIONS_QUERY_KEY, employeeID],
+    queryKey: [QueryKeys.Employees.Vacations, employeeID],
     queryFn: () => employeeService.fetchVacationsByID(employeeID),
     enabled: !!employeeID && !!token,
   });
 
   return {
-    employeeVacations: data?.data,
-    isEmployeeVacationsLoading: isLoading,
+    employeeVacations: data?.data?.data,
+    isLoading,
   };
 };
 
 export const useGetEmployeesCount = () => {
   const token = useUserStore((state) => state.token);
-  const employeeService = new EmployeeService(token);
+  const employeeService = useEmployeeService();
 
   const { data, isLoading } = useQuery({
-    queryKey: [EMPLOYEES_COUNT_QUERY_KEY],
+    queryKey: [QueryKeys.Employees.Count],
     queryFn: () => employeeService.fetchCount(),
     enabled: !!token,
   });
 
   return {
-    totalCount: data?.data?.totalCount || 0,
-    lockedCount: data?.data?.lockedCount || 0,
-    blockedCount: data?.data?.blockedCount || 0,
-    activatedCount: data?.data?.activatedCount || 0,
-    deactivatedCount: data?.data?.deactivatedCount || 0,
-    isEmployeesCountLoading: isLoading,
+    totalCount: data?.data?.data?.totalCount || 0,
+    lockedCount: data?.data?.data?.lockedCount || 0,
+    blockedCount: data?.data?.data?.blockedCount || 0,
+    activatedCount: data?.data?.data?.activatedCount || 0,
+    deactivatedCount: data?.data?.data?.deactivatedCount || 0,
+    isLoading,
   };
 };
 
 export const useGetEmployeesList = () => {
   const token = useUserStore((state) => state.token);
-  const employeeService = new EmployeeService(token);
+  const employeeService = useEmployeeService();
 
   const { data, isLoading } = useQuery({
-    queryKey: [EMPLOYEES_LIST_QUERY_KEY],
+    queryKey: [QueryKeys.Employees.List],
     queryFn: () => employeeService.fetchList(),
     enabled: !!token,
   });
 
   return {
-    employeesList: data ?? [],
-    isEmployeesListLoading: isLoading,
+    employeesList: data?.data?.data ?? [],
+    isLoading,
   };
 };
 
 export const useGetEmployeeMyVacations = () => {
   const token = useUserStore((state) => state.token);
-  const employeeService = new EmployeeService(token);
+  const employeeService = useEmployeeService();
 
   const { data, isLoading } = useQuery({
-    queryKey: [EMPLOYEES_MY_VACATIONS_QUERY_KEY],
+    queryKey: [QueryKeys.Employees.MyVacations],
     queryFn: () => employeeService.fetchMyVacations(),
     enabled: !!token,
   });
 
   return {
     myVacations: data?.data?.data,
-    isMyVacationsLoading: isLoading,
+    isLoading,
   };
 };
 
 export const useCreateEmployee = () => {
-  const token = useUserStore((state) => state.token);
   const { language } = useLanguageStore();
   const queryClient = useQueryClient();
-  const employeeService = new EmployeeService(token);
+  const employeeService = useEmployeeService();
 
   return useMutation({
-    mutationFn: (employeeData: IEmployeeCredentials) => employeeService.create(employeeData),
+    mutationFn: (employeeData: EmployeeFormValues) => employeeService.create(employeeData),
     onSuccess: ({ status, data }) => {
-      queryClient.invalidateQueries({ queryKey: [EMPLOYEES_QUERY_KEY] });
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.Employees.All] });
       if (status === 201) {
         const message = getTranslatedMessage(data.message ?? "", language);
         showToast("success", message);
@@ -159,15 +166,14 @@ export const useCreateEmployee = () => {
 };
 
 export const useUpdateEmployee = () => {
-  const token = useUserStore((state) => state.token);
   const { language } = useLanguageStore();
   const queryClient = useQueryClient();
-  const employeeService = new EmployeeService(token);
+  const employeeService = useEmployeeService();
 
   return useMutation({
-    mutationFn: (employeeData: IEmployeeCredentials) => employeeService.update(employeeData),
+    mutationFn: (employeeData: EmployeeFormValues) => employeeService.update(employeeData),
     onSuccess: ({ status, data }) => {
-      queryClient.invalidateQueries({ queryKey: [EMPLOYEES_QUERY_KEY] });
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.Employees.All] });
       if (status === 200) {
         const message = getTranslatedMessage(data.message ?? "", language);
         showToast("success", message);
@@ -181,15 +187,14 @@ export const useUpdateEmployee = () => {
 };
 
 export const useToggleReportEmployeeStatus = () => {
-  const token = useUserStore((state) => state.token);
   const { language } = useLanguageStore();
   const queryClient = useQueryClient();
-  const employeeService = new EmployeeService(token);
+  const employeeService = useEmployeeService();
 
   return useMutation({
     mutationFn: (employeeID: string) => employeeService.toggleReportStatus(employeeID),
     onSuccess: ({ status, data }) => {
-      queryClient.invalidateQueries({ queryKey: [EMPLOYEES_QUERY_KEY] });
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.Employees.All] });
       if (status === 200) {
         const message = getTranslatedMessage(data.message ?? "", language);
         showToast("success", message);
@@ -203,15 +208,14 @@ export const useToggleReportEmployeeStatus = () => {
 };
 
 export const useDeleteEmployee = () => {
-  const token = useUserStore((state) => state.token);
   const { language } = useLanguageStore();
   const queryClient = useQueryClient();
-  const employeeService = new EmployeeService(token);
+  const employeeService = useEmployeeService();
 
   return useMutation({
     mutationFn: (employeeID: string) => employeeService.delete(employeeID),
     onSuccess: ({ status, data }) => {
-      queryClient.invalidateQueries({ queryKey: [EMPLOYEES_QUERY_KEY] });
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.Employees.All] });
       if (status === 200) {
         const message = getTranslatedMessage(data.message ?? "", language);
         showToast("success", message);
@@ -225,9 +229,8 @@ export const useDeleteEmployee = () => {
 };
 
 export const useRestEmployeeTimeVacations = () => {
-  const token = useUserStore((state) => state.token);
   const { language } = useLanguageStore()
-  const employeeService = new EmployeeService(token);
+  const employeeService = useEmployeeService();
 
   return useMutation({
     mutationFn: (time: number) => employeeService.resetEmployeeVacations(time),

@@ -6,7 +6,10 @@ export const getEmployeeSchema = (isUpdate: boolean) =>
       .string()
       .min(3, "Username must be at least 3 characters")
       .max(50, "Username cannot exceed 50 characters")
-      .matches(/^\S*$/, { message: "Username must not contain spaces", excludeEmptyString: true })
+      .matches(/^\S*$/, {
+        message: "Username must not contain spaces",
+        excludeEmptyString: true,
+      })
       .when([], {
         is: () => isUpdate,
         then: (schema) => schema.required("Username is required"),
@@ -40,7 +43,8 @@ export const getEmployeeSchema = (isUpdate: boolean) =>
 
     subDepartmentId: yup
       .string()
-      .required("Sub-department is required"),
+      .nullable()
+      .transform((value, originalValue) => (originalValue === "" ? null : value)),
 
     hiringDate: yup
       .string()
@@ -49,6 +53,9 @@ export const getEmployeeSchema = (isUpdate: boolean) =>
     oldId: yup
       .string()
       .required("Old ID is required"),
+
+    delegateId: 
+      yup.string(),
 
     avilableLeaveRequestsPerMonth: yup
       .string()
@@ -74,3 +81,5 @@ export const getEmployeeSchema = (isUpdate: boolean) =>
         otherwise: (schema) => schema.strip(),
       }),
   });
+
+export type EmployeeFormValues = yup.InferType<ReturnType<typeof getEmployeeSchema>>;

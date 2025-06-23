@@ -1,22 +1,19 @@
 import { useTranslation } from "react-i18next";
-import { DeleteEmployeePopup, RenderEmployeeDelegateInputs, RenderEmployeeInfoInputs, UnblockEmployeePopup, WorkingDaysCheckboxes } from "./views"
 import { SubmitHandler, useForm } from "react-hook-form";
-import { IDaydata, IEmployeeCredentials, IUpdateWorkingDays } from "../../../interfaces";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { getEmployeeSchema, passwordUpdateSchema } from "../../../validation";
-import { RenderEmployeeDepartmentInputs } from "./views/";
+import { EmployeeFormValues, getEmployeeSchema, passwordUpdateSchema } from "../../../validation";
 import { SectionHeader, Button, ButtonSkeleton, Header, StatusBadge, Description, Field, Input, InputErrorMessage, Label } from "../../../components/ui";
 import { useNavigate, useParams } from "react-router";
-import { EMPLOYEE_TRANSLATION_NAMESPACE } from ".";
 import { useEffect, useState } from "react";
 import { AlertTriangle, CheckCircle } from "lucide-react";
 import { HasPermission } from "../../../components/auth";
-import { useUnblockAccount, useUpdateAccountPassword } from "../../../hooks/account.hook";
-import { useDeleteEmployee, useGetEmployeeByID, useUpdateEmployee } from "../../../hooks/employee.hooks";
-import { useGetWorkingDaysByID, useUpdateWorkingDays } from "../../../hooks";
+import { EMPLOYEE_NS } from "../../../constants";
+import { Daydata, UpdateWorkingDays } from "../../../interfaces";
+import { useDeleteEmployee, useGetEmployeeByID, useGetWorkingDaysByID, useUnblockAccount, useUpdateAccountPassword, useUpdateEmployee, useUpdateWorkingDays } from "../../../hooks";
+import { DelegateInputs, DeletePopup, DepartmentInputs, Inputs, UnblockPopup, WorkingDaysCheckboxes } from "./views";
 
 const EditEmployeePage = () => {
-  const { t } = useTranslation(["common", EMPLOYEE_TRANSLATION_NAMESPACE]);
+  const { t } = useTranslation([EMPLOYEE_NS]);
   
   const { id } = useParams();
   const navigate = useNavigate();
@@ -29,33 +26,36 @@ const EditEmployeePage = () => {
     register,
     handleSubmit,
     formState: { errors },
-    reset
-  } = useForm<IEmployeeCredentials>({
+    reset,
+    control
+  } = useForm<EmployeeFormValues>({
     resolver: yupResolver(getEmployeeSchema(true)),
     mode: "onChange",
   });
 
-  const { handleSubmit: handleSubmitWorkingDays } = useForm<IUpdateWorkingDays>();
+  const { handleSubmit: handleSubmitWorkingDays } = useForm<UpdateWorkingDays>();
 
-  // Form handling for updating password (separate form for password change)
   const {
-    register: updatePasswordRegister,  // Register function for the password form
-    handleSubmit: handleSubmitUpdatePassword,  // Handle form submission for password update
-    formState: { errors: updatePasswordErrors },  // Store form errors related to password update
+    register: updatePasswordRegister, 
+    handleSubmit: handleSubmitUpdatePassword,
+    formState: { errors: updatePasswordErrors }, 
   } = useForm<{ password: string, confirmPassword: string }>({
-    resolver: yupResolver(passwordUpdateSchema(false)), // Validation schema for password form
-    mode: "onChange", // Trigger validation on input change
+    resolver: yupResolver(passwordUpdateSchema(false)),
+    mode: "onChange",
   });
 
-  const { employee , isEmployeeDataLoading} = useGetEmployeeByID(id || "", reset)
+  const { employee , isLoading: isEmployeeDataLoading} = useGetEmployeeByID(id || "", reset)
 
   // Destructuring functions and loading states from custom hooks for managing admins, departments, and permissions
   const { mutate: updateEmployee, isPending: isupdateing } = useUpdateEmployee();
   const { mutate: deleteEmployee, isPending: isDeleting } = useDeleteEmployee();
 
-  const handleConfirmUpdateInfo: SubmitHandler<IEmployeeCredentials> = async (request: IEmployeeCredentials) => {
-    request.id = id
-    updateEmployee(request);
+  const handleConfirmUpdateInfo: SubmitHandler<EmployeeFormValues> = async (request: EmployeeFormValues) => {
+    const payload = {
+      id: id,
+      ...request
+    }
+    updateEmployee(payload);
   };
 
   const handleConfirmDelete = () => {
@@ -68,8 +68,6 @@ const EditEmployeePage = () => {
   const { mutate: unblockAccount, isPending: isUnblockAccountLoading } = useUnblockAccount();
   const { mutate: updateWorkingDays, isPending: isUpdateDaysLoading } = useUpdateWorkingDays();
 
-
-
   const handleConfirmUpdatePassword: SubmitHandler<{password: string}> = async (request: { password: string }) => {
     updateAccountPassword({
       password: request.password,
@@ -77,7 +75,7 @@ const EditEmployeePage = () => {
     });
   };
 
-  const handleConfirmUpdateWorkingDays: SubmitHandler<IUpdateWorkingDays> = async (request: IUpdateWorkingDays) => {
+  const handleConfirmUpdateWorkingDays: SubmitHandler<UpdateWorkingDays> = async (request: UpdateWorkingDays) => {
     request.employeeId = id || ""
     request.workingDays = selectedWorkingDays
     updateWorkingDays(request)
@@ -92,7 +90,7 @@ const EditEmployeePage = () => {
 
   useEffect(() => {
     if (!isWorkingDaysLoading && workingDays.length > 0) {
-      const dayIds = workingDays.map((day: IDaydata) => day.dayId);
+      const dayIds = workingDays.map((day: Daydata) => day.dayId);
       setSelectedWorkingDays(dayIds);
     }
   }, [workingDays, isWorkingDaysLoading]);
@@ -101,15 +99,15 @@ const EditEmployeePage = () => {
     <>
       <div className="sm:p-5 p-3 space-y-5">
         <Header
-          heading={t("editEmployeePage.header.heading", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}
-          subtitle={t("editEmployeePage.header.subtitle", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}
+          heading={t("editEmployeePage.header.heading")}
+          subtitle={t("editEmployeePage.header.subtitle")}
         />
 
         <form className="bg-white shadow-md space-y-10 p-5 rounded-lg" onSubmit={handleSubmit(handleConfirmUpdateInfo)}>
           <div className="space-y-5 border-b-2 pb-10 border-gray-200">
             <SectionHeader 
-              title={t("editEmployeePage.emplyeeInformationsSectionHeader.title", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}
-              description={t("editEmployeePage.emplyeeInformationsSectionHeader.description", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}
+              title={t("editEmployeePage.informationsSectionHeader.title")}
+              description={t("editEmployeePage.informationsSectionHeader.description")}
             />
             <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 p-6 bg-white rounded-2xl shadow-md">
               {/* Profile Image */}
@@ -135,63 +133,52 @@ const EditEmployeePage = () => {
                   }
                 >
                   {employee?.isActive
-                    ? t("manageEmployeesPage.table.status.active", {
-                        ns: EMPLOYEE_TRANSLATION_NAMESPACE,
-                      })
-                    : t("manageEmployeesPage.table.status.notActive", {
-                        ns: EMPLOYEE_TRANSLATION_NAMESPACE,
-                    })
+                    ? t("table.status.active")
+                    : t("table.status.notActive")
                   }
                 </StatusBadge>
               </div>
 
               {/* Inputs */}
               <div className="col-span-1 sm:col-span-2 lg:col-span-4 grid grid-cols-1 md:grid-cols-2 gap-2">
-                <RenderEmployeeInfoInputs
+                <Inputs
                   errors={errors}
                   register={register}
-                  t={t}
                   isUpdateEmployee
                   isLoading={isEmployeeDataLoading}
                 />
               </div>
             </div>
-
-
           </div>
           <div className="space-y-5 border-b-2 pb-10 border-gray-200">
             <SectionHeader 
-              title={t("editEmployeePage.departmentSectionHeader.title", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}
-              description={t("editEmployeePage.departmentSectionHeader.description", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}
+              title={t("editEmployeePage.departmentSectionHeader.title")}
+              description={t("editEmployeePage.departmentSectionHeader.description")}
             />
             <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              <RenderEmployeeDepartmentInputs errors={errors} register={register} t={t} selectedDepartmentID={Number(employee?.departmentId)} />
+              <DepartmentInputs errors={errors} register={register} selectedDepartmentID={Number(employee?.departmentId)} control={control} />
             </div>
           </div>
           <div className="space-y-5 border-b-2 pb-10 border-gray-200">
             <SectionHeader 
-              title={t("editEmployeePage.delegateSectionHeader.title", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}
-              description={t("editEmployeePage.delegateSectionHeader.description", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}
+              title={t("editEmployeePage.delegateSectionHeader.title")}
+              description={t("editEmployeePage.delegateSectionHeader.description")}
             />
             <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              <RenderEmployeeDelegateInputs errors={errors} register={register} t={t} selectedDepartmentID={Number(employee?.delegeteDepartmentId)} />
+              <DelegateInputs errors={errors} register={register} selectedDepartmentID={Number(employee?.delegeteDepartmentId)} control={control} />
             </div>
-            <Description>{t("editEmployeePage.note", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}</Description>
+            <Description>{t("editEmployeePage.note")}</Description>
           </div>
 
           <div className="flex flex-wrap gap-3">
               {
                 isEmployeeDataLoading ? (
                   <>
-                    <div className="w-36">
-                      <ButtonSkeleton fullWidth={false} />
-                    </div>
-                    <div className="w-36">
-                      <ButtonSkeleton fullWidth={false} />
-                    </div>
-                    <div className="w-36">
-                      <ButtonSkeleton fullWidth={false} />
-                    </div>
+                    {[...Array(3)].map((_, i) => (
+                      <div key={i} className="w-36">
+                        <ButtonSkeleton fullWidth={false} />
+                      </div>
+                    ))}
                   </>
                 ) : (
                   <>
@@ -200,7 +187,7 @@ const EditEmployeePage = () => {
                         fullWidth={false} 
                         isLoading={isupdateing}
                       >
-                        {t("editEmployeePage.updateButton", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}
+                        {isupdateing ? t("buttons.loading") : t("buttons.updateInformations")}
                       </Button>
                     </HasPermission>
                     <HasPermission permission="Unlock Account">
@@ -213,7 +200,7 @@ const EditEmployeePage = () => {
                             type="button"
                             onClick={() => setIsUnblockPopupOpen(true)}
                           >
-                            {t("buttons.unblock")}
+                            {isUnblockAccountLoading ? t("buttons.loading") : t("buttons.unblock")}
                           </Button>
                         )
                       }
@@ -226,7 +213,7 @@ const EditEmployeePage = () => {
                         type="button"
                         onClick={() => setIsDeletePopupOpen(true)}
                       >
-                        {t("editEmployeePage.deleteButton", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}
+                        {isDeleting ? t("buttons.loading") : t("buttons.delete")}
                       </Button>
                     </HasPermission>
                   </>
@@ -234,45 +221,44 @@ const EditEmployeePage = () => {
               }
           </div>
         </form>
+
         <HasPermission permission="Update Password">
           {/* Password Update Section */}
           <div className="bg-white shadow-md space-y-5 p-5 rounded-lg">
             <SectionHeader 
-              title={t("editEmployeePage.passwordSectionHeader.title", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })} 
-              description={t("editEmployeePage.passwordSectionHeader.description", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}
+              title={t("editEmployeePage.passwordSectionHeader.title")} 
+              description={t("editEmployeePage.passwordSectionHeader.description")}
             />
             <form className="space-y-5" onSubmit={handleSubmitUpdatePassword(handleConfirmUpdatePassword)}>
               <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Password input field */}
                 <Field className="space-y-2">
-                  <Label size="lg">{t(`form.password.label`, { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}</Label>
+                  <Label size="lg">{t(`inputs.password.label`)}</Label>
                   <Input
-                    placeholder={t("form.password.placeholder", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}
+                    placeholder={t("inputs.password.placeholder")}
                     type="password"
                     {...updatePasswordRegister("password")}
                     isError={!!updatePasswordErrors["password"]}
                   />
                   {updatePasswordErrors["password"] && (
                     <InputErrorMessage>
-                      {t(`form.password.inputValidation.${updatePasswordErrors["password"].type === "matches" ? updatePasswordErrors["password"].message : updatePasswordErrors["password"].type}`, {
-                        ns: EMPLOYEE_TRANSLATION_NAMESPACE,
-                      })}
+                      {t(`inputs.password.inputValidation.${updatePasswordErrors["password"].type === "matches" ? updatePasswordErrors["password"].message : updatePasswordErrors["password"].type}`)}
                     </InputErrorMessage>
                   )}
                 </Field>
                 
                 {/* Confirm Password input field */}
                 <Field className="space-y-2">
-                  <Label size="lg">{t(`form.confirmPassword.label`, { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}</Label>
+                  <Label size="lg">{t(`inputs.confirmPassword.label`)}</Label>
                   <Input
-                    placeholder={t("form.confirmPassword.placeholder", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}
+                    placeholder={t("inputs.confirmPassword.placeholder")}
                     type="password"
                     {...updatePasswordRegister("confirmPassword")}
                     isError={!!updatePasswordErrors["confirmPassword"]}
                   />
                   {updatePasswordErrors["confirmPassword"] && (
                     <InputErrorMessage>
-                      {t(`form.confirmPassword.inputValidation.${updatePasswordErrors["confirmPassword"].type}`, { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}
+                      {t(`inputs.confirmPassword.inputValidation.${updatePasswordErrors["confirmPassword"].type}`)}
                     </InputErrorMessage>
                   )}
                 </Field>
@@ -282,42 +268,47 @@ const EditEmployeePage = () => {
                   fullWidth={false} 
                   isLoading={isUpdateAccountPasswordLoading}
                 >
-                  {t("editEmployeePage.updatePasswordButton", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}
+                  {isUpdateAccountPasswordLoading ? t("buttons.loading") : t("buttons.updatePassword")}
                 </Button>
               </div>
             </form>
           </div>
         </HasPermission>
-        <form
-          className="space-y-5"
-          onSubmit={handleSubmitWorkingDays(handleConfirmUpdateWorkingDays)}
-        >
-          <WorkingDaysCheckboxes
-            checkedDays={selectedWorkingDays}
-            setCheckedDays={setSelectedWorkingDays}
-            isLoading={isEmployeeDataLoading || isWorkingDaysLoading}
-          />
+        <div className="bg-white shadow-md space-y-5 p-5 rounded-lg">
+          <SectionHeader 
+              title={t("editEmployeePage.workingDaysSectionHeader.title")} 
+              description={t("editEmployeePage.workingDaysSectionHeader.description")}
+            />
+          <form
+            className="space-y-5"
+            onSubmit={handleSubmitWorkingDays(handleConfirmUpdateWorkingDays)}
+          >
+            <WorkingDaysCheckboxes
+              checkedDays={selectedWorkingDays}
+              setCheckedDays={setSelectedWorkingDays}
+              isLoading={isEmployeeDataLoading || isWorkingDaysLoading}
+            />
 
-          <div className="flex flex-wrap gap-3 justify-end">
-            <Button fullWidth={false} isLoading={isUpdateDaysLoading}>
-              {t("editEmployeePage.updateWorkingDaysButton", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}
-            </Button>
-          </div>
-        </form>
+            <div className="flex flex-wrap gap-3">
+              <Button fullWidth={false} isLoading={isUpdateDaysLoading}>
+                {isUpdateDaysLoading ? t("buttons.loading") : t("buttons.updateWorkingDays")}
+              </Button>
+            </div>
+          </form>
+        </div>
       </div>
-      <DeleteEmployeePopup
+      
+      <DeletePopup
         isOpen={isDeletePopupOpen}
         handleClose={() => { setIsDeletePopupOpen(false) }}
         handleConfirmDelete={handleConfirmDelete}
         isLoading={isDeleting}
-        t={t}
       />
-      <UnblockEmployeePopup
+      <UnblockPopup
         isOpen={isUnblockPopupOpen}
         handleClose={() => { setIsUnblockPopupOpen(false) }}
         handleConfirmUnblock={handleConfirmUnblock}
         isLoading={isUnblockAccountLoading}
-        t={t}
       />
     </>
   )

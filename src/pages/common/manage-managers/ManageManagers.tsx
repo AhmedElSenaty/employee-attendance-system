@@ -3,21 +3,32 @@ import { formatValue } from "../../../utils";
 import { NavLink } from "react-router";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
-import { useDebounce } from "../../../hooks/debounce.hook";
-import { useFiltersHook } from "../../../hooks/filter.hook";
-import { DeleteManagerPopup, ManagersTable, ManagerTableFilters, UnblockManagerPopup } from "./views";
-import { MANAGER_GRAPH_LABEL_KEYS, MANAGER_HOVER_OFFSET, MANAGER_TRANSLATION_NAMESPACE, MANAGER_GRAPH_BACKGROUND_COLORS } from ".";
 import { HasPermission } from "../../../components/auth";
-import { useLanguageStore } from "../../../store/language.store";
-import { useUserStore } from "../../../store/user.store";
 import { ActionCard, Button, CountCard, DoughnutChart, Graph, GraphSkeleton, Header, Paginator, SectionHeader } from "../../../components/ui";
-import { useUnblockAccount } from "../../../hooks/account.hook";
-import { useDeleteManager, useGetAllManagers, useGetManagersCount } from "../../../hooks/manager.hooks";
+import { MANAGER_NS } from "../../../constants";
+import { useLanguageStore, useUserStore } from "../../../store";
+import useURLSearchParams from "../../../hooks/URLSearchParams.hook";
+import { useDebounce, useDeleteManager, useGetAllManagers, useGetManagersCount, useUnblockAccount } from "../../../hooks";
+import { DeletePopup, ManagersTable, TableFilters, UnblockPopup } from "./views";
+
+const MANAGER_HOVER_OFFSET = 5;
+
+const MANAGER_GRAPH_LABEL_KEYS = [
+  "manageManagersPage.graph.labels.active",
+  "manageManagersPage.graph.labels.locked",
+  "manageManagersPage.graph.labels.blocked",
+];
+
+const MANAGER_GRAPH_BACKGROUND_COLORS = [
+  "#10B981",
+  "#F59E0B",
+  "#000000",
+];
 
 export const ManageManagersPage = () => {
   const userRole = useUserStore((state) => state.role);
 
-  const { t } = useTranslation(["common", MANAGER_TRANSLATION_NAMESPACE]);
+  const { t } = useTranslation([MANAGER_NS]);
   const { language } = useLanguageStore();
 
   const [selectedID, setSelectedID] = useState<string>("");
@@ -33,24 +44,36 @@ export const ManageManagersPage = () => {
     setIsUnblockPopupOpen(true) 
   }
 
-  const { page, pageSize, searchKey, search, setFilters } = useFiltersHook()
+  const {getParam, setParam, clearParams} = useURLSearchParams();
 
-  const debouncedSearchQuery = useDebounce(search, 650);
+  // Using the enhanced getParam with parser support from the improved hook
+  const rawPage = getParam('page', Number);
+  const rawPageSize = getParam('pageSize', Number);
+  const rawSearchKey = getParam('searchKey');
+  const rawSearchQuery = useDebounce(getParam('searchQuery'), 650);
 
-  const { managers, metadata, isManagersDataLoading } = useGetAllManagers(
-    Number(page) || 1,
-    Number(pageSize) || 5,
-    searchKey || "",
-    debouncedSearchQuery || ""
+  // Use nullish coalescing to default numeric values, undefined for dates if empty
+  const page = rawPage ?? 1;
+  const pageSize = rawPageSize ?? 10;
+  const searchKey = rawSearchKey || undefined;
+  const searchQuery = rawSearchQuery || undefined;
+
+
+
+  const { managers, metadata, isLoading: isManagersDataLoading } = useGetAllManagers(
+    page, 
+    pageSize, 
+    searchKey, 
+    searchQuery
   );
 
-  const { totalCount, lockedCount, blockedCount, isManagersCountLoading } = useGetManagersCount()
+  const { totalCount, lockedCount, blockedCount, isLoading: isManagersCountLoading } = useGetManagersCount()
 
   const data = {
-    labels: MANAGER_GRAPH_LABEL_KEYS.map(key => t(key, { ns: MANAGER_TRANSLATION_NAMESPACE })),
+    labels: MANAGER_GRAPH_LABEL_KEYS.map(key => t(key)),
     datasets: [
       {
-        label: t("manageManagersPage.graph.label", { ns: MANAGER_TRANSLATION_NAMESPACE }),
+        label: t("manageManagersPage.graph.label"),
         data: [totalCount - (lockedCount + blockedCount), lockedCount, blockedCount],
         backgroundColor: MANAGER_GRAPH_BACKGROUND_COLORS,
         hoverOffset: MANAGER_HOVER_OFFSET,
@@ -78,15 +101,15 @@ export const ManageManagersPage = () => {
   return (
     <div className="sm:p-5 p-3 space-y-5">
       <Header 
-        heading={t("manageManagersPage.header.heading", { ns: MANAGER_TRANSLATION_NAMESPACE })} 
-        subtitle={t("manageManagersPage.header.subtitle", { ns: MANAGER_TRANSLATION_NAMESPACE })} 
+        heading={t("manageManagersPage.header.heading")} 
+        subtitle={t("manageManagersPage.header.subtitle")} 
       />
       <div className="max-w-[1000px] mx-auto space-y-6">
         {/* Count Card */}
         <div className="flex justify-center">
           <CountCard 
-            title={t("manageManagersPage.countCard.title", { ns: MANAGER_TRANSLATION_NAMESPACE })} 
-            description={t("manageManagersPage.countCard.description", { ns: MANAGER_TRANSLATION_NAMESPACE })} 
+            title={t("manageManagersPage.countCard.title")} 
+            description={t("manageManagersPage.countCard.description")} 
             count={formatValue(totalCount, language)}
             icon={<UserCog size={28} />} 
             bgColor="bg-[#b38e19]"
@@ -102,8 +125,8 @@ export const ManageManagersPage = () => {
                 <GraphSkeleton />
               ) : (
               <Graph
-                title={t("manageManagersPage.graph.title", { ns: MANAGER_TRANSLATION_NAMESPACE })} 
-                description={t("manageManagersPage.graph.description", { ns: MANAGER_TRANSLATION_NAMESPACE })} 
+                title={t("manageManagersPage.graph.title")} 
+                description={t("manageManagersPage.graph.description")} 
                 width="w-full"
                 height="h-[320px]"
                 >
@@ -120,12 +143,12 @@ export const ManageManagersPage = () => {
                 icon={<UserPlus />}
                 iconBgColor="bg-[#f5e4b2]"
                 iconColor="text-[#b38e19]"
-                title={t("manageManagersPage.actions.add.title", { ns: MANAGER_TRANSLATION_NAMESPACE })} 
-                description={t("manageManagersPage.actions.add.description", { ns: MANAGER_TRANSLATION_NAMESPACE })} 
+                title={t("manageManagersPage.addActionCard.title")} 
+                description={t("manageManagersPage.addActionCard.description")} 
               >
                 <NavLink to={`/${userRole}/add-manager`}>
                   <Button fullWidth variant="secondary">
-                  {t("manageManagersPage.actions.add.button", { ns: MANAGER_TRANSLATION_NAMESPACE })}
+                  {t("manageManagersPage.addActionCard.button")}
                   </Button>
                 </NavLink>
               </ActionCard>
@@ -136,20 +159,18 @@ export const ManageManagersPage = () => {
 
       <div className="bg-white shadow-md space-y-5 p-5 rounded-lg">
         <SectionHeader 
-          title={t("manageManagersPage.sectionHeader.title", { ns: MANAGER_TRANSLATION_NAMESPACE })}
-          description={t("manageManagersPage.sectionHeader.description", { ns: MANAGER_TRANSLATION_NAMESPACE })}
+          title={t("manageManagersPage.sectionHeader.title")}
+          description={t("manageManagersPage.sectionHeader.description")}
         />
 
-        <div className="flex flex-wrap gap-4">
-          <ManagerTableFilters searchBy={metadata?.searchBy} t={t} />
-        </div>
+        <TableFilters searchBy={metadata?.searchBy} getParam={getParam} setParam={setParam} clearParams={clearParams} />
+
         <div className="w-full overflow-x-auto">
           <ManagersTable
             managers={managers}
             isLoading={isManagersDataLoading}
             handleDeleteManager={handleDeletePopupOpen}
             handleUnblockManager={handleUnblockPopupOpen}
-            t={t}
           />
         </div>
         {/* Pagination Component */}
@@ -158,24 +179,22 @@ export const ManageManagersPage = () => {
           totalPages={metadata?.pagination?.totalPages || 1}
           totalRecords={metadata?.pagination?.totalRecords || 0}
           isLoading={isManagersDataLoading}
-          onClickFirst={() => setFilters({ page: 1 })}
-          onClickPrev={() => setFilters({ page: Math.max((page || 1) - 1, 1) })}
-          onClickNext={() => setFilters({ page: Math.min((page || 1) + 1, metadata?.pagination?.totalPages || 1) })}
+          onClickFirst={() => setParam("page", String(1))}
+          onClickPrev={() => setParam("page", String(Math.max((Number(getParam('page')) || 1) - 1, 1)))}
+          onClickNext={() => setParam("page", String(Math.min((Number(getParam('page')) || 1) + 1, metadata?.pagination?.totalPages || 1)))}
         />
       </div>
-      <DeleteManagerPopup
+      <DeletePopup
         isOpen={isDeletePopupOpen}
         handleClose={() => { setIsDeletePopupOpen(false) }}
         handleConfirmDelete={handleConfirmDelete}
         isLoading={isDeleting}
-        t={t}
       />
-      <UnblockManagerPopup
+      <UnblockPopup
         isOpen={isUnblockPopupOpen}
         handleClose={() => { setIsUnblockPopupOpen(false) }}
         handleConfirmUnblock={handleConfirmUnblock}
         isLoading={isUnblockAccountLoading}
-        t={t}
       />
     </div>
   );

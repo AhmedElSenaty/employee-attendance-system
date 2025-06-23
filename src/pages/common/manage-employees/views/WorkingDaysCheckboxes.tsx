@@ -10,9 +10,9 @@ import {
 import { Dispatch, SetStateAction } from 'react';
 import { ListChecks } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { useLanguageStore } from '../../../../store/language.store';
+import { useLanguageStore } from '../../../../store/';
 
-interface WorkingDaysCheckboxesProps {
+interface Props {
   checkedDays: number[];
   setCheckedDays: Dispatch<SetStateAction<number[]>>;
   isLoading?: boolean;
@@ -29,7 +29,7 @@ const STATIC_WORKING_DAYS = [
   { dayId: 7, dayEnglishName: "Saturday", dayArabicName: "السبت" },
 ];
 
-const WorkingDaysCheckboxes = ({ checkedDays, setCheckedDays, isLoading }: WorkingDaysCheckboxesProps) => {
+const WorkingDaysCheckboxes = ({ checkedDays, setCheckedDays, isLoading }: Props) => {
   const { t } = useTranslation();
   const { language } = useLanguageStore();
 

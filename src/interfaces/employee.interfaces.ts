@@ -3,7 +3,7 @@ export interface EmployeeSummary {
   name: string;
 }
 
-export interface IEmployeeMyVactions {
+export interface EmployeeMyVactions {
   availableCasualLeaves: number
   availableLeaveRequests: number
   availableOrdinaryLeaves: number
@@ -14,7 +14,7 @@ export interface IEmployeeMyVactions {
   totalSickLeave: number
 }
 
-export interface IEmployeeCredentials {
+export interface EmployeeCredentials {
   id?: string
   username?: string,
   email?: string,
@@ -55,7 +55,7 @@ export interface EmployeeData {
   isExcludedFromReports: boolean
 }
 
-export interface IEmployeeLeaveStats {
+export interface EmployeeLeaveStats {
   employeeId: number;
   employeeName: string;
   departmentName: string;

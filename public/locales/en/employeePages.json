@@ -12,14 +12,6 @@
       "title": "Employee Directory",
       "description": "View and manage the list of employees with access to the platform."
     },
-    "searchBy": {
-      "label": "Search By",
-      "default": "Find Employees",
-      "SearchByFullName": "Name",
-      "SearchBySSN": "National ID (SSN)",
-      "SearchByEmail": "Email Address",
-      "SearchByDepartmentId": "Department"
-    },
     "graph": {
       "title": "Employee Status Overview",
       "description": "Visual breakdown of employees by their current status.",
@@ -31,50 +23,15 @@
       },
       "label": "Total Employees"
     },
-    "table": {
-      "emptyTable": {
-        "title": "No Employees Found",
-        "message": "There are no employees that match your search or filter."
-      },
-      "columns": {
-        "fullName": "Name",
-        "email": "Email",
-        "ssn": "SSN",
-        "username": "Username",
-        "phoneNumber": "Phone",
-        "departmentName": "Department",
-        "subDepartmentName": "Sub-Department",
-        "delegateDepartmentName": "Delegate Department",
-        "delegateSubDepartmentName": "Delegate Sub-Department",
-        "dateOfBirth": "Date Of Birth",
-        "status": "Status",
-        "actions": "Actions",
-        "accountStatus": "Account Status",
-        "isBlocked": "Is Blocked?",
-        "hiringDate": "Hiring Date",
-        "isExcludedFromReports": "is Excluded From Reports?"
-      },
-      "status": {
-        "blocked": "Blocked",
-        "active": "Active",
-        "notActive": "Inactive",
-        "included": "included",
-        "excluded": "excluded"
-      }
+    "addActionCard": {
+      "title": "Add Employee",
+      "description": "Add a new employee and grant them system access.",
+      "button": "Add New"
     },
-    "actions": {
-      "add": {
-        "title": "Add Employee",
-        "description": "Add a new employee and grant them system access.",
-        "button": "Add New"
-      },
-          "actions": {
-      "rest": {
-        "title": "Reset Leave Balance",
-        "description": "Reset employee leave balance based on selected period.",
-        "button": "Reset Balance"
-      }
-    }
+    "restActionCard": {
+      "title": "Reset Leave Balance",
+      "description": "Reset employee leave balance based on selected period.",
+      "button": "Reset Balance"
     }
   },
   "addEmployeePage": {
@@ -82,7 +39,7 @@
       "heading": "Add Employee",
       "subtitle": "Complete the form to add a new employee to your team."
     },
-    "emplyeeInformationsSectionHeader": {
+    "informationsSectionHeader": {
       "title": "Employee Details",
       "description": "Enter the employee’s personal and contact information."
     },
@@ -94,7 +51,6 @@
       "title": "Department Assignment",
       "description": "Select the primary department for this employee."
     },
-    "saveEmployeeButton": "Save",
     "note": "Note: Delegate assignment is optional."
   },
   "editEmployeePage": {
@@ -102,7 +58,7 @@
       "heading": "Edit Employee",
       "subtitle": "Update the employee’s details using the form below."
     },
-    "emplyeeInformationsSectionHeader": {
+    "informationsSectionHeader": {
       "title": "Employee Details",
       "description": "Modify the employee’s personal and contact information."
     },
@@ -122,12 +78,9 @@
       "title": "Working Days",
       "description": "Select the working days assigned to the employee."
     },
-    "updateButton": "Save Changes",
-    "deleteButton": "Remove Employee",
-    "updatePasswordButton": "Update Password",
     "note": "Note: Delegate assignment is optional."
   },
-  "form": {
+  "inputs": {
     "username": {
       "label": "Username",
       "placeholder": "Enter username",
@@ -174,7 +127,6 @@
     },
     "subDepartmentId": {
       "label": "Sub-Department",
-      "defaultValue": "Choose Sub-Department",
       "inputValidation": {
         "required": "Sub-department is required"
       }
@@ -194,13 +146,10 @@
       }
     },
     "delegateId": {
-      "label": "Delegate Sub-Department",
-      "placeholder": "Enter delegate ID (optional)",
-      "defaultValue": "Choose Delegate Sub-Department"
+      "label": "Delegate Sub-Department"
     },
     "departmentId": {
-      "label": "Department",
-      "defaultValue": "Choose Department"
+      "label": "Department"
     },
     "password": {
       "label": "New Password",
@@ -244,30 +193,26 @@
       }
     }
   },
-  "popup": {
-    "rest": {
-      "title": "Reset Employee Leave Balance",
-      "description": "Choose the type of reset you want to apply for employee leaves."
-    },
-    "delete": {
-      "title": "Remove Employee",
-      "description": "Are you sure you want to permanently delete this employee? This action cannot be undone."
-    },
-    "unblock": {
-      "title": "Restore Access",
-      "description": "Do you want to unblock this employee and allow them to log in again?"
-    },
-    "toggleIncludedStatus": {
-      "title": "Change User Status in Report",
-      "description": "Click the button to toggle the user's status between included or excluded from the report."
-    }
+
+  "restPopup": {
+    "title": "Reset Employee Leave Balance",
+    "description": "Choose the type of reset you want to apply for employee leaves."
+  },
+  "deletePopup": {
+    "title": "Remove Employee",
+    "description": "Are you sure you want to permanently delete this employee? This action cannot be undone."
+  },
+  "unblockPopup": {
+    "title": "Restore Access",
+    "description": "Do you want to unblock this employee and allow them to log in again?"
+  },
+  "toggleIncludedStatusPopup": {
+    "title": "Change User Status in Report",
+    "description": "Click the button to toggle the user's status between included or excluded from the report."
   },
   "leaveStatsPopup": {
     "title": "Employee Leave Summary",
     "description": "Detailed statistics of the employee's leave status",
-    "buttons": {
-      "close": "Close"
-    },
     "fields": {
       "totalOrdinaryLeaves": "Total Ordinary Leaves",
       "availableOrdinaryLeaves": "Available Ordinary Leaves",
@@ -279,17 +224,76 @@
       "totalMissions": "Total Missions"
     }
   },
+  "status": {
+    "1": "Monthly",
+    "2": "Yearly",
+    "3": "Every 3 Years"
+  },
   "filters": {
-      "leaveStatus": "Leave Reset Type",
-      "defaultLeaveStatusOption": "Select a reset type"
+    "pageSize": "Page Size",
+    "leaveStatus": "Leave Status",
+    "toolTipResetFilters": "Reset All",
+    "searchBy": {
+      "label": "Search Type",
+      "default": "search method",
+      "SearchByFullName": "Name",
+      "SearchBySSN": "National ID (SSN)",
+      "SearchByEmail": "Email Address",
+      "SearchByDepartmentId": "Department"
+    },
+    "search": {
+      "label": "Search",
+      "placeholder": "Enter the value you want to search for...."
+    }
+  },
+  "table": {
+    "emptyTable": {
+      "title": "No Employees Found",
+      "message": "There are no employees that match your search or filter."
+    },
+    "columns": {
+      "fullName": "Name",
+      "email": "Email",
+      "ssn": "SSN",
+      "username": "Username",
+      "phoneNumber": "Phone",
+      "departmentName": "Department",
+      "subDepartmentName": "Sub-Department",
+      "delegateDepartmentName": "Delegate Department",
+      "delegateSubDepartmentName": "Delegate Sub-Department",
+      "dateOfBirth": "Date Of Birth",
+      "status": "Status",
+      "actions": "Actions",
+      "accountStatus": "Account Status",
+      "isBlocked": "Is Blocked?",
+      "hiringDate": "Hiring Date",
+      "isExcludedFromReports": "is Excluded From Reports?"
     },
     "status": {
-      "1": "Monthly",
-      "2": "Yearly",
-      "3": "Every 3 Years"
-    },
-    "buttons": {
-      "close": "Close",
-      "rest": "Reset"
+      "blocked": "Blocked",
+      "active": "Active",
+      "notActive": "Inactive",
+      "included": "included",
+      "excluded": "excluded"
     }
+  },
+  "buttons": {
+    "close": "Close",
+    "loading": "Loading...",
+    "unblock": "Unblock",
+    "delete": "Delete",
+    "reset": "Reset",
+    "toggle": "Toggle",
+    "updateInformations": "Update Informations",
+    "create": "Create Employee Account",
+    "updatePassword": "Update Passowrd",
+    "updateWorkingDays": "Update Working Days",
+    "leaveStatsToolTip": "Leave Stats",
+    "toggleToolTip": "Toggle Included Status",
+    "unlockToolTip": "unBlock",
+    "calenderToolTip": "Calender",
+    "deleteToolTip": "Delete",
+    "editToolTip": "Edit"
+  },
+  "NA": "N/A"
 }

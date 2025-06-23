@@ -3,7 +3,7 @@ import { useLanguageStore, useUserStore } from "../store";
 import { WorkingDaysService } from "../services";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { QueryKeys } from "../constants";
-import { IErrorResponse, IUpdateWorkingDays } from "../interfaces";
+import { IErrorResponse, UpdateWorkingDays } from "../interfaces";
 import { getTranslatedMessage, handleApiError, showToast } from "../utils";
 import { AxiosError } from "axios";
 
@@ -25,7 +25,7 @@ export const useGetMyWorkingDays = () => {
 
   return {
     myWorkingDays: data?.data?.data?.permission || [],
-    isLoadingMyWorkingDays: isLoading,
+    isLoading,
   };
 };
 
@@ -52,7 +52,7 @@ export const useUpdateWorkingDays = () => {
   const service = useWorkingDaysService();
 
   return useMutation({
-    mutationFn: (data: IUpdateWorkingDays) => service.update(data),
+    mutationFn: (data: UpdateWorkingDays) => service.update(data),
     onSuccess: ({ status, data }) => {
       queryClient.invalidateQueries({ queryKey: [QueryKeys.WorkingDays.Me] });
       if (status === 200) {

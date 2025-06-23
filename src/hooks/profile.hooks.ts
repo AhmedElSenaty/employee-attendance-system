@@ -99,9 +99,9 @@ export const useGetProfilePermissions = (id: number) => {
     queryFn: () => profileService.fetchPermissions(id),
     enabled: !!token && !!id,
   });
-
+  
   return {
-    permissions: data?.data?.data?.permissions ?? [],
+    permissions: data?.data?.data?.permission ?? [],
     isLoading,
   };
 };

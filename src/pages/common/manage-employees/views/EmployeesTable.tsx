@@ -1,31 +1,40 @@
-import { useMemo } from "react";
 import { StatusBadge, Button, NoDataMessage, Table, TableCell, TableRow, TableSkeleton, Tooltip } from "../../../../components/ui";
 import { AlertTriangle, Ban, Calendar, CheckCircle, FilePenLine, FileSpreadsheet, Trash2, X } from "lucide-react";
-import { TFunction } from "i18next";
-import { IEmployeeData } from "../../../../interfaces";
+import { EmployeeData } from "../../../../interfaces";
 import { NavLink } from "react-router";
 import { truncateText } from "../../../../utils";
-import { EMPLOYEE_TABLE_COLUMNS, EMPLOYEE_TRANSLATION_NAMESPACE } from "..";
 import { HasPermission } from "../../../../components/auth";
-import { useUserStore } from "../../../../store/user.store";
+import { useUserStore } from "../../../../store/";
+import { EMPLOYEE_NS } from "../../../../constants";
+import { useTranslation } from "react-i18next";
 
-interface IEmployeesTableProps {
-  employees: IEmployeeData[];
+interface Props {
+  employees: EmployeeData[];
   isLoading: boolean;
-  t: TFunction;
-  handleDeleteEmployee: (id: string) => void;
-  handleUnblockEmployee: (id: string) => void;
-  handleChangeIncludedStatusEmployee: (id: string) => void;
+  handleDelete: (id: string) => void;
+  handleUnblock: (id: string) => void;
+  handleChangeIncludedStatus: (id: string) => void;
   handleShowLeaveStats: (id: string) => void;
 }
 
-const EmployeesTable = ({ employees, t, isLoading, handleDeleteEmployee, handleUnblockEmployee, handleChangeIncludedStatusEmployee, handleShowLeaveStats }: IEmployeesTableProps) => {
+const EmployeesTable = ({ employees, isLoading, handleDelete, handleUnblock, handleChangeIncludedStatus, handleShowLeaveStats }: Props) => {
+  const { t } = useTranslation([EMPLOYEE_NS]);
+
   const userRole = useUserStore((state) => state.role);
 
-  const columns = useMemo(
-    () => EMPLOYEE_TABLE_COLUMNS.map(key => t(key, { ns: EMPLOYEE_TRANSLATION_NAMESPACE })),
-    [t]
-  );
+  const EMPLOYEE_TABLE_COLUMNS = [
+    "table.columns.fullName",
+    "table.columns.email",
+    "table.columns.ssn",
+    "table.columns.phoneNumber",
+    "table.columns.departmentName",
+    "table.columns.subDepartmentName",
+    "table.columns.status",
+    "table.columns.isExcludedFromReports",
+    "table.columns.actions",
+  ]
+
+  const columns = EMPLOYEE_TABLE_COLUMNS.map(key => t(key))
 
   return (
     <>
@@ -34,16 +43,16 @@ const EmployeesTable = ({ employees, t, isLoading, handleDeleteEmployee, handleU
       ) : (
         <Table columns={columns}>
           {employees.length == 0 ? (
-            <NoDataMessage title={t("manageEmployeesPage.table.emptyTable.title", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })} message={t("manageEmployeesPage.table.emptyTable.message", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })} />
+            <NoDataMessage title={t("table.emptyTable.title")} message={t("table.emptyTable.message")} />
           ) : (
-            employees.map(({ id, fullName, email, ssn, phoneNumber, departmentName, subDepartmentName, isActive, isBlocked, isExcludedFromReports }: IEmployeeData) => (
+            employees.map(({ id, fullName, email, ssn, phoneNumber, departmentName, subDepartmentName, isActive, isBlocked, isExcludedFromReports }: EmployeeData) => (
               <TableRow key={id} className="border-b">
                 <TableCell label={columns[0]}>{truncateText(fullName, 20)}</TableCell>
                 <TableCell label={columns[1]}>
-                  {truncateText(email, 20)}
+                  {truncateText(email, 15)}
                 </TableCell>
                 <TableCell label={columns[2]}>{ssn}</TableCell>
-                <TableCell label={columns[3]}>{phoneNumber != null ? phoneNumber : t("table.NA")}</TableCell>
+                <TableCell label={columns[3]}>{phoneNumber != null ? phoneNumber : t("NA")}</TableCell>
                 <TableCell label={columns[4]}>{truncateText(departmentName, 20)}</TableCell>
                 <TableCell label={columns[5]}>{truncateText(subDepartmentName, 20)}</TableCell>
                 <TableCell label={columns[6]}>
@@ -55,8 +64,8 @@ const EmployeesTable = ({ employees, t, isLoading, handleDeleteEmployee, handleU
                         icon={isActive ? <CheckCircle className="w-4 h-4" /> : <AlertTriangle className="w-4 h-4" />}
                       >
                         {isActive
-                          ? t("manageEmployeesPage.table.status.active", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })
-                          : t("manageEmployeesPage.table.status.notActive", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}
+                          ? t("table.status.active")
+                          : t("table.status.notActive")}
                       </StatusBadge>
                     </div>
                     <div className="block">
@@ -66,7 +75,7 @@ const EmployeesTable = ({ employees, t, isLoading, handleDeleteEmployee, handleU
                           size="medium"
                           icon={<AlertTriangle className="w-4 h-4" />}
                         >
-                          {t("manageEmployeesPage.table.status.blocked", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}
+                          {t("table.status.blocked")}
                         </StatusBadge>
                       )}
                     </div>
@@ -81,17 +90,16 @@ const EmployeesTable = ({ employees, t, isLoading, handleDeleteEmployee, handleU
                         icon={!isExcludedFromReports ? <CheckCircle className="w-4 h-4" /> : <X className="w-4 h-4" />}
                       >
                         {!isExcludedFromReports
-                          ? t("manageEmployeesPage.table.status.included", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })
-                          : t("manageEmployeesPage.table.status.excluded", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}
+                          ? t("table.status.included")
+                          : t("table.status.excluded")}
                       </StatusBadge>
                     </div>
                   </div>
                 </TableCell>
-
                 <TableCell label={columns[7]}>
                   <div className="flex flex-wrap gap-2">
                     <HasPermission permission="Update Employee">
-                      <Tooltip content="Update Employee">
+                      <Tooltip content={t("buttons.editToolTip")}>
                         <NavLink to={`/${userRole}/edit-employee/${id}`}>
                           <Button 
                             variant="info" 
@@ -104,19 +112,19 @@ const EmployeesTable = ({ employees, t, isLoading, handleDeleteEmployee, handleU
                       </Tooltip>
                     </HasPermission>
                     <HasPermission permission="Delete Employee">
-                      <Tooltip content="Delete Employee">
+                      <Tooltip content={t("buttons.deleteToolTip")}>
                         <Button
                           variant="danger"
                           fullWidth={false}
                           size={"sm"}
                           icon={<Trash2 className="w-full h-full" />}
                           aria-label={t("buttons.delete")}
-                          onClick={() => handleDeleteEmployee(id)}
+                          onClick={() => handleDelete(id)}
                         />
                       </Tooltip>
                     </HasPermission>
                     <HasPermission permission="View Attendances">
-                      <Tooltip content="View Attendances">
+                      <Tooltip content={t("buttons.calenderToolTip")}>
                         <NavLink to={`/${userRole}/manage-employee/${id}/calender`}>
                           <Button
                             variant="secondary"
@@ -129,30 +137,30 @@ const EmployeesTable = ({ employees, t, isLoading, handleDeleteEmployee, handleU
                     </HasPermission>
                     <HasPermission permission="Unlock Account">
                       {isBlocked &&
-                        <Tooltip content="Unlock Account">
+                        <Tooltip content={t("buttons.unlockToolTip")}>
                           <Button
                             variant="black"
                             fullWidth={false}
                             size={"sm"}
                             icon={<Ban className="w-full h-full" />}
                             aria-label={t("buttons.delete")}
-                            onClick={() => handleUnblockEmployee(id)}
+                            onClick={() => handleUnblock(id)}
                           />
                         </Tooltip>
                       }
                     </HasPermission>
                     <HasPermission permission="Include/Exclude Employee from Reports">
-                        <Tooltip content="Include/Exclude Employee from Reports">
-                          <Button
-                            variant="warning"
-                            fullWidth={false}
-                            size={"sm"}
-                            icon={<FileSpreadsheet className="w-full h-full" />}
-                            onClick={() => handleChangeIncludedStatusEmployee(id)}
-                          />
-                        </Tooltip>
+                      <Tooltip content={t("buttons.toggleToolTip")}>
+                        <Button
+                          variant="warning"
+                          fullWidth={false}
+                          size={"sm"}
+                          icon={<FileSpreadsheet className="w-full h-full" />}
+                          onClick={() => handleChangeIncludedStatus(id)}
+                        />
+                      </Tooltip>
                     </HasPermission>
-                    <Tooltip content="View Leave Stats">
+                    <Tooltip content={t("buttons.leaveStatsToolTip")}>
                       <Button
                         variant="success"
                         fullWidth={false}
@@ -161,7 +169,6 @@ const EmployeesTable = ({ employees, t, isLoading, handleDeleteEmployee, handleU
                         onClick={() => handleShowLeaveStats(id)}
                       />
                     </Tooltip>
-
                   </div>
                 </TableCell>
               </TableRow>

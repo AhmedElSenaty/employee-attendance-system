@@ -2,10 +2,9 @@ import { Route } from "react-router";
 import { DashboardPage } from "../pages/common/Dashboard";
 import { RootLayout } from "../pages/Layouts";
 import { ProtectedRoute } from "../components/auth";
-import { AddEmployeePage, EditEmployeePage, ManageEmployeesPage } from "../pages/common/manage-employees";
 import { AddManagerPage, EditManagerPage, ManageManagersPage } from "../pages/common/manage-managers";
 import ManagerAccountPage from "../pages/Manager/Account";
-import { OrdinaryRequestsPage, AttendanceOverviewPage, AttendanceVacationsPage, ManageAttendancePage, CalendarPage, MissionRequestsPage, CasualLeaveRequestsPage, SickLRequestsPage, LeaveRequestsPage, LeaveRequestsWithAttendance, MissionRequestsWithAttendance, ManageSubDepartmentsPage } from "../pages/Manager";
+import { OrdinaryRequestsPage, AttendanceOverviewPage, AttendanceVacationsPage, ManageAttendancePage, CalendarPage, MissionRequestsPage, CasualLeaveRequestsPage, SickLRequestsPage, LeaveRequestsPage, LeaveRequestsWithAttendance, MissionRequestsWithAttendance, ManageSubDepartmentsPage, ManageEmployeesPage, AddEmployeePage, EditEmployeePage } from "../pages/Manager";
 
 export const managerRoutes = (isLoggedIn: boolean, userRole: string) => (
   <Route 

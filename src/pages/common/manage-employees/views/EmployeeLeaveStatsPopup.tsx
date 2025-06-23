@@ -1,15 +1,15 @@
 import { UserCheck2 } from "lucide-react";
 import { NormalSpinner, Button, Popup } from "../../../../components/ui/";
 import { useLanguageStore } from "../../../../store/";
-import { IEmployeeLeaveStats } from "../../../../interfaces";
+import { EmployeeLeaveStats } from "../../../../interfaces";
 import { useTranslation } from "react-i18next";
 import { formatValue } from "../../../../utils";
-import { EMPLOYEE_TRANSLATION_NAMESPACE } from "..";
+import { EMPLOYEE_NS } from "../../../../constants";
 
-interface IEmployeeLeaveStatsPopupProps {
+interface Props {
   isOpen: boolean;
   handleClose: () => void;
-  stats: IEmployeeLeaveStats | null;
+  stats: EmployeeLeaveStats | null;
   isLoading: boolean;
 }
 
@@ -18,16 +18,16 @@ const EmployeeLeaveStatsPopup = ({
   handleClose,
   stats,
   isLoading,
-}: IEmployeeLeaveStatsPopupProps) => {
+}: Props) => {
   const { language } = useLanguageStore();
-  const { t } = useTranslation(EMPLOYEE_TRANSLATION_NAMESPACE);
+  const { t } = useTranslation(EMPLOYEE_NS);
 
   return (
     <Popup
       isOpen={isOpen}
       closeModal={handleClose}
-      title={t("leaveStatsPopup.title", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}
-      description={t("leaveStatsPopup.description", { ns: EMPLOYEE_TRANSLATION_NAMESPACE })}
+      title={t("leaveStatsPopup.title")}
+      description={t("leaveStatsPopup.description")}
     >
       {isLoading ? (
         <div className="bg-gradient-to-br from-gray-50 to-gray-100 p-6 rounded-xl shadow-lg flex items-center justify-center min-h-[100px]">
@@ -69,7 +69,7 @@ const EmployeeLeaveStatsPopup = ({
 
       <div className="flex items-center mt-4">
         <Button variant="cancel" type="button" fullWidth onClick={handleClose}>
-          {t("leaveStatsPopup.buttons.close")}
+          {t("buttons.close")}
         </Button>
       </div>
     </Popup>

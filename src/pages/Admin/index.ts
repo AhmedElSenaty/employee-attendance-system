@@ -1,5 +1,3 @@
-export { default as CalendarPage } from "../common/Calender"
-
 export { default as ManageDevicesPage } from "./manage-devices"
 export { default as LogsPage } from "./manage-logs"
 export { default as SystemDataPage } from "./manage-system-data"
@@ -10,3 +8,5 @@ export { default as ManageEntitiesPage } from "./manage-entities"
 export { default as ManageDepartmentsPage } from "./manage-departments"
 export { default as ManageSubDepartmentsPage } from "../common/manage-sub-departments"
 export * from "../common/manage-attendance"
+export * from "../common/manage-employees"
+export { default as CalendarPage } from "../common/Calender"
