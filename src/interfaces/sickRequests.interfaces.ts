@@ -20,7 +20,7 @@ export interface ISickRequestCredentials {
   NumberOfDays: number;
   Description: string;
   PermitApproval: string;
-  MedicalReport: FileList|Array;
+  MedicalReport: Array<File>;
 }
 
 export interface IAssignSickRequestCredentials extends ISickRequestCredentials {
@@ -34,7 +34,7 @@ export interface IRejectSickRequestCredentials {
 
 export interface ISickRequestUpdateReportCredentials {
   RequestId?: number,
-  MedicalReport: FileList|Array;
+  MedicalReport: Array<File>;
 }
 export interface ISickRequestUpdateTextCredentials {
   requestId?: number,

@@ -18,7 +18,7 @@ const AddInputs = ({
 }: IInputsProps) => {
 
   const { t } = useTranslation([SICK_REQUESTS_NS]);
-  const medicalReportFile = watch("MedicalReport") as FileList;
+  const medicalReportFile = watch("MedicalReport");
   return (
     <>
       <Field className="space-y-2">

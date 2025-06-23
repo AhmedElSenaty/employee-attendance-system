@@ -1,2 +1,2 @@
-export const API_BASE_URL = "http://localhost:5155/api/";
-export const API_TIMEOUT = 30000;
+export const API_BASE_URL = "https://localhost:7268/api/";
+export const API_TIMEOUT = 300000;

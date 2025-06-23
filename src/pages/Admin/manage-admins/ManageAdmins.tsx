@@ -106,13 +106,13 @@ const ManageAdminsPage = () => {
             icon={<ShieldPlus />}
             iconBgColor="bg-[#f5e4b2]"
             iconColor="text-[#b38e19]"
-            title={t("manageAdminsPage.actions.add.title")}
-            description={t("manageAdminsPage.actions.add.description")}
+            title={t("manageAdminsPage.addActionCard.title")}
+            description={t("manageAdminsPage.addActionCard.description")}
           >
             {/* Link to the "Add Admin" page */}
             <NavLink to={"/admin/add-admin"}>
               <Button fullWidth={true} variant="secondary">
-                {t("manageAdminsPage.actions.add.button")}
+                {t("manageAdminsPage.addActionCard.button")}
               </Button>
             </NavLink>
           </ActionCard>

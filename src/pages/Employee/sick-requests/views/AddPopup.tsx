@@ -2,11 +2,12 @@ import { useTranslation } from "react-i18next";
 import { Button, Popup } from "../../../../components/ui";
 import { SICK_REQUESTS_NS } from "../../../../constants";
 import { FormEvent, ReactNode } from "react";
+import { ISickRequestCredentials } from "../../../../interfaces";
 
 interface IAddPopupProps {
   isOpen: boolean
   handleClose: () => void;
-  handleSubmit: (event: FormEvent<HTMLFormElement>) => void;
+  handleSubmit: (event: FormEvent<HTMLFormElement>) => ISickRequestCredentials;
   formInputs: ReactNode
   isLoading: boolean
 }

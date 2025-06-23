@@ -15,7 +15,7 @@ const EditReportInputs = ({
   errors,
   watch
 }: IInputsProps) => {
-  const medicalReportFile = watch("MedicalReport") as FileList;
+  const medicalReportFile = watch("MedicalReport");
 
   const { t } = useTranslation([SICK_REQUESTS_NS]);
   return (

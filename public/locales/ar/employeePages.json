@@ -2,129 +2,93 @@
   "manageEmployeesPage": {
     "header": {
       "heading": "إدارة الموظفين",
-      "subtitle": "عرض، تحديث أو إزالة الموظفين بسهولة من منصتك."
+      "subtitle": "اعرض، حدّث أو احذف الموظفين من منصتك بسهولة."
     },
     "countCard": {
       "title": "إجمالي الموظفين",
-      "description": "عدد الموظفين النشطين حاليا في مؤسستك."
+      "description": "عدد الموظفين النشطين حاليًا في مؤسستك."
     },
     "sectionHeader": {
       "title": "دليل الموظفين",
-      "description": "عرض وإدارة قائمة الموظفين الذين لديهم وصول إلى المنصة."
-    },
-    "searchBy": {
-      "label": "البحث بواسطة",
-      "default": "ابحث عن الموظفين",
-      "SearchByFullName": "الاسم",
-      "SearchBySSN": "الرقم القومي (SSN)",
-      "SearchByEmail": "البريد الإلكتروني",
-      "SearchByDepartmentId": "القسم"
+      "description": "عرض وإدارة قائمة الموظفين الذين لديهم صلاحية الوصول للمنصة."
     },
     "graph": {
       "title": "نظرة عامة على حالة الموظفين",
-      "description": "عرض بياني للموظفين حسب حالتهم الحالية.",
+      "description": "عرض بياني لحالة الموظفين الحالية.",
       "labels": {
         "active": "نشط",
         "blocked": "محظور",
-        "locked": "مغلق",
+        "locked": "مقفل",
         "deactivated": "غير نشط"
       },
       "label": "إجمالي الموظفين"
     },
-    "table": {
-      "emptyTable": {
-        "title": "لم يتم العثور على موظفين",
-        "message": "لا توجد موظفين يطابقون البحث أو الفلاتر الخاصة بك."
-      },
-      "columns": {
-        "fullName": "الاسم",
-        "email": "البريد الإلكتروني",
-        "ssn": "الرقم القومي",
-        "username": "اسم المستخدم",
-        "phoneNumber": "الهاتف",
-        "departmentName": "القسم",
-        "subDepartmentName": "الفرع",
-        "delegateDepartmentName": "القسم المكلف",
-        "delegateSubDepartmentName": "الفرع المكلف",
-        "dateOfBirth": "تاريخ الميلاد",
-        "status": "الحالة",
-        "actions": "الإجراءات",
-        "accountStatus": "حالة الحساب",
-        "isBlocked": "هل هو محظور؟",
-        "hiringDate": "تاريخ التوظيف",
-        "isExcludedFromReports": "مستثنى من التقارير?"
-      },
-      "status": {
-        "blocked": "محظور",
-        "active": "نشط",
-        "notActive": "غير نشط",
-        "included": "مشمول",
-        "excluded": "مستبعد"
-      }
+    "addActionCard": {
+      "title": "إضافة موظف",
+      "description": "إضافة موظف جديد ومنحه صلاحية الوصول للنظام.",
+      "button": "إضافة جديد"
     },
-    "actions": {
-      "add": {
-        "title": "إضافة موظف",
-        "description": "إضافة موظف جديد ومنحه وصول إلى النظام.",
-        "button": "إضافة جديد"
-      }
+    "restActionCard": {
+      "title": "إعادة تعيين رصيد الإجازات",
+      "description": "إعادة تعيين رصيد الإجازات للموظف وفقًا للفترة المحددة.",
+      "button": "إعادة التعيين"
     }
   },
   "addEmployeePage": {
     "header": {
       "heading": "إضافة موظف",
-      "subtitle": "املأ النموذج لإضافة موظف جديد إلى فريقك."
+      "subtitle": "أكمل النموذج لإضافة موظف جديد إلى فريقك."
     },
-    "emplyeeInformationsSectionHeader": {
-      "title": "تفاصيل الموظف",
-      "description": "أدخل المعلومات الشخصية والتواصلية للموظف."
+    "informationsSectionHeader": {
+      "title": "بيانات الموظف",
+      "description": "أدخل البيانات الشخصية ومعلومات التواصل الخاصة بالموظف."
     },
     "delegateSectionHeader": {
-      "title": "تعيين المكلف (اختياري)",
-      "description": "تعيين الموظف إلى فرع مكلف اختياريًا."
+      "title": "تعيين تفويضي (اختياري)",
+      "description": "يمكنك اختيارياً تعيين الموظف إلى قسم فرعي مفوض."
     },
     "departmentSectionHeader": {
       "title": "تعيين القسم",
-      "description": "حدد القسم الرئيسي لهذا الموظف."
+      "description": "اختر القسم الرئيسي الذي ينتمي إليه الموظف."
     },
-    "saveEmployeeButton": "حفظ",
-    "note": "ملاحظة: تعيين المكلف اختياري."
+    "note": "ملاحظة: تعيين التفويض اختياري."
   },
   "editEmployeePage": {
     "header": {
-      "heading": "تعديل الموظف",
-      "subtitle": "تحديث تفاصيل الموظف باستخدام النموذج أدناه."
+      "heading": "تعديل موظف",
+      "subtitle": "قم بتحديث بيانات الموظف باستخدام النموذج أدناه."
     },
-    "emplyeeInformationsSectionHeader": {
-      "title": "تفاصيل الموظف",
-      "description": "تعديل المعلومات الشخصية والتواصلية للموظف."
+    "informationsSectionHeader": {
+      "title": "بيانات الموظف",
+      "description": "قم بتعديل البيانات الشخصية ومعلومات التواصل الخاصة بالموظف."
     },
     "delegateSectionHeader": {
-      "title": "تعيين المكلف (اختياري)",
-      "description": "إعادة تعيين الموظف إلى فرع مكلف إذا لزم الأمر."
+      "title": "تعيين تفويضي (اختياري)",
+      "description": "أعد تعيين الموظف إلى قسم فرعي مفوض إذا لزم الأمر."
     },
     "departmentSectionHeader": {
       "title": "إعادة تعيين القسم",
-      "description": "تغيير القسم الرئيسي الذي ينتمي إليه الموظف."
+      "description": "قم بتغيير القسم الرئيسي الذي ينتمي إليه الموظف."
     },
     "passwordSectionHeader": {
       "title": "تحديث كلمة المرور",
-      "description": "إنشاء كلمة مرور جديدة لحساب الموظف."
+      "description": "قم بإنشاء كلمة مرور جديدة لحساب الموظف."
     },
-    "updateButton": "حفظ التغييرات",
-    "deleteButton": "إزالة الموظف",
-    "updatePasswordButton": "تحديث كلمة المرور",
-    "note": "ملاحظة: تعيين المكلف اختياري."
+    "workingDaysSectionHeader": {
+      "title": "أيام العمل",
+      "description": "حدد أيام العمل المخصصة لهذا الموظف."
+    },
+    "note": "ملاحظة: تعيين التفويض اختياري."
   },
-  "form": {
+  "inputs": {
     "username": {
       "label": "اسم المستخدم",
       "placeholder": "أدخل اسم المستخدم",
       "inputValidation": {
         "required": "اسم المستخدم مطلوب",
-        "min": "يجب أن يتكون اسم المستخدم من 3 أحرف على الأقل",
-        "max": "اسم المستخدم لا يجب أن يتجاوز 50 حرفًا",
-        "matches": "اسم المستخدم لا يمكن أن يتضمن مسافات"
+        "min": "يجب ألا يقل اسم المستخدم عن 3 أحرف",
+        "max": "يجب ألا يتجاوز اسم المستخدم 50 حرفًا",
+        "matches": "لا يمكن أن يحتوي اسم المستخدم على مسافات"
       }
     },
     "email": {
@@ -132,7 +96,7 @@
       "placeholder": "أدخل البريد الإلكتروني",
       "inputValidation": {
         "required": "البريد الإلكتروني مطلوب",
-        "email": "الرجاء إدخال بريد إلكتروني صالح"
+        "email": "يرجى إدخال بريد إلكتروني صالح"
       }
     },
     "fullName": {
@@ -140,16 +104,16 @@
       "placeholder": "أدخل الاسم الكامل",
       "inputValidation": {
         "required": "الاسم الكامل مطلوب",
-        "min": "يجب أن يتكون الاسم الكامل من 3 أحرف على الأقل",
-        "max": "الاسم الكامل لا يجب أن يتجاوز 100 حرف"
+        "min": "يجب ألا يقل الاسم الكامل عن 3 أحرف",
+        "max": "يجب ألا يتجاوز الاسم الكامل 100 حرف"
       }
     },
     "ssn": {
-      "label": "الرقم القومي (SSN)",
+      "label": "الرقم القومي",
       "placeholder": "أدخل الرقم القومي المكون من 14 رقمًا",
       "inputValidation": {
         "required": "الرقم القومي مطلوب",
-        "matches": "يجب أن يتكون الرقم القومي من 14 رقمًا بالضبط"
+        "matches": "يجب أن يكون الرقم القومي مكونًا من 14 رقمًا"
       }
     },
     "phoneNumber": {
@@ -158,72 +122,182 @@
       "inputValidation": {
         "nullable": "",
         "required": "رقم الهاتف مطلوب",
-        "matches": "يرجى إدخال رقم هاتف مصري صالح"
+        "matches": "يرجى إدخال رقم هاتف مصري صحيح"
       }
     },
     "subDepartmentId": {
-      "label": "الفرع",
-      "defaultValue": "اختيار الفرع",
+      "label": "القسم الفرعي",
       "inputValidation": {
-        "required": "الفرع مطلوب"
+        "required": "القسم الفرعي مطلوب"
       }
     },
     "hiringDate": {
-      "label": "تاريخ التوظيف",
-      "placeholder": "اختر تاريخ التوظيف",
+      "label": "تاريخ التعيين",
+      "placeholder": "اختر تاريخ التعيين",
       "inputValidation": {
-        "required": "تاريخ التوظيف مطلوب"
+        "required": "تاريخ التعيين مطلوب"
       }
     },
     "oldId": {
-      "label": "رقم الموظف السابق",
-      "placeholder": "أدخل الرقم القديم (اختياري)",
+      "label": "معرف الموظف السابق",
+      "placeholder": "أدخل المعرف القديم (اختياري)",
       "inputValidation": {
-        "required": "رقم الموظف السابق مطلوب"
+        "required": "المعرف القديم مطلوب"
       }
     },
     "delegateId": {
-      "label": "الفرع المكلف",
-      "placeholder": "أدخل الرقم المكلف (اختياري)",
-      "defaultValue": "اختيار الفرع المكلف"
+      "label": "القسم الفرعي المفوض"
     },
     "departmentId": {
-      "label": "القسم",
-      "defaultValue": "اختيار القسم"
+      "label": "القسم"
     },
     "password": {
-      "label": "كلمة مرور جديدة",
+      "label": "كلمة المرور الجديدة",
       "placeholder": "أدخل كلمة مرور آمنة",
       "inputValidation": {
         "required": "كلمة المرور مطلوبة",
-        "min": "يجب أن تكون كلمة المرور على الأقل 8 أحرف",
-        "uppercase": "يجب أن تتضمن حرفًا كبيرًا واحدًا على الأقل",
-        "lowercase": "يجب أن تتضمن حرفًا صغيرًا واحدًا على الأقل",
-        "number": "يجب أن تتضمن رقمًا واحدًا على الأقل",
-        "specialChar": "يجب أن تتضمن حرفًا خاصًا واحدًا على الأقل (! @ # $ % ^ &)"
+        "min": "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل",
+        "uppercase": "يجب أن تحتوي على حرف كبير واحد على الأقل",
+        "lowercase": "يجب أن تحتوي على حرف صغير واحد على الأقل",
+        "number": "يجب أن تحتوي على رقم واحد على الأقل",
+        "specialChar": "يجب أن تحتوي على رمز خاص واحد على الأقل (! @ # $ % ^ &)"
       }
     },
     "confirmPassword": {
       "label": "تأكيد كلمة المرور",
-      "placeholder": "أعد إدخال كلمة مرورك الجديدة",
+      "placeholder": "أعد إدخال كلمة المرور الجديدة",
       "inputValidation": {
-        "required": "التأكيد مطلوب",
-        "oneOf": "كلمات المرور غير متطابقة"
+        "required": "تأكيد كلمة المرور مطلوب",
+        "oneOf": "كلمتا المرور غير متطابقتين"
+      }
+    },
+    "avilableLeaveRequestsPerMonth": {
+      "label": "عدد طلبات الإجازة الشهري المتاح",
+      "placeholder": "أدخل عدد الطلبات الشهرية",
+      "inputValidation": {
+        "required": "عدد طلبات الإجازة الشهري مطلوب"
+      }
+    },
+    "avilableOrdinaryLeaveeRequestsPerYear": {
+      "label": "عدد الإجازات الاعتيادية المتاحة سنويًا",
+      "placeholder": "أدخل عدد الإجازات الاعتيادية سنويًا",
+      "inputValidation": {
+        "required": "عدد الإجازات الاعتيادية السنوي مطلوب"
+      }
+    },
+    "avilableCasualLeaveeRequestsPerYear": {
+      "label": "عدد الإجازات العارضة المتاحة سنويًا",
+      "placeholder": "أدخل عدد الإجازات العارضة سنويًا",
+      "inputValidation": {
+        "required": "عدد الإجازات العارضة السنوي مطلوب"
       }
     }
   },
-  "popup": {
-    "delete": {
-      "title": "إزالة الموظف",
-      "description": "هل أنت متأكد أنك تريد حذف هذا الموظف بشكل دائم؟ هذه العملية لا يمكن التراجع عنها."
-    },
-    "unblock": {
-      "title": "استعادة الوصول",
-      "description": "هل تريد إزالة حظر هذا الموظف والسماح له بتسجيل الدخول مرة أخرى؟"
-    },
-    "toggleIncludedStatus": {
-      "title": "تغيير حالة المستخدم في التقرير",
-      "description": "اضغط على الزر لتبديل حالة المستخدم بين مدرج أو مستبعد من التقرير."
+  "infoPopup": {
+    "title": "كيفية إدارة الموظفين",
+    "description": "شاهد هذا الفيديو لتتعلم كيفية إضافة وتعديل وحذف سجلات الموظفين.",
+    "closeButton": "إغلاق"
+  },
+  "restPopup": {
+    "title": "إعادة تعيين رصيد إجازة الموظف",
+    "description": "اختر نوع إعادة التعيين التي تريد تطبيقها على إجازات الموظف."
+  },
+  "deletePopup": {
+    "title": "حذف موظف",
+    "description": "هل أنت متأكد أنك تريد حذف هذا الموظف نهائيًا؟ لا يمكن التراجع عن هذا الإجراء."
+  },
+  "unblockPopup": {
+    "title": "استعادة الوصول",
+    "description": "هل ترغب في إلغاء حظر هذا الموظف والسماح له بتسجيل الدخول مرة أخرى؟"
+  },
+  "toggleIncludedStatusPopup": {
+    "title": "تغيير حالة المستخدم في التقرير",
+    "description": "انقر على الزر لتبديل حالة المستخدم بين مشمول أو غير مشمول في التقرير."
+  },
+  "leaveStatsPopup": {
+    "title": "ملخص إجازات الموظف",
+    "description": "إحصائيات تفصيلية لحالة إجازات الموظف",
+    "fields": {
+      "totalOrdinaryLeaves": "إجمالي الإجازات الاعتيادية",
+      "availableOrdinaryLeaves": "الإجازات الاعتيادية المتاحة",
+      "totalCasualLeaves": "إجمالي الإجازات العارضة",
+      "availableCasualLeaves": "الإجازات العارضة المتاحة",
+      "totalLeaveRequests": "إجمالي طلبات الإجازة",
+      "availableLeaveRequests": "طلبات الإجازة المتاحة",
+      "totalSickLeave": "إجمالي الإجازات المرضية",
+      "totalMissions": "إجمالي المهمات"
     }
-  }
+  },
+  "status": {
+    "1": "شهري",
+    "2": "سنوي",
+    "3": "كل 3 سنوات"
+  },
+  "filters": {
+    "pageSize": "عدد العناصر في الصفحة",
+    "leaveStatus": "حالة الإجازة",
+    "toolTipResetFilters": "إعادة تعيين الكل",
+    "searchBy": {
+      "label": "نوع البحث",
+      "default": "طريقة البحث",
+      "SearchByFullName": "الاسم",
+      "SearchBySSN": "الرقم القومي",
+      "SearchByEmail": "البريد الإلكتروني",
+      "SearchByDepartmentId": "القسم"
+    },
+    "search": {
+      "label": "بحث",
+      "placeholder": "أدخل القيمة التي تريد البحث عنها...."
+    }
+  },
+  "table": {
+    "emptyTable": {
+      "title": "لا يوجد موظفين",
+      "message": "لا توجد سجلات تطابق البحث أو الفلتر الحالي."
+    },
+    "columns": {
+      "fullName": "الاسم",
+      "email": "البريد الإلكتروني",
+      "ssn": "الرقم القومي",
+      "username": "اسم المستخدم",
+      "phoneNumber": "الهاتف",
+      "departmentName": "القسم",
+      "subDepartmentName": "القسم الفرعي",
+      "delegateDepartmentName": "القسم المفوض",
+      "delegateSubDepartmentName": "القسم الفرعي المفوض",
+      "dateOfBirth": "تاريخ الميلاد",
+      "status": "الحالة",
+      "actions": "الإجراءات",
+      "accountStatus": "حالة الحساب",
+      "isBlocked": "هل محظور؟",
+      "hiringDate": "تاريخ التعيين",
+      "isExcludedFromReports": "هل مستبعد من التقارير؟"
+    },
+    "status": {
+      "blocked": "محظور",
+      "active": "نشط",
+      "notActive": "غير نشط",
+      "included": "مشمول",
+      "excluded": "مستبعد"
+    }
+  },
+  "buttons": {
+    "close": "إغلاق",
+    "loading": "جارٍ التحميل...",
+    "unblock": "إلغاء الحظر",
+    "delete": "حذف",
+    "reset": "إعادة تعيين",
+    "toggle": "تبديل",
+    "updateInformations": "تحديث المعلومات",
+    "create": "إنشاء حساب موظف",
+    "updatePassword": "تحديث كلمة المرور",
+    "updateWorkingDays": "تحديث أيام العمل",
+    "leaveStatsToolTip": "إحصائيات الإجازة",
+    "toggleToolTip": "تبديل حالة التقرير",
+    "unlockToolTip": "إلغاء الحظر",
+    "calenderToolTip": "التقويم",
+    "deleteToolTip": "حذف",
+    "editToolTip": "تعديل"
+  },
+  "NA": "لا يوجد"
 }

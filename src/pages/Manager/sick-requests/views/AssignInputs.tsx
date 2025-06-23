@@ -19,7 +19,7 @@ const AssignInputs = ({
 }: IInputsProps) => {
 
   const { t } = useTranslation([SICK_REQUESTS_NS]);
-  const medicalReportFile = watch("MedicalReport") as FileList;
+  const medicalReportFile = watch("MedicalReport");
   const { employeesList, isEmployeesListLoading } = useGetEmployeesList();
   return (
     <>

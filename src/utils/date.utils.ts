@@ -75,9 +75,10 @@ export function reverseDate(dateString: string) {
  * @example
  * countdownFrom("00:05:00", setCountdown); // updates countdown every second
  */
+
 export function countdownFrom(timeString: string, setCountdown: (value: string | null) => void) {
   let seconds = timeToSeconds(timeString);
-  let countdownInterval: NodeJS.Timeout | null = null; // Store the interval globally
+  let countdownInterval: Timeout | null = null; // Store the interval globally
 
   if (seconds <= 0) {
     setCountdown(null);

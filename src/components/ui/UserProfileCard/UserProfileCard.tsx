@@ -62,18 +62,6 @@ const UserProfileCard: React.FC<UserProps> = ({ user }) => {
                 : t("table.status.notActive")}
             </StatusBadge>
           </div>
-            <div className="block">
-              <p className="text-gray-400 text-sm mb-2">{t("table.columns.isBlocked")}</p>
-              <StatusBadge
-                variant={user.isBlocked ? "neutral" : "info"}
-                size="medium"
-                icon={user.isBlocked ? <AlertTriangle className="w-4 h-4" /> : <CheckCircle className="w-4 h-4" />}
-              >
-                {user.isBlocked
-                  ? t("table.status.blocked")
-                  : t("table.status.active")}
-              </StatusBadge>
-            </div>
         </div>
       </div>
     </div>

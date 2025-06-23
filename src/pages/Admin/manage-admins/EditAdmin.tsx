@@ -189,39 +189,39 @@ const EditAdminPage = () => {
         <HasPermission permission="Update Password">
           <div className="bg-white shadow-md space-y-5 p-5 rounded-lg">
             <SectionHeader 
-              title={t("updateAdminPage.adminInformationsSectionHeader.title")} 
-              description={t("updateAdminPage.adminInformationsSectionHeader.description")}
+              title={t("updateAdminPage.passwordSectionHeader.title")} 
+              description={t("updateAdminPage.passwordSectionHeader.description")}
             />
             <form className="space-y-5" onSubmit={handleSubmitUpdatePassword(handleConfirmUpdatePassword)}>
               <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Password input field */}
                 <Field className="space-y-2">
-                  <Label size="lg">{t(`form.password.label`)}</Label>
+                  <Label size="lg">{t(`inputs.password.label`)}</Label>
                   <Input
-                    placeholder={t("form.password.placeholder")}
+                    placeholder={t("inputs.password.placeholder")}
                     type="password"
                     {...updatePasswordRegister("password")}
                     isError={!!updatePasswordErrors["password"]}
                   />
                   {updatePasswordErrors["password"] && (
                     <InputErrorMessage>
-                      {t(`form.password.inputValidation.${updatePasswordErrors["password"].type === "matches" ? updatePasswordErrors["password"].message : updatePasswordErrors["password"].type}`)}
+                      {t(`inputs.password.inputValidation.${updatePasswordErrors["password"].type === "matches" ? updatePasswordErrors["password"].message : updatePasswordErrors["password"].type}`)}
                     </InputErrorMessage>
                   )}
                 </Field>
                 
                 {/* Confirm Password input field */}
                 <Field className="space-y-2">
-                  <Label size="lg">{t(`form.confirmPassword.label`)}</Label>
+                  <Label size="lg">{t(`inputs.confirmPassword.label`)}</Label>
                   <Input
-                    placeholder={t("form.confirmPassword.placeholder")}
+                    placeholder={t("inputs.confirmPassword.placeholder")}
                     type="password"
                     {...updatePasswordRegister("confirmPassword")}
                     isError={!!updatePasswordErrors["confirmPassword"]}
                   />
                   {updatePasswordErrors["confirmPassword"] && (
                     <InputErrorMessage>
-                      {t(`form.confirmPassword.inputValidation.${updatePasswordErrors["confirmPassword"].type}`)}
+                      {t(`inputs.confirmPassword.inputValidation.${updatePasswordErrors["confirmPassword"].type}`)}
                     </InputErrorMessage>
                   )}
                 </Field>

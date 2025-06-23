@@ -73,7 +73,7 @@ const AdminsTable = ({ admins, isLoading, handleDelete, handleUnblock }: Props) 
                   <div className="flex flex-wrap gap-2">
                     <HasPermission permission="Update Admin">
                       <Tooltip 
-                        content={t("buttons.toolTipEdit")}
+                        content={t("buttons.editToolTip")}
                       >
                         <NavLink to={`/admin/edit-admin/${id}`}>
                           <Button 
@@ -87,7 +87,7 @@ const AdminsTable = ({ admins, isLoading, handleDelete, handleUnblock }: Props) 
                     </HasPermission>
                     <HasPermission permission="Delete Admin">
                       <Tooltip 
-                        content={t("buttons.toolTipDelete")}
+                        content={t("buttons.deleteToolTip")}
                       >
                         <Button
                           variant="danger"
@@ -101,7 +101,7 @@ const AdminsTable = ({ admins, isLoading, handleDelete, handleUnblock }: Props) 
                     {/* Show Unblock button only if the admin is blocked */}
                     <HasPermission permission="Unlock Account">
                       {isBlocked && (
-                        <Tooltip content={t("buttons.unlockToolTip")}>
+                        <Tooltip content={t("buttons.unblockToolTip")}>
                           <Button
                             variant="black"
                             fullWidth={false}

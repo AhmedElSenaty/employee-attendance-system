@@ -24,7 +24,7 @@ const SickRequestsPage = () => {
   const [isAddPopupOpen, setIsAddPopupOpen] = useState(false);
   const [isEditPopupOpen, setIsEditPopupOpen] = useState(false);
 
-  const { register, handleSubmit, formState: { errors }, reset, watch } = useForm<ISickRequestCredentials>({
+  const { register, handleSubmit, formState: { errors }, reset, watch } = useForm({
     resolver: yupResolver(sickRequestSchema),
     mode: "onChange"
   });
@@ -34,7 +34,7 @@ const SickRequestsPage = () => {
     mode: "onChange"
   });
 
-  const { register: reportRegister, handleSubmit: handleSubmitReport, formState: { errors: reportErrors }, watch: watchReport } = useForm<ISickRequestUpdateReportCredentials>({
+  const { register: reportRegister, handleSubmit: handleSubmitReport, formState: { errors: reportErrors }, watch: watchReport } = useForm({
     resolver: yupResolver(sickRequestUpdateReportSchema),
     mode: "onChange"
   });
