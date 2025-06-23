@@ -3,38 +3,29 @@ import { Button, ButtonSkeleton, SectionHeader, Header, Field, Input, InputError
 import { useTranslation } from "react-i18next";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { getAdminSchema } from "../../../validation/admin.schema";
-import { IAdminCredentials } from "../../../interfaces/admin.interfaces";
 import { useNavigate, useParams } from "react-router";
-import { DeleteAdminPopup, RenderAdminInputs, UnblockAdminPopup } from "./views";
-import { DepartmentCheckboxes } from "../manage-departments/views";
-import { PermissionCheckboxes } from "../manage-permissions/views";
-import { passwordUpdateSchema } from "../../../validation";
-import { ADMIN_TRANSLATION_NAMESPACE } from ".";
 import { HasPermission } from "../../../components/auth";
-import { useUpdateUserPermissions } from "../../../hooks/permission.hooks";
-import { useUpdateUserDepartments } from "../../../hooks/department.hooks";
-import { useUnblockAccount, useUpdateAccountPassword } from "../../../hooks/account.hook";
-import { useDeleteAdmin, useGetAdminByID, useUpdateAdmin } from "../../../hooks/admin.hooks";
+import { ADMIN_NS } from "../../../constants";
+import { AdminFormValues, getAdminSchema, passwordUpdateSchema } from "../../../validation";
+import { useDeleteAdmin, useGetAdminByID, useUnblockAccount, useUpdateAccountPassword, useUpdateAdmin, useUpdateUserDepartments, useUpdateUserPermissions } from "../../../hooks";
+import { AdminCredentials } from "../../../interfaces";
+import { DeletePopup, Inputs, UnblockPopup } from "./views";
+import { PermissionCheckboxes } from "../manage-permissions/views";
+import { DepartmentCheckboxes } from "../manage-departments/views";
 
 const EditAdminPage = () => {
-  // Translation namespace setup for dynamic translation based on context
-  const { t } = useTranslation(["common", ADMIN_TRANSLATION_NAMESPACE]);
+  const { t } = useTranslation([ADMIN_NS]);
 
-  // Get the 'id' from URL parameters to identify which admin is being edited/viewed
   const { id } = useParams();
   const navigate = useNavigate();
 
-  // State hooks to manage checked permissions and departments, and open/close state of popups
   const [checkedPermissions, setCheckedPermissions] = useState<string[]>([]);
   const [checkedDepartments, setCheckedDepartments] = useState<number[]>([]);
 
-  // Popup states for delete and unblock actions
   const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
   const [isUnblockPopupOpen, setIsUnblockPopupOpen] = useState(false);
   
 
-  // Form handling for the admin data (name, email, etc.) using react-hook-form and yup validation
   const {
     register,
     handleSubmit,
@@ -42,67 +33,56 @@ const EditAdminPage = () => {
     reset,
     control,
     setValue
-  } = useForm<IAdminCredentials>({
-    resolver: yupResolver(getAdminSchema(true)), // Validation schema for admin form
-    mode: "onChange", // Trigger validation on input change
+  } = useForm<AdminFormValues>({
+    resolver: yupResolver(getAdminSchema(true)),
+    mode: "onChange",
   });
 
-  // Form handling for updating password (separate form for password change)
   const {
-    register: updatePasswordRegister,  // Register function for the password form
-    handleSubmit: handleSubmitUpdatePassword,  // Handle form submission for password update
-    formState: { errors: updatePasswordErrors },  // Store form errors related to password update
+    register: updatePasswordRegister,
+    handleSubmit: handleSubmitUpdatePassword,
+    formState: { errors: updatePasswordErrors },
   } = useForm<{ password: string, confirmPassword: string }>({
-    resolver: yupResolver(passwordUpdateSchema(false)), // Validation schema for password form
-    mode: "onChange", // Trigger validation on input change
+    resolver: yupResolver(passwordUpdateSchema(false)),
+    mode: "onChange",
   });
 
-  // Fetch admin data based on the admin 'id' (using a custom hook that fetches data by ID)
   const { admin, isAdminDataLoading } = useGetAdminByID(id || "", reset);
 
-  // useEffect hook that runs when the 'admin' data or loading state changes
   useEffect(() => {
-    // If admin data is available, set the permissions and departments
-    setCheckedPermissions(admin?.permissions || []);  // Default to an empty array if permissions are not available
-    setCheckedDepartments(admin?.departments || []);   // Default to an empty array if departments are not available
-  }, [admin, isAdminDataLoading]);  // Effect triggers when 'admin' data or 'isAdminDataLoading' changes
+    setCheckedPermissions(admin?.permissions || []);
+    setCheckedDepartments(admin?.departments || []);
+  }, [admin, isAdminDataLoading]); 
 
-  // Destructuring functions and loading states from custom hooks for managing admins, departments, and permissions
   const { mutate: updateAdmin, isPending: isupdateing } = useUpdateAdmin();
   const { mutate: deleteAdmin, isPending: isDeleting } = useDeleteAdmin();
 
 
-  // Handler for confirming the edit action for the admin
-  const handleConfirmEdit: SubmitHandler<IAdminCredentials> = async (request: IAdminCredentials) => {
-    request.id = id; // Adding admin 'id' to the request
-    updateAdmin(request); // Call the 'updateAdmin' function to perform the update
+  const handleConfirmEdit: SubmitHandler<AdminCredentials> = async (request: AdminCredentials) => {
+    request.id = id; 
+    updateAdmin(request);
   };
 
-  // Handler for confirming the delete action for the admin
   const handleConfirmDelete = () => {
-    deleteAdmin(id || ""); // Delete admin by 'id', falling back to empty string if 'id' is unavailable
-    setIsDeletePopupOpen(false); // Close the delete confirmation popup
-    navigate(`/admin/manage-admins/`); // Navigate to the admin management page after deletion
+    deleteAdmin(id || "");
+    setIsDeletePopupOpen(false);
+    navigate(`/admin/manage-admins/`);
   };
 
-  // Destructuring functions and loading states for managing user departments
   const { mutate: updateUserDepartments, isPending: isUserDepartmentsUpdating } = useUpdateUserDepartments();
 
-  // Handler for confirming the update action for user departments
   const handleConfirmUpdateDepartments = () => {
     updateUserDepartments({
-      userID: id || "",        // Passing user ID, falling back to empty string if unavailable
-      departments: checkedDepartments, // Passing selected departments
+      userID: id || "",
+      departments: checkedDepartments,
     });
   };
 
-  // Destructuring functions and loading states for managing user permissions
   const {
     mutate: updateUserPermissions,
     isPending: isUserPermissionsUpdating
   } = useUpdateUserPermissions();
 
-  // Handler for confirming the update action for user permissions
   const handleConfirmUpdatePermissions = () => {
     updateUserPermissions({
       userID: id || "",        // Passing user ID, falling back to empty string if unavailable
@@ -132,20 +112,20 @@ const EditAdminPage = () => {
       <div className="sm:p-5 p-3 space-y-5">
         {/* Header section with dynamic translations for the title and subtitle */}
         <Header 
-          heading={t("updateAdminPage.header.heading", { ns: ADMIN_TRANSLATION_NAMESPACE })} 
-          subtitle={t("updateAdminPage.header.subtitle", { ns: ADMIN_TRANSLATION_NAMESPACE })}
+          heading={t("updateAdminPage.header.heading")} 
+          subtitle={t("updateAdminPage.header.subtitle")}
         />
 
         {/* Main form section for updating admin details */}
         <div className="bg-white shadow-md space-y-5 p-5 rounded-lg">
           <SectionHeader 
-            title={t("updateAdminPage.adminInformationsSectionHeader.title", { ns: ADMIN_TRANSLATION_NAMESPACE })} 
-            description={t("updateAdminPage.adminInformationsSectionHeader.description", { ns: ADMIN_TRANSLATION_NAMESPACE })}
+            title={t("updateAdminPage.adminInformationsSectionHeader.title")} 
+            description={t("updateAdminPage.adminInformationsSectionHeader.description")}
           />
           <form className="space-y-5" onSubmit={handleSubmit(handleConfirmEdit)}>
             <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Render input fields for the admin details */}
-              <RenderAdminInputs 
+              <Inputs 
                 checkedPermissionsHandler={setCheckedPermissions} 
                 register={register} 
                 errors={errors} 
@@ -153,7 +133,6 @@ const EditAdminPage = () => {
                 setValue={setValue} 
                 isUpdateAdmin={true} 
                 isLoading={isAdminDataLoading}
-                t={t}
               />
             </div>
             <div className="flex flex-wrap gap-3">
@@ -175,7 +154,7 @@ const EditAdminPage = () => {
                   <HasPermission permission="Update Admin">
                     {/* Update admin button */}
                     <Button fullWidth={false} isLoading={isupdateing}>
-                      {t("updateAdminPage.updateAdminButton", { ns: ADMIN_TRANSLATION_NAMESPACE })}
+                      {t("updateAdminPage.updateAdminButton")}
                     </Button>
                   </HasPermission>
                   
@@ -203,7 +182,7 @@ const EditAdminPage = () => {
                       type="button"
                       onClick={() => setIsDeletePopupOpen(true)}
                     >
-                      {t("updateAdminPage.deleteAdminButton", { ns: ADMIN_TRANSLATION_NAMESPACE })}
+                      {t("updateAdminPage.deleteAdminButton")}
                     </Button>
                   </HasPermission>
                 </>
@@ -216,41 +195,39 @@ const EditAdminPage = () => {
         <HasPermission permission="Update Password">
           <div className="bg-white shadow-md space-y-5 p-5 rounded-lg">
             <SectionHeader 
-              title={t("updateAdminPage.adminInformationsSectionHeader.title", { ns: ADMIN_TRANSLATION_NAMESPACE })} 
-              description={t("updateAdminPage.adminInformationsSectionHeader.description", { ns: ADMIN_TRANSLATION_NAMESPACE })}
+              title={t("updateAdminPage.adminInformationsSectionHeader.title")} 
+              description={t("updateAdminPage.adminInformationsSectionHeader.description")}
             />
             <form className="space-y-5" onSubmit={handleSubmitUpdatePassword(handleConfirmUpdatePassword)}>
               <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Password input field */}
                 <Field className="space-y-2">
-                  <Label size="lg">{t(`form.password.label`, { ns: ADMIN_TRANSLATION_NAMESPACE })}</Label>
+                  <Label size="lg">{t(`form.password.label`)}</Label>
                   <Input
-                    placeholder={t("form.password.placeholder", { ns: ADMIN_TRANSLATION_NAMESPACE })}
+                    placeholder={t("form.password.placeholder")}
                     type="password"
                     {...updatePasswordRegister("password")}
                     isError={!!updatePasswordErrors["password"]}
                   />
                   {updatePasswordErrors["password"] && (
                     <InputErrorMessage>
-                      {t(`form.password.inputValidation.${updatePasswordErrors["password"].type === "matches" ? updatePasswordErrors["password"].message : updatePasswordErrors["password"].type}`, {
-                        ns: ADMIN_TRANSLATION_NAMESPACE,
-                      })}
+                      {t(`form.password.inputValidation.${updatePasswordErrors["password"].type === "matches" ? updatePasswordErrors["password"].message : updatePasswordErrors["password"].type}`)}
                     </InputErrorMessage>
                   )}
                 </Field>
                 
                 {/* Confirm Password input field */}
                 <Field className="space-y-2">
-                  <Label size="lg">{t(`form.confirmPassword.label`, { ns: ADMIN_TRANSLATION_NAMESPACE })}</Label>
+                  <Label size="lg">{t(`form.confirmPassword.label`)}</Label>
                   <Input
-                    placeholder={t("form.confirmPassword.placeholder", { ns: ADMIN_TRANSLATION_NAMESPACE })}
+                    placeholder={t("form.confirmPassword.placeholder")}
                     type="password"
                     {...updatePasswordRegister("confirmPassword")}
                     isError={!!updatePasswordErrors["confirmPassword"]}
                   />
                   {updatePasswordErrors["confirmPassword"] && (
                     <InputErrorMessage>
-                      {t(`form.confirmPassword.inputValidation.${updatePasswordErrors["confirmPassword"].type}`, { ns: ADMIN_TRANSLATION_NAMESPACE })}
+                      {t(`form.confirmPassword.inputValidation.${updatePasswordErrors["confirmPassword"].type}`)}
                     </InputErrorMessage>
                   )}
                 </Field>
@@ -260,7 +237,7 @@ const EditAdminPage = () => {
                   fullWidth={false} 
                   isLoading={isUpdateAccountPasswordLoading}
                 >
-                  {t("updateAdminPage.updatePasswordButton", { ns: ADMIN_TRANSLATION_NAMESPACE })}
+                  {t("updateAdminPage.updatePasswordButton")}
                 </Button>
               </div>
             </form>
@@ -271,8 +248,8 @@ const EditAdminPage = () => {
         <HasPermission permission="Update User Permissions">
           <div className="bg-white shadow-md space-y-5 p-5 rounded-lg">
             <SectionHeader 
-              title={t("updateAdminPage.permissionsSectionHeader.title", { ns: ADMIN_TRANSLATION_NAMESPACE })} 
-              description={t("updateAdminPage.permissionsSectionHeader.description", { ns: ADMIN_TRANSLATION_NAMESPACE })}
+              title={t("updateAdminPage.permissionsSectionHeader.title")} 
+              description={t("updateAdminPage.permissionsSectionHeader.description")}
             />
             <PermissionCheckboxes
               checked={checkedPermissions}
@@ -289,7 +266,7 @@ const EditAdminPage = () => {
                 isLoading={isUserPermissionsUpdating} 
                 onClick={handleConfirmUpdatePermissions}
               >
-                {t("updateAdminPage.updateAdminPermissionsButton", { ns: ADMIN_TRANSLATION_NAMESPACE })}
+                {t("updateAdminPage.updateAdminPermissionsButton")}
               </Button>
             )}
           </div>
@@ -299,8 +276,8 @@ const EditAdminPage = () => {
         <HasPermission permission="Grant Department Access">
           <div className="bg-white shadow-md space-y-5 p-5 rounded-lg">
             <SectionHeader 
-              title={t("updateAdminPage.departmentsSectionHeader.title", { ns: ADMIN_TRANSLATION_NAMESPACE })} 
-              description={t("updateAdminPage.departmentsSectionHeader.description", { ns: ADMIN_TRANSLATION_NAMESPACE })}
+              title={t("updateAdminPage.departmentsSectionHeader.title")} 
+              description={t("updateAdminPage.departmentsSectionHeader.description")}
             />
             <DepartmentCheckboxes
               checked={checkedDepartments}
@@ -317,7 +294,7 @@ const EditAdminPage = () => {
                 isLoading={isUserDepartmentsUpdating} 
                 onClick={handleConfirmUpdateDepartments}
               >
-                {t("updateAdminPage.updateAdminDepartmentsButton", { ns: ADMIN_TRANSLATION_NAMESPACE })}
+                {t("updateAdminPage.updateAdminDepartmentsButton")}
               </Button>
             )}
           </div>
@@ -325,19 +302,17 @@ const EditAdminPage = () => {
       </div>
 
       {/* Popups for confirming actions */}
-      <DeleteAdminPopup
+      <DeletePopup
         isOpen={isDeletePopupOpen}
         handleClose={() => { setIsDeletePopupOpen(false) }}
         handleConfirmDelete={handleConfirmDelete}
         isLoading={isDeleting}
-        t={t}
       />
-      <UnblockAdminPopup
+      <UnblockPopup
         isOpen={isUnblockPopupOpen}
         handleClose={() => { setIsUnblockPopupOpen(false) }}
         handleConfirmUnblock={handleConfirmUnblock}
         isLoading={isUnblockAccountLoading}
-        t={t}
       />
     </>
 

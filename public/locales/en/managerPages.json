@@ -130,6 +130,11 @@
       "notBlocked": "Active"
     }
   },
+  "infoPopup": {
+    "title": "Managing Managers",
+    "description": "Watch this video to learn how to manage manager profiles and permissions.",
+    "closeButton": "Close"
+  },
   "deletePopup": {
     "title": "Delete Manager",
     "description": "Are you sure you want to delete this manager? This action cannot be undone."

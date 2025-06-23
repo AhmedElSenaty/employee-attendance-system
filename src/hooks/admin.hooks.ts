@@ -1,33 +1,45 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { IAdminCredentials, IErrorResponse, initialMetadata } from "../interfaces";
 import { getTranslatedMessage, handleApiError, showToast } from "../utils";
 import { AxiosError } from "axios";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useLanguageStore } from "../store/language.store";
 import { useUserStore } from "../store/user.store";
 import { AdminService } from "../services";
+import { QueryKeys } from "../constants";
+import { IErrorResponse, initialMetadata } from "../interfaces";
+import { AdminFormValues } from "../validation";
 
-export const ADMINS_QUERY_KEY = "admins";
-export const ADMIN_DETAILS_QUERY_KEY = "adminDetails";
+export const useAdminService = () => {
+  const token = useUserStore((state) => state.token);
 
+  const service = useMemo(() => {
+    return new AdminService(token);
+  }, [token]);
+
+  return service;
+};
 export const useGetAllAdmins = (
   page: number,
   pageSize: number,
   searchKey: string,
-  debouncedSearchQuery: string
+  searchQuery: string
 ) => {
   const token = useUserStore((state) => state.token);
-  const adminService = new AdminService(token);
+  const adminService = useAdminService();
 
   const { data, isLoading } = useQuery({
-    queryKey: [ADMINS_QUERY_KEY, page, pageSize, searchKey, debouncedSearchQuery],
-    queryFn: () => adminService.fetchAll(page, pageSize, searchKey, debouncedSearchQuery),
+    queryKey: [QueryKeys.Admins.All, 
+      page,
+      pageSize,
+      `${searchKey && searchQuery ? [searchKey, searchQuery] : ""}`,
+    ],
+    queryFn: () => adminService.fetchAll(page, pageSize, searchKey, searchQuery),
     enabled: !!token,
   });
 
   return {
     admins: data?.data?.data?.admins || [],
-    totalAdmins: data?.data?.data?.totalCount || 0,
+    count: data?.data?.data?.totalCount || 0,
     metadata: data?.data?.data?.metadata || initialMetadata,
     isAdminsDataLoading: isLoading,
   };
@@ -35,13 +47,13 @@ export const useGetAllAdmins = (
 
 export const useGetAdminByID = (
   adminID: string,
-  resetInputs?: (data: IAdminCredentials) => void
+  resetInputs?: (data: AdminFormValues) => void
 ) => {
   const token = useUserStore((state) => state.token);
-  const adminService = new AdminService(token);
+  const adminService = useAdminService();
 
   const { data, isLoading } = useQuery({
-    queryKey: [ADMIN_DETAILS_QUERY_KEY, adminID],
+    queryKey: [QueryKeys.Admins.Details, adminID],
     queryFn: () => adminService.fetchByID(adminID),
     enabled: !!adminID && !!token,
   });
@@ -52,7 +64,7 @@ export const useGetAdminByID = (
         username: data.data.data.username,
         title: data.data.title,
         email: data.data.data.email,
-        password: "", // clear password for security
+        password: "",
       });
     }
   }, [data, resetInputs]);
@@ -64,15 +76,14 @@ export const useGetAdminByID = (
 };
 
 export const useCreateAdmin = () => {
-  const token = useUserStore((state) => state.token);
   const { language } = useLanguageStore();
   const queryClient = useQueryClient();
-  const adminService = new AdminService(token);
+  const adminService = useAdminService();
 
   return useMutation({
-    mutationFn: (adminData: IAdminCredentials) => adminService.create(adminData),
+    mutationFn: (adminData: AdminFormValues) => adminService.create(adminData),
     onSuccess: ({ status, data }) => {
-      queryClient.invalidateQueries({ queryKey: [ADMINS_QUERY_KEY] });
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.Admins.All] });
       if (status === 201) {
         const message = getTranslatedMessage(data.message ?? "", language);
         showToast("success", message);
@@ -86,15 +97,14 @@ export const useCreateAdmin = () => {
 };
 
 export const useUpdateAdmin = () => {
-  const token = useUserStore((state) => state.token);
   const { language } = useLanguageStore();
   const queryClient = useQueryClient();
-  const adminService = new AdminService(token);
+  const adminService = useAdminService();
 
   return useMutation({
-    mutationFn: (adminData: IAdminCredentials) => adminService.update(adminData),
+    mutationFn: (adminData: AdminFormValues) => adminService.update(adminData),
     onSuccess: ({ status, data }) => {
-      queryClient.invalidateQueries({ queryKey: [ADMINS_QUERY_KEY] });
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.Admins.All] });
       if (status === 200) {
         const message = getTranslatedMessage(data.message ?? "", language);
         showToast("success", message);
@@ -108,15 +118,14 @@ export const useUpdateAdmin = () => {
 };
 
 export const useDeleteAdmin = () => {
-  const token = useUserStore((state) => state.token);
   const { language } = useLanguageStore();
   const queryClient = useQueryClient();
-  const adminService = new AdminService(token);
+  const adminService = useAdminService();
 
   return useMutation({
     mutationFn: (adminID: string) => adminService.delete(adminID),
     onSuccess: ({ status, data }) => {
-      queryClient.invalidateQueries({ queryKey: [ADMINS_QUERY_KEY] });
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.Admins.All] });
       if (status === 200) {
         const message = getTranslatedMessage(data.message ?? "", language);
         showToast("success", message);

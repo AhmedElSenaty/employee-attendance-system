@@ -1,4 +1,4 @@
-export interface IAdminCredentials {
+export interface AdminCredentials {
   id?: string;               // Optional: The unique identifier for the admin. (Used for updating an existing admin)
   username: string;          // Required: The username of the admin.
   title: string;             // Required: The title or role of the admin (e.g., "Admin", "Manager").
@@ -10,7 +10,7 @@ export interface IAdminCredentials {
 
 
 // Interface to define the structure of admin data
-export interface IAdminData {
+export interface AdminData {
   id: string;                // Unique identifier for the admin
   username: string;          // Admin's username
   title: string;             // Admin's title (e.g., Mr., Mrs., Dr.)

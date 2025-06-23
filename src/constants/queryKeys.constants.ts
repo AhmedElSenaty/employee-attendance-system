@@ -68,6 +68,10 @@ export const QueryKeys = {
     Details: "managerDetails",
     Count: "managersCount",
   },
+  Admins: {
+    All: "admins",
+    Details: "adminDetails",
+  },
   FETCH_ME: "me",
   LeaveRequests: {
     All: "leaveRequests",

@@ -23,3 +23,4 @@ export const SUB_DEPARTMENT_NS = "subDepartmentPages";
 export const ATTENDANCE_NS = "attendancePages"
 export const CALENDER_NS = "calenderPage"
 export const EMPLOYEE_NS = "employeePages"
+export const ADMIN_NS = "adminPages"

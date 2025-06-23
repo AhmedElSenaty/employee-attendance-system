@@ -75,7 +75,7 @@ const AddManagerPage = () => {
           </div>
           <Description>{t("addManagerPage.note")}</Description>
           <Button fullWidth={false} isLoading={isAdding} >
-            {t("buttons.saveManagerButton")}
+            {isAdding ? t("buttons.loading") : t("buttons.create")}
           </Button>
         </form>
       </div>

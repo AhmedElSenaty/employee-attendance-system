@@ -4,8 +4,8 @@ import { NavLink } from "react-router";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import { HasPermission } from "../../../components/auth";
-import { ActionCard, Button, CountCard, DoughnutChart, Graph, GraphSkeleton, Header, Paginator, SectionHeader } from "../../../components/ui";
-import { MANAGER_NS } from "../../../constants";
+import { ActionCard, Button, CountCard, DoughnutChart, Graph, GraphSkeleton, Header, InfoPopup, Paginator, SectionHeader } from "../../../components/ui";
+import { MANAGER_NS, MANAGER_VIDEO } from "../../../constants";
 import { useLanguageStore, useUserStore } from "../../../store";
 import useURLSearchParams from "../../../hooks/URLSearchParams.hook";
 import { useDebounce, useDeleteManager, useGetAllManagers, useGetManagersCount, useUnblockAccount } from "../../../hooks";
@@ -104,6 +104,16 @@ export const ManageManagersPage = () => {
         heading={t("manageManagersPage.header.heading")} 
         subtitle={t("manageManagersPage.header.subtitle")} 
       />
+
+
+      <div className="w-full flex items-center justify-center">
+        <InfoPopup
+          title={t("infoPopup.title")}
+          description={t("infoPopup.description")}
+          videoUrl={MANAGER_VIDEO}
+        />
+      </div>
+
       <div className="max-w-[1000px] mx-auto space-y-6">
         {/* Count Card */}
         <div className="flex justify-center">

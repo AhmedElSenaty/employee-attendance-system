@@ -1,5 +1,4 @@
 export * from "./account.services"
-export * from "./admin.services"
 export * from "./attendance.services"
 export * from "./login.services";
 export * from "./workingDays.services.ts"
@@ -22,3 +21,4 @@ export * from "./subDepartment.services"
 export * from "./report.services"
 export * from "./employee.services"
 export * from "./manager.services"
+export * from "./admin.services"

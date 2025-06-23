@@ -3,9 +3,8 @@ import { DashboardPage } from "../pages/common/Dashboard";
 import { RootLayout } from "../pages/Layouts";
 import { ProtectedRoute } from "../components/auth";
 import { AddAdminPage, EditAdminPage, ManageAdminsPage } from "../pages/Admin/manage-admins";
-import { AddManagerPage, EditManagerPage, ManageManagersPage } from "../pages/common/manage-managers";
 import AdminAccountPage from "../pages/Admin/Account";
-import { AddEmployeePage, AddProfilePage, AttendanceOverviewPage, AttendanceVacationsPage, CalendarPage, EditEmployeePage, EditProfilePage, LogsPage, ManageAttendancePage, ManageDepartmentsPage, ManageDevicesPage, ManageEmployeesPage, ManageEntitiesPage, ManageOfficialVacationsPage, ManagePermissionsPage, ManageProfilesPage, ManageSubDepartmentsPage, SystemDataPage } from "../pages/Admin";
+import { AddEmployeePage, AddManagerPage, AddProfilePage, AttendanceOverviewPage, AttendanceVacationsPage, CalendarPage, EditEmployeePage, EditManagerPage, EditProfilePage, LogsPage, ManageAttendancePage, ManageDepartmentsPage, ManageDevicesPage, ManageEmployeesPage, ManageEntitiesPage, ManageManagersPage, ManageOfficialVacationsPage, ManagePermissionsPage, ManageProfilesPage, ManageSubDepartmentsPage, SystemDataPage } from "../pages/Admin";
 
 export const adminRoutes = (isLoggedIn: boolean, userRole: string) => (
   <Route 

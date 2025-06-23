@@ -6,10 +6,10 @@ import { useState } from "react";
 import { useDebounce, useUnblockAccount, useDeleteEmployee, useGetAllEmployees, useGetEmployeesCount, useGetEmployeeVacationsByID, useRestEmployeeTimeVacations, useToggleReportEmployeeStatus } from "../../../hooks/";
 import { HasPermission } from "../../../components/auth";
 import { useLanguageStore, useUserStore } from "../../../store/";
-import { ActionCard, BarChart, Button, CountCard, Graph, GraphSkeleton, Header, Paginator, SectionHeader } from "../../../components/ui";
+import { ActionCard, BarChart, Button, CountCard, Graph, GraphSkeleton, Header, InfoPopup, Paginator, SectionHeader } from "../../../components/ui";
 import { TimeToRest } from "../../../enums";
 import { RestVacationsPopup, ChangeIncludedStatusPopup, DeletePopup, EmployeeLeaveStatsPopup, EmployeesTable, TableFilters, UnblockPopup } from "./views";
-import { EMPLOYEE_NS } from "../../../constants";
+import { EMPLOYEE_NS, EMPLOYEE_VIDEO } from "../../../constants";
 import useURLSearchParams from "../../../hooks/URLSearchParams.hook";
 
 const EMPLOYEE_BORDER_WIDTH = 2;
@@ -142,6 +142,15 @@ const handleLeaveStatsPopupOpen = (id: string) => {
         heading={t("manageEmployeesPage.header.heading")} 
         subtitle={t("manageEmployeesPage.header.subtitle")} 
       />
+
+      <div className="w-full flex items-center justify-center">
+        <InfoPopup
+          title={t("infoPopup.title")}
+          description={t("infoPopup.description")}
+          videoUrl={EMPLOYEE_VIDEO}
+        />
+      </div>
+
       <div className="max-w-[1000px] mx-auto space-y-6">
         {/* Count Card */}
         <div className="flex justify-center">

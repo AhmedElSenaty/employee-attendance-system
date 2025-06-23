@@ -6,13 +6,15 @@ export const getAdminSchema = (isUpdate: boolean) =>
       .string()
       .min(3, "Username must be at least 3 characters")
       .max(50, "Username cannot exceed 50 characters")
-      .matches(/^\S*$/, { message: "matches", type: "matches" })
-      .required("Username is required"),
+      .matches(/^\S*$/, {
+        message: "Username must not contain spaces",
+        excludeEmptyString: true,
+      }),
 
     title: yup
       .string()
       .required("Title is required")
-      .min(2, "Title must be at least 2 characters")
+      .min(3, "Title must be at least 3 characters")
       .max(100, "Title cannot exceed 100 characters"),
 
     email: yup
@@ -21,14 +23,21 @@ export const getAdminSchema = (isUpdate: boolean) =>
       .when([], {
         is: () => isUpdate,
         then: (schema) => schema.required("Email is required"),
-        otherwise: (schema) => schema.strip(), // remove it from add form
+        otherwise: (schema) => schema.strip(),
       }),
 
       password: yup
-      .string()
-      .when([], {
-        is: () => !isUpdate,
-        then: (schema) => schema.required("Password is required"),
-        otherwise: (schema) => schema.strip(), // remove it from update form
-      }),
+        .string()
+        .min(8, "Password must be at least 8 characters")
+        .matches(/[A-Z]/, { message: "uppercase", type: "uppercase" })
+        .matches(/[a-z]/, { message: "lowercase", type: "lowercase" })
+        .matches(/[0-9]/, { message: "number", type: "number" })
+        .matches(/[!@#$%^&]/, { message: "specialChar", type: "specialChar" })
+        .when([], {
+          is: () => !isUpdate,
+          then: (schema) => schema.required("Password is required"),
+          otherwise: (schema) => schema.strip(), // remove it from add form
+        }),
   });
+
+  export type AdminFormValues = yup.InferType<ReturnType<typeof getAdminSchema>>;

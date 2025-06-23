@@ -193,7 +193,11 @@
       }
     }
   },
-
+  "infoPopup": {
+    "title": "How to Manage Employees",
+    "description": "Watch this video to learn how to add, edit, or delete employee records.",
+    "closeButton": "Close"
+  },
   "restPopup": {
     "title": "Reset Employee Leave Balance",
     "description": "Choose the type of reset you want to apply for employee leaves."

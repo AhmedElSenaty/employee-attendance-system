@@ -13,6 +13,8 @@ export const ATTENDANCE_VACATION_VIDEO = "";
 export const CALENDER_MANAGER_VIDEO = "";
 export const CALENDER_EMPLOYEE_VIDEO = "";
 export const EMPLOYEE_VIDEO = "";
+export const MANAGER_VIDEO = "";
+export const ADMIN_VIDEO = "";
 
 
 export const LEAVE_REQUESTS_MANAGER_VIDEO ="https://www.youtube.com/embed/Z5yx_szNx7Y?si=mbyUFV6AYf01Z_rw";
