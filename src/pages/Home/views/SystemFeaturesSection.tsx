@@ -3,6 +3,7 @@ import { FutureCard } from "../../../components/ui/FutureCard"
 import { SectionHeader } from "../../../components/ui/SectionHeader"
 import { Image } from "../../../components/ui/Image"
 import { useTranslation } from "react-i18next"
+import { fingerprintImage } from "../../../assets"
 
 const SystemFeaturesSection = () => {
   const { t } = useTranslation(["home"]);
@@ -58,7 +59,7 @@ const SystemFeaturesSection = () => {
                 <Image
                   width="w-full"
                   height="h-full"
-                  src="/images/biometric-fingerprint-scanning.webp"
+                  src={fingerprintImage}
                   alt="Attendance System"
                   rounded="rounded-lg"
                 />

@@ -7,6 +7,7 @@ import { NavLink } from "react-router";
 import { EmployeeData } from "../../../interfaces";
 import { useUserStore } from "../../../store/user.store";
 import { EMPLOYEE_NS } from "../../../constants";
+import { defaultUsertImage } from "../../../assets";
 
 type UserProps = {
   user: EmployeeData;
@@ -20,7 +21,7 @@ const UserProfileCard: React.FC<UserProps> = ({ user }) => {
   return (
     <div className="max-w-[1000px] h-fit mx-auto bg-white shadow rounded-lg overflow-hidden flex flex-wrap items-center justify-center gap-4 p-6 space-x-6">
       <img
-        src={user.profileImage || "/images/default-user-image.webp"}
+        src={user.profileImage || defaultUsertImage}
         alt="Profile"
         className="w-40 h-full rounded-xl object-cover border"
       />

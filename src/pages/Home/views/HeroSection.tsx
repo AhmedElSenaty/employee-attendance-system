@@ -5,6 +5,7 @@ import { Popup } from '../../../components/ui/Popup'
 import { useTranslation } from 'react-i18next'
 import { NavLink } from 'react-router'
 import { useUserStore } from '../../../store/user.store'
+import { helwanImage } from '../../../assets'
 
 const HeroSection = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false)
@@ -18,7 +19,7 @@ const HeroSection = () => {
       {/* Hero Section */}
       <div 
         className="relative bg-cover bg-center bg-no-repeat h-[700px] flex items-center justify-center text-white"
-        style={{ backgroundImage: `url('${"/images/helwan-university.webp"}')` }}
+        style={{ backgroundImage: `url('${helwanImage}')` }}
       >
         {/* Overlay */}
         <div 

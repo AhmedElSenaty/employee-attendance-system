@@ -34,5 +34,6 @@
   "casualLeaveRequests": "Casual Leave Requests",
   "systemData": "System Data",
   "logs": "Logs",
-  "sickRequests": "Sick Requests"
+  "sickRequests": "Sick Requests",
+  "leaveAttendance": "Leave with attendance"
 }

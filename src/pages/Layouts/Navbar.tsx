@@ -9,6 +9,7 @@ import { useLanguageStore } from "../../store/language.store";
 import { LanguageType } from "../../types";
 import { useUserStore } from "../../store/user.store";
 import { useSidebarStore } from "../../store/sidebar.store";
+import { defaultUsertImage } from "../../assets";
 
 export const Navbar = () => {
   const { setLanguage, flag, flags } = useLanguageStore();
@@ -72,7 +73,7 @@ export const Navbar = () => {
             ( 
               <Flyout
                 icon={<Image
-                  src={imageUrl == null ? "/images/default-user-image.webp" : imageUrl}
+                  src={imageUrl == null ? defaultUsertImage : imageUrl}
                   alt="Description of image"
                   width="sm:w-12 w-10"
                   height="sm:h-12 h-10"

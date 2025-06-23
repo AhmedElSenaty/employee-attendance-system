@@ -28,11 +28,12 @@
   "manageProfiles": "إدارة ملفات الصلاحيات",
   "profiles": "ملفات الصلاحيات",
   "addProfile": "إضافة ملف صلاحيات",
-  "leaveRequests": "طلبات الإجازة",
-  "missionRequests": "طلبات المهمة",
-  "ordinaryRequests": "الطلبات العادية",
-  "casualLeaveRequests": "طلبات الإجازة العرضية",
+  "leaveRequests": "طلبات الاذونات",
+  "missionRequests": "طلبات المهمات",
+  "ordinaryRequests": "طلبات الاجازة الاعتيادية",
+  "casualLeaveRequests": "طلبات الإجازة العارضة",
   "systemData": "بيانات النظام",
   "logs": "سجلات النشاط",
-  "sickRequests": "طلبات مرضية"
+  "sickRequests": "طلبات مرضية",
+  "leaveAttendance": "الاذونات والمواعيد"
 }
