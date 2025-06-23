@@ -1,16 +1,15 @@
 import { useTranslation } from "react-i18next";
-import { Collapsible, SectionHeader } from "../../../../components/ui";
+import { SectionHeader } from "../../../../components/ui";
 import { PermissionsData } from "../../../../interfaces";
 import { useLanguageStore } from "../../../../store/language.store";
-
-const TRANSLATION_NAMESPACE = "adminAccount";
+import { ADMIN_ACCOUNT_PAGE } from "../../../../constants";
 
 interface IProps {
   permissions: []
 }
 
 const RenderPermissions = ({ permissions = [] }: IProps) => {
-  const { t } = useTranslation(["common", TRANSLATION_NAMESPACE]);
+  const { t } = useTranslation([ADMIN_ACCOUNT_PAGE]);
   const { language } = useLanguageStore();
 
   // Render permissions dynamically
@@ -26,13 +25,13 @@ const RenderPermissions = ({ permissions = [] }: IProps) => {
   ));
 
   return (
-    <Collapsible title={"Permissions"} open={true}>
-    <SectionHeader
-      title={t(`profile.permissionsSection.title`, { ns: TRANSLATION_NAMESPACE })}
-      description={t(`profile.permissionsSection.description`, { ns: TRANSLATION_NAMESPACE })}
-    />
-    <div className="flex flex-wrap gap-5 mt-4 w-fit">{renderPermissions}</div>
-  </Collapsible>
+    <div className="bg-white shadow-md space-y-5 p-5 rounded-lg w-full">
+      <SectionHeader
+        title={t(`permissionsSection.title`)}
+        description={t(`permissionsSection.description`)}
+      />
+      <div className="flex flex-wrap gap-5 mt-4 w-fit">{renderPermissions}</div>
+    </div>
   )
 }
 

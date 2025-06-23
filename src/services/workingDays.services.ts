@@ -1,5 +1,5 @@
 import axiosInstance from "../config/axios.config";
-import { IUpdateWorkingDays } from "../interfaces";
+import { UpdateWorkingDays } from "../interfaces";
 import { BaseService } from "./base.services";
 
 export class WorkingDaysService extends BaseService {
@@ -29,7 +29,7 @@ export class WorkingDaysService extends BaseService {
     }
   };
   
-  update = (data: IUpdateWorkingDays) => {
+  update = (data: UpdateWorkingDays) => {
     return axiosInstance.put("/EmployeeWorkingDays", data, {
       headers: this.getAuthHeaders(),
     });

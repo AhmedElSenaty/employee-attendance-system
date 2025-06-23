@@ -1,34 +1,31 @@
 {
-  "profile": {
-    "header": {
-      "heading": "My Profile",
-      "subtitle": "View and manage your personal details, department information, and contact data."
-    },
-    "updateSection": {
-      "title": "Update Your Information",
-      "description": "Keep your personal information up to date to ensure accurate records and effective communication."
-    },
-    "updatePassword": {
-      "title": "Update Your Password",
-      "description": "Change your password regularly to keep your account secure."
-    },
-    "departmentsSection": {
-      "title": "Your Departments",
-      "description": "These are the departments you are associated with in the system."
-    },
-    "permissionsSection": {
-      "title": "Your Permissions",
-      "description": "These are the permissions granted to you in the system."
-    },
-    "updatePasswordButton": "Update Password"
+  "header": {
+    "heading": "My Profile",
+    "subtitle": "View and manage your personal details, department information, and contact data."
   },
-  "form": {
+  "updateSection": {
+    "title": "Update Your Information",
+    "description": "Keep your personal information up to date to ensure accurate records and effective communication."
+  },
+  "updatePassword": {
+    "title": "Update Your Password",
+    "description": "Change your password regularly to keep your account secure."
+  },
+  "departmentsSection": {
+    "title": "Your Departments",
+    "description": "These are the departments you are associated with in the system."
+  },
+  "permissionsSection": {
+    "title": "Your Permissions",
+    "description": "These are the permissions granted to you in the system."
+  },
+  "inputs": {
     "username": {
       "label": "Username",
       "placeholder": "Enter username",
       "inputValidation": {
         "required": "Username is required",
-        "min": "Username must be at least 3 characters long",
+        "min": "Username must be at least 3 characters",
         "max": "Username cannot exceed 50 characters",
         "matches": "Username cannot contain spaces"
       }
@@ -38,7 +35,7 @@
       "placeholder": "Enter title",
       "inputValidation": {
         "required": "Title is required",
-        "min": "Title must be at least 2 characters long",
+        "min": "Title must be at least 2 characters",
         "max": "Title cannot exceed 100 characters"
       }
     },
@@ -47,19 +44,19 @@
       "placeholder": "Enter email",
       "inputValidation": {
         "required": "Email is required",
-        "email": "Please enter a valid email address"
+        "email": "Email must be a valid email address"
       }
     },
     "password": {
       "label": "Password",
-      "placeholder": "Enter new password",
+      "placeholder": "Enter admin password",
       "inputValidation": {
-        "required": "New password is required",
+        "required": "Password is required",
         "min": "Password must be at least 8 characters long",
-        "uppercase": "Password must include at least one uppercase letter",
-        "lowercase": "Password must include at least one lowercase letter",
-        "number": "Password must include at least one number",
-        "specialChar": "Password must include at least one special character (! @ # $ % ^ &)"
+        "uppercase": "Include at least one uppercase letter",
+        "lowercase": "Include at least one lowercase letter",
+        "number": "Include at least one number",
+        "specialChar": "Include at least one special character (! @ # $ % ^ &)"
       }
     },
     "confirmPassword": {
@@ -77,5 +74,10 @@
         "required": "Old password is required"
       }
     }
+  },
+  "buttons": {
+    "loading": "Loading...",
+    "updateInformations": "Update Informations",
+    "updatePassword": "Update Passowrd"
   }
 }

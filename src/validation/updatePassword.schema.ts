@@ -22,3 +22,6 @@ export const passwordUpdateSchema = (oldPasswordIsRequired: boolean) => yup.obje
     .oneOf([yup.ref("password")], "Passwords must match")
     .required("Confirm password is required"),
 });
+
+
+export type UpdatePasswordFormValues = yup.InferType<ReturnType<typeof passwordUpdateSchema>>;

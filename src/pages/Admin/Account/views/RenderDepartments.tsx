@@ -1,14 +1,13 @@
 import { useTranslation } from "react-i18next";
-import { Collapsible, SectionHeader } from "../../../../components/ui";
-
-const TRANSLATION_NAMESPACE = "adminAccount";
+import { SectionHeader } from "../../../../components/ui";
+import { ADMIN_ACCOUNT_PAGE } from "../../../../constants";
 
 interface IProps {
   departments: []
 }
 
 const RenderDepartments = ({ departments = [] }: IProps) => {
-  const { t } = useTranslation(["common", TRANSLATION_NAMESPACE]);
+  const { t } = useTranslation([ADMIN_ACCOUNT_PAGE]);
 
   // Render departments dynamically
   const renderDepartments = departments.map((department: string, index: number) => (
@@ -23,13 +22,13 @@ const RenderDepartments = ({ departments = [] }: IProps) => {
   ));
 
   return (
-      <Collapsible title={"Departments"} open={true}>
-        <SectionHeader
-          title={t(`profile.departmentsSection.title`, { ns: TRANSLATION_NAMESPACE })}
-          description={t(`profile.departmentsSection.description`, { ns: TRANSLATION_NAMESPACE })}
-        />
-        <div className="flex flex-wrap gap-5 mt-4 w-fit">{renderDepartments}</div>
-      </Collapsible>
+    <div className="bg-white shadow-md space-y-5 p-5 rounded-lg w-full">
+      <SectionHeader
+        title={t(`departmentsSection.title`)}
+        description={t(`departmentsSection.description`)}
+      />
+      <div className="flex flex-wrap gap-5 mt-4 w-fit">{renderDepartments}</div>
+    </div>
   )
 }
 

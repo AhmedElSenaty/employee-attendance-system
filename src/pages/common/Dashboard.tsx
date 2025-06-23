@@ -13,11 +13,11 @@ export const DashboardPage = () => {
   const { language } = useLanguageStore();
 
   const { startDate, endDate, searchByDepartmentId, setFilters } = useFiltersHook();
-  const { departmentsList, isDepartmentsLoading } = useGetDepartmentsList();
+  const { departmentsList, isLoading: isDepartmentsLoading } = useGetDepartmentsList();
 
-  const { attendanceOverviewDtos, dailyAttendanceDto, isAttendanceOverviewLoading } = useGetAttendanceOverview()
+  const { attendanceOverviewDtos, dailyAttendanceDto, isLoading: isAttendanceOverviewLoading } = useGetAttendanceOverview()
 
-  const { departmentAttendanceOverview, isDepartmentAttendanceOverviewLoading } = useGetDepartmentAttendanceOverview(startDate || "", endDate || "", Number(searchByDepartmentId || 0))
+  const { departmentAttendanceOverview, isLoading: isDepartmentAttendanceOverviewLoading } = useGetDepartmentAttendanceOverview(startDate || "", endDate || "", Number(searchByDepartmentId || 0))
   const data = {
     labels: [
       t("departmentOverview.graph.attendance", { ns: "dashboard" }), 
@@ -33,7 +33,7 @@ export const DashboardPage = () => {
     ],
   };
 
-  const { latestAttendance, islatestAttendanceLoading } = useGetLatestAttendance()
+  const { latestAttendance, isLoading: islatestAttendanceLoading } = useGetLatestAttendance()
 
   const barData = {
     labels: t("attendanceOverview.graph.months", {

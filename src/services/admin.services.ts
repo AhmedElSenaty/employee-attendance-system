@@ -1,5 +1,5 @@
 import axiosInstance from "../config/axios.config";
-import { AdminProfileCredentials, IAdminCredentials } from "../interfaces";
+import { AdminProfileCredentials, AdminCredentials } from "../interfaces";
 import { BaseService } from "./base.services";
 
 export class AdminService extends BaseService {
@@ -40,7 +40,7 @@ export class AdminService extends BaseService {
     }
   };
 
-  create = (adminData: IAdminCredentials) => {
+  create = (adminData: AdminCredentials) => {
     console.log(adminData);
     
     return axiosInstance.post("/Account/RegisterAdmin", adminData, {
@@ -48,7 +48,7 @@ export class AdminService extends BaseService {
     });
   };
   
-  update = (adminData: IAdminCredentials) => {
+  update = (adminData: AdminCredentials) => {
     return axiosInstance.put("/Admin", adminData, {
       headers: this.getAuthHeaders(),
     });

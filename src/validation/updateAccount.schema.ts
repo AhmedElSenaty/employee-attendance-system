@@ -1,7 +1,6 @@
 import * as yup from "yup";
 
-export const updateAdminSchema = () =>
-  yup.object().shape({
+export const updateAdminAccountSchema  = yup.object().shape({
     username: yup
       .string()
       .min(3, "Username must be at least 3 characters")
@@ -15,8 +14,7 @@ export const updateAdminSchema = () =>
       .required("Email is required"),
   });
   
-export const updateEmployeeSchema = () =>
-  yup.object().shape({
+export const updateEmployeeAccountSchema = yup.object().shape({
     username: yup
       .string()
       .min(3, "Username must be at least 3 characters")
@@ -45,3 +43,7 @@ export const updateEmployeeSchema = () =>
       .matches(/^01[0-2,5]{1}[0-9]{8}$/, "Invalid Egyptian phone number")
       .required("Phone number is required"),
   });
+
+  export type AdminAccountFormValues = yup.InferType<typeof updateAdminAccountSchema>;
+  
+  export type EmployeeAccountFormValues = yup.InferType<typeof updateEmployeeAccountSchema>;

@@ -1,12 +1,12 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { EmployeeProfileCredentials } from "../../../../interfaces";
-import { updateEmployeeSchema } from "../../../../validation";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { useUpdateEmployeeProfile } from "../../../../hooks";
 import { Button, Field, Input, InputErrorMessage, Label } from "../../../../components/ui";
 import { useTranslation } from "react-i18next";
 import { EMPLOYEE_PROFILE_NS } from "../../../../constants";
+import { updateEmployeeAccountSchema } from "../../../../validation";
 
 interface IProps {
   employeeData :EmployeeProfileCredentials
@@ -21,7 +21,7 @@ const UpdateInformationSection = ({ employeeData }: IProps) => {
     formState: { errors },
     reset,
   } = useForm<EmployeeProfileCredentials>({
-    resolver: yupResolver(updateEmployeeSchema()),
+    resolver: yupResolver(updateEmployeeAccountSchema),
     mode: "onChange",
   });
 
