@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { CirclePlus, Fingerprint } from "lucide-react";
+import { AlertTriangle, CirclePlus, Fingerprint, LayoutGrid } from "lucide-react";
 import { formatValue } from "../../../utils";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { AddPopup, DeletePopup, DevicesTable, EditPopup, Inputs, ShowPopup, TableFilters } from "./views";
+import { AddPopup, DeletePopup, DevicesTable, DisconnectedDevicesTable, EditPopup, Inputs, ShowPopup, TableFilters } from "./views";
 import { DeviceFormValues, deviceSchema } from "../../../validation";
 import { HasPermission } from "../../../components/auth";
 import { useLanguageStore } from "../../../store/";
@@ -12,6 +12,12 @@ import { ActionCard, Button, CountCard, Header, InfoPopup, Paginator, SectionHea
 import { useCreateDevice, useDeleteDevice, useGetDeviceByID, useGetDevices, useUpdateDevice, useDebounce } from "../../../hooks/";
 import { DEVICES_NS, DEVICES_VIDEO } from "../../../constants";
 import useURLSearchParams from "../../../hooks/URLSearchParams.hook";
+
+  // Example static data (you can replace this with real-time API response)
+  const disconnectedDevices = [
+    { id: 1, time: "14:30", date: "2025-06-22", ip: "192.168.1.10", status: "Disconnected" },
+    { id: 2, time: "14:45", date: "2025-06-22", ip: "192.168.1.12", status: "Disconnected" },
+  ];
 
 const ManageDevicesPage = () => {
   const { t } = useTranslation([DEVICES_NS]);
@@ -107,65 +113,110 @@ const ManageDevicesPage = () => {
           subtitle={t("header.subtitle")}
         />
 
-        <div className="space-y-5 mx-auto w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl">
-          <div className="w-full flex items-center justify-center">
-            <InfoPopup
-              title={t("infoPopup.title")}
-              description={t("infoPopup.description")}
-              videoUrl={DEVICES_VIDEO}
-            />
-          </div>
-          <CountCard 
-            title={t("CountCard.title")}
-            description={t("CountCard.description")}
-            count={formatValue(count, language)}
-            icon={<Fingerprint size={28} />} 
-            bgColor="bg-[#b38e19]" 
+        <div className="w-full flex items-center justify-center">
+          <InfoPopup
+            title={t("infoPopup.title")}
+            description={t("infoPopup.description")}
+            videoUrl={DEVICES_VIDEO}
           />
-          <HasPermission permission="Add Device">
-            <ActionCard
-              icon={<CirclePlus />}
-              iconBgColor="bg-[#f5e4b2]"
-              iconColor="text-[#b38e19]"
-              title={t("addActionCard.title")}
-              description={t("addActionCard.description")}
-            >
-              <Button fullWidth={true} variant="secondary" onClick={handleAddPopupOpen}>
-                {t("addActionCard.button")}
-              </Button>
-            </ActionCard>
-          </HasPermission>
         </div>
 
-        <div className="bg-white shadow-md space-y-5 p-5 rounded-lg">
-          <SectionHeader 
-            title={t("sectionHeader.title")} 
-            description={t("sectionHeader.description")} 
-          />
+        <div className="max-w-[1000px] mx-auto space-y-6">
+          <div className="flex justify-center">
+            <CountCard 
+              title={t("CountCard.title")}
+              description={t("CountCard.description")}
+              count={formatValue(count, language)}
+              icon={<Fingerprint size={28} />} 
+              bgColor="bg-[#b38e19]" 
+            />
+          </div>
+          <div className="flex flex-col md:flex-row gap-5">
+            <div className="w-full md:w-1/2 h-fit">
+              <HasPermission permission="Add Device">
+                <ActionCard
+                  icon={<CirclePlus />}
+                  iconBgColor="bg-[#f5e4b2]"
+                  iconColor="text-[#b38e19]"
+                  title={t("addActionCard.title")}
+                  description={t("addActionCard.description")}
+                >
+                  <Button fullWidth={true} variant="secondary" onClick={handleAddPopupOpen}>
+                    {t("addActionCard.button")}
+                  </Button>
+                </ActionCard>
+              </HasPermission>
+            </div>
+            <div className="w-full md:w-1/2 h-fit">
+            { getParam("table") != "disconnectedDevices" ? (
+                <ActionCard
+                  icon={<AlertTriangle />}
+                  iconBgColor="bg-[#ffe4e6]"
+                  iconColor="text-[#d32f2f]"
+                  title={t("disconnectedDevicesActionCard.title")}
+                  description={t("disconnectedDevicesActionCard.description")}
+                >
+                  <Button fullWidth={true} variant="error" onClick={() => { setParam("table", "disconnectedDevices") }}>
+                    {t("disconnectedDevicesActionCard.button")}
+                  </Button>
+                </ActionCard>
+              ) : (
+                <ActionCard
+                  icon={<LayoutGrid />}
+                  iconBgColor="bg-[#d7f0f6]"
+                  iconColor="text-[#007fa4]"
+                  title={t("allDevicesActionCard.title")}
+                  description={t("allDevicesActionCard.description")}
+                >
+                  <Button fullWidth={true} onClick={() => setParam("table", "allDevices")}>
+                    {t("allDevicesActionCard.button")}
+                  </Button>
+                </ActionCard>
+              )
+            }
+            </div>
+          </div>
+        </div>
 
-          <TableFilters searchBy={metadata.searchBy} getParam={getParam} setParam={setParam} clearParams={clearParams} />
-          
-          <div className="w-full overflow-x-auto">
-            <DevicesTable
-              devices={devices}
+        {getParam("table") == "disconnectedDevices" ? (
+          <div className="bg-white shadow-md space-y-5 p-5 rounded-lg">
+            <SectionHeader 
+              title={t("disconnectedDevicesSectionHeader.title")} 
+              description={t("disconnectedDevicesSectionHeader.description")} 
+            />
+            <DisconnectedDevicesTable devices={disconnectedDevices} isLoading={false} />
+          </div>
+        ) : (
+          <div className="bg-white shadow-md space-y-5 p-5 rounded-lg">
+            <SectionHeader 
+              title={t("sectionHeader.title")} 
+              description={t("sectionHeader.description")} 
+            />
+
+            <TableFilters searchBy={metadata.searchBy} getParam={getParam} setParam={setParam} clearParams={clearParams} />
+            
+            <div className="w-full overflow-x-auto">
+              <DevicesTable
+                devices={devices}
+                isLoading={isDevicesDataLoading}
+                handleShow={handleShowPopupOpen}
+                handleEdit={handleEditPopupOpen}
+                handleDelete={handleDeletePopupOpen}
+              />
+            </div>
+
+            {/* Pagination Component */}
+            <Paginator
+              page={metadata?.pagination?.pageIndex || 0}
+              totalPages={metadata?.pagination?.totalPages || 1}
+              totalRecords={metadata?.pagination?.totalRecords || 0}
               isLoading={isDevicesDataLoading}
-              handleShow={handleShowPopupOpen}
-              handleEdit={handleEditPopupOpen}
-              handleDelete={handleDeletePopupOpen}
+              onClickFirst={() => setParam("page", String(1))}
+              onClickPrev={() => setParam("page", String(Math.max((Number(getParam('page')) || 1) - 1, 1)))}
+              onClickNext={() => setParam("page", String(Math.min((Number(getParam('page')) || 1) + 1, metadata?.pagination?.totalPages || 1)))}
             />
           </div>
-
-          {/* Pagination Component */}
-          <Paginator
-            page={metadata?.pagination?.pageIndex || 0}
-            totalPages={metadata?.pagination?.totalPages || 1}
-            totalRecords={metadata?.pagination?.totalRecords || 0}
-            isLoading={isDevicesDataLoading}
-            onClickFirst={() => setParam("page", String(1))}
-            onClickPrev={() => setParam("page", String(Math.max((Number(getParam('page')) || 1) - 1, 1)))}
-            onClickNext={() => setParam("page", String(Math.min((Number(getParam('page')) || 1) + 1, metadata?.pagination?.totalPages || 1)))}
-          />
-        </div>
+        )}
       </div>
 
       <AddPopup

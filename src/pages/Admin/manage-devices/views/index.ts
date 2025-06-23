@@ -5,3 +5,4 @@ export { default as DevicesTable } from "./DevicesTable";
 export { default as EditPopup } from "./EditPopup";
 export { default as Inputs } from "./Inputs";
 export { default as ShowPopup } from "./ShowPopup";
+export { default as DisconnectedDevicesTable } from "./DisconnectedDevice";

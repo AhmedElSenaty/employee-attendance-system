@@ -20,3 +20,10 @@ export interface DeviceCredentials extends Partial<BaseDevice> {
 export interface Device extends BaseDevice {
   id: number;
 }
+
+export interface DisconnectedDevice {
+  time: string;   // e.g., "14:35"
+  date: string;   // e.g., "2025-06-22"
+  ip: string;     // e.g., "192.168.0.1"
+  status: string; // e.g., "Disconnected"
+}

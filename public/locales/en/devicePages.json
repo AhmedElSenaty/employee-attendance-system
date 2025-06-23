@@ -17,7 +17,11 @@
       "device_name": "Device Name",
       "ip_address": "IP Address",
       "port": "Port",
-      "actions": "Actions"
+      "actions": "Actions",
+      "time": "Time",
+      "date": "Date",
+      "ip": "IP Address",
+      "status": "Status"
     }
   },
   "CountCard": {
@@ -28,6 +32,20 @@
     "title": "Add New Device",
     "description": "Register a new device to the system.",
     "button": "Add Device"
+  },
+  "disconnectedDevicesActionCard": {
+    "title": "Disconnected Devices",
+    "description": "Displays a real-time list of devices that are currently not connected.",
+    "button": "View Disconnected Devices"
+  },
+  "allDevicesActionCard": {
+    "title": "All Devices",
+    "description": "Displays a complete list of all registered devices.",
+    "button": "View All Devices"
+  },
+  "disconnectedDevicesSectionHeader": {
+    "title": "Disconnected Devices (Real-Time)",
+    "description": "This section displays all devices that are currently offline or have lost connection in real-time. Monitor and take action immediately."
   },
   "inputs": {
     "device_name": {
