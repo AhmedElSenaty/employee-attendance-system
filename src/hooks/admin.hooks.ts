@@ -19,10 +19,10 @@ export const useAdminService = () => {
   return service;
 };
 export const useGetAllAdmins = (
-  page: number,
-  pageSize: number,
-  searchKey: string,
-  searchQuery: string
+  page?: number,
+  pageSize?: number,
+  searchKey?: string,
+  searchQuery?: string
 ) => {
   const token = useUserStore((state) => state.token);
   const adminService = useAdminService();

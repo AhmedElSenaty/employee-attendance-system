@@ -114,10 +114,7 @@ const EditManagerPage = () => {
           heading={t("updateManagerPage.header.heading")}
           subtitle={t("updateManagerPage.header.subtitle")}
         />
-        <form className="bg-white shadow-md space-y-5 p-5 rounded-lg" onSubmit={handleSubmit(handleConfirmEdit, (errors) => {
-    console.warn("Validation errors", errors);
-  })}
->
+        <form className="bg-white shadow-md space-y-5 p-5 rounded-lg" onSubmit={handleSubmit(handleConfirmEdit)}>
           <SectionHeader 
             title={t("updateManagerPage.informationsSectionHeader.title")} 
             description={t("updateManagerPage.informationsSectionHeader.description")} 

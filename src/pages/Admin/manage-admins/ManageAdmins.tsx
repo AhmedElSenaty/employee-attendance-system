@@ -1,23 +1,19 @@
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
-import { useFiltersHook } from "../../../hooks/filter.hook";
-import { useDebounce } from "../../../hooks/debounce.hook";
-import { CountCard, Header, ActionCard, Button, Paginator, SectionHeader } from "../../../components/ui";
+import { CountCard, Header, ActionCard, Button, Paginator, SectionHeader, InfoPopup } from "../../../components/ui";
 import { formatValue } from "../../../utils";
 import { NavLink } from "react-router";
-import { DeleteAdminPopup, UnblockAdminPopup, AdminsTable, AdminTableFilters } from "./views";
 import { Shield, ShieldPlus } from "lucide-react";
-import { ADMIN_TRANSLATION_NAMESPACE } from ".";
 import { HasPermission } from "../../../components/auth";
-import { useLanguageStore } from "../../../store/language.store";
-import { useUnblockAccount } from "../../../hooks/account.hook";
-import { useDeleteAdmin, useGetAllAdmins } from "../../../hooks/admin.hooks";
+import { ADMIN_NS, EMPLOYEE_VIDEO } from "../../../constants";
+import { useLanguageStore } from "../../../store";
+import useURLSearchParams from "../../../hooks/URLSearchParams.hook";
+import { useDebounce, useDeleteAdmin, useGetAllAdmins, useUnblockAccount } from "../../../hooks";
+import { AdminsTable, DeletePopup, TableFilters, UnblockPopup } from "./views";
 
 const ManageAdminsPage = () => {
-  // Set up translation namespace and retrieve translation function `t`
-  // Also extract the current language from the Redux store
-  const { t } = useTranslation(["common", ADMIN_TRANSLATION_NAMESPACE]);
-    const { language } = useLanguageStore();
+  const { t } = useTranslation([ADMIN_NS]);
+  const { language } = useLanguageStore();
 
   // State to track the selected user ID and control the visibility of modals
   const [selectedID, setSelectedID] = useState<string>("");
@@ -35,19 +31,27 @@ const ManageAdminsPage = () => {
     setSelectedID(id)
     setIsUnblockPopupOpen(true) 
   }
+  const {getParam, setParam, clearParams} = useURLSearchParams();
 
-  // Destructure pagination, sorting, and search values from a custom hook
-  const { page, pageSize, searchKey, search, setFilters } = useFiltersHook()
+  // Using the enhanced getParam with parser support from the improved hook
+  const rawPage = getParam('page', Number);
+  const rawPageSize = getParam('pageSize', Number);
+  const rawSearchKey = getParam('searchKey');
+  const rawSearchQuery = useDebounce(getParam('searchQuery'), 650);
 
-  // Debounce the search input to avoid triggering API calls on every keystroke
-  const debouncedSearchQuery = useDebounce(search, 650);
-  
+  // Use nullish coalescing to default numeric values, undefined for dates if empty
+  const page = rawPage ?? 1;
+  const pageSize = rawPageSize ?? 10;
+  const searchKey = rawSearchKey || undefined;
+  const searchQuery = rawSearchQuery || undefined;
+
+
   // Fetch admin data based on current filters: page, pageSize, search key, and debounced search query
-  const { admins, totalAdmins, metadata, isAdminsDataLoading } = useGetAllAdmins(
-    Number(page) || 1, 
-    Number(pageSize) || 5, 
-    searchKey || "", 
-    debouncedSearchQuery || ""
+  const { admins, count, metadata, isAdminsDataLoading } = useGetAllAdmins(
+    page, 
+    pageSize, 
+    searchKey, 
+    searchQuery
   );
   
   // Destructure delete function and loading state from custom admin management hook
@@ -74,16 +78,24 @@ const ManageAdminsPage = () => {
     <div className="sm:p-5 p-3 space-y-5">
       {/* Header component with dynamic translations for heading and subtitle */}
       <Header 
-        heading={t("manageAdminsPage.header.heading", { ns: ADMIN_TRANSLATION_NAMESPACE })} 
-        subtitle={t("manageAdminsPage.header.subtitle", { ns: ADMIN_TRANSLATION_NAMESPACE })} 
+        heading={t("manageAdminsPage.header.heading")} 
+        subtitle={t("manageAdminsPage.header.subtitle")} 
       />
       
+      <div className="w-full flex items-center justify-center">
+        <InfoPopup
+          title={t("infoPopup.title")}
+          description={t("infoPopup.description")}
+          videoUrl={EMPLOYEE_VIDEO}
+        />
+      </div>
+
       <div className="space-y-5 mx-auto w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl">
         {/* CountCard displaying the total number of admins */}
         <CountCard 
-          title={t("manageAdminsPage.countCard.title", { ns: ADMIN_TRANSLATION_NAMESPACE })}
-          description={t("manageAdminsPage.countCard.description", { ns: ADMIN_TRANSLATION_NAMESPACE })}
-          count={formatValue(totalAdmins || 0, language)} // Format the number of admins
+          title={t("manageAdminsPage.countCard.title")}
+          description={t("manageAdminsPage.countCard.description")}
+          count={formatValue(count || 0, language)} // Format the number of admins
           icon={<Shield size={28} />}  // Shield icon
           bgColor="bg-[#b38e19]"  // Background color for the card
         />
@@ -94,13 +106,13 @@ const ManageAdminsPage = () => {
             icon={<ShieldPlus />}
             iconBgColor="bg-[#f5e4b2]"
             iconColor="text-[#b38e19]"
-            title={t("manageAdminsPage.actions.add.title", { ns: ADMIN_TRANSLATION_NAMESPACE })}
-            description={t("manageAdminsPage.actions.add.description", { ns: ADMIN_TRANSLATION_NAMESPACE })}
+            title={t("manageAdminsPage.actions.add.title")}
+            description={t("manageAdminsPage.actions.add.description")}
           >
             {/* Link to the "Add Admin" page */}
             <NavLink to={"/admin/add-admin"}>
               <Button fullWidth={true} variant="secondary">
-                {t("manageAdminsPage.actions.add.button", { ns: ADMIN_TRANSLATION_NAMESPACE })}
+                {t("manageAdminsPage.actions.add.button")}
               </Button>
             </NavLink>
           </ActionCard>
@@ -110,23 +122,19 @@ const ManageAdminsPage = () => {
       <div className="bg-white shadow-md space-y-5 p-5 rounded-lg">
         {/* Section header with dynamic translations for title and description */}
         <SectionHeader 
-          title={t("manageAdminsPage.sectionHeader.title", { ns: ADMIN_TRANSLATION_NAMESPACE })} 
-          description={t("manageAdminsPage.sectionHeader.description", { ns: ADMIN_TRANSLATION_NAMESPACE })} 
+          title={t("manageAdminsPage.sectionHeader.title")} 
+          description={t("manageAdminsPage.sectionHeader.description")} 
         />
 
-        <div className="flex flex-wrap gap-4">
-          {/* Admin table filters */}
-          <AdminTableFilters searchBy={metadata.searchBy} t={t} />
-        </div>
+        <TableFilters searchBy={metadata?.searchBy} getParam={getParam} setParam={setParam} clearParams={clearParams} />
 
         {/* Admin table with pagination */}
         <div className="w-full overflow-x-auto">
           <AdminsTable
             admins={admins} // Sorted list of admins
             isLoading={isAdminsDataLoading} // Loading state for the table
-            handleDeleteAdmin={handleDeletePopupOpen} // Function to open delete confirmation popup
-            handleUnblockAdmin={handleUnblockPopupOpen} // Function to open unblock confirmation popup
-            t={t} // Translation function
+            handleDelete={handleDeletePopupOpen} // Function to open delete confirmation popup
+            handleUnblock={handleUnblockPopupOpen} // Function to open unblock confirmation popup
           />
         </div>
 
@@ -135,29 +143,27 @@ const ManageAdminsPage = () => {
           page={metadata?.pagination?.pageIndex || 0}
           totalPages={metadata?.pagination?.totalPages || 1}
           totalRecords={metadata?.pagination?.totalRecords || 0}
-          isLoading={isAdminsDataLoading} // Loading state for pagination
-          onClickFirst={() => setFilters({ page: 1 })} // First page click handler
-          onClickPrev={() => setFilters({ page: Math.max((page || 1) - 1, 1) })} // Previous page click handler
-          onClickNext={() => setFilters({ page: Math.min((page || 1) + 1, metadata?.pagination?.totalPages || 1) })} // Next page click handler
+          isLoading={isAdminsDataLoading}
+          onClickFirst={() => setParam("page", String(1))}
+          onClickPrev={() => setParam("page", String(Math.max((Number(getParam('page')) || 1) - 1, 1)))}
+          onClickNext={() => setParam("page", String(Math.min((Number(getParam('page')) || 1) + 1, metadata?.pagination?.totalPages || 1)))}
         />
       </div>
 
       {/* Delete admin confirmation popup */}
-      <DeleteAdminPopup
+      <DeletePopup
         isOpen={isDeletePopupOpen} // Popup open state
         handleClose={() => { setIsDeletePopupOpen(false) }} // Close the popup handler
         handleConfirmDelete={handleConfirmDelete} // Confirm delete handler
         isLoading={isDeleting} // Loading state for the delete action
-        t={t} // Translation function
       />
 
       {/* Unblock admin confirmation popup */}
-      <UnblockAdminPopup
+      <UnblockPopup
         isOpen={isUnblockPopupOpen} // Popup open state
         handleClose={() => { setIsUnblockPopupOpen(false) }} // Close the popup handler
         handleConfirmUnblock={handleConfirmUnblock} // Confirm unblock handler
         isLoading={isUnblockAccountLoading} // Loading state for the unblock action
-        t={t} // Translation function
       />
     </div>
   )
