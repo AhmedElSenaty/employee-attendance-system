@@ -14,9 +14,10 @@
  * appendSecondsToTime("");          // ""
  */
 export function appendSecondsToTime(timeString: string): string {
-  console.log(timeString);
   if (!timeString) return ""; // Handle undefined or empty values
-  return /^\d{2}:\d{2}:\d{2}$/.test(timeString) ? timeString : timeString + ":09";
+  return /^\d{2}:\d{2}:\d{2}$/.test(timeString)
+    ? timeString
+    : timeString + ":09";
 }
 
 /**
@@ -45,5 +46,8 @@ export function getTodayDateISO(): string {
 export const formatTimeHHMM = (value: string) => {
   const [hours, minutes] = value.split(":");
   // Ensure both hours and minutes are two digits
-  return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}`;
+  return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(
+    2,
+    "0"
+  )}`;
 };

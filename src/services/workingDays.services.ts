@@ -18,9 +18,12 @@ export class WorkingDaysService extends BaseService {
 
   fetchByID = async (id: string) => {
     try {
-      const response = await axiosInstance.get(`/EmployeeWorkingDays/GetEmployeeWorkingDays/${id}`, {
-        headers: this.getAuthHeaders(),
-      });
+      const response = await axiosInstance.get(
+        `/EmployeeWorkingDays/GetEmployeeWorkingDays/${id}`,
+        {
+          headers: this.getAuthHeaders(),
+        }
+      );
 
       return response;
     } catch (error) {
@@ -28,7 +31,7 @@ export class WorkingDaysService extends BaseService {
       throw error;
     }
   };
-  
+
   update = (data: UpdateWorkingDays) => {
     return axiosInstance.put("/EmployeeWorkingDays", data, {
       headers: this.getAuthHeaders(),

@@ -22,15 +22,38 @@ export const useSickRequestService = () => {
 };
 
 // Fetch all sick leave requests (for manager)
-export const useGetSickRequests = (page = 1, pageSize = 10, startDate?: string, endDate?: string, status?: number, searchType?: string, searchQuery?: string) => {
+export const useGetSickRequests = (
+  page = 1,
+  pageSize = 10,
+  startDate?: string,
+  endDate?: string,
+  status?: number,
+  searchType?: string,
+  searchQuery?: string
+) => {
   const token = useUserStore((state) => state.token);
   const service = useSickRequestService();
 
   const { data, isLoading } = useQuery({
-    queryKey: [QueryKeys.SickRequests.All, page, pageSize, startDate, endDate, status, 
-      `${searchType && searchQuery ? [searchType, searchQuery] : ""}`, 
+    queryKey: [
+      QueryKeys.SickRequests.All,
+      page,
+      pageSize,
+      startDate,
+      endDate,
+      status,
+      `${searchType && searchQuery ? [searchType, searchQuery] : ""}`,
     ],
-    queryFn: () => service.fetchRequests(page, pageSize, startDate, endDate, status, searchType, searchQuery),
+    queryFn: () =>
+      service.fetchRequests(
+        page,
+        pageSize,
+        startDate,
+        endDate,
+        status,
+        searchType,
+        searchQuery
+      ),
     enabled: !!token,
   });
 
@@ -43,13 +66,27 @@ export const useGetSickRequests = (page = 1, pageSize = 10, startDate?: string, 
 };
 
 // Fetch my sick requests (for employee)
-export const useGetMySickRequests = (page = 1, pageSize = 10, startDate?: string, endDate?: string, status?: number) => {
+export const useGetMySickRequests = (
+  page = 1,
+  pageSize = 10,
+  startDate?: string,
+  endDate?: string,
+  status?: number
+) => {
   const token = useUserStore((state) => state.token);
   const service = useSickRequestService();
 
   const { data, isLoading } = useQuery({
-    queryKey: [QueryKeys.SickRequests.My, page, pageSize, startDate, endDate, status],
-    queryFn: () => service.fetchMyRequests(page, pageSize, startDate, endDate, status),
+    queryKey: [
+      QueryKeys.SickRequests.My,
+      page,
+      pageSize,
+      startDate,
+      endDate,
+      status,
+    ],
+    queryFn: () =>
+      service.fetchMyRequests(page, pageSize, startDate, endDate, status),
     enabled: !!token,
   });
 
@@ -79,7 +116,10 @@ export const useGetSickRequestById = (requestId: number) => {
 };
 
 // Fetch my sick request by ID (employee)
-export const useGetMySickRequestById = (requestId: number,   resetInputs?: (data: ISickRequestUpdateTextCredentials) => void) => {
+export const useGetMySickRequestById = (
+  requestId: number,
+  resetInputs?: (data: ISickRequestUpdateTextCredentials) => void
+) => {
   const token = useUserStore((state) => state.token);
   const service = useSickRequestService();
 
@@ -91,9 +131,9 @@ export const useGetMySickRequestById = (requestId: number,   resetInputs?: (data
 
   // Populate form inputs
   useEffect(() => {
-    if (data?.data?.data && resetInputs){
-      console.log(data.data.data);
-      resetInputs(data.data.data);}
+    if (data?.data?.data && resetInputs) {
+      resetInputs(data.data.data);
+    }
   }, [data, resetInputs]);
 
   return {
@@ -110,23 +150,26 @@ export const useCreateSickRequest = () => {
 
   return useMutation({
     mutationFn: (data: ISickRequestCredentials) => {
-      const file = data.MedicalReport instanceof FileList
-      ? data.MedicalReport[0]
-      : data.MedicalReport;
-    
+      const file =
+        data.MedicalReport instanceof FileList
+          ? data.MedicalReport[0]
+          : data.MedicalReport;
+
       const formData = new FormData();
       formData.append("StartDate", data.StartDate);
       formData.append("NumberOfDays", data.NumberOfDays.toString());
       formData.append("Description", data.Description);
       formData.append("PermitApproval", data.PermitApproval);
       formData.append("MedicalReport", file);
-      return service.create(formData)
+      return service.create(formData);
     },
     onSuccess: ({ data, status }) => {
       queryClient.invalidateQueries({ queryKey: [QueryKeys.SickRequests.My] });
-      if (status === 201) showToast("success", getTranslatedMessage(data.message, language));
+      if (status === 201)
+        showToast("success", getTranslatedMessage(data.message, language));
     },
-    onError: (error) => handleApiError(error as AxiosError<IErrorResponse>, language),
+    onError: (error) =>
+      handleApiError(error as AxiosError<IErrorResponse>, language),
   });
 };
 
@@ -140,10 +183,14 @@ export const useAcceptSickRequest = () => {
     mutationFn: (requestId: number) => service.accept(requestId),
     onSuccess: ({ data, status }, requestId) => {
       queryClient.invalidateQueries({ queryKey: [QueryKeys.SickRequests.All] });
-      queryClient.invalidateQueries({ queryKey: [QueryKeys.SickRequests.Details, requestId] });
-      if (status === 200) showToast("success", getTranslatedMessage(data.message, language));
+      queryClient.invalidateQueries({
+        queryKey: [QueryKeys.SickRequests.Details, requestId],
+      });
+      if (status === 200)
+        showToast("success", getTranslatedMessage(data.message, language));
     },
-    onError: (error) => handleApiError(error as AxiosError<IErrorResponse>, language),
+    onError: (error) =>
+      handleApiError(error as AxiosError<IErrorResponse>, language),
   });
 };
 
@@ -157,10 +204,14 @@ export const useRejectSickRequest = () => {
     mutationFn: (data: IRejectSickRequestCredentials) => service.reject(data),
     onSuccess: ({ data, status }, variables) => {
       queryClient.invalidateQueries({ queryKey: [QueryKeys.SickRequests.All] });
-      queryClient.invalidateQueries({ queryKey: [QueryKeys.SickRequests.Details, variables.requestId] });
-      if (status === 200) showToast("success", getTranslatedMessage(data.message, language));
+      queryClient.invalidateQueries({
+        queryKey: [QueryKeys.SickRequests.Details, variables.requestId],
+      });
+      if (status === 200)
+        showToast("success", getTranslatedMessage(data.message, language));
     },
-    onError: (error) => handleApiError(error as AxiosError<IErrorResponse>, language),
+    onError: (error) =>
+      handleApiError(error as AxiosError<IErrorResponse>, language),
   });
 };
 
@@ -172,10 +223,11 @@ export const useAssignSickRequest = () => {
 
   return useMutation({
     mutationFn: (data: IAssignSickRequestCredentials) => {
-      const file = data.MedicalReport instanceof FileList
-      ? data.MedicalReport[0]
-      : data.MedicalReport;
-    
+      const file =
+        data.MedicalReport instanceof FileList
+          ? data.MedicalReport[0]
+          : data.MedicalReport;
+
       const formData = new FormData();
       formData.append("StartDate", data.StartDate);
       formData.append("NumberOfDays", data.NumberOfDays.toString());
@@ -183,13 +235,15 @@ export const useAssignSickRequest = () => {
       formData.append("PermitApproval", data.PermitApproval);
       formData.append("EmployeeId", data.EmployeeId.toString());
       formData.append("MedicalReport", file);
-      return service.assign(formData)
+      return service.assign(formData);
     },
     onSuccess: ({ data, status }) => {
       queryClient.invalidateQueries({ queryKey: [QueryKeys.SickRequests.All] });
-      if (status === 201) showToast("success", getTranslatedMessage(data.message, language));
+      if (status === 201)
+        showToast("success", getTranslatedMessage(data.message, language));
     },
-    onError: (error) => handleApiError(error as AxiosError<IErrorResponse>, language),
+    onError: (error) =>
+      handleApiError(error as AxiosError<IErrorResponse>, language),
   });
 };
 
@@ -200,13 +254,18 @@ export const useUpdateSickText = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (data: ISickRequestUpdateTextCredentials) => service.updateText(data),
+    mutationFn: (data: ISickRequestUpdateTextCredentials) =>
+      service.updateText(data),
     onSuccess: ({ data, status }, variables) => {
       queryClient.invalidateQueries({ queryKey: [QueryKeys.SickRequests.My] });
-      queryClient.invalidateQueries({ queryKey: [QueryKeys.SickRequests.MyDetails, variables.requestId] });
-      if (status === 200) showToast("success", getTranslatedMessage(data.message, language));
+      queryClient.invalidateQueries({
+        queryKey: [QueryKeys.SickRequests.MyDetails, variables.requestId],
+      });
+      if (status === 200)
+        showToast("success", getTranslatedMessage(data.message, language));
     },
-    onError: (error) => handleApiError(error as AxiosError<IErrorResponse>, language),
+    onError: (error) =>
+      handleApiError(error as AxiosError<IErrorResponse>, language),
   });
 };
 
@@ -218,20 +277,25 @@ export const useUpdateSickReport = () => {
 
   return useMutation({
     mutationFn: (data: ISickRequestUpdateReportCredentials) => {
-      const file = data.MedicalReport instanceof FileList
-      ? data.MedicalReport[0]
-      : data.MedicalReport;
-    
+      const file =
+        data.MedicalReport instanceof FileList
+          ? data.MedicalReport[0]
+          : data.MedicalReport;
+
       const formData = new FormData();
       formData.append("RequestId", (data.RequestId || "").toString());
       formData.append("MedicalReport", file);
-      return service.updateReport(formData)
+      return service.updateReport(formData);
     },
     onSuccess: ({ data, status }, variables) => {
       queryClient.invalidateQueries({ queryKey: [QueryKeys.SickRequests.My] });
-      queryClient.invalidateQueries({ queryKey: [QueryKeys.SickRequests.MyDetails, variables.RequestId] });
-      if (status === 200) showToast("success", getTranslatedMessage(data.message, language));
+      queryClient.invalidateQueries({
+        queryKey: [QueryKeys.SickRequests.MyDetails, variables.RequestId],
+      });
+      if (status === 200)
+        showToast("success", getTranslatedMessage(data.message, language));
     },
-    onError: (error) => handleApiError(error as AxiosError<IErrorResponse>, language),
+    onError: (error) =>
+      handleApiError(error as AxiosError<IErrorResponse>, language),
   });
 };

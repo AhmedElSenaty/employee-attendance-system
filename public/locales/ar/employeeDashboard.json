@@ -34,9 +34,9 @@
     "note": "انقر لإدارة الإجازات المرضية."
   },
   "mission": {
-    "amount": "طلبات الانتداب",
-    "description": "قدّم واطلع على طلبات الانتداب الخاصة بك.",
-    "note": "انقر لإدارة مهام الانتداب."
+    "amount": "طلبات المأمورية",
+    "description": "قدّم واطلع على طلبات المأمورية الخاصة بك.",
+    "note": "انقر لإدارة مهام المأمورية."
   },
   "allowedDays": {
     "title": "أيام العمل المسموح بها:"
@@ -47,9 +47,9 @@
     "availableCasualLeaves": "الإجازات العارضة المتاحة",
     "availableLeaveRequests": "الإجازات السنوية المتاحة",
     "availableOrdinaryLeaves": "الإجازات الاعتيادية المتاحة",
-    "totalCasualLeaves": "إجمالي الإجازات العارضة المستخدمة",
-    "totalLeaveRequests": "إجمالي الإجازات السنوية المستخدمة",
-    "totalMissions": "إجمالي المهام",
+    "totalCasualLeaves": "إجمالي الإجازات العارضة",
+    "totalLeaveRequests": "إجمالي الإجازات السنوية",
+    "totalMissions": "إجمالي المأمورية",
     "totalOrdinaryLeaves": "إجمالي الإجازات الاعتيادية المستخدمة",
     "totalSickLeave": "إجمالي الإجازات المرضية المستخدمة"
   },

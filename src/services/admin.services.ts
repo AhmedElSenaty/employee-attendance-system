@@ -41,19 +41,17 @@ export class AdminService extends BaseService {
   };
 
   create = (adminData: AdminCredentials) => {
-    console.log(adminData);
-    
     return axiosInstance.post("/Account/RegisterAdmin", adminData, {
       headers: this.getAuthHeaders(),
     });
   };
-  
+
   update = (adminData: AdminCredentials) => {
     return axiosInstance.put("/Admin", adminData, {
       headers: this.getAuthHeaders(),
     });
   };
-  
+
   delete = (adminID: string) => {
     return axiosInstance.delete(`/Admin/${adminID}`, {
       headers: this.getAuthHeaders(),

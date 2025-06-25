@@ -3,7 +3,12 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { EmployeeFormValues, getEmployeeSchema } from "../../../validation";
 import { useNavigate } from "react-router";
-import { Button, Description, Header, SectionHeader } from "../../../components/ui";
+import {
+  Button,
+  Description,
+  Header,
+  SectionHeader,
+} from "../../../components/ui";
 import { EMPLOYEE_NS } from "../../../constants";
 import { useCreateEmployee } from "../../../hooks";
 import { DelegateInputs, DepartmentInputs, Inputs } from "./views";
@@ -16,21 +21,23 @@ const AddEmployeePage = () => {
     register,
     handleSubmit,
     formState: { errors },
-    control
+    control,
   } = useForm<EmployeeFormValues>({
     resolver: yupResolver(getEmployeeSchema(false)),
     mode: "onChange",
   });
-  
-  const { mutateAsync: addEmployeeAndGetUserID, isPending } = useCreateEmployee();
 
-  const handleConfirmAdd: SubmitHandler<EmployeeFormValues> = async (request: EmployeeFormValues) => {
-    console.log(request);
+  const { mutateAsync: addEmployeeAndGetUserID, isPending } =
+    useCreateEmployee();
+
+  const handleConfirmAdd: SubmitHandler<EmployeeFormValues> = async (
+    request: EmployeeFormValues
+  ) => {
     try {
       const response = await addEmployeeAndGetUserID(request);
       const userID = response?.data?.data?.userId;
       if (userID) {
-        navigate(`/admin/edit-employee/${userID}`)
+        navigate(`/admin/edit-employee/${userID}`);
       } else {
         console.error("No user ID returned in response:", response);
       }
@@ -45,40 +52,57 @@ const AddEmployeePage = () => {
         heading={t("addEmployeePage.header.heading")}
         subtitle={t("addEmployeePage.header.subtitle")}
       />
-      <form className="bg-white shadow-md space-y-10 p-5 rounded-lg" onSubmit={handleSubmit(handleConfirmAdd)}>
+      <form
+        className="bg-white shadow-md space-y-10 p-5 rounded-lg"
+        onSubmit={handleSubmit(handleConfirmAdd)}
+      >
         <div className="space-y-5 border-b-2 pb-10 border-gray-200">
-          <SectionHeader 
+          <SectionHeader
             title={t("addEmployeePage.informationsSectionHeader.title")}
-            description={t("addEmployeePage.informationsSectionHeader.description")}
+            description={t(
+              "addEmployeePage.informationsSectionHeader.description"
+            )}
           />
           <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             <Inputs errors={errors} register={register} />
           </div>
         </div>
         <div className="space-y-5 border-b-2 pb-10 border-gray-200">
-          <SectionHeader 
+          <SectionHeader
             title={t("addEmployeePage.departmentSectionHeader.title")}
-            description={t("addEmployeePage.departmentSectionHeader.description")}
+            description={t(
+              "addEmployeePage.departmentSectionHeader.description"
+            )}
           />
           <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <DepartmentInputs errors={errors} register={register} control={control} />
+            <DepartmentInputs
+              errors={errors}
+              register={register}
+              control={control}
+            />
           </div>
         </div>
         <div className="space-y-5 border-b-2 pb-10 border-gray-200">
-          <SectionHeader 
+          <SectionHeader
             title={t("addEmployeePage.delegateSectionHeader.title")}
             description={t("addEmployeePage.delegateSectionHeader.description")}
           />
           <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <DelegateInputs errors={errors} register={register} control={control} />
+            <DelegateInputs
+              errors={errors}
+              register={register}
+              control={control}
+            />
           </div>
           <Description>{t("addEmployeePage.note")}</Description>
         </div>
 
-        <Button fullWidth={false} isLoading={isPending} >{isPending ? t("buttons.loading") : t("buttons.create")}</Button>
+        <Button fullWidth={false} isLoading={isPending}>
+          {isPending ? t("buttons.loading") : t("buttons.create")}
+        </Button>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default AddEmployeePage
+export default AddEmployeePage;

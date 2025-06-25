@@ -1,7 +1,5 @@
 import axiosInstance from "../config/axios.config";
-import {
-  EmployeeProfileCredentials,
-} from "../interfaces";
+import { EmployeeProfileCredentials } from "../interfaces";
 import { EmployeeFormValues } from "../validation";
 import { BaseService } from "./base.services";
 
@@ -18,13 +16,12 @@ export class EmployeeService extends BaseService {
         PageSize: pageSize,
         ...(searchType && searchQuery ? { [searchType]: searchQuery } : {}),
       });
-      
+
       const response = await axiosInstance.get("/Employee", {
         params,
         headers: this.getAuthHeaders(),
       });
-      console.log(response.data);
-      
+
       return response;
     } catch (error) {
       console.error("Error fetching employees:", error);
@@ -44,7 +41,6 @@ export class EmployeeService extends BaseService {
       throw error;
     }
   };
-
 
   fetchCount = async () => {
     try {
@@ -83,7 +79,7 @@ export class EmployeeService extends BaseService {
       headers: this.getAuthHeaders(),
     });
   };
-  
+
   delete = (employeeID: string) => {
     return axiosInstance.delete(`/Employee/${employeeID}`, {
       headers: this.getAuthHeaders(),
@@ -92,9 +88,12 @@ export class EmployeeService extends BaseService {
 
   fetchVacationsByID = async (employeeID: string) => {
     try {
-      const response = await axiosInstance.get(`/Employee/EmployeesVacations/${employeeID}`, {
-        headers: this.getAuthHeaders(),
-      });
+      const response = await axiosInstance.get(
+        `/Employee/EmployeesVacations/${employeeID}`,
+        {
+          headers: this.getAuthHeaders(),
+        }
+      );
 
       return response;
     } catch (error) {
@@ -153,14 +152,22 @@ export class EmployeeService extends BaseService {
   };
 
   toggleReportStatus = (employeeID: string) => {
-    return axiosInstance.put(`/Employee/toggle-report/${employeeID}`, {}, {
-      headers: this.getAuthHeaders(),
-    });
+    return axiosInstance.put(
+      `/Employee/toggle-report/${employeeID}`,
+      {},
+      {
+        headers: this.getAuthHeaders(),
+      }
+    );
   };
 
   resetEmployeeVacations = (timeToRest: number) => {
-    return axiosInstance.put(`/Employee/reset-employees-data?time=${timeToRest}`, {},{
-      headers: this.getAuthHeaders(),
-    })
-  }
+    return axiosInstance.put(
+      `/Employee/reset-employees-data?time=${timeToRest}`,
+      {},
+      {
+        headers: this.getAuthHeaders(),
+      }
+    );
+  };
 }
