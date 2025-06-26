@@ -45,10 +45,10 @@
     "loading": "Loading vacation data...",
     "title": "My Vacation Stats",
     "availableCasualLeaves": "Available Casual Leaves",
-    "availableLeaveRequests": "Available Annual Leaves",
+    "availableLeaveRequests": "Available Leave Request",
     "availableOrdinaryLeaves": "Available Ordinary Leaves",
     "totalCasualLeaves": "Total Casual Leaves Taken",
-    "totalLeaveRequests": "Total Annual Leaves Taken",
+    "totalLeaveRequests": "Total  Leave Request  Taken",
     "totalMissions": "Total Missions",
     "totalOrdinaryLeaves": "Total Ordinary Leaves Taken",
     "totalSickLeave": "Total Sick Leaves Taken"

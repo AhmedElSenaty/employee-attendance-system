@@ -101,7 +101,6 @@ export const useGetMyOrdinaryRequestByID = (
     queryFn: () => ordinaryRequestService.fetchMyOrdinaryRequestById(requestId),
     enabled: !!requestId && !!token,
   });
-
   useEffect(() => {
     if (data?.data?.data) {
       resetInputs?.(data.data.data);
@@ -109,7 +108,7 @@ export const useGetMyOrdinaryRequestByID = (
   }, [data, resetInputs]);
 
   return {
-    ordinaryRequest: data?.data,
+    ordinaryRequest: data?.data?.data,
     isOrdinaryRequestLoading: isLoading,
   };
 };
