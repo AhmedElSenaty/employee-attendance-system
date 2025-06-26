@@ -6,7 +6,7 @@ import { useLanguageStore, useUserStore } from '../../store';
 import { EMPLOYEE_DASHBOARD_NS } from '../../constants';
 import { useTranslation } from 'react-i18next';
 import { useGetEmployeeMyVacations, useGetEmployeeTodayAttendance, useGetMyWorkingDays } from '../../hooks';
-import { IDaydata } from '../../interfaces';
+import { Daydata } from '../../interfaces';
 
 const Dashboard = () => {
   const { t } = useTranslation(EMPLOYEE_DASHBOARD_NS);
@@ -14,9 +14,11 @@ const Dashboard = () => {
 
   const id = useUserStore((state) => state.id);
 
-  const { myWorkingDays = [], isLoadingMyWorkingDays } = useGetMyWorkingDays();
-  const { myVacations, isMyVacationsLoading } = useGetEmployeeMyVacations();
-  const { todayAttendance, isTodayAttendanceLoading } = useGetEmployeeTodayAttendance();
+  const { myWorkingDays = [], isLoading: isLoadingMyWorkingDays } = useGetMyWorkingDays();
+  const { myVacations, isLoading: isMyVacationsLoading } = useGetEmployeeMyVacations();
+  const { todayAttendance, isLoading: isTodayAttendanceLoading } = useGetEmployeeTodayAttendance();
+
+  console.log(isTodayAttendanceLoading);
 
   return (
     <div className="px-6 py-8 min-h-screen">
@@ -151,7 +153,7 @@ const Dashboard = () => {
         <div className="mt-6 px-4 py-3 bg-green-50 border border-green-200 rounded-xl shadow-sm text-green-900 text-3xl sm:text-base">
           <p className="font-semibold mb-2">{t('allowedDays.title')}</p>
           <div className="flex flex-wrap gap-2">
-            {myWorkingDays.map((day: IDaydata) => (
+            {myWorkingDays.map((day: Daydata) => (
               <span
                 key={day.dayId}
                 className="px-3 py-1 bg-green-100 text-green-800 rounded-full border border-green-300 text-base"

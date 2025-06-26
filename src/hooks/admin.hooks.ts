@@ -62,7 +62,7 @@ export const useGetAdminByID = (
     if (data?.data?.data) {
       resetInputs?.({
         username: data.data.data.username,
-        title: data.data.title,
+        title: data.data.data.title,
         email: data.data.data.email,
         password: "",
       });

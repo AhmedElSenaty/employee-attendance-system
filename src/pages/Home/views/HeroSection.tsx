@@ -36,9 +36,9 @@ const HeroSection = () => {
               headingColor="text-white"
               subtitleColor="text-white"
             />
-            <Button variant={"secondary"} type="button" size={'lg'} onClick={() => setIsPopupOpen(true)}>
+            {/* <Button variant={"secondary"} type="button" size={'lg'} onClick={() => setIsPopupOpen(true)}>
               {t("heroSection.buttons.getStarted")}
-            </Button>
+            </Button> */}
         </div>
       </div>
 

@@ -39,7 +39,7 @@ const Inputs = ({
 
   const [selectedProfile, setSelectedProfile] = useState<number>(0)
   const username = useWatch({ control, name: "username" });
-
+  
   const { permissions: profilePermissions, isLoading: profilePermissionsIsLoading } = useGetProfilePermissions(selectedProfile)
 
   useEffect(() => {

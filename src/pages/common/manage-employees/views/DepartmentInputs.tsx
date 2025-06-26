@@ -37,6 +37,8 @@ const DepartmentInputs = ({
   const { subDepartmentsList, isLoading: isSubDepartmentsLoading } =
     useGetDepartmentSubDepartments(Number(selectDepartmentID || ""));
 
+    console.log(subDepartmentsList);
+
   useEffect(() => {
     setSelectDepartmentID(selectedDepartmentID || null);
   }, [selectedDepartmentID]);

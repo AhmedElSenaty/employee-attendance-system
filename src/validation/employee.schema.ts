@@ -50,10 +50,6 @@ export const getEmployeeSchema = (isUpdate: boolean) =>
       .string()
       .required("Hiring date is required"),
 
-    oldId: yup
-      .string()
-      .required("Old ID is required"),
-
     delegateId: 
       yup.string(),
 

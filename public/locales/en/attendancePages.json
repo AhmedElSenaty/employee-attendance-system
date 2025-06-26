@@ -211,5 +211,9 @@
     "title": "How to Use the Attendance with Vacations Page",
     "description": "Watch this video tutorial to learn how to track and manage employee vacation records, including approved and pending leave requests.",
     "closeButton": "Close"
+  },
+  "export": {
+    "exportSuccess": "Data exported successfully! ✅",
+    "exportError": "Failed to export data. Please try again. ❌"
   }
 }

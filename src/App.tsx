@@ -17,6 +17,9 @@ function App() {
   const token = useUserStore((state) => state.token);
   const role = useUserStore((state) => state.role);
 
+  console.log(token);
+  
+
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);

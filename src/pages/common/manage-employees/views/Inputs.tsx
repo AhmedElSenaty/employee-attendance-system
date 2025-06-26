@@ -137,22 +137,6 @@ const Inputs = ({
         )}
       </Field>
 
-      {/* Old ID */}
-      <Field className="space-y-2">
-        <Label size="lg">{t("inputs.oldId.label")}</Label>
-        <Input
-          placeholder={t("inputs.oldId.placeholder")}
-          type="number"
-          {...register("oldId")}
-          isError={!!errors["oldId"]}
-        />
-        {errors["oldId"] && (
-          <InputErrorMessage>
-            {t(`inputs.oldId.inputValidation.${errors["oldId"].type}`)}
-          </InputErrorMessage>
-        )}
-      </Field>
-
       {/* Available Leave Requests Per Month */}
       {!isUpdateEmployee && (
         <Field className="space-y-2">
