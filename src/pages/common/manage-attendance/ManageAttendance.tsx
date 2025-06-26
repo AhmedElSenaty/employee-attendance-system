@@ -179,10 +179,6 @@ const ManageAttendancePage = () => {
                 variant="success"
                 isLoading={isExportDataLoading}
                 onClick={() => {
-                  if (!(startDate && endDate)) {
-                    showToast("error", t("exportActionCard.validation.selectDateRange"))
-                    return
-                  }
                   setIsDownloadReportPopupOpen(true)
                 }}
               >
@@ -271,8 +267,8 @@ const ManageAttendancePage = () => {
         filteredData={{
           searchKey: searchKey || "",
           search: searchQuery || "",
-          startDate: startDate || "",
-          endDate: endDate || "",
+          startDate: startDate || new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString().split("T")[0],
+          endDate: endDate || new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).toISOString().split("T")[0],      
           startTime: startTime || "",
           endTime: endTime || "",
           status: status || "",
