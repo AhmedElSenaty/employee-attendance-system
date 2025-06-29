@@ -7,7 +7,7 @@ import { CountCard, Header, InfoPopup, Paginator, SectionHeader } from "../../..
 import { useGetAttendanceSummary } from "../../../hooks/";
 import { ATTENDANCE_NS, ATTENDANCE_OVERVIEW_VIDEO } from "../../../constants";
 import useURLSearchParams from "../../../hooks/URLSearchParams.hook";
-import { OverviewTable, OverviewTableFilters } from "./views";
+import { OverviewTable, VacationTableFilters } from "./views";
 
 const AttendanceOverviewPage = () => {
   const { t } = useTranslation([ATTENDANCE_NS]);
@@ -63,7 +63,7 @@ const AttendanceOverviewPage = () => {
           />
 
           <div className="flex flex-col gap-5">
-            <OverviewTableFilters searchBy={metadata.searchBy} getParam={getParam} setParam={setParam} clearParams={clearParams} />
+            <VacationTableFilters searchBy={metadata.searchBy} getParam={getParam} setParam={setParam} clearParams={clearParams} />
           </div>
           <div className="w-full overflow-x-auto">
             <OverviewTable 

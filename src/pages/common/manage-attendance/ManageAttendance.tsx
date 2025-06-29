@@ -129,8 +129,6 @@ const ManageAttendancePage = () => {
       showToast("error", t("export.exportError"));
     }
   };
-
-
   return (
     <>
       <div className="sm:p-5 p-3 space-y-5">
@@ -153,39 +151,43 @@ const ManageAttendancePage = () => {
           {/* ActionCard */}
         </div>
         <div className="w-[1000px] max-xl:w-full grid grid-cols-1 md:grid-cols-2 gap-10 mx-auto">
-          <HasPermission permission="Add Attendance">
-            <ActionCard
-              icon={<CirclePlus />}
-              iconBgColor="bg-[#f5e4b2]"
-              iconColor="text-[#b38e19]"
-              title={t("addActionCard.title")}
-              description={t("addActionCard.description")}
-            >
-              <Button fullWidth={true} variant="secondary" onClick={handleAddPopupOpen}>
-                {t("addActionCard.button")}
-              </Button>
-            </ActionCard>
-          </HasPermission>
-          <HasPermission permission="Export Attendance Report">
-            <ActionCard
-              icon={<FileDown />}
-              iconBgColor="bg-[#a7f3d0]"
-              iconColor="text-[#10b981]"
-              title={t("exportActionCard.title")}
-              description={t("exportActionCard.description")}
-            >
-              <Button 
-                fullWidth 
-                variant="success"
-                isLoading={isExportDataLoading}
-                onClick={() => {
-                  setIsDownloadReportPopupOpen(true)
-                }}
+          <div className="flex-1">
+            <HasPermission permission="Add Attendance">
+              <ActionCard
+                icon={<CirclePlus />}
+                iconBgColor="bg-[#f5e4b2]"
+                iconColor="text-[#b38e19]"
+                title={t("addActionCard.title")}
+                description={t("addActionCard.description")}
               >
-                {t("exportActionCard.button")}
-              </Button>
-            </ActionCard>
-          </HasPermission>
+                <Button fullWidth={true} variant="secondary" onClick={handleAddPopupOpen}>
+                  {t("addActionCard.button")}
+                </Button>
+              </ActionCard>
+            </HasPermission>
+          </div>
+          <div className="flex-1">
+            <HasPermission permission="Export Attendance Report">
+              <ActionCard
+                icon={<FileDown />}
+                iconBgColor="bg-[#a7f3d0]"
+                iconColor="text-[#10b981]"
+                title={t("exportActionCard.title")}
+                description={t("exportActionCard.description")}
+              >
+                <Button 
+                  fullWidth 
+                  variant="success"
+                  isLoading={isExportDataLoading}
+                  onClick={() => {
+                    setIsDownloadReportPopupOpen(true)
+                  }}
+                >
+                  {t("exportActionCard.button")}
+                </Button>
+              </ActionCard>
+            </HasPermission>
+          </div>
         </div>
 
 

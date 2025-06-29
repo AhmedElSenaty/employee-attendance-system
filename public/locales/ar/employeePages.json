@@ -299,5 +299,13 @@
     "deleteToolTip": "حذف",
     "editToolTip": "تعديل"
   },
+"importActionCard": {
+  "title": "استيراد البيانات",
+  "description": "قم بتحميل ملف لاستيراد بياناتك إلى النظام.",
+  "downloadTemplate": "تحميل شكل الملف",
+  "importFile": "استيراد الملف",
+  "close": "إغلاق"
+
+  },
   "NA": "لا يوجد"
 }

@@ -97,7 +97,7 @@
     "title":"Edit Ordinary Request",
     "description":"Update the details of your ordinary request below.",
     "buttons": {
-      "edit": "Edit",
+      "add": "Edit",
       "close": "Close",
       "loading": "Loading..."
     }

@@ -1,9 +1,9 @@
-import { UserCog, UserPlus } from "lucide-react";
+import { FilePlus, UserCog, UserPlus } from "lucide-react";
 import { formatValue } from "../../../utils";
 import { NavLink } from "react-router";
 import { useTranslation } from "react-i18next";
-import { useState } from "react";
-import { useDebounce, useUnblockAccount, useDeleteEmployee, useGetAllEmployees, useGetEmployeesCount, useGetEmployeeVacationsByID, useRestEmployeeTimeVacations, useToggleReportEmployeeStatus } from "../../../hooks/";
+import { useRef, useState } from "react";
+import { useDebounce, useUnblockAccount, useDeleteEmployee, useGetAllEmployees, useGetEmployeesCount, useGetEmployeeVacationsByID, useRestEmployeeTimeVacations, useToggleReportEmployeeStatus, useUploadAttendanceExcel } from "../../../hooks/";
 import { HasPermission } from "../../../components/auth";
 import { useLanguageStore, useUserStore } from "../../../store/";
 import { ActionCard, BarChart, Button, CountCard, Graph, GraphSkeleton, Header, InfoPopup, Paginator, SectionHeader } from "../../../components/ui";
@@ -135,6 +135,29 @@ const handleLeaveStatsPopupOpen = (id: string) => {
     setIsChangeIncludedStatusPopupOpen(false)
   };
 
+  
+  const handleDownloadTemplate = () => {
+    const link = document.createElement("a");
+    link.href = "/Employees_Template.xlsx"; // Public folder path
+    link.download = "Employees_Template.xlsx";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const { mutate: uploadExcel, isPending: isUploading } = useUploadAttendanceExcel();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleImportClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleImportFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    uploadExcel(file);
+  };
+
 
   return (
     <div className="sm:p-5 p-3 space-y-5">
@@ -151,7 +174,7 @@ const handleLeaveStatsPopupOpen = (id: string) => {
         />
       </div>
 
-      <div className="max-w-[1000px] mx-auto space-y-6">
+      <div className="max-w-[1500px] mx-auto space-y-6">
         {/* Count Card */}
         <div className="flex justify-center">
           <CountCard 
@@ -165,7 +188,7 @@ const handleLeaveStatsPopupOpen = (id: string) => {
 
         <div className="flex flex-col md:flex-row gap-5">
           {/* Action Card Section */}
-          <div className="w-full md:w-1/2 h-fit">
+          <div className="w-full md:w-1/3 h-fit">
             <HasPermission permission="Add Employee">
               <ActionCard
                 icon={<UserPlus />}
@@ -182,23 +205,58 @@ const handleLeaveStatsPopupOpen = (id: string) => {
               </ActionCard>
             </HasPermission>
           </div>
-            <div className="w-full md:w-1/2 h-fit">
-              <ActionCard
-                icon={<UserCog />}
-                iconBgColor="bg-[#d7f0f6]"
-                iconColor="text-[#007fa4]"
-                title={t("manageEmployeesPage.restActionCard.title")}
-                description={t("manageEmployeesPage.restActionCard.description")}
+          <div className="w-full md:w-1/3 h-fit">
+            <ActionCard
+              icon={<UserCog />}
+              iconBgColor="bg-[#d7f0f6]"
+              iconColor="text-[#007fa4]"
+              title={t("manageEmployeesPage.restActionCard.title")}
+              description={t("manageEmployeesPage.restActionCard.description")}
+            >
+              <Button
+                fullWidth
+                variant="primary"
+                onClick={() => setIsRestPopupOpen(true)}
               >
-                <Button
-                  fullWidth
-                  variant="primary"
-                  onClick={() => setIsRestPopupOpen(true)}
-                >
-                  {t("manageEmployeesPage.restActionCard.button")}
-                </Button>
-              </ActionCard>
+                {t("manageEmployeesPage.restActionCard.button")}
+              </Button>
+            </ActionCard>
+          </div>
+
+          <div className="w-full md:w-1/3 h-fit">
+          <ActionCard
+            icon={<FilePlus />}
+            iconBgColor="bg-[#bfdbfe]" // light blue
+            iconColor="text-[#3b82f6]" // blue
+            title={t("importActionCard.title")}
+            description={t("importActionCard.description")}
+          >
+            <div className="flex flex-col gap-2">
+              <Button 
+                variant="outline"
+                onClick={handleDownloadTemplate}
+                fullWidth
+              >
+                {t("importActionCard.downloadTemplate")}
+              </Button>
+              <Button 
+                variant="primary"
+                isLoading={isUploading}
+                onClick={handleImportClick}
+                fullWidth
+              >
+                {t("importActionCard.importFile")}
+              </Button>
+              <input 
+                type="file" 
+                accept=".xlsx"
+                className="hidden" 
+                ref={fileInputRef}
+                onChange={handleImportFile}
+              />
             </div>
+          </ActionCard>
+          </div>
         </div>
 
         <div className="w-full">

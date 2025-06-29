@@ -17,7 +17,7 @@ const ManageSubDepartmentsPage = () => {
   const { t } = useTranslation([SUB_DEPARTMENT_NS]);
   const { language } = useLanguageStore();
 
-  const { register, handleSubmit, formState: { errors }, reset , watch, control} = useForm<SubDepartmentFormValues>({
+  const { register, handleSubmit, formState: { errors }, reset, control} = useForm<SubDepartmentFormValues>({
     resolver: yupResolver(subDepartmentSchema),
     mode: "onChange"
   });
@@ -171,7 +171,7 @@ const ManageSubDepartmentsPage = () => {
 
       <AddPopup
         isOpen={isAddPopupOpen}
-        formInputs={<Inputs control={control} register={register} errors={errors} watch={null} />}
+        formInputs={<Inputs control={control} register={register} errors={errors} />}
         handleSubmit={handleSubmit(handleConfirmAdd)}
         handleClose={() => setIsAddPopupOpen(false)}
         isLoading={isAdding}
@@ -182,7 +182,7 @@ const ManageSubDepartmentsPage = () => {
         handleClose={handleEditPopupClose} 
         isLoading={isUpdating}
         handleSubmit={handleSubmit(handleConfirmUpdate)} 
-        formInputs={<Inputs control={control} register={register} errors={errors} watch={watch} isLoading={isSubDepartmentDataLoading} />}
+        formInputs={<Inputs control={control} register={register} errors={errors} isLoading={isSubDepartmentDataLoading} isUpdateForm={true} />}
       />
 
       <DeletePopup

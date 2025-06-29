@@ -3,6 +3,24 @@ import { AttendanceCredentials } from "../interfaces";
 import { BaseService } from "./base.services";
 
 export class AttendanceService extends BaseService {
+  uploadExcelFile = async (file: File) => {
+    try {
+      const formData = new FormData();
+      formData.append("employeesFile", file); // Key name must match what your backend expects
+
+      const response = await axiosInstance.post(`/Account/upload-excel`, formData, {
+        headers: {
+          ...this.getAuthHeaders(),
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      return response;
+    } catch (error) {
+      this.handleError(error, "Error uploading Excel file");
+    }
+  };
+
   fetchAll = async (
     page?: number,
     pageSize?: number,

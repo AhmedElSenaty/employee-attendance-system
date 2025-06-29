@@ -21,6 +21,7 @@
     "defaultLogTypeOption": "اختر نوع السجل",
     "toolTipResetFilters": "إعادة تعيين الكل",
     "searchBy": {
+      "label": "نوع البحث",
       "default": "اختر طريقة البحث",
       "UserId": "معرّف المستخدم",
       "IPAddress": "عنوان الآي بي"

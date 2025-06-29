@@ -26,6 +26,24 @@ export const useAttendanceService = () => {
 
   return service;
 };
+export const useUploadAttendanceExcel = () => {
+  const { language } = useLanguageStore();
+  const attendanceService = useAttendanceService();
+
+  return useMutation({
+    mutationFn: (file: File) => {
+      return attendanceService.uploadExcelFile(file)
+    },
+    onSuccess: (response) => {
+      if (response?.status === 200 || response?.status === 201) {
+        showToast("success", getTranslatedMessage(response?.data?.message ?? "Import successful", language));
+      }
+    },
+    onError: (error) => {
+      handleApiError(error as AxiosError<IErrorResponse>, language);
+    },
+  });
+};
 
 // Get all attendance records
 export const useGetAttendances = (

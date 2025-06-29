@@ -6,7 +6,7 @@ export const subDepartmentSchema = yup.object().shape({
     .typeError("Sub-Department ID must be a number")
     .required("Sub-Department ID is required")
     .positive("Sub-Department ID must be a positive number")
-    .max(9999, "Sub-Department ID cannot exceed 9999")
+    .max(999999, "Sub-Department ID cannot exceed 999999")
     .min(1, "Sub-Department ID must be at least 1")
     .integer("Sub-Department ID must be an integer"),
   
@@ -27,14 +27,12 @@ export const subDepartmentSchema = yup.object().shape({
     .number()
     .typeError("Please select a department")
     .required("Please select a department")
-    .positive("Please select a valid department")
     .integer("Please select a valid department"),
   
   entityId: yup
     .number()
     .typeError("Please select an entity")
     .required("Please select an entity")
-    .positive("Please select a valid entity")
     .integer("Please select a valid entity"),
 });
 

@@ -299,5 +299,12 @@
     "deleteToolTip": "Delete",
     "editToolTip": "Edit"
   },
+  "importActionCard": {
+    "title": "Import Data",
+    "description": "Upload a file to import your data into the system.",
+    "downloadTemplate": "Download Template",
+    "importFile": "Import File",
+    "close": "Close"
+  },
   "NA": "N/A"
 }
