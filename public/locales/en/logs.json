@@ -40,6 +40,7 @@
     "closeButton": "Close"
   },
   "userId": "#User ID",
+  "userName": "Username",
   "logType": "Log Type",
   "timestamp": "Timestamp",
   "message": "Message",

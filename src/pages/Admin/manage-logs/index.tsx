@@ -37,6 +37,8 @@ const LogsPage = () => {
 
   const { logs, count, metadata, isLoading: isLogsDataLoading } = useGetLogs(page, pageSize, searchKey, searchQuery, type, startDate, endDate)
 
+  console.log(logs);
+
   return (
     <div className="sm:p-5 p-3 space-y-6">
       <Header

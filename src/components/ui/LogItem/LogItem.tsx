@@ -62,9 +62,16 @@ const LogItem = ({ logData }: LogItemProps) => {
           </h2>
 
           <div className="text-base text-gray-800 space-y-1">
-            <p>
-              <span className="font-bold">{t("userId")}:</span> {logData.userID}
-            </p>
+            {logData.userID !== null ? (
+              <p>
+                <span className="font-bold">{t("userId")}:</span> {logData.userID}
+              </p>
+            ) : null}
+            {logData.userName !== null ? (
+              <p>
+                <span className="font-bold">{t("userName")}:</span> {logData.userName}
+              </p>
+            ): null}
             <p>
               <span className="font-bold">{t("ipAddress")}:</span> {logData.ipAddress}
             </p>

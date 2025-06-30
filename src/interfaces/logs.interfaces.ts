@@ -8,7 +8,9 @@ export interface Log {
   id: number;
 
   /** ID of the user who performed the action */
-  userID: string;
+  userID: string | null;
+
+  userName: string | null;
 
   /** Type of log entry (e.g., Create, Update, Delete, Error) */
   type: LogType;

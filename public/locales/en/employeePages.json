@@ -297,7 +297,8 @@
     "unlockToolTip": "unBlock",
     "calenderToolTip": "Calender",
     "deleteToolTip": "Delete",
-    "editToolTip": "Edit"
+    "editToolTip": "Edit",
+    "edit":"Edit"
   },
   "importActionCard": {
     "title": "Import Data",

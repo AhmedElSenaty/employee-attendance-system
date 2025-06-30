@@ -41,6 +41,7 @@
     "closeButton": "إغلاق"
   },
   "userId": "#معرّف المستخدم",
+  "userName": "اسم المستخدم",
   "logType": "نوع السجل",
   "timestamp": "الوقت",
   "message": "الرسالة",

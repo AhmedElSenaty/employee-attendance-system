@@ -1,12 +1,12 @@
 {
   "header": {
     "heading": "Welcome Back!",
-    "subtitle": "Sign in to access your account and easily manage your settings."
+    "subtitle": "On first login, the National ID is used as both username and password. After that, login is done using the registered email in the system."
   },
   "form": {
     "email": {
-      "label": "Email Address",
-      "placeholder": "Enter your email",
+ "label": "Email",
+       "placeholder": "Enter your email",
       "inputValidation": {
         "required": "Email is required"
       }

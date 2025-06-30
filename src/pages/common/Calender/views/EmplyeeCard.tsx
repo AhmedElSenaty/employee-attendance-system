@@ -6,7 +6,7 @@ interface IProps {
 }
 
 const EmplyeeCard = ({ employeeId }: IProps) => {
-  const { employee, isEmployeeDataLoading } = useGetEmployeeByID(employeeId || "")
+  const { employee, isLoading: isEmployeeDataLoading } = useGetEmployeeByID(employeeId || "")
 
   return (
     <>

@@ -7,6 +7,7 @@ import { ILoginCredentials } from "../../interfaces"
 import { loginSchema } from "../../validation"
 import { LoginAlerts, LoginInputs } from "./views"
 import { useLogin } from "../../hooks/auth.hooks"
+import { Logo } from "../../components/ui/Logo";
 
 const LoginPage = () => {
   const { t } = useTranslation(["common", "login"]);
@@ -19,8 +20,9 @@ const LoginPage = () => {
   const { isLoading, responseData, onSubmit } = useLogin();
 
   return (
-    <div className="flex justify-center items-center py-32 sm:px-4 px-8">
+    <div className="flex justify-center items-start sm:px-4 px-8">
       <div className="max-w-[650px] space-y-10 drop-shadow-xl">
+        <Logo src="/logos/images.png"  />
         <Header
           heading={t("header.heading", { ns: "login" })}
           subtitle={t("header.subtitle", { ns: "login" })}

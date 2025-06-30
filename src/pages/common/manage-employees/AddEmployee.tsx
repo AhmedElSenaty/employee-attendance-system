@@ -12,6 +12,7 @@ import {
 import { EMPLOYEE_NS } from "../../../constants";
 import { useCreateEmployee } from "../../../hooks";
 import { DelegateInputs, DepartmentInputs, Inputs } from "./views";
+import { showToast } from "../../../utils";
 
 const AddEmployeePage = () => {
   const { t } = useTranslation([EMPLOYEE_NS]);
@@ -33,6 +34,11 @@ const AddEmployeePage = () => {
   const handleConfirmAdd: SubmitHandler<EmployeeFormValues> = async (
     request: EmployeeFormValues
   ) => {
+    console.log(request.subDepartmentId);
+    if(request.subDepartmentId === undefined) {
+      showToast("warn", "You must add sub-department")
+      return
+    }
     try {
       const response = await addEmployeeAndGetUserID(request);
       const userID = response?.data?.data?.userId;

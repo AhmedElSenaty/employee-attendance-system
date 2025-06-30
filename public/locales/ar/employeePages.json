@@ -297,7 +297,8 @@
     "unlockToolTip": "إلغاء الحظر",
     "calenderToolTip": "التقويم",
     "deleteToolTip": "حذف",
-    "editToolTip": "تعديل"
+    "editToolTip": "تعديل",
+    "edit":"تعديل"
   },
 "importActionCard": {
   "title": "استيراد البيانات",

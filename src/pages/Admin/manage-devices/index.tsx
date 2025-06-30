@@ -42,24 +42,6 @@ import {
 import { DEVICES_NS, DEVICES_VIDEO } from "../../../constants";
 import useURLSearchParams from "../../../hooks/URLSearchParams.hook";
 
-// Example static data (you can replace this with real-time API response)
-const disconnectedDevices = [
-  {
-    id: 1,
-    time: "14:30",
-    date: "2025-06-22",
-    ip: "192.168.1.10",
-    status: "Disconnected",
-  },
-  {
-    id: 2,
-    time: "14:45",
-    date: "2025-06-22",
-    ip: "192.168.1.12",
-    status: "Disconnected",
-  },
-];
-
 const ManageDevicesPage = () => {
   const { t } = useTranslation([DEVICES_NS]);
   const { language } = useLanguageStore();
@@ -245,10 +227,7 @@ const ManageDevicesPage = () => {
               title={t("disconnectedDevicesSectionHeader.title")}
               description={t("disconnectedDevicesSectionHeader.description")}
             />
-            <DisconnectedDevicesTable
-              devices={disconnectedDevices}
-              isLoading={false}
-            />
+            <DisconnectedDevicesTable />
           </div>
         ) : (
           <div className="bg-white shadow-md space-y-5 p-5 rounded-lg">
