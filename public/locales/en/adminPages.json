@@ -113,8 +113,8 @@
   },
   "table": {
     "emptyTable": {
-      "title": "No Managers Found",
-      "message": "No managers match your search criteria at the moment."
+      "title": "No Admins Found",
+      "message": "No Admins match your search criteria at the moment."
     },
     "columns": {
       "username": "Username",
@@ -147,11 +147,11 @@
     "loading": "Loading...",
     "unblock": "Unblock",
     "delete": "Delete",
-    "saveAdminButton": "Create Manager",
+    "saveAdminButton": "Create Admin",
     "updateInformations": "Update Informations",
     "updatePermissions": "Update Permissions",
-    "updateUserDepartments": "Update Manager Departments",
-    "create": "Create Manager Account",
+    "updateUserDepartments": "Update Admin Departments",
+    "create": "Create Admin Account",
     "updatePassword": "Update Passowrd",
     "unlockToolTip": "unBlock",
     "deleteToolTip": "Delete",

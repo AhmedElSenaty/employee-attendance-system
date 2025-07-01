@@ -33,7 +33,7 @@
       "attendanceDays": "Present Days",
       "absenceDays": "Absent Days",
       "totalWorkingHours": "Total Working Hours",
-      "actions": "Actions"
+      "totalDelayHours": "Total Delay Hours"
     }
   },
   "tableVacation": {

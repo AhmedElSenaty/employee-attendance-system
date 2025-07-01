@@ -75,7 +75,7 @@ const OrdinaryRequestsTable = ({
                   )}
                 </TableCell>
                 <TableCell label={columns[3]}>
-                  {new Date(ordinaryRequest.startDate || "").toLocaleDateString(
+                  {new Date(ordinaryRequest.endDate || "").toLocaleDateString(
                     language === "ar" ? "ar-EG" : "en-CA"
                   )}
                 </TableCell>

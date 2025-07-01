@@ -11,7 +11,6 @@ import {
 } from "../../../../components/ui";
 import { Calendar } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { getTodayDateISO } from "../../../../utils";
 import { ICasualLeaveRequestCredentials } from "../../../../interfaces";
 import { CASUAL_REQUESTS_NS } from "../../../../constants";
 
@@ -42,7 +41,6 @@ const Inputs = ({ register, errors, isLoading }: ICasualLeaveRequestInputsProps)
               isError={!!errors.startDate}
               icon={<Calendar />}
               {...register("startDate")}
-              min={getTodayDateISO()}
             />
             {errors.startDate && (
               <InputErrorMessage>
@@ -69,7 +67,6 @@ const Inputs = ({ register, errors, isLoading }: ICasualLeaveRequestInputsProps)
               isError={!!errors.endDate}
               icon={<Calendar />}
               {...register("endDate")}
-              min={getTodayDateISO()}
             />
             {errors.endDate && (
               <InputErrorMessage>

@@ -23,7 +23,7 @@ const OverviewTable = ({ attendance, isLoading }: Props) => {
     "tableSummary.columns.attendanceDays",
     "tableSummary.columns.absenceDays",
     "tableSummary.columns.totalWorkingHours",
-    // "tableSummary.columns.actions",
+    "tableSummary.columns.totalDelayHours"
   ]
 
   const columns = ATTENDANCE_SUMMARY_TABLE_COLUMNS.map(key => t(key))
@@ -41,12 +41,13 @@ const OverviewTable = ({ attendance, isLoading }: Props) => {
               <TableRow key={attendance.employeeId} className="border-b">
                 <TableCell label={columns[0]}>{attendance.employeeName}</TableCell>
                 <TableCell label={columns[1]}>{attendance.department}</TableCell>
-                <TableCell label={columns[2]}>{formatValue(attendance.subDepartment, language)}</TableCell>
+                <TableCell label={columns[2]}>{attendance.subDepartment}</TableCell>
                 <TableCell label={columns[3]}>{formatValue(attendance.checkedInOnlyDays, language)}</TableCell>
                 <TableCell label={columns[4]}>{formatValue(attendance.checkedOutOnlyDays, language)}</TableCell>
                 <TableCell label={columns[5]}>{formatValue(attendance.attendanceDays, language)}</TableCell>
                 <TableCell label={columns[6]}>{formatValue(attendance.absenceDays, language)}</TableCell>
                 <TableCell label={columns[7]}>{formatValue(attendance.totalWorkingHours, language)}</TableCell>
+                <TableCell label={columns[8]}>{formatValue(attendance.totalDelayHours, language)}</TableCell>
               </TableRow>
             ))
           )}

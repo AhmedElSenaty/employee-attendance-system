@@ -1,11 +1,10 @@
 import { FieldErrors, UseFormRegister } from "react-hook-form";
 import { useGetEmployeesList } from "../../../../hooks";
-import { IAssignCasualLeaveRequestCredentials } from "../../../../interfaces";
+import { EmployeeSummary, IAssignCasualLeaveRequestCredentials } from "../../../../interfaces";
 import { Field, Input, InputErrorMessage, Label, SelectBox, SelectBoxSkeleton, Textarea } from "../../../../components/ui";
 import { useTranslation } from "react-i18next";
 import { CASUAL_REQUESTS_NS } from "../../../../constants";
 import { Calendar } from "lucide-react";
-import { getTodayDateISO } from "../../../../utils";
 
 interface IInputsProps {
   register: UseFormRegister<IAssignCasualLeaveRequestCredentials>;
@@ -17,7 +16,7 @@ const AssignInputs = ({
 }: IInputsProps) => {
   const { t } = useTranslation([CASUAL_REQUESTS_NS]);
 
-  const { employeesList, isEmployeesListLoading } = useGetEmployeesList();
+  const { employeesList, isLoading: isEmployeesListLoading } = useGetEmployeesList();
 
   return (
     <>
@@ -28,9 +27,12 @@ const AssignInputs = ({
           <SelectBoxSkeleton />
         ) : (
           <SelectBox isError={!!errors.employeeId} {...register("employeeId")}>
-            <option value="">{t("inputs.employeeId.defaultValue")}</option>
-            {employeesList?.map((employee, idx) => (
-              <option key={idx} value={employee.id}>
+            <option value="
+            
+            
+            ">{t("inputs.employeeId.defaultValue")}</option>
+            {employeesList?.map((employee: EmployeeSummary) => (
+              <option key={employee.id} value={employee.id}>
                 {employee.name}
               </option>
             ))}
@@ -51,7 +53,6 @@ const AssignInputs = ({
           isError={!!errors.startDate}
           icon={<Calendar />}
           {...register("startDate")}
-          min={getTodayDateISO()}
         />
         {errors.startDate && (
           <InputErrorMessage>
@@ -68,7 +69,6 @@ const AssignInputs = ({
           isError={!!errors.endDate}
           icon={<Calendar />}
           {...register("endDate")}
-          min={getTodayDateISO()}
         />
         {errors.endDate && (
           <InputErrorMessage>

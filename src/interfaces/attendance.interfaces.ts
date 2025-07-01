@@ -39,7 +39,8 @@ export interface AttendanceSummaryData {
   checkedOutOnlyDays: number,
   attendanceDays: number,
   absenceDays: number,
-  totalWorkingHours: number
+  totalWorkingHours: number,
+  totalDelayHours:number
 }
 
 export interface DailyAttendanceDto {

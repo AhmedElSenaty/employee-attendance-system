@@ -12,7 +12,7 @@
  */
 export const formatValue = (value: string | number, locale: "en" | "ar" = "en") => {
   if (typeof value === "number") {
-    return new Intl.NumberFormat(locale === "ar" ? "ar-EG" : "en-US").format(value);
+    return value == 0 ? "صفر" : new Intl.NumberFormat(locale === "ar" ? "ar-EG" : "en-US").format(value);
   }
 
   // Check if it's a valid number

@@ -5,24 +5,12 @@ import { useLanguageStore } from "../../../../store/language.store";
 import { ADMIN_ACCOUNT_PAGE } from "../../../../constants";
 
 interface IProps {
-  permissions: []
+  permissions: PermissionsData[];
 }
 
 const RenderPermissions = ({ permissions = [] }: IProps) => {
   const { t } = useTranslation([ADMIN_ACCOUNT_PAGE]);
   const { language } = useLanguageStore();
-
-  // Render permissions dynamically
-  const renderPermissions = permissions?.map(({ id, nameAr, nameEn }: PermissionsData) => (
-    <div
-      key={id}
-      className="p-3 bg-green-600 text-white shadow-md rounded-lg flex gap-4 justify-between items-center"
-    >
-      <div className="flex-1">
-        <h3 className="text-base font-semibold">{language === "en" ? nameEn : nameAr}</h3>
-      </div>
-    </div>
-  ));
 
   return (
     <div className="bg-white shadow-md space-y-5 p-5 rounded-lg w-full">
@@ -30,9 +18,18 @@ const RenderPermissions = ({ permissions = [] }: IProps) => {
         title={t(`permissionsSection.title`)}
         description={t(`permissionsSection.description`)}
       />
-      <div className="flex flex-wrap gap-5 mt-4 w-fit">{renderPermissions}</div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 border border-black">
+        {permissions.map(({ id, nameAr, nameEn }) => (
+          <div
+            key={id}
+            className="border border-black px-4 py-2 text-center"
+          >
+            {language === "en" ? nameEn : nameAr}
+          </div>
+        ))}
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default RenderPermissions
+export default RenderPermissions;

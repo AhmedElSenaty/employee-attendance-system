@@ -45,10 +45,10 @@
     "loading": "جاري تحميل بيانات الإجازات...",
     "title": "إحصائيات إجازاتي",
     "availableCasualLeaves": "الإجازات العارضة المتاحة",
-    "availableLeaveRequests": "الإجازات السنوية المتاحة",
+    "availableLeaveRequests": "الاذونات المتاحة",
     "availableOrdinaryLeaves": "الإجازات الاعتيادية المتاحة",
     "totalCasualLeaves": "إجمالي الإجازات العارضة",
-    "totalLeaveRequests": "إجمالي الإجازات السنوية",
+    "totalLeaveRequests": "إجمالي الاذونات",
     "totalMissions": "إجمالي المأمورية",
     "totalOrdinaryLeaves": "إجمالي الإجازات الاعتيادية المستخدمة",
     "totalSickLeave": "إجمالي الإجازات المرضية المستخدمة"
