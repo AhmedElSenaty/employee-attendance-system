@@ -55,25 +55,38 @@ export const getEmployeeSchema = (isUpdate: boolean) =>
 
     avilableLeaveRequestsPerMonth: yup
       .string()
-      .when([], {
-        is: () => !isUpdate,
-        then: (schema) => schema.required("Available leave requests per month is required"),
-        otherwise: (schema) => schema.strip(),
-      }),
+      .required("Available leave requests per month is required"),
 
     avilableOrdinaryLeaveeRequestsPerYear: yup
       .string()
-      .when([], {
-        is: () => !isUpdate,
-        then: (schema) => schema.required("Available ordinary leave requests per year is required"),
-        otherwise: (schema) => schema.strip(),
-      }),
+      .required("Available ordinary leave requests per year is required"),
 
     avilableCasualLeaveeRequestsPerYear: yup
       .string()
+      .required("Available casual leave requests per year is required"),
+
+          // ✅ Conditionally required on update
+    totalOrdinaryLeaves: yup
+      .string()
       .when([], {
-        is: () => !isUpdate,
-        then: (schema) => schema.required("Available casual leave requests per year is required"),
+        is: () => isUpdate,
+        then: (schema) => schema.required("Total ordinary leaves is required"),
+        otherwise: (schema) => schema.strip(),
+      }),
+
+    totalCasualLeaves: yup
+      .string()
+      .when([], {
+        is: () => isUpdate,
+        then: (schema) => schema.required("Total casual leaves is required"),
+        otherwise: (schema) => schema.strip(),
+      }),
+
+    totalLeaveRequests: yup
+      .string()
+      .when([], {
+        is: () => isUpdate,
+        then: (schema) => schema.required("Total leave requests is required"),
         otherwise: (schema) => schema.strip(),
       }),
   });

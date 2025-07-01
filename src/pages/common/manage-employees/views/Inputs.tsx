@@ -138,7 +138,6 @@ const Inputs = ({
       </Field>
 
       {/* Available Leave Requests Per Month */}
-      {!isUpdateEmployee && (
         <Field className="space-y-2">
           <Label size="lg">{t("inputs.avilableLeaveRequestsPerMonth.label")}</Label>
           <Input
@@ -153,10 +152,8 @@ const Inputs = ({
             </InputErrorMessage>
           )}
         </Field>
-      )}
 
       {/* Available Ordinary Leaves Per Year */}
-      {!isUpdateEmployee && (
         <Field className="space-y-2">
           <Label size="lg">{t("inputs.avilableOrdinaryLeaveeRequestsPerYear.label")}</Label>
           <Input
@@ -172,10 +169,8 @@ const Inputs = ({
             </InputErrorMessage>
           )}
         </Field>
-      )}
 
       {/* Available Casual Leaves Per Year */}
-      {!isUpdateEmployee && (
         <Field className="space-y-2">
           <Label size="lg">{t("inputs.avilableCasualLeaveeRequestsPerYear.label")}</Label>
           <Input
@@ -189,6 +184,59 @@ const Inputs = ({
               {t(
                 `inputs.avilableCasualLeaveeRequestsPerYear.inputValidation.${errors["avilableCasualLeaveeRequestsPerYear"].type}`
               )}
+            </InputErrorMessage>
+          )}
+        </Field>
+
+      {/* Total Ordinary Leaves */}
+      {isUpdateEmployee && (
+        <Field className="space-y-2">
+          <Label size="lg">{t("inputs.totalOrdinaryLeaves.label")}</Label>
+          <Input
+            placeholder={t("inputs.totalOrdinaryLeaves.placeholder")}
+            type="number"
+            {...register("totalOrdinaryLeaves")}
+            isError={!!errors["totalOrdinaryLeaves"]}
+          />
+          {errors["totalOrdinaryLeaves"] && (
+            <InputErrorMessage>
+              {t(`inputs.totalOrdinaryLeaves.inputValidation.${errors["totalOrdinaryLeaves"].type}`)}
+            </InputErrorMessage>
+          )}
+        </Field>
+      )}
+
+      {/* Total Casual Leaves */}
+      {isUpdateEmployee && (
+        <Field className="space-y-2">
+          <Label size="lg">{t("inputs.totalCasualLeaves.label")}</Label>
+          <Input
+            placeholder={t("inputs.totalCasualLeaves.placeholder")}
+            type="number"
+            {...register("totalCasualLeaves")}
+            isError={!!errors["totalCasualLeaves"]}
+          />
+          {errors["totalCasualLeaves"] && (
+            <InputErrorMessage>
+              {t(`inputs.totalCasualLeaves.inputValidation.${errors["totalCasualLeaves"].type}`)}
+            </InputErrorMessage>
+          )}
+        </Field>
+      )}
+
+      {/* Total Leave Requests */}
+      {isUpdateEmployee && (
+        <Field className="space-y-2">
+          <Label size="lg">{t("inputs.totalLeaveRequests.label")}</Label>
+          <Input
+            placeholder={t("inputs.totalLeaveRequests.placeholder")}
+            type="number"
+            {...register("totalLeaveRequests")}
+            isError={!!errors["totalLeaveRequests"]}
+          />
+          {errors["totalLeaveRequests"] && (
+            <InputErrorMessage>
+              {t(`inputs.totalLeaveRequests.inputValidation.${errors["totalLeaveRequests"].type}`)}
             </InputErrorMessage>
           )}
         </Field>

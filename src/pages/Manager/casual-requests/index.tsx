@@ -38,6 +38,7 @@ import {
 import { yupResolver } from "@hookform/resolvers/yup";
 import { assignCasualLeaveRequestSchema } from "../../../validation";
 import { CirclePlus } from "lucide-react";
+import { HasPermission } from "../../../components/auth";
 
 const CasualLeaveRequestsPage = () => {
   const { t } = useTranslation(CASUAL_REQUESTS_NS);
@@ -56,6 +57,7 @@ const CasualLeaveRequestsPage = () => {
     handleSubmit: handleSubmitAssign,
     formState: { errors },
     reset: resetAssign,
+    control
   } = useForm<IAssignCasualLeaveRequestCredentials>({
     resolver: yupResolver(assignCasualLeaveRequestSchema),
     mode: "onChange",
@@ -159,24 +161,26 @@ const CasualLeaveRequestsPage = () => {
             videoUrl={CASUAL_REQUESTS_MANAGER_VIDEO}
           />
         </div>
-        <ActionCard
-          icon={<CirclePlus />}
-          iconBgColor="bg-[#f5e4b2]"
-          iconColor="text-[#b38e19]"
-          title={t("assignActionCard.title")}
-          description={t("assignActionCard.description")}
-        >
-          <Button
-            fullWidth
-            variant="secondary"
-            onClick={() => {
-              resetAssign();
-              setIsAssignPopupOpen(true);
-            }}
+        <HasPermission permission="Assign Requests to Employee">
+          <ActionCard
+            icon={<CirclePlus />}
+            iconBgColor="bg-[#f5e4b2]"
+            iconColor="text-[#b38e19]"
+            title={t("assignActionCard.title")}
+            description={t("assignActionCard.description")}
           >
-            {t("assignActionCard.button")}
-          </Button>
-        </ActionCard>
+            <Button
+              fullWidth
+              variant="secondary"
+              onClick={() => {
+                resetAssign();
+                setIsAssignPopupOpen(true);
+              }}
+            >
+              {t("assignActionCard.button")}
+            </Button>
+          </ActionCard>
+        </HasPermission>
       </div>
 
       <div className="bg-white shadow-md space-y-5 p-5 rounded-lg">
@@ -259,7 +263,7 @@ const CasualLeaveRequestsPage = () => {
           resetAssign();
           setIsAssignPopupOpen(false);
         }}
-        formInputs={<AssignInputs register={assignRegister} errors={errors} />}
+        formInputs={<AssignInputs register={assignRegister} errors={errors} control={control} />}
         handleSubmit={handleSubmitAssign(handleConfirmAssign)}
         isLoading={isAssigning}
       />

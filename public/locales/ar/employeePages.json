@@ -191,7 +191,29 @@
       "inputValidation": {
         "required": "عدد الإجازات العارضة السنوي مطلوب"
       }
+    },
+    "totalOrdinaryLeaves": {
+      "label": "إجمالي الإجازات الاعتيادية",
+      "placeholder": "أدخل إجمالي عدد الإجازات الاعتيادية",
+      "inputValidation": {
+        "required": "إجمالي الإجازات الاعتيادية مطلوب"
+      }
+    },
+    "totalCasualLeaves": {
+      "label": "إجمالي الإجازات العارضة",
+      "placeholder": "أدخل إجمالي عدد الإجازات العارضة",
+      "inputValidation": {
+        "required": "إجمالي الإجازات العارضة مطلوب"
+      }
+    },
+    "totalLeaveRequests": {
+      "label": "إجمالي طلبات الإجازة",
+      "placeholder": "أدخل إجمالي عدد طلبات الإجازة",
+      "inputValidation": {
+        "required": "إجمالي طلبات الإجازة مطلوب"
+      }
     }
+
   },
   "infoPopup": {
     "title": "كيفية إدارة الموظفين",

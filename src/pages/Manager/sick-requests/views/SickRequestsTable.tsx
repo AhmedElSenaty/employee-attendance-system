@@ -15,6 +15,7 @@ import { formatValue, getRequestStatusVariant } from "../../../../utils";
 import { RequestStatusType } from "../../../../enums";
 import { SICK_REQUESTS_NS } from "../../../../constants";
 import { ISickRequestData } from "../../../../interfaces";
+import { HasPermission } from "../../../../components/auth";
 
 interface ITableProps {
   sickRequests: ISickRequestData[];
@@ -121,32 +122,34 @@ const SickRequestsTable = ({
                         onClick={() => handleShow(sickRequest?.requestId)}
                       />
                     </Tooltip>
-                    {sickRequest.status == RequestStatusType.Pending && (
-                      <>
-                        <Tooltip content={t("table.buttons.toolTipAccept")}>
-                          <Button
-                            variant="success"
-                            fullWidth={false}
-                            size={"sm"}
-                            icon={<Check className="w-full h-full" />}
-                            onClick={() =>
-                              handleAccept(sickRequest?.requestId)
-                            }
-                          />
-                        </Tooltip>
-                        <Tooltip content={t("table.buttons.toolTipReject")}>
-                          <Button
-                            variant="danger"
-                            fullWidth={false}
-                            size={"sm"}
-                            icon={<X className="w-full h-full" />}
-                            onClick={() =>
-                              handleReject(sickRequest?.requestId)
-                            }
-                          />
-                        </Tooltip>
-                      </>
-                    )}
+                    <HasPermission permission="Accept/Reject Requests">
+                      {sickRequest.status == RequestStatusType.Pending && (
+                        <>
+                          <Tooltip content={t("table.buttons.toolTipAccept")}>
+                            <Button
+                              variant="success"
+                              fullWidth={false}
+                              size={"sm"}
+                              icon={<Check className="w-full h-full" />}
+                              onClick={() =>
+                                handleAccept(sickRequest?.requestId)
+                              }
+                            />
+                          </Tooltip>
+                          <Tooltip content={t("table.buttons.toolTipReject")}>
+                            <Button
+                              variant="danger"
+                              fullWidth={false}
+                              size={"sm"}
+                              icon={<X className="w-full h-full" />}
+                              onClick={() =>
+                                handleReject(sickRequest?.requestId)
+                              }
+                            />
+                          </Tooltip>
+                        </>
+                      )}
+                    </HasPermission>
                   </div>
                 </TableCell>
               </TableRow>

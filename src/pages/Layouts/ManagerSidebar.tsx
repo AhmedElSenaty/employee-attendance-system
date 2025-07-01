@@ -54,15 +54,26 @@ export const ManagerSidebar = () => {
         </SidebarDropdown>
       )}
 
-      <SidebarItem icon={<FileText size={23} />} name={t("leaveRequests")} to="/manager/leave-requests" />
-      <SidebarItem icon={<FileText size={23} />} name={t("leaveAttendance")} to="/manager/leave-requests-with-attendance" />
-      <SidebarItem icon={<Briefcase size={23} />} name={t("missionRequests")} to="/manager/mission-requests" />
+      {permissions.includes("View Requests") && (
+        <SidebarDropdown icon={<FileText size={23} />} name={t("leaveRequests")}>
+          <SidebarItem name={t("leaveRequests")} to="/manager/leave-requests" />
+          <SidebarItem name={t("leaveAttendance")} to="/manager/leave-requests-with-attendance" />
+        </SidebarDropdown>
+      )}
 
-      <SidebarItem icon={<Clock size={23} />} name={t("ordinaryRequests")} to="/manager/ordinary-requests" />
+      {permissions.includes("View Requests") && (
+        <SidebarItem icon={<Briefcase size={23} />} name={t("missionRequests")} to="/manager/mission-requests" />
+      )}
+      {permissions.includes("View Requests") && (
+        <SidebarItem icon={<Clock size={23} />} name={t("ordinaryRequests")} to="/manager/ordinary-requests" />
+      )}
 
-      <SidebarItem icon={<Coffee size={23} />} name={t("casualLeaveRequests")} to="/manager/casual-requests" />
-
-      <SidebarItem icon={<Thermometer size={23} />} name={t("sickRequests")} to="/manager/sick-requests" />
+      {permissions.includes("View Requests") && (
+        <SidebarItem icon={<Coffee size={23} />} name={t("casualLeaveRequests")} to="/manager/casual-requests" />
+      )}
+      {permissions.includes("View Requests") && (
+        <SidebarItem icon={<Thermometer size={23} />} name={t("sickRequests")} to="/manager/sick-requests" />
+      )}
     </Sidebar>
   );
 };

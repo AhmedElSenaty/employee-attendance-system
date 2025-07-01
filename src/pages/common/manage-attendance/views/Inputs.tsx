@@ -81,6 +81,7 @@ const Inputs = ({
                 value={deviceOptions.find((opt: {value: number, label: string}) => opt.value === field.value) || null}
                 onChange={(option) => field.onChange(option?.value)}
                 error={!!errors.deviceId}
+                isSearchable
               />
             )}
           />
@@ -108,6 +109,7 @@ const Inputs = ({
                 value={employeeOptions.find((opt: {value: number, label: string}) => opt.value === field.value) || null}
                 onChange={(option) => field.onChange(option?.value)}
                 error={!!errors.employeeId}
+                isSearchable
               />
             )}
           />

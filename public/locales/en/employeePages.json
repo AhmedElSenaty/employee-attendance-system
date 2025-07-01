@@ -81,6 +81,27 @@
     "note": "Note: Delegate assignment is optional."
   },
   "inputs": {
+    "totalOrdinaryLeaves": {
+      "label": "Total Ordinary Leaves",
+      "placeholder": "Enter total number of ordinary leaves",
+      "inputValidation": {
+        "required": "Total ordinary leaves is required"
+      }
+    },
+    "totalCasualLeaves": {
+      "label": "Total Casual Leaves",
+      "placeholder": "Enter total number of casual leaves",
+      "inputValidation": {
+        "required": "Total casual leaves is required"
+      }
+    },
+    "totalLeaveRequests": {
+      "label": "Total Leave Requests",
+      "placeholder": "Enter total number of leave requests",
+      "inputValidation": {
+        "required": "Total leave requests is required"
+      }
+    },
     "username": {
       "label": "Username",
       "placeholder": "Enter username",

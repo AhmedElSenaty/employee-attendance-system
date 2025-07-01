@@ -15,6 +15,7 @@ import { formatValue, getRequestStatusVariant } from "../../../../utils";
 import { RequestStatusType } from "../../../../enums";
 import { ICasualLeaveRequestData } from "../../../../interfaces";
 import { CASUAL_REQUESTS_NS } from "../../../../constants";
+import { HasPermission } from "../../../../components/auth";
 
 interface ITableProps {
   casualLeaveRequests: ICasualLeaveRequestData[];
@@ -104,32 +105,34 @@ const CasualLeaveRequestssTable = ({
                         onClick={() => handleShow(casualLeaveRequest.id)}
                       />
                     </Tooltip>
-                    {casualLeaveRequest.status == RequestStatusType.Pending && (
-                      <>
-                        <Tooltip content={t("table.buttons.toolTipAccept")}>
-                          <Button
-                            variant="success"
-                            fullWidth={false}
-                            size={"sm"}
-                            icon={<Check className="w-full h-full" />}
-                            onClick={() =>
-                              handleAccept(casualLeaveRequest.id)
-                            }
-                          />
-                        </Tooltip>
-                        <Tooltip content={t("table.buttons.toolTipReject")}>
-                          <Button
-                            variant="danger"
-                            fullWidth={false}
-                            size={"sm"}
-                            icon={<X className="w-full h-full" />}
-                            onClick={() =>
-                              handleReject(casualLeaveRequest.id)
-                            }
-                          />
-                        </Tooltip>
-                      </>
-                    )}
+                    <HasPermission permission="Accept/Reject Requests">
+                      {casualLeaveRequest.status == RequestStatusType.Pending && (
+                        <>
+                          <Tooltip content={t("table.buttons.toolTipAccept")}>
+                            <Button
+                              variant="success"
+                              fullWidth={false}
+                              size={"sm"}
+                              icon={<Check className="w-full h-full" />}
+                              onClick={() =>
+                                handleAccept(casualLeaveRequest.id)
+                              }
+                            />
+                          </Tooltip>
+                          <Tooltip content={t("table.buttons.toolTipReject")}>
+                            <Button
+                              variant="danger"
+                              fullWidth={false}
+                              size={"sm"}
+                              icon={<X className="w-full h-full" />}
+                              onClick={() =>
+                                handleReject(casualLeaveRequest.id)
+                              }
+                            />
+                          </Tooltip>
+                        </>
+                      )}
+                    </HasPermission>
                   </div>
                 </TableCell>
               </TableRow>

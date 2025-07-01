@@ -102,9 +102,14 @@ export const AdminSidebar = () => {
         </SidebarDropdown>
       )}
 
-      <SidebarItem icon={<FileClock size={23} />} name={t("logs")} to="/admin/logs" />
+      {permissions.includes("View Logs") && (
+        <SidebarItem icon={<FileClock size={23} />} name={t("logs")} to="/admin/logs" />
+      )}
 
-      <SidebarItem icon={<MonitorCog size={23} />} name={t("systemData")} to="/admin/system-data" />
+      {permissions.includes("View System Data") && (
+        <SidebarItem icon={<MonitorCog size={23} />} name={t("systemData")} to="/admin/system-data" />
+      )}
+
     </Sidebar>
   );
 };

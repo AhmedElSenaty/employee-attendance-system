@@ -13,10 +13,12 @@ import { EMPLOYEE_NS } from "../../../constants";
 import { useCreateEmployee } from "../../../hooks";
 import { DelegateInputs, DepartmentInputs, Inputs } from "./views";
 import { showToast } from "../../../utils";
+import { useUserStore } from "../../../store";
 
 const AddEmployeePage = () => {
   const { t } = useTranslation([EMPLOYEE_NS]);
   const navigate = useNavigate();
+  const role = useUserStore((state) => state.role);
 
   const {
     register,
@@ -43,7 +45,7 @@ const AddEmployeePage = () => {
       const response = await addEmployeeAndGetUserID(request);
       const userID = response?.data?.data?.userId;
       if (userID) {
-        navigate(`/admin/edit-employee/${userID}`);
+        navigate(`/${role}/edit-employee/${userID}`);
       } else {
         console.error("No user ID returned in response:", response);
       }

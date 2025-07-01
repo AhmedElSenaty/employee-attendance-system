@@ -15,6 +15,7 @@ import { formatValue, getRequestStatusVariant } from "../../../../utils";
 import { RequestStatusType } from "../../../../enums";
 import { IOrdinaryRequestData } from "../../../../interfaces";
 import { ORDINARY_REQUESTS_NS } from "../../../../constants";
+import { HasPermission } from "../../../../components/auth";
 
 interface ITableProps {
   ordinaryRequests: IOrdinaryRequestData[];
@@ -104,32 +105,34 @@ const OrdinaryRequestsTable = ({
                         onClick={() => handleShow(ordinaryRequest.id)}
                       />
                     </Tooltip>
-                    {ordinaryRequest.status == RequestStatusType.Pending && (
-                      <>
-                        <Tooltip content={t("table.buttons.toolTipAccept")}>
-                          <Button
-                            variant="success"
-                            fullWidth={false}
-                            size={"sm"}
-                            icon={<Check className="w-full h-full" />}
-                            onClick={() =>
-                              handleAccept(ordinaryRequest.id)
-                            }
-                          />
-                        </Tooltip>
-                        <Tooltip content={t("table.buttons.toolTipReject")}>
-                          <Button
-                            variant="danger"
-                            fullWidth={false}
-                            size={"sm"}
-                            icon={<X className="w-full h-full" />}
-                            onClick={() =>
-                              handleReject(ordinaryRequest.id)
-                            }
-                          />
-                        </Tooltip>
-                      </>
-                    )}
+                    <HasPermission permission="Accept/Reject Requests">
+                      {ordinaryRequest.status == RequestStatusType.Pending && (
+                        <>
+                          <Tooltip content={t("table.buttons.toolTipAccept")}>
+                            <Button
+                              variant="success"
+                              fullWidth={false}
+                              size={"sm"}
+                              icon={<Check className="w-full h-full" />}
+                              onClick={() =>
+                                handleAccept(ordinaryRequest.id)
+                              }
+                            />
+                          </Tooltip>
+                          <Tooltip content={t("table.buttons.toolTipReject")}>
+                            <Button
+                              variant="danger"
+                              fullWidth={false}
+                              size={"sm"}
+                              icon={<X className="w-full h-full" />}
+                              onClick={() =>
+                                handleReject(ordinaryRequest.id)
+                              }
+                            />
+                          </Tooltip>
+                        </>
+                      )}
+                    </HasPermission>
                   </div>
                 </TableCell>
               </TableRow>

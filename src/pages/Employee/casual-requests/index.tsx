@@ -158,13 +158,6 @@ const CasualLeaveRequestsPage = () => {
           clearParams={clearParams}
         />
 
-        <CasualLeaveRequestsList
-          casualLeaveRequests={casualLeaveRequests}
-          isLoading={isCasualLeaveRequestsLoading}
-          handleEditPopupOpen={handleEditPopupOpen}
-          handleShowPopupOpen={handleShowPopupOpen}
-        />
-
         {casualLeaveRequests.length > 0 ? (
           <CasualLeaveRequestsList
             casualLeaveRequests={casualLeaveRequests}

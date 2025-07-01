@@ -46,6 +46,9 @@ const EditEmployeePage = () => {
 
   const { employee , isLoading: isEmployeeDataLoading} = useGetEmployeeByID(id || "", reset)
 
+  console.log(employee);
+  
+
   // Destructuring functions and loading states from custom hooks for managing admins, departments, and permissions
   const { mutate: updateEmployee, isPending: isupdateing } = useUpdateEmployee();
   const { mutate: deleteEmployee, isPending: isDeleting } = useDeleteEmployee();

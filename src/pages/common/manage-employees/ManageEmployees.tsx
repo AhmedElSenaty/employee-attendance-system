@@ -206,21 +206,23 @@ const handleLeaveStatsPopupOpen = (id: string) => {
             </HasPermission>
           </div>
           <div className="w-full md:w-1/3 h-fit">
-            <ActionCard
-              icon={<UserCog />}
-              iconBgColor="bg-[#d7f0f6]"
-              iconColor="text-[#007fa4]"
-              title={t("manageEmployeesPage.restActionCard.title")}
-              description={t("manageEmployeesPage.restActionCard.description")}
-            >
-              <Button
-                fullWidth
-                variant="primary"
-                onClick={() => setIsRestPopupOpen(true)}
+            <HasPermission permission="Reset Employees Data">
+              <ActionCard
+                icon={<UserCog />}
+                iconBgColor="bg-[#d7f0f6]"
+                iconColor="text-[#007fa4]"
+                title={t("manageEmployeesPage.restActionCard.title")}
+                description={t("manageEmployeesPage.restActionCard.description")}
               >
-                {t("manageEmployeesPage.restActionCard.button")}
-              </Button>
-            </ActionCard>
+                <Button
+                  fullWidth
+                  variant="primary"
+                  onClick={() => setIsRestPopupOpen(true)}
+                >
+                  {t("manageEmployeesPage.restActionCard.button")}
+                </Button>
+              </ActionCard>
+            </HasPermission>
           </div>
 
           <div className="w-full md:w-1/3 h-fit">

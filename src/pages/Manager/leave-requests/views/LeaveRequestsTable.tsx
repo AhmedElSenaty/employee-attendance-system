@@ -15,6 +15,7 @@ import { useLanguageStore } from "../../../../store/";
 import { formatValue, getRequestStatusVariant } from "../../../../utils";
 import { RequestStatusType } from "../../../../enums";
 import { LEAVE_REQUESTS_NS } from "../../../../constants";
+import { HasPermission } from "../../../../components/auth";
 
 interface ITableProps {
   leaveRequests: ILeaveRequestData[];
@@ -100,32 +101,34 @@ const LeaveRequestsTable = ({
                         onClick={() => handleShow(leaveRequest.id)}
                       />
                     </Tooltip>
-                    {leaveRequest.status == RequestStatusType.Pending && (
-                      <>
-                        <Tooltip content={t("table.buttons.toolTipAccept")}>
-                          <Button
-                            variant="success"
-                            fullWidth={false}
-                            size={"sm"}
-                            icon={<Check className="w-full h-full" />}
-                            onClick={() =>
-                              handleAccept(leaveRequest.id)
-                            }
-                          />
-                        </Tooltip>
-                        <Tooltip content={t("table.buttons.toolTipReject")}>
-                          <Button
-                            variant="danger"
-                            fullWidth={false}
-                            size={"sm"}
-                            icon={<X className="w-full h-full" />}
-                            onClick={() =>
-                              handleReject(leaveRequest.id)
-                            }
-                          />
-                        </Tooltip>
-                      </>
-                    )}
+                    <HasPermission permission="Accept/Reject Requests">
+                      {leaveRequest.status == RequestStatusType.Pending && (
+                        <>
+                          <Tooltip content={t("table.buttons.toolTipAccept")}>
+                            <Button
+                              variant="success"
+                              fullWidth={false}
+                              size={"sm"}
+                              icon={<Check className="w-full h-full" />}
+                              onClick={() =>
+                                handleAccept(leaveRequest.id)
+                              }
+                            />
+                          </Tooltip>
+                          <Tooltip content={t("table.buttons.toolTipReject")}>
+                            <Button
+                              variant="danger"
+                              fullWidth={false}
+                              size={"sm"}
+                              icon={<X className="w-full h-full" />}
+                              onClick={() =>
+                                handleReject(leaveRequest.id)
+                              }
+                            />
+                          </Tooltip>
+                        </>
+                      )}
+                    </HasPermission>
                   </div>
                 </TableCell>
               </TableRow>

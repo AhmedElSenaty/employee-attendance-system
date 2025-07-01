@@ -10,6 +10,7 @@ import { AcceptPopup, AssignInputs, AssignPopup, RejectPopup, ShowPopup, SickReq
 import { yupResolver } from "@hookform/resolvers/yup";
 import { assignSickRequestSchema } from "../../../validation";
 import { CirclePlus } from "lucide-react";
+import { HasPermission } from "../../../components/auth";
 
 const SickLRequestsPage = () => {
   const { t } = useTranslation(SICK_REQUESTS_NS);
@@ -29,7 +30,7 @@ const SickLRequestsPage = () => {
     reset
   } = useForm<IRejectSickRequestCredentials>();
 
-  const { register: assignRegister, handleSubmit: handleSubmitAssign, formState: { errors }, reset: resetAssign, watch } = useForm<IAssignSickRequestCredentials>({
+  const { register: assignRegister, handleSubmit: handleSubmitAssign, formState: { errors }, reset: resetAssign, watch, control } = useForm<IAssignSickRequestCredentials>({
     resolver: yupResolver(assignSickRequestSchema),
     mode: "onChange"
   });
@@ -119,20 +120,22 @@ const SickLRequestsPage = () => {
             videoUrl={SICK_REQUESTS_MANAGER_VIDEO}
           />
         </div>
-        <ActionCard
-          icon={<CirclePlus />}
-          iconBgColor="bg-[#f5e4b2]"
-          iconColor="text-[#b38e19]"
-          title={t("assignActionCard.title")}
-          description={t("assignActionCard.description")}
-        >
-          <Button fullWidth variant="secondary" onClick={() => {
-            resetAssign()
-            setIsAssignPopupOpen(true)
-          }}>
-            {t("assignActionCard.button")}
-          </Button>
-        </ActionCard>
+        <HasPermission permission="Assign Requests to Employee">
+          <ActionCard
+            icon={<CirclePlus />}
+            iconBgColor="bg-[#f5e4b2]"
+            iconColor="text-[#b38e19]"
+            title={t("assignActionCard.title")}
+            description={t("assignActionCard.description")}
+          >
+            <Button fullWidth variant="secondary" onClick={() => {
+              resetAssign()
+              setIsAssignPopupOpen(true)
+            }}>
+              {t("assignActionCard.button")}
+            </Button>
+          </ActionCard>
+        </HasPermission>
       </div>
 
       <div className="bg-white shadow-md space-y-5 p-5 rounded-lg">
@@ -194,6 +197,7 @@ const SickLRequestsPage = () => {
             register={assignRegister}
             errors={errors}
             watch={watch}
+            control={control}
           />
         }
         handleSubmit={handleSubmitAssign(handleConfirmAssign)}

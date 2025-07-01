@@ -12,10 +12,12 @@ import { ManagerCredentials } from "../../../interfaces";
 import { PermissionCheckboxes } from "../../Admin/manage-permissions/views";
 import { DepartmentCheckboxes } from "../../Admin/manage-departments/views";
 import { Inputs } from "./views";
+import { useUserStore } from "../../../store";
 
 const AddManagerPage = () => {
   const { t } = useTranslation([MANAGER_NS]);
   const navigate = useNavigate();
+  const role = useUserStore((state) => state.role);
 
   const [checkedPermissions, setCheckedPermissions] = useState<string[]>([]);
   const [checkedDepartment, setCheckedDepartment] = useState<number[]>([]);
@@ -42,7 +44,7 @@ const AddManagerPage = () => {
       const response = await addManagerAndGetUserID(request);
       const userID = response?.data?.data?.userId;
       if (userID) {
-        navigate(`/admin/edit-manager/${userID}`)
+        navigate(`/${role}/edit-manager/${userID}`)
       } else {
         console.error("No user ID returned in response:", response);
       }

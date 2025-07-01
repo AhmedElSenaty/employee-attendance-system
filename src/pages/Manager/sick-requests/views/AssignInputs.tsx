@@ -1,7 +1,7 @@
-import { FieldErrors, UseFormRegister, UseFormWatch } from "react-hook-form";
+import { Control, Controller, FieldErrors, UseFormRegister, UseFormWatch } from "react-hook-form";
 import { useGetEmployeesList } from "../../../../hooks";
-import { IAssignSickRequestCredentials } from "../../../../interfaces";
-import { Description, Field, Input, InputErrorMessage, Label, SelectBox, SelectBoxSkeleton, Textarea } from "../../../../components/ui";
+import { EmployeeSummary, IAssignSickRequestCredentials } from "../../../../interfaces";
+import { CustomSelect, Description, Field, Input, InputErrorMessage, Label, SelectBoxSkeleton, Textarea } from "../../../../components/ui";
 import { useTranslation } from "react-i18next";
 import { SICK_REQUESTS_NS } from "../../../../constants";
 import { Calendar } from "lucide-react";
@@ -11,16 +11,23 @@ interface IInputsProps {
   register: UseFormRegister<IAssignSickRequestCredentials>;
   errors: FieldErrors<IAssignSickRequestCredentials>;
   watch: UseFormWatch<IAssignSickRequestCredentials>
+  control: Control<IAssignSickRequestCredentials>
 }
 const AssignInputs = ({
   register,
   errors,
-  watch
+  watch,
+  control
 }: IInputsProps) => {
 
   const { t } = useTranslation([SICK_REQUESTS_NS]);
   const medicalReportFile = watch("MedicalReport");
-  const { employeesList, isEmployeesListLoading } = useGetEmployeesList();
+  const { employeesList, isLoading: isEmployeesListLoading } = useGetEmployeesList();
+    const employeeOptions = employeesList?.map((employee: EmployeeSummary) => ({
+      value: employee.id,
+      label: employee.name,
+    })) || [];
+  
   return (
     <>
       <Field className="space-y-2">
@@ -54,14 +61,20 @@ const AssignInputs = ({
         {isEmployeesListLoading ? (
           <SelectBoxSkeleton />
         ) : (
-          <SelectBox isError={!!errors.EmployeeId} {...register("EmployeeId")}>
-            <option value="">{t("inputs.employeeId.defaultValue")}</option>
-            {employeesList?.map((employee, idx) => (
-              <option key={idx} value={employee.id}>
-                {employee.name}
-              </option>
-            ))}
-          </SelectBox>
+          <Controller
+            name="EmployeeId"
+            control={control}
+            render={({ field }) => (
+              <CustomSelect
+                className="w-full"
+                options={employeeOptions}
+                value={employeeOptions.find((opt: {value: number, label: string}) => opt.value === field.value) || null}
+                onChange={(option) => field.onChange(option?.value)}
+                error={!!errors.EmployeeId}
+                isSearchable
+              />
+            )}
+          />
         )}
         {errors.EmployeeId && (
           <InputErrorMessage>
