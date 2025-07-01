@@ -16,7 +16,7 @@ import useURLSearchParams from "../../../hooks/URLSearchParams.hook";
 const ManageAttendancePage = () => {
   const { t } = useTranslation([ATTENDANCE_NS]);
   const { language } = useLanguageStore();
-  const {getParam, setParam, clearParams} = useURLSearchParams();
+  const {getParam, setParam, clearParams, setParams} = useURLSearchParams();
 
   const { register, handleSubmit, formState: { errors }, reset, control} = useForm<AttendanceFormValues>({
     resolver: yupResolver(attendanceSchema),
@@ -198,7 +198,7 @@ const ManageAttendancePage = () => {
           />
 
           <div className="flex flex-col gap-5">
-            <AttendanceTableFilters searchBy={metadata.searchBy} getParam={getParam} setParam={setParam} clearParams={clearParams} />
+            <AttendanceTableFilters searchBy={metadata.searchBy} getParam={getParam} setParam={setParam} clearParams={clearParams} setParams={setParams} />
           </div>
           <div className="w-full overflow-x-auto">
             <AttendanceTable 
@@ -269,8 +269,15 @@ const ManageAttendancePage = () => {
         filteredData={{
           searchKey: searchKey || "",
           search: searchQuery || "",
-          startDate: startDate || new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString().split("T")[0],
-          endDate: endDate || new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).toISOString().split("T")[0],      
+          startDate:
+            startDate ||
+            `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, "0")}-01`,
+          endDate:
+            endDate ||
+            `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, "0")}-${String(
+              new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate()
+            ).padStart(2, "0")}`,
+                
           startTime: startTime || "",
           endTime: endTime || "",
           status: status || "",

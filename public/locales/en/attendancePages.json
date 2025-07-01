@@ -191,6 +191,13 @@
       "SearchByDeptartmentID": "Department",
       "SearchBySubDeptartmentId": "Sub-Department"
     },
+    "quickDate": {
+      "label": "Quick Date Range",
+      "placeholder": "Select a range",
+      "today": "Today",
+      "weekly": "This Week",
+      "monthly": "This Month"
+    },
     "search": {
       "label": "Search",
       "placeholder": "Enter the value you want to search for...."

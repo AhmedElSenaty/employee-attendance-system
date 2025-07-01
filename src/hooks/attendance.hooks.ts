@@ -61,7 +61,7 @@ export const useGetAttendances = (
 ) => {
   const token = useUserStore((state) => state.token);
   const service = useAttendanceService();
-
+  
   const { data, isLoading } = useQuery({
     queryKey: [
       QueryKeys.Attendance.All,

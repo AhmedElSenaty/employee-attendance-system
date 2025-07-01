@@ -191,6 +191,13 @@
       "SearchByDeptartmentID": "القسم",
       "SearchBySubDeptartmentId": "القسم الفرعي"
     },
+    "quickDate": {
+      "label": "نطاق التاريخ السريع",
+      "placeholder": "اختر نطاقًا",
+      "today": "اليوم",
+      "weekly": "هذا الأسبوع",
+      "monthly": "هذا الشهر"
+    },
     "search": {
       "label": "بحث",
       "placeholder": "أدخل القيمة التي تريد البحث عنها...."

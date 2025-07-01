@@ -1,16 +1,28 @@
-import { Button, CustomSelect, Field, Input, Label, SelectBoxSkeleton, Tooltip } from "../../../../components/ui"
+import {
+  Button,
+  CustomSelect,
+  Field,
+  Input,
+  Label,
+  SelectBoxSkeleton,
+  Tooltip,
+} from "../../../../components/ui";
 import { formatValue } from "../../../../utils";
 import { Calendar, RefreshCcw, Search, Timer } from "lucide-react";
-import { useGetDepartmentsList, useGetDepartmentSubDepartments } from "../../../../hooks/";
+import {
+  useGetDepartmentsList,
+  useGetDepartmentSubDepartments,
+} from "../../../../hooks/";
 import { useLanguageStore } from "../../../../store/";
 import { ATTENDANCE_NS } from "../../../../constants";
 import { useTranslation } from "react-i18next";
 import { Department, SubDepartment } from "../../../../interfaces";
 
 interface Props {
-  searchBy: string[]
+  searchBy: string[];
   getParam: (key: string) => string | number | null;
   setParam: (key: string, value: string) => void;
+  setParams: (params: Record<string, string>) => void; // ✅ fixed signature
   clearParams: () => void;
 }
 
@@ -18,29 +30,37 @@ const AttendanceTableFilters = ({
   searchBy,
   getParam,
   setParam,
+  setParams,
   clearParams,
 }: Props) => {
   const { language } = useLanguageStore();
   const { t } = useTranslation([ATTENDANCE_NS]);
 
-  const departmentId = getParam("searchByDepartmentId")
+  const departmentId = getParam("searchByDepartmentId");
 
-  const { departmentsList, isLoading: isDepartmentsLoading } = useGetDepartmentsList();
-  const { subDepartmentsList, isLoading: isSubDepartmentsLoading } = useGetDepartmentSubDepartments(Number(departmentId || ''));
+  const { departmentsList, isLoading: isDepartmentsLoading } =
+    useGetDepartmentsList();
+  const { subDepartmentsList, isLoading: isSubDepartmentsLoading } =
+    useGetDepartmentSubDepartments(Number(departmentId || ""));
 
   const pageSizeOptions = [10, 20, 30, 40, 50].map((size) => ({
     value: size,
     label: formatValue(size, language),
   }));
-  
-  const selectedPageSizeValue = pageSizeOptions.find(opt => opt.value === (getParam("pageSize") ? Number(getParam("pageSize")) : 10));
-  
+
+  const selectedPageSizeValue = pageSizeOptions.find(
+    (opt) =>
+      opt.value === (getParam("pageSize") ? Number(getParam("pageSize")) : 10)
+  );
+
   const searchByOptions = searchBy.map((search) => ({
     value: search || "",
     label: t(`filters.searchBy.${String(search)}`) ?? "",
   }));
-  
-  const selectedSearchByValue = searchByOptions.find(opt => opt.value === (getParam("searchKey") ? getParam("searchKey") : ""));
+
+  const selectedSearchByValue = searchByOptions.find(
+    (opt) => opt.value === (getParam("searchKey") ? getParam("searchKey") : "")
+  );
 
   const statusOptions = ["حضور", "انصراف"].map((state) => ({
     value: state,
@@ -58,7 +78,8 @@ const AttendanceTableFilters = ({
     })) ?? [];
 
   const selectedDepartmentValue = departmentOptions.find(
-    (opt: { value: number, label: string }) => opt.value === getParam("searchByDepartmentId")
+    (opt: { value: number; label: string }) =>
+      opt.value === getParam("searchByDepartmentId")
   );
 
   const subDepartmentOptions =
@@ -68,8 +89,42 @@ const AttendanceTableFilters = ({
     })) ?? [];
 
   const selectedSubDepartmentValue = subDepartmentOptions.find(
-    (opt: { value: number, label: string }) => opt.value === getParam("searchBySubDeptartmentId")
+    (opt: { value: number; label: string }) =>
+      opt.value === getParam("searchBySubDeptartmentId")
   );
+
+  const dateRangeOptions = [
+    { value: "today", label: t("filters.quickDate.today") },
+    { value: "weekly", label: t("filters.quickDate.weekly") },
+    { value: "monthly", label: t("filters.quickDate.monthly") },
+  ];
+
+  const handleQuickDateSelect = (value: string) => {
+  const today = new Date();
+  let start: Date;
+
+  if (value === "today") {
+    start = new Date(today);
+  } else if (value === "weekly") {
+    const day = today.getDay(); // 0 = Sunday
+    start = new Date(today);
+    const sundayOffset = day === 0 ? 0 : -day;
+    start.setDate(start.getDate() + sundayOffset);
+  } else if (value === "monthly") {
+    start = new Date(today.getFullYear(), today.getMonth(), 1); // first of month
+  } else {
+    return;
+  }
+
+  // ✅ Format using local time
+  const format = (d: Date) =>
+    `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+
+    setParams({
+      startDate: format(start),
+      endDate: format(today),
+    });
+};
 
 
   return (
@@ -121,7 +176,7 @@ const AttendanceTableFilters = ({
             onChange={(option) => setParam("status", String(option?.value))}
           />
         </Field>
-        
+
         <Field className="flex flex-col space-y-2 w-fit">
           <Label>{t("filters.startDate")}</Label>
           <Input
@@ -180,7 +235,9 @@ const AttendanceTableFilters = ({
         </Field>
 
         <Field className="flex flex-col space-y-2 w-fit">
-          <Label size="md">{t("filters.searchBy.SearchBySubDeptartmentId")}</Label>
+          <Label size="md">
+            {t("filters.searchBy.SearchBySubDeptartmentId")}
+          </Label>
           {isSubDepartmentsLoading ? (
             <SelectBoxSkeleton />
           ) : (
@@ -195,9 +252,19 @@ const AttendanceTableFilters = ({
             />
           )}
         </Field>
+
+        <Field className="flex flex-col space-y-2 w-fit">
+          <Label>{t("filters.quickDate.label")}</Label>
+          <CustomSelect
+            options={dateRangeOptions}
+            onChange={(option) => handleQuickDateSelect(String(option?.value))}
+            placeholder={t("filters.quickDate.placeholder")}
+            className="w-52"
+          />
+        </Field>
       </div>
     </>
   );
-}
+};
 
-export default AttendanceTableFilters
+export default AttendanceTableFilters;

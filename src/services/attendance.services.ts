@@ -43,10 +43,13 @@ export class AttendanceService extends BaseService {
         StartTime: startTime,
         EndTime: endTime,
         Status: status,
-        SearchByDeptartmentId: searchByDepartmentId === 0 ? "" : searchByDepartmentId,
+        SearchByDepartmentID: searchByDepartmentId === 0 ? "" : searchByDepartmentId,
         SearchBySubDeptartmentId: searchBySubDepartmentId === 0 ? "" : searchBySubDepartmentId,
         ...(searchType && searchQuery ? { [searchType]: searchQuery } : {}),
       });
+
+      console.log(params);
+      
 
       const response = await axiosInstance.get(`/Attendance`, {
         params,
