@@ -76,7 +76,7 @@ const CasualLeaveRequestssTable = ({
                   )}
                 </TableCell>
                 <TableCell label={columns[3]}>
-                  {new Date(casualLeaveRequest.startDate || "").toLocaleDateString(
+                  {new Date(casualLeaveRequest.endDate || "").toLocaleDateString(
                     language === "ar" ? "ar-EG" : "en-CA"
                   )}
                 </TableCell>
