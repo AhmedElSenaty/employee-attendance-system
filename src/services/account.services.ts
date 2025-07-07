@@ -3,13 +3,19 @@ import { capitalizeFirstLetter } from "../utils";
 import { BaseService } from "./base.services";
 
 export class AccountService extends BaseService {
-  updateAccountPassword = async (
-    data: { userId: string; password: string; oldPassword?: string }
-  ) => {
+  updateAccountPassword = async (data: {
+    userId: string;
+    password: string;
+    oldPassword?: string;
+  }) => {
     try {
-      const response = await axiosInstance.post(`/Account/UpdatePassword`, data, {
-        headers: this.getAuthHeaders(),
-      });
+      const response = await axiosInstance.post(
+        `/Account/UpdatePassword`,
+        data,
+        {
+          headers: this.getAuthHeaders(),
+        }
+      );
 
       return response;
     } catch (error) {
@@ -18,11 +24,18 @@ export class AccountService extends BaseService {
     }
   };
 
-  updateMyPassword = async (data: { password: string; oldPassword: string }) => {
+  updateMyPassword = async (data: {
+    password: string;
+    oldPassword: string;
+  }) => {
     try {
-      const response = await axiosInstance.post(`/Account/updateMyPassword`, data, {
-        headers: this.getAuthHeaders(),
-      });
+      const response = await axiosInstance.post(
+        `/Account/updateMyPassword`,
+        data,
+        {
+          headers: this.getAuthHeaders(),
+        }
+      );
 
       return response;
     } catch (error) {
@@ -48,11 +61,31 @@ export class AccountService extends BaseService {
     }
   };
 
+  resetEmployeePassword = async (id: string) => {
+    try {
+      const response = await axiosInstance.put(
+        `/Account/ResetEmployeePassword/${id}`,
+        {},
+        {
+          headers: this.getAuthHeaders(),
+        }
+      );
+
+      return response;
+    } catch (error) {
+      console.error("Error unblocking account:", error);
+      throw error;
+    }
+  };
+
   fetchMe = async (userRole: string) => {
     try {
-      const response = await axiosInstance.get(`/${capitalizeFirstLetter(userRole)}/me`, {
-        headers: this.getAuthHeaders(),
-      });
+      const response = await axiosInstance.get(
+        `/${capitalizeFirstLetter(userRole)}/me`,
+        {
+          headers: this.getAuthHeaders(),
+        }
+      );
 
       return response;
     } catch (error) {

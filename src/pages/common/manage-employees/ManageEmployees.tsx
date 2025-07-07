@@ -13,6 +13,7 @@ import {
   useRestEmployeeTimeVacations,
   useToggleReportEmployeeStatus,
   useUploadAttendanceExcel,
+  useResetEmployeePassword,
 } from "../../../hooks/";
 import { HasPermission } from "../../../components/auth";
 import { useLanguageStore, useUserStore } from "../../../store/";
@@ -151,6 +152,9 @@ export const ManageEmployeesPage = () => {
   const { mutate: toggleReport, isPending: isToggleReportLoading } =
     useToggleReportEmployeeStatus();
 
+  const { mutate: resetPassword, isPending: isLoading } =
+    useResetEmployeePassword();
+
   const handleConfirmDelete = () => {
     if (!selectedID) return;
     deleteEmployee(selectedID);
@@ -166,6 +170,11 @@ export const ManageEmployeesPage = () => {
     if (!selectedID) return;
     unblockAccount(selectedID);
     setIsUnblockPopupOpen(false);
+  };
+
+  const handleResetPassword = (id: string) => {
+    if (!id) return;
+    resetPassword(id);
   };
 
   const handleConfirmToggleReport = () => {
@@ -344,6 +353,8 @@ export const ManageEmployeesPage = () => {
             handleUnblock={handleUnblockPopupOpen}
             handleChangeIncludedStatus={handleChangeIncludedStatusPopupOpen}
             handleShowLeaveStats={handleLeaveStatsPopupOpen}
+            handleResetPassword={handleResetPassword}
+            isResettingPassword={isLoading} // ✅ Pass loading state
           />
         </div>
 

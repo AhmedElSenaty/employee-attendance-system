@@ -1,5 +1,25 @@
-import { StatusBadge, Button, NoDataMessage, Table, TableCell, TableRow, TableSkeleton, Tooltip } from "../../../../components/ui";
-import { AlertTriangle, Ban, Calendar, CheckCircle, FilePenLine, FileSpreadsheet, Trash2, X } from "lucide-react";
+import {
+  StatusBadge,
+  Button,
+  NoDataMessage,
+  Table,
+  TableCell,
+  TableRow,
+  TableSkeleton,
+  Tooltip,
+} from "../../../../components/ui";
+import {
+  AlertTriangle,
+  Ban,
+  Calendar,
+  CheckCircle,
+  FilePenLine,
+  FileSpreadsheet,
+  Trash2,
+  X,
+  RefreshCcw,
+} from "lucide-react";
+
 import { EmployeeData } from "../../../../interfaces";
 import { NavLink } from "react-router";
 import { truncateText } from "../../../../utils";
@@ -15,9 +35,19 @@ interface Props {
   handleUnblock: (id: string) => void;
   handleChangeIncludedStatus: (id: string) => void;
   handleShowLeaveStats: (id: string) => void;
+  handleResetPassword: (id: string) => void;
+  isResettingPassword?: boolean; // ✅ Add this
 }
 
-const EmployeesTable = ({ employees, isLoading, handleDelete, handleUnblock, handleChangeIncludedStatus, handleShowLeaveStats }: Props) => {
+const EmployeesTable = ({
+  employees,
+  isLoading,
+  handleDelete,
+  handleUnblock,
+  handleChangeIncludedStatus,
+  handleShowLeaveStats,
+  handleResetPassword,
+}: Props) => {
   const { t } = useTranslation([EMPLOYEE_NS]);
 
   const userRole = useUserStore((state) => state.role);
@@ -32,149 +62,206 @@ const EmployeesTable = ({ employees, isLoading, handleDelete, handleUnblock, han
     "table.columns.status",
     "table.columns.isExcludedFromReports",
     "table.columns.actions",
-  ]
+  ];
 
-  const columns = EMPLOYEE_TABLE_COLUMNS.map(key => t(key))
+  const columns = EMPLOYEE_TABLE_COLUMNS.map((key) => t(key));
 
   return (
     <>
       {isLoading ? (
-        <TableSkeleton numberOfColumns={columns.length} defaultNumberOfRows={5} />
+        <TableSkeleton
+          numberOfColumns={columns.length}
+          defaultNumberOfRows={5}
+        />
       ) : (
         <Table columns={columns}>
           {employees.length == 0 ? (
-            <NoDataMessage title={t("table.emptyTable.title")} message={t("table.emptyTable.message")} />
+            <NoDataMessage
+              title={t("table.emptyTable.title")}
+              message={t("table.emptyTable.message")}
+            />
           ) : (
-            employees.map(({ id, fullName, email, ssn, phoneNumber, departmentName, subDepartmentName, isActive, isBlocked, isExcludedFromReports }: EmployeeData) => (
-              <TableRow key={id} className="border-b">
-                <TableCell label={columns[0]}>{truncateText(fullName, 20)}</TableCell>
-                <TableCell label={columns[1]}>
-                  {truncateText(email, 15)}
-                </TableCell>
-                <TableCell label={columns[2]}>{ssn}</TableCell>
-                <TableCell label={columns[3]}>{phoneNumber != null ? phoneNumber : t("NA")}</TableCell>
-                <TableCell label={columns[4]}>{truncateText(departmentName, 20)}</TableCell>
-                <TableCell label={columns[5]}>{truncateText(subDepartmentName, 20)}</TableCell>
-                <TableCell label={columns[6]}>
-                  <div className="h-fit flex flex-col gap-3 items-center justify-center">
-                    <div className="block">
-                      <StatusBadge
-                        variant={isActive ? "success" : "warning"}
-                        size="medium"
-                        icon={isActive ? <CheckCircle className="w-4 h-4" /> : <AlertTriangle className="w-4 h-4" />}
-                      >
-                        {isActive
-                          ? t("table.status.active")
-                          : t("table.status.notActive")}
-                      </StatusBadge>
-                    </div>
-                    <div className="block">
-                      {isBlocked && (
+            employees.map(
+              ({
+                id,
+                fullName,
+                email,
+                ssn,
+                phoneNumber,
+                departmentName,
+                subDepartmentName,
+                isActive,
+                isBlocked,
+                isExcludedFromReports,
+              }: EmployeeData) => (
+                <TableRow key={id} className="border-b">
+                  <TableCell label={columns[0]}>
+                    {truncateText(fullName, 20)}
+                  </TableCell>
+                  <TableCell label={columns[1]}>
+                    {truncateText(email, 15)}
+                  </TableCell>
+                  <TableCell label={columns[2]}>{ssn}</TableCell>
+                  <TableCell label={columns[3]}>
+                    {phoneNumber != null ? phoneNumber : t("NA")}
+                  </TableCell>
+                  <TableCell label={columns[4]}>
+                    {truncateText(departmentName, 20)}
+                  </TableCell>
+                  <TableCell label={columns[5]}>
+                    {truncateText(subDepartmentName, 20)}
+                  </TableCell>
+                  <TableCell label={columns[6]}>
+                    <div className="h-fit flex flex-col gap-3 items-center justify-center">
+                      <div className="block">
                         <StatusBadge
-                          variant="neutral"
+                          variant={isActive ? "success" : "warning"}
                           size="medium"
-                          icon={<AlertTriangle className="w-4 h-4" />}
+                          icon={
+                            isActive ? (
+                              <CheckCircle className="w-4 h-4" />
+                            ) : (
+                              <AlertTriangle className="w-4 h-4" />
+                            )
+                          }
                         >
-                          {t("table.status.blocked")}
+                          {isActive
+                            ? t("table.status.active")
+                            : t("table.status.notActive")}
                         </StatusBadge>
-                      )}
+                      </div>
+                      <div className="block">
+                        {isBlocked && (
+                          <StatusBadge
+                            variant="neutral"
+                            size="medium"
+                            icon={<AlertTriangle className="w-4 h-4" />}
+                          >
+                            {t("table.status.blocked")}
+                          </StatusBadge>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                </TableCell>
-                <TableCell label={columns[6]}>
-                  <div className="h-fit flex flex-col gap-3 items-center justify-center">
-                    <div className="block">
-                      <StatusBadge
-                        variant={!isExcludedFromReports ? "success" : "error"}
-                        size="medium"
-                        icon={!isExcludedFromReports ? <CheckCircle className="w-4 h-4" /> : <X className="w-4 h-4" />}
-                      >
-                        {!isExcludedFromReports
-                          ? t("table.status.included")
-                          : t("table.status.excluded")}
-                      </StatusBadge>
+                  </TableCell>
+                  <TableCell label={columns[6]}>
+                    <div className="h-fit flex flex-col gap-3 items-center justify-center">
+                      <div className="block">
+                        <StatusBadge
+                          variant={!isExcludedFromReports ? "success" : "error"}
+                          size="medium"
+                          icon={
+                            !isExcludedFromReports ? (
+                              <CheckCircle className="w-4 h-4" />
+                            ) : (
+                              <X className="w-4 h-4" />
+                            )
+                          }
+                        >
+                          {!isExcludedFromReports
+                            ? t("table.status.included")
+                            : t("table.status.excluded")}
+                        </StatusBadge>
+                      </div>
                     </div>
-                  </div>
-                </TableCell>
-                <TableCell label={columns[7]}>
-                  <div className="flex flex-wrap gap-2">
-                    <HasPermission permission="Update Employee">
-                      <Tooltip content={t("buttons.editToolTip")}>
-                        <NavLink to={`/${userRole}/edit-employee/${id}`}>
-                          <Button 
-                            variant="info" 
-                            fullWidth={false}
-                            size={"sm"} 
-                            icon={<FilePenLine className="w-full h-full" />} 
-                            aria-label={t("buttons.edit")} 
-                          />
-                        </NavLink>
-                      </Tooltip>
-                    </HasPermission>
-                    <HasPermission permission="Delete Employee">
-                      <Tooltip content={t("buttons.deleteToolTip")}>
-                        <Button
-                          variant="danger"
-                          fullWidth={false}
-                          size={"sm"}
-                          icon={<Trash2 className="w-full h-full" />}
-                          aria-label={t("buttons.delete")}
-                          onClick={() => handleDelete(id)}
-                        />
-                      </Tooltip>
-                    </HasPermission>
-                    <HasPermission permission="View Attendances">
-                      <Tooltip content={t("buttons.calenderToolTip")}>
-                        <NavLink to={`/${userRole}/manage-employee/${id}/calender`}>
+                  </TableCell>
+                  <TableCell label={columns[7]}>
+                    <div className="flex flex-wrap gap-2">
+                      <HasPermission permission="Update Employee">
+                        <Tooltip content={t("buttons.editToolTip")}>
+                          <NavLink to={`/${userRole}/edit-employee/${id}`}>
+                            <Button
+                              variant="info"
+                              fullWidth={false}
+                              size={"sm"}
+                              icon={<FilePenLine className="w-full h-full" />}
+                              aria-label={t("buttons.edit")}
+                            />
+                          </NavLink>
+                        </Tooltip>
+                      </HasPermission>
+                      <HasPermission permission="Delete Employee">
+                        <Tooltip content={t("buttons.deleteToolTip")}>
                           <Button
-                            variant="secondary"
+                            variant="danger"
                             fullWidth={false}
                             size={"sm"}
-                            icon={<Calendar className="w-full h-full" />}
-                          />
-                        </NavLink>
-                      </Tooltip>
-                    </HasPermission>
-                    <HasPermission permission="Unlock Account">
-                      {isBlocked &&
-                        <Tooltip content={t("buttons.unlockToolTip")}>
-                          <Button
-                            variant="black"
-                            fullWidth={false}
-                            size={"sm"}
-                            icon={<Ban className="w-full h-full" />}
+                            icon={<Trash2 className="w-full h-full" />}
                             aria-label={t("buttons.delete")}
-                            onClick={() => handleUnblock(id)}
+                            onClick={() => handleDelete(id)}
                           />
                         </Tooltip>
-                      }
-                    </HasPermission>
-                    <HasPermission permission="Include/Exclude Employee from Reports">
-                      <Tooltip content={t("buttons.toggleToolTip")}>
+                      </HasPermission>
+                      <HasPermission permission="View Attendances">
+                        <Tooltip content={t("buttons.calenderToolTip")}>
+                          <NavLink
+                            to={`/${userRole}/manage-employee/${id}/calender`}
+                          >
+                            <Button
+                              variant="secondary"
+                              fullWidth={false}
+                              size={"sm"}
+                              icon={<Calendar className="w-full h-full" />}
+                            />
+                          </NavLink>
+                        </Tooltip>
+                      </HasPermission>
+                      <HasPermission permission="Unlock Account">
+                        {isBlocked && (
+                          <Tooltip content={t("buttons.unlockToolTip")}>
+                            <Button
+                              variant="black"
+                              fullWidth={false}
+                              size={"sm"}
+                              icon={<Ban className="w-full h-full" />}
+                              aria-label={t("buttons.delete")}
+                              onClick={() => handleUnblock(id)}
+                            />
+                          </Tooltip>
+                        )}
+                      </HasPermission>
+
+                      <HasPermission permission="Include/Exclude Employee from Reports">
+                        <Tooltip content={t("buttons.toggleToolTip")}>
+                          <Button
+                            variant="warning"
+                            fullWidth={false}
+                            size={"sm"}
+                            icon={<FileSpreadsheet className="w-full h-full" />}
+                            onClick={() => handleChangeIncludedStatus(id)}
+                          />
+                        </Tooltip>
+                      </HasPermission>
+
+                      {/*  */}
+
+                      <HasPermission permission="Include/Exclude Employee from Reports">
+                        <Tooltip content={t("buttons.reset")}>
+                          <Button
+                            variant="warning"
+                            fullWidth={false}
+                            size={"sm"}
+                            icon={<RefreshCcw className="w-full h-full" />}
+                            onClick={() => handleResetPassword(id)}
+                          />
+                        </Tooltip>
+                      </HasPermission>
+
+                      {/*  */}
+                      <Tooltip content={t("buttons.leaveStatsToolTip")}>
                         <Button
-                          variant="warning"
+                          variant="success"
                           fullWidth={false}
-                          size={"sm"}
+                          size="sm"
                           icon={<FileSpreadsheet className="w-full h-full" />}
-                          onClick={() => handleChangeIncludedStatus(id)}
+                          onClick={() => handleShowLeaveStats(id)}
                         />
                       </Tooltip>
-                    </HasPermission>
-                    <Tooltip content={t("buttons.leaveStatsToolTip")}>
-                      <Button
-                        variant="success"
-                        fullWidth={false}
-                        size="sm"
-                        icon={<FileSpreadsheet className="w-full h-full" />}
-                        onClick={() => handleShowLeaveStats(id)}
-                      />
-                    </Tooltip>
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))
-          )
-          }
+                    </div>
+                  </TableCell>
+                </TableRow>
+              )
+            )
+          )}
         </Table>
       )}
     </>

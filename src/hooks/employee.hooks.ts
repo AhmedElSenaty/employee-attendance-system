@@ -1,8 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import {
-  IErrorResponse,
-  initialMetadata,
-} from "../interfaces";
+import { IErrorResponse, initialMetadata } from "../interfaces";
 import { getTranslatedMessage, handleApiError, showToast } from "../utils";
 import { AxiosError } from "axios";
 import { useEffect, useMemo } from "react";
@@ -11,6 +8,7 @@ import { useUserStore } from "../store/user.store";
 import { EmployeeService } from "../services";
 import { EmployeeFormValues } from "../validation";
 import { QueryKeys } from "../constants";
+import { useAccountService } from "./me.hooks";
 
 export const useEmployeeService = () => {
   const token = useUserStore((state) => state.token);
@@ -33,12 +31,13 @@ export const useGetAllEmployees = (
 
   const { data, isLoading } = useQuery({
     queryKey: [
-      QueryKeys.Employees.All, 
-      page, 
-      pageSize, 
-      `${searchKey && searchQuery ? [searchKey, searchQuery] : ""}`
+      QueryKeys.Employees.All,
+      page,
+      pageSize,
+      `${searchKey && searchQuery ? [searchKey, searchQuery] : ""}`,
     ],
-    queryFn: () => employeeService.fetchAll(page, pageSize, searchKey, searchQuery),
+    queryFn: () =>
+      employeeService.fetchAll(page, pageSize, searchKey, searchQuery),
     enabled: !!token,
   });
 
@@ -74,9 +73,7 @@ export const useGetEmployeeByID = (
   };
 };
 
-export const useGetEmployeeVacationsByID = (
-  employeeID: string,
-) => {
+export const useGetEmployeeVacationsByID = (employeeID: string) => {
   const token = useUserStore((state) => state.token);
   const employeeService = useEmployeeService();
 
@@ -150,7 +147,8 @@ export const useCreateEmployee = () => {
   const employeeService = useEmployeeService();
 
   return useMutation({
-    mutationFn: (employeeData: EmployeeFormValues) => employeeService.create(employeeData),
+    mutationFn: (employeeData: EmployeeFormValues) =>
+      employeeService.create(employeeData),
     onSuccess: ({ status, data }) => {
       queryClient.invalidateQueries({ queryKey: [QueryKeys.Employees.All] });
       if (status === 201) {
@@ -171,7 +169,8 @@ export const useUpdateEmployee = () => {
   const employeeService = useEmployeeService();
 
   return useMutation({
-    mutationFn: (employeeData: EmployeeFormValues) => employeeService.update(employeeData),
+    mutationFn: (employeeData: EmployeeFormValues) =>
+      employeeService.update(employeeData),
     onSuccess: ({ status, data }) => {
       queryClient.invalidateQueries({ queryKey: [QueryKeys.Employees.All] });
       if (status === 200) {
@@ -192,7 +191,8 @@ export const useToggleReportEmployeeStatus = () => {
   const employeeService = useEmployeeService();
 
   return useMutation({
-    mutationFn: (employeeID: string) => employeeService.toggleReportStatus(employeeID),
+    mutationFn: (employeeID: string) =>
+      employeeService.toggleReportStatus(employeeID),
     onSuccess: ({ status, data }) => {
       queryClient.invalidateQueries({ queryKey: [QueryKeys.Employees.All] });
       if (status === 200) {
@@ -229,11 +229,31 @@ export const useDeleteEmployee = () => {
 };
 
 export const useRestEmployeeTimeVacations = () => {
-  const { language } = useLanguageStore()
+  const { language } = useLanguageStore();
   const employeeService = useEmployeeService();
 
   return useMutation({
     mutationFn: (time: number) => employeeService.resetEmployeeVacations(time),
+    onSuccess: ({ status, data }) => {
+      if (status === 200) {
+        const message = getTranslatedMessage(data.message ?? "", language);
+        showToast("success", message);
+      }
+    },
+    onError: (error) => {
+      const axiosError = error as AxiosError<IErrorResponse>;
+      handleApiError(axiosError, language);
+    },
+  });
+};
+
+export const useResetEmployeePassword = () => {
+  const { language } = useLanguageStore();
+  const accountService = useAccountService();
+
+  return useMutation({
+    mutationFn: (employeeID: string) =>
+      accountService.resetEmployeePassword(employeeID),
     onSuccess: ({ status, data }) => {
       if (status === 200) {
         const message = getTranslatedMessage(data.message ?? "", language);
