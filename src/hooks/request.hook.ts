@@ -1,0 +1,75 @@
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMemo } from "react";
+import { useUserStore } from "../store/user.store";
+import { useLanguageStore } from "../store/language.store";
+import { AxiosError } from "axios";
+import { QueryKeys } from "../constants";
+import { IErrorResponse, initialMetadata } from "../interfaces";
+import { IRejectRequestCredentials } from "../interfaces/request.interfaces";
+import { RequestService } from "../services/requests.services";
+import { getTranslatedMessage, handleApiError, showToast } from "../utils";
+
+export const useRequestService = () => {
+  const token = useUserStore((state) => state.token);
+  return useMemo(() => new RequestService(token), [token]);
+};
+
+export const useGetRequests = () => {
+  const token = useUserStore((state) => state.token);
+  const requestService = useRequestService();
+
+  const { data, isLoading } = useQuery({
+    queryKey: [QueryKeys.Requests.All],
+    queryFn: () => requestService.fetchRequests(),
+    enabled: !!token,
+  });
+
+  return {
+    requests: data?.data?.data || [],
+    metadata: data?.data?.data?.metadata || initialMetadata,
+    isLoading,
+  };
+};
+
+export const useAcceptRequest = () => {
+  const { language } = useLanguageStore();
+  const queryClient = useQueryClient();
+  const requestService = useRequestService();
+
+  return useMutation({
+    mutationFn: (requestId: number) => requestService.accept(requestId),
+    onSuccess: ({ status, data }) => {
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.Requests.All] });
+      if (status === 200) {
+        const message = getTranslatedMessage(data.message ?? "", language);
+        showToast("success", message);
+      }
+    },
+    onError: (error) => {
+      const axiosError = error as AxiosError<IErrorResponse>;
+      handleApiError(axiosError, language);
+    },
+  });
+};
+
+export const useRejectRequest = () => {
+  const { language } = useLanguageStore();
+  const queryClient = useQueryClient();
+  const requestService = useRequestService();
+
+  return useMutation({
+    mutationFn: (payload: { id: string; data: IRejectRequestCredentials }) =>
+      requestService.reject(payload.id, payload.data),
+    onSuccess: ({ status, data }) => {
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.Requests.All] });
+      if (status === 200) {
+        const message = getTranslatedMessage(data.message ?? "", language);
+        showToast("success", message);
+      }
+    },
+    onError: (error) => {
+      const axiosError = error as AxiosError<IErrorResponse>;
+      handleApiError(axiosError, language);
+    },
+  });
+};

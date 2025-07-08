@@ -4,11 +4,8 @@ import { StatusBadgeType } from "../types/statusBadge.types";
 /**
  * Maps a `RequestStatusType` to the corresponding visual variant of the `StatusBadge` component.
  *
- * @param status - The request status value (Accepted, Rejected, Ignored, or Pending).
+ * @param status - The request status value (Accepted, Rejected, Ignored, etc.).
  * @returns A string representing the visual variant for the badge (e.g., "success", "error").
- *
- * @example
- * getRequestStatusVariant(RequestStatusType.Accepted); // "success"
  */
 export const getRequestStatusVariant = (
   status: RequestStatusType
@@ -17,9 +14,13 @@ export const getRequestStatusVariant = (
     case RequestStatusType.Accepted:
       return "success";
     case RequestStatusType.Rejected:
-      return "error";
+      return "warning";
     case RequestStatusType.Ignored:
       return "neutral";
+    case RequestStatusType.AssignedManually:
+      return "info";
+    case RequestStatusType.Deleted:
+      return "error";
     case RequestStatusType.Pending:
     default:
       return "warning";
@@ -29,11 +30,8 @@ export const getRequestStatusVariant = (
 /**
  * Returns a Tailwind CSS background color class based on the request status.
  *
- * @param status - The request status value (Accepted, Rejected, Ignored, or Pending).
+ * @param status - The request status value (Accepted, Rejected, Ignored, etc.).
  * @returns A Tailwind CSS class for background color.
- *
- * @example
- * getRequestBgColorClass(RequestStatusType.Rejected); // "bg-red-50"
  */
 export const getRequestBgColorClass = (status: RequestStatusType): string => {
   switch (status) {
@@ -43,6 +41,10 @@ export const getRequestBgColorClass = (status: RequestStatusType): string => {
       return "bg-red-50";
     case RequestStatusType.Ignored:
       return "bg-gray-100";
+    case RequestStatusType.AssignedManually:
+      return "bg-blue-50";
+    case RequestStatusType.Deleted:
+      return "bg-black/5";
     case RequestStatusType.Pending:
     default:
       return "bg-yellow-50";

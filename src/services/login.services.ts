@@ -42,6 +42,7 @@ export class AuthService {
         imageUrl: null,
         rememberMe: false,
         permissions: [],
+        departmentId: tokenPayload.departmentId,
       };
     } catch (error) {
       console.error("Error parsing token:", error);

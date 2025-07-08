@@ -11,14 +11,12 @@ const Badge= ({
   textColor = "text-white",
   bgColor = "bg-blue-500",
   pulse = false,
-  showZero = false,
 }: IProps) => {
-  if (count === undefined || count === null || (!count && !showZero)) return null;
 
   const sizeClass =
     count && count.toString().length > 2
       ? "px-2 h-6 min-w-[1.5rem]"
-      : "w-6 h-6";
+      : "w-4 h-4";
 
   return (
     <span

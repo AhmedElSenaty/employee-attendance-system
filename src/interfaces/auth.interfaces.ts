@@ -5,4 +5,5 @@ export interface ILoggedInUser {
   rememberMe: boolean;
   imageUrl: null | string;
   permissions: string[];
+  departmentId: string;
 }

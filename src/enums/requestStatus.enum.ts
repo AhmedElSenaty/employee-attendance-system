@@ -12,4 +12,6 @@ export enum RequestStatusType {
     Accepted = 1,
     Rejected = 2,
     Ignored = 3,
-  }
+    AssignedManually = 4,
+    Deleted = 5,
+}

@@ -3,7 +3,7 @@ import { AttendanceCard, AttendanceCardSkeleton, SectionHeader, Header, StatCard
 import { useTranslation } from "react-i18next";
 import { useFiltersHook } from "../../hooks/filter.hook";
 import { useGetDepartmentsList } from "../../hooks/department.hooks";
-import { AttendanceCardData } from "../../interfaces";
+import { AttendanceCardData, DepartmentSummary } from "../../interfaces";
 import { formatValue } from "../../utils";
 import { useLanguageStore } from "../../store/language.store";
 import { useGetAttendanceOverview, useGetDepartmentAttendanceOverview, useGetLatestAttendance } from "../../hooks/attendance.hooks";
@@ -43,13 +43,13 @@ export const DashboardPage = () => {
     datasets: [
       {
         label: t("attendanceOverview.graph.attendance", { ns: "dashboard" }),
-        data: attendanceOverviewDtos?.map((item) => item.attendance),
+        data: attendanceOverviewDtos?.map((item:any) => item.attendance),
         backgroundColor: "#19355a",
         hoverOffset: 8,
       },
       {
         label: t("attendanceOverview.graph.absent", { ns: "dashboard" }),
-        data: attendanceOverviewDtos?.map((item) => item.absence),
+        data: attendanceOverviewDtos?.map((item:any) => item.absence),
         backgroundColor: "#b38e19",
         hoverOffset: 8,
       },
@@ -199,8 +199,8 @@ export const DashboardPage = () => {
                 <option value="">
                   {t("departmentOverview.selectDefult", { ns: "dashboard" })}
                 </option>
-                {departmentsList?.map((department, idx) => (
-                  <option key={idx} value={department.id}>
+                {departmentsList?.map((department: DepartmentSummary) => (
+                  <option key={department.id} value={department.id}>
                     {department.name}
                   </option>
                 ))}
@@ -232,7 +232,7 @@ export const DashboardPage = () => {
                 latestAttendance.map(
                   (
                     { employeeName, profileImage, departmentName, subDepartmentName, checkIn, checkOut }: AttendanceCardData,
-                    index
+                    index: number
                   ) => (
                     <AttendanceCard
                       key={index}

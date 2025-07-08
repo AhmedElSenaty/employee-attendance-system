@@ -105,5 +105,8 @@ export const QueryKeys = {
     Details: "casualLeaveRequestDetails",
     MyDetails: "myCasualLeaveRequestDetails",
   },
+  Requests: {
+    All: "requests",
+  },
   // Add more domains/modules here
 };

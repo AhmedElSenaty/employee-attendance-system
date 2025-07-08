@@ -24,3 +24,10 @@ export * from "./report.hooks"
 export * from "./employee.hooks"
 export * from "./manager.hooks"
 export * from "./admin.hooks"
+
+
+export interface INotification {
+    deptId: number
+    message: string
+    time: string
+}
