@@ -49,7 +49,7 @@ useEffect(() => {
           {
             const sound = new Audio('/public/new-notification.mp3');
             sound.play();
-            showToast("success", message.message, 1000)
+            // showToast("success", message.message, 1000)
             console.log("📢 Notification:", message);
             setNotificationCount(prev => prev + 1);
           }
