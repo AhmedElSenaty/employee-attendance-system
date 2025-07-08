@@ -234,7 +234,7 @@ const EmployeesTable = ({
 
                       {/*  */}
 
-                      <HasPermission permission="Include/Exclude Employee from Reports">
+                      <HasPermission permission="Update Employee">
                         <Tooltip content={t("buttons.reset")}>
                           <Button
                             variant="warning"
