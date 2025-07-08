@@ -14,7 +14,6 @@ import { useLanguageStore } from "../../store/language.store";
 import { defaultUsertImage } from "../../assets";
 import { AuthService } from "../../services";
 import { INotification } from "../../hooks";
-import { showToast } from "../../utils";
 
 export const Navbar = () => {
   const { t } = useTranslation(["common", "navbar"]);
@@ -49,7 +48,6 @@ useEffect(() => {
           {
             const sound = new Audio('/public/new-notification.mp3');
             sound.play();
-            // showToast("success", message.message, 1000)
             console.log("📢 Notification:", message);
             setNotificationCount(prev => prev + 1);
           }
@@ -145,8 +143,8 @@ useEffect(() => {
                   <NavLink to="/" className="flex items-center gap-3 p-3 rounded-lg hover:bg-black/5">
                     <HomeIcon className="text-black" />
                     <div>
-                      <p className="font-semibold text-black">{t("userLinks.home.title")}</p>
-                      <p className="text-black/50 text-base">{t("userLinks.home.description")}</p>
+                      <p className="font-semibold text-black">{t("userLinks.home.title", { ns: "navbar" })}</p>
+                      <p className="text-black/50 text-base">{t("userLinks.home.description", { ns: "navbar" })}</p>
                     </div>
                   </NavLink>
 
@@ -155,15 +153,15 @@ useEffect(() => {
                       <NavLink to="/employee" className="flex items-center gap-3 p-3 rounded-lg hover:bg-black/5">
                         <Briefcase className="text-black" />
                         <div>
-                          <p className="font-semibold text-black">{t("userLinks.employeeDashboard.title")}</p>
-                          <p className="text-black/50 text-base">{t("userLinks.employeeDashboard.description")}</p>
+                          <p className="font-semibold text-black">{t("userLinks.employeeDashboard.title", { ns: "navbar" })}</p>
+                          <p className="text-black/50 text-base">{t("userLinks.employeeDashboard.description", { ns: "navbar" })}</p>
                         </div>
                       </NavLink>
                       <NavLink to={`/employee/calendar/${id}`} className="flex items-center gap-3 p-3 rounded-lg hover:bg-black/5">
                         <User className="text-black" />
                         <div>
-                          <p className="font-semibold text-black">{t("userLinks.calendar.title")}</p>
-                          <p className="text-black/50 text-base">{t("userLinks.calendar.description")}</p>
+                          <p className="font-semibold text-black">{t("userLinks.calendar.title", { ns: "navbar" })}</p>
+                          <p className="text-black/50 text-base">{t("userLinks.calendar.description", { ns: "navbar" })}</p>
                         </div>
                       </NavLink>
                     </>
@@ -172,8 +170,8 @@ useEffect(() => {
                   <NavLink to={`/${userRole}/account/`} className="flex items-center gap-3 p-3 rounded-lg hover:bg-black/5">
                     <User className="text-black" />
                     <div>
-                      <p className="font-semibold text-black">{t("userLinks.profile.title")}</p>
-                      <p className="text-black/50 text-base">{t("userLinks.profile.description")}</p>
+                      <p className="font-semibold text-black">{t("userLinks.profile.title", { ns: "navbar" })}</p>
+                      <p className="text-black/50 text-base">{t("userLinks.profile.description", { ns: "navbar" })}</p>
                     </div>
                   </NavLink>
                 </div>
@@ -185,8 +183,8 @@ useEffect(() => {
                   >
                     <LogOut className="text-red-600" />
                     <div>
-                      <p className="font-semibold text-black">{t("userLinks.logout.title")}</p>
-                      <p className="text-black/50 text-base">{t("userLinks.logout.description")}</p>
+                      <p className="font-semibold text-black">{t("userLinks.logout.title", { ns: "navbar" })}</p>
+                      <p className="text-black/50 text-base">{t("userLinks.logout.description", { ns: "navbar" })}</p>
                     </div>
                   </button>
                 </div>
