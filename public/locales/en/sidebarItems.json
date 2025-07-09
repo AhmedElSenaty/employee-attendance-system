@@ -35,5 +35,6 @@
   "systemData": "System Data",
   "logs": "Logs",
   "sickRequests": "Sick Requests",
-  "leaveAttendance": "Leave with attendance"
+  "leaveAttendance": "Leave with attendance",
+  "addRequest": "Add Request"
 }

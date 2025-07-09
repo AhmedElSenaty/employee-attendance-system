@@ -20,3 +20,11 @@ export interface ISoftDeleteRequestCredentials {
   requestId: number;
   comment: string;
 }
+
+export interface IAssignRequest {
+  employeeId: number;
+  startDate: string;   // ISO date string (e.g., "2025-07-09T13:36:21.933Z")
+  endDate: string;
+  leaveType: number;   // consider using an enum if leave types are predefined
+  description: string;
+}

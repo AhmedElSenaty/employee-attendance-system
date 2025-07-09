@@ -35,5 +35,7 @@
   "systemData": "بيانات النظام",
   "logs": "سجلات النشاط",
   "sickRequests": "طلبات مرضية",
-  "leaveAttendance": "الاذونات والمواعيد"
+  "leaveAttendance": "الاذونات والمواعيد",
+  "addRequest":"اضافة طلب قديم"
+
 }

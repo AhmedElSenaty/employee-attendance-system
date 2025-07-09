@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { IErrorResponse, initialMetadata } from "../interfaces";
-import { getTranslatedMessage, handleApiError, showToast } from "../utils";
+import { EmployeeWorkingHours, IErrorResponse, initialMetadata } from "../interfaces";
+import { appendSecondsToTime, getTranslatedMessage, handleApiError, showToast } from "../utils";
 import { AxiosError } from "axios";
 import { useEffect, useMemo } from "react";
 import { useLanguageStore } from "../store/language.store";
@@ -254,6 +254,32 @@ export const useResetEmployeePassword = () => {
   return useMutation({
     mutationFn: (employeeID: string) =>
       accountService.resetEmployeePassword(employeeID),
+    onSuccess: ({ status, data }) => {
+      if (status === 200) {
+        const message = getTranslatedMessage(data.message ?? "", language);
+        showToast("success", message);
+      }
+    },
+    onError: (error) => {
+      const axiosError = error as AxiosError<IErrorResponse>;
+      handleApiError(axiosError, language);
+    },
+  });
+};
+
+export const useUpdateEmployeeWorkingHours = () => {
+  const { language } = useLanguageStore();
+  const employeeService = useEmployeeService();
+
+  return useMutation({
+    mutationFn: (data: EmployeeWorkingHours) => {
+      const formatted = {
+        ...data,
+        attendTime: appendSecondsToTime(data.attendTime || ""),
+        goTime: appendSecondsToTime(data.goTime || ""),
+      };
+      return employeeService.updateWorkingHours(formatted)
+    },
     onSuccess: ({ status, data }) => {
       if (status === 200) {
         const message = getTranslatedMessage(data.message ?? "", language);

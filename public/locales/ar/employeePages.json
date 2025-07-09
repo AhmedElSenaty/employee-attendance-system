@@ -78,6 +78,10 @@
       "title": "أيام العمل",
       "description": "حدد أيام العمل المخصصة لهذا الموظف."
     },
+    "hoursSectionHeader": {
+      "title": "اوقات العمل",
+      "description": "حدد اوقات العمل المخصصة لهذا الموظف."
+    },
     "note": "ملاحظة: تعيين التفويض اختياري."
   },
   "inputs": {
@@ -212,6 +216,18 @@
       "inputValidation": {
         "required": "إجمالي طلبات الإجازة مطلوب"
       }
+    },
+    "attendTime": {
+      "label": "اقصى وقت للحضور",
+      "placeholder": "ادخل وقت الحضور"
+    },
+    "goTime": {
+      "label": "اقل وقت للانصراف",
+      "placeholder": "ادخل وقت الانصراف"
+    },
+    "description": {
+      "label": "سبب تغيير المواعيد",
+      "placeholder": "أدخل سبب تغيير المواعيد"
     }
 
   },
@@ -311,6 +327,7 @@
     "reset": "إعادة تعيين",
     "toggle": "تبديل",
     "updateInformations": "تحديث المعلومات",
+    "updateHours": "تحديث اوقات العمل",
     "create": "إنشاء حساب موظف",
     "updatePassword": "تحديث كلمة المرور",
     "updateWorkingDays": "تحديث أيام العمل",

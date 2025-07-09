@@ -68,3 +68,11 @@ export interface EmployeeLeaveStats {
   totalSickLeave: number;
   totalMissions: number;
 }
+
+
+export interface EmployeeWorkingHours {
+  employeeId: string;
+  attendTime: string,
+  goTime: string,
+  description: string
+}
