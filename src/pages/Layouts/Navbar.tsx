@@ -14,6 +14,7 @@ import { useLanguageStore } from "../../store/language.store";
 import { defaultUsertImage } from "../../assets";
 import { AuthService } from "../../services";
 import { INotification } from "../../hooks";
+import { API_BASE_URL } from "../../constants";
 
 export const Navbar = () => {
   const { t } = useTranslation(["common", "navbar"]);
@@ -33,7 +34,7 @@ useEffect(() => {
     {
       const data =service.parseToken(token)
       const connection = new signalR.HubConnectionBuilder()
-        .withUrl("https://localhost:7268/NotificationHub", {
+        .withUrl(`${API_BASE_URL}/NotificationHub`, {
           accessTokenFactory: () => token,
         })
         .withAutomaticReconnect()
