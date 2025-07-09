@@ -7,10 +7,13 @@ import { AttendanceCardData, DepartmentSummary } from "../../interfaces";
 import { formatValue } from "../../utils";
 import { useLanguageStore } from "../../store/language.store";
 import { useGetAttendanceOverview, useGetDepartmentAttendanceOverview, useGetLatestAttendance } from "../../hooks/attendance.hooks";
+import { NavLink } from "react-router";
+import { useUserStore } from "../../store";
 
 export const DashboardPage = () => {
   const { t } = useTranslation(["common", "dashboard"]);
   const { language } = useLanguageStore();
+  const role = useUserStore((state) => state.role);
 
   const { startDate, endDate, searchByDepartmentId, setFilters } = useFiltersHook();
   const { departmentsList, isLoading: isDepartmentsLoading } = useGetDepartmentsList();
@@ -83,6 +86,7 @@ export const DashboardPage = () => {
               </>
             ) : (
               <>
+              <NavLink to={`/${role}/manage-attendance/vacations/0`}>
                 <StatCard
                   icon={<Check />}
                   amount={formatValue(dailyAttendanceDto?.totalComplete || 0, language)}
@@ -92,36 +96,43 @@ export const DashboardPage = () => {
                   iconBg="bg-emerald-700"
                   cardBg="bg-emerald-50"
                 />
+              </NavLink>
 
-                <StatCard
-                  icon={<X />}
-                  amount={formatValue(dailyAttendanceDto?.noCheckInOrOut || 0, language)}
-                  description={t("attendanceOverview.statCards.noCheck.description", { ns: "dashboard" })}
-                  note={t("attendanceOverview.statCards.noCheck.note", { ns: "dashboard" })}
-                  iconColor="text-white"
-                  iconBg="bg-red-700"
-                  cardBg="bg-red-50"
-                />
+                <NavLink to={`/${role}/manage-attendance/vacations/1`}>
+                  <StatCard
+                    icon={<X />}
+                    amount={formatValue(dailyAttendanceDto?.noCheckInOrOut || 0, language)}
+                    description={t("attendanceOverview.statCards.noCheck.description", { ns: "dashboard" })}
+                    note={t("attendanceOverview.statCards.noCheck.note", { ns: "dashboard" })}
+                    iconColor="text-white"
+                    iconBg="bg-red-700"
+                    cardBg="bg-red-50"
+                  />
+                </NavLink>
 
-                <StatCard
-                  icon={<Calendar />}
-                  amount={formatValue(dailyAttendanceDto?.onlyCheckedIn || 0, language)}
-                  description={t("attendanceOverview.statCards.onlyCheckIn.description", { ns: "dashboard" })}
-                  note={t("attendanceOverview.statCards.onlyCheckIn.note", { ns: "dashboard" })}
-                  iconColor="text-white"
-                  iconBg="bg-yellow-600"
-                  cardBg="bg-yellow-50"
-                />
+                <NavLink to={`/${role}/manage-attendance/vacations/2`}>
+                  <StatCard
+                    icon={<Calendar />}
+                    amount={formatValue(dailyAttendanceDto?.onlyCheckedIn || 0, language)}
+                    description={t("attendanceOverview.statCards.onlyCheckIn.description", { ns: "dashboard" })}
+                    note={t("attendanceOverview.statCards.onlyCheckIn.note", { ns: "dashboard" })}
+                    iconColor="text-white"
+                    iconBg="bg-yellow-600"
+                    cardBg="bg-yellow-50"
+                  />
+                </NavLink>
 
-                <StatCard
-                  icon={<Calendar />}
-                  amount={formatValue(dailyAttendanceDto?.onlyCheckedOut || 0, language)}
-                  description={t("attendanceOverview.statCards.onlyCheckOut.description", { ns: "dashboard" })}
-                  note={t("attendanceOverview.statCards.onlyCheckOut.note", { ns: "dashboard" })}
-                  iconColor="text-white"
-                  iconBg="bg-indigo-700"
-                  cardBg="bg-indigo-50"
-                />
+                <NavLink to={`/${role}/manage-attendance/vacations/3`}>
+                  <StatCard
+                    icon={<Calendar />}
+                    amount={formatValue(dailyAttendanceDto?.onlyCheckedOut || 0, language)}
+                    description={t("attendanceOverview.statCards.onlyCheckOut.description", { ns: "dashboard" })}
+                    note={t("attendanceOverview.statCards.onlyCheckOut.note", { ns: "dashboard" })}
+                    iconColor="text-white"
+                    iconBg="bg-indigo-700"
+                    cardBg="bg-indigo-50"
+                  />
+                </NavLink>
 
               </>
             )

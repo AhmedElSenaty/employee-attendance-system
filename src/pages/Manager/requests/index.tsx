@@ -10,17 +10,18 @@ import {
   TableSkeleton,
   Tooltip,
 } from "../../../components/ui";
-import { useAcceptRequest, useGetRequests, useRejectRequest } from "../../../hooks/request.hook";
+import { useAcceptRequest, useGetRequests, useRejectRequest, useSoftDeleteRequest } from "../../../hooks/request.hook";
 import { useLanguageStore } from "../../../store";
-import { IRejectRequestCredentials, IRequest } from "../../../interfaces/request.interfaces";
+import { IRejectRequestCredentials, IRequest, ISoftDeleteRequestCredentials } from "../../../interfaces/request.interfaces";
 import { getRequestStatusVariant } from "../../../utils";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { HasPermission } from "../../../components/auth";
 import { RequestStatusType } from "../../../enums";
-import { Check, X } from "lucide-react";
+import { Check, Trash, X } from "lucide-react";
 import RejectPopup from "./views/RejectPopup";
 import AcceptPopup from "./views/AcceptPopup";
+import DeletePopup from "./views/DeletePopup";
 
 const RequestsPage = () => {
   const { requests, isLoading } = useGetRequests();
@@ -28,6 +29,7 @@ const RequestsPage = () => {
   const { language } = useLanguageStore();
   const [isAcceptPopupOpen, setIsAcceptPopupOpen] = useState(false);
   const [isRejectPopupOpen, setIsRejectPopupOpen] = useState(false);
+  const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
   const [selectedID, setSelectedID] = useState<number>(0);
 
   const {
@@ -35,9 +37,15 @@ const RequestsPage = () => {
     handleSubmit,
     reset
   } = useForm<IRejectRequestCredentials>();
+  const {
+    register: registerDelete,
+    handleSubmit: handleSubmitDelete,
+    reset: restDelete
+  } = useForm<ISoftDeleteRequestCredentials>();
 
   const { mutate: acceptSickRequest, isPending: isAccepting } = useAcceptRequest();
   const { mutate: rejectRequest, isPending: isRejecting } = useRejectRequest();
+  const { mutate: deleteRequest, isPending: isDeleting } = useSoftDeleteRequest();
 
   const REQUESTS_TABLE_COLUMNS = [
     "table.columns.id",
@@ -69,6 +77,17 @@ const RequestsPage = () => {
     reset();
     setIsRejectPopupOpen(false);
   };
+  const handleDeletePopupOpen = (id: number) => {
+    setSelectedID(id);
+    restDelete();
+    setIsDeletePopupOpen(true);
+  };
+
+  const handleDeletePopupClose = () => {
+    setSelectedID(0);
+    restDelete();
+    setIsDeletePopupOpen(false);
+  };
 
   const handleConfirmAccept = () => {
     acceptSickRequest(selectedID);
@@ -78,6 +97,11 @@ const RequestsPage = () => {
   const handleConfirmReject = handleSubmit((request: IRejectRequestCredentials) => {
     rejectRequest({ id: String(selectedID), data: request });
     setIsRejectPopupOpen(false);
+  });
+  const handleConfirmDelete = handleSubmitDelete((request: ISoftDeleteRequestCredentials) => {
+    request.requestId = selectedID
+    deleteRequest(request);
+    setIsDeletePopupOpen(false);
   });
 
   return (
@@ -178,6 +202,16 @@ const RequestsPage = () => {
                                   onClick={() => handleRejectPopupOpen(request.id)}
                                 />
                               </Tooltip>
+
+                              <Tooltip content={t("table.buttons.toolTipDelete")}>
+                                <Button
+                                  variant="error"
+                                  fullWidth={false}
+                                  size={"sm"}
+                                  icon={<Trash className="w-full h-full" />}
+                                  onClick={() => handleDeletePopupOpen(request.id)}
+                                />
+                              </Tooltip>
                             </div>
                           )}
                         </HasPermission>
@@ -204,6 +238,13 @@ const RequestsPage = () => {
         isLoading={isRejecting}
         isOpen={isRejectPopupOpen}
         handleClose={handleRejectPopupClose}
+      />
+      <DeletePopup
+        register={registerDelete}
+        handleConfirmDelete={handleConfirmDelete}
+        isLoading={isDeleting}
+        isOpen={isDeletePopupOpen}
+        handleClose={handleDeletePopupClose}
       />
     </>
   );

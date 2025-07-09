@@ -5,7 +5,7 @@ import { useLanguageStore } from "../store/language.store";
 import { AxiosError } from "axios";
 import { QueryKeys } from "../constants";
 import { IErrorResponse, initialMetadata } from "../interfaces";
-import { IRejectRequestCredentials } from "../interfaces/request.interfaces";
+import { IRejectRequestCredentials, ISoftDeleteRequestCredentials } from "../interfaces/request.interfaces";
 import { RequestService } from "../services/requests.services";
 import { getTranslatedMessage, handleApiError, showToast } from "../utils";
 
@@ -80,8 +80,7 @@ export const useSoftDeleteRequest = () => {
   const requestService = useRequestService();
 
   return useMutation({
-    mutationFn: (payload: { id: string; data: IRejectRequestCredentials }) =>
-      requestService.reject(payload.id, payload.data),
+    mutationFn: (deleteRequestData: ISoftDeleteRequestCredentials) => requestService.softDelete(deleteRequestData),
     onSuccess: ({ status, data }) => {
       queryClient.invalidateQueries({ queryKey: [QueryKeys.Requests.All] });
       queryClient.invalidateQueries({ queryKey: [QueryKeys.CasualLeaveRequests.All] });

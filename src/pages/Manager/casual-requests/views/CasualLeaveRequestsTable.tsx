@@ -1,4 +1,4 @@
-import { Eye, X, Check } from "lucide-react";
+import { Eye, X, Check, Trash } from "lucide-react";
 import {
   Button,
   NoDataMessage,
@@ -23,6 +23,7 @@ interface ITableProps {
   handleShow: (id: number) => void;
   handleAccept: (id: number) => void;
   handleReject: (id: number) => void;
+  handleDelete: (id: number) => void;
 }
 
 const CasualLeaveRequestssTable = ({
@@ -31,6 +32,7 @@ const CasualLeaveRequestssTable = ({
   handleShow,
   handleAccept,
   handleReject,
+  handleDelete,
 }: ITableProps) => {
   const { t } = useTranslation(CASUAL_REQUESTS_NS);
   const { language } = useLanguageStore();
@@ -133,6 +135,19 @@ const CasualLeaveRequestssTable = ({
                         </>
                       )}
                     </HasPermission>
+                    {casualLeaveRequest.status == RequestStatusType.Accepted && (
+                      <Tooltip content={t("table.buttons.toolTipDelete")}>
+                        <Button
+                          variant="error"
+                          fullWidth={false}
+                          size={"sm"}
+                          icon={<Trash className="w-full h-full" />}
+                          onClick={() =>
+                            handleDelete(casualLeaveRequest.id)
+                          }
+                        />
+                      </Tooltip>
+                    )}
                   </div>
                 </TableCell>
               </TableRow>

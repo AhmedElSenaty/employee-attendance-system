@@ -364,6 +364,33 @@ export const useGetAttendanceWithVacations = (
 };
 
 // Get all attendance records
+export const useGetAttendanceStatus = (
+  status: string
+) => {
+  const token = useUserStore((state) => state.token);
+  const service = useAttendanceService();
+
+  const { data, isLoading } = useQuery({
+    queryKey: [
+      QueryKeys.Attendance.Vacations,
+      status
+    ],
+    queryFn: () =>
+      service.fetchStatus(
+        status,
+      ),
+    enabled: !!token,
+  });
+
+  return {
+    attendanceWithVacations: data?.data?.data || [],
+    count: data?.data?.data.totalCount || 0,
+    metadata: data?.data?.data.metadata || initialMetadata,
+    isLoading,
+  };
+};
+
+// Get all attendance records
 export const useGetEmployeeTodayAttendance = () => {
   const token = useUserStore((state) => state.token);
   const service = useAttendanceService();

@@ -11,6 +11,9 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { assignSickRequestSchema } from "../../../validation";
 import { CirclePlus } from "lucide-react";
 import { HasPermission } from "../../../components/auth";
+import { ISoftDeleteRequestCredentials } from "../../../interfaces/request.interfaces";
+import { useSoftDeleteRequest } from "../../../hooks/request.hook";
+import DeletePopup from "../requests/views/DeletePopup";
 
 const SickLRequestsPage = () => {
   const { t } = useTranslation(SICK_REQUESTS_NS);
@@ -23,6 +26,15 @@ const SickLRequestsPage = () => {
   const [isAcceptPopupOpen, setIsAcceptPopupOpen] = useState(false);
   const [isRejectPopupOpen, setIsRejectPopupOpen] = useState(false);
   const [isAssignPopupOpen, setIsAssignPopupOpen] = useState(false);
+  const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
+
+  const {
+    register: registerDelete,
+    handleSubmit: handleSubmitDelete,
+    reset: restDelete
+  } = useForm<ISoftDeleteRequestCredentials>();
+  
+
 
   const {
     register,
@@ -34,7 +46,17 @@ const SickLRequestsPage = () => {
     resolver: yupResolver(assignSickRequestSchema),
     mode: "onChange"
   });
+    const handleDeletePopupOpen = (id: number) => {
+    setSelectedID(id);
+    restDelete();
+    setIsDeletePopupOpen(true);
+  };
 
+  const handleDeletePopupClose = () => {
+    setSelectedID(0);
+    restDelete();
+    setIsDeletePopupOpen(false);
+  };
   const handleShowPopupOpen = (id: number) => {
     setSelectedID(id)
     setIsShowPopupOpen(true) 
@@ -88,6 +110,7 @@ const SickLRequestsPage = () => {
   const { mutate: acceptSickRequest, isPending: isAccepting } = useAcceptSickRequest()
   const { mutate: rejectSickRequest, isPending: isRejecting } = useRejectSickRequest()
   const { mutate: assignSickRequest, isPending: isAssigning } = useAssignSickRequest()
+  const { mutate: deleteRequest, isPending: isDeleting } = useSoftDeleteRequest();
 
   const handleConfirmAccept = () => {
     acceptSickRequest(selectedID);
@@ -104,7 +127,11 @@ const SickLRequestsPage = () => {
     assignSickRequest(request)
     setIsAssignPopupOpen(false)
   };
-
+  const handleConfirmDelete = handleSubmitDelete((request: ISoftDeleteRequestCredentials) => {
+    request.requestId = selectedID
+    deleteRequest(request);
+    setIsDeletePopupOpen(false);
+  });
   return (
     <div className="sm:p-5 p-3 space-y-5">
       <Header
@@ -149,7 +176,11 @@ const SickLRequestsPage = () => {
           </div>
 
           <div className="w-full overflow-x-auto">
-            <SickRequestsTable sickRequests={sickRequests} isLoading={isSickRequestsLoading} handleShow={handleShowPopupOpen} handleAccept={handleAcceptPopupOpen} handleReject={handleRejectPopupOpen} />
+            <SickRequestsTable 
+            sickRequests={sickRequests}
+                        handleDelete={handleDeletePopupOpen}
+
+             isLoading={isSickRequestsLoading} handleShow={handleShowPopupOpen} handleAccept={handleAcceptPopupOpen} handleReject={handleRejectPopupOpen} />
           </div>
 
 
@@ -202,6 +233,13 @@ const SickLRequestsPage = () => {
         }
         handleSubmit={handleSubmitAssign(handleConfirmAssign)}
         isLoading={isAssigning}
+      />
+            <DeletePopup
+        register={registerDelete}
+        handleConfirmDelete={handleConfirmDelete}
+        isLoading={isDeleting}
+        isOpen={isDeletePopupOpen}
+        handleClose={handleDeletePopupClose}
       />
     </div>
   )

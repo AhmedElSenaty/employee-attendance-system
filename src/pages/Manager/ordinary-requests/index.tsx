@@ -30,6 +30,9 @@ import {
   ShowPopup,
   TableFilters,
 } from "./views";
+import { ISoftDeleteRequestCredentials } from "../../../interfaces/request.interfaces";
+import DeletePopup from "../requests/views/DeletePopup";
+import { useSoftDeleteRequest } from "../../../hooks/request.hook";
 
 const OrdinaryRequestsPage = () => {
   const { t } = useTranslation(ORDINARY_REQUESTS_NS);
@@ -41,6 +44,14 @@ const OrdinaryRequestsPage = () => {
   const [isShowPopupOpen, setIsShowPopupOpen] = useState(false);
   const [isAcceptPopupOpen, setIsAcceptPopupOpen] = useState(false);
   const [isRejectPopupOpen, setIsRejectPopupOpen] = useState(false);
+  const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
+
+  const {
+    register: registerDelete,
+    handleSubmit: handleSubmitDelete,
+    reset: restDelete
+  } = useForm<ISoftDeleteRequestCredentials>();
+  
 
   const { register, handleSubmit, reset } =
     useForm<IRejectLeaveRequestCredentials>();
@@ -64,7 +75,17 @@ const OrdinaryRequestsPage = () => {
     reset();
     setIsRejectPopupOpen(false);
   };
+    const handleDeletePopupOpen = (id: number) => {
+    setSelectedID(id);
+    restDelete();
+    setIsDeletePopupOpen(true);
+  };
 
+  const handleDeletePopupClose = () => {
+    setSelectedID(0);
+    restDelete();
+    setIsDeletePopupOpen(false);
+  };
   // Using the enhanced getParam with parser support from the improved hook
   const rawPage = getParam("page", Number);
   const rawPageSize = getParam("pageSize", Number);
@@ -102,6 +123,7 @@ const OrdinaryRequestsPage = () => {
     useAcceptOrdinaryRequest();
   const { mutate: rejectOrdinaryRequest, isPending: isRejecting } =
     useRejectOrdinaryRequest();
+  const { mutate: deleteRequest, isPending: isDeleting } = useSoftDeleteRequest();
 
   const handleConfirmAccept = () => {
     acceptOrdinaryRequest(selectedID);
@@ -115,6 +137,12 @@ const OrdinaryRequestsPage = () => {
       setIsRejectPopupOpen(false);
     }
   );
+
+    const handleConfirmDelete = handleSubmitDelete((request: ISoftDeleteRequestCredentials) => {
+      request.requestId = selectedID
+      deleteRequest(request);
+      setIsDeletePopupOpen(false);
+    });
 
   return (
     <div className="sm:p-5 p-3 space-y-5">
@@ -155,6 +183,7 @@ const OrdinaryRequestsPage = () => {
             handleShow={handleShowPopupOpen}
             handleAccept={handleAcceptPopupOpen}
             handleReject={handleRejectPopupOpen}
+            handleDelete={handleDeletePopupOpen}
           />
         </div>
 
@@ -205,6 +234,13 @@ const OrdinaryRequestsPage = () => {
         isLoading={isRejecting}
         isOpen={isRejectPopupOpen}
         handleClose={handleRejectPopupClose}
+      />
+      <DeletePopup
+        register={registerDelete}
+        handleConfirmDelete={handleConfirmDelete}
+        isLoading={isDeleting}
+        isOpen={isDeletePopupOpen}
+        handleClose={handleDeletePopupClose}
       />
     </div>
   );

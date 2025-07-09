@@ -213,6 +213,19 @@ export class AttendanceService extends BaseService {
     }
   }
 
+  fetchStatus = async (
+    status: string
+  ) => {
+    try {
+      const response = await axiosInstance.get(`/Attendance/card/${status}`, {
+        headers: this.getAuthHeaders(),
+      });
+      return response;
+    } catch (error) {
+      this.handleError(error, "Error fetching all attendance with vacations");
+    }
+  }
+
   fetchEmployeeTodayAttendance = async () => {
     try {
       const response = await axiosInstance.get(`/Attendance/GetEmployeeTodayAttendance`, {

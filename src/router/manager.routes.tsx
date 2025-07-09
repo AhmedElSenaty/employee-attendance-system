@@ -35,7 +35,7 @@ export const managerRoutes = (isLoggedIn: boolean, userRole: string) => (
     {/* Attendance Routes */}
     <Route path="manage-attendance" element={<ManageAttendancePage />} />
     <Route path="manage-attendance/overview/" element={<AttendanceOverviewPage />} />
-    <Route path="manage-attendance/vacations/" element={<AttendanceVacationsPage />} />
+    <Route path="manage-attendance/vacations/:type?" element={<AttendanceVacationsPage />} />
 
     <Route path="leave-requests" element={<LeaveRequestsPage />} />
     <Route path="leave-requests-with-attendance" element={<LeaveRequestsWithAttendance />} />

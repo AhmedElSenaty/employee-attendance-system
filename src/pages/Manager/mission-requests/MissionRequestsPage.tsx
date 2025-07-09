@@ -18,6 +18,9 @@ import RejectPopup from "./views/RejectPop";
 import { assignMissionRequestSchema } from "../../../validation";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { CirclePlus } from "lucide-react";
+import { ISoftDeleteRequestCredentials } from "../../../interfaces/request.interfaces";
+import { useSoftDeleteRequest } from "../../../hooks/request.hook";
+import DeletePopup from "../requests/views/DeletePopup";
 
 const MissionRequestsPage = () => {
   const { t } = useTranslation(MISSION_REQUESTS_NS);
@@ -28,6 +31,14 @@ const MissionRequestsPage = () => {
   const [isAcceptPopupOpen, setIsAcceptPopupOpen] = useState(false);
   const [isRejectPopupOpen, setIsRejectPopupOpen] = useState(false);
   const [isAssignPopupOpen, setIsAssignPopupOpen] = useState(false);
+  const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
+
+  const {
+    register: registerDelete,
+    handleSubmit: handleSubmitDelete,
+    reset: restDelete
+  } = useForm<ISoftDeleteRequestCredentials>();
+  
 
   const { register, handleSubmit, reset } = useForm<IRejectMissionRequestCredentials>();
   const {
@@ -59,6 +70,17 @@ const MissionRequestsPage = () => {
     setSelectedID(0);
     reset();
     setIsRejectPopupOpen(false);
+  };
+    const handleDeletePopupOpen = (id: number) => {
+    setSelectedID(id);
+    restDelete();
+    setIsDeletePopupOpen(true);
+  };
+
+  const handleDeletePopupClose = () => {
+    setSelectedID(0);
+    restDelete();
+    setIsDeletePopupOpen(false);
   };
 
   const rawPage = getParam("page", Number);
@@ -92,6 +114,7 @@ const MissionRequestsPage = () => {
   const { mutate: acceptMissionRequest, isPending: isAccepting } = useAcceptMissionRequest();
   const { mutate: rejectMissionRequest, isPending: isRejecting } = useRejectMissionRequest();
   const { mutate: assignMissionRequest, isPending: isSubmitting } = useAssignMissionRequest();
+  const { mutate: deleteRequest, isPending: isDeleting } = useSoftDeleteRequest();
 
   const handleConfirmAccept = () => {
     acceptMissionRequest(selectedID);
@@ -108,7 +131,11 @@ const MissionRequestsPage = () => {
     assignMissionRequest(data);
     setIsAssignPopupOpen(false);
   };
-
+  const handleConfirmDelete = handleSubmitDelete((request: ISoftDeleteRequestCredentials) => {
+    request.requestId = selectedID
+    deleteRequest(request);
+    setIsDeletePopupOpen(false);
+  });
   return (
     <div className="sm:p-5 p-3 space-y-5">
       <Header heading={t("managerHeader.title")} subtitle={t("managerHeader.subtitle")} />
@@ -151,6 +178,7 @@ const MissionRequestsPage = () => {
             handleShow={handleShowPopupOpen}
             handleAccept={handleAcceptPopupOpen}
             handleReject={handleRejectPopupOpen}
+            handleDelete={handleDeletePopupOpen}
           />
         </div>
 
@@ -193,6 +221,13 @@ const MissionRequestsPage = () => {
         handleSubmit={handleSubmitAssign(onSubmit)}
         formInputs={<AssignInputs register={assignRegister} errors={errors} />}
         isLoading={isSubmitting}
+      />
+      <DeletePopup
+        register={registerDelete}
+        handleConfirmDelete={handleConfirmDelete}
+        isLoading={isDeleting}
+        isOpen={isDeletePopupOpen}
+        handleClose={handleDeletePopupClose}
       />
     </div>
   );

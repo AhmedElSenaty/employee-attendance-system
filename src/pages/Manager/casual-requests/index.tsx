@@ -39,6 +39,9 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { assignCasualLeaveRequestSchema } from "../../../validation";
 import { CirclePlus } from "lucide-react";
 import { HasPermission } from "../../../components/auth";
+import { ISoftDeleteRequestCredentials } from "../../../interfaces/request.interfaces";
+import { useSoftDeleteRequest } from "../../../hooks/request.hook";
+import DeletePopup from "../requests/views/DeletePopup";
 
 const CasualLeaveRequestsPage = () => {
   const { t } = useTranslation(CASUAL_REQUESTS_NS);
@@ -51,7 +54,14 @@ const CasualLeaveRequestsPage = () => {
   const [isAcceptPopupOpen, setIsAcceptPopupOpen] = useState(false);
   const [isRejectPopupOpen, setIsRejectPopupOpen] = useState(false);
   const [isAssignPopupOpen, setIsAssignPopupOpen] = useState(false);
+  const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
 
+  const {
+    register: registerDelete,
+    handleSubmit: handleSubmitDelete,
+    reset: restDelete
+  } = useForm<ISoftDeleteRequestCredentials>();
+  
   const {
     register: assignRegister,
     handleSubmit: handleSubmitAssign,
@@ -85,7 +95,17 @@ const CasualLeaveRequestsPage = () => {
     reset();
     setIsRejectPopupOpen(false);
   };
+  const handleDeletePopupOpen = (id: number) => {
+    setSelectedID(id);
+    restDelete();
+    setIsDeletePopupOpen(true);
+  };
 
+  const handleDeletePopupClose = () => {
+    setSelectedID(0);
+    restDelete();
+    setIsDeletePopupOpen(false);
+  };
   // Using the enhanced getParam with parser support from the improved hook
   const rawPage = getParam("page", Number);
   const rawPageSize = getParam("pageSize", Number);
@@ -125,6 +145,7 @@ const CasualLeaveRequestsPage = () => {
     useRejectCasualLeaveRequest();
   const { mutate: assignCasualLeaveRequest, isPending: isAssigning } =
     useAssignCasualLeaveRequest();
+  const { mutate: deleteRequest, isPending: isDeleting } = useSoftDeleteRequest();
 
   const handleConfirmAccept = () => {
     acceptCasualLeaveRequest(selectedID);
@@ -145,6 +166,11 @@ const CasualLeaveRequestsPage = () => {
     assignCasualLeaveRequest(request);
     setIsAssignPopupOpen(false);
   };
+  const handleConfirmDelete = handleSubmitDelete((request: ISoftDeleteRequestCredentials) => {
+    request.requestId = selectedID
+    deleteRequest(request);
+    setIsDeletePopupOpen(false);
+  });
 
   return (
     <div className="sm:p-5 p-3 space-y-5">
@@ -205,6 +231,7 @@ const CasualLeaveRequestsPage = () => {
             handleShow={handleShowPopupOpen}
             handleAccept={handleAcceptPopupOpen}
             handleReject={handleRejectPopupOpen}
+            handleDelete={handleDeletePopupOpen}
           />
         </div>
 
@@ -266,6 +293,14 @@ const CasualLeaveRequestsPage = () => {
         formInputs={<AssignInputs register={assignRegister} errors={errors} control={control} />}
         handleSubmit={handleSubmitAssign(handleConfirmAssign)}
         isLoading={isAssigning}
+      />
+
+      <DeletePopup
+        register={registerDelete}
+        handleConfirmDelete={handleConfirmDelete}
+        isLoading={isDeleting}
+        isOpen={isDeletePopupOpen}
+        handleClose={handleDeletePopupClose}
       />
     </div>
   );

@@ -35,12 +35,8 @@ export class RequestService extends BaseService {
 	}
 
 	softDelete = (softDeleteRequestCredentials: ISoftDeleteRequestCredentials) => {
-		try {
 			return axiosInstance.put(`/Request/Manager/SoftDeleteRequest`, softDeleteRequestCredentials, {
 				headers: this.getAuthHeaders(),
 		});
-		} catch (error) {
-			this.handleError(error, "Error Soft Delete Request");
-		}
 	}
 }

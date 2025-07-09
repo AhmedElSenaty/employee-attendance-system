@@ -1,4 +1,4 @@
-import { Eye, X, Check, ExternalLink } from "lucide-react";
+import { Eye, X, Check, ExternalLink, Trash } from "lucide-react";
 import {
   Button,
   NoDataMessage,
@@ -23,6 +23,7 @@ interface ITableProps {
   handleShow: (id: number) => void;
   handleAccept: (id: number) => void;
   handleReject: (id: number) => void;
+  handleDelete: (id: number) => void;
 }
 
 const SickRequestsTable = ({
@@ -31,6 +32,7 @@ const SickRequestsTable = ({
   handleShow,
   handleAccept,
   handleReject,
+  handleDelete,
 }: ITableProps) => {
   const { t } = useTranslation(SICK_REQUESTS_NS);
   const { language } = useLanguageStore();
@@ -150,6 +152,19 @@ const SickRequestsTable = ({
                         </>
                       )}
                     </HasPermission>
+                    {sickRequest.status == RequestStatusType.Accepted && (
+                      <Tooltip content={t("table.buttons.toolTipDelete")}>
+                        <Button
+                          variant="error"
+                          fullWidth={false}
+                          size={"sm"}
+                          icon={<Trash className="w-full h-full" />}
+                          onClick={() =>
+                            handleDelete(sickRequest.requestId)
+                          }
+                        />
+                      </Tooltip>
+                    )}
                   </div>
                 </TableCell>
               </TableRow>

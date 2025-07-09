@@ -36,7 +36,7 @@ export const adminRoutes = (isLoggedIn: boolean, userRole: string) => (
     {/* Attendance Routes */}
     <Route path="manage-attendance" element={<ManageAttendancePage />} />
     <Route path="manage-attendance/overview/" element={<AttendanceOverviewPage />} />
-    <Route path="manage-attendance/vacations/" element={<AttendanceVacationsPage />} />
+    <Route path="manage-attendance/vacations/:type" element={<AttendanceVacationsPage />} />
     
     {/* Department Routes */}
     <Route path="manage-departments/" element={<ManageDepartmentsPage />} />

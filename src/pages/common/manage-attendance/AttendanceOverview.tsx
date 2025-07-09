@@ -13,7 +13,7 @@ const AttendanceOverviewPage = () => {
   const { t } = useTranslation([ATTENDANCE_NS]);
   const { language } = useLanguageStore();
   const {getParam, setParam, clearParams} = useURLSearchParams();
-
+  
     // Using the enhanced getParam with parser support from the improved hook
     const rawPage = getParam('page', Number);
     const rawPageSize = getParam('pageSize', Number);

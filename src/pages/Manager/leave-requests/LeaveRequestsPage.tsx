@@ -27,6 +27,9 @@ import {
   TableFilters,
 } from "./views";
 import RejectPopup from "./views/RejectPop";
+import DeletePopup from "../requests/views/DeletePopup";
+import { ISoftDeleteRequestCredentials } from "../../../interfaces/request.interfaces";
+import { useSoftDeleteRequest } from "../../../hooks/request.hook";
 
 const LeaveRequestsPage = () => {
   const { t } = useTranslation(LEAVE_REQUESTS_NS);
@@ -38,15 +41,22 @@ const LeaveRequestsPage = () => {
   const [isShowPopupOpen, setIsShowPopupOpen] = useState(false);
   const [isAcceptPopupOpen, setIsAcceptPopupOpen] = useState(false);
   const [isRejectPopupOpen, setIsRejectPopupOpen] = useState(false);
+  const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
 
+  const {
+    register: registerDelete,
+    handleSubmit: handleSubmitDelete,
+    reset: restDelete
+  } = useForm<ISoftDeleteRequestCredentials>();
+  
   const { register, handleSubmit, reset } =
-    useForm<IRejectLeaveRequestCredentials>();
-
+  useForm<IRejectLeaveRequestCredentials>();
+  
   const handleShowPopupOpen = (id: number) => {
     setSelectedID(id);
     setIsShowPopupOpen(true);
   };
-
+  
   const handleAcceptPopupOpen = (id: number) => {
     setSelectedID(id);
     setIsAcceptPopupOpen(true);
@@ -61,7 +71,17 @@ const LeaveRequestsPage = () => {
     reset();
     setIsRejectPopupOpen(false);
   };
+  const handleDeletePopupOpen = (id: number) => {
+    setSelectedID(id);
+    restDelete();
+    setIsDeletePopupOpen(true);
+  };
 
+  const handleDeletePopupClose = () => {
+    setSelectedID(0);
+    restDelete();
+    setIsDeletePopupOpen(false);
+  };
   // Using the enhanced getParam with parser support from the improved hook
   const rawPage = getParam("page", Number);
   const rawPageSize = getParam("pageSize", Number);
@@ -79,27 +99,28 @@ const LeaveRequestsPage = () => {
   const status = rawStatus !== null ? rawStatus : undefined;
   const searchKey = rawSearchKey || undefined;
   const searchQuery = rawSearchQuery || undefined;
-
+  
   // Pass filtered params to hook
   const { leaveRequests, metadata, isLeaveRequestsLoading } =
-    useGetLeaveRequests(
-      page,
-      pageSize,
-      startDate,
-      endDate,
-      status,
-      searchKey,
-      searchQuery
-    );
-
+  useGetLeaveRequests(
+    page,
+    pageSize,
+    startDate,
+    endDate,
+    status,
+    searchKey,
+    searchQuery
+  );
+  
   const { leaveRequest, isLeaveRequestLoading } =
-    useGetLeaveRequestByID(selectedID);
-
+  useGetLeaveRequestByID(selectedID);
+  
   const { mutate: acceptLeaveRequest, isPending: isAccepting } =
-    useAcceptLeaveRequest();
+  useAcceptLeaveRequest();
   const { mutate: rejectLeaveRequest, isPending: isRejecting } =
-    useRejectLeaveRequest();
-
+  useRejectLeaveRequest();
+  const { mutate: deleteRequest, isPending: isDeleting } = useSoftDeleteRequest();
+  
   const handleConfirmAccept = () => {
     acceptLeaveRequest(selectedID);
     setIsAcceptPopupOpen(false);
@@ -112,6 +133,11 @@ const LeaveRequestsPage = () => {
       setIsRejectPopupOpen(false);
     }
   );
+  const handleConfirmDelete = handleSubmitDelete((request: ISoftDeleteRequestCredentials) => {
+    request.requestId = selectedID
+    deleteRequest(request);
+    setIsDeletePopupOpen(false);
+  });
 
   return (
     <div className="sm:p-5 p-3 space-y-5">
@@ -152,6 +178,7 @@ const LeaveRequestsPage = () => {
             handleShow={handleShowPopupOpen}
             handleAccept={handleAcceptPopupOpen}
             handleReject={handleRejectPopupOpen}
+            handleDelete={handleDeletePopupOpen}
           />
         </div>
 
@@ -202,6 +229,14 @@ const LeaveRequestsPage = () => {
         isLoading={isRejecting}
         isOpen={isRejectPopupOpen}
         handleClose={handleRejectPopupClose}
+      />
+
+      <DeletePopup
+        register={registerDelete}
+        handleConfirmDelete={handleConfirmDelete}
+        isLoading={isDeleting}
+        isOpen={isDeletePopupOpen}
+        handleClose={handleDeletePopupClose}
       />
     </div>
   );
