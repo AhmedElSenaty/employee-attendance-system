@@ -188,7 +188,7 @@ const SickRequestsPage = () => {
               </Button>
             </ActionCard>
           </div>
-
+{/* 
           <div className="w-full md:w-1/2">
             <ActionCard
               icon={<ShieldCheck />}
@@ -205,7 +205,7 @@ const SickRequestsPage = () => {
                 {t("conditionsActionCard.button")}
               </Button>
             </ActionCard>
-          </div>
+          </div> */}
         </div>
       </div>
 

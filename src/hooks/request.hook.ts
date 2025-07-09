@@ -73,3 +73,30 @@ export const useRejectRequest = () => {
     },
   });
 };
+
+export const useSoftDeleteRequest = () => {
+  const { language } = useLanguageStore();
+  const queryClient = useQueryClient();
+  const requestService = useRequestService();
+
+  return useMutation({
+    mutationFn: (payload: { id: string; data: IRejectRequestCredentials }) =>
+      requestService.reject(payload.id, payload.data),
+    onSuccess: ({ status, data }) => {
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.Requests.All] });
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.CasualLeaveRequests.All] });
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.LeaveRequests.All] });
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.MissionRequests.All] });
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.SickRequests.All] });
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.OrdinaryRequests.All] });
+      if (status === 200) {
+        const message = getTranslatedMessage(data.message ?? "", language);
+        showToast("success", message);
+      }
+    },
+    onError: (error) => {
+      const axiosError = error as AxiosError<IErrorResponse>;
+      handleApiError(axiosError, language);
+    },
+  });
+};

@@ -126,7 +126,7 @@ const CasualLeaveRequestsPage = () => {
             </ActionCard>
           </div>
 
-          <div className="w-full md:w-1/2">
+          {/* <div className="w-full md:w-1/2">
             <ActionCard
               icon={<ShieldCheck />}
               iconBgColor="bg-[#fff3e0]"
@@ -142,7 +142,7 @@ const CasualLeaveRequestsPage = () => {
                 {t("conditionsActionCard.button")}
               </Button>
             </ActionCard>
-          </div>
+          </div> */}
         </div>
       </div>
 

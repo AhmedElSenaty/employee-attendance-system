@@ -15,3 +15,8 @@ export interface IRequest {
 export interface IRejectRequestCredentials {
   comment: string;
 }
+
+export interface ISoftDeleteRequestCredentials {
+  requestId: number;
+  comment: string;
+}

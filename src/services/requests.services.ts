@@ -1,5 +1,5 @@
 import axiosInstance from "../config/axios.config";
-import { IRejectRequestCredentials } from "../interfaces/request.interfaces";
+import { IRejectRequestCredentials, ISoftDeleteRequestCredentials } from "../interfaces/request.interfaces";
 import { BaseService } from "./base.services";
 
 export class RequestService extends BaseService {
@@ -32,5 +32,15 @@ export class RequestService extends BaseService {
 		return axiosInstance.put(`/Request/reject/${requestId}`, rejectRequestCredentials, {
 				headers: this.getAuthHeaders(),
 		});
+	}
+
+	softDelete = (softDeleteRequestCredentials: ISoftDeleteRequestCredentials) => {
+		try {
+			return axiosInstance.put(`/Request/Manager/SoftDeleteRequest`, softDeleteRequestCredentials, {
+				headers: this.getAuthHeaders(),
+		});
+		} catch (error) {
+			this.handleError(error, "Error Soft Delete Request");
+		}
 	}
 }
