@@ -2,14 +2,14 @@ import { useTranslation } from "react-i18next";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { EmployeeFormValues, getEmployeeSchema, passwordUpdateSchema } from "../../../validation";
-import { SectionHeader, Button, ButtonSkeleton, Header, StatusBadge, Description, Field, Input, InputErrorMessage, Label } from "../../../components/ui";
+import { SectionHeader, Button, ButtonSkeleton, Header, StatusBadge, Description, Field, Input, InputErrorMessage, Label, Textarea } from "../../../components/ui";
 import { useNavigate, useParams } from "react-router";
 import { useEffect, useState } from "react";
-import { AlertTriangle, CheckCircle } from "lucide-react";
+import { AlertTriangle, CheckCircle, Timer } from "lucide-react";
 import { HasPermission } from "../../../components/auth";
 import { EMPLOYEE_NS } from "../../../constants";
-import { Daydata, UpdateWorkingDays } from "../../../interfaces";
-import { useDeleteEmployee, useGetEmployeeByID, useGetWorkingDaysByID, useUnblockAccount, useUpdateAccountPassword, useUpdateEmployee, useUpdateWorkingDays } from "../../../hooks";
+import { Daydata, EmployeeWorkingHours, UpdateWorkingDays } from "../../../interfaces";
+import { useDeleteEmployee, useGetEmployeeByID, useGetWorkingDaysByID, useUnblockAccount, useUpdateAccountPassword, useUpdateEmployee, useUpdateEmployeeWorkingHours, useUpdateWorkingDays } from "../../../hooks";
 import { DelegateInputs, DeletePopup, DepartmentInputs, Inputs, UnblockPopup, WorkingDaysCheckboxes } from "./views";
 
 const EditEmployeePage = () => {
@@ -43,11 +43,13 @@ const EditEmployeePage = () => {
     resolver: yupResolver(passwordUpdateSchema(false)),
     mode: "onChange",
   });
+  const {
+    register: updateHoursRegister, 
+    handleSubmit: handleSubmitUpdateHours,
+    formState: { errors: updateHoursErrors }, 
+  } = useForm<EmployeeWorkingHours>();
 
   const { employee , isLoading: isEmployeeDataLoading} = useGetEmployeeByID(id || "", reset)
-
-  console.log(employee);
-  
 
   // Destructuring functions and loading states from custom hooks for managing admins, departments, and permissions
   const { mutate: updateEmployee, isPending: isupdateing } = useUpdateEmployee();
@@ -70,6 +72,7 @@ const EditEmployeePage = () => {
   const { mutate: updateAccountPassword, isPending: isUpdateAccountPasswordLoading } = useUpdateAccountPassword();
   const { mutate: unblockAccount, isPending: isUnblockAccountLoading } = useUnblockAccount();
   const { mutate: updateWorkingDays, isPending: isUpdateDaysLoading } = useUpdateWorkingDays();
+  const { mutate: updateWorkingHours, isPending: isUpdateHoursLoading } = useUpdateEmployeeWorkingHours();
 
   const handleConfirmUpdatePassword: SubmitHandler<{password: string}> = async (request: { password: string }) => {
     updateAccountPassword({
@@ -82,6 +85,10 @@ const EditEmployeePage = () => {
     request.employeeId = id || ""
     request.workingDays = selectedWorkingDays
     updateWorkingDays(request)
+  };
+  const handleConfirmUpdateWorkingHours: SubmitHandler<EmployeeWorkingHours> = async (request: EmployeeWorkingHours) => {
+    request.employeeId = id || ""
+    updateWorkingHours(request)
   };
 
   const handleConfirmUnblock = () => {
@@ -295,6 +302,61 @@ const EditEmployeePage = () => {
             <div className="flex flex-wrap gap-3">
               <Button fullWidth={false} isLoading={isUpdateDaysLoading}>
                 {isUpdateDaysLoading ? t("buttons.loading") : t("buttons.updateWorkingDays")}
+              </Button>
+            </div>
+          </form>
+        </div>
+        <div className="bg-white shadow-md space-y-5 p-5 rounded-lg">
+          <SectionHeader 
+              title={t("editEmployeePage.hoursSectionHeader.title")} 
+              description={t("editEmployeePage.hoursSectionHeader.description")}
+            />
+          <form
+            className="space-y-5"
+            onSubmit={handleSubmitUpdateHours(handleConfirmUpdateWorkingHours)}
+          >
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <Field className="space-y-2">
+                <Label size="lg">{t("inputs.attendTime.label")}</Label>
+                <Input
+                  type="time"
+                  placeholder={t("inputs.attendTime.placeholder")}
+                  isError={!!updateHoursErrors.attendTime}
+                  icon={<Timer />}
+                  {...updateHoursRegister("attendTime")}
+                />
+                {updateHoursErrors.attendTime && (
+                  <InputErrorMessage>
+                    {t(`inputs.attendTime.inputValidation.${updateHoursErrors.attendTime?.type}`)}
+                  </InputErrorMessage>
+                )}
+              </Field>
+              <Field className="space-y-2">
+                <Label size="lg">{t("inputs.goTime.label")}</Label>
+                <Input
+                  type="time"
+                  placeholder={t("inputs.goTime.placeholder")}
+                  isError={!!updateHoursErrors.goTime}
+                  icon={<Timer />}
+                  {...updateHoursRegister("goTime")}
+                />
+                {updateHoursErrors.goTime && (
+                  <InputErrorMessage>
+                    {t(`inputs.goTime.inputValidation.${updateHoursErrors.goTime?.type}`)}
+                  </InputErrorMessage>
+                )}
+              </Field>
+            </div>
+            <Field className="space-y-2">
+              <Label size="lg">{t("inputs.description.label")}</Label>
+              <Textarea
+                placeholder={t("inputs.description.placeholder")}
+                {...updateHoursRegister("description")}
+              />
+            </Field>
+            <div className="flex flex-wrap gap-3">
+              <Button fullWidth={false} isLoading={isUpdateHoursLoading}>
+                {isUpdateDaysLoading ? t("buttons.loading") : t("buttons.updateHours")}
               </Button>
             </div>
           </form>

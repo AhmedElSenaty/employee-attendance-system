@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next"; // Import translation hook
 import { BookType, Building, Building2, Calendar, CalendarCog, CalendarSearch, ClipboardType, Contact, ContactRound, FileClock, Fingerprint, Home, Hotel, LayoutDashboard, Lock, MonitorCog, School, Shield, ShieldEllipsis, ShieldPlus, TicketsPlane, TreePalm, TypeOutline, User, UserCog, UserPlus, UserRoundPlus, Users } from "lucide-react";
-import { Sidebar, SidebarDropdown, SidebarItem } from "../../components/ui/";
+import { Sidebar, SidebarDropdown, SidebarItem } from "../../components/ui/Sidebar";
 import { useUserStore } from "../../store/user.store";
 
 export const AdminSidebar = () => {

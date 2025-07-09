@@ -5,7 +5,7 @@ import { useLanguageStore } from "../store/language.store";
 import { AxiosError } from "axios";
 import { QueryKeys } from "../constants";
 import { IErrorResponse, initialMetadata } from "../interfaces";
-import { IRejectRequestCredentials, ISoftDeleteRequestCredentials } from "../interfaces/request.interfaces";
+import { IAssignRequest, IRejectRequestCredentials, ISoftDeleteRequestCredentials } from "../interfaces/request.interfaces";
 import { RequestService } from "../services/requests.services";
 import { getTranslatedMessage, handleApiError, showToast } from "../utils";
 
@@ -89,6 +89,26 @@ export const useSoftDeleteRequest = () => {
       queryClient.invalidateQueries({ queryKey: [QueryKeys.SickRequests.All] });
       queryClient.invalidateQueries({ queryKey: [QueryKeys.OrdinaryRequests.All] });
       if (status === 200) {
+        const message = getTranslatedMessage(data.message ?? "", language);
+        showToast("success", message);
+      }
+    },
+    onError: (error) => {
+      const axiosError = error as AxiosError<IErrorResponse>;
+      handleApiError(axiosError, language);
+    },
+  });
+};
+
+export const useAssignRequest = () => {
+  const { language } = useLanguageStore();
+  const service = useRequestService();
+
+  return useMutation({
+    mutationFn: (data: IAssignRequest) => service.assign(data),
+    onSuccess: ({ status, data }) => {
+
+      if (status === 201) {
         const message = getTranslatedMessage(data.message ?? "", language);
         showToast("success", message);
       }
