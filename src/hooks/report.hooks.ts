@@ -30,7 +30,7 @@ export const useExportAttendanceReport = (
 
   const { refetch, isLoading } = useQuery({
     queryKey: [
-      QueryKeys.Export,
+      QueryKeys.Export.Excel,
       searchKey,
       debouncedSearchQuery,
       startDate,
@@ -60,5 +60,52 @@ export const useExportAttendanceReport = (
   return {
     refetchExportData: refetch,
     isLoading,
+  };
+};
+export const useExportAttendanceReportPDF = (
+  searchKey?: string,
+  debouncedSearchQuery?: string,
+  startDate?: string,
+  endDate?: string,
+  startTime?: string,
+  endTime?: string,
+  status?: string,
+  departmentId?: number,
+  subDepartmentId?: number
+) => {
+  const service = useReportService();
+
+  const { refetch, isLoading } = useQuery({
+    queryKey: [
+      QueryKeys.Export.PDF,
+      searchKey,
+      debouncedSearchQuery,
+      startDate,
+      endDate,
+      startTime,
+      endTime,
+      status,
+      departmentId,
+      subDepartmentId,
+    ],
+    queryFn: () =>
+      service.fetchEmployeeAttendanceReportPDF(
+        searchKey,
+        debouncedSearchQuery,
+        startDate,
+        endDate,
+        startTime,
+        endTime,
+        status,
+        departmentId,
+        subDepartmentId
+      ),
+    enabled: false, // manual refetching
+    retry: 3,
+  });
+
+  return {
+    refetchExportDataPDF: refetch,
+    isLoadingPDF: isLoading,
   };
 };

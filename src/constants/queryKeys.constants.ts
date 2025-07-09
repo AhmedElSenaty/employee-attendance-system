@@ -50,7 +50,11 @@ export const QueryKeys = {
     Vacations: "attendanceWithVacations",
     EmployeeToday: "EmployeeTodayAttendance",
   },
-  Export: "exportEmployeeAttendance",
+  Export:{
+    Excel:"exportEmployeeAttendance",
+    PDF:"exportEmployeeAttendancePDF",
+  },
+    
   Employees: {
     All: "employees",
     Details: "employeeDetails",

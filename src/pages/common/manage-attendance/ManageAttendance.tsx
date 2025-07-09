@@ -7,20 +7,52 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { AttendanceFormValues, attendanceSchema } from "../../../validation";
 import { HasPermission } from "../../../components/auth";
 import { useLanguageStore } from "../../../store/";
-import { ActionCard, Button, CountCard, Header, InfoPopup, Paginator, SectionHeader } from "../../../components/ui";
-import { useCreateAttendance, useDeleteAttendance, useGetAttendanceDetails, useGetAttendances, useUpdateAttendance, useExportAttendanceReport, useDebounce } from "../../../hooks/";
+import {
+  ActionCard,
+  Button,
+  CountCard,
+  Header,
+  InfoPopup,
+  Paginator,
+  SectionHeader,
+} from "../../../components/ui";
+import {
+  useCreateAttendance,
+  useDeleteAttendance,
+  useGetAttendanceDetails,
+  useGetAttendances,
+  useUpdateAttendance,
+  useExportAttendanceReport,
+  useDebounce,
+  useExportAttendanceReportPDF,
+} from "../../../hooks/";
 import { ATTENDANCE_NS, ATTENDANCE_VIDEO } from "../../../constants";
-import { AddPopup, AttendanceTable, AttendanceTableFilters, DeletePopup, EditPopup, ExportPopup, Inputs, ShowPopup } from "./views";
+import {
+  AddPopup,
+  AttendanceTable,
+  AttendanceTableFilters,
+  DeletePopup,
+  EditPopup,
+  ExportPopup,
+  Inputs,
+  ShowPopup,
+} from "./views";
 import useURLSearchParams from "../../../hooks/URLSearchParams.hook";
 
 const ManageAttendancePage = () => {
   const { t } = useTranslation([ATTENDANCE_NS]);
   const { language } = useLanguageStore();
-  const {getParam, setParam, clearParams, setParams} = useURLSearchParams();
+  const { getParam, setParam, clearParams, setParams } = useURLSearchParams();
 
-  const { register, handleSubmit, formState: { errors }, reset, control} = useForm<AttendanceFormValues>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+    control,
+  } = useForm<AttendanceFormValues>({
     resolver: yupResolver(attendanceSchema),
-    mode: "onChange"
+    mode: "onChange",
   });
 
   const [selectedID, setSelectedID] = useState<number>(0);
@@ -29,45 +61,57 @@ const ManageAttendancePage = () => {
   const [isAddPopupOpen, setIsAddPopupOpen] = useState(false);
   const [isEditPopupOpen, setIsEditPopupOpen] = useState(false);
   const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
-  const [isDownloadReportPopupOpen, setIsDownloadReportPopupOpen] = useState(false);
+  const [isDownloadReportPopupOpen, setIsDownloadReportPopupOpen] =
+    useState(false);
 
   const handleShowPopupOpen = (id: number) => {
-    setSelectedID(id)
-    setIsShowPopupOpen(true) 
-  }
+    setSelectedID(id);
+    setIsShowPopupOpen(true);
+  };
   const handleAddPopupOpen = () => {
-    setSelectedID(0)
-    reset({ deviceId: 0, employeeId: 0, attendanceDate: "", attendanceTime: "", status: "" })
-    setIsAddPopupOpen(true)
-  }
+    setSelectedID(0);
+    reset({
+      deviceId: 0,
+      employeeId: 0,
+      attendanceDate: "",
+      attendanceTime: "",
+      status: "",
+    });
+    setIsAddPopupOpen(true);
+  };
   const handleEditPopupOpen = (id: number) => {
-    setSelectedID(id)
-    setIsEditPopupOpen(true)
-  }
+    setSelectedID(id);
+    setIsEditPopupOpen(true);
+  };
 
   const handleEditPopupClose = () => {
-    setSelectedID(0)
-    reset({ deviceId: 0, employeeId: 0, attendanceDate: "", attendanceTime: "", status: "" })
-    setIsEditPopupOpen(false)
-  }
+    setSelectedID(0);
+    reset({
+      deviceId: 0,
+      employeeId: 0,
+      attendanceDate: "",
+      attendanceTime: "",
+      status: "",
+    });
+    setIsEditPopupOpen(false);
+  };
   const handleDeletePopupOpen = (id: number) => {
-    setSelectedID(id)
-    setIsDeletePopupOpen(true) 
-  }
-
+    setSelectedID(id);
+    setIsDeletePopupOpen(true);
+  };
 
   // Using the enhanced getParam with parser support from the improved hook
-  const rawPage = getParam('page', Number);
-  const rawPageSize = getParam('pageSize', Number);
-  const rawStartDate = getParam('startDate');
-  const rawEndDate = getParam('endDate');
-  const rawStartTime = getParam('startTime');
-  const rawEndTime = getParam('endTime');
-  const rawSearchKey = getParam('searchKey');
-  const rawSearchQuery = useDebounce(getParam('searchQuery'), 650);
-  const rawStatus = getParam('status');
-  const rawDepartmentId = getParam('searchByDepartmentId', Number);
-  const rawSubDeptartmentId = getParam('searchBySubDeptartmentId', Number);
+  const rawPage = getParam("page", Number);
+  const rawPageSize = getParam("pageSize", Number);
+  const rawStartDate = getParam("startDate");
+  const rawEndDate = getParam("endDate");
+  const rawStartTime = getParam("startTime");
+  const rawEndTime = getParam("endTime");
+  const rawSearchKey = getParam("searchKey");
+  const rawSearchQuery = useDebounce(getParam("searchQuery"), 650);
+  const rawStatus = getParam("status");
+  const rawDepartmentId = getParam("searchByDepartmentId", Number);
+  const rawSubDeptartmentId = getParam("searchBySubDeptartmentId", Number);
 
   // Use nullish coalescing to default numeric values, undefined for dates if empty
   const page = rawPage ?? 1;
@@ -82,48 +126,98 @@ const ManageAttendancePage = () => {
   const departmentId = rawDepartmentId || "";
   const subDeptartmentId = rawSubDeptartmentId || "";
 
-  const { attendancesData, count: totalAttendances, metadata, isLoading: isAttendancesDataLoading } = useGetAttendances(
-    page, pageSize, searchKey, searchQuery, startDate, endDate, startTime, endTime, status ,departmentId || 0, subDeptartmentId || 0
-
+  const {
+    attendancesData,
+    count: totalAttendances,
+    metadata,
+    isLoading: isAttendancesDataLoading,
+  } = useGetAttendances(
+    page,
+    pageSize,
+    searchKey,
+    searchQuery,
+    startDate,
+    endDate,
+    startTime,
+    endTime,
+    status,
+    departmentId || 0,
+    subDeptartmentId || 0
   );
-
 
   // Use the custom hook to fetch data
-  const { refetchExportData, isLoading: isExportDataLoading } = useExportAttendanceReport(
-    searchKey, searchQuery, startDate, endDate, startTime, endTime, status ,departmentId || 0, subDeptartmentId || 0
+  const { refetchExportData, isLoading: isExportDataLoading } =
+    useExportAttendanceReport(
+      searchKey,
+      searchQuery,
+      startDate,
+      endDate,
+      startTime,
+      endTime,
+      status,
+      departmentId || 0,
+      subDeptartmentId || 0
+    );
+  const { isLoadingPDF, refetchExportDataPDF } = useExportAttendanceReportPDF(
+    searchKey,
+    searchQuery,
+    startDate,
+    endDate,
+    startTime,
+    endTime,
+    status,
+    departmentId || 0,
+    subDeptartmentId || 0
   );
 
+  const { detailedAttendance, isLoading: isDetailedAttendanceLoading } =
+    useGetAttendanceDetails(selectedID, reset);
 
-  const { detailedAttendance, isLoading: isDetailedAttendanceLoading } = useGetAttendanceDetails(selectedID, reset);
-
-  const renderAttendanceInputs = <Inputs register={register} errors={errors} control={control} />
-  
+  const renderAttendanceInputs = (
+    <Inputs register={register} errors={errors} control={control} />
+  );
 
   const { mutate: addAttendance, isPending: isAdding } = useCreateAttendance();
-  const { mutate: updateAttendance, isPending: isUpdating } = useUpdateAttendance();
-  const { mutate: deleteAttendance, isPending: isDeleting } = useDeleteAttendance();
+  const { mutate: updateAttendance, isPending: isUpdating } =
+    useUpdateAttendance();
+  const { mutate: deleteAttendance, isPending: isDeleting } =
+    useDeleteAttendance();
 
   /* ____________ HANDLER ____________ */
-  const handleConfirmAdd: SubmitHandler<AttendanceFormValues> = (request: AttendanceFormValues) => {
-    addAttendance(request)
-    setIsAddPopupOpen(false)
+  const handleConfirmAdd: SubmitHandler<AttendanceFormValues> = (
+    request: AttendanceFormValues
+  ) => {
+    addAttendance(request);
+    setIsAddPopupOpen(false);
   };
-  const handleConfirmUpdate: SubmitHandler<AttendanceFormValues> = (request: AttendanceFormValues) => {
-    updateAttendance(request)
-    setIsEditPopupOpen(false)
+  const handleConfirmUpdate: SubmitHandler<AttendanceFormValues> = (
+    request: AttendanceFormValues
+  ) => {
+    updateAttendance(request);
+    setIsEditPopupOpen(false);
   };
   const handleConfirmDelete = () => {
     if (!selectedID) return;
-    deleteAttendance(selectedID)
-    setIsDeletePopupOpen(false)
-    setIsShowPopupOpen(false)
+    deleteAttendance(selectedID);
+    setIsDeletePopupOpen(false);
+    setIsShowPopupOpen(false);
   };
 
   const handleDownload = async () => {
     const { data, isSuccess, isError } = await refetchExportData();
     if (isSuccess) {
       showToast("success", t("export.exportSuccess"));
-      downloadFile(data.file)
+      downloadFile(data.file);
+    }
+    if (isError) {
+      showToast("error", t("export.exportError"));
+    }
+  };
+  const handleDownloadPDF = async () => {
+    const { data, isSuccess, isError } = await refetchExportDataPDF();
+    if (isSuccess) {
+      showToast("success", t("export.exportSuccess"));
+      downloadFile(data.file);
     }
     if (isError) {
       showToast("error", t("export.exportError"));
@@ -141,12 +235,12 @@ const ManageAttendancePage = () => {
               videoUrl={ATTENDANCE_VIDEO}
             />
           </div>
-          <CountCard 
+          <CountCard
             title={t("CountCard.title")}
             description={t("CountCard.description")}
             count={formatValue(totalAttendances, language)}
-            icon={<CalendarSearch size={28} />} 
-            bgColor="bg-[#b38e19]" 
+            icon={<CalendarSearch size={28} />}
+            bgColor="bg-[#b38e19]"
           />
           {/* ActionCard */}
         </div>
@@ -160,14 +254,18 @@ const ManageAttendancePage = () => {
                 title={t("addActionCard.title")}
                 description={t("addActionCard.description")}
               >
-                <Button fullWidth={true} variant="secondary" onClick={handleAddPopupOpen}>
+                <Button
+                  fullWidth={true}
+                  variant="secondary"
+                  onClick={handleAddPopupOpen}
+                >
                   {t("addActionCard.button")}
                 </Button>
               </ActionCard>
             </HasPermission>
           </div>
           <div className="flex-1">
-            <HasPermission permission="Export Attendance Report">
+            <HasPermission permission={["Export Attendance Report Excel", "Export Attendance Report PDF"]}>
               <ActionCard
                 icon={<FileDown />}
                 iconBgColor="bg-[#a7f3d0]"
@@ -175,12 +273,12 @@ const ManageAttendancePage = () => {
                 title={t("exportActionCard.title")}
                 description={t("exportActionCard.description")}
               >
-                <Button 
-                  fullWidth 
+                <Button
+                  fullWidth
                   variant="success"
                   isLoading={isExportDataLoading}
                   onClick={() => {
-                    setIsDownloadReportPopupOpen(true)
+                    setIsDownloadReportPopupOpen(true);
                   }}
                 >
                   {t("exportActionCard.button")}
@@ -190,21 +288,26 @@ const ManageAttendancePage = () => {
           </div>
         </div>
 
-
         <div className="bg-white shadow-md space-y-5 p-5 rounded-lg">
-          <SectionHeader 
-            title={t("sectionHeader.title")} 
-            description={t("sectionHeader.description")} 
+          <SectionHeader
+            title={t("sectionHeader.title")}
+            description={t("sectionHeader.description")}
           />
 
           <div className="flex flex-col gap-5">
-            <AttendanceTableFilters searchBy={metadata.searchBy} getParam={getParam} setParam={setParam} clearParams={clearParams} setParams={setParams} />
+            <AttendanceTableFilters
+              searchBy={metadata.searchBy}
+              getParam={getParam}
+              setParam={setParam}
+              clearParams={clearParams}
+              setParams={setParams}
+            />
           </div>
           <div className="w-full overflow-x-auto">
-            <AttendanceTable 
-              attendances={attendancesData} 
-              isLoading={isAttendancesDataLoading} 
-              handleShow={handleShowPopupOpen} 
+            <AttendanceTable
+              attendances={attendancesData}
+              isLoading={isAttendancesDataLoading}
+              handleShow={handleShowPopupOpen}
               handleEdit={handleEditPopupOpen}
               handleDelete={handleDeletePopupOpen}
             />
@@ -217,12 +320,26 @@ const ManageAttendancePage = () => {
             totalRecords={metadata?.pagination?.totalRecords || 0}
             isLoading={isAttendancesDataLoading}
             onClickFirst={() => setParam("page", String(1))}
-            onClickPrev={() => setParam("page", String(Math.max((Number(getParam('page')) || 1) - 1, 1)))}
-            onClickNext={() => setParam("page", String(Math.min((Number(getParam('page')) || 1) + 1, metadata?.pagination?.totalPages || 1)))}
+            onClickPrev={() =>
+              setParam(
+                "page",
+                String(Math.max((Number(getParam("page")) || 1) - 1, 1))
+              )
+            }
+            onClickNext={() =>
+              setParam(
+                "page",
+                String(
+                  Math.min(
+                    (Number(getParam("page")) || 1) + 1,
+                    metadata?.pagination?.totalPages || 1
+                  )
+                )
+              )
+            }
           />
         </div>
       </div>
-
       <AddPopup
         isOpen={isAddPopupOpen}
         formInputs={renderAttendanceInputs}
@@ -230,54 +347,61 @@ const ManageAttendancePage = () => {
         handleClose={() => setIsAddPopupOpen(false)}
         isLoading={isAdding}
       />
-
       <EditPopup
-        isOpen={isEditPopupOpen} 
-        handleClose={handleEditPopupClose} 
+        isOpen={isEditPopupOpen}
+        handleClose={handleEditPopupClose}
         isLoading={isUpdating}
-        handleSubmit={handleSubmit(handleConfirmUpdate)} 
+        handleSubmit={handleSubmit(handleConfirmUpdate)}
         formInputs={renderAttendanceInputs}
       />
-
       <DeletePopup
         isOpen={isDeletePopupOpen}
-        handleClose={() => { setIsDeletePopupOpen(false) }}
+        handleClose={() => {
+          setIsDeletePopupOpen(false);
+        }}
         handleConfirmDelete={handleConfirmDelete}
         isLoading={isDeleting}
-      />;
-
+      />
+      ;
       <ShowPopup
         isOpen={isShowPopupOpen}
-        handleClose={() => setIsShowPopupOpen(false)} 
+        handleClose={() => setIsShowPopupOpen(false)}
         handleDeletePopupOpen={() => {
-          handleDeletePopupOpen(selectedID)
+          handleDeletePopupOpen(selectedID);
         }}
         handleEditPopupOpen={() => {
-          handleEditPopupOpen(selectedID)
-          setIsShowPopupOpen(false)
+          handleEditPopupOpen(selectedID);
+          setIsShowPopupOpen(false);
         }}
         attendance={detailedAttendance}
         isLoading={isDetailedAttendanceLoading}
       />
-
       <ExportPopup
         isOpen={isDownloadReportPopupOpen}
-        handleClose={() => setIsDownloadReportPopupOpen(false)} 
+        handleClose={() => setIsDownloadReportPopupOpen(false)}
         handleDownload={() => {
-          handleDownload()
+          handleDownload();
         }}
         filteredData={{
           searchKey: searchKey || "",
           search: searchQuery || "",
           startDate:
             startDate ||
-            `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, "0")}-01`,
+            `${new Date().getFullYear()}-${String(
+              new Date().getMonth() + 1
+            ).padStart(2, "0")}-01`,
           endDate:
             endDate ||
-            `${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, "0")}-${String(
-              new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate()
+            `${new Date().getFullYear()}-${String(
+              new Date().getMonth() + 1
+            ).padStart(2, "0")}-${String(
+              new Date(
+                new Date().getFullYear(),
+                new Date().getMonth() + 1,
+                0
+              ).getDate()
             ).padStart(2, "0")}`,
-                
+
           startTime: startTime || "",
           endTime: endTime || "",
           status: status || "",
@@ -285,9 +409,11 @@ const ManageAttendancePage = () => {
           searchBySubDeptartmentId: Number(subDeptartmentId || 0),
         }}
         isLoading={isExportDataLoading}
+        isloadingPDF={isLoadingPDF}
+        handleDownloadPDF={handleDownloadPDF}
       />
     </>
-  )
-}
+  );
+};
 
-export default ManageAttendancePage
+export default ManageAttendancePage;
