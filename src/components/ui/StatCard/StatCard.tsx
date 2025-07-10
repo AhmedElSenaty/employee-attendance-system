@@ -6,9 +6,9 @@ interface IProps {
   amount?: string | number;
   description?: string;
   note?: string;
-  iconColor?: string;   // Tailwind text color class
-  iconBg?: string;      // Tailwind bg color class
-  cardBg?: string;      // Tailwind bg color class for card
+  iconColor?: string; // Tailwind text color class
+  iconBg?: string; // Tailwind bg color class
+  cardBg?: string; // Tailwind bg color class for card
 }
 
 const StatCard = ({
@@ -23,7 +23,7 @@ const StatCard = ({
   return (
     <div
       className={clsx(
-        "p-5 rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 w-full",
+        "p-5 rounded-2xl shadow-md hover:shadow-lg transition-shadow duration-300 w-full min-h-[15rem]",
         cardBg
       )}
     >
@@ -45,9 +45,7 @@ const StatCard = ({
       <p className="text-gray-600 text-xl">{description}</p>
 
       {/* Note (optional) */}
-      {note && (
-        <p className="mt-2 text-md text-blue-600 font-medium">{note}</p>
-      )}
+      {note && <p className="mt-2 text-md text-blue-600 font-medium">{note}</p>}
     </div>
   );
 };

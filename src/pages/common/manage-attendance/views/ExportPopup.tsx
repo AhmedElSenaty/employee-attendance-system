@@ -166,7 +166,7 @@ const ExportAttendancePopup = ({
             onClick={handleDownload}
             isLoading={isLoading}
           >
-            {isLoading ? t("buttons.loading") : t("buttons.Download Excel")}
+            {isLoading ? t("buttons.loading") : "Excel"}
           </Button>
         </HasPermission>
 
@@ -178,7 +178,7 @@ const ExportAttendancePopup = ({
             onClick={handleDownloadPDF}
             isLoading={isloadingPDF}
           >
-            {isloadingPDF ? t("buttons.loading") : t("buttons.Download PDF")}
+            {isloadingPDF ? t("buttons.loading") : "PDF"}
           </Button>
         </HasPermission>
       </div>

@@ -32,11 +32,17 @@ export const useUploadAttendanceExcel = () => {
 
   return useMutation({
     mutationFn: (file: File) => {
-      return attendanceService.uploadExcelFile(file)
+      return attendanceService.uploadExcelFile(file);
     },
     onSuccess: (response) => {
       if (response?.status === 200 || response?.status === 201) {
-        showToast("success", getTranslatedMessage(response?.data?.message ?? "Import successful", language));
+        showToast(
+          "success",
+          getTranslatedMessage(
+            response?.data?.message ?? "Import successful",
+            language
+          )
+        );
       }
     },
     onError: (error) => {
@@ -61,13 +67,13 @@ export const useGetAttendances = (
 ) => {
   const token = useUserStore((state) => state.token);
   const service = useAttendanceService();
-  
+
   const { data, isLoading } = useQuery({
     queryKey: [
       QueryKeys.Attendance.All,
       page,
       pageSize,
-      `${searchKey && searchQuery ? [searchKey, searchQuery] : ""}`, 
+      `${searchKey && searchQuery ? [searchKey, searchQuery] : ""}`,
       startDate,
       endDate,
       startTime,
@@ -88,7 +94,7 @@ export const useGetAttendances = (
         endTime,
         status,
         departmentId,
-        subDepartmentId,
+        subDepartmentId
       ),
     enabled: !!token,
   });
@@ -120,7 +126,7 @@ export const useGetAttendanceSummary = (
       pageSize,
       startDate,
       endDate,
-      `${searchKey && searchQuery ? [searchKey, searchQuery] : ""}`, 
+      `${searchKey && searchQuery ? [searchKey, searchQuery] : ""}`,
     ],
     queryFn: () =>
       service.fetchSummary(
@@ -129,7 +135,7 @@ export const useGetAttendanceSummary = (
         startDate,
         endDate,
         searchKey,
-        searchQuery,
+        searchQuery
       ),
     enabled: !!token,
   });
@@ -234,7 +240,12 @@ export const useGetDepartmentAttendanceOverview = (
   const service = useAttendanceService();
 
   const { data, isLoading } = useQuery({
-    queryKey: [QueryKeys.Attendance.DepartmentOverview, startDate, endDate, departmentID],
+    queryKey: [
+      QueryKeys.Attendance.DepartmentOverview,
+      startDate,
+      endDate,
+      departmentID,
+    ],
     queryFn: () =>
       service.fetchDepartmentOverview(startDate, endDate, departmentID),
     enabled: !!token,
@@ -256,14 +267,19 @@ export const useCreateAttendance = () => {
     mutationFn: (attendanceData: AttendanceCredentials) => {
       const formatted = {
         ...attendanceData,
-        attendanceTime: appendSecondsToTime(attendanceData.attendanceTime || ""),
+        attendanceTime: appendSecondsToTime(
+          attendanceData.attendanceTime || ""
+        ),
       };
       return attendanceService.create(formatted);
     },
     onSuccess: ({ status, data }) => {
       queryClient.invalidateQueries({ queryKey: [QueryKeys.Attendance.All] });
       if (status === 201) {
-        showToast("success", getTranslatedMessage(data.message ?? "", language));
+        showToast(
+          "success",
+          getTranslatedMessage(data.message ?? "", language)
+        );
       }
     },
     onError: (error) => {
@@ -282,7 +298,9 @@ export const useUpdateAttendance = () => {
     mutationFn: (attendanceData: AttendanceCredentials) => {
       const formatted = {
         ...attendanceData,
-        attendanceTime: appendSecondsToTime(attendanceData.attendanceTime || ""),
+        attendanceTime: appendSecondsToTime(
+          attendanceData.attendanceTime || ""
+        ),
       };
       return attendanceService.update(formatted);
     },
@@ -292,7 +310,10 @@ export const useUpdateAttendance = () => {
         queryKey: [QueryKeys.Attendance.Details, attendanceData.id],
       });
       if (status === 200) {
-        showToast("success", getTranslatedMessage(data.message ?? "", language));
+        showToast(
+          "success",
+          getTranslatedMessage(data.message ?? "", language)
+        );
       }
     },
     onError: (error) => {
@@ -308,11 +329,15 @@ export const useDeleteAttendance = () => {
   const attendanceService = useAttendanceService();
 
   return useMutation({
-    mutationFn: (attendanceID: number) => attendanceService.delete(attendanceID),
+    mutationFn: (attendanceID: number) =>
+      attendanceService.delete(attendanceID),
     onSuccess: ({ status, data }) => {
       queryClient.invalidateQueries({ queryKey: [QueryKeys.Attendance.All] });
       if (status === 200) {
-        showToast("success", getTranslatedMessage(data.message ?? "", language));
+        showToast(
+          "success",
+          getTranslatedMessage(data.message ?? "", language)
+        );
       }
     },
     onError: (error) => {
@@ -329,7 +354,6 @@ export const useGetAttendanceWithVacations = (
   searchQuery?: string,
   departmentId?: number,
   subDepartmentId?: number
-  
 ) => {
   const token = useUserStore((state) => state.token);
   const service = useAttendanceService();
@@ -339,7 +363,7 @@ export const useGetAttendanceWithVacations = (
       QueryKeys.Attendance.Vacations,
       page,
       pageSize,
-      `${searchKey && searchQuery ? [searchKey, searchQuery] : ""}`, 
+      `${searchKey && searchQuery ? [searchKey, searchQuery] : ""}`,
       departmentId,
       subDepartmentId,
     ],
@@ -350,7 +374,7 @@ export const useGetAttendanceWithVacations = (
         searchKey,
         searchQuery,
         departmentId,
-        subDepartmentId,
+        subDepartmentId
       ),
     enabled: !!token,
   });
@@ -364,21 +388,15 @@ export const useGetAttendanceWithVacations = (
 };
 
 // Get all attendance records
-export const useGetAttendanceStatus = (
-  status: string
-) => {
+export const useGetAttendanceStatus = (status: string) => {
   const token = useUserStore((state) => state.token);
   const service = useAttendanceService();
 
+  console.log(status);
+
   const { data, isLoading } = useQuery({
-    queryKey: [
-      QueryKeys.Attendance.Vacations,
-      status
-    ],
-    queryFn: () =>
-      service.fetchStatus(
-        status,
-      ),
+    queryKey: [QueryKeys.Attendance.Vacations, status],
+    queryFn: () => service.fetchStatus(status),
     enabled: !!token,
   });
 
@@ -397,8 +415,7 @@ export const useGetEmployeeTodayAttendance = () => {
 
   const { data, isLoading } = useQuery({
     queryKey: [QueryKeys.Attendance.EmployeeToday],
-    queryFn: () =>
-      service.fetchEmployeeTodayAttendance(),
+    queryFn: () => service.fetchEmployeeTodayAttendance(),
     enabled: !!token,
   });
 
