@@ -9,8 +9,9 @@ import { AlertTriangle, CheckCircle, Timer } from "lucide-react";
 import { HasPermission } from "../../../components/auth";
 import { EMPLOYEE_NS } from "../../../constants";
 import { Daydata, EmployeeWorkingHours, UpdateWorkingDays } from "../../../interfaces";
-import { useDeleteEmployee, useGetEmployeeByID, useGetWorkingDaysByID, useUnblockAccount, useUpdateAccountPassword, useUpdateEmployee, useUpdateEmployeeWorkingHours, useUpdateWorkingDays } from "../../../hooks";
+import { useSetWorkingHours,useDeleteEmployee, useGetEmployeeByID, useGetWorkingDaysByID, useUnblockAccount, useUpdateAccountPassword, useUpdateEmployee, useUpdateEmployeeWorkingHours, useUpdateWorkingDays } from "../../../hooks";
 import { DelegateInputs, DeletePopup, DepartmentInputs, Inputs, UnblockPopup, WorkingDaysCheckboxes } from "./views";
+import { use } from "i18next";
 
 const EditEmployeePage = () => {
   const { t } = useTranslation([EMPLOYEE_NS]);
@@ -47,6 +48,7 @@ const EditEmployeePage = () => {
     register: updateHoursRegister, 
     handleSubmit: handleSubmitUpdateHours,
     formState: { errors: updateHoursErrors }, 
+    setValue,
   } = useForm<EmployeeWorkingHours>();
 
   const { employee , isLoading: isEmployeeDataLoading} = useGetEmployeeByID(id || "", reset)
@@ -54,6 +56,7 @@ const EditEmployeePage = () => {
   // Destructuring functions and loading states from custom hooks for managing admins, departments, and permissions
   const { mutate: updateEmployee, isPending: isupdateing } = useUpdateEmployee();
   const { mutate: deleteEmployee, isPending: isDeleting } = useDeleteEmployee();
+  
 
   const handleConfirmUpdateInfo: SubmitHandler<EmployeeFormValues> = async (request: EmployeeFormValues) => {
     const payload = {
@@ -97,6 +100,17 @@ const EditEmployeePage = () => {
   };
 
   const { workingDays = [], isWorkingDaysLoading } = useGetWorkingDaysByID(id || "");
+
+  const { data } = useSetWorkingHours(id || "");
+  
+  useEffect(() => {
+    if (data?.data?.data) {
+          const { attendTime, goTime, description } = data.data.data;
+          setValue("attendTime",attendTime);
+          setValue("goTime",goTime);
+          setValue("description",description);
+    }
+  }, [data, setValue]);
 
   useEffect(() => {
     if (!isWorkingDaysLoading && workingDays.length > 0) {
@@ -315,6 +329,7 @@ const EditEmployeePage = () => {
             className="space-y-5"
             onSubmit={handleSubmitUpdateHours(handleConfirmUpdateWorkingHours)}
           >
+            {/* #TODO: Get hours from api  */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <Field className="space-y-2">
                 <Label size="lg">{t("inputs.attendTime.label")}</Label>

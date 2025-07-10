@@ -11,7 +11,7 @@ const axiosInstance = axios.create({
 });
 
 axiosInstance.interceptors.response.use(
-  (response) => response,
+  (response) => response, 
   (error) => {
     if (!error.response) {
       showToast("error", "Network error. Please check your connection.");

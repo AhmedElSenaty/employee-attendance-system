@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
 import { getTranslatedMessage, handleApiError, showToast } from "../utils";
 import { AxiosError } from "axios";
 import { IErrorResponse } from "../interfaces";
@@ -7,6 +7,18 @@ import { useUserStore } from "../store/user.store";
 import { AccountService } from "../services";
 
 
+// ✅ setting Working Hours
+export const useSetWorkingHours = (id:string) => {
+  const token = useUserStore((state) => state.token);
+  const accountService = new AccountService(id);
+
+  console.log("useSetWorkingHours", id);
+  return useQuery({
+    queryKey: ["workingHours"],
+    queryFn: () => accountService.getWorkingHours(id,token),
+    enabled: !!id,
+  });
+};
 // ✅ Update Another User's Password
 export const useUpdateAccountPassword = () => {
   const token = useUserStore((state) => state.token);
