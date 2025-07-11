@@ -1,4 +1,4 @@
-import { Eye, X, Check, ExternalLink, Trash } from "lucide-react";
+import { Eye, X, Check, Trash } from "lucide-react";
 import {
   Button,
   NoDataMessage,
@@ -46,13 +46,13 @@ const SickRequestsTable = ({
     "table.columns.requestedAt",
     "table.columns.status",
     "table.columns.actions",
-  ]
+  ];
 
   const columns = SICK_REQUESTS_TABLE_COLUMNS.map((key) => t(key));
 
-  const handleOpenFile = (fileUrl: string) => {
-    window.open(fileUrl, '_blank');
-  };
+  // const handleOpenFile = (fileUrl: string) => {
+  //   window.open(fileUrl, '_blank');
+  // };
 
   return (
     <>
@@ -106,7 +106,7 @@ const SickRequestsTable = ({
                 </TableCell>
                 <TableCell label={columns[7]}>
                   <div className="flex flex-wrap gap-2">
-                    <Tooltip content={t("table.buttons.toolOpenReport")}>
+                    {/* <Tooltip content={t("table.buttons.toolOpenReport")}>
                       <Button
                         variant="info"
                         fullWidth={false}
@@ -114,7 +114,7 @@ const SickRequestsTable = ({
                         icon={<ExternalLink className="w-full h-full" />}
                         onClick={() => handleOpenFile(sickRequest?.file || "")}
                       />
-                    </Tooltip>
+                    </Tooltip> */}
                     <Tooltip content={t("table.buttons.toolTipShow")}>
                       <Button
                         variant="primary"
@@ -159,9 +159,7 @@ const SickRequestsTable = ({
                           fullWidth={false}
                           size={"sm"}
                           icon={<Trash className="w-full h-full" />}
-                          onClick={() =>
-                            handleDelete(sickRequest.requestId)
-                          }
+                          onClick={() => handleDelete(sickRequest.requestId)}
                         />
                       </Tooltip>
                     )}
