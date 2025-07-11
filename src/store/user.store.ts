@@ -16,7 +16,16 @@ const getUserFromStorage = (): ILoggedInUser => {
     console.error("Error retrieving user from storage:", error);
   }
 
-  return { token: "", id: "", role: "", imageUrl: null, rememberMe: false, permissions: [] };
+  return {
+    token: "",
+    id: "",
+    name: "",
+    role: "",
+    departmentId: "",
+    imageUrl: null,
+    rememberMe: false,
+    permissions: [],
+  };
 };
 
 const saveUserToStorage = (user: ILoggedInUser) => {
@@ -55,6 +64,7 @@ export const useUserStore = create<UserStore>((set) => ({
       token: "",
       id: "",
       role: "",
+      name: "",
       imageUrl: null,
       rememberMe: false,
       permissions: [],

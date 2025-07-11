@@ -1,12 +1,32 @@
 import { Calendar, Check, X } from "lucide-react";
-import { AttendanceCard, AttendanceCardSkeleton, SectionHeader, Header, StatCard, StatCardSkeleton, BarChart, DoughnutChart, Graph, GraphSkeleton, Field, Input, Label, SelectBox, SelectBoxSkeleton } from "../../components/ui";
+import {
+  AttendanceCard,
+  AttendanceCardSkeleton,
+  SectionHeader,
+  Header,
+  StatCard,
+  StatCardSkeleton,
+  BarChart,
+  DoughnutChart,
+  Graph,
+  GraphSkeleton,
+  Field,
+  Input,
+  Label,
+  SelectBox,
+  SelectBoxSkeleton,
+} from "../../components/ui";
 import { useTranslation } from "react-i18next";
 import { useFiltersHook } from "../../hooks/filter.hook";
 import { useGetDepartmentsList } from "../../hooks/department.hooks";
 import { AttendanceCardData, DepartmentSummary } from "../../interfaces";
 import { formatValue } from "../../utils";
 import { useLanguageStore } from "../../store/language.store";
-import { useGetAttendanceOverview, useGetDepartmentAttendanceOverview, useGetLatestAttendance } from "../../hooks/attendance.hooks";
+import {
+  useGetAttendanceOverview,
+  useGetDepartmentAttendanceOverview,
+  useGetLatestAttendance,
+} from "../../hooks/attendance.hooks";
 import { NavLink } from "react-router";
 import { useUserStore } from "../../store";
 
@@ -15,28 +35,47 @@ export const DashboardPage = () => {
   const { language } = useLanguageStore();
   const role = useUserStore((state) => state.role);
 
-  const { startDate, endDate, searchByDepartmentId, setFilters } = useFiltersHook();
-  const { departmentsList, isLoading: isDepartmentsLoading } = useGetDepartmentsList();
 
-  const { attendanceOverviewDtos, dailyAttendanceDto, isLoading: isAttendanceOverviewLoading } = useGetAttendanceOverview()
+  console.log(name);
+  const { startDate, endDate, searchByDepartmentId, setFilters } =
+    useFiltersHook();
+  const { departmentsList, isLoading: isDepartmentsLoading } =
+    useGetDepartmentsList();
 
-  const { departmentAttendanceOverview, isLoading: isDepartmentAttendanceOverviewLoading } = useGetDepartmentAttendanceOverview(startDate || "", endDate || "", Number(searchByDepartmentId || 0))
+  const {
+    attendanceOverviewDtos,
+    dailyAttendanceDto,
+    isLoading: isAttendanceOverviewLoading,
+  } = useGetAttendanceOverview();
+
+  const {
+    departmentAttendanceOverview,
+    isLoading: isDepartmentAttendanceOverviewLoading,
+  } = useGetDepartmentAttendanceOverview(
+    startDate || "",
+    endDate || "",
+    Number(searchByDepartmentId || 0)
+  );
   const data = {
     labels: [
-      t("departmentOverview.graph.attendance", { ns: "dashboard" }), 
-      t("departmentOverview.graph.absent", { ns: "dashboard" })
+      t("departmentOverview.graph.attendance", { ns: "dashboard" }),
+      t("departmentOverview.graph.absent", { ns: "dashboard" }),
     ],
     datasets: [
       {
         label: "Attendance Overview",
-        data: [departmentAttendanceOverview?.totalAttendance, departmentAttendanceOverview?.totalAbsence],
+        data: [
+          departmentAttendanceOverview?.totalAttendance,
+          departmentAttendanceOverview?.totalAbsence,
+        ],
         backgroundColor: ["#19355a", "#b38e19"],
         hoverOffset: 8,
       },
     ],
   };
 
-  const { latestAttendance, isLoading: islatestAttendanceLoading } = useGetLatestAttendance()
+  const { latestAttendance, isLoading: islatestAttendanceLoading } =
+    useGetLatestAttendance();
 
   const barData = {
     labels: t("attendanceOverview.graph.months", {
@@ -46,19 +85,18 @@ export const DashboardPage = () => {
     datasets: [
       {
         label: t("attendanceOverview.graph.attendance", { ns: "dashboard" }),
-        data: attendanceOverviewDtos?.map((item:any) => item.attendance),
+        data: attendanceOverviewDtos?.map((item: any) => item.attendance),
         backgroundColor: "#19355a",
         hoverOffset: 8,
       },
       {
         label: t("attendanceOverview.graph.absent", { ns: "dashboard" }),
-        data: attendanceOverviewDtos?.map((item:any) => item.absence),
+        data: attendanceOverviewDtos?.map((item: any) => item.absence),
         backgroundColor: "#b38e19",
         hoverOffset: 8,
       },
     ],
   };
-  
 
   return (
     <div className="sm:p-5 p-3 space-y-5">
@@ -71,13 +109,16 @@ export const DashboardPage = () => {
         {/* Main content */}
         <div className="w-full lg:w-2/3 flex flex-col gap-5">
           <SectionHeader
-            title={t("attendanceOverview.sectionHeader.title", { ns: "dashboard" })}
-            description={t("attendanceOverview.sectionHeader.description", { ns: "dashboard" })}
+            title={t("attendanceOverview.sectionHeader.title", {
+              ns: "dashboard",
+            })}
+            description={t("attendanceOverview.sectionHeader.description", {
+              ns: "dashboard",
+            })}
           />
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {isAttendanceOverviewLoading ?
-            (
+            {isAttendanceOverviewLoading ? (
               <>
                 <StatCardSkeleton />
                 <StatCardSkeleton />
@@ -86,24 +127,41 @@ export const DashboardPage = () => {
               </>
             ) : (
               <>
-              <NavLink to={`/${role}/manage-attendance/vacations/0`}>
-                <StatCard
-                  icon={<Check />}
-                  amount={formatValue(dailyAttendanceDto?.totalComplete || 0, language)}
-                  description={t("attendanceOverview.statCards.completedAttendance.description", { ns: "dashboard" })}
-                  note={t("attendanceOverview.statCards.completedAttendance.note", { ns: "dashboard" })}
-                  iconColor="text-white"
-                  iconBg="bg-emerald-700"
-                  cardBg="bg-emerald-50"
-                />
-              </NavLink>
+                <NavLink to={`/${role}/manage-attendance/vacations/0`}>
+                  <StatCard
+                    icon={<Check />}
+                    amount={formatValue(
+                      dailyAttendanceDto?.totalComplete || 0,
+                      language
+                    )}
+                    description={t(
+                      "attendanceOverview.statCards.completedAttendance.description",
+                      { ns: "dashboard" }
+                    )}
+                    note={t(
+                      "attendanceOverview.statCards.completedAttendance.note",
+                      { ns: "dashboard" }
+                    )}
+                    iconColor="text-white"
+                    iconBg="bg-emerald-700"
+                    cardBg="bg-emerald-50"
+                  />
+                </NavLink>
 
                 <NavLink to={`/${role}/manage-attendance/vacations/1`}>
                   <StatCard
                     icon={<X />}
-                    amount={formatValue(dailyAttendanceDto?.noCheckInOrOut || 0, language)}
-                    description={t("attendanceOverview.statCards.noCheck.description", { ns: "dashboard" })}
-                    note={t("attendanceOverview.statCards.noCheck.note", { ns: "dashboard" })}
+                    amount={formatValue(
+                      dailyAttendanceDto?.noCheckInOrOut || 0,
+                      language
+                    )}
+                    description={t(
+                      "attendanceOverview.statCards.noCheck.description",
+                      { ns: "dashboard" }
+                    )}
+                    note={t("attendanceOverview.statCards.noCheck.note", {
+                      ns: "dashboard",
+                    })}
                     iconColor="text-white"
                     iconBg="bg-red-700"
                     cardBg="bg-red-50"
@@ -113,9 +171,17 @@ export const DashboardPage = () => {
                 <NavLink to={`/${role}/manage-attendance/vacations/2`}>
                   <StatCard
                     icon={<Calendar />}
-                    amount={formatValue(dailyAttendanceDto?.onlyCheckedIn || 0, language)}
-                    description={t("attendanceOverview.statCards.onlyCheckIn.description", { ns: "dashboard" })}
-                    note={t("attendanceOverview.statCards.onlyCheckIn.note", { ns: "dashboard" })}
+                    amount={formatValue(
+                      dailyAttendanceDto?.onlyCheckedIn || 0,
+                      language
+                    )}
+                    description={t(
+                      "attendanceOverview.statCards.onlyCheckIn.description",
+                      { ns: "dashboard" }
+                    )}
+                    note={t("attendanceOverview.statCards.onlyCheckIn.note", {
+                      ns: "dashboard",
+                    })}
                     iconColor="text-white"
                     iconBg="bg-yellow-600"
                     cardBg="bg-yellow-50"
@@ -125,44 +191,57 @@ export const DashboardPage = () => {
                 <NavLink to={`/${role}/manage-attendance/vacations/3`}>
                   <StatCard
                     icon={<Calendar />}
-                    amount={formatValue(dailyAttendanceDto?.onlyCheckedOut || 0, language)}
-                    description={t("attendanceOverview.statCards.onlyCheckOut.description", { ns: "dashboard" })}
-                    note={t("attendanceOverview.statCards.onlyCheckOut.note", { ns: "dashboard" })}
+                    amount={formatValue(
+                      dailyAttendanceDto?.onlyCheckedOut || 0,
+                      language
+                    )}
+                    description={t(
+                      "attendanceOverview.statCards.onlyCheckOut.description",
+                      { ns: "dashboard" }
+                    )}
+                    note={t("attendanceOverview.statCards.onlyCheckOut.note", {
+                      ns: "dashboard",
+                    })}
                     iconColor="text-white"
                     iconBg="bg-indigo-700"
                     cardBg="bg-indigo-50"
                   />
                 </NavLink>
-
               </>
-            )
-
-            }
+            )}
           </div>
 
           <div>
-            {
-              isAttendanceOverviewLoading ? (
-                <GraphSkeleton />
-              ) : (
-                <Graph
-                  title={t("attendanceOverview.graph.title", { ns: "dashboard" })}
-                  description={t("attendanceOverview.graph.description", { ns: "dashboard" })}
-                  width="w-full"
-                  height="h-fit"
-                >
-                  <BarChart datasetIdKey="employees-bar" data={barData} height={300} />
-                </Graph>
-              )
-            }
+            {isAttendanceOverviewLoading ? (
+              <GraphSkeleton />
+            ) : (
+              <Graph
+                title={t("attendanceOverview.graph.title", { ns: "dashboard" })}
+                description={t("attendanceOverview.graph.description", {
+                  ns: "dashboard",
+                })}
+                width="w-full"
+                height="h-fit"
+              >
+                <BarChart
+                  datasetIdKey="employees-bar"
+                  data={barData}
+                  height={300}
+                />
+              </Graph>
+            )}
           </div>
         </div>
 
         {/* Sidebar section */}
         <div className="w-full lg:w-1/3 flex flex-col gap-5">
           <SectionHeader
-            title={t("departmentOverview.sectionHeader.title", { ns: "dashboard" })}
-            description={t("departmentOverview.sectionHeader.description", { ns: "dashboard" })}
+            title={t("departmentOverview.sectionHeader.title", {
+              ns: "dashboard",
+            })}
+            description={t("departmentOverview.sectionHeader.description", {
+              ns: "dashboard",
+            })}
           />
 
           <div className="flex flex-col sm:flex-row sm:items-end gap-4">
@@ -219,35 +298,48 @@ export const DashboardPage = () => {
             )}
           </Field>
 
-          {
-              isDepartmentAttendanceOverviewLoading ? (
-                <GraphSkeleton />
-              ) : (
-                <Graph
-                  title={t("departmentOverview.graph.title", { ns: "dashboard" })}
-                  description={t("departmentOverview.graph.description", { ns: "dashboard" })}
-                  width="w-full"
-                  height="h-fit"
-                >
-                  <DoughnutChart datasetIdKey="attendance" data={data} height={175} />
-                </Graph>
-              )
-            }
+          {isDepartmentAttendanceOverviewLoading ? (
+            <GraphSkeleton />
+          ) : (
+            <Graph
+              title={t("departmentOverview.graph.title", { ns: "dashboard" })}
+              description={t("departmentOverview.graph.description", {
+                ns: "dashboard",
+              })}
+              width="w-full"
+              height="h-fit"
+            >
+              <DoughnutChart
+                datasetIdKey="attendance"
+                data={data}
+                height={175}
+              />
+            </Graph>
+          )}
 
           {/* Responsive attendance card list */}
           <div className="flex flex-wrap gap-5 max-h-96 overflow-y-auto">
-            {
-              islatestAttendanceLoading ? (
-                [...Array(3)].map((_, index) => <AttendanceCardSkeleton key={index} />)
-              ) : (
-                latestAttendance.map(
+            {islatestAttendanceLoading
+              ? [...Array(3)].map((_, index) => (
+                  <AttendanceCardSkeleton key={index} />
+                ))
+              : latestAttendance.map(
                   (
-                    { employeeName, profileImage, departmentName, subDepartmentName, checkIn, checkOut }: AttendanceCardData,
+                    {
+                      employeeName,
+                      profileImage,
+                      departmentName,
+                      subDepartmentName,
+                      checkIn,
+                      checkOut,
+                    }: AttendanceCardData,
                     index: number
                   ) => (
                     <AttendanceCard
                       key={index}
-                      avatarUrl={profileImage || "/images/default-user-image.webp"}
+                      avatarUrl={
+                        profileImage || "/images/default-user-image.webp"
+                      }
                       name={employeeName}
                       role={departmentName}
                       type={subDepartmentName}
@@ -262,14 +354,10 @@ export const DashboardPage = () => {
                       }
                     />
                   )
-                )
-              )
-            }
+                )}
           </div>
         </div>
       </div>
-
     </div>
   );
 };
-

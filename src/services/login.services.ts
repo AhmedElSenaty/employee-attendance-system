@@ -39,6 +39,7 @@ export class AuthService {
         token,
         id: tokenPayload.nameid,
         role: tokenPayload.type,
+        name: tokenPayload.name,
         imageUrl: null,
         rememberMe: false,
         permissions: [],
