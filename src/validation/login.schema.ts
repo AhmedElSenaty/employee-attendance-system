@@ -9,3 +9,13 @@ export const loginSchema = yup.object().shape({
     .required("Password is required"),
   rememberMe: yup.boolean().default(false),
 });
+export const ResetPassword = yup.object().shape({
+  newPassword: yup
+    .string()
+    .required("Password is required"),
+  confirmPass: yup
+    .string()
+    .required("Confirm Password is required"),
+  mail: yup.string().default(""),
+  token:yup.string().default("")
+});

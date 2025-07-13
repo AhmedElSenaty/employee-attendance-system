@@ -1,7 +1,8 @@
 import axiosInstance from "../config/axios.config";
 import { ILoggedInUser, ILoginCredentials, ILoginResponse, IResetAccountCredentials } from "../interfaces";
-
+// import { useLanguageStore } from "../store";
 export class AuthService {
+
   login = async (credentials: ILoginCredentials): Promise<ILoginResponse> => {
     try {
       const response = await axiosInstance.post(
@@ -30,6 +31,33 @@ export class AuthService {
       throw error;
     }
   };
+  resetPassword=async(Oldemail:string) => {
+    try {
+      const res=await axiosInstance.post("/Account/ForgotPassword",
+        {
+            email:Oldemail
+        }
+      )
+      return res.data
+    } catch (error) {
+       console.error("Error during login:", error);
+      throw error;
+    }
+  }
+
+  confirmReset=async (newPassword:string , confirmPass:string , mail:string | null) => {    
+    try {
+      const res = await axiosInstance.post("Account/ConfirmForgotPassword",{
+        "email": mail,
+        "newPassword": newPassword,
+        "confirmPassword": confirmPass
+      })
+      return res.data
+    } catch (error) {
+       console.error("Error during Reseting password:", error);
+      throw error;
+    }
+  }
 
   parseToken = (token: string): ILoggedInUser => {
     try {

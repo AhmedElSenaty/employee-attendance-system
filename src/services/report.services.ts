@@ -10,6 +10,7 @@ export class ReportsService extends BaseService {
     startTime?: string,
     endTime?: string,
     status?: string,
+     checked?:boolean,
     searchByDeptartmentId?: number,
     searchBySubDeptartmentId?: number
   ) => {
@@ -20,6 +21,7 @@ export class ReportsService extends BaseService {
         StartTime: startTime,
         EndTime: endTime,
         Status: status,
+        IncludeSubDepartments:checked,
         SearchByDeptartmentId: searchByDeptartmentId === 0 ? "" : searchByDeptartmentId,
         SearchBySubDeptartmentId: searchBySubDeptartmentId === 0 ? "" : searchBySubDeptartmentId,
         ...(searchType && searchQuery ? { [searchType]: searchQuery } : {}),
@@ -44,6 +46,7 @@ export class ReportsService extends BaseService {
     startTime?: string,
     endTime?: string,
     status?: string,
+    checked?:boolean,
     searchByDeptartmentId?: number,
     searchBySubDeptartmentId?: number
   ) => {
@@ -54,6 +57,7 @@ export class ReportsService extends BaseService {
         StartTime: startTime,
         EndTime: endTime,
         Status: status,
+        IncludeSubDepartments:checked,
         SearchByDeptartmentId: searchByDeptartmentId === 0 ? "" : searchByDeptartmentId,
         SearchBySubDeptartmentId: searchBySubDeptartmentId === 0 ? "" : searchBySubDeptartmentId,
         ...(searchType && searchQuery ? { [searchType]: searchQuery } : {}),

@@ -223,5 +223,6 @@
   "export": {
     "exportSuccess": "Data exported successfully! ✅",
     "exportError": "Failed to export data. Please try again. ❌"
-  }
+  },
+  "CheckBox":"Include Sub Departments"
 }

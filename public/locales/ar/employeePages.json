@@ -221,6 +221,15 @@
       "label": "اقصى وقت للحضور",
       "placeholder": "ادخل وقت الحضور"
     },
+    "attendStartDate": {
+      "label": "تاريخ البداية"
+    },
+    "attendEndDate": {
+      "label": "تاريخ النهاية"
+    },
+    "Reports": {
+      "label": "التقرير"
+    },
     "goTime": {
       "label": "اقل وقت للانصراف",
       "placeholder": "ادخل وقت الانصراف"

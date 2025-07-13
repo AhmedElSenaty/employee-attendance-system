@@ -5,13 +5,13 @@ import { EmployeeFormValues, getEmployeeSchema, passwordUpdateSchema } from "../
 import { SectionHeader, Button, ButtonSkeleton, Header, StatusBadge, Description, Field, Input, InputErrorMessage, Label, Textarea } from "../../../components/ui";
 import { useNavigate, useParams } from "react-router";
 import { useEffect, useState } from "react";
-import { AlertTriangle, CheckCircle, Timer } from "lucide-react";
+import { AlertTriangle, CheckCircle, Timer ,Calendar} from "lucide-react";
 import { HasPermission } from "../../../components/auth";
 import { EMPLOYEE_NS } from "../../../constants";
 import { Daydata, EmployeeWorkingHours, UpdateWorkingDays } from "../../../interfaces";
 import { useSetWorkingHours,useDeleteEmployee, useGetEmployeeByID, useGetWorkingDaysByID, useUnblockAccount, useUpdateAccountPassword, useUpdateEmployee, useUpdateEmployeeWorkingHours, useUpdateWorkingDays } from "../../../hooks";
 import { DelegateInputs, DeletePopup, DepartmentInputs, Inputs, UnblockPopup, WorkingDaysCheckboxes } from "./views";
-import { use } from "i18next";
+import { FileInputPreview } from "../../../components/ui/Form/FileUpload";
 
 const EditEmployeePage = () => {
   const { t } = useTranslation([EMPLOYEE_NS]);
@@ -340,6 +340,14 @@ const EditEmployeePage = () => {
                   icon={<Timer />}
                   {...updateHoursRegister("attendTime")}
                 />
+                <Label size="lg">{t("inputs.attendStartDate.label")}</Label>
+                <Input
+                  type="date"
+                  placeholder={t("inputs.attendTime.placeholder")}
+                  isError={!!updateHoursErrors.attendTime}
+                  icon={<Calendar />}
+                  {...updateHoursRegister("attendTime")}
+                />
                 {updateHoursErrors.attendTime && (
                   <InputErrorMessage>
                     {t(`inputs.attendTime.inputValidation.${updateHoursErrors.attendTime?.type}`)}
@@ -355,6 +363,14 @@ const EditEmployeePage = () => {
                   icon={<Timer />}
                   {...updateHoursRegister("goTime")}
                 />
+                 <Label size="lg">{t("inputs.attendEndDate.label")}</Label>
+                <Input
+                  type="date"
+                  placeholder={t("inputs.goTime.placeholder")}
+                  isError={!!updateHoursErrors.goTime}
+                  icon={<Calendar />}
+                  {...updateHoursRegister("goTime")}
+                />
                 {updateHoursErrors.goTime && (
                   <InputErrorMessage>
                     {t(`inputs.goTime.inputValidation.${updateHoursErrors.goTime?.type}`)}
@@ -362,7 +378,10 @@ const EditEmployeePage = () => {
                 )}
               </Field>
             </div>
-            <Field className="space-y-2">
+            <Field className="space-y-4" >
+              <Label size="lg">{t("inputs.Reports.label")}</Label>
+              {/* <Input type="file" width={"full"}/> */}
+              <FileInputPreview />
               <Label size="lg">{t("inputs.description.label")}</Label>
               <Textarea
                 placeholder={t("inputs.description.placeholder")}

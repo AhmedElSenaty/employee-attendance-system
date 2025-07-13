@@ -3,6 +3,12 @@ export interface ILoginCredentials {
   password: string;
   rememberMe: boolean;
 }
+export interface IResetPassword {
+  newPassword: string;
+  confirmPass: string;
+  mail: string;
+  token:string
+}
 
 export interface ILoginResponse {
   status: number

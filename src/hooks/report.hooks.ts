@@ -23,6 +23,7 @@ export const useExportAttendanceReport = (
   startTime?: string,
   endTime?: string,
   status?: string,
+  checked?:boolean,
   departmentId?: number,
   subDepartmentId?: number
 ) => {
@@ -38,6 +39,7 @@ export const useExportAttendanceReport = (
       startTime,
       endTime,
       status,
+      checked,
       departmentId,
       subDepartmentId,
     ],
@@ -50,6 +52,7 @@ export const useExportAttendanceReport = (
         startTime,
         endTime,
         status,
+        checked,
         departmentId,
         subDepartmentId
       ),
@@ -70,6 +73,7 @@ export const useExportAttendanceReportPDF = (
   startTime?: string,
   endTime?: string,
   status?: string,
+  checked?:boolean,
   departmentId?: number,
   subDepartmentId?: number
 ) => {
@@ -85,6 +89,7 @@ export const useExportAttendanceReportPDF = (
       startTime,
       endTime,
       status,
+      checked,
       departmentId,
       subDepartmentId,
     ],
@@ -97,13 +102,14 @@ export const useExportAttendanceReportPDF = (
         startTime,
         endTime,
         status,
+        checked,
         departmentId,
         subDepartmentId
       ),
     enabled: false, // manual refetching
     retry: 3,
+    
   });
-
   return {
     refetchExportDataPDF: refetch,
     isLoadingPDF: isLoading,

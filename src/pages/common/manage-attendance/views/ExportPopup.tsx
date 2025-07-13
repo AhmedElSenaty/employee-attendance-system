@@ -1,8 +1,9 @@
 import { useTranslation } from "react-i18next";
-import { Button, Popup, StatusBadge } from "../../../../components/ui";
+import { Button, Label, Popup, StatusBadge } from "../../../../components/ui";
 import { AlertTriangle, CheckCircle, Fingerprint } from "lucide-react";
 import { ATTENDANCE_NS } from "../../../../constants";
 import { HasPermission } from "../../../../components/auth";
+import { useState } from "react";
 
 interface Props {
   isOpen: boolean;
@@ -17,6 +18,7 @@ interface Props {
     startTime: string;
     endTime: string;
     status: string;
+    checked:boolean;
     searchByDepartmentId: number;
     searchBySubDeptartmentId: number;
   };
@@ -34,6 +36,12 @@ const ExportAttendancePopup = ({
   isloadingPDF,
 }: Props) => {
   const { t } = useTranslation([ATTENDANCE_NS]);
+   const [isChecked, setIsChecked] = useState(false);
+   
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setIsChecked(event.target.checked);
+  };
 
   return (
     <Popup
@@ -146,6 +154,12 @@ const ExportAttendancePopup = ({
               </StatusBadge>
             </div>
           )}
+        </div>
+        <div className="flex space-x-2">
+          <Label>{t("CheckBox")}</Label>
+        <input type="checkbox" 
+        checked={isChecked}
+         onChange={handleChange}/>
         </div>
       </div>
 

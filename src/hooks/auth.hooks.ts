@@ -54,7 +54,6 @@ export const useLogin = () => {
       const axiosError = error as AxiosError<IErrorResponse>;
       const response = axiosError.response?.data as ILoginResponse;
       setResponseData(response);
-
       if (response.status === 302) {
         const message = getTranslatedMessage(response.message ?? "", language);
         showToast("warn", message);
@@ -101,4 +100,53 @@ export const useResetAccount = () => {
     isLoading,
     onSubmit,
   };
+
 };
+export const useRestPassword=() => {
+  const [isLoadingReset, setIsLoading] = useState(false);
+   const { language } = useLanguageStore();
+   const onSubmitReset = async(OldEmail:string) => {
+     setIsLoading(true);
+     try {
+      const data = await service.resetPassword(OldEmail);
+      const message = getTranslatedMessage(data.message ?? "", language);
+      if (data.status === 200) {
+        showToast("success", message);
+        }
+     } catch (error) {
+      const axiosError = error as AxiosError<IErrorResponse>
+      handleApiError(axiosError, language);
+     }
+     finally{
+      setIsLoading(false);
+     }
+    }
+    return{
+     isLoadingReset,
+     onSubmitReset
+    }
+}
+export const useChnagePassword=() => {
+  const [isLoadingConfirm, setIsLoading] = useState(false);
+   const { language } = useLanguageStore();
+   const onSubmitConfirm = async(newPassword:string , confirmPass:string , mail:string | null ) => {
+     setIsLoading(true);
+     try {
+      const data = await service.confirmReset(newPassword,confirmPass,mail);
+      const message = getTranslatedMessage(data.message ?? "", language);
+      if (data.status === 200) {
+        showToast("success", message);
+        }
+     } catch (error) {
+      const axiosError = error as AxiosError<IErrorResponse>
+      handleApiError(axiosError, language);
+     }
+     finally{
+      setIsLoading(false);
+     }
+    }
+    return{
+     isLoadingConfirm,
+     onSubmitConfirm
+    }
+}
