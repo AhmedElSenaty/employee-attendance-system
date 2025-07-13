@@ -112,7 +112,7 @@ const ManageAttendancePage = () => {
   const rawStatus = getParam("status");
   const rawDepartmentId = getParam("searchByDepartmentId", Number);
   const rawSubDeptartmentId = getParam("searchBySubDeptartmentId", Number);
-  const rawChecked = getParam("checked",Boolean);
+  const rawChecked = getParam("checked", Boolean);
 
   // Use nullish coalescing to default numeric values, undefined for dates if empty
   const page = rawPage ?? 1;
@@ -125,7 +125,7 @@ const ManageAttendancePage = () => {
   const status = rawStatus || undefined;
   const searchQuery = useDebounce(rawSearchQuery, 650) || undefined;
   const departmentId = rawDepartmentId || "";
-  const checked=rawChecked || false
+  const checked = rawChecked || false
   const subDeptartmentId = rawSubDeptartmentId || "";
 
   const {
@@ -411,6 +411,7 @@ const ManageAttendancePage = () => {
           status: status || "",
           searchByDepartmentId: Number(departmentId || 0),
           searchBySubDeptartmentId: Number(subDeptartmentId || 0),
+          checked: checked
         }}
         isLoading={isExportDataLoading}
         isloadingPDF={isLoadingPDF}

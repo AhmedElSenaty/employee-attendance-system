@@ -1,9 +1,9 @@
 import { useTranslation } from "react-i18next";
-import { Button, Label, Popup, StatusBadge } from "../../../../components/ui";
+import { Button, Checkbox, Field, Label, Popup, StatusBadge } from "../../../../components/ui";
 import { AlertTriangle, CheckCircle, Fingerprint } from "lucide-react";
 import { ATTENDANCE_NS } from "../../../../constants";
 import { HasPermission } from "../../../../components/auth";
-import { useState } from "react";
+import useURLSearchParams from "../../../../hooks/URLSearchParams.hook";
 
 interface Props {
   isOpen: boolean;
@@ -36,12 +36,8 @@ const ExportAttendancePopup = ({
   isloadingPDF,
 }: Props) => {
   const { t } = useTranslation([ATTENDANCE_NS]);
-   const [isChecked, setIsChecked] = useState(false);
-   
+  const { setParam } = useURLSearchParams();
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setIsChecked(event.target.checked);
-  };
 
   return (
     <Popup
@@ -155,12 +151,15 @@ const ExportAttendancePopup = ({
             </div>
           )}
         </div>
-        <div className="flex space-x-2">
+        <Field className="flex space-x-2">
+          <Checkbox
+            onChange={(e) =>
+              setParam("checked", String(e.target.checked))
+            }
+          />
           <Label>{t("CheckBox")}</Label>
-        <input type="checkbox" 
-        checked={isChecked}
-         onChange={handleChange}/>
-        </div>
+        </Field>
+
       </div>
 
       <div className="flex items-center space-x-3 mt-4">
