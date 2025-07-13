@@ -57,7 +57,7 @@ const RequestsPage = () => {
     useSoftDeleteRequest();
 
   const REQUESTS_TABLE_COLUMNS = [
-    "table.columns.id",
+    // "table.columns.id",
     "table.columns.employeeName",
     "table.columns.startDate",
     "table.columns.endDate",
@@ -138,7 +138,9 @@ const RequestsPage = () => {
                 ) : (
                   requests.map((request: IRequest) => (
                     <TableRow key={request.id} className="border-b">
-                      <TableCell label={columns[0]}>{request?.id}</TableCell>
+                      {/* <TableCell
+                       label={columns[0]}>{request?.id}
+                       </TableCell> */}
 
                       <TableCell label={columns[1]}>
                         {request.employeeName}
