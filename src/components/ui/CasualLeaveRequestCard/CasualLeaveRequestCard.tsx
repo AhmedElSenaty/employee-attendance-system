@@ -3,7 +3,11 @@ import { StatusBadge } from "../StatusBadge";
 import { FilePenLine, Info, MessageSquare, Eye } from "lucide-react";
 import { Button } from "../Button";
 import { Tooltip } from "../Tooltip"; // Assuming you have this
-import { getRequestBgColorClass, getRequestStatusVariant, truncateText } from "../../../utils";
+import {
+  getRequestBgColorClass,
+  getRequestStatusVariant,
+  truncateText,
+} from "../../../utils";
 import { useTranslation } from "react-i18next";
 import { useLanguageStore } from "../../../store/language.store";
 import { ICasualLeaveRequestData } from "../../../interfaces";
@@ -40,8 +44,15 @@ const CasualLeaveRequestCard = ({ data, handleShow, handleEdit }: Props) => {
 
           <p className="text-base text-gray-500">
             {t("casualLeaveRequestCard.requestedAt")}{" "}
-            {new Date(data?.requestedAt || "").toLocaleDateString(
-              language === "ar" ? "ar-EG" : "en-CA"
+            {new Date(data?.requestedAt || "").toLocaleString(
+              language === "ar" ? "ar-EG" : "en-CA",
+              {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+              }
             )}
           </p>
         </div>

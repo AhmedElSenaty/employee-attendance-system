@@ -51,19 +51,27 @@ const ShowPopup = ({
               </span>
             </div>
             <div className="grid grid-cols-2 py-2">
-              <span className="font-medium text-gray-600">{t("showPopup.fields.employeeId")}</span>
-              <span className="text-gray-900 font-semibold">{formatValue(ordinaryRequest?.employeeId || 0, language)}</span>
+              <span className="font-medium text-gray-600">
+                {t("showPopup.fields.employeeId")}
+              </span>
+              <span className="text-gray-900 font-semibold">
+                {formatValue(ordinaryRequest?.employeeId || 0, language)}
+              </span>
             </div>
             <div className="grid grid-cols-2 py-2">
-              <span className="font-medium text-gray-600">{t("showPopup.fields.employeeName")}</span>
-              <span className="text-gray-900 font-semibold">{ordinaryRequest?.employeeName}</span>
+              <span className="font-medium text-gray-600">
+                {t("showPopup.fields.employeeName")}
+              </span>
+              <span className="text-gray-900 font-semibold">
+                {ordinaryRequest?.employeeName}
+              </span>
             </div>
             <div className="grid grid-cols-2 py-2">
               <span className="font-medium text-gray-600">
                 {t("showPopup.fields.startDate")}
               </span>
               <span className="text-gray-900 font-semibold">
-              {new Date(ordinaryRequest?.startDate || "").toLocaleDateString(
+                {new Date(ordinaryRequest?.startDate || "").toLocaleDateString(
                   language === "ar" ? "ar-EG" : "en-CA"
                 )}
               </span>
@@ -73,7 +81,7 @@ const ShowPopup = ({
                 {t("showPopup.fields.endDate")}
               </span>
               <span className="text-gray-900 font-semibold">
-              {new Date(ordinaryRequest?.endDate || "").toLocaleDateString(
+                {new Date(ordinaryRequest?.endDate || "").toLocaleDateString(
                   language === "ar" ? "ar-EG" : "en-CA"
                 )}
               </span>
@@ -83,8 +91,15 @@ const ShowPopup = ({
                 {t("showPopup.fields.requestedAt")}
               </span>
               <span className="text-gray-900 font-semibold">
-                {new Date(ordinaryRequest?.requestedAt || "").toLocaleDateString(
-                  language === "ar" ? "ar-EG" : "en-CA"
+                {new Date(ordinaryRequest?.requestedAt || "").toLocaleString(
+                  language,
+                  {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  }
                 )}
               </span>
             </div>

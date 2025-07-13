@@ -1,6 +1,12 @@
 import { useTranslation } from "react-i18next";
-import { Button, Field, Label, Popup, Textarea } from "../../../../components/ui";
-import { UseFormRegister } from "react-hook-form";
+import {
+  Button,
+  Field,
+  Label,
+  Popup,
+  Textarea,
+} from "../../../../components/ui";
+import { FieldErrors, UseFormRegister } from "react-hook-form";
 import { ISoftDeleteRequestCredentials } from "../../../../interfaces/request.interfaces";
 
 interface IDeletePopupProps {
@@ -9,6 +15,7 @@ interface IDeletePopupProps {
   handleConfirmDelete: () => void;
   register: UseFormRegister<ISoftDeleteRequestCredentials>;
   isLoading: boolean;
+  errors: FieldErrors<ISoftDeleteRequestCredentials>;
 }
 
 const DeletePopup = ({
@@ -17,6 +24,7 @@ const DeletePopup = ({
   handleConfirmDelete,
   register,
   isLoading,
+  errors,
 }: IDeletePopupProps) => {
   const { t } = useTranslation("requests");
 
@@ -31,15 +39,36 @@ const DeletePopup = ({
         <Label size="lg">{t("inputs.comment.label")}</Label>
         <Textarea
           placeholder={t("inputs.comment.placeholder")}
-          {...register("comment")}
+          {...register("comment", {
+            required: {
+              value: true,
+              message: t("inputs.comment.inputValidation.required"),
+            },
+          })}
         />
+        {errors.comment && (
+          <p className="text-red-500 text-sm">
+            {errors.comment.message?.toString()}
+          </p>
+        )}
       </Field>
 
       <div className="flex items-center space-x-3 mt-4">
-        <Button variant="cancel" type="button" fullWidth={true} onClick={handleClose}>
+        <Button
+          variant="cancel"
+          type="button"
+          fullWidth={true}
+          onClick={handleClose}
+        >
           {t("deletePopup.buttons.close")}
         </Button>
-        <Button type="button" variant={"danger"} fullWidth={true} onClick={handleConfirmDelete} isLoading={isLoading}>
+        <Button
+          type="button"
+          variant={"danger"}
+          fullWidth={true}
+          onClick={handleConfirmDelete}
+          isLoading={isLoading}
+        >
           {t("deletePopup.buttons.delete")}
         </Button>
       </div>

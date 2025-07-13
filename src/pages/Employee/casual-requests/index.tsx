@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { FilePlus2, ShieldCheck } from "lucide-react";
+import { FilePlus2} from "lucide-react";
 import { ActionCard, Button, Header, InfoPopup, NoDataMessage, Paginator, SectionHeader } from "../../../components/ui";
 import { yupResolver } from "@hookform/resolvers/yup";
 import useURLSearchParams from "../../../hooks/URLSearchParams.hook";

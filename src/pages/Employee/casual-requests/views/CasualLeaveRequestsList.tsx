@@ -1,4 +1,7 @@
-import { CasualLeaveRequestCard, CasualLeaveRequestCardSkeleton } from "../../../../components/ui";
+import {
+  CasualLeaveRequestCard,
+  CasualLeaveRequestCardSkeleton,
+} from "../../../../components/ui";
 import { ICasualLeaveRequestData } from "../../../../interfaces";
 
 type Props = {

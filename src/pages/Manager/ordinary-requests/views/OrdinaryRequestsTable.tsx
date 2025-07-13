@@ -11,7 +11,7 @@ import {
 } from "../../../../components/ui";
 import { useTranslation } from "react-i18next";
 import { useLanguageStore } from "../../../../store/";
-import { formatValue, getRequestStatusVariant } from "../../../../utils";
+import { getRequestStatusVariant } from "../../../../utils";
 import { RequestStatusType } from "../../../../enums";
 import { IOrdinaryRequestData } from "../../../../interfaces";
 import { ORDINARY_REQUESTS_NS } from "../../../../constants";
@@ -38,14 +38,14 @@ const OrdinaryRequestsTable = ({
   const { language } = useLanguageStore();
 
   const ORDINARY_REQUESTS_TABLE_COLUMNS = [
-    "table.columns.id",
+    // "table.columns.id",
     "table.columns.employeeName",
     "table.columns.startDate",
     "table.columns.endDate",
     "table.columns.requestedAt",
     "table.columns.status",
     "table.columns.actions",
-  ]
+  ];
 
   const columns = ORDINARY_REQUESTS_TABLE_COLUMNS.map((key) => t(key));
 
@@ -66,9 +66,9 @@ const OrdinaryRequestsTable = ({
           ) : (
             ordinaryRequests.map((ordinaryRequest) => (
               <TableRow key={ordinaryRequest.id} className="border-b">
-                <TableCell label={columns[0]}>
+                {/* <TableCell label={columns[0]}>
                   {formatValue(ordinaryRequest?.id || 0, language)}
-                </TableCell>
+                </TableCell> */}
                 <TableCell label={columns[1]}>
                   {ordinaryRequest.employeeName}
                 </TableCell>
@@ -83,8 +83,15 @@ const OrdinaryRequestsTable = ({
                   )}
                 </TableCell>
                 <TableCell label={columns[4]}>
-                  {new Date(ordinaryRequest.requestedAt || "").toLocaleDateString(
-                    language === "ar" ? "ar-EG" : "en-CA"
+                  {new Date(ordinaryRequest?.requestedAt || "").toLocaleString(
+                    language === "ar" ? "ar-EG" : "en-CA",
+                    {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    }
                   )}
                 </TableCell>
                 <TableCell label={columns[5]}>
@@ -116,9 +123,7 @@ const OrdinaryRequestsTable = ({
                               fullWidth={false}
                               size={"sm"}
                               icon={<Check className="w-full h-full" />}
-                              onClick={() =>
-                                handleAccept(ordinaryRequest.id)
-                              }
+                              onClick={() => handleAccept(ordinaryRequest.id)}
                             />
                           </Tooltip>
                           <Tooltip content={t("table.buttons.toolTipReject")}>
@@ -127,9 +132,7 @@ const OrdinaryRequestsTable = ({
                               fullWidth={false}
                               size={"sm"}
                               icon={<X className="w-full h-full" />}
-                              onClick={() =>
-                                handleReject(ordinaryRequest.id)
-                              }
+                              onClick={() => handleReject(ordinaryRequest.id)}
                             />
                           </Tooltip>
                         </>
@@ -142,9 +145,7 @@ const OrdinaryRequestsTable = ({
                           fullWidth={false}
                           size={"sm"}
                           icon={<Trash className="w-full h-full" />}
-                          onClick={() =>
-                            handleDelete(ordinaryRequest.id)
-                          }
+                          onClick={() => handleDelete(ordinaryRequest.id)}
                         />
                       </Tooltip>
                     )}

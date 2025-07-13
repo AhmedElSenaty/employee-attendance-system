@@ -49,9 +49,9 @@ const OrdinaryRequestsPage = () => {
   const {
     register: registerDelete,
     handleSubmit: handleSubmitDelete,
-    reset: restDelete
+    reset: restDelete,
+    formState: { errors: deleteErrors },
   } = useForm<ISoftDeleteRequestCredentials>();
-  
 
   const { register, handleSubmit, reset } =
     useForm<IRejectLeaveRequestCredentials>();
@@ -75,7 +75,7 @@ const OrdinaryRequestsPage = () => {
     reset();
     setIsRejectPopupOpen(false);
   };
-    const handleDeletePopupOpen = (id: number) => {
+  const handleDeletePopupOpen = (id: number) => {
     setSelectedID(id);
     restDelete();
     setIsDeletePopupOpen(true);
@@ -123,7 +123,8 @@ const OrdinaryRequestsPage = () => {
     useAcceptOrdinaryRequest();
   const { mutate: rejectOrdinaryRequest, isPending: isRejecting } =
     useRejectOrdinaryRequest();
-  const { mutate: deleteRequest, isPending: isDeleting } = useSoftDeleteRequest();
+  const { mutate: deleteRequest, isPending: isDeleting } =
+    useSoftDeleteRequest();
 
   const handleConfirmAccept = () => {
     acceptOrdinaryRequest(selectedID);
@@ -138,11 +139,13 @@ const OrdinaryRequestsPage = () => {
     }
   );
 
-    const handleConfirmDelete = handleSubmitDelete((request: ISoftDeleteRequestCredentials) => {
-      request.requestId = selectedID
+  const handleConfirmDelete = handleSubmitDelete(
+    (request: ISoftDeleteRequestCredentials) => {
+      request.requestId = selectedID;
       deleteRequest(request);
       setIsDeletePopupOpen(false);
-    });
+    }
+  );
 
   return (
     <div className="sm:p-5 p-3 space-y-5">
@@ -241,6 +244,7 @@ const OrdinaryRequestsPage = () => {
         isLoading={isDeleting}
         isOpen={isDeletePopupOpen}
         handleClose={handleDeletePopupClose}
+        errors={deleteErrors}
       />
     </div>
   );

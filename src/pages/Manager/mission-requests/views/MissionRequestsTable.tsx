@@ -11,7 +11,7 @@ import {
 } from "../../../../components/ui";
 import { useTranslation } from "react-i18next";
 import { useLanguageStore } from "../../../../store/language.store";
-import { formatValue, getRequestStatusVariant } from "../../../../utils";
+import { getRequestStatusVariant } from "../../../../utils";
 import { RequestStatusType } from "../../../../enums";
 import { IMissionRequestData } from "../../../../interfaces";
 import { MISSION_REQUESTS_NS } from "../../../../constants";
@@ -38,14 +38,14 @@ const MissionRequestsTable = ({
   const { language } = useLanguageStore();
 
   const LEAVE_REQUESTS_TABLE_COLUMNS = [
-    "table.columns.id",
+    // "table.columns.id",
     "table.columns.employeeName",
     "table.columns.date",
     "table.columns.requestedAt",
     "table.columns.type",
     "table.columns.status",
     "table.columns.actions",
-  ]
+  ];
 
   const columns = LEAVE_REQUESTS_TABLE_COLUMNS.map((key) => t(key));
 
@@ -66,9 +66,9 @@ const MissionRequestsTable = ({
           ) : (
             missionRequests.map((missionRequest) => (
               <TableRow key={missionRequest.id} className="border-b">
-                <TableCell label={columns[0]}>
+                {/* <TableCell label={columns[0]}>
                   {formatValue(missionRequest?.id || 0, language)}
-                </TableCell>
+                </TableCell> */}
                 <TableCell label={columns[1]}>
                   {missionRequest.employeeName}
                 </TableCell>
@@ -78,8 +78,15 @@ const MissionRequestsTable = ({
                   )}
                 </TableCell>
                 <TableCell label={columns[3]}>
-                  {new Date(missionRequest.requestedAt || "").toLocaleDateString(
-                    language === "ar" ? "ar-EG" : "en-CA"
+                  {new Date(missionRequest?.requestedAt || "").toLocaleString(
+                    language,
+                    {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    }
                   )}
                 </TableCell>
                 <TableCell label={columns[4]}>
@@ -114,9 +121,7 @@ const MissionRequestsTable = ({
                               fullWidth={false}
                               size={"sm"}
                               icon={<Check className="w-full h-full" />}
-                              onClick={() =>
-                                handleAccept(missionRequest.id)
-                              }
+                              onClick={() => handleAccept(missionRequest.id)}
                             />
                           </Tooltip>
                           <Tooltip content={t("table.buttons.toolTipReject")}>
@@ -125,9 +130,7 @@ const MissionRequestsTable = ({
                               fullWidth={false}
                               size={"sm"}
                               icon={<X className="w-full h-full" />}
-                              onClick={() =>
-                                handleReject(missionRequest.id)
-                              }
+                              onClick={() => handleReject(missionRequest.id)}
                             />
                           </Tooltip>
                         </>
@@ -140,9 +143,7 @@ const MissionRequestsTable = ({
                           fullWidth={false}
                           size={"sm"}
                           icon={<Trash className="w-full h-full" />}
-                          onClick={() =>
-                            handleDelete(missionRequest.id)
-                          }
+                          onClick={() => handleDelete(missionRequest.id)}
                         />
                       </Tooltip>
                     )}

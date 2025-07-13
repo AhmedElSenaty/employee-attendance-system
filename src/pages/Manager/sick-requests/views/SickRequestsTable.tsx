@@ -38,7 +38,7 @@ const SickRequestsTable = ({
   const { language } = useLanguageStore();
 
   const SICK_REQUESTS_TABLE_COLUMNS = [
-    "table.columns.id",
+    // "table.columns.id",
     "table.columns.employeeName",
     "table.columns.startDate",
     "table.columns.endDate",
@@ -71,9 +71,9 @@ const SickRequestsTable = ({
           ) : (
             sickRequests.map((sickRequest) => (
               <TableRow key={sickRequest.requestId} className="border-b">
-                <TableCell label={columns[0]}>
+                {/* <TableCell label={columns[0]}>
                   {formatValue(sickRequest?.requestId || 0, language)}
-                </TableCell>
+                </TableCell> */}
                 <TableCell label={columns[1]}>
                   {sickRequest.employeeName}
                 </TableCell>
@@ -91,8 +91,15 @@ const SickRequestsTable = ({
                   {formatValue(sickRequest?.numberOfDays || 0, language)}
                 </TableCell>
                 <TableCell label={columns[5]}>
-                  {new Date(sickRequest.requestedAt || "").toLocaleDateString(
-                    language === "ar" ? "ar-EG" : "en-CA"
+                  {new Date(sickRequest?.requestedAt || "").toLocaleString(
+                    language === "ar" ? "ar-EG" : "en-CA",
+                    {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    }
                   )}
                 </TableCell>
                 <TableCell label={columns[6]}>

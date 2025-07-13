@@ -46,17 +46,18 @@ const LeaveRequestsPage = () => {
   const {
     register: registerDelete,
     handleSubmit: handleSubmitDelete,
-    reset: restDelete
+    reset: restDelete,
+    formState: { errors: deleteErrors },
   } = useForm<ISoftDeleteRequestCredentials>();
-  
+
   const { register, handleSubmit, reset } =
-  useForm<IRejectLeaveRequestCredentials>();
-  
+    useForm<IRejectLeaveRequestCredentials>();
+
   const handleShowPopupOpen = (id: number) => {
     setSelectedID(id);
     setIsShowPopupOpen(true);
   };
-  
+
   const handleAcceptPopupOpen = (id: number) => {
     setSelectedID(id);
     setIsAcceptPopupOpen(true);
@@ -99,28 +100,29 @@ const LeaveRequestsPage = () => {
   const status = rawStatus !== null ? rawStatus : undefined;
   const searchKey = rawSearchKey || undefined;
   const searchQuery = rawSearchQuery || undefined;
-  
+
   // Pass filtered params to hook
   const { leaveRequests, metadata, isLeaveRequestsLoading } =
-  useGetLeaveRequests(
-    page,
-    pageSize,
-    startDate,
-    endDate,
-    status,
-    searchKey,
-    searchQuery
-  );
-  
+    useGetLeaveRequests(
+      page,
+      pageSize,
+      startDate,
+      endDate,
+      status,
+      searchKey,
+      searchQuery
+    );
+
   const { leaveRequest, isLeaveRequestLoading } =
-  useGetLeaveRequestByID(selectedID);
-  
+    useGetLeaveRequestByID(selectedID);
+
   const { mutate: acceptLeaveRequest, isPending: isAccepting } =
-  useAcceptLeaveRequest();
+    useAcceptLeaveRequest();
   const { mutate: rejectLeaveRequest, isPending: isRejecting } =
-  useRejectLeaveRequest();
-  const { mutate: deleteRequest, isPending: isDeleting } = useSoftDeleteRequest();
-  
+    useRejectLeaveRequest();
+  const { mutate: deleteRequest, isPending: isDeleting } =
+    useSoftDeleteRequest();
+
   const handleConfirmAccept = () => {
     acceptLeaveRequest(selectedID);
     setIsAcceptPopupOpen(false);
@@ -133,11 +135,13 @@ const LeaveRequestsPage = () => {
       setIsRejectPopupOpen(false);
     }
   );
-  const handleConfirmDelete = handleSubmitDelete((request: ISoftDeleteRequestCredentials) => {
-    request.requestId = selectedID
-    deleteRequest(request);
-    setIsDeletePopupOpen(false);
-  });
+  const handleConfirmDelete = handleSubmitDelete(
+    (request: ISoftDeleteRequestCredentials) => {
+      request.requestId = selectedID;
+      deleteRequest(request);
+      setIsDeletePopupOpen(false);
+    }
+  );
 
   return (
     <div className="sm:p-5 p-3 space-y-5">
@@ -237,6 +241,7 @@ const LeaveRequestsPage = () => {
         isLoading={isDeleting}
         isOpen={isDeletePopupOpen}
         handleClose={handleDeletePopupClose}
+        errors={deleteErrors}
       />
     </div>
   );

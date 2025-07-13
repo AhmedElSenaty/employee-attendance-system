@@ -12,7 +12,7 @@ import {
 import { ILeaveRequestData } from "../../../../interfaces/";
 import { useTranslation } from "react-i18next";
 import { useLanguageStore } from "../../../../store/";
-import { formatValue, getRequestStatusVariant } from "../../../../utils";
+import { getRequestStatusVariant } from "../../../../utils";
 import { RequestStatusType } from "../../../../enums";
 import { LEAVE_REQUESTS_NS } from "../../../../constants";
 import { HasPermission } from "../../../../components/auth";
@@ -37,14 +37,14 @@ const LeaveRequestsTable = ({
   const { t } = useTranslation(LEAVE_REQUESTS_NS);
   const { language } = useLanguageStore();
   const LEAVE_REQUESTS_TABLE_COLUMNS = [
-    "table.columns.id",
+    // "table.columns.id",
     "table.columns.employeeName",
     "table.columns.date",
     "table.columns.requestedAt",
     "table.columns.type",
     "table.columns.status",
     "table.columns.actions",
-  ]
+  ];
   const columns = LEAVE_REQUESTS_TABLE_COLUMNS.map((key) => t(key));
 
   return (
@@ -64,9 +64,9 @@ const LeaveRequestsTable = ({
           ) : (
             leaveRequests.map((leaveRequest) => (
               <TableRow key={leaveRequest.id} className="border-b">
-                <TableCell label={columns[0]}>
+                {/* <TableCell label={columns[0]}>
                   {formatValue(leaveRequest?.id || 0, language)}
-                </TableCell>
+                </TableCell> */}
                 <TableCell label={columns[1]}>
                   {leaveRequest.employeeName}
                 </TableCell>
@@ -76,8 +76,15 @@ const LeaveRequestsTable = ({
                   )}
                 </TableCell>
                 <TableCell label={columns[3]}>
-                  {new Date(leaveRequest.requestedAt || "").toLocaleDateString(
-                    language === "ar" ? "ar-EG" : "en-CA"
+                  {new Date(leaveRequest.requestedAt).toLocaleString(
+                    language === "ar" ? "ar-EG" : "en-CA",
+                    {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    }
                   )}
                 </TableCell>
                 <TableCell label={columns[4]}>
@@ -112,9 +119,7 @@ const LeaveRequestsTable = ({
                               fullWidth={false}
                               size={"sm"}
                               icon={<Check className="w-full h-full" />}
-                              onClick={() =>
-                                handleAccept(leaveRequest.id)
-                              }
+                              onClick={() => handleAccept(leaveRequest.id)}
                             />
                           </Tooltip>
                           <Tooltip content={t("table.buttons.toolTipReject")}>
@@ -123,9 +128,7 @@ const LeaveRequestsTable = ({
                               fullWidth={false}
                               size={"sm"}
                               icon={<X className="w-full h-full" />}
-                              onClick={() =>
-                                handleReject(leaveRequest.id)
-                              }
+                              onClick={() => handleReject(leaveRequest.id)}
                             />
                           </Tooltip>
                         </>
@@ -138,9 +141,7 @@ const LeaveRequestsTable = ({
                           fullWidth={false}
                           size={"sm"}
                           icon={<Trash className="w-full h-full" />}
-                          onClick={() =>
-                            handleDelete(leaveRequest.id)
-                          }
+                          onClick={() => handleDelete(leaveRequest.id)}
                         />
                       </Tooltip>
                     )}

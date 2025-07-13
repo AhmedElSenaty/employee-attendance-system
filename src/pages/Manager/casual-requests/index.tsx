@@ -55,19 +55,19 @@ const CasualLeaveRequestsPage = () => {
   const [isRejectPopupOpen, setIsRejectPopupOpen] = useState(false);
   const [isAssignPopupOpen, setIsAssignPopupOpen] = useState(false);
   const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
-
   const {
     register: registerDelete,
     handleSubmit: handleSubmitDelete,
-    reset: restDelete
+    reset: restDelete,
+    formState: { errors: deleteErrors },
   } = useForm<ISoftDeleteRequestCredentials>();
-  
+
   const {
     register: assignRegister,
     handleSubmit: handleSubmitAssign,
     formState: { errors },
     reset: resetAssign,
-    control
+    control,
   } = useForm<IAssignCasualLeaveRequestCredentials>({
     resolver: yupResolver(assignCasualLeaveRequestSchema),
     mode: "onChange",
@@ -145,7 +145,8 @@ const CasualLeaveRequestsPage = () => {
     useRejectCasualLeaveRequest();
   const { mutate: assignCasualLeaveRequest, isPending: isAssigning } =
     useAssignCasualLeaveRequest();
-  const { mutate: deleteRequest, isPending: isDeleting } = useSoftDeleteRequest();
+  const { mutate: deleteRequest, isPending: isDeleting } =
+    useSoftDeleteRequest();
 
   const handleConfirmAccept = () => {
     acceptCasualLeaveRequest(selectedID);
@@ -166,11 +167,13 @@ const CasualLeaveRequestsPage = () => {
     assignCasualLeaveRequest(request);
     setIsAssignPopupOpen(false);
   };
-  const handleConfirmDelete = handleSubmitDelete((request: ISoftDeleteRequestCredentials) => {
-    request.requestId = selectedID
-    deleteRequest(request);
-    setIsDeletePopupOpen(false);
-  });
+  const handleConfirmDelete = handleSubmitDelete(
+    (request: ISoftDeleteRequestCredentials) => {
+      request.requestId = selectedID;
+      deleteRequest(request);
+      setIsDeletePopupOpen(false);
+    }
+  );
 
   return (
     <div className="sm:p-5 p-3 space-y-5">
@@ -290,7 +293,13 @@ const CasualLeaveRequestsPage = () => {
           resetAssign();
           setIsAssignPopupOpen(false);
         }}
-        formInputs={<AssignInputs register={assignRegister} errors={errors} control={control} />}
+        formInputs={
+          <AssignInputs
+            register={assignRegister}
+            errors={errors}
+            control={control}
+          />
+        }
         handleSubmit={handleSubmitAssign(handleConfirmAssign)}
         isLoading={isAssigning}
       />
@@ -301,6 +310,7 @@ const CasualLeaveRequestsPage = () => {
         isLoading={isDeleting}
         isOpen={isDeletePopupOpen}
         handleClose={handleDeletePopupClose}
+        errors={deleteErrors}
       />
     </div>
   );

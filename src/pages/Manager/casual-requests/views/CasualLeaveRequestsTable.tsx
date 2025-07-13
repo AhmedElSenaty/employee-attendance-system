@@ -11,7 +11,7 @@ import {
 } from "../../../../components/ui";
 import { useTranslation } from "react-i18next";
 import { useLanguageStore } from "../../../../store/language.store";
-import { formatValue, getRequestStatusVariant } from "../../../../utils";
+import { getRequestStatusVariant } from "../../../../utils";
 import { RequestStatusType } from "../../../../enums";
 import { ICasualLeaveRequestData } from "../../../../interfaces";
 import { CASUAL_REQUESTS_NS } from "../../../../constants";
@@ -38,14 +38,14 @@ const CasualLeaveRequestssTable = ({
   const { language } = useLanguageStore();
 
   const CASUAL_LEAVE_REQUESTS_TABLE_COLUMNS = [
-    "table.columns.id",
+    // "table.columns.id",
     "table.columns.employeeName",
     "table.columns.startDate",
     "table.columns.endDate",
     "table.columns.requestedAt",
     "table.columns.status",
     "table.columns.actions",
-  ]
+  ];
 
   const columns = CASUAL_LEAVE_REQUESTS_TABLE_COLUMNS.map((key) => t(key));
 
@@ -66,26 +66,32 @@ const CasualLeaveRequestssTable = ({
           ) : (
             casualLeaveRequests.map((casualLeaveRequest) => (
               <TableRow key={casualLeaveRequest.id} className="border-b">
-                <TableCell label={columns[0]}>
+                {/* <TableCell label={columns[0]}>
                   {formatValue(casualLeaveRequest?.id || 0, language)}
-                </TableCell>
+                </TableCell> */}
                 <TableCell label={columns[1]}>
                   {casualLeaveRequest.employeeName}
                 </TableCell>
                 <TableCell label={columns[2]}>
-                  {new Date(casualLeaveRequest.startDate || "").toLocaleDateString(
-                    language === "ar" ? "ar-EG" : "en-CA"
-                  )}
+                  {new Date(
+                    casualLeaveRequest.startDate || ""
+                  ).toLocaleDateString(language === "ar" ? "ar-EG" : "en-CA")}
                 </TableCell>
                 <TableCell label={columns[3]}>
-                  {new Date(casualLeaveRequest.endDate || "").toLocaleDateString(
-                    language === "ar" ? "ar-EG" : "en-CA"
-                  )}
+                  {new Date(
+                    casualLeaveRequest.endDate || ""
+                  ).toLocaleDateString(language === "ar" ? "ar-EG" : "en-CA")}
                 </TableCell>
                 <TableCell label={columns[4]}>
-                  {new Date(casualLeaveRequest.requestedAt || "").toLocaleDateString(
-                    language === "ar" ? "ar-EG" : "en-CA"
-                  )}
+                  {new Date(
+                    casualLeaveRequest?.requestedAt || ""
+                  ).toLocaleString(language === "ar" ? "ar-EG" : "en-CA", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
                 </TableCell>
                 <TableCell label={columns[5]}>
                   <StatusBadge
@@ -108,7 +114,8 @@ const CasualLeaveRequestssTable = ({
                       />
                     </Tooltip>
                     <HasPermission permission="Accept/Reject Requests">
-                      {casualLeaveRequest.status == RequestStatusType.Pending && (
+                      {casualLeaveRequest.status ==
+                        RequestStatusType.Pending && (
                         <>
                           <Tooltip content={t("table.buttons.toolTipAccept")}>
                             <Button
@@ -135,16 +142,15 @@ const CasualLeaveRequestssTable = ({
                         </>
                       )}
                     </HasPermission>
-                    {casualLeaveRequest.status == RequestStatusType.Accepted && (
+                    {casualLeaveRequest.status ==
+                      RequestStatusType.Accepted && (
                       <Tooltip content={t("table.buttons.toolTipDelete")}>
                         <Button
                           variant="error"
                           fullWidth={false}
                           size={"sm"}
                           icon={<Trash className="w-full h-full" />}
-                          onClick={() =>
-                            handleDelete(casualLeaveRequest.id)
-                          }
+                          onClick={() => handleDelete(casualLeaveRequest.id)}
                         />
                       </Tooltip>
                     )}

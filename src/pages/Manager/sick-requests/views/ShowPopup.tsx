@@ -27,7 +27,7 @@ const ShowPopup = ({
   const { language } = useLanguageStore();
   const { t } = useTranslation(SICK_REQUESTS_NS);
   const handleOpenFile = (fileUrl: string) => {
-    window.open(fileUrl, '_blank');
+    window.open(fileUrl, "_blank");
   };
   return (
     <Popup
@@ -47,57 +47,105 @@ const ShowPopup = ({
               <Bed size={80} className="text-gray-600" />
             </div>
             <h2 className="text-lg font-semibold text-gray-800">
-              {t("showPopup.fields.numberOfDays")} {formatValue(sickRequest?.numberOfDays || 0, language)}
+              {t("showPopup.fields.numberOfDays")}{" "}
+              {formatValue(sickRequest?.numberOfDays || 0, language)}
             </h2>
           </div>
 
           <div className="mt-6 space-y-4 divide-y divide-gray-300">
             <div className="grid grid-cols-2 py-2">
-              <span className="font-medium text-gray-600">{t("showPopup.fields.employeeId")}</span>
-              <span className="text-gray-900 font-semibold">{formatValue(sickRequest?.employeeId || 0, language)}</span>
-            </div>
-            <div className="grid grid-cols-2 py-2">
-              <span className="font-medium text-gray-600">{t("showPopup.fields.employeeName")}</span>
-              <span className="text-gray-900 font-semibold">{sickRequest?.employeeName}</span>
-            </div>
-            <div className="grid grid-cols-2 py-2">
-              <span className="font-medium text-gray-600">{t("showPopup.fields.id")}</span>
-              <span className="text-gray-900 font-semibold">{formatValue(sickRequest?.requestId || 0, language)}</span>
-            </div>
-            <div className="grid grid-cols-2 py-2">
-              <span className="font-medium text-gray-600">{t("showPopup.fields.startDate")}</span>
+              <span className="font-medium text-gray-600">
+                {t("showPopup.fields.employeeId")}
+              </span>
               <span className="text-gray-900 font-semibold">
-                {new Date(sickRequest?.startDate || "").toLocaleDateString(language === "ar" ? "ar-EG" : "en-CA")}
+                {formatValue(sickRequest?.employeeId || 0, language)}
               </span>
             </div>
             <div className="grid grid-cols-2 py-2">
-              <span className="font-medium text-gray-600">{t("showPopup.fields.endDate")}</span>
+              <span className="font-medium text-gray-600">
+                {t("showPopup.fields.employeeName")}
+              </span>
               <span className="text-gray-900 font-semibold">
-                {new Date(sickRequest?.endDate || "").toLocaleDateString(language === "ar" ? "ar-EG" : "en-CA")}
+                {sickRequest?.employeeName}
               </span>
             </div>
             <div className="grid grid-cols-2 py-2">
-              <span className="font-medium text-gray-600">{t("showPopup.fields.requestedAt")}</span>
+              <span className="font-medium text-gray-600">
+                {t("showPopup.fields.id")}
+              </span>
               <span className="text-gray-900 font-semibold">
-                {new Date(sickRequest?.requestedAt || "").toLocaleDateString(language === "ar" ? "ar-EG" : "en-CA")}
+                {formatValue(sickRequest?.requestId || 0, language)}
               </span>
             </div>
             <div className="grid grid-cols-2 py-2">
-              <span className="font-medium text-gray-600">{t("showPopup.fields.status")}</span>
-              <span className="text-gray-900 font-semibold">{t(`status.${sickRequest?.status as number}`)}</span>
+              <span className="font-medium text-gray-600">
+                {t("showPopup.fields.startDate")}
+              </span>
+              <span className="text-gray-900 font-semibold">
+                {new Date(sickRequest?.requestedAt || "").toLocaleString(
+                  language === "ar" ? "ar-EG" : "en-CA",
+                  {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  }
+                )}
+              </span>
             </div>
             <div className="grid grid-cols-2 py-2">
-              <span className="font-medium text-gray-600">{t("showPopup.fields.permitApproval")}</span>
-              <span className="text-gray-900 font-semibold">{sickRequest?.permitApproval}</span>
+              <span className="font-medium text-gray-600">
+                {t("showPopup.fields.endDate")}
+              </span>
+              <span className="text-gray-900 font-semibold">
+                {new Date(sickRequest?.endDate || "").toLocaleDateString(
+                  language === "ar" ? "ar-EG" : "en-CA"
+                )}
+              </span>
             </div>
             <div className="grid grid-cols-2 py-2">
-              <span className="font-medium text-gray-600">{t("showPopup.fields.description")}</span>
-              <span className="text-gray-900 font-semibold">{sickRequest?.description}</span>
+              <span className="font-medium text-gray-600">
+                {t("showPopup.fields.requestedAt")}
+              </span>
+              <span className="text-gray-900 font-semibold">
+                {new Date(sickRequest?.requestedAt || "").toLocaleDateString(
+                  language === "ar" ? "ar-EG" : "en-CA"
+                )}
+              </span>
+            </div>
+            <div className="grid grid-cols-2 py-2">
+              <span className="font-medium text-gray-600">
+                {t("showPopup.fields.status")}
+              </span>
+              <span className="text-gray-900 font-semibold">
+                {t(`status.${sickRequest?.status as number}`)}
+              </span>
+            </div>
+            <div className="grid grid-cols-2 py-2">
+              <span className="font-medium text-gray-600">
+                {t("showPopup.fields.permitApproval")}
+              </span>
+              <span className="text-gray-900 font-semibold">
+                {sickRequest?.permitApproval}
+              </span>
+            </div>
+            <div className="grid grid-cols-2 py-2">
+              <span className="font-medium text-gray-600">
+                {t("showPopup.fields.description")}
+              </span>
+              <span className="text-gray-900 font-semibold">
+                {sickRequest?.description}
+              </span>
             </div>
             {sickRequest?.comment && (
               <div className="grid grid-cols-2 py-2">
-                <span className="font-medium text-gray-600">{t("showPopup.fields.comment")}</span>
-                <span className="text-gray-900 font-semibold">{sickRequest?.comment}</span>
+                <span className="font-medium text-gray-600">
+                  {t("showPopup.fields.comment")}
+                </span>
+                <span className="text-gray-900 font-semibold">
+                  {sickRequest?.comment}
+                </span>
               </div>
             )}
           </div>
@@ -120,21 +168,17 @@ const ShowPopup = ({
             <Button
               variant="success"
               fullWidth
-              onClick={() =>
-                handleAcceptPopupOpen(sickRequest?.requestId)
-              }
+              onClick={() => handleAcceptPopupOpen(sickRequest?.requestId)}
             >
               {t("showPopup.buttons.accept")}
             </Button>
             <Button
               variant="danger"
               fullWidth
-              onClick={() =>
-                handleRejectPopupOpen(sickRequest?.requestId)
-              }
-              >
+              onClick={() => handleRejectPopupOpen(sickRequest?.requestId)}
+            >
               {t("showPopup.buttons.reject")}
-            </Button> 
+            </Button>
           </>
         )}
       </div>

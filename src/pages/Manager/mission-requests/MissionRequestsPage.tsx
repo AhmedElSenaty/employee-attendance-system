@@ -3,7 +3,14 @@ import useURLSearchParams from "../../../hooks/URLSearchParams.hook";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useDebounce } from "../../../hooks";
-import { ActionCard, Button, Header, InfoPopup, Paginator, SectionHeader } from "../../../components/ui";
+import {
+  ActionCard,
+  Button,
+  Header,
+  InfoPopup,
+  Paginator,
+  SectionHeader,
+} from "../../../components/ui";
 import {
   useAcceptMissionRequest,
   useAssignMissionRequest,
@@ -11,9 +18,22 @@ import {
   useGetMissionRequests,
   useRejectMissionRequest,
 } from "../../../hooks";
-import { IAssignMissionRequestCredentials, IRejectMissionRequestCredentials } from "../../../interfaces";
-import { MISSION_REQUESTS_MANAGER_VIDEO, MISSION_REQUESTS_NS } from "../../../constants";
-import { AcceptPopup, AssignInputs, AssignPopup, MissionRequestsTable, ShowPopup, TableFilters } from "./views";
+import {
+  IAssignMissionRequestCredentials,
+  IRejectMissionRequestCredentials,
+} from "../../../interfaces";
+import {
+  MISSION_REQUESTS_MANAGER_VIDEO,
+  MISSION_REQUESTS_NS,
+} from "../../../constants";
+import {
+  AcceptPopup,
+  AssignInputs,
+  AssignPopup,
+  MissionRequestsTable,
+  ShowPopup,
+  TableFilters,
+} from "./views";
 import RejectPopup from "./views/RejectPop";
 import { assignMissionRequestSchema } from "../../../validation";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -36,11 +56,12 @@ const MissionRequestsPage = () => {
   const {
     register: registerDelete,
     handleSubmit: handleSubmitDelete,
-    reset: restDelete
+    reset: restDelete,
+    formState: { errors: deleteErrors },
   } = useForm<ISoftDeleteRequestCredentials>();
-  
 
-  const { register, handleSubmit, reset } = useForm<IRejectMissionRequestCredentials>();
+  const { register, handleSubmit, reset } =
+    useForm<IRejectMissionRequestCredentials>();
   const {
     register: assignRegister,
     handleSubmit: handleSubmitAssign,
@@ -71,7 +92,7 @@ const MissionRequestsPage = () => {
     reset();
     setIsRejectPopupOpen(false);
   };
-    const handleDeletePopupOpen = (id: number) => {
+  const handleDeletePopupOpen = (id: number) => {
     setSelectedID(id);
     restDelete();
     setIsDeletePopupOpen(true);
@@ -99,46 +120,61 @@ const MissionRequestsPage = () => {
   const searchKey = rawSearchKey || undefined;
   const searchQuery = rawSearchQuery || undefined;
 
-  const { missionRequests, metadata, isMissionRequestsLoading } = useGetMissionRequests(
-    page,
-    pageSize,
-    startDate,
-    endDate,
-    status,
-    searchKey,
-    searchQuery
-  );
+  const { missionRequests, metadata, isMissionRequestsLoading } =
+    useGetMissionRequests(
+      page,
+      pageSize,
+      startDate,
+      endDate,
+      status,
+      searchKey,
+      searchQuery
+    );
 
-  const { missionRequest, isMissionRequestLoading } = useGetMissionRequestByID(selectedID);
+  const { missionRequest, isMissionRequestLoading } =
+    useGetMissionRequestByID(selectedID);
 
-  const { mutate: acceptMissionRequest, isPending: isAccepting } = useAcceptMissionRequest();
-  const { mutate: rejectMissionRequest, isPending: isRejecting } = useRejectMissionRequest();
-  const { mutate: assignMissionRequest, isPending: isSubmitting } = useAssignMissionRequest();
-  const { mutate: deleteRequest, isPending: isDeleting } = useSoftDeleteRequest();
+  const { mutate: acceptMissionRequest, isPending: isAccepting } =
+    useAcceptMissionRequest();
+  const { mutate: rejectMissionRequest, isPending: isRejecting } =
+    useRejectMissionRequest();
+  const { mutate: assignMissionRequest, isPending: isSubmitting } =
+    useAssignMissionRequest();
+  const { mutate: deleteRequest, isPending: isDeleting } =
+    useSoftDeleteRequest();
 
   const handleConfirmAccept = () => {
     acceptMissionRequest(selectedID);
     setIsAcceptPopupOpen(false);
   };
 
-  const handleConfirmReject = handleSubmit((request: IRejectMissionRequestCredentials) => {
-    request.requestId = selectedID;
-    rejectMissionRequest(request);
-    setIsRejectPopupOpen(false);
-  });
+  const handleConfirmReject = handleSubmit(
+    (request: IRejectMissionRequestCredentials) => {
+      request.requestId = selectedID;
+      rejectMissionRequest(request);
+      setIsRejectPopupOpen(false);
+    }
+  );
 
-  const onSubmit: SubmitHandler<IAssignMissionRequestCredentials> = (data: IAssignMissionRequestCredentials) => {  
+  const onSubmit: SubmitHandler<IAssignMissionRequestCredentials> = (
+    data: IAssignMissionRequestCredentials
+  ) => {
     assignMissionRequest(data);
     setIsAssignPopupOpen(false);
   };
-  const handleConfirmDelete = handleSubmitDelete((request: ISoftDeleteRequestCredentials) => {
-    request.requestId = selectedID
-    deleteRequest(request);
-    setIsDeletePopupOpen(false);
-  });
+  const handleConfirmDelete = handleSubmitDelete(
+    (request: ISoftDeleteRequestCredentials) => {
+      request.requestId = selectedID;
+      deleteRequest(request);
+      setIsDeletePopupOpen(false);
+    }
+  );
   return (
     <div className="sm:p-5 p-3 space-y-5">
-      <Header heading={t("managerHeader.title")} subtitle={t("managerHeader.subtitle")} />
+      <Header
+        heading={t("managerHeader.title")}
+        subtitle={t("managerHeader.subtitle")}
+      />
 
       <div className="space-y-5 mx-auto w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl">
         <div className="w-full flex items-center justify-center">
@@ -155,20 +191,38 @@ const MissionRequestsPage = () => {
           title={t("assignMission.title")}
           description={t("assignMission.description")}
         >
-          <Button fullWidth variant="secondary" onClick={() => {
-            resetAssign({ date: "", employeeId: 0, description: "", startTime: "", endTime: ""})
-            setIsAssignPopupOpen(true)
-          }}>
+          <Button
+            fullWidth
+            variant="secondary"
+            onClick={() => {
+              resetAssign({
+                date: "",
+                employeeId: 0,
+                description: "",
+                startTime: "",
+                endTime: "",
+              });
+              setIsAssignPopupOpen(true);
+            }}
+          >
             {t("assignMission.button")}
           </Button>
         </ActionCard>
       </div>
 
       <div className="bg-white shadow-md space-y-5 p-5 rounded-lg">
-        <SectionHeader title={t("managerSectionHeader.title")} description={t("managerSectionHeader.description")} />
+        <SectionHeader
+          title={t("managerSectionHeader.title")}
+          description={t("managerSectionHeader.description")}
+        />
 
         <div className="flex flex-wrap gap-4">
-          <TableFilters searchBy={metadata.searchBy} getParam={getParam} setParam={setParam} clearParams={clearParams} />
+          <TableFilters
+            searchBy={metadata.searchBy}
+            getParam={getParam}
+            setParam={setParam}
+            clearParams={clearParams}
+          />
         </div>
 
         <div className="w-full overflow-x-auto">
@@ -189,7 +243,12 @@ const MissionRequestsPage = () => {
           isLoading={isMissionRequestsLoading}
           onClickFirst={() => setParam("page", "1")}
           onClickPrev={() => setParam("page", String(Math.max(page - 1, 1)))}
-          onClickNext={() => setParam("page", String(Math.min(page + 1, metadata?.pagination?.totalPages || 1)))}
+          onClickNext={() =>
+            setParam(
+              "page",
+              String(Math.min(page + 1, metadata?.pagination?.totalPages || 1))
+            )
+          }
         />
       </div>
 
@@ -228,6 +287,7 @@ const MissionRequestsPage = () => {
         isLoading={isDeleting}
         isOpen={isDeletePopupOpen}
         handleClose={handleDeletePopupClose}
+        errors={deleteErrors}
       />
     </div>
   );

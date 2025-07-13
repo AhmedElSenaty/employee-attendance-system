@@ -3,7 +3,12 @@ import { StatusBadge } from "../StatusBadge";
 import { FilePenLine, Info, MessageSquare, Eye } from "lucide-react";
 import { Button } from "../Button";
 import { Tooltip } from "../Tooltip"; // Assuming you have this
-import { formatValue, getRequestBgColorClass, getRequestStatusVariant, truncateText } from "../../../utils";
+import {
+  formatValue,
+  getRequestBgColorClass,
+  getRequestStatusVariant,
+  truncateText,
+} from "../../../utils";
 import { useTranslation } from "react-i18next";
 import { useLanguageStore } from "../../../store/language.store";
 import { ISickRequestData } from "../../../interfaces";
@@ -28,7 +33,9 @@ const SickRequestCard = ({ data, handleShow, handleEdit }: Props) => {
       <div className="flex justify-between items-center">
         <div>
           <h3 className="text-lg font-semibold text-gray-800">
-            {t("sickRequestCard.numberOfDays", { number: formatValue(data?.numberOfDays) })}
+            {t("sickRequestCard.numberOfDays", {
+              number: formatValue(data?.numberOfDays),
+            })}
           </h3>
 
           <p className="text-base text-gray-500">
@@ -47,8 +54,15 @@ const SickRequestCard = ({ data, handleShow, handleEdit }: Props) => {
 
           <p className="text-base text-gray-500">
             {t("sickRequestCard.requestedAt")}{" "}
-            {new Date(data?.requestedAt || "").toLocaleDateString(
-              language === "ar" ? "ar-EG" : "en-CA"
+            {new Date(data?.requestedAt || "").toLocaleString(
+              language === "ar" ? "ar-EG" : "en-CA",
+              {
+                day: "2-digit",
+                month: "2-digit",
+                year: "numeric",
+                hour: "2-digit",
+                minute: "2-digit",
+              }
             )}
           </p>
         </div>

@@ -40,45 +40,87 @@ const ShowPopup = ({
               <CalendarCheck size={80} className="text-gray-600" />
             </div>
             <h2 className="text-lg font-semibold text-gray-800">
-              {t("showPopup.fields.missionAt")} {new Date(missionRequest?.date || "").toLocaleDateString(language === "ar" ? "ar-EG" : "en-CA")}
+              {t("showPopup.fields.missionAt")}{" "}
+              {new Date(missionRequest?.date || "").toLocaleDateString(
+                language === "ar" ? "ar-EG" : "en-CA"
+              )}
             </h2>
           </div>
 
           <div className="mt-6 space-y-4 divide-y divide-gray-300">
             <div className="grid grid-cols-2 py-2">
-              <span className="font-medium text-gray-600">{t("showPopup.fields.employeeId")}</span>
-              <span className="text-gray-900 font-semibold">{formatValue(missionRequest?.employeeId || 0, language)}</span>
-            </div>
-            <div className="grid grid-cols-2 py-2">
-              <span className="font-medium text-gray-600">{t("showPopup.fields.employeeName")}</span>
-              <span className="text-gray-900 font-semibold">{missionRequest?.employeeName}</span>
-            </div>
-            <div className="grid grid-cols-2 py-2">
-              <span className="font-medium text-gray-600">{t("showPopup.fields.id")}</span>
-              <span className="text-gray-900 font-semibold">{formatValue(missionRequest?.id || 0, language)}</span>
-            </div>
-            <div className="grid grid-cols-2 py-2">
-              <span className="font-medium text-gray-600">{t("showPopup.fields.requestedAt")}</span>
+              <span className="font-medium text-gray-600">
+                {t("showPopup.fields.employeeId")}
+              </span>
               <span className="text-gray-900 font-semibold">
-                {new Date(missionRequest?.requestedAt || "").toLocaleDateString(language === "ar" ? "ar-EG" : "en-CA")}
+                {formatValue(missionRequest?.employeeId || 0, language)}
               </span>
             </div>
             <div className="grid grid-cols-2 py-2">
-              <span className="font-medium text-gray-600">{t("showPopup.fields.type")}</span>
-              <span className="text-gray-900 font-semibold">{t(`timeType.${missionRequest?.type as number}`)}</span>
+              <span className="font-medium text-gray-600">
+                {t("showPopup.fields.employeeName")}
+              </span>
+              <span className="text-gray-900 font-semibold">
+                {missionRequest?.employeeName}
+              </span>
             </div>
             <div className="grid grid-cols-2 py-2">
-              <span className="font-medium text-gray-600">{t("showPopup.fields.status")}</span>
-              <span className="text-gray-900 font-semibold">{t(`status.${missionRequest?.status as number}`)}</span>
+              <span className="font-medium text-gray-600">
+                {t("showPopup.fields.id")}
+              </span>
+              <span className="text-gray-900 font-semibold">
+                {formatValue(missionRequest?.id || 0, language)}
+              </span>
             </div>
             <div className="grid grid-cols-2 py-2">
-              <span className="font-medium text-gray-600">{t("showPopup.fields.description")}</span>
-              <span className="text-gray-900 font-semibold">{missionRequest?.description}</span>
+              <span className="font-medium text-gray-600">
+                {t("showPopup.fields.requestedAt")}
+              </span>
+              <span className="text-gray-900 font-semibold">
+                {new Date(missionRequest?.requestedAt || "").toLocaleString(
+                  language,
+                  {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  }
+                )}
+              </span>
+            </div>
+            <div className="grid grid-cols-2 py-2">
+              <span className="font-medium text-gray-600">
+                {t("showPopup.fields.type")}
+              </span>
+              <span className="text-gray-900 font-semibold">
+                {t(`timeType.${missionRequest?.type as number}`)}
+              </span>
+            </div>
+            <div className="grid grid-cols-2 py-2">
+              <span className="font-medium text-gray-600">
+                {t("showPopup.fields.status")}
+              </span>
+              <span className="text-gray-900 font-semibold">
+                {t(`status.${missionRequest?.status as number}`)}
+              </span>
+            </div>
+            <div className="grid grid-cols-2 py-2">
+              <span className="font-medium text-gray-600">
+                {t("showPopup.fields.description")}
+              </span>
+              <span className="text-gray-900 font-semibold">
+                {missionRequest?.description}
+              </span>
             </div>
             {missionRequest?.comment && (
               <div className="grid grid-cols-2 py-2">
-                <span className="font-medium text-gray-600">{t("showPopup.fields.comment")}</span>
-                <span className="text-gray-900 font-semibold">{missionRequest?.comment}</span>
+                <span className="font-medium text-gray-600">
+                  {t("showPopup.fields.comment")}
+                </span>
+                <span className="text-gray-900 font-semibold">
+                  {missionRequest?.comment}
+                </span>
               </div>
             )}
           </div>

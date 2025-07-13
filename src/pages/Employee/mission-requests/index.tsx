@@ -1,20 +1,44 @@
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { FilePlus2, ShieldCheck } from "lucide-react";
-import { ActionCard, Button, Header, InfoPopup, NoDataMessage, Paginator, SectionHeader } from "../../../components/ui";
+import { FilePlus2 } from "lucide-react";
+import {
+  ActionCard,
+  Button,
+  Header,
+  InfoPopup,
+  NoDataMessage,
+  Paginator,
+  SectionHeader,
+} from "../../../components/ui";
 import { yupResolver } from "@hookform/resolvers/yup";
 import useURLSearchParams from "../../../hooks/URLSearchParams.hook";
 import { useTranslation } from "react-i18next";
-import { AddPopup, ConditionsPopup, EditPopup, Filters, Inputs, MissionRequestsList, ShowPopup } from "./views";
+import {
+  AddPopup,
+  ConditionsPopup,
+  EditPopup,
+  Filters,
+  Inputs,
+  MissionRequestsList,
+  ShowPopup,
+} from "./views";
 import { IMissionRequestCredentials } from "../../../interfaces";
 import { missionRequestSchema } from "../../../validation";
-import { useCreateMissionRequest, useGetMyMissionRequestByID, useGetMyMissionRequests, useUpdateMissionRequest } from "../../../hooks/missionRequest.hooks";
-import { MISSION_REQUESTS_EMPLOYEE_VIDEO, MISSION_REQUESTS_NS } from "../../../constants";
+import {
+  useCreateMissionRequest,
+  useGetMyMissionRequestByID,
+  useGetMyMissionRequests,
+  useUpdateMissionRequest,
+} from "../../../hooks/missionRequest.hooks";
+import {
+  MISSION_REQUESTS_EMPLOYEE_VIDEO,
+  MISSION_REQUESTS_NS,
+} from "../../../constants";
 
 const MissionRequestsPage = () => {
   const { t } = useTranslation(MISSION_REQUESTS_NS);
 
-  const {getParam, setParam, clearParams} = useURLSearchParams();
+  const { getParam, setParam, clearParams } = useURLSearchParams();
 
   const [selectedID, setSelectedID] = useState<number>(0);
 
@@ -28,37 +52,37 @@ const MissionRequestsPage = () => {
     register,
     handleSubmit,
     formState: { errors },
-    reset
+    reset,
   } = useForm<IMissionRequestCredentials>({
     resolver: yupResolver(missionRequestSchema),
-    mode: "onChange"
-  });  
+    mode: "onChange",
+  });
 
   const handleShowPopupOpen = (id: number) => {
-    setSelectedID(id)
-    setIsShowPopupOpen(true) 
-  }
+    setSelectedID(id);
+    setIsShowPopupOpen(true);
+  };
   const handleAddPopupOpen = () => {
-    setSelectedID(0)
-    reset({ date: "", description: "", type: 0 })
-    setIsAddPopupOpen(true)
-  }
+    setSelectedID(0);
+    reset({ date: "", description: "", type: 0 });
+    setIsAddPopupOpen(true);
+  };
   const handleEditPopupOpen = (id: number) => {
-    setSelectedID(id)
-    setIsEditPopupOpen(true)
-  }
+    setSelectedID(id);
+    setIsEditPopupOpen(true);
+  };
   const handleEditPopupClose = () => {
-    setSelectedID(0)
-    reset()
-    setIsEditPopupOpen(false)
-  }
+    setSelectedID(0);
+    reset();
+    setIsEditPopupOpen(false);
+  };
 
   // Using the enhanced getParam with parser support from the improved hook
-  const rawPage = getParam('page', Number);
-  const rawPageSize = getParam('pageSize', Number);
-  const rawStartDate = getParam('startDate');
-  const rawEndDate = getParam('endDate');
-  const rawStatus = getParam('status', Number);
+  const rawPage = getParam("page", Number);
+  const rawPageSize = getParam("pageSize", Number);
+  const rawStartDate = getParam("startDate");
+  const rawEndDate = getParam("endDate");
+  const rawStatus = getParam("status", Number);
 
   // Use nullish coalescing to default numeric values, undefined for dates if empty
   const page = rawPage ?? 1;
@@ -68,26 +92,28 @@ const MissionRequestsPage = () => {
   const status = rawStatus !== null ? rawStatus : undefined;
 
   // Pass filtered params to hook
-  const { missionRequests, metadata, isMissionRequestsLoading } = useGetMyMissionRequests(
-    page,
-    pageSize,
-    startDate,
-    endDate,
-    status
-  );
+  const { missionRequests, metadata, isMissionRequestsLoading } =
+    useGetMyMissionRequests(page, pageSize, startDate, endDate, status);
 
-  const { missionRequest, isMissionRequestLoading } = useGetMyMissionRequestByID(selectedID, reset);
-  const { mutate: createMissionRequest, isPending: isAdding } = useCreateMissionRequest()
-  const { mutate: updateMissionRequest, isPending: isUpdating } = useUpdateMissionRequest()
+  const { missionRequest, isMissionRequestLoading } =
+    useGetMyMissionRequestByID(selectedID, reset);
+  const { mutate: createMissionRequest, isPending: isAdding } =
+    useCreateMissionRequest();
+  const { mutate: updateMissionRequest, isPending: isUpdating } =
+    useUpdateMissionRequest();
 
-  const handleConfirmAdd: SubmitHandler<IMissionRequestCredentials> = (request: IMissionRequestCredentials) => {
+  const handleConfirmAdd: SubmitHandler<IMissionRequestCredentials> = (
+    request: IMissionRequestCredentials
+  ) => {
     createMissionRequest(request);
-    setIsAddPopupOpen(false)
+    setIsAddPopupOpen(false);
   };
 
-  const handleConfirmUpdate: SubmitHandler<IMissionRequestCredentials> = (request: IMissionRequestCredentials) => {
-    request.requestId = selectedID
-    updateMissionRequest(request)
+  const handleConfirmUpdate: SubmitHandler<IMissionRequestCredentials> = (
+    request: IMissionRequestCredentials
+  ) => {
+    request.requestId = selectedID;
+    updateMissionRequest(request);
     setIsEditPopupOpen(false);
   };
 
@@ -147,7 +173,7 @@ const MissionRequestsPage = () => {
       </div>
 
       <div className="bg-white shadow-md space-y-5 p-5 rounded-lg">
-        <SectionHeader 
+        <SectionHeader
           title={t("employeeSectionHeader.title")}
           description={t("employeeSectionHeader.description")}
         />
@@ -178,8 +204,23 @@ const MissionRequestsPage = () => {
           totalRecords={metadata?.pagination?.totalRecords || 0}
           isLoading={isMissionRequestsLoading}
           onClickFirst={() => setParam("page", String(1))}
-          onClickPrev={() => setParam("page", String(Math.max((Number(getParam('page')) || 1) - 1, 1)))}
-          onClickNext={() => setParam("page", String(Math.min((Number(getParam('page')) || 1) + 1, metadata?.pagination?.totalPages || 1)))}
+          onClickPrev={() =>
+            setParam(
+              "page",
+              String(Math.max((Number(getParam("page")) || 1) - 1, 1))
+            )
+          }
+          onClickNext={() =>
+            setParam(
+              "page",
+              String(
+                Math.min(
+                  (Number(getParam("page")) || 1) + 1,
+                  metadata?.pagination?.totalPages || 1
+                )
+              )
+            )
+          }
         />
       </div>
 
@@ -191,10 +232,10 @@ const MissionRequestsPage = () => {
 
       <ShowPopup
         isOpen={isShowPopupOpen}
-        handleClose={() => setIsShowPopupOpen(false)} 
+        handleClose={() => setIsShowPopupOpen(false)}
         handleEditPopupOpen={() => {
-          handleEditPopupOpen(selectedID)
-          setIsShowPopupOpen(false)
+          handleEditPopupOpen(selectedID);
+          setIsShowPopupOpen(false);
         }}
         missionRequest={missionRequest}
         isLoading={isMissionRequestLoading}
@@ -208,11 +249,7 @@ const MissionRequestsPage = () => {
         }}
         handleSubmit={handleSubmit(handleConfirmAdd)}
         formInputs={
-          <Inputs
-            register={register}
-            errors={errors}
-            isLoading={isAdding}
-          />
+          <Inputs register={register} errors={errors} isLoading={isAdding} />
         }
         isLoading={isAdding}
       />
@@ -222,11 +259,7 @@ const MissionRequestsPage = () => {
         handleClose={handleEditPopupClose}
         handleSubmit={handleSubmit(handleConfirmUpdate)}
         formInputs={
-          <Inputs
-            register={register}
-            errors={errors}
-            isLoading={isUpdating}
-          />
+          <Inputs register={register} errors={errors} isLoading={isUpdating} />
         }
         isLoading={isUpdating}
       />
