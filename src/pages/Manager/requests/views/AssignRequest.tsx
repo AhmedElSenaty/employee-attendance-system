@@ -1,7 +1,20 @@
 import { useTranslation } from "react-i18next";
-import { Button, CustomSelect, Field, Input, InputErrorMessage, Label, Popup, SelectBoxSkeleton, Textarea } from "../../../../components/ui";
+import {
+  Button,
+  CustomSelect,
+  Field,
+  Input,
+  InputErrorMessage,
+  Label,
+  Popup,
+  SelectBoxSkeleton,
+  Textarea,
+} from "../../../../components/ui";
 import { useAssignRequest } from "../../../../hooks/request.hook";
-import { AssignRequestFormValues, assignRequestSchema } from "../../../../validation/request.schema";
+import {
+  AssignRequestFormValues,
+  assignRequestSchema,
+} from "../../../../validation/request.schema";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, useForm } from "react-hook-form";
 import { useGetEmployeesList } from "../../../../hooks";
@@ -16,12 +29,14 @@ interface IAssignPopupProps {
 
 const AssignPopup = ({ isOpen, handleClose }: IAssignPopupProps) => {
   const { t } = useTranslation("requests");
-  const { employeesList, isLoading: isEmployeesListLoading } = useGetEmployeesList();
+  const { employeesList, isLoading: isEmployeesListLoading } =
+    useGetEmployeesList();
 
-  const employeeOptions = employeesList?.map((employee: EmployeeSummary) => ({
-    value: employee.id,
-    label: employee.name,
-  })) || [];
+  const employeeOptions =
+    employeesList?.map((employee: EmployeeSummary) => ({
+      value: employee.id,
+      label: employee.name,
+    })) || [];
 
   const leaveTypeOptions = Object.entries(LeaveType)
     .filter(([, value]) => typeof value === "number")
@@ -73,7 +88,10 @@ const AssignPopup = ({ isOpen, handleClose }: IAssignPopupProps) => {
                 <CustomSelect
                   className="w-full"
                   options={employeeOptions}
-                  value={employeeOptions.find((opt) => opt.value === field.value) || null}
+                  value={
+                    employeeOptions.find((opt) => opt.value === field.value) ||
+                    null
+                  }
                   onChange={(option) => field.onChange(option?.value)}
                   error={!!errors.employeeId}
                   isSearchable
@@ -83,7 +101,9 @@ const AssignPopup = ({ isOpen, handleClose }: IAssignPopupProps) => {
           )}
           {errors.employeeId && (
             <InputErrorMessage>
-              {t(`inputs.employeeId.inputValidation.${errors.employeeId?.type}`)}
+              {t(
+                `inputs.employeeId.inputValidation.${errors.employeeId?.type}`
+              )}
             </InputErrorMessage>
           )}
         </Field>
@@ -98,7 +118,10 @@ const AssignPopup = ({ isOpen, handleClose }: IAssignPopupProps) => {
               <CustomSelect
                 className="w-full"
                 options={leaveTypeOptions}
-                value={leaveTypeOptions.find((opt) => opt.value === field.value) || null}
+                value={
+                  leaveTypeOptions.find((opt) => opt.value === field.value) ||
+                  null
+                }
                 onChange={(option) => field.onChange(option?.value)}
                 error={!!errors.leaveType}
                 isSearchable
@@ -156,7 +179,12 @@ const AssignPopup = ({ isOpen, handleClose }: IAssignPopupProps) => {
         </Field>
 
         <div className="flex items-center space-x-3 mt-4">
-          <Button variant="cancel" type="button" fullWidth={true} onClick={handleClose}>
+          <Button
+            variant="cancel"
+            type="button"
+            fullWidth={true}
+            onClick={handleClose}
+          >
             {t("assignPopup.buttons.close")}
           </Button>
           <Button type="submit" fullWidth={true} isLoading={isPending}>
