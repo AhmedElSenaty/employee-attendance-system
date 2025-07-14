@@ -1,17 +1,18 @@
 import axiosInstance from "../config/axios.config";
-import { ILoggedInUser, ILoginCredentials, ILoginResponse, IResetAccountCredentials } from "../interfaces";
+import {
+  ILoggedInUser,
+  ILoginCredentials,
+  ILoginResponse,
+  IResetAccountCredentials,
+} from "../interfaces";
 // import { useLanguageStore } from "../store";
 export class AuthService {
-
   login = async (credentials: ILoginCredentials): Promise<ILoginResponse> => {
     try {
-      const response = await axiosInstance.post(
-        `/Account/Login`,
-        {
-          email: credentials.email,
-          password: credentials.password,
-        }
-      );
+      const response = await axiosInstance.post(`/Account/Login`, {
+        email: credentials.email,
+        password: credentials.password,
+      });
 
       return response.data;
     } catch (error) {
@@ -23,45 +24,57 @@ export class AuthService {
   resetAccount = async (request: IResetAccountCredentials) => {
     try {
       const { email, oldPassword, password } = request;
-      const response = await axiosInstance.put("/Account/ResetAccount", { email, oldPassword, password });
+      const response = await axiosInstance.put("/Account/ResetAccount", {
+        email,
+        oldPassword,
+        password,
+      });
 
-      return response.data
+      return response.data;
     } catch (error) {
       console.error("Error during login:", error);
       throw error;
     }
   };
-  resetPassword=async(Oldemail:string) => {
+  resetPassword = async (Oldemail: string) => {
     try {
-      const res=await axiosInstance.post("/Account/ForgotPassword",
-        {
-            email:Oldemail
-        }
-      )
-      return res.data
+      const res = await axiosInstance.post("/Account/ForgotPassword", {
+        email: Oldemail,
+      });
+      return res.data;
     } catch (error) {
-       console.error("Error during login:", error);
+      console.error("Error during login:", error);
       throw error;
     }
-  }
+  };
 
-  confirmReset=async (newPassword:string , confirmPass:string , mail:string | null) => {    
+  confirmReset = async (
+    newPassword: string,
+    confirmPass: string,
+    mail: string | null
+  ) => {
     try {
-      const res = await axiosInstance.post("Account/ConfirmForgotPassword",{
-        "email": mail,
-        "newPassword": newPassword,
-        "confirmPassword": confirmPass
-      })
-      return res.data
+      const res = await axiosInstance.post("Account/ConfirmForgotPassword", {
+        email: mail,
+        newPassword: newPassword,
+        confirmPassword: confirmPass,
+      });
+      return res.data;
     } catch (error) {
-       console.error("Error during Reseting password:", error);
+      console.error("Error during Reseting password:", error);
       throw error;
     }
-  }
+  };
 
   parseToken = (token: string): ILoggedInUser => {
     try {
-      const tokenPayload = JSON.parse(atob(token.split('.')[1]));
+      const base64Url = token.split(".")[1];
+      const base64 = base64Url
+        .replace(/-/g, "+") // base64url to base64
+        .replace(/_/g, "/")
+        .padEnd(Math.ceil(base64Url.length / 4) * 4, "="); // fix padding
+
+      const tokenPayload = JSON.parse(atob(base64));
 
       return {
         token,

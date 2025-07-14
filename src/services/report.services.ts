@@ -10,7 +10,7 @@ export class ReportsService extends BaseService {
     startTime?: string,
     endTime?: string,
     status?: string,
-    checked?:boolean,
+    checked?: boolean,
     searchByDeptartmentId?: number,
     searchBySubDeptartmentId?: number
   ) => {
@@ -22,15 +22,20 @@ export class ReportsService extends BaseService {
         EndTime: endTime,
         Status: status,
         IncludeSubDepartments: checked,
-        SearchByDeptartmentId: searchByDeptartmentId === 0 ? "" : searchByDeptartmentId,
-        SearchBySubDeptartmentId: searchBySubDeptartmentId === 0 ? "" : searchBySubDeptartmentId,
+        SearchByDeptartmentId:
+          searchByDeptartmentId === 0 ? "" : searchByDeptartmentId,
+        SearchBySubDeptartmentId:
+          searchBySubDeptartmentId === 0 ? "" : searchBySubDeptartmentId,
         ...(searchType && searchQuery ? { [searchType]: searchQuery } : {}),
       });
 
-      const response = await axiosInstance.get(`/Reports/EmployeeAttendanceReport/Excel`, {
-        params,
-        headers: this.getAuthHeaders(),
-      });
+      const response = await axiosInstance.get(
+        `/Reports/EmployeeAttendanceReport/Excel`,
+        {
+          params,
+          headers: this.getAuthHeaders(),
+        }
+      );
 
       return response.data;
     } catch (error) {
@@ -46,10 +51,12 @@ export class ReportsService extends BaseService {
     startTime?: string,
     endTime?: string,
     status?: string,
-    checked?:boolean,
+    checked?: boolean,
     searchByDeptartmentId?: number,
     searchBySubDeptartmentId?: number
   ) => {
+    console.log("aaaaaaaaaaaaaaaaaaaaaaa");
+    console.log(checked);
     try {
       const params = this.buildParams({
         StartDate: startDate,
@@ -58,15 +65,21 @@ export class ReportsService extends BaseService {
         EndTime: endTime,
         Status: status,
         IncludeSubDepartments: checked,
-        SearchByDeptartmentId: searchByDeptartmentId === 0 ? "" : searchByDeptartmentId,
-        SearchBySubDeptartmentId: searchBySubDeptartmentId === 0 ? "" : searchBySubDeptartmentId,
+        SearchByDeptartmentId:
+          searchByDeptartmentId === 0 ? "" : searchByDeptartmentId,
+        SearchBySubDeptartmentId:
+          searchBySubDeptartmentId === 0 ? "" : searchBySubDeptartmentId,
         ...(searchType && searchQuery ? { [searchType]: searchQuery } : {}),
       });
 
-      const response = await axiosInstance.get(`/Reports/EmployeeAttendanceReport/PDF`, {
-        params,
-        headers: this.getAuthHeaders(),
-      });
+      console.log(params);
+      const response = await axiosInstance.get(
+        `/Reports/EmployeeAttendanceReport/PDF`,
+        {
+          params,
+          headers: this.getAuthHeaders(),
+        }
+      );
 
       return response.data;
     } catch (error) {

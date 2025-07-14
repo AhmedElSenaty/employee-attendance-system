@@ -1,5 +1,12 @@
 import { useTranslation } from "react-i18next";
-import { Button, Checkbox, Field, Label, Popup, StatusBadge } from "../../../../components/ui";
+import {
+  Button,
+  Checkbox,
+  Field,
+  Label,
+  Popup,
+  StatusBadge,
+} from "../../../../components/ui";
 import { AlertTriangle, CheckCircle, Fingerprint } from "lucide-react";
 import { ATTENDANCE_NS } from "../../../../constants";
 import { HasPermission } from "../../../../components/auth";
@@ -18,7 +25,7 @@ interface Props {
     startTime: string;
     endTime: string;
     status: string;
-    checked:boolean;
+    checked: boolean;
     searchByDepartmentId: number;
     searchBySubDeptartmentId: number;
   };
@@ -37,7 +44,6 @@ const ExportAttendancePopup = ({
 }: Props) => {
   const { t } = useTranslation([ATTENDANCE_NS]);
   const { setParam } = useURLSearchParams();
-
 
   return (
     <Popup
@@ -154,12 +160,11 @@ const ExportAttendancePopup = ({
         <Field className="flex space-x-2">
           <Checkbox
             onChange={(e) =>
-              setParam("checked", String(e.target.checked))
+              setParam("IncludeSubDepartments", String(e.target.checked))
             }
           />
           <Label>{t("CheckBox")}</Label>
         </Field>
-
       </div>
 
       <div className="flex items-center space-x-3 mt-4">

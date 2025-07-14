@@ -4,7 +4,6 @@ import { useUserStore } from "../store/user.store";
 import { useMemo } from "react";
 import { QueryKeys } from "../constants";
 
-
 export const useReportService = () => {
   const token = useUserStore((state) => state.token);
 
@@ -23,7 +22,7 @@ export const useExportAttendanceReport = (
   startTime?: string,
   endTime?: string,
   status?: string,
-  checked?:boolean,
+  checked?: boolean,
   departmentId?: number,
   subDepartmentId?: number
 ) => {
@@ -73,11 +72,13 @@ export const useExportAttendanceReportPDF = (
   startTime?: string,
   endTime?: string,
   status?: string,
-  checked?:boolean,
+  checked?: boolean,
   departmentId?: number,
   subDepartmentId?: number
 ) => {
   const service = useReportService();
+  console.log("hock");
+  console.log(checked);
 
   const { refetch, isLoading } = useQuery({
     queryKey: [
@@ -108,7 +109,6 @@ export const useExportAttendanceReportPDF = (
       ),
     enabled: false, // manual refetching
     retry: 3,
-    
   });
   return {
     refetchExportDataPDF: refetch,
