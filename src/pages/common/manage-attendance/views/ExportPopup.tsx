@@ -44,7 +44,7 @@ const ExportAttendancePopup = ({
 }: Props) => {
   const { t } = useTranslation([ATTENDANCE_NS]);
   const { setParam } = useURLSearchParams();
-
+  
   return (
     <Popup
       isOpen={isOpen}
@@ -159,8 +159,9 @@ const ExportAttendancePopup = ({
         </div>
         <Field className="flex space-x-2">
           <Checkbox
-            onChange={(e) =>
+            onChange={(e) => {
               setParam("IncludeSubDepartments", String(e.target.checked))
+            }
             }
           />
           <Label>{t("CheckBox")}</Label>

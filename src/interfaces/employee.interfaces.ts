@@ -71,8 +71,11 @@ export interface EmployeeLeaveStats {
 
 
 export interface EmployeeWorkingHours {
-  employeeId: string;
-  attendTime: string,
-  goTime: string,
-  description: string
+  EmployeeId: string;
+  AttendTime: string,
+  GoTime: string,
+  Description: string
+  StartDate: string
+  EndDate: string
+  MedicalReport: Array<File>
 }

@@ -12,7 +12,6 @@ export const useSetWorkingHours = (id:string) => {
   const token = useUserStore((state) => state.token);
   const accountService = new AccountService(id);
 
-  console.log("useSetWorkingHours", id);
   return useQuery({
     queryKey: ["workingHours"],
     queryFn: () => accountService.getWorkingHours(id,token),

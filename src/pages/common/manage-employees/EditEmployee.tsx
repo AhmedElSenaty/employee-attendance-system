@@ -145,7 +145,7 @@ const EditEmployeePage = () => {
   const handleConfirmUpdateWorkingHours: SubmitHandler<
     EmployeeWorkingHours
   > = async (request: EmployeeWorkingHours) => {
-    request.employeeId = id || "";
+    request.EmployeeId = id || "";
     updateWorkingHours(request);
   };
 
@@ -162,10 +162,12 @@ const EditEmployeePage = () => {
 
   useEffect(() => {
     if (data?.data?.data) {
-      const { attendTime, goTime, description } = data.data.data;
-      setValue("attendTime", attendTime);
-      setValue("goTime", goTime);
-      setValue("description", description);
+      const { attendTime, goTime, description, startDate, endDate } = data.data.data;
+      setValue("AttendTime", attendTime);
+      setValue("GoTime", goTime);
+      setValue("Description", description);
+      setValue("StartDate", startDate);
+      setValue("EndDate", endDate);
     }
   }, [data, setValue]);
 
@@ -414,37 +416,36 @@ const EditEmployeePage = () => {
             </div>
           </form>
         </div>
-        {/* <div className="bg-white shadow-md space-y-5 p-5 rounded-lg">
+        <div className="bg-white shadow-md space-y-5 p-5 rounded-lg">
           <SectionHeader 
               title={t("editEmployeePage.hoursSectionHeader.title")} 
               description={t("editEmployeePage.hoursSectionHeader.description")}
-            /> */}
-        {/* <form
+            />
+        <form
             className="space-y-5"
             onSubmit={handleSubmitUpdateHours(handleConfirmUpdateWorkingHours)}
           >
-          
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <Field className="space-y-2">
                 <Label size="lg">{t("inputs.attendTime.label")}</Label>
                 <Input
                   type="time"
                   placeholder={t("inputs.attendTime.placeholder")}
-                  isError={!!updateHoursErrors.attendTime}
+                  isError={!!updateHoursErrors.AttendTime}
                   icon={<Timer />}
-                  {...updateHoursRegister("attendTime")}
+                  {...updateHoursRegister("AttendTime")}
                 />
                 <Label size="lg">{t("inputs.attendStartDate.label")}</Label>
                 <Input
                   type="date"
                   placeholder={t("inputs.attendTime.placeholder")}
-                  isError={!!updateHoursErrors.attendTime}
+                  isError={!!updateHoursErrors.StartDate}
                   icon={<Calendar />}
-                  {...updateHoursRegister("attendTime")}
+                  {...updateHoursRegister("StartDate")}
                 />
-                {updateHoursErrors.attendTime && (
+                {updateHoursErrors.StartDate && (
                   <InputErrorMessage>
-                    {t(`inputs.attendTime.inputValidation.${updateHoursErrors.attendTime?.type}`)}
+                    {t(`inputs.attendTime.inputValidation.${updateHoursErrors.StartDate?.type}`)}
                   </InputErrorMessage>
                 )}
               </Field>
@@ -453,42 +454,44 @@ const EditEmployeePage = () => {
                 <Input
                   type="time"
                   placeholder={t("inputs.goTime.placeholder")}
-                  isError={!!updateHoursErrors.goTime}
+                  isError={!!updateHoursErrors.GoTime}
                   icon={<Timer />}
-                  {...updateHoursRegister("goTime")}
+                  {...updateHoursRegister("GoTime")}
                 />
-                 <Label size="lg">{t("inputs.attendEndDate.label")}</Label>
+                <Label size="lg">{t("inputs.attendEndDate.label")}</Label>
                 <Input
                   type="date"
                   placeholder={t("inputs.goTime.placeholder")}
-                  isError={!!updateHoursErrors.goTime}
+                  isError={!!updateHoursErrors.GoTime}
                   icon={<Calendar />}
-                  {...updateHoursRegister("goTime")}
+                  {...updateHoursRegister("EndDate")}
                 />
-                {updateHoursErrors.goTime && (
+                {updateHoursErrors.EndDate && (
                   <InputErrorMessage>
-                    {t(`inputs.goTime.inputValidation.${updateHoursErrors.goTime?.type}`)}
+                    {t(`inputs.goTime.inputValidation.${updateHoursErrors.EndDate?.type}`)}
                   </InputErrorMessage>
                 )}
               </Field>
-            </div> */}
-        {/* <Field className="space-y-4" >
+            </div>
+            <Field className="space-y-4" >
               <Label size="lg">{t("inputs.Reports.label")}</Label>
              
-              <FileInputPreview />
+              <FileInputPreview
+                  {...updateHoursRegister("MedicalReport")}
+              />
               <Label size="lg">{t("inputs.description.label")}</Label>
               <Textarea
                 placeholder={t("inputs.description.placeholder")}
-                {...updateHoursRegister("description")}
+                {...updateHoursRegister("Description")}
               />
-            </Field> */}
-        {/* <div className="flex flex-wrap gap-3">
+            </Field>
+        <div className="flex flex-wrap gap-3">
               <Button fullWidth={false} isLoading={isUpdateHoursLoading}>
                 {isUpdateDaysLoading ? t("buttons.loading") : t("buttons.updateHours")}
               </Button>
-            </div> */}
-        {/* </form> */}
-        {/* </div> */}
+            </div>
+        </form>
+        </div>
       </div>
 
       <DeletePopup

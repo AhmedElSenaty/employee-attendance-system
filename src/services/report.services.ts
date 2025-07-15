@@ -55,8 +55,6 @@ export class ReportsService extends BaseService {
     searchByDeptartmentId?: number,
     searchBySubDeptartmentId?: number
   ) => {
-    console.log("aaaaaaaaaaaaaaaaaaaaaaa");
-    console.log(checked);
     try {
       const params = this.buildParams({
         StartDate: startDate,

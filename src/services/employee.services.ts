@@ -1,5 +1,5 @@
 import axiosInstance from "../config/axios.config";
-import { EmployeeProfileCredentials, EmployeeWorkingHours } from "../interfaces";
+import { EmployeeProfileCredentials } from "../interfaces";
 import { EmployeeFormValues } from "../validation";
 import { BaseService } from "./base.services";
 
@@ -171,10 +171,12 @@ export class EmployeeService extends BaseService {
     );
   };
 
-  updateWorkingHours = (data: EmployeeWorkingHours) => {
-    console.log(data);
+  updateWorkingHours = (data: FormData) => {
     return axiosInstance.put("/Employee/update", data, {
-      headers: this.getAuthHeaders(),
+     headers: {
+      ...this.getAuthHeaders(),
+      "Content-Type": "multipart/form-data",
+    },
     });
   };
 

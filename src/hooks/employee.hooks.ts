@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { EmployeeWorkingHours, IErrorResponse, initialMetadata } from "../interfaces";
-import { appendSecondsToTime, getTranslatedMessage, handleApiError, showToast } from "../utils";
+import { getTranslatedMessage, handleApiError, showToast } from "../utils";
 import { AxiosError } from "axios";
 import { useEffect, useMemo } from "react";
 import { useLanguageStore } from "../store/language.store";
@@ -273,12 +273,9 @@ export const useUpdateEmployeeWorkingHours = () => {
 
   return useMutation({
     mutationFn: (data: EmployeeWorkingHours) => {
-      const formatted = {
-        ...data,
-        attendTime: appendSecondsToTime(data.attendTime || ""),
-        goTime: appendSecondsToTime(data.goTime || ""),
-      };
-      return employeeService.updateWorkingHours(formatted)
+
+      data.MedicalReport = data.MedicalReport[0]
+      return employeeService.updateWorkingHours(data)
     },
     onSuccess: ({ status, data }) => {
       if (status === 200) {

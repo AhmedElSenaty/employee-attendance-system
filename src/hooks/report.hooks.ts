@@ -78,7 +78,7 @@ export const useExportAttendanceReportPDF = (
 ) => {
   const service = useReportService();
   console.log("hock");
-  console.log(checked);
+  console.log("========>", checked);
 
   const { refetch, isLoading } = useQuery({
     queryKey: [
