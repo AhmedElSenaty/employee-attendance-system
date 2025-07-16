@@ -52,6 +52,38 @@ export class RequestService extends BaseService {
 					this.handleError(error, "Error fetching all requests");
 			}
 	}
+	fetchGenaricRequests = async(
+		    page?: number,
+    pageSize?: number,
+    startDate?: string,
+    endDate?: string,
+    status?: number,
+    searchType?: string,
+    searchQuery?: string,
+	) => {
+			try {
+      const params = this.buildParams({
+        PageIndex: page ?? 1,
+        PageSize: pageSize,
+        StartDate: startDate,
+        EndDate: endDate,
+        Status: status,
+        ...(searchType && searchQuery ? { [searchType]: searchQuery } : {}),
+      });
+	  console.log(params);
+	  
+						const response = await axiosInstance.get("/Request/GenaricRequests", {
+							        params,
+
+							headers: this.getAuthHeaders(),
+						});
+
+						return response;
+
+			} catch (error) {
+					this.handleError(error, "Error fetching all requests");
+			}
+	}
 
 	accept = (requestId: number) => {
 		return axiosInstance.put(

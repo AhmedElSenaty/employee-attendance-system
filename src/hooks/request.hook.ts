@@ -74,6 +74,45 @@ export const useGetAllRequests = (  page = 1,
     isLoading,
   };
 };
+export const useGetAllGenaricRequests = (  page = 1,
+  pageSize = 10,
+  startDate?: string,
+  endDate?: string,
+  status?: number,
+  searchType?: string,
+  searchQuery?: string,
+) => {
+  const token = useUserStore((state) => state.token);
+  const requestService = useRequestService();
+
+  const { data, isLoading } = useQuery({
+    queryKey: [
+      QueryKeys.Requests.All,
+      page,
+      pageSize,
+      startDate,
+      endDate,
+      status,
+      `${searchType && searchQuery ? [searchType, searchQuery] : ""}`,
+    ],
+    queryFn: () => requestService.fetchGenaricRequests(
+        page,
+        pageSize,
+        startDate,
+        endDate,
+        status,
+        searchType,
+        searchQuery,
+    ),
+    enabled: !!token,
+  });
+
+  return {
+    requests: data?.data?.data?.requests || [],
+    metadata: data?.data?.data?.metadata || initialMetadata,
+    isLoading,
+  };
+};
 
 export const useAcceptRequest = () => {
   const { language } = useLanguageStore();
