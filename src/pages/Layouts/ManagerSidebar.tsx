@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next"; // Import translation hook
-import { Briefcase, Building2, Calendar, CalendarCog, CalendarSearch, Clock, Coffee, Contact, ContactRound, FileText, GitPullRequestArrow, Home, LayoutDashboard, Thermometer, TicketsPlane, User, UserCog, UserPlus, UserRoundPlus, Users } from "lucide-react";
+import { Archive, Briefcase, Building2, Calendar, CalendarCog, CalendarSearch, Clock, Coffee, Contact, ContactRound, FileText, GitPullRequestArrow, Home, LayoutDashboard, Thermometer, TicketsPlane, User, UserCog, UserPlus, UserRoundPlus, Users } from "lucide-react";
 import { Sidebar, SidebarDropdown, SidebarItem } from "../../components/ui/Sidebar";
 import { useUserStore } from "../../store/user.store";
 import { useLocation } from "react-router";
@@ -61,6 +61,8 @@ export const ManagerSidebar = () => {
             <SidebarItem icon={<TicketsPlane size={23} />} name={t("attendanceVacation")} to="/manager/manage-attendance/vacations" />
           </SidebarDropdown>
         )}
+
+      <SidebarItem icon={<Archive size={23} />} name={t("allRequests")} to="/manager/all-requests" />
 
         {permissions.includes("View Requests") && (
           <SidebarDropdown icon={<FileText size={23} />} name={t("leaveRequests")}>

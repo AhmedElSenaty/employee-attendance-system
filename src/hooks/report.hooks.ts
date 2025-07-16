@@ -216,3 +216,98 @@ export const useExportAttendanceSummaryReportPDF = (
     isLoadingPDF: isLoading,
   };
 };
+export const useExportReport = (
+  searchKey?: string,
+  debouncedSearchQuery?: string,
+  startDate?: string,
+  endDate?: string,
+  status?: string,
+  type?: string,
+  checked?: boolean,
+  departmentId?: number,
+  subDepartmentId?: number
+) => {
+  const service = useReportService();
+
+  const { refetch, isLoading } = useQuery({
+    queryKey: [
+      QueryKeys.Export.Excel,
+      searchKey,
+      debouncedSearchQuery,
+      startDate,
+      endDate,
+      status,
+      type,
+      checked,
+      departmentId,
+      subDepartmentId,
+    ],
+    queryFn: () =>
+      service.fetchEmployeeReport(
+        searchKey,
+        debouncedSearchQuery,
+        startDate,
+        endDate,
+        status,
+        type,
+        checked,
+        departmentId,
+        subDepartmentId
+      ),
+    enabled: false, // manual refetching
+    retry: 3,
+  });
+
+  return {
+    refetchExportData: refetch,
+    isLoading,
+  };
+};
+export const useExportReportPDF = (
+  searchKey?: string,
+  debouncedSearchQuery?: string,
+  startDate?: string,
+  endDate?: string,
+  status?: string,
+  type?: string,
+  checked?: boolean,
+  departmentId?: number,
+  subDepartmentId?: number
+) => {
+  const service = useReportService();
+  console.log("hock");
+  console.log("========>", checked);
+
+  const { refetch, isLoading } = useQuery({
+    queryKey: [
+      QueryKeys.Export.PDF,
+      searchKey,
+      debouncedSearchQuery,
+      startDate,
+      endDate,
+      status,
+      type,
+      checked,
+      departmentId,
+      subDepartmentId,
+    ],
+    queryFn: () =>
+      service.fetchEmployeeReportPDF(
+        searchKey,
+        debouncedSearchQuery,
+        startDate,
+        endDate,
+        status,
+        type,
+        checked,
+        departmentId,
+        subDepartmentId
+      ),
+    enabled: false, // manual refetching
+    retry: 3,
+  });
+  return {
+    refetchExportDataPDF: refetch,
+    isLoadingPDF: isLoading,
+  };
+};

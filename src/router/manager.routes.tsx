@@ -4,6 +4,7 @@ import { RootLayout } from "../pages/Layouts";
 import { ProtectedRoute } from "../components/auth";
 import ManagerAccountPage from "../pages/Manager/Account";
 import { RequestsPage, OrdinaryRequestsPage, AttendanceOverviewPage, AttendanceVacationsPage, ManageAttendancePage, CalendarPage, MissionRequestsPage, CasualLeaveRequestsPage, SickLRequestsPage, LeaveRequestsPage, LeaveRequestsWithAttendance, MissionRequestsWithAttendance, ManageSubDepartmentsPage, ManageEmployeesPage, AddEmployeePage, EditEmployeePage, ManageManagersPage, AddManagerPage, EditManagerPage } from "../pages/Manager";
+import AllRequestsPage from "../pages/Manager/requests/AllRequests";
 
 export const managerRoutes = (isLoggedIn: boolean, userRole: string) => (
   <Route 
@@ -48,5 +49,6 @@ export const managerRoutes = (isLoggedIn: boolean, userRole: string) => (
     <Route path="sick-requests" element={<SickLRequestsPage />} />
 
     <Route path="pending-requests" element={<RequestsPage />} />
+    <Route path="all-requests" element={<AllRequestsPage />} />
   </Route>
 );

@@ -25,6 +25,7 @@ interface Props {
     startTime: string;
     endTime: string;
     status: string;
+    type?: string;
     checked: boolean;
     searchByDepartmentId: number;
     searchBySubDeptartmentId: number;

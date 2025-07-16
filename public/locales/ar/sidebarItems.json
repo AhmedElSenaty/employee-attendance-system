@@ -36,6 +36,7 @@
   "logs": "سجلات النشاط",
   "sickRequests": "طلبات مرضية",
   "leaveAttendance": "الاذونات والمواعيد",
-  "addRequest":"اضافة طلب قديم"
+  "addRequest":"اضافة طلب قديم",
+  "allRequests":"جميع الطلبات"
 
 }
