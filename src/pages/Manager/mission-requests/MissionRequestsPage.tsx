@@ -41,6 +41,7 @@ import { CirclePlus } from "lucide-react";
 import { ISoftDeleteRequestCredentials } from "../../../interfaces/request.interfaces";
 import { useSoftDeleteRequest } from "../../../hooks/request.hook";
 import DeletePopup from "../requests/views/DeletePopup";
+import EditRequestPopup from "../requests/views/EditRequestPopup";
 
 const MissionRequestsPage = () => {
   const { t } = useTranslation(MISSION_REQUESTS_NS);
@@ -52,6 +53,7 @@ const MissionRequestsPage = () => {
   const [isRejectPopupOpen, setIsRejectPopupOpen] = useState(false);
   const [isAssignPopupOpen, setIsAssignPopupOpen] = useState(false);
   const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
+  const [isEditOpen, setIsEditOpen] = useState(false);
 
   const {
     register: registerDelete,
@@ -74,6 +76,10 @@ const MissionRequestsPage = () => {
   const handleShowPopupOpen = (id: number) => {
     setSelectedID(id);
     setIsShowPopupOpen(true);
+  };
+  const handleEditopupOpen = (id: number) => {
+    setSelectedID(id);
+    setIsEditOpen(true);
   };
 
   const handleAcceptPopupOpen = (id: number) => {
@@ -233,6 +239,7 @@ const MissionRequestsPage = () => {
             handleAccept={handleAcceptPopupOpen}
             handleReject={handleRejectPopupOpen}
             handleDelete={handleDeletePopupOpen}
+            handleEdit={handleEditopupOpen}
           />
         </div>
 
@@ -288,6 +295,12 @@ const MissionRequestsPage = () => {
         isOpen={isDeletePopupOpen}
         handleClose={handleDeletePopupClose}
         errors={deleteErrors}
+      />
+
+            <EditRequestPopup
+        isOpen={isEditOpen}
+        handleClose={() => { setIsEditOpen(false) }}
+        requestId={selectedID}
       />
     </div>
   );

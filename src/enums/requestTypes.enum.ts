@@ -1,5 +1,4 @@
 export enum LeaveType {
-  // Sick = 1,
   Ordinary = 2,
   Casual = 3,
   MorningLeave = 4,

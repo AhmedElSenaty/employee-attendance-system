@@ -1,5 +1,6 @@
 import axiosInstance from "../config/axios.config";
 import { IAssignRequest, IRejectRequestCredentials, ISoftDeleteRequestCredentials } from "../interfaces/request.interfaces";
+import { EditRequestFormValues } from "../validation/request.schema";
 import { BaseService } from "./base.services";
 
 export class RequestService extends BaseService {
@@ -45,4 +46,19 @@ export class RequestService extends BaseService {
 		headers: this.getAuthHeaders(),
 		});
 	};
+
+	  editRequest = (data: EditRequestFormValues) => {
+		console.log(data);
+		
+		return axiosInstance.put(`/Request/Manager/EditAcceptedRequest`, data, {
+		headers: this.getAuthHeaders(),
+		});
+	};
+
+	getRequestById = (requestId: number) => {
+		return axiosInstance.get(`/Request/request/${requestId}`, {
+			headers: this.getAuthHeaders(),
+		});
+	};
+
 }

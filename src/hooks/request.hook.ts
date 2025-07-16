@@ -8,6 +8,7 @@ import { IErrorResponse, initialMetadata } from "../interfaces";
 import { IAssignRequest, IRejectRequestCredentials, ISoftDeleteRequestCredentials } from "../interfaces/request.interfaces";
 import { RequestService } from "../services/requests.services";
 import { getTranslatedMessage, handleApiError, showToast } from "../utils";
+import { EditRequestFormValues } from "../validation/request.schema";
 
 export const useRequestService = () => {
   const token = useUserStore((state) => state.token);
@@ -118,4 +119,50 @@ export const useAssignRequest = () => {
       handleApiError(axiosError, language);
     },
   });
+};
+
+export const useEditRequest = () => {
+  const { language } = useLanguageStore();
+  const queryClient = useQueryClient();
+  const requestService = useRequestService();
+
+  return useMutation({
+    mutationFn: (data: EditRequestFormValues) => requestService.editRequest(data),
+    onSuccess: ({ status, data }) => {
+      if (status === 200) {
+        const message = getTranslatedMessage(data.message ?? "", language);
+        showToast("success", message);
+
+        queryClient.invalidateQueries({ queryKey: [QueryKeys.Requests.Single] });
+        queryClient.invalidateQueries({ queryKey: [QueryKeys.LeaveRequests.All] });
+        queryClient.invalidateQueries({ queryKey: [QueryKeys.MissionRequests.All] });
+        queryClient.invalidateQueries({ queryKey: [QueryKeys.OfficialVacations.All] });
+        queryClient.invalidateQueries({ queryKey: [QueryKeys.OrdinaryRequests.All] });
+        queryClient.invalidateQueries({ queryKey: [QueryKeys.SickRequests.All] });
+        queryClient.invalidateQueries({ queryKey: [QueryKeys.CasualLeaveRequests.All] });
+        queryClient.invalidateQueries({ queryKey: [QueryKeys.Requests.All] });
+      }
+    },
+    onError: (error) => {
+      const axiosError = error as AxiosError<IErrorResponse>;
+      handleApiError(axiosError, language);
+    },
+  });
+};
+
+export const useGetRequestById = (requestId: number) => {
+  const token = useUserStore((state) => state.token);
+  const requestService = useRequestService();
+
+  const { data, isLoading, isError } = useQuery({
+    queryKey: [QueryKeys.Requests.Single, requestId],
+    queryFn: () => requestService.getRequestById(requestId),
+    enabled: !!token,
+  });
+
+  return {
+    request: data?.data?.data || null,
+    isLoading,
+    isError,
+  };
 };

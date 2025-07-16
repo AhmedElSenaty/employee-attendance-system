@@ -42,6 +42,7 @@ import { HasPermission } from "../../../components/auth";
 import { ISoftDeleteRequestCredentials } from "../../../interfaces/request.interfaces";
 import { useSoftDeleteRequest } from "../../../hooks/request.hook";
 import DeletePopup from "../requests/views/DeletePopup";
+import EditRequestPopup from "../requests/views/EditRequestPopup";
 
 const CasualLeaveRequestsPage = () => {
   const { t } = useTranslation(CASUAL_REQUESTS_NS);
@@ -49,6 +50,7 @@ const CasualLeaveRequestsPage = () => {
   const { getParam, setParam, clearParams } = useURLSearchParams();
 
   const [selectedID, setSelectedID] = useState<number>(0);
+  const [isEditOpen, setIsEditOpen] = useState(false);
 
   const [isShowPopupOpen, setIsShowPopupOpen] = useState(false);
   const [isAcceptPopupOpen, setIsAcceptPopupOpen] = useState(false);
@@ -160,7 +162,10 @@ const CasualLeaveRequestsPage = () => {
       setIsRejectPopupOpen(false);
     }
   );
-
+  const handleEditopupOpen = (id: number) => {
+    setSelectedID(id);
+    setIsEditOpen(true);
+  };
   const handleConfirmAssign: SubmitHandler<
     IAssignCasualLeaveRequestCredentials
   > = (request: IAssignCasualLeaveRequestCredentials) => {
@@ -235,6 +240,7 @@ const CasualLeaveRequestsPage = () => {
             handleAccept={handleAcceptPopupOpen}
             handleReject={handleRejectPopupOpen}
             handleDelete={handleDeletePopupOpen}
+            handleEdit={handleEditopupOpen}
           />
         </div>
 
@@ -311,6 +317,11 @@ const CasualLeaveRequestsPage = () => {
         isOpen={isDeletePopupOpen}
         handleClose={handleDeletePopupClose}
         errors={deleteErrors}
+      />
+            <EditRequestPopup
+        isOpen={isEditOpen}
+        handleClose={() => { setIsEditOpen(false) }}
+        requestId={selectedID}
       />
     </div>
   );

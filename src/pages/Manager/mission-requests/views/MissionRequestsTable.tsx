@@ -1,4 +1,4 @@
-import { Eye, X, Check, Trash } from "lucide-react";
+import { Eye, X, Check, Trash, FilePenLine } from "lucide-react";
 import {
   Button,
   NoDataMessage,
@@ -24,6 +24,7 @@ interface ITableProps {
   handleAccept: (id: number) => void;
   handleReject: (id: number) => void;
   handleDelete: (id: number) => void;
+  handleEdit: (id: number) => void;
 }
 
 const MissionRequestsTable = ({
@@ -33,6 +34,7 @@ const MissionRequestsTable = ({
   handleAccept,
   handleReject,
   handleDelete,
+  handleEdit,
 }: ITableProps) => {
   const { t } = useTranslation(MISSION_REQUESTS_NS);
   const { language } = useLanguageStore();
@@ -137,6 +139,7 @@ const MissionRequestsTable = ({
                       )}
                     </HasPermission>
                     {missionRequest.status == RequestStatusType.Accepted && (
+                      <>
                       <Tooltip content={t("table.buttons.toolTipDelete")}>
                         <Button
                           variant="error"
@@ -146,6 +149,14 @@ const MissionRequestsTable = ({
                           onClick={() => handleDelete(missionRequest.id)}
                         />
                       </Tooltip>
+                                              <Button
+                          variant="info"
+                          fullWidth={false}
+                          size={"sm"}
+                          icon={<FilePenLine className="w-full h-full" />}
+                          onClick={() => handleEdit(missionRequest.id)}
+                        />
+                      </>
                     )}
                   </div>
                 </TableCell>

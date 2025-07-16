@@ -43,6 +43,7 @@ import { ISoftDeleteRequestCredentials } from "../../../interfaces/request.inter
 import { useSoftDeleteRequest } from "../../../hooks/request.hook";
 import DeletePopup from "../requests/views/DeletePopup";
 import { de } from "date-fns/locale";
+import EditRequestPopup from "../requests/views/EditRequestPopup";
 
 const SickLRequestsPage = () => {
   const { t } = useTranslation(SICK_REQUESTS_NS);
@@ -83,6 +84,8 @@ const SickLRequestsPage = () => {
     restDelete();
     setIsDeletePopupOpen(true);
   };
+    const [isEditOpen, setIsEditOpen] = useState(false);
+
 
   const handleDeletePopupClose = () => {
     setSelectedID(0);
@@ -140,7 +143,10 @@ const SickLRequestsPage = () => {
     searchKey,
     searchQuery
   );
-
+  const handleEditopupOpen = (id: number) => {
+    setSelectedID(id);
+    setIsEditOpen(true);
+  };
   const { sickRequest, isLoading: isSickRequestLoading } =
     useGetSickRequestById(selectedID);
 
@@ -239,6 +245,8 @@ const SickLRequestsPage = () => {
             handleShow={handleShowPopupOpen}
             handleAccept={handleAcceptPopupOpen}
             handleReject={handleRejectPopupOpen}
+                        handleEdit={handleEditopupOpen}
+
           />
         </div>
 
@@ -314,6 +322,11 @@ const SickLRequestsPage = () => {
         isOpen={isDeletePopupOpen}
         handleClose={handleDeletePopupClose}
         errors={deleteErrors}
+      />
+                  <EditRequestPopup
+        isOpen={isEditOpen}
+        handleClose={() => { setIsEditOpen(false) }}
+        requestId={selectedID}
       />
     </div>
   );

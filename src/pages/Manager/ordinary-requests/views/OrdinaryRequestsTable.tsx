@@ -1,4 +1,4 @@
-import { Eye, X, Check, Trash } from "lucide-react";
+import { Eye, X, Check, Trash, FilePenLine } from "lucide-react";
 import {
   Button,
   NoDataMessage,
@@ -24,6 +24,7 @@ interface ITableProps {
   handleAccept: (id: number) => void;
   handleReject: (id: number) => void;
   handleDelete: (id: number) => void;
+  handleEdit: (id: number) => void;
 }
 
 const OrdinaryRequestsTable = ({
@@ -33,6 +34,7 @@ const OrdinaryRequestsTable = ({
   handleAccept,
   handleReject,
   handleDelete,
+  handleEdit,
 }: ITableProps) => {
   const { t } = useTranslation(ORDINARY_REQUESTS_NS);
   const { language } = useLanguageStore();
@@ -139,15 +141,24 @@ const OrdinaryRequestsTable = ({
                       )}
                     </HasPermission>
                     {ordinaryRequest.status == RequestStatusType.Accepted && (
-                      <Tooltip content={t("table.buttons.toolTipDelete")}>
-                        <Button
-                          variant="error"
+                      <>
+                        <Tooltip content={t("table.buttons.toolTipDelete")}>
+                          <Button
+                            variant="error"
+                            fullWidth={false}
+                            size={"sm"}
+                            icon={<Trash className="w-full h-full" />}
+                            onClick={() => handleDelete(ordinaryRequest.id)}
+                          />
+                        </Tooltip>
+                                              <Button
+                          variant="info"
                           fullWidth={false}
                           size={"sm"}
-                          icon={<Trash className="w-full h-full" />}
-                          onClick={() => handleDelete(ordinaryRequest.id)}
+                          icon={<FilePenLine className="w-full h-full" />}
+                          onClick={() => handleEdit(ordinaryRequest.id)}
                         />
-                      </Tooltip>
+                      </>
                     )}
                   </div>
                 </TableCell>

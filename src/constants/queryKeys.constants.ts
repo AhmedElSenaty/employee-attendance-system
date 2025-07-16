@@ -111,6 +111,7 @@ export const QueryKeys = {
   },
   Requests: {
     All: "requests",
+    Single: "Single",
   },
   // Add more domains/modules here
 };

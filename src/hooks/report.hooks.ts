@@ -115,3 +115,104 @@ export const useExportAttendanceReportPDF = (
     isLoadingPDF: isLoading,
   };
 };
+export const useExportAttendanceSummaryReport = (
+  searchKey?: string,
+  debouncedSearchQuery?: string,
+  startDate?: string,
+  endDate?: string,
+  startTime?: string,
+  endTime?: string,
+  status?: string,
+  checked?: boolean,
+  departmentId?: number,
+  subDepartmentId?: number
+) => {
+  const service = useReportService();
+
+  const { refetch, isLoading } = useQuery({
+    queryKey: [
+      QueryKeys.Export.Excel,
+      searchKey,
+      debouncedSearchQuery,
+      startDate,
+      endDate,
+      startTime,
+      endTime,
+      status,
+      checked,
+      departmentId,
+      subDepartmentId,
+    ],
+    queryFn: () =>
+      service.fetchEmployeeAttendanceSummaryReport(
+        searchKey,
+        debouncedSearchQuery,
+        startDate,
+        endDate,
+        startTime,
+        endTime,
+        status,
+        checked,
+        departmentId,
+        subDepartmentId
+      ),
+    enabled: false, // manual refetching
+    retry: 3,
+  });
+
+  return {
+    refetchExportData: refetch,
+    isLoading,
+  };
+};
+export const useExportAttendanceSummaryReportPDF = (
+  searchKey?: string,
+  debouncedSearchQuery?: string,
+  startDate?: string,
+  endDate?: string,
+  startTime?: string,
+  endTime?: string,
+  status?: string,
+  checked?: boolean,
+  departmentId?: number,
+  subDepartmentId?: number
+) => {
+  const service = useReportService();
+  console.log("hock");
+  console.log("========>", checked);
+
+  const { refetch, isLoading } = useQuery({
+    queryKey: [
+      QueryKeys.Export.PDF,
+      searchKey,
+      debouncedSearchQuery,
+      startDate,
+      endDate,
+      startTime,
+      endTime,
+      status,
+      checked,
+      departmentId,
+      subDepartmentId,
+    ],
+    queryFn: () =>
+      service.fetchEmployeeAttendanceSummaryReportPDF(
+        searchKey,
+        debouncedSearchQuery,
+        startDate,
+        endDate,
+        startTime,
+        endTime,
+        status,
+        checked,
+        departmentId,
+        subDepartmentId
+      ),
+    enabled: false, // manual refetching
+    retry: 3,
+  });
+  return {
+    refetchExportDataPDF: refetch,
+    isLoadingPDF: isLoading,
+  };
+};

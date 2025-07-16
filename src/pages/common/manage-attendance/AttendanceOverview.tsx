@@ -1,39 +1,103 @@
 import { useTranslation } from "react-i18next";
-import { CalendarSearch } from "lucide-react";
-import { formatValue } from "../../../utils";
+import { CalendarSearch, FileDown } from "lucide-react";
+import { downloadFile, formatValue, showToast } from "../../../utils";
 import { useDebounce } from "../../../hooks/debounce.hook";
 import { useLanguageStore } from "../../../store/";
-import { CountCard, Header, InfoPopup, Paginator, SectionHeader } from "../../../components/ui";
-import { useGetAttendanceSummary } from "../../../hooks/";
+import { ActionCard, Button, CountCard, Header, InfoPopup, Paginator, SectionHeader } from "../../../components/ui";
+import { useExportAttendanceSummaryReport, useExportAttendanceSummaryReportPDF, useGetAttendanceSummary } from "../../../hooks/";
 import { ATTENDANCE_NS, ATTENDANCE_OVERVIEW_VIDEO } from "../../../constants";
 import useURLSearchParams from "../../../hooks/URLSearchParams.hook";
-import { OverviewTable, VacationTableFilters } from "./views";
+import { ExportPopup, OverviewTable, VacationTableFilters } from "./views";
+import { useState } from "react";
+import { HasPermission } from "../../../components/auth";
 
 const AttendanceOverviewPage = () => {
   const { t } = useTranslation([ATTENDANCE_NS]);
   const { language } = useLanguageStore();
   const {getParam, setParam, clearParams} = useURLSearchParams();
+    const [isDownloadReportPopupOpen, setIsDownloadReportPopupOpen] =
+      useState(false);
   
     // Using the enhanced getParam with parser support from the improved hook
-    const rawPage = getParam('page', Number);
-    const rawPageSize = getParam('pageSize', Number);
-    const rawStartDate = getParam('startDate');
-    const rawEndDate = getParam('endDate');
-    const rawSearchKey = getParam('searchKey');
-    const rawSearchQuery = useDebounce(getParam('searchQuery'), 650);
-  
-    // Use nullish coalescing to default numeric values, undefined for dates if empty
-    const page = rawPage ?? 1;
-    const pageSize = rawPageSize ?? 10;
-    const startDate = rawStartDate || undefined;
-    const endDate = rawEndDate || undefined;
-    const searchKey = rawSearchKey || undefined;
-    const searchQuery = useDebounce(rawSearchQuery, 650) || undefined;
+  // Using the enhanced getParam with parser support from the improved hook
+  const rawPage = getParam("page", Number);
+  const rawPageSize = getParam("pageSize", Number);
+  const rawStartDate = getParam("startDate");
+  const rawEndDate = getParam("endDate");
+  const rawStartTime = getParam("startTime");
+  const rawEndTime = getParam("endTime");
+  const rawSearchKey = getParam("searchKey");
+  const rawSearchQuery = useDebounce(getParam("searchQuery"), 650);
+  const rawStatus = getParam("status");
+  const rawDepartmentId = getParam("searchByDepartmentId", Number);
+  const rawSubDeptartmentId = getParam("searchBySubDeptartmentId", Number);
+  const rawChecked = getParam("IncludeSubDepartments");
+
+  // Use nullish coalescing to default numeric values, undefined for dates if empty
+  const page = rawPage ?? 1;
+  const pageSize = rawPageSize ?? 10;
+  const startDate = rawStartDate || undefined;
+  const endDate = rawEndDate || undefined;
+  const startTime = rawStartTime || undefined;
+  const endTime = rawEndTime || undefined;
+  const searchKey = rawSearchKey || undefined;
+  const status = rawStatus || undefined;
+  const searchQuery = useDebounce(rawSearchQuery, 650) || undefined;
+  const departmentId = rawDepartmentId || "";
+  const checked = rawChecked || false;
+  const subDeptartmentId = rawSubDeptartmentId || "";
 
   const { attendanceSummary, count: totalAttendanceSummary, metadata, isLoading: isAttendanceSummaryLoading } = useGetAttendanceSummary(
     page, pageSize, searchKey, searchQuery, startDate, endDate);
 
 
+  // Use the custom hook to fetch data
+  const { refetchExportData, isLoading: isExportDataLoading } =
+    useExportAttendanceSummaryReport(
+      searchKey,
+      searchQuery,
+      startDate,
+      endDate,
+      startTime,
+      endTime,
+      status,
+      checked,
+      departmentId || 0,
+      subDeptartmentId || 0
+    );
+      const { isLoadingPDF, refetchExportDataPDF } = useExportAttendanceSummaryReportPDF(
+        searchKey,
+        searchQuery,
+        startDate,
+        endDate,
+        startTime,
+        endTime,
+        status,
+        checked,
+        departmentId || 0,
+        subDeptartmentId || 0
+      );
+    
+  const handleDownload = async () => {
+    const { data, isSuccess, isError } = await refetchExportData();
+    if (isSuccess) {
+      showToast("success", t("export.exportSuccess"));
+      downloadFile(data.file);
+    }
+    if (isError) {
+      showToast("error", t("export.exportError"));
+    }
+  };
+  const handleDownloadPDF = async () => {
+    const { data, isSuccess, isError } = await refetchExportDataPDF();
+    if (isSuccess) {
+      showToast("success", t("export.exportSuccess"));
+      downloadFile(data.file);
+    }
+    if (isError) {
+      showToast("error", t("export.exportError"));
+    }
+  };
   return (
     <>
       <div className="sm:p-5 p-3 space-y-5">
@@ -62,6 +126,33 @@ const AttendanceOverviewPage = () => {
             description={t("sectionHeaderSummary.description")} 
           />
 
+                  <div className="w-[500px] max-xl:w-full grid grid-cols-1 gap-10 mx-auto">
+            <HasPermission
+              permission={[
+                "Export Attendance Report Excel",
+                "Export Attendance Report PDF",
+              ]}
+            >
+              <ActionCard
+                icon={<FileDown />}
+                iconBgColor="bg-[#a7f3d0]"
+                iconColor="text-[#10b981]"
+                title={t("exportActionCard.title")}
+                description={t("exportActionCard.description")}
+              >
+                <Button
+                  fullWidth
+                  variant="success"
+                  isLoading={isExportDataLoading}
+                  onClick={() => {
+                    setIsDownloadReportPopupOpen(true);
+                  }}
+                >
+                  {t("exportActionCard.button")}
+                </Button>
+              </ActionCard>
+            </HasPermission>
+                  </div>
           <div className="flex flex-col gap-5">
             <VacationTableFilters searchBy={metadata.searchBy} getParam={getParam} setParam={setParam} clearParams={clearParams} />
           </div>
@@ -84,6 +175,43 @@ const AttendanceOverviewPage = () => {
           />
         </div>
       </div>
+      <ExportPopup
+        isOpen={isDownloadReportPopupOpen}
+        handleClose={() => setIsDownloadReportPopupOpen(false)}
+        handleDownload={() => {
+          handleDownload();
+        }}
+        filteredData={{
+          searchKey: searchKey || "",
+          search: searchQuery || "",
+          startDate:
+            startDate ||
+            `${new Date().getFullYear()}-${String(
+              new Date().getMonth() + 1
+            ).padStart(2, "0")}-01`,
+          endDate:
+            endDate ||
+            `${new Date().getFullYear()}-${String(
+              new Date().getMonth() + 1
+            ).padStart(2, "0")}-${String(
+              new Date(
+                new Date().getFullYear(),
+                new Date().getMonth() + 1,
+                0
+              ).getDate()
+            ).padStart(2, "0")}`,
+
+          startTime: startTime || "",
+          endTime: endTime || "",
+          status: status || "",
+          searchByDepartmentId: Number(departmentId || 0),
+          searchBySubDeptartmentId: Number(subDeptartmentId || 0),
+          checked: checked,
+        }}
+        isLoading={isExportDataLoading}
+        isloadingPDF={isLoadingPDF}
+        handleDownloadPDF={handleDownloadPDF}
+      />
     </>
   )
 }

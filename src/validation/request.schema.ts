@@ -37,3 +37,19 @@ export const assignRequestSchema = yup.object().shape({
 });
 
 export type AssignRequestFormValues = yup.InferType<typeof assignRequestSchema>;
+
+export interface EditRequestFormValues {
+  requestId: number;
+  leaveType: number;
+  startDate: string;
+  endDate: string;
+  comment: string;
+}
+
+export const editRequestSchema = yup.object({
+  requestId: yup.number().required(),
+  leaveType: yup.number().required(),
+  startDate: yup.string().required(),
+  endDate: yup.string().required(),
+  comment: yup.string().required(),
+});

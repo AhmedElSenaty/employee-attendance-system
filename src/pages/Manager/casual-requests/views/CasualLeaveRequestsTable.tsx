@@ -1,4 +1,4 @@
-import { Eye, X, Check, Trash } from "lucide-react";
+import { Eye, X, Check, Trash, FilePenLine } from "lucide-react";
 import {
   Button,
   NoDataMessage,
@@ -24,6 +24,7 @@ interface ITableProps {
   handleAccept: (id: number) => void;
   handleReject: (id: number) => void;
   handleDelete: (id: number) => void;
+  handleEdit: (id: number) => void;
 }
 
 const CasualLeaveRequestssTable = ({
@@ -33,6 +34,7 @@ const CasualLeaveRequestssTable = ({
   handleAccept,
   handleReject,
   handleDelete,
+  handleEdit,
 }: ITableProps) => {
   const { t } = useTranslation(CASUAL_REQUESTS_NS);
   const { language } = useLanguageStore();
@@ -144,15 +146,24 @@ const CasualLeaveRequestssTable = ({
                     </HasPermission>
                     {casualLeaveRequest.status ==
                       RequestStatusType.Accepted && (
-                      <Tooltip content={t("table.buttons.toolTipDelete")}>
-                        <Button
-                          variant="error"
-                          fullWidth={false}
-                          size={"sm"}
-                          icon={<Trash className="w-full h-full" />}
-                          onClick={() => handleDelete(casualLeaveRequest.id)}
+                        <>
+                        <Tooltip content={t("table.buttons.toolTipDelete")}>
+                          <Button
+                            variant="error"
+                            fullWidth={false}
+                            size={"sm"}
+                            icon={<Trash className="w-full h-full" />}
+                            onClick={() => handleDelete(casualLeaveRequest.id)}
+                          />
+                        </Tooltip>
+                          <Button
+                            variant="info"
+                            fullWidth={false}
+                            size={"sm"}
+                            icon={<FilePenLine className="w-full h-full" />}
+                            onClick={() => handleEdit(casualLeaveRequest.id)}
                         />
-                      </Tooltip>
+                        </>
                     )}
                   </div>
                 </TableCell>

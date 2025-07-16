@@ -30,6 +30,7 @@ import RejectPopup from "./views/RejectPop";
 import DeletePopup from "../requests/views/DeletePopup";
 import { ISoftDeleteRequestCredentials } from "../../../interfaces/request.interfaces";
 import { useSoftDeleteRequest } from "../../../hooks/request.hook";
+import EditRequestPopup from "../requests/views/EditRequestPopup";
 
 const LeaveRequestsPage = () => {
   const { t } = useTranslation(LEAVE_REQUESTS_NS);
@@ -42,6 +43,8 @@ const LeaveRequestsPage = () => {
   const [isAcceptPopupOpen, setIsAcceptPopupOpen] = useState(false);
   const [isRejectPopupOpen, setIsRejectPopupOpen] = useState(false);
   const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
+  const [isEditOpen, setIsEditOpen] = useState(false);
+
 
   const {
     register: registerDelete,
@@ -76,6 +79,10 @@ const LeaveRequestsPage = () => {
     setSelectedID(id);
     restDelete();
     setIsDeletePopupOpen(true);
+  };
+  const handleEditopupOpen = (id: number) => {
+    setSelectedID(id);
+    setIsEditOpen(true);
   };
 
   const handleDeletePopupClose = () => {
@@ -183,6 +190,7 @@ const LeaveRequestsPage = () => {
             handleAccept={handleAcceptPopupOpen}
             handleReject={handleRejectPopupOpen}
             handleDelete={handleDeletePopupOpen}
+            handleEdit={handleEditopupOpen}
           />
         </div>
 
@@ -242,6 +250,11 @@ const LeaveRequestsPage = () => {
         isOpen={isDeletePopupOpen}
         handleClose={handleDeletePopupClose}
         errors={deleteErrors}
+      />
+      <EditRequestPopup
+        isOpen={isEditOpen}
+        handleClose={() => { setIsEditOpen(false) }}
+        requestId={selectedID}
       />
     </div>
   );

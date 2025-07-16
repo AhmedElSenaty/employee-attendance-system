@@ -1,4 +1,4 @@
-import { Eye, X, Check, Trash } from "lucide-react";
+import { Eye, X, Check, Trash, FilePenLine } from "lucide-react";
 import {
   Button,
   NoDataMessage,
@@ -24,6 +24,7 @@ interface ITableProps {
   handleAccept: (id: number) => void;
   handleReject: (id: number) => void;
   handleDelete: (id: number) => void;
+  handleEdit: (id: number) => void;
 }
 
 const SickRequestsTable = ({
@@ -33,6 +34,7 @@ const SickRequestsTable = ({
   handleAccept,
   handleReject,
   handleDelete,
+  handleEdit,
 }: ITableProps) => {
   const { t } = useTranslation(SICK_REQUESTS_NS);
   const { language } = useLanguageStore();
@@ -160,15 +162,24 @@ const SickRequestsTable = ({
                       )}
                     </HasPermission>
                     {sickRequest.status == RequestStatusType.Accepted && (
-                      <Tooltip content={t("table.buttons.toolTipDelete")}>
+                      <>
+                        <Tooltip content={t("table.buttons.toolTipDelete")}>
+                          <Button
+                            variant="error"
+                            fullWidth={false}
+                            size={"sm"}
+                            icon={<Trash className="w-full h-full" />}
+                            onClick={() => handleDelete(sickRequest.requestId)}
+                          />
+                        </Tooltip>
                         <Button
-                          variant="error"
+                          variant="info"
                           fullWidth={false}
                           size={"sm"}
-                          icon={<Trash className="w-full h-full" />}
-                          onClick={() => handleDelete(sickRequest.requestId)}
+                          icon={<FilePenLine className="w-full h-full" />}
+                          onClick={() => handleEdit(sickRequest.requestId)}
                         />
-                      </Tooltip>
+                      </>
                     )}
                   </div>
                 </TableCell>
