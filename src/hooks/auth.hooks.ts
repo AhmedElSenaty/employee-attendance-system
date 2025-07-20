@@ -1,24 +1,33 @@
-import { useState } from 'react';
-import { AxiosError } from 'axios';
-import { useNavigate } from 'react-router';
-import { SubmitHandler } from 'react-hook-form';
-import { IErrorResponse, ILoggedInUser, ILoginCredentials, ILoginResponse, initialLoginResponse, IResetAccountCredentials } from '../interfaces';
-import { getTranslatedMessage, handleApiError, showToast } from '../utils';
-import { useLanguageStore } from '../store/language.store';
-import { useUserStore } from '../store/user.store';
-import { AuthService, PermissionService } from '../services';
+import { useState } from "react";
+import { AxiosError } from "axios";
+import { useNavigate } from "react-router";
+import { SubmitHandler } from "react-hook-form";
+import {
+  IErrorResponse,
+  ILoggedInUser,
+  ILoginCredentials,
+  ILoginResponse,
+  initialLoginResponse,
+  IResetAccountCredentials,
+} from "../interfaces";
+import { getTranslatedMessage, handleApiError, showToast } from "../utils";
+import { useLanguageStore } from "../store/language.store";
+import { useUserStore } from "../store/user.store";
+import { AuthService, PermissionService } from "../services";
 
-const service = new AuthService()
+const service = new AuthService();
 
 export const useLogin = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [responseData, setResponseData] = useState<ILoginResponse>(initialLoginResponse);
+  const [responseData, setResponseData] =
+    useState<ILoginResponse>(initialLoginResponse);
   const { language } = useLanguageStore();
-  const { setUser } = useUserStore()
+  const { setUser } = useUserStore();
   const navigate = useNavigate();
 
-
-  const onSubmit: SubmitHandler<ILoginCredentials> = async (request: ILoginCredentials) => {
+  const onSubmit: SubmitHandler<ILoginCredentials> = async (
+    request: ILoginCredentials
+  ) => {
     setIsLoading(true);
 
     try {
@@ -27,17 +36,20 @@ export const useLogin = () => {
 
       if (data.status === 200) {
         showToast("success", message);
-      
-        const loggedInUser: ILoggedInUser = service.parseToken(data.data?.token);
+
+        const loggedInUser: ILoggedInUser = service.parseToken(
+          data.data?.token
+        );
         loggedInUser.rememberMe = request.rememberMe;
         const permissionService = new PermissionService(loggedInUser.token);
 
-        const permissions = await permissionService.fetchAuthorizedUserPermissions();
+        const permissions =
+          await permissionService.fetchAuthorizedUserPermissions();
         loggedInUser.permissions = permissions.data?.data?.permission;
         loggedInUser.imageUrl = data.data?.imageUrl;
 
         setUser(loggedInUser);
-      
+
         const target =
           loggedInUser.role == "admin"
             ? "/admin"
@@ -46,10 +58,9 @@ export const useLogin = () => {
             : loggedInUser.role == "employee"
             ? "/employee"
             : "/";
-        
-        location.replace(target)
+
+        location.replace(target);
       }
-      
     } catch (error) {
       const axiosError = error as AxiosError<IErrorResponse>;
       const response = axiosError.response?.data as ILoginResponse;
@@ -69,13 +80,13 @@ export const useLogin = () => {
   return {
     isLoading,
     responseData,
-    onSubmit
+    onSubmit,
   };
 };
 
 export const useResetAccount = () => {
   const navigate = useNavigate();
-    const { language } = useLanguageStore();
+  const { language } = useLanguageStore();
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -100,53 +111,91 @@ export const useResetAccount = () => {
     isLoading,
     onSubmit,
   };
-
 };
-export const useRestPassword=() => {
+export const useRestPassword = () => {
   const [isLoadingReset, setIsLoading] = useState(false);
-   const { language } = useLanguageStore();
-   const onSubmitReset = async(OldEmail:string) => {
-     setIsLoading(true);
-     try {
+  const { language } = useLanguageStore();
+  const onSubmitReset = async (OldEmail: string) => {
+    setIsLoading(true);
+    try {
       const data = await service.resetPassword(OldEmail);
       const message = getTranslatedMessage(data.message ?? "", language);
       if (data.status === 200) {
         showToast("success", message);
-        }
-     } catch (error) {
-      const axiosError = error as AxiosError<IErrorResponse>
+      }
+    } catch (error) {
+      const axiosError = error as AxiosError<IErrorResponse>;
       handleApiError(axiosError, language);
-     }
-     finally{
+    } finally {
       setIsLoading(false);
-     }
     }
-    return{
-     isLoadingReset,
-     onSubmitReset
-    }
-}
-export const useChnagePassword=() => {
+  };
+  return {
+    isLoadingReset,
+    onSubmitReset,
+  };
+};
+
+export const useChnagePassword = () => {
   const [isLoadingConfirm, setIsLoading] = useState(false);
-   const { language } = useLanguageStore();
-   const onSubmitConfirm = async(newPassword:string , confirmPass:string , mail:string | null ) => {
-     setIsLoading(true);
-     try {
-      const data = await service.confirmReset(newPassword,confirmPass,mail);
+  const { language } = useLanguageStore();
+  const onSubmitConfirm = async (
+    newPassword: string,
+    confirmPass: string,
+    mail: string | null
+  ) => {
+    setIsLoading(true);
+    try {
+      const data = await service.confirmReset(newPassword, confirmPass, mail);
       const message = getTranslatedMessage(data.message ?? "", language);
       if (data.status === 200) {
         showToast("success", message);
-        }
-     } catch (error) {
-      const axiosError = error as AxiosError<IErrorResponse>
+      }
+    } catch (error) {
+      const axiosError = error as AxiosError<IErrorResponse>;
       handleApiError(axiosError, language);
-     }
-     finally{
+    } finally {
       setIsLoading(false);
-     }
     }
-    return{
-     isLoadingConfirm,
-     onSubmitConfirm
+  };
+  return {
+    isLoadingConfirm,
+    onSubmitConfirm,
+  };
+};
+
+export const useConfirmChangePassword = () => {
+  const [isLoadingConfirm, setIsLoading] = useState(false);
+  const { language } = useLanguageStore();
+  const navigate = useNavigate();
+  const onSubmitConfirm = async (
+    newPassword: string,
+    confirmPass: string,
+    mail: string | null,
+    otp: string
+  ) => {
+    setIsLoading(true);
+    try {
+      const data = await service.confirmReset(
+        newPassword,
+        confirmPass,
+        mail,
+        otp
+      );
+      const message = getTranslatedMessage(data.message ?? "", language);
+      if (data.status === 200) {
+        showToast("success", message);
+        navigate("/login");
+      }
+    } catch (error) {
+      const axiosError = error as AxiosError<IErrorResponse>;
+      handleApiError(axiosError, language);
+    } finally {
+      setIsLoading(false);
     }
-}
+  };
+  return {
+    isLoadingConfirm,
+    onSubmitConfirm,
+  };
+};

@@ -44,13 +44,13 @@
   "vacations": {
     "loading": "جاري تحميل بيانات الإجازات...",
     "title": "إحصائيات إجازاتي",
-    "availableCasualLeaves": "الإجازات العارضة المتاحة",
-    "availableLeaveRequests": "الاذونات المتاحة",
-    "availableOrdinaryLeaves": "الإجازات الاعتيادية المتاحة",
-    "totalCasualLeaves": "إجمالي الإجازات العارضة",
-    "totalLeaveRequests": "إجمالي الاذونات",
+    "availableCasualLeaves": "الرصيد المتبقي من الإجازة العارضة",
+    "availableLeaveRequests": "الاذونات المستخدمة",
+    "availableOrdinaryLeaves": "الرصيد المتبقي من الإجازة الاعتيادية",
+    "totalCasualLeaves": "إجمالي رصيد الإجازات العارضة",
+    "totalLeaveRequests": "إجمالي الاذونات شهريا",
     "totalMissions": "إجمالي المأمورية",
-    "totalOrdinaryLeaves": "إجمالي الإجازات الاعتيادية المستخدمة",
+    "totalOrdinaryLeaves": "إجمالي رصيد الإجازة الاعتيادية",
     "totalSickLeave": "إجمالي الإجازات المرضية المستخدمة"
   },
   "attendance": {

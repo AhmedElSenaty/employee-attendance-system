@@ -44,14 +44,14 @@
   "vacations": {
     "loading": "Loading vacation data...",
     "title": "My Vacation Stats",
-    "availableCasualLeaves": "Available Casual Leaves",
-    "availableLeaveRequests": "Available Leave Request",
-    "availableOrdinaryLeaves": "Available Ordinary Leaves",
-    "totalCasualLeaves": "Total Casual Leaves Taken",
-    "totalLeaveRequests": "Total  Leave Request  Taken",
+    "availableCasualLeaves": "Remaining Casual Leave Balance",
+    "availableLeaveRequests": "Used Permissions",
+    "availableOrdinaryLeaves": "Remaining Ordinary Leave Balance",
+    "totalCasualLeaves": "Total Casual Leave Balance",
+    "totalLeaveRequests": "Total Monthly Permissions",
     "totalMissions": "Total Missions",
-    "totalOrdinaryLeaves": "Total Ordinary Leaves Taken",
-    "totalSickLeave": "Total Sick Leaves Taken"
+    "totalOrdinaryLeaves": "Total Ordinary Leave Balance",
+    "totalSickLeave": "Total Used Sick Leaves"
   },
   "attendance": {
     "loading": "Loading today's attendance...",

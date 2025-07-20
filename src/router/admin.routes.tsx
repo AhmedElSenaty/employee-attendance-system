@@ -2,16 +2,45 @@ import { Route } from "react-router";
 import { DashboardPage } from "../pages/common/Dashboard";
 import { RootLayout } from "../pages/Layouts";
 import { ProtectedRoute } from "../components/auth";
-import { AddAdminPage, AddEmployeePage, AddManagerPage, AddProfilePage, AdminAccountPage, AttendanceOverviewPage, AttendanceVacationsPage, CalendarPage, EditAdminPage, EditEmployeePage, EditManagerPage, EditProfilePage, LogsPage, ManageAdminsPage, ManageAttendancePage, ManageDepartmentsPage, ManageDevicesPage, ManageEmployeesPage, ManageEntitiesPage, ManageManagersPage, ManageOfficialVacationsPage, ManagePermissionsPage, ManageProfilesPage, ManageSubDepartmentsPage, SystemDataPage } from "../pages/Admin";
+import {
+  AddAdminPage,
+  AddEmployeePage,
+  AddManagerPage,
+  AddProfilePage,
+  AdminAccountPage,
+  AttendanceOverviewPage,
+  AttendanceVacationsPage,
+  CalendarPage,
+  EditAdminPage,
+  EditEmployeePage,
+  EditManagerPage,
+  EditProfilePage,
+  LogsPage,
+  ManageAdminsPage,
+  ManageAttendancePage,
+  ManageDepartmentsPage,
+  ManageDevicesPage,
+  ManageEmployeesPage,
+  ManageEntitiesPage,
+  ManageManagersPage,
+  ManageOfficialVacationsPage,
+  ManagePermissionsPage,
+  ManageProfilesPage,
+  ManageSubDepartmentsPage,
+  SystemDataPage,
+} from "../pages/Admin";
 
 export const adminRoutes = (isLoggedIn: boolean, userRole: string) => (
-  <Route 
+  <Route
     path="/admin/"
     element={
-      <ProtectedRoute isAllowed={isLoggedIn && userRole === "admin"} redirectPath="/">
+      <ProtectedRoute
+        isAllowed={isLoggedIn && userRole === "admin"}
+        redirectPath="/"
+      >
         <RootLayout />
       </ProtectedRoute>
-    } 
+    }
   >
     <Route index element={<DashboardPage />} />
 
@@ -35,14 +64,23 @@ export const adminRoutes = (isLoggedIn: boolean, userRole: string) => (
 
     {/* Attendance Routes */}
     <Route path="manage-attendance" element={<ManageAttendancePage />} />
-    <Route path="manage-attendance/overview/" element={<AttendanceOverviewPage />} />
-    <Route path="manage-attendance/vacations/:type" element={<AttendanceVacationsPage />} />
-    
+    <Route
+      path="manage-attendance/overview/"
+      element={<AttendanceOverviewPage />}
+    />
+    <Route
+      path="manage-attendance/vacations/:type?"
+      element={<AttendanceVacationsPage />}
+    />
+
     {/* Department Routes */}
     <Route path="manage-departments/" element={<ManageDepartmentsPage />} />
-    
+
     {/* Sub-Department Routes */}
-    <Route path="manage-sub-departments/" element={<ManageSubDepartmentsPage />} />
+    <Route
+      path="manage-sub-departments/"
+      element={<ManageSubDepartmentsPage />}
+    />
 
     {/* Device Routes */}
     <Route path="manage-devices/" element={<ManageDevicesPage />} />
@@ -54,7 +92,10 @@ export const adminRoutes = (isLoggedIn: boolean, userRole: string) => (
     <Route path="permissions/" element={<ManagePermissionsPage />} />
 
     {/* Official Vacation Routes */}
-    <Route path="manage-official-vacation/" element={<ManageOfficialVacationsPage />} />
+    <Route
+      path="manage-official-vacation/"
+      element={<ManageOfficialVacationsPage />}
+    />
 
     {/* Profile Routes */}
     <Route path="manage-profiles/" element={<ManageProfilesPage />} />

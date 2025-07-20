@@ -82,24 +82,24 @@
   },
   "inputs": {
     "totalOrdinaryLeaves": {
-      "label": "Total Ordinary Leaves",
-      "placeholder": "Enter total number of ordinary leaves",
+      "label": "Total Ordinary Leave Balance",
+      "placeholder": "Enter Total Ordinary Leave Balance",
       "inputValidation": {
-        "required": "Total ordinary leaves is required"
+        "required": "Total Ordinary Leave Balance is required"
       }
     },
     "totalCasualLeaves": {
-      "label": "Total Casual Leaves",
-      "placeholder": "Enter total number of casual leaves",
+      "label": "Total Casual Leave Balance",
+      "placeholder": "Enter total number of Casual Leave Balance",
       "inputValidation": {
-        "required": "Total casual leaves is required"
+        "required": "Total Casual Leave Balance is required"
       }
     },
     "totalLeaveRequests": {
-      "label": "Total Leave Requests",
-      "placeholder": "Enter total number of leave requests",
+      "label": "Total Monthly Permissions",
+      "placeholder": "Enter Total Monthly Permissions",
       "inputValidation": {
-        "required": "Total leave requests is required"
+        "required": "Total Monthly Permissionsis required"
       }
     },
     "username": {
@@ -193,24 +193,24 @@
       }
     },
     "avilableLeaveRequestsPerMonth": {
-      "label": "Available Monthly Leave Requests",
-      "placeholder": "Enter number of monthly leave requests",
+      "label": "Used Permissions",
+      "placeholder": "Enter number of Used Permissions",
       "inputValidation": {
-        "required": "Available leave requests per month is required"
+        "required": "Used Permissions per month is required"
       }
     },
     "avilableOrdinaryLeaveeRequestsPerYear": {
-      "label": "Available Ordinary Leaves Per Year",
-      "placeholder": "Enter number of ordinary leaves per year",
+      "label": "Remaining Ordinary Leave Balance Per Year",
+      "placeholder": "Enter number of Remaining Ordinary Leave Balance per year",
       "inputValidation": {
-        "required": "Available ordinary leave requests per year is required"
+        "required": "Remaining Ordinary Leave Balance per year is required"
       }
     },
     "avilableCasualLeaveeRequestsPerYear": {
-      "label": "Available Casual Leaves Per Year",
-      "placeholder": "Enter number of casual leaves per year",
+      "label": "Remaining Casual Leave Balance Per Year",
+      "placeholder": "Enter number of Remaining Casual Leave Balance per year",
       "inputValidation": {
-        "required": "Available casual leave requests per year is required"
+        "required": "Remaining Casual Leave Balance per year is required"
       }
     }
   },
@@ -319,8 +319,7 @@
     "calenderToolTip": "Calender",
     "deleteToolTip": "Delete",
     "editToolTip": "Edit",
-    "edit":"Edit"
-    
+    "edit": "Edit"
   },
   "importActionCard": {
     "title": "Import Data",

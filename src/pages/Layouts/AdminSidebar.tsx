@@ -58,7 +58,7 @@ export const AdminSidebar = () => {
         <SidebarDropdown icon={<CalendarCog size={23} />} name={t("attendance")}>
           <SidebarItem icon={<CalendarSearch size={23} />} name={t("attendanceDetails")} to="/admin/manage-attendance" />
           <SidebarItem icon={<Calendar size={23} />} name={t("attendanceSummary")} to="/admin/manage-attendance/overview" />
-          <SidebarItem icon={<TicketsPlane size={23} />} name={t("attendanceVacation")} to="/admin/manage-attendance/vacations" />
+          <SidebarItem icon={<TicketsPlane size={23} />} name={t("attendanceVacation")} to="/admin/manage-attendance/vacations/" />
         </SidebarDropdown>
       )}
 

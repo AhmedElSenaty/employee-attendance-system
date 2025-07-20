@@ -5,8 +5,8 @@
   },
   "form": {
     "email": {
- "label": "Email",
-       "placeholder": "Enter your email",
+      "label": "Email",
+      "placeholder": "Enter your email",
       "inputValidation": {
         "required": "Email is required"
       }
@@ -33,31 +33,33 @@
     "accountBlocked": "Account Blocked",
     "attemptsRemaining": "Attempts Remaining"
   },
-  "Forget":"Forget Password?",
-  "Cancel":"Cancel",
-  "Submit":"Submit",
-  "Reset":{
+  "Forget": "Forget Password?",
+  "Cancel": "Cancel",
+  "Submit": "Submit",
+  "Reset": {
     "header": {
-    "heading": "Welcome Back!",
-    "subtitle": "Please enter The new password you want to reset and confirm it"
-  },
-  "form":{
-    "password":"New Password",
-    "Confirm_Pass":"Confirm Password",
-    "label":{
-      "Password":"Enter Your Passowrd",
-      "Confirm":"Re-enter Your Password"
+      "heading": "Welcome Back!",
+      "subtitle": "Please enter The new password you want to reset and confirm it"
     },
-    "validation":{
-      "newPassword":{
-        "required":"New password is required",
-        "Not_match":"Confirm Password must match New Password"
+    "form": {
+      "password": "New Password",
+      "Confirm_Pass": "Confirm Password",
+      "otp": "OTP Code",
+      "label": {
+        "otp": "Enter the OTP code",
+        "Password": "Enter Your Passowrd",
+        "Confirm": "Re-enter Your Password"
       },
-      "Confirm":{
-        "required":"Confirm password is required",
-        "Not_match":"Confirm Password must match New Password"
+      "validation": {
+        "newPassword": {
+          "required": "New password is required",
+          "Not_match": "Confirm Password must match New Password"
+        },
+        "Confirm": {
+          "required": "Confirm password is required",
+          "Not_match": "Confirm Password must match New Password"
+        }
       }
     }
   }
-}
 }

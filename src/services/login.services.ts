@@ -51,13 +51,15 @@ export class AuthService {
   confirmReset = async (
     newPassword: string,
     confirmPass: string,
-    mail: string | null
+    mail: string | null,
+    Otp: string
   ) => {
     try {
       const res = await axiosInstance.post("Account/ConfirmForgotPassword", {
         email: mail,
         newPassword: newPassword,
         confirmPassword: confirmPass,
+        Otp: Otp,
       });
       return res.data;
     } catch (error) {

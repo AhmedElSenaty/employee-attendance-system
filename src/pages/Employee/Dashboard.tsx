@@ -177,6 +177,15 @@ const Dashboard = () => {
                 {language === "ar" ? day.dayArabicName : day.dayEnglishName}
               </span>
             ))}
+
+            <div>
+              <h4 className="text-sm font-semibold text-gray-800 mb-1">
+                ساعات العمل
+              </h4>
+              <p className="text-sm text-gray-700">
+                من الساعة 8:00 صباحًا إلى الساعة 2:00 مساءً
+              </p>
+            </div>
           </div>
         </div>
       )}
@@ -189,32 +198,37 @@ const Dashboard = () => {
             <p className="font-semibold mb-2">{t("vacations.title")}</p>
             <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 list-disc list-inside text-base text-blue-800">
               <li>
-                {t("vacations.availableCasualLeaves")}:{" "}
-                {myVacations.availableCasualLeaves}
+                {t("vacations.totalCasualLeaves")}:{" "}
+                {myVacations.totalCasualLeaves}
               </li>
               <li>
                 {t("vacations.availableLeaveRequests")}:{" "}
                 {myVacations.availableLeaveRequests}
               </li>
+
+              <li>
+                {t("vacations.totalOrdinaryLeaves")}:{" "}
+                {myVacations.totalOrdinaryLeaves}
+              </li>
+
+              <li>
+                {t("vacations.availableCasualLeaves")}:{" "}
+                {myVacations.availableCasualLeaves}
+              </li>
+
+              <li>
+                {t("vacations.totalLeaveRequests")}:{" "}
+                {myVacations.totalLeaveRequests}
+              </li>
+
               <li>
                 {t("vacations.availableOrdinaryLeaves")}:{" "}
                 {myVacations.availableOrdinaryLeaves}
               </li>
               <li>
-                {t("vacations.totalCasualLeaves")}:{" "}
-                {myVacations.totalCasualLeaves}
-              </li>
-              <li>
-                {t("vacations.totalLeaveRequests")}:{" "}
-                {myVacations.totalLeaveRequests}
-              </li>
-              <li>
                 {t("vacations.totalMissions")}: {myVacations.totalMissions}
               </li>
-              <li>
-                {t("vacations.totalOrdinaryLeaves")}:{" "}
-                {myVacations.totalOrdinaryLeaves}
-              </li>
+
               <li>
                 {t("vacations.totalSickLeave")}: {myVacations.totalSickLeave}
               </li>

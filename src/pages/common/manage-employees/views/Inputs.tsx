@@ -18,14 +18,8 @@ interface Props {
   isLoading?: boolean;
 }
 
-const Inputs = ({
-  register,
-  errors,
-  isUpdateEmployee,
-  isLoading,
-}: Props) => {
+const Inputs = ({ register, errors, isUpdateEmployee, isLoading }: Props) => {
   const { t } = useTranslation([EMPLOYEE_NS]);
-
 
   if (isLoading) {
     return (
@@ -117,7 +111,9 @@ const Inputs = ({
         />
         {errors["phoneNumber"] && (
           <InputErrorMessage>
-            {t(`inputs.phoneNumber.inputValidation.${errors["phoneNumber"].type}`)}
+            {t(
+              `inputs.phoneNumber.inputValidation.${errors["phoneNumber"].type}`
+            )}
           </InputErrorMessage>
         )}
       </Field>
@@ -132,97 +128,12 @@ const Inputs = ({
         />
         {errors["hiringDate"] && (
           <InputErrorMessage>
-            {t(`inputs.hiringDate.inputValidation.${errors["hiringDate"].type}`)}
+            {t(
+              `inputs.hiringDate.inputValidation.${errors["hiringDate"].type}`
+            )}
           </InputErrorMessage>
         )}
       </Field>
-
-      {/* Available Leave Requests Per Month */}
-        <Field className="space-y-2">
-          <Label size="lg">{t("inputs.avilableLeaveRequestsPerMonth.label")}</Label>
-          <Input
-            placeholder={t("inputs.avilableLeaveRequestsPerMonth.placeholder")}
-            type="number"
-            {...register("avilableLeaveRequestsPerMonth")}
-            isError={!!errors["avilableLeaveRequestsPerMonth"]}
-          />
-          {errors["avilableLeaveRequestsPerMonth"] && (
-            <InputErrorMessage>
-              {t(`inputs.avilableLeaveRequestsPerMonth.inputValidation.${errors["avilableLeaveRequestsPerMonth"].type}`)}
-            </InputErrorMessage>
-          )}
-        </Field>
-
-      {/* Available Ordinary Leaves Per Year */}
-        <Field className="space-y-2">
-          <Label size="lg">{t("inputs.avilableOrdinaryLeaveeRequestsPerYear.label")}</Label>
-          <Input
-            placeholder={t("inputs.avilableOrdinaryLeaveeRequestsPerYear.placeholder")}
-            type="number"
-            {...register("avilableOrdinaryLeaveeRequestsPerYear")}
-            isError={!!errors["avilableOrdinaryLeaveeRequestsPerYear"]}
-          />
-          {errors["avilableOrdinaryLeaveeRequestsPerYear"] && (
-            <InputErrorMessage>
-              {t(
-                `inputs.avilableOrdinaryLeaveeRequestsPerYear.inputValidation.${errors["avilableOrdinaryLeaveeRequestsPerYear"].type}`)}
-            </InputErrorMessage>
-          )}
-        </Field>
-
-      {/* Available Casual Leaves Per Year */}
-        <Field className="space-y-2">
-          <Label size="lg">{t("inputs.avilableCasualLeaveeRequestsPerYear.label")}</Label>
-          <Input
-            placeholder={t("inputs.avilableCasualLeaveeRequestsPerYear.placeholder")}
-            type="number"
-            {...register("avilableCasualLeaveeRequestsPerYear")}
-            isError={!!errors["avilableCasualLeaveeRequestsPerYear"]}
-          />
-          {errors["avilableCasualLeaveeRequestsPerYear"] && (
-            <InputErrorMessage>
-              {t(
-                `inputs.avilableCasualLeaveeRequestsPerYear.inputValidation.${errors["avilableCasualLeaveeRequestsPerYear"].type}`
-              )}
-            </InputErrorMessage>
-          )}
-        </Field>
-
-      {/* Total Ordinary Leaves */}
-      {isUpdateEmployee && (
-        <Field className="space-y-2">
-          <Label size="lg">{t("inputs.totalOrdinaryLeaves.label")}</Label>
-          <Input
-            placeholder={t("inputs.totalOrdinaryLeaves.placeholder")}
-            type="number"
-            {...register("totalOrdinaryLeaves")}
-            isError={!!errors["totalOrdinaryLeaves"]}
-          />
-          {errors["totalOrdinaryLeaves"] && (
-            <InputErrorMessage>
-              {t(`inputs.totalOrdinaryLeaves.inputValidation.${errors["totalOrdinaryLeaves"].type}`)}
-            </InputErrorMessage>
-          )}
-        </Field>
-      )}
-
-      {/* Total Casual Leaves */}
-      {isUpdateEmployee && (
-        <Field className="space-y-2">
-          <Label size="lg">{t("inputs.totalCasualLeaves.label")}</Label>
-          <Input
-            placeholder={t("inputs.totalCasualLeaves.placeholder")}
-            type="number"
-            {...register("totalCasualLeaves")}
-            isError={!!errors["totalCasualLeaves"]}
-          />
-          {errors["totalCasualLeaves"] && (
-            <InputErrorMessage>
-              {t(`inputs.totalCasualLeaves.inputValidation.${errors["totalCasualLeaves"].type}`)}
-            </InputErrorMessage>
-          )}
-        </Field>
-      )}
 
       {/* Total Leave Requests */}
       {isUpdateEmployee && (
@@ -236,12 +147,117 @@ const Inputs = ({
           />
           {errors["totalLeaveRequests"] && (
             <InputErrorMessage>
-              {t(`inputs.totalLeaveRequests.inputValidation.${errors["totalLeaveRequests"].type}`)}
+              {t(
+                `inputs.totalLeaveRequests.inputValidation.${errors["totalLeaveRequests"].type}`
+              )}
             </InputErrorMessage>
           )}
         </Field>
       )}
 
+      {/* Available Leave Requests Per Month */}
+      <Field className="space-y-2">
+        <Label size="lg">
+          {t("inputs.avilableLeaveRequestsPerMonth.label")}
+        </Label>
+        <Input
+          placeholder={t("inputs.avilableLeaveRequestsPerMonth.placeholder")}
+          type="number"
+          {...register("avilableLeaveRequestsPerMonth")}
+          isError={!!errors["avilableLeaveRequestsPerMonth"]}
+        />
+        {errors["avilableLeaveRequestsPerMonth"] && (
+          <InputErrorMessage>
+            {t(
+              `inputs.avilableLeaveRequestsPerMonth.inputValidation.${errors["avilableLeaveRequestsPerMonth"].type}`
+            )}
+          </InputErrorMessage>
+        )}
+      </Field>
+
+      {/* Total Ordinary Leaves */}
+      {isUpdateEmployee && (
+        <Field className="space-y-2">
+          <Label size="lg">{t("inputs.totalOrdinaryLeaves.label")}</Label>
+          <Input
+            placeholder={t("inputs.totalOrdinaryLeaves.placeholder")}
+            type="number"
+            {...register("totalOrdinaryLeaves")}
+            isError={!!errors["totalOrdinaryLeaves"]}
+          />
+          {errors["totalOrdinaryLeaves"] && (
+            <InputErrorMessage>
+              {t(
+                `inputs.totalOrdinaryLeaves.inputValidation.${errors["totalOrdinaryLeaves"].type}`
+              )}
+            </InputErrorMessage>
+          )}
+        </Field>
+      )}
+
+      {/* Available Ordinary Leaves Per Year */}
+      <Field className="space-y-2">
+        <Label size="lg">
+          {t("inputs.avilableOrdinaryLeaveeRequestsPerYear.label")}
+        </Label>
+        <Input
+          placeholder={t(
+            "inputs.avilableOrdinaryLeaveeRequestsPerYear.placeholder"
+          )}
+          type="number"
+          {...register("avilableOrdinaryLeaveeRequestsPerYear")}
+          isError={!!errors["avilableOrdinaryLeaveeRequestsPerYear"]}
+        />
+        {errors["avilableOrdinaryLeaveeRequestsPerYear"] && (
+          <InputErrorMessage>
+            {t(
+              `inputs.avilableOrdinaryLeaveeRequestsPerYear.inputValidation.${errors["avilableOrdinaryLeaveeRequestsPerYear"].type}`
+            )}
+          </InputErrorMessage>
+        )}
+      </Field>
+
+      {/* Total Casual Leaves */}
+      {isUpdateEmployee && (
+        <Field className="space-y-2">
+          <Label size="lg">{t("inputs.totalCasualLeaves.label")}</Label>
+          <Input
+            placeholder={t("inputs.totalCasualLeaves.placeholder")}
+            type="number"
+            {...register("totalCasualLeaves")}
+            isError={!!errors["totalCasualLeaves"]}
+          />
+          {errors["totalCasualLeaves"] && (
+            <InputErrorMessage>
+              {t(
+                `inputs.totalCasualLeaves.inputValidation.${errors["totalCasualLeaves"].type}`
+              )}
+            </InputErrorMessage>
+          )}
+        </Field>
+      )}
+
+      {/* Available Casual Leaves Per Year */}
+      <Field className="space-y-2">
+        <Label size="lg">
+          {t("inputs.avilableCasualLeaveeRequestsPerYear.label")}
+        </Label>
+        <Input
+          placeholder={t(
+            "inputs.avilableCasualLeaveeRequestsPerYear.placeholder"
+          )}
+          type="number"
+          {...register("avilableCasualLeaveeRequestsPerYear")}
+          isError={!!errors["avilableCasualLeaveeRequestsPerYear"]}
+        />
+        {errors["avilableCasualLeaveeRequestsPerYear"] && (
+          <InputErrorMessage>
+            {t(
+              `inputs.avilableCasualLeaveeRequestsPerYear.inputValidation.${errors["avilableCasualLeaveeRequestsPerYear"].type}`
+            )}
+          </InputErrorMessage>
+        )}
+      </Field>
     </>
   );
 };
