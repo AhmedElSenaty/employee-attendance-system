@@ -37,6 +37,7 @@
   "sickRequests": "طلبات مرضية",
   "leaveAttendance": "الاذونات والمواعيد",
   "addRequest":"اضافة طلب قديم",
-  "allRequests":"جميع الطلبات"
+  "allRequests":"جميع الطلبات",
+  "genaricRequests":"الطلبات العامة"
 
 }

@@ -6,6 +6,7 @@ import {
   Clock,
   Thermometer,
   Briefcase,
+  Home,
 } from "lucide-react";
 import { StatCard } from "../../components/ui/StatCard";
 import { Header } from "../../components/ui/Header";
@@ -159,6 +160,18 @@ const Dashboard = () => {
             iconColor="text-white"
             iconBg="bg-purple-600"
             cardBg="bg-purple-50"
+          />
+        </NavLink>
+
+        <NavLink to="/employee/home-visit-requests">
+          <StatCard
+            icon={<Home />} // تأكد من استيراد الأيقونة المناسبة
+            amount={t("homeVisit.amount")}
+            description={t("homeVisit.description")}
+            note={t("homeVisit.note")}
+            iconColor="text-white"
+            iconBg="bg-green-600"
+            cardBg="bg-green-50"
           />
         </NavLink>
       </div>
