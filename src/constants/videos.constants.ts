@@ -31,3 +31,6 @@ export const CASUAL_REQUESTS_EMPLOYEE_VIDEO ="https://www.youtube.com/embed/JxAq
 
 export const SICK_REQUESTS_MANAGER_VIDEO = "https://www.youtube.com/embed/dQw4w9WgXcQ"
 export const SICK_REQUESTS_EMPLOYEE_VIDEO = "https://www.youtube.com/embed/dQw4w9WgXcQ"
+
+export const HOME_VISIT_REQUESTS_MANAGER_VIDEO = "https://www.youtube.com/embed/dQw4w9WgXcQ"
+export const HOME_VISIT_REQUESTS_EMPLOYEE_VIDEO = "https://www.youtube.com/embed/dQw4w9WgXcQ"

@@ -25,3 +25,4 @@ export const CALENDER_NS = "calenderPage"
 export const EMPLOYEE_NS = "employeePages"
 export const ADMIN_NS = "adminPages"
 export const ADMIN_ACCOUNT_PAGE = "adminAccount";
+export const HOME_VISIT_REQUESTS_NS = "homeVisit";

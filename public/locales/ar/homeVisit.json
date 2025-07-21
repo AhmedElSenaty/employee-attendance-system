@@ -1,0 +1,186 @@
+{
+  "employeeHeader": {
+    "heading": "طلبات الزيارة المنزلية",
+    "subtitle": "هنا يمكنك تقديم طلب زيارة منزلية أو متابعة الطلبات السابقة"
+  },
+  "addActionCard": {
+    "title": "طلب إذن زيارة منزلية",
+    "description": "يمكنك تقديم طلب زيارة منزلية ليتم مراجعته من قبل المدير.",
+    "button": "تقديم طلب جديد"
+  },
+  "assignActionCard": {
+    "title": "إسناد طلب زيارة منزلية",
+    "description": "يمكنك إسناد طلب زيارة منزلية إلى أحد الموظفين ليقوم بتنفيذه.",
+    "button": "إسناد طلب جديد"
+  },
+  "employeeSectionHeader": {
+    "title": "قائمة طلبات الزيارة المنزلية",
+    "description": "فيما يلي جميع الطلبات التي قمت بتقديمها للزيارة المنزلية."
+  },
+  "filters": {
+    "pageSize": "عدد العناصر في الصفحة",
+    "startDate": "تاريخ البدء",
+    "endDate": "تاريخ الانتهاء",
+    "defaultRequestStatusOption": "اختر حالة الطلب",
+    "toolTipResetFilters": "إعادة تعيين الكل",
+    "searchBy": {
+      "label": "البحث بواسطة",
+      "default": "اختر طريقة البحث",
+      "SearchByFullName": "الاسم الكامل",
+      "SearchBySSN": "الرقم القومي",
+      "SearchByEmployeeId": "رقم الموظف"
+    },
+    "search": {
+      "label": "بحث",
+      "placeholder": "أدخل القيمة التي تريد البحث عنها..."
+    }
+  },
+  "homeVisitCard": {
+    "date": "تبدأ الزيارة المنزلية في {{start}} وتنتهي في {{end}}.",
+    "requestedAt": "تم الطلب في",
+    "toolTipViewButton": "عرض تفاصيل الطلب",
+    "toolTipEditButton": "تعديل الطلب",
+    "toolTipChangeButton": "تحويله الي طلب مرضي"
+  },
+  "showPopup": {
+    "title": "تفاصيل طلب الزيارة المنزلية",
+    "description": "قم بمراجعة تفاصيل هذا الطلب.",
+    "fields": {
+      "id": "رقم الطلب",
+      "employeeId": "#رقم الموظف",
+      "employeeName": "اسم الموظف",
+      "startDate": "تاريخ البدء",
+      "endDate": "تاريخ الانتهاء",
+      "requestedAt": "تم الطلب في",
+      "status": "الحالة",
+      "description": "الوصف",
+      "comment": "ملاحظة"
+    },
+    "buttons": {
+      "edit": "تعديل",
+      "close": "إغلاق"
+    }
+  },
+  "addPopup": {
+    "title": "إضافة طلب زيارة منزلية",
+    "description": "قم بتعبئة البيانات التالية لتقديم طلب إذن.",
+    "buttons": {
+      "add": "إضافة",
+      "close": "إغلاق"
+    }
+  },
+  "assignPopup": {
+    "title": "إسناد طلب زيارة منزلية",
+    "description": "قم بتعبئة البيانات التالية لإسناد طلب الزيارة المنزلية إلى موظف.",
+    "buttons": {
+      "assign": "إسناد",
+      "close": "إغلاق"
+    }
+  },
+  "editPopup": {
+    "title": "تعديل طلب زيارة منزلية",
+    "description": "يمكنك تعديل بيانات الطلب الحالي أدناه.",
+    "buttons": {
+      "edit": "تعديل",
+      "close": "إغلاق"
+    }
+  },
+  "changeToSickPopup": {
+    "title": "تحويل طلب زيارة منزلية إلى طلب مرضي",
+    "description": "يرجى تعبئة البيانات المطلوبة لتحويل الطلب إلى طلب مرضي.",
+    "buttons": {
+      "change": "تحويل",
+      "close": "إغلاق"
+    }
+  },
+  "inputs": {
+    "employeeId": {
+      "label": "الموظف",
+      "placeholder": "اختر الموظف",
+      "defaultValue": "اختر الموظف",
+      "inputValidation": {
+        "required": "اختيار الموظف مطلوب",
+        "typeError": "اختيار الموظف مطلوب"
+      }
+    },
+    "medicalReport": {
+      "label": "التقرير الطبي",
+      "description": "الصيغ المقبولة: PDF, JPG, PNG, WEBP. يرجى رفع تقرير طبي واضح وصالح.",
+      "inputValidation": {
+        "required": "رفع التقرير الطبي مطلوب",
+        "fileType": "مسموح فقط برفع ملفات PDF أو صور"
+      }
+    },
+    "permitApproval": {
+      "label": "موافقة التصريح",
+      "placeholder": "أدخل تفاصيل موافقة التصريح.",
+      "inputValidation": {
+        "max": "لا يمكن أن تتجاوز التفاصيل 500 حرف",
+        "required": "موافقة التصريح مطلوبة"
+      }
+    },
+    "startDate": {
+      "label": "تاريخ البدء",
+      "validation": {
+        "matches": "يجب أن يكون التاريخ بالتنسيق سنة-شهر-يوم",
+        "required": "تاريخ البدء مطلوب"
+      }
+    },
+    "numberOfDays": {
+      "label": "عدد الأيام",
+      "placeholder": "أدخل عدد الأيام",
+      "inputValidation": {
+        "required": "عدد الأيام مطلوب",
+        "typeError": "عدد الأيام مطلوب",
+        "min": "يجب أن لا يقل عدد الأيام عن 1"
+      }
+    },
+    "description": {
+      "label": "سبب طلب الإذن",
+      "placeholder": "أدخل سبب طلب الإذن",
+      "validation": {
+        "max": "لا يمكن أن يتجاوز سبب طلب الإذن 500 حرف",
+        "required": "سبب طلب الإذن مطلوب"
+      }
+    },
+    "comment": {
+      "label": "تعليق",
+      "placeholder": "اذكر تعليقًا عن سبب الرفض.."
+    }
+  },
+  "status": {
+    "0": "قيد الانتظار",
+    "1": "مقبول",
+    "2": "مرفوض",
+    "3": "تم تجاهله",
+    "4": "تم التعيين يدويًا",
+    "5": "تم الحذف"
+  },
+  "table": {
+    "emptyTable": {
+      "title": "لا توجد طلبات",
+      "message": "لم تقم بتقديم أي طلبات حتى الآن."
+    },
+    "columns": {
+      "id": "#",
+      "employeeName": "اسم الموظف",
+      "startDate": "تاريخ البداية",
+      "endDate": "تاريخ النهاية",
+      "numberOfDays": "عدد الأيام",
+      "requestedAt": "تاريخ الطلب",
+      "status": "الحالة",
+      "actions": "إجراءات"
+    },
+    "buttons": {
+      "toolTipShow": "عرض تفاصيل الطلب",
+      "toolTipEdit": "تعديل الطلب",
+      "toolTipChange": "تحويله الي طلب مرضي",
+      "toolTipDelete": "حذف الطلب"
+    }
+  },
+  "infoPopup": {
+    "title": "معلومة",
+    "description": "هذه النافذة تعرض لك تفاصيل الطلب المحدد.",
+    "closeButton": "إغلاق"
+  }
+}

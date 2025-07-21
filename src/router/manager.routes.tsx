@@ -6,6 +6,7 @@ import ManagerAccountPage from "../pages/Manager/Account";
 import { RequestsPage, OrdinaryRequestsPage, AttendanceOverviewPage, AttendanceVacationsPage, ManageAttendancePage, CalendarPage, MissionRequestsPage, CasualLeaveRequestsPage, SickLRequestsPage, LeaveRequestsPage, LeaveRequestsWithAttendance, MissionRequestsWithAttendance, ManageSubDepartmentsPage, ManageEmployeesPage, AddEmployeePage, EditEmployeePage, ManageManagersPage, AddManagerPage, EditManagerPage } from "../pages/Manager";
 import AllRequestsPage from "../pages/Manager/requests/AllRequests";
 import GenaricRequestsPage from "../pages/Manager/requests/GenaricRequests";
+import HomeVisitRequestsPage from "../pages/Manager/home-visit-requests";
 
 export const managerRoutes = (isLoggedIn: boolean, userRole: string) => (
   <Route 
@@ -52,5 +53,6 @@ export const managerRoutes = (isLoggedIn: boolean, userRole: string) => (
     <Route path="pending-requests" element={<RequestsPage />} />
     <Route path="all-requests" element={<AllRequestsPage />} />
     <Route path="genaric-requests" element={<GenaricRequestsPage />} />
+    <Route path="home-visit-requests" element={<HomeVisitRequestsPage />} />
   </Route>
 );

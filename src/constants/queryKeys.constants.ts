@@ -1,4 +1,10 @@
 export const QueryKeys = {
+  HomeVisits: {
+    All: "home-visits-all",               // All requests (manager)
+    My: "home-visits-my",                 // My requests (employee)
+    Details: "home-visit-details",        // Specific request (manager)
+    MyDetails: "home-visit-my-details",   // Specific request (employee)
+  },
   Devices: {
     All: "devices",
     Details: "deviceDetails",
