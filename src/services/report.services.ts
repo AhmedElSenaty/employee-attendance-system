@@ -248,4 +248,84 @@ export class ReportsService extends BaseService {
       throw error;
     }
   };
+  fetchEmployeeRequestsSummaryReport = async (
+    searchType?: string,
+    searchQuery?: string,
+    startDate?: string,
+    endDate?: string,
+    status?: string,
+    type?: string,
+    checked?: boolean,
+    searchByDeptartmentId?: number,
+    searchBySubDeptartmentId?: number
+  ) => {
+    try {
+      const params = this.buildParams({
+        StartDate: startDate,
+        EndDate: endDate,
+        Status: status,
+        Type: type,
+        IncludeSubDepartments: checked,
+        SearchByDeptartmentId:
+          searchByDeptartmentId === 0 ? "" : searchByDeptartmentId,
+        SearchBySubDeptartmentId:
+          searchBySubDeptartmentId === 0 ? "" : searchBySubDeptartmentId,
+        ...(searchType && searchQuery ? { [searchType]: searchQuery } : {}),
+      });
+
+      const response = await axiosInstance.get(
+        `/Reports/EmployeeRequestsSummaryReport/Excel`,
+        {
+          params,
+          headers: this.getAuthHeaders(),
+        }
+      );
+
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching employee attendance report:", error);
+      throw error;
+    }
+  };
+  fetchEmployeeRequestsSummaryReportPDF = async (
+    searchType?: string,
+    searchQuery?: string,
+    startDate?: string,
+    endDate?: string,
+    status?: string,
+    type?: string,
+    checked?: boolean,
+    searchByDeptartmentId?: number,
+    searchBySubDeptartmentId?: number
+  ) => {
+    try {
+      const params = this.buildParams({
+        StartDate: startDate,
+        EndDate: endDate,
+        Status: status,
+        Type: type,
+        IncludeSubDepartments: checked,
+        SearchByDeptartmentId:
+          searchByDeptartmentId === 0 ? "" : searchByDeptartmentId,
+        SearchBySubDeptartmentId:
+          searchBySubDeptartmentId === 0 ? "" : searchBySubDeptartmentId,
+        ...(searchType && searchQuery ? { [searchType]: searchQuery } : {}),
+      });
+
+
+      console.log(params);
+      const response = await axiosInstance.get(
+        `/Reports/EmployeeRequestsSummaryReport/PDF`,
+        {
+          params,
+          headers: this.getAuthHeaders(),
+        }
+      );
+
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching employee attendance report:", error);
+      throw error;
+    }
+  };
 }
