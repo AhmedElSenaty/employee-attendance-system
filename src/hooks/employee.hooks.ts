@@ -1,5 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { EmployeeWorkingHours, IErrorResponse, initialMetadata } from "../interfaces";
+import {
+  EmployeeWorkingHours,
+  IErrorResponse,
+  initialMetadata,
+} from "../interfaces";
 import { getTranslatedMessage, handleApiError, showToast } from "../utils";
 import { AxiosError } from "axios";
 import { useEffect, useMemo } from "react";
@@ -29,7 +33,7 @@ export const useGetAllEmployees = (
   const token = useUserStore((state) => state.token);
   const employeeService = useEmployeeService();
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, refetch } = useQuery({
     queryKey: [
       QueryKeys.Employees.All,
       page,
@@ -45,6 +49,7 @@ export const useGetAllEmployees = (
     employees: data?.data?.data?.employees || [],
     metadata: data?.data?.data?.metadata || initialMetadata,
     isLoading,
+    refetch, // ✅ expose this
   };
 };
 
@@ -267,15 +272,35 @@ export const useResetEmployeePassword = () => {
   });
 };
 
+export const useToggleSupervision = () => {
+  const { language } = useLanguageStore();
+  const employeeService = useEmployeeService();
+
+  return useMutation({
+    mutationFn: (employeeID: string) =>
+      employeeService.toggleSupervisionStatus(employeeID),
+    onSuccess: ({ status, data }) => {
+      if (status === 200) {
+        const message = getTranslatedMessage(data.message ?? "", language);
+        showToast("success", message);
+      }
+    },
+    onError: (error) => {
+      console.log(error);
+      const axiosError = error as AxiosError<IErrorResponse>;
+      handleApiError(axiosError, language);
+    },
+  });
+};
+
 export const useUpdateEmployeeWorkingHours = () => {
   const { language } = useLanguageStore();
   const employeeService = useEmployeeService();
 
   return useMutation({
     mutationFn: (data: EmployeeWorkingHours) => {
-
-      data.MedicalReport = data.MedicalReport[0]
-      return employeeService.updateWorkingHours(data)
+      data.MedicalReport = data.MedicalReport[0];
+      return employeeService.updateWorkingHours(data);
     },
     onSuccess: ({ status, data }) => {
       if (status === 200) {

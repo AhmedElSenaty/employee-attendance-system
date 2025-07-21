@@ -16,8 +16,10 @@ import {
   FilePenLine,
   FileSpreadsheet,
   Trash2,
-  X,
   RefreshCcw,
+  UserPlus,
+  Eye,
+  EyeOff,
 } from "lucide-react";
 
 import { EmployeeData } from "../../../../interfaces";
@@ -37,6 +39,7 @@ interface Props {
   handleShowLeaveStats: (id: string) => void;
   handleResetPassword: (id: string) => void;
   isResettingPassword?: boolean; // ✅ Add this
+  handleSupervision: (id: string) => void;
 }
 
 const EmployeesTable = ({
@@ -47,6 +50,7 @@ const EmployeesTable = ({
   handleChangeIncludedStatus,
   handleShowLeaveStats,
   handleResetPassword,
+  handleSupervision,
 }: Props) => {
   const { t } = useTranslation([EMPLOYEE_NS]);
 
@@ -56,11 +60,11 @@ const EmployeesTable = ({
     "table.columns.fullName",
     "table.columns.email",
     "table.columns.ssn",
-    "table.columns.phoneNumber",
+    // "table.columns.phoneNumber",
     "table.columns.departmentName",
     "table.columns.subDepartmentName",
     "table.columns.status",
-    "table.columns.isExcludedFromReports",
+    // "table.columns.isExcludedFromReports",
     "table.columns.actions",
   ];
 
@@ -87,12 +91,13 @@ const EmployeesTable = ({
                 fullName,
                 email,
                 ssn,
-                phoneNumber,
+                // phoneNumber,
                 departmentName,
                 subDepartmentName,
                 isActive,
                 isBlocked,
                 isExcludedFromReports,
+                isSupervisor,
               }: EmployeeData) => (
                 <TableRow key={id} className="border-b">
                   <TableCell label={columns[0]}>
@@ -102,9 +107,9 @@ const EmployeesTable = ({
                     {truncateText(email, 15)}
                   </TableCell>
                   <TableCell label={columns[2]}>{ssn}</TableCell>
-                  <TableCell label={columns[3]}>
+                  {/* <TableCell label={columns[3]}>
                     {phoneNumber != null ? phoneNumber : t("NA")}
-                  </TableCell>
+                  </TableCell> */}
                   <TableCell label={columns[4]}>
                     {truncateText(departmentName, 20)}
                   </TableCell>
@@ -143,7 +148,7 @@ const EmployeesTable = ({
                       </div>
                     </div>
                   </TableCell>
-                  <TableCell label={columns[6]}>
+                  {/* <TableCell label={columns[6]}>
                     <div className="h-fit flex flex-col gap-3 items-center justify-center">
                       <div className="block">
                         <StatusBadge
@@ -163,7 +168,7 @@ const EmployeesTable = ({
                         </StatusBadge>
                       </div>
                     </div>
-                  </TableCell>
+                  </TableCell> */}
                   <TableCell label={columns[7]}>
                     <div className="flex flex-wrap gap-2">
                       <HasPermission permission="Update Employee">
@@ -221,12 +226,26 @@ const EmployeesTable = ({
                       </HasPermission>
 
                       <HasPermission permission="Include/Exclude Employee from Reports">
-                        <Tooltip content={t("buttons.toggleToolTip")}>
+                        <Tooltip
+                          content={
+                            isExcludedFromReports
+                              ? t("buttons.includeInReports")
+                              : t("buttons.excludeFromReports")
+                          }
+                        >
                           <Button
-                            variant="warning"
+                            variant={
+                              !isExcludedFromReports ? "success" : "secondary"
+                            }
                             fullWidth={false}
                             size={"sm"}
-                            icon={<FileSpreadsheet className="w-full h-full" />}
+                            icon={
+                              !isExcludedFromReports ? (
+                                <Eye className="w-full h-full" />
+                              ) : (
+                                <EyeOff className="w-full h-full" />
+                              )
+                            }
                             onClick={() => handleChangeIncludedStatus(id)}
                           />
                         </Tooltip>
@@ -246,7 +265,6 @@ const EmployeesTable = ({
                         </Tooltip>
                       </HasPermission>
 
-                      {/*  */}
                       <Tooltip content={t("buttons.leaveStatsToolTip")}>
                         <Button
                           variant="success"
@@ -256,6 +274,25 @@ const EmployeesTable = ({
                           onClick={() => handleShowLeaveStats(id)}
                         />
                       </Tooltip>
+
+                      {/*  */}
+                      <HasPermission permission="Make Employee Supervisor of Sub department">
+                        <Tooltip
+                          content={
+                            isSupervisor
+                              ? t("buttons.RemoveSupervisor")
+                              : t("buttons.makeSupervisor")
+                          }
+                        >
+                          <Button
+                            variant={isSupervisor ? "success" : "cancel"}
+                            fullWidth={false}
+                            size={"sm"}
+                            icon={<UserPlus className="w-full h-full" />}
+                            onClick={() => handleSupervision(id)}
+                          />
+                        </Tooltip>
+                      </HasPermission>
                     </div>
                   </TableCell>
                 </TableRow>

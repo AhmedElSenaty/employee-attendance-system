@@ -319,7 +319,9 @@
     "calenderToolTip": "Calender",
     "deleteToolTip": "Delete",
     "editToolTip": "Edit",
-    "edit": "Edit"
+    "edit": "Edit",
+    "makeSupervisor": "Assign as sub-department supervisor",
+    "RemoveSupervisor": "Remove from sub-department supervision"
   },
   "importActionCard": {
     "title": "Import Data",

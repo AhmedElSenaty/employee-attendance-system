@@ -5,7 +5,11 @@ import { useLanguageStore } from "../store/language.store";
 import { AxiosError } from "axios";
 import { QueryKeys } from "../constants";
 import { IErrorResponse, initialMetadata } from "../interfaces";
-import { IAssignRequest, IRejectRequestCredentials, ISoftDeleteRequestCredentials } from "../interfaces/request.interfaces";
+import {
+  IAssignRequest,
+  IRejectRequestCredentials,
+  ISoftDeleteRequestCredentials,
+} from "../interfaces/request.interfaces";
 import { RequestService } from "../services/requests.services";
 import { getTranslatedMessage, handleApiError, showToast } from "../utils";
 import { EditRequestFormValues } from "../validation/request.schema";
@@ -32,14 +36,15 @@ export const useGetRequests = () => {
   };
 };
 
-export const useGetAllRequests = (  page = 1,
+export const useGetAllRequests = (
+  page = 1,
   pageSize = 10,
   startDate?: string,
   endDate?: string,
   status?: number,
   leaveType?: number,
   searchType?: string,
-  searchQuery?: string,
+  searchQuery?: string
 ) => {
   const token = useUserStore((state) => state.token);
   const requestService = useRequestService();
@@ -55,7 +60,8 @@ export const useGetAllRequests = (  page = 1,
       leaveType,
       `${searchType && searchQuery ? [searchType, searchQuery] : ""}`,
     ],
-    queryFn: () => requestService.fetchAllRequests(
+    queryFn: () =>
+      requestService.fetchAllRequests(
         page,
         pageSize,
         startDate,
@@ -63,8 +69,8 @@ export const useGetAllRequests = (  page = 1,
         status,
         leaveType,
         searchType,
-        searchQuery,
-    ),
+        searchQuery
+      ),
     enabled: !!token,
   });
 
@@ -74,13 +80,60 @@ export const useGetAllRequests = (  page = 1,
     isLoading,
   };
 };
-export const useGetAllGenaricRequests = (  page = 1,
+
+export const useGetAllSubDepartmentRequests = (
+  page = 1,
+  pageSize = 10,
+  startDate?: string,
+  endDate?: string,
+  status?: number,
+  leaveType?: number,
+  searchType?: string,
+  searchQuery?: string
+) => {
+  const token = useUserStore((state) => state.token);
+  const requestService = useRequestService();
+
+  const { data, isLoading } = useQuery({
+    queryKey: [
+      QueryKeys.Requests.All,
+      page,
+      pageSize,
+      startDate,
+      endDate,
+      status,
+      leaveType,
+      `${searchType && searchQuery ? [searchType, searchQuery] : ""}`,
+    ],
+    queryFn: () =>
+      requestService.fetchAllSubDepartmentRequests(
+        page,
+        pageSize,
+        startDate,
+        endDate,
+        status,
+        leaveType,
+        searchType,
+        searchQuery
+      ),
+    enabled: !!token,
+  });
+
+  return {
+    requests: data?.data?.data?.requests || [],
+    metadata: data?.data?.data?.metadata || initialMetadata,
+    isLoading,
+  };
+};
+
+export const useGetAllGenaricRequests = (
+  page = 1,
   pageSize = 10,
   startDate?: string,
   endDate?: string,
   status?: number,
   searchType?: string,
-  searchQuery?: string,
+  searchQuery?: string
 ) => {
   const token = useUserStore((state) => state.token);
   const requestService = useRequestService();
@@ -95,15 +148,16 @@ export const useGetAllGenaricRequests = (  page = 1,
       status,
       `${searchType && searchQuery ? [searchType, searchQuery] : ""}`,
     ],
-    queryFn: () => requestService.fetchGenaricRequests(
+    queryFn: () =>
+      requestService.fetchGenaricRequests(
         page,
         pageSize,
         startDate,
         endDate,
         status,
         searchType,
-        searchQuery,
-    ),
+        searchQuery
+      ),
     enabled: !!token,
   });
 
@@ -163,14 +217,23 @@ export const useSoftDeleteRequest = () => {
   const requestService = useRequestService();
 
   return useMutation({
-    mutationFn: (deleteRequestData: ISoftDeleteRequestCredentials) => requestService.softDelete(deleteRequestData),
+    mutationFn: (deleteRequestData: ISoftDeleteRequestCredentials) =>
+      requestService.softDelete(deleteRequestData),
     onSuccess: ({ status, data }) => {
       queryClient.invalidateQueries({ queryKey: [QueryKeys.Requests.All] });
-      queryClient.invalidateQueries({ queryKey: [QueryKeys.CasualLeaveRequests.All] });
-      queryClient.invalidateQueries({ queryKey: [QueryKeys.LeaveRequests.All] });
-      queryClient.invalidateQueries({ queryKey: [QueryKeys.MissionRequests.All] });
+      queryClient.invalidateQueries({
+        queryKey: [QueryKeys.CasualLeaveRequests.All],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [QueryKeys.LeaveRequests.All],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [QueryKeys.MissionRequests.All],
+      });
       queryClient.invalidateQueries({ queryKey: [QueryKeys.SickRequests.All] });
-      queryClient.invalidateQueries({ queryKey: [QueryKeys.OrdinaryRequests.All] });
+      queryClient.invalidateQueries({
+        queryKey: [QueryKeys.OrdinaryRequests.All],
+      });
       if (status === 200) {
         const message = getTranslatedMessage(data.message ?? "", language);
         showToast("success", message);
@@ -190,7 +253,6 @@ export const useAssignRequest = () => {
   return useMutation({
     mutationFn: (data: IAssignRequest) => service.assign(data),
     onSuccess: ({ status, data }) => {
-
       if (status === 201) {
         const message = getTranslatedMessage(data.message ?? "", language);
         showToast("success", message);
@@ -209,19 +271,34 @@ export const useEditRequest = () => {
   const requestService = useRequestService();
 
   return useMutation({
-    mutationFn: (data: EditRequestFormValues) => requestService.editRequest(data),
+    mutationFn: (data: EditRequestFormValues) =>
+      requestService.editRequest(data),
     onSuccess: ({ status, data }) => {
       if (status === 200) {
         const message = getTranslatedMessage(data.message ?? "", language);
         showToast("success", message);
 
-        queryClient.invalidateQueries({ queryKey: [QueryKeys.Requests.Single] });
-        queryClient.invalidateQueries({ queryKey: [QueryKeys.LeaveRequests.All] });
-        queryClient.invalidateQueries({ queryKey: [QueryKeys.MissionRequests.All] });
-        queryClient.invalidateQueries({ queryKey: [QueryKeys.OfficialVacations.All] });
-        queryClient.invalidateQueries({ queryKey: [QueryKeys.OrdinaryRequests.All] });
-        queryClient.invalidateQueries({ queryKey: [QueryKeys.SickRequests.All] });
-        queryClient.invalidateQueries({ queryKey: [QueryKeys.CasualLeaveRequests.All] });
+        queryClient.invalidateQueries({
+          queryKey: [QueryKeys.Requests.Single],
+        });
+        queryClient.invalidateQueries({
+          queryKey: [QueryKeys.LeaveRequests.All],
+        });
+        queryClient.invalidateQueries({
+          queryKey: [QueryKeys.MissionRequests.All],
+        });
+        queryClient.invalidateQueries({
+          queryKey: [QueryKeys.OfficialVacations.All],
+        });
+        queryClient.invalidateQueries({
+          queryKey: [QueryKeys.OrdinaryRequests.All],
+        });
+        queryClient.invalidateQueries({
+          queryKey: [QueryKeys.SickRequests.All],
+        });
+        queryClient.invalidateQueries({
+          queryKey: [QueryKeys.CasualLeaveRequests.All],
+        });
         queryClient.invalidateQueries({ queryKey: [QueryKeys.Requests.All] });
       }
     },

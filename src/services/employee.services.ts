@@ -21,7 +21,6 @@ export class EmployeeService extends BaseService {
         params,
         headers: this.getAuthHeaders(),
       });
-
       return response;
     } catch (error) {
       console.error("Error fetching employees:", error);
@@ -161,6 +160,16 @@ export class EmployeeService extends BaseService {
     );
   };
 
+  toggleSupervisionStatus = (employeeID: string) => {
+    return axiosInstance.put(
+      `/Permissions/MakeEmployeeSupervisor/${employeeID}`,
+      {},
+      {
+        headers: this.getAuthHeaders(),
+      }
+    );
+  };
+
   resetEmployeeVacations = (timeToRest: number) => {
     return axiosInstance.put(
       `/Employee/reset-employees-data?time=${timeToRest}`,
@@ -173,11 +182,10 @@ export class EmployeeService extends BaseService {
 
   updateWorkingHours = (data: FormData) => {
     return axiosInstance.put("/Employee/update", data, {
-     headers: {
-      ...this.getAuthHeaders(),
-      "Content-Type": "multipart/form-data",
-    },
+      headers: {
+        ...this.getAuthHeaders(),
+        "Content-Type": "multipart/form-data",
+      },
     });
   };
-
 }

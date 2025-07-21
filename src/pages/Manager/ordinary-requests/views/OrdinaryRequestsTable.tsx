@@ -140,7 +140,10 @@ const OrdinaryRequestsTable = ({
                         </>
                       )}
                     </HasPermission>
-                    {ordinaryRequest.status == RequestStatusType.Accepted && (
+                    {(ordinaryRequest.status == RequestStatusType.Accepted ||
+                      ordinaryRequest.status == RequestStatusType.Edited ||
+                      ordinaryRequest.status ==
+                        RequestStatusType.AssignedManually) && (
                       <>
                         <Tooltip content={t("table.buttons.toolTipDelete")}>
                           <Button
@@ -151,7 +154,7 @@ const OrdinaryRequestsTable = ({
                             onClick={() => handleDelete(ordinaryRequest.id)}
                           />
                         </Tooltip>
-                                              <Button
+                        <Button
                           variant="info"
                           fullWidth={false}
                           size={"sm"}

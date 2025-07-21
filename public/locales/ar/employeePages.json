@@ -340,12 +340,15 @@
     "updatePassword": "تحديث كلمة المرور",
     "updateWorkingDays": "تحديث أيام العمل",
     "leaveStatsToolTip": "إحصائيات الإجازة",
-    "toggleToolTip": "تبديل حالة التقرير",
+    "includeInReports": "تضمين الموظف في التقارير",
+    "excludeFromReports": "استبعاد الموظف من التقارير",
     "unlockToolTip": "إلغاء الحظر",
     "calenderToolTip": "التقويم",
     "deleteToolTip": "حذف",
     "editToolTip": "تعديل",
-    "edit": "تعديل"
+    "edit": "تعديل",
+    "makeSupervisor": "تعيين كمشرف على القسم الفرعي",
+    "RemoveSupervisor": "إزالة من الإشراف على القسم الفرعي"
   },
   "importActionCard": {
     "title": "استيراد البيانات",

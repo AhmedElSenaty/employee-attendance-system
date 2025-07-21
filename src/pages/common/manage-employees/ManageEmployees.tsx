@@ -14,6 +14,7 @@ import {
   useToggleReportEmployeeStatus,
   useUploadAttendanceExcel,
   useResetEmployeePassword,
+  useToggleSupervision,
 } from "../../../hooks/";
 import { HasPermission } from "../../../components/auth";
 import { useLanguageStore, useUserStore } from "../../../store/";
@@ -117,6 +118,7 @@ export const ManageEmployeesPage = () => {
     employees,
     metadata,
     isLoading: isEmployeesDataLoading,
+    refetch,
   } = useGetAllEmployees(page, pageSize, searchKey, searchQuery);
 
   const {
@@ -152,6 +154,8 @@ export const ManageEmployeesPage = () => {
   const { mutate: toggleReport, isPending: isToggleReportLoading } =
     useToggleReportEmployeeStatus();
 
+  const { mutate: ToggleSupervision } = useToggleSupervision();
+
   const { mutate: resetPassword, isPending: isLoading } =
     useResetEmployeePassword();
 
@@ -177,9 +181,19 @@ export const ManageEmployeesPage = () => {
     resetPassword(id);
   };
 
-  const handleConfirmToggleReport = () => {
+  const handleToggleSupervision = async (id: string) => {
+    try {
+      ToggleSupervision(id);
+      await refetch();
+    } catch (error) {
+      console.error("Error toggling supervisor role", error);
+    }
+  };
+
+  const handleConfirmToggleReport = async () => {
     if (!selectedID) return;
     toggleReport(selectedID);
+    await refetch();
     setIsChangeIncludedStatusPopupOpen(false);
   };
 
@@ -355,6 +369,7 @@ export const ManageEmployeesPage = () => {
             handleShowLeaveStats={handleLeaveStatsPopupOpen}
             handleResetPassword={handleResetPassword}
             isResettingPassword={isLoading} // ✅ Pass loading state
+            handleSupervision={handleToggleSupervision}
           />
         </div>
 

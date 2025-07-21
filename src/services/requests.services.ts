@@ -1,34 +1,36 @@
 import axiosInstance from "../config/axios.config";
-import { IAssignRequest, IRejectRequestCredentials, ISoftDeleteRequestCredentials } from "../interfaces/request.interfaces";
+import {
+  IAssignRequest,
+  IRejectRequestCredentials,
+  ISoftDeleteRequestCredentials,
+} from "../interfaces/request.interfaces";
 import { EditRequestFormValues } from "../validation/request.schema";
 import { BaseService } from "./base.services";
 
 export class RequestService extends BaseService {
-	fetchRequests = async(
-	) => {
-			try {
+  fetchRequests = async () => {
+    try {
+      const response = await axiosInstance.get("/Request/Requests", {
+        headers: this.getAuthHeaders(),
+      });
 
-						const response = await axiosInstance.get("/Request/Requests", {
-							headers: this.getAuthHeaders(),
-						});
+      return response;
+    } catch (error) {
+      this.handleError(error, "Error fetching all requests");
+    }
+  };
 
-						return response;
-
-			} catch (error) {
-					this.handleError(error, "Error fetching all requests");
-			}
-	}
-	fetchAllRequests = async(
-		    page?: number,
+  fetchAllRequests = async (
+    page?: number,
     pageSize?: number,
     startDate?: string,
     endDate?: string,
     status?: number,
     leaveType?: number,
     searchType?: string,
-    searchQuery?: string,
-	) => {
-			try {
+    searchQuery?: string
+  ) => {
+    try {
       const params = this.buildParams({
         PageIndex: page ?? 1,
         PageSize: pageSize,
@@ -38,30 +40,67 @@ export class RequestService extends BaseService {
         Type: leaveType,
         ...(searchType && searchQuery ? { [searchType]: searchQuery } : {}),
       });
-	  console.log(params);
-	  
-						const response = await axiosInstance.get("/Request/AllRequests", {
-							        params,
 
-							headers: this.getAuthHeaders(),
-						});
+      const response = await axiosInstance.get("/Request/AllRequests", {
+        params,
 
-						return response;
+        headers: this.getAuthHeaders(),
+      });
 
-			} catch (error) {
-					this.handleError(error, "Error fetching all requests");
-			}
-	}
-	fetchGenaricRequests = async(
-		    page?: number,
+      return response;
+    } catch (error) {
+      this.handleError(error, "Error fetching all requests");
+    }
+  };
+
+  fetchAllSubDepartmentRequests = async (
+    page?: number,
+    pageSize?: number,
+    startDate?: string,
+    endDate?: string,
+    status?: number,
+    leaveType?: number,
+    searchType?: string,
+    searchQuery?: string
+  ) => {
+    try {
+      const params = this.buildParams({
+        PageIndex: page ?? 1,
+        PageSize: pageSize,
+        StartDate: startDate,
+        EndDate: endDate,
+        Status: status,
+        Type: leaveType,
+        ...(searchType && searchQuery ? { [searchType]: searchQuery } : {}),
+      });
+
+      const response = await axiosInstance.get(
+        "/Request/RequestsForSubDepartment",
+        {
+          params,
+
+          headers: this.getAuthHeaders(),
+        }
+      );
+
+      console.log(response);
+
+      return response;
+    } catch (error) {
+      this.handleError(error, "Error fetching all requests");
+    }
+  };
+
+  fetchGenaricRequests = async (
+    page?: number,
     pageSize?: number,
     startDate?: string,
     endDate?: string,
     status?: number,
     searchType?: string,
-    searchQuery?: string,
-	) => {
-			try {
+    searchQuery?: string
+  ) => {
+    try {
       const params = this.buildParams({
         PageIndex: page ?? 1,
         PageSize: pageSize,
@@ -70,61 +109,70 @@ export class RequestService extends BaseService {
         Status: status,
         ...(searchType && searchQuery ? { [searchType]: searchQuery } : {}),
       });
-	  console.log(params);
-	  
-						const response = await axiosInstance.get("/Request/GenaricRequests", {
-							        params,
+      console.log(params);
 
-							headers: this.getAuthHeaders(),
-						});
+      const response = await axiosInstance.get("/Request/GenaricRequests", {
+        params,
 
-						return response;
+        headers: this.getAuthHeaders(),
+      });
 
-			} catch (error) {
-					this.handleError(error, "Error fetching all requests");
-			}
-	}
+      return response;
+    } catch (error) {
+      this.handleError(error, "Error fetching all requests");
+    }
+  };
 
-	accept = (requestId: number) => {
-		return axiosInstance.put(
-		`/Request/accept/${requestId}`,
-		{},
-		{
-			headers: this.getAuthHeaders(),
-		}
-		);
-	};
+  accept = (requestId: number) => {
+    return axiosInstance.put(
+      `/Request/accept/${requestId}`,
+      {},
+      {
+        headers: this.getAuthHeaders(),
+      }
+    );
+  };
 
-	reject = (requestId: string, rejectRequestCredentials: IRejectRequestCredentials) => {
-		return axiosInstance.put(`/Request/reject/${requestId}`, rejectRequestCredentials, {
-				headers: this.getAuthHeaders(),
-		});
-	}
+  reject = (
+    requestId: string,
+    rejectRequestCredentials: IRejectRequestCredentials
+  ) => {
+    return axiosInstance.put(
+      `/Request/reject/${requestId}`,
+      rejectRequestCredentials,
+      {
+        headers: this.getAuthHeaders(),
+      }
+    );
+  };
 
-	softDelete = (softDeleteRequestCredentials: ISoftDeleteRequestCredentials) => {
-			return axiosInstance.put(`/Request/Manager/SoftDeleteRequest`, softDeleteRequestCredentials, {
-				headers: this.getAuthHeaders(),
-		});
-	}
+  softDelete = (
+    softDeleteRequestCredentials: ISoftDeleteRequestCredentials
+  ) => {
+    return axiosInstance.put(
+      `/Request/Manager/SoftDeleteRequest`,
+      softDeleteRequestCredentials,
+      {
+        headers: this.getAuthHeaders(),
+      }
+    );
+  };
 
-	assign = (data: IAssignRequest) => {
-		return axiosInstance.post("/Request/Manager/AssignGenericRequest", data, {
-		headers: this.getAuthHeaders(),
-		});
-	};
+  assign = (data: IAssignRequest) => {
+    return axiosInstance.post("/Request/Manager/AssignGenericRequest", data, {
+      headers: this.getAuthHeaders(),
+    });
+  };
 
-	  editRequest = (data: EditRequestFormValues) => {
-		console.log(data);
-		
-		return axiosInstance.put(`/Request/Manager/EditAcceptedRequest`, data, {
-		headers: this.getAuthHeaders(),
-		});
-	};
+  editRequest = (data: EditRequestFormValues) => {
+    return axiosInstance.put(`/Request/Manager/EditAcceptedRequest`, data, {
+      headers: this.getAuthHeaders(),
+    });
+  };
 
-	getRequestById = (requestId: number) => {
-		return axiosInstance.get(`/Request/request/${requestId}`, {
-			headers: this.getAuthHeaders(),
-		});
-	};
-
+  getRequestById = (requestId: number) => {
+    return axiosInstance.get(`/Request/request/${requestId}`, {
+      headers: this.getAuthHeaders(),
+    });
+  };
 }

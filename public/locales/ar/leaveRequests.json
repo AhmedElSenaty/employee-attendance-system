@@ -35,14 +35,15 @@
     "endDate": "تاريخ الانتهاء",
     "leaveStatus": "حالة الطلب",
     "leaveType": "نوع الطلب",
-    "defaultLeaveStatusOption": "اختر حالة الاذن",
+    "defaultLeaveStatusOption": "اختر حالة الطلب",
+    "defaultLeaveTypeOption": "اختر نوع الطلب",
     "toolTipResetFilters": "إعادة التصفية",
     "searchBy": {
       "default": "اختر طريقة البحث",
       "label": "البحث بواسطة",
       "SearchByFullName": "الاسم الكامل",
       "SearchBySSN": "الرقم القومي",
-            "SearchByDeptartmentID": "القسم",
+      "SearchByDeptartmentID": "القسم",
       "SearchBySubDeptartmentId": "القسم الفرعي"
     },
     "search": {
@@ -207,13 +208,15 @@
     "description": "شاهد هذا الفيديو التعليمي لتتعلم كيف يمكن للموظفين تقديم الاذونات ومتابعة حالتها وعرض تفاصيلها بسهولة.",
     "closeButton": "إغلاق"
   },
-    "leaveType": {
+  "leaveType": {
     "1": "مرضية",
     "2": "اعتيادية",
     "3": "عارضة",
     "4": "إذن صباحي",
     "5": "إذن مسائي",
     "6": "مأمورية يوم كامل",
-    "7": "مأمورية نصف يوم"
+    "7": "مأمورية نصف يوم",
+    "8": "طلب مخصص",
+    "9": "زيارة منزلية"
   }
 }
