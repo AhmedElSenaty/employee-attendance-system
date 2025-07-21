@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next"; // Import translation hook
-import { Archive, Briefcase, Building2, Calendar, CalendarCog, CalendarSearch, Clock, Coffee, Contact, ContactRound, FileText, GitPullRequestArrow, Home, LayoutDashboard, Thermometer, TicketsPlane, User, UserCog, UserPlus, UserRoundPlus, Users } from "lucide-react";
+import { Archive, Briefcase, Building2, Calendar, CalendarCog, CalendarSearch, Clock, Coffee, Contact, ContactRound, FileText, GitPullRequestArrow, Home, LayoutDashboard, MapPinHouse, Thermometer, TicketsPlane, User, UserCog, UserPlus, UserRoundPlus, Users, Venus } from "lucide-react";
 import { Sidebar, SidebarDropdown, SidebarItem } from "../../components/ui/Sidebar";
 import { useUserStore } from "../../store/user.store";
 import { useLocation } from "react-router";
@@ -84,6 +84,8 @@ export const ManagerSidebar = () => {
         {permissions.includes("View Requests") && (
           <SidebarItem icon={<Thermometer size={23} />} name={t("sickRequests")} to="/manager/sick-requests" />
         )}
+        <SidebarItem icon={<Venus size={23} />} name={t("genaricRequests")} to="/manager/genaric-requests" />
+        <SidebarItem icon={<MapPinHouse size={23} />} name={t("genaricRequests")} to="/manager/home-visit-requests" />
         <HasPermission permission={"Add Old Requests"}>
         <SidebarItem icon={<GitPullRequestArrow size={23} />} name={t("addRequest")} to={location.pathname} onClick={() => setPopupOen(true)} />
         </HasPermission>
