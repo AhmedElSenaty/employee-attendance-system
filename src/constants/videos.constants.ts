@@ -16,21 +16,24 @@ export const EMPLOYEE_VIDEO = "";
 export const MANAGER_VIDEO = "";
 export const ADMIN_VIDEO = "";
 
+export const LEAVE_REQUESTS_MANAGER_VIDEO =
+  "https://www.youtube.com/embed/Z5yx_szNx7Y?si=mbyUFV6AYf01Z_rw";
+export const LEAVE_REQUESTS_EMPLOYEE_VIDEO =
+  "https://www.youtube.com/embed/JxAqaMFEVBY?si=td9ZDtjejShtuo7s";
 
-export const LEAVE_REQUESTS_MANAGER_VIDEO ="https://www.youtube.com/embed/Z5yx_szNx7Y?si=mbyUFV6AYf01Z_rw";
-export const LEAVE_REQUESTS_EMPLOYEE_VIDEO = "https://www.youtube.com/embed/JxAqaMFEVBY?si=td9ZDtjejShtuo7s";
+export const MISSION_REQUESTS_MANAGER_VIDEO = " ";
+export const MISSION_REQUESTS_EMPLOYEE_VIDEO = " ";
 
-export const MISSION_REQUESTS_MANAGER_VIDEO = "https://www.youtube.com/embed/dQw4w9WgXcQ";
-export const MISSION_REQUESTS_EMPLOYEE_VIDEO = "https://www.youtube.com/embed/dQw4w9WgXcQ";
+export const ORDINARY_REQUESTS_MANAGER_VIDEO = " ";
+export const ORDINARY_REQUESTS_EMPLOYEE_VIDEO = " ";
 
-export const ORDINARY_REQUESTS_MANAGER_VIDEO = "https://www.youtube.com/embed/dQw4w9WgXcQ"
-export const ORDINARY_REQUESTS_EMPLOYEE_VIDEO = "https://www.youtube.com/embed/dQw4w9WgXcQ"
+export const CASUAL_REQUESTS_MANAGER_VIDEO =
+  "https://www.youtube.com/embed/Z5yx_szNx7Y?si=mbyUFV6AYf01Z_rw";
+export const CASUAL_REQUESTS_EMPLOYEE_VIDEO =
+  "https://www.youtube.com/embed/JxAqaMFEVBY?si=td9ZDtjejShtuo7s";
 
-export const CASUAL_REQUESTS_MANAGER_VIDEO = "https://www.youtube.com/embed/Z5yx_szNx7Y?si=mbyUFV6AYf01Z_rw";
-export const CASUAL_REQUESTS_EMPLOYEE_VIDEO ="https://www.youtube.com/embed/JxAqaMFEVBY?si=td9ZDtjejShtuo7s";
+export const SICK_REQUESTS_MANAGER_VIDEO = " ";
+export const SICK_REQUESTS_EMPLOYEE_VIDEO = " ";
 
-export const SICK_REQUESTS_MANAGER_VIDEO = "https://www.youtube.com/embed/dQw4w9WgXcQ"
-export const SICK_REQUESTS_EMPLOYEE_VIDEO = "https://www.youtube.com/embed/dQw4w9WgXcQ"
-
-export const HOME_VISIT_REQUESTS_MANAGER_VIDEO = "https://www.youtube.com/embed/dQw4w9WgXcQ"
-export const HOME_VISIT_REQUESTS_EMPLOYEE_VIDEO = "https://www.youtube.com/embed/dQw4w9WgXcQ"
+export const HOME_VISIT_REQUESTS_MANAGER_VIDEO = " ";
+export const HOME_VISIT_REQUESTS_EMPLOYEE_VIDEO = " ";

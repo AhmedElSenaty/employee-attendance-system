@@ -1,6 +1,35 @@
 import { useTranslation } from "react-i18next"; // Import translation hook
-import { Archive, Briefcase, Building2, Calendar, CalendarCog, CalendarSearch, Clock, Coffee, Contact, ContactRound, FileText, GitPullRequestArrow, Home, LayoutDashboard, MapPinHouse, Thermometer, TicketsPlane, User, UserCog, UserPlus, UserRoundPlus, Users, Venus } from "lucide-react";
-import { Sidebar, SidebarDropdown, SidebarItem } from "../../components/ui/Sidebar";
+import {
+  Archive,
+  BarChart2,
+  Briefcase,
+  Building2,
+  Calendar,
+  CalendarCog,
+  CalendarSearch,
+  Clock,
+  Coffee,
+  Contact,
+  ContactRound,
+  FileText,
+  GitPullRequestArrow,
+  Home,
+  LayoutDashboard,
+  MapPinHouse,
+  Thermometer,
+  TicketsPlane,
+  User,
+  UserCog,
+  UserPlus,
+  UserRoundPlus,
+  Users,
+  Venus,
+} from "lucide-react";
+import {
+  Sidebar,
+  SidebarDropdown,
+  SidebarItem,
+} from "../../components/ui/Sidebar";
 import { useUserStore } from "../../store/user.store";
 import { useLocation } from "react-router";
 import { useState } from "react";
@@ -11,38 +40,69 @@ export const ManagerSidebar = () => {
   const { t } = useTranslation(["sidebarItems"]); // Initialize the translation hook
   const permissions = useUserStore((state) => state.permissions);
   const location = useLocation();
-  
-  const [isPopupOpen, setPopupOen] = useState(false)
+
+  const [isPopupOpen, setPopupOen] = useState(false);
 
   return (
     <>
       <Sidebar title={t("welcomeBack")} subtitle={t("manager")}>
         <SidebarItem icon={<Home size={23} />} name={t("home")} to="/" />
 
-        <SidebarItem icon={<LayoutDashboard size={23} />} name={t("dashboard")} to="/manager" />
+        <SidebarItem
+          icon={<LayoutDashboard size={23} />}
+          name={t("dashboard")}
+          to="/manager"
+        />
 
-        {(permissions.includes("View Manager") || permissions.includes("View Employee")) && (
-          <SidebarDropdown icon={<User size={23} />} name={t("manageUsers")} open={true}>
+        {(permissions.includes("View Manager") ||
+          permissions.includes("View Employee")) && (
+          <SidebarDropdown
+            icon={<User size={23} />}
+            name={t("manageUsers")}
+            open={true}
+          >
             {/* Manage Manager */}
             {permissions.includes("View Manager") && (
-              <SidebarDropdown icon={<Contact size={23} />} name={t("managers")}>
+              <SidebarDropdown
+                icon={<Contact size={23} />}
+                name={t("managers")}
+              >
                 {permissions.includes("View Manager") && (
-                  <SidebarItem icon={<UserCog size={23} />} name={t("manageManagers")} to="/manager/manage-managers" />
+                  <SidebarItem
+                    icon={<UserCog size={23} />}
+                    name={t("manageManagers")}
+                    to="/manager/manage-managers"
+                  />
                 )}
                 {permissions.includes("Add Manager") && (
-                  <SidebarItem icon={<UserPlus size={23} />} name={t("addManager")} to="/manager/add-manager" />
+                  <SidebarItem
+                    icon={<UserPlus size={23} />}
+                    name={t("addManager")}
+                    to="/manager/add-manager"
+                  />
                 )}
               </SidebarDropdown>
             )}
 
             {/* Manage Employees */}
             {permissions.includes("View Employee") && (
-              <SidebarDropdown icon={<ContactRound size={23} />} name={t("employees")}>
+              <SidebarDropdown
+                icon={<ContactRound size={23} />}
+                name={t("employees")}
+              >
                 {permissions.includes("View Employee") && (
-                  <SidebarItem icon={<Users size={23} />} name={t("manageEmployees")} to="/manager/manage-employees" />
+                  <SidebarItem
+                    icon={<Users size={23} />}
+                    name={t("manageEmployees")}
+                    to="/manager/manage-employees"
+                  />
                 )}
                 {permissions.includes("Add Employee") && (
-                  <SidebarItem icon={<UserRoundPlus size={23} />} name={t("addEmployee")} to="/manager/add-employee" />
+                  <SidebarItem
+                    icon={<UserRoundPlus size={23} />}
+                    name={t("addEmployee")}
+                    to="/manager/add-employee"
+                  />
                 )}
               </SidebarDropdown>
             )}
@@ -50,47 +110,133 @@ export const ManagerSidebar = () => {
         )}
 
         {permissions.includes("View SubDepartments") && (
-          <SidebarItem icon={<Building2 size={23} />} name={t("subDepartments")} to="/manager/manage-sub-departments" />
+          <SidebarItem
+            icon={<Building2 size={23} />}
+            name={t("subDepartments")}
+            to="/manager/manage-sub-departments"
+          />
         )}
 
         {/* Manage Attendances */}
         {permissions.includes("View Attendances") && (
-          <SidebarDropdown icon={<CalendarCog size={23} />} name={t("attendance")}>
-            <SidebarItem icon={<CalendarSearch size={23} />} name={t("attendanceDetails")} to="/manager/manage-attendance" />
-            <SidebarItem icon={<Calendar size={23} />} name={t("attendanceSummary")} to="/manager/manage-attendance/overview" />
-            <SidebarItem icon={<TicketsPlane size={23} />} name={t("attendanceVacation")} to="/manager/manage-attendance/vacations" />
+          <SidebarDropdown
+            icon={<CalendarCog size={23} />}
+            name={t("attendance")}
+          >
+            <SidebarItem
+              icon={<CalendarSearch size={23} />}
+              name={t("attendanceDetails")}
+              to="/manager/manage-attendance"
+            />
+            <SidebarItem
+              icon={<Calendar size={23} />}
+              name={t("attendanceSummary")}
+              to="/manager/manage-attendance/overview"
+            />
+            <SidebarItem
+              icon={<TicketsPlane size={23} />}
+              name={t("attendanceVacation")}
+              to="/manager/manage-attendance/vacations"
+            />
           </SidebarDropdown>
         )}
 
-      <SidebarItem icon={<Archive size={23} />} name={t("allRequests")} to="/manager/all-requests" />
-
-        {permissions.includes("View Requests") && (
-          <SidebarDropdown icon={<FileText size={23} />} name={t("leaveRequests")}>
-            <SidebarItem name={t("leaveRequests")} to="/manager/leave-requests" />
-            <SidebarItem name={t("leaveAttendance")} to="/manager/leave-requests-with-attendance" />
-          </SidebarDropdown>
+        {permissions.includes("see vacations summary") && (
+          <SidebarItem
+            icon={<Archive size={23} />}
+            name={t("allRequests")}
+            to="/manager/all-requests"
+          />
+        )}
+        {permissions.includes("see vacations summary") && (
+          <SidebarItem
+            icon={<BarChart2 size={23} />}
+            name={t("requestsSummary")}
+            to="/manager/requestsSummary"
+          />
         )}
 
         {permissions.includes("View Requests") && (
-          <SidebarItem icon={<Briefcase size={23} />} name={t("missionRequests")} to="/manager/mission-requests" />
-        )}
-        {permissions.includes("View Requests") && (
-          <SidebarItem icon={<Clock size={23} />} name={t("ordinaryRequests")} to="/manager/ordinary-requests" />
+          // <SidebarDropdown
+          //   icon={<FileText size={23} />}
+          //   name={t("leaveRequests")}
+          // >
+          //   <SidebarItem
+          //     name={t("leaveRequests")}
+          //     to="/manager/leave-requests"
+          //   />
+          //   <SidebarItem
+          //     name={t("leaveAttendance")}
+          //     to="/manager/leave-requests-with-attendance"
+          //   />
+          // </SidebarDropdown>
+
+          <SidebarItem
+            icon={<FileText size={23} />}
+            name={t("leaveRequests")}
+            to="/manager/leave-requests"
+          />
         )}
 
         {permissions.includes("View Requests") && (
-          <SidebarItem icon={<Coffee size={23} />} name={t("casualLeaveRequests")} to="/manager/casual-requests" />
+          <SidebarItem
+            icon={<Briefcase size={23} />}
+            name={t("missionRequests")}
+            to="/manager/mission-requests"
+          />
         )}
         {permissions.includes("View Requests") && (
-          <SidebarItem icon={<Thermometer size={23} />} name={t("sickRequests")} to="/manager/sick-requests" />
+          <SidebarItem
+            icon={<Clock size={23} />}
+            name={t("ordinaryRequests")}
+            to="/manager/ordinary-requests"
+          />
         )}
-        <SidebarItem icon={<Venus size={23} />} name={t("genaricRequests")} to="/manager/genaric-requests" />
-        <SidebarItem icon={<MapPinHouse size={23} />} name={t("genaricRequests")} to="/manager/home-visit-requests" />
+
+        {permissions.includes("View Requests") && (
+          <SidebarItem
+            icon={<Coffee size={23} />}
+            name={t("casualLeaveRequests")}
+            to="/manager/casual-requests"
+          />
+        )}
+        {permissions.includes("View Requests") && (
+          <SidebarItem
+            icon={<Thermometer size={23} />}
+            name={t("sickRequests")}
+            to="/manager/sick-requests"
+          />
+        )}
+
+        {permissions.includes("Add Generic Requests") && (
+          <SidebarItem
+            icon={<Venus size={23} />}
+            name={t("genaricRequests")}
+            to="/manager/genaric-requests"
+          />
+        )}
+
+        {permissions.includes("View Requests") && (
+          <SidebarItem
+            icon={<MapPinHouse size={23} />}
+            name={t("homeVisitRequests")}
+            to="/manager/home-visit-requests"
+          />
+        )}
+
         <HasPermission permission={"Add Old Requests"}>
-        <SidebarItem icon={<GitPullRequestArrow size={23} />} name={t("addRequest")} to={location.pathname} onClick={() => setPopupOen(true)} />
+          <SidebarItem
+            icon={<GitPullRequestArrow size={23} />}
+            name={t("addRequest")}
+            to={location.pathname}
+            onClick={() => setPopupOen(true)}
+          />
         </HasPermission>
       </Sidebar>
-      <AssignPopup isOpen={isPopupOpen} handleClose={() => setPopupOen(false)} />
+      <AssignPopup
+        isOpen={isPopupOpen}
+        handleClose={() => setPopupOen(false)}
+      />
     </>
   );
 };

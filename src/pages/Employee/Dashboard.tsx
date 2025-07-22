@@ -20,6 +20,7 @@ import {
   useGetMyWorkingDays,
 } from "../../hooks";
 import { Daydata } from "../../interfaces";
+import { HasPermission } from "../../components/auth";
 
 const Dashboard = () => {
   const { t } = useTranslation(EMPLOYEE_DASHBOARD_NS);
@@ -102,6 +103,19 @@ const Dashboard = () => {
             cardBg="bg-indigo-50"
           />
         </NavLink>
+        <HasPermission permission="see sub department Requests for employee">
+          <NavLink to="/employee/SubdepartmentRequests/">
+            <StatCard
+              icon={<Briefcase />}
+              amount={t("SubdepartmentRequests.amount")}
+              description={t("SubdepartmentRequests.description")}
+              note={t("SubdepartmentRequests.note")}
+              iconColor="text-white"
+              iconBg="bg-purple-600"
+              cardBg="bg-purple-50"
+            />
+          </NavLink>
+        </HasPermission>
 
         <NavLink to="/employee/leave-requests">
           <StatCard
@@ -191,14 +205,14 @@ const Dashboard = () => {
               </span>
             ))}
 
-            <div>
+            {/* <div>
               <h4 className="text-sm font-semibold text-gray-800 mb-1">
                 ساعات العمل
               </h4>
               <p className="text-sm text-gray-700">
                 من الساعة 8:00 صباحًا إلى الساعة 2:00 مساءً
               </p>
-            </div>
+            </div> */}
           </div>
         </div>
       )}

@@ -138,18 +138,21 @@ const MissionRequestsTable = ({
                         </>
                       )}
                     </HasPermission>
-                    {missionRequest.status == RequestStatusType.Accepted && (
+                    {(missionRequest.status == RequestStatusType.Accepted ||
+                      missionRequest.status == RequestStatusType.Edited ||
+                      missionRequest.status ==
+                        RequestStatusType.AssignedManually) && (
                       <>
-                      <Tooltip content={t("table.buttons.toolTipDelete")}>
+                        <Tooltip content={t("table.buttons.toolTipDelete")}>
+                          <Button
+                            variant="error"
+                            fullWidth={false}
+                            size={"sm"}
+                            icon={<Trash className="w-full h-full" />}
+                            onClick={() => handleDelete(missionRequest.id)}
+                          />
+                        </Tooltip>
                         <Button
-                          variant="error"
-                          fullWidth={false}
-                          size={"sm"}
-                          icon={<Trash className="w-full h-full" />}
-                          onClick={() => handleDelete(missionRequest.id)}
-                        />
-                      </Tooltip>
-                                              <Button
                           variant="info"
                           fullWidth={false}
                           size={"sm"}

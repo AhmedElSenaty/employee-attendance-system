@@ -1,0 +1,92 @@
+{
+  "exportPopup": {
+    "title": "تصدير البيانات",
+    "description": "حدد النطاق الزمني والمعايير المطلوبة لتصدير ملخص الطلبات والإجازات بصيغة Excel أو PDF."
+  },
+  "table": {
+    "emptyTable": {
+      "title": "لا يوجد طلبات",
+      "message": "حاول تعديل الفلاتر أو إضافة طلب جديد."
+    },
+    "columns": {
+      "employeeId": "الرقم الوظيفي",
+      "employeeName": "اسم الموظف",
+      "subDepartmentName": "القسم الفرعي",
+      "availableOrdinaryLeaves": "الرصيد المتاح - الاعتيادي",
+      "availableLeaveRequests": "عدد الطلبات المتاحة",
+      "availableCasualLeaves": "الرصيد المتاح - العارضة",
+      "sick": "طلبات مرضية",
+      "ordinary": "طلبات اعتيادية",
+      "casual": "طلبات عارضة",
+      "morningLeave": "إذن صباحي",
+      "eveningLeave": "إذن مسائي",
+      "totalLeaves": "إجمالي الاذونات",
+      "totalMissions": "إجمالي المأموريات",
+      "fullDayMission": "مأمورية يوم كامل",
+      "halfDayMission": "مأمورية نصف يوم"
+    },
+    "buttons": {
+      "toolTipAccept": "قبول طلب الإجازة",
+      "toolTipReject": "رفض طلب الإجازة",
+      "toolTipDelete": "مسح طلب الإجازة"
+    }
+  },
+  "buttons": {
+    "close": "إغلاق",
+    "loading": "جاري التحميل...",
+    "DownloadExcel": "Excel",
+    "DownloadPDF": "PDF"
+  },
+  "filters": {
+    "pageSize": "عدد العناصر في الصفحة",
+    "startDate": "تاريخ البدء",
+    "endDate": "تاريخ الانتهاء",
+    "ordinaryStatus": "حالة الإجازة الاعتيادية",
+    "defaultOrdinaryStatusOption": "اختر حالة الإجازة",
+    "toolTipResetFilters": "إعادة ضبط الكل",
+    "searchBy": {
+      "default": "اختر طريقة البحث",
+      "label": "البحث بواسطة",
+      "SearchByFullName": "الاسم الكامل",
+      "SearchBySSN": "الرقم القومي",
+      "SearchByEmployeeId": "معرّف الموظف"
+    },
+    "search": {
+      "label": "بحث",
+      "placeholder": "أدخل القيمة التي تريد البحث عنها...."
+    }
+  },
+  "inputs": {
+    "startDate": {
+      "label": "تاريخ البدء",
+      "validation": {
+        "required": "تاريخ البدء مطلوب",
+        "is-date": "تاريخ البدء يجب أن يكون تاريخًا صالحًا"
+      }
+    },
+    "endDate": {
+      "label": "تاريخ الانتهاء",
+      "validation": {
+        "required": "تاريخ الانتهاء مطلوب",
+        "is-date": "تاريخ الانتهاء يجب أن يكون تاريخًا صالحًا"
+      }
+    }
+  },
+  "exportActionCard": {
+    "title": "تصدير البيانات المفلترة",
+    "description": "تصدير البيانات الظاهرة في الجدول وتحميلها بالتنسيق المفضل.",
+    "button": "تصدير",
+    "validation": {
+      "selectDateRange": "يجب تحديد تاريخ البدء والانتهاء أولاً."
+    }
+  },
+  "export": {
+    "exportSuccess": "تم تصدير البيانات بنجاح! ✅",
+    "exportError": "فشل في تصدير البيانات. الرجاء المحاولة مرة أخرى ❌"
+  },
+  "header": {
+    "heading": "ملخص الطلبات والإجازات",
+    "subtitle": "قم بعرض وتحليل جميع طلبات الموظفين وأنواع الإجازات المتاحة والمستخدمة بسهولة."
+  },
+  "CheckBox": "تتضمن القسم الفرعى"
+}

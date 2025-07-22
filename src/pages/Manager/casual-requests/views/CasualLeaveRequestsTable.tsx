@@ -144,9 +144,11 @@ const CasualLeaveRequestssTable = ({
                         </>
                       )}
                     </HasPermission>
-                    {casualLeaveRequest.status ==
-                      RequestStatusType.Accepted && (
-                        <>
+                    {(casualLeaveRequest.status == RequestStatusType.Accepted ||
+                      casualLeaveRequest.status == RequestStatusType.Edited ||
+                      casualLeaveRequest.status ==
+                        RequestStatusType.AssignedManually) && (
+                      <>
                         <Tooltip content={t("table.buttons.toolTipDelete")}>
                           <Button
                             variant="error"
@@ -156,14 +158,14 @@ const CasualLeaveRequestssTable = ({
                             onClick={() => handleDelete(casualLeaveRequest.id)}
                           />
                         </Tooltip>
-                          <Button
-                            variant="info"
-                            fullWidth={false}
-                            size={"sm"}
-                            icon={<FilePenLine className="w-full h-full" />}
-                            onClick={() => handleEdit(casualLeaveRequest.id)}
+                        <Button
+                          variant="info"
+                          fullWidth={false}
+                          size={"sm"}
+                          icon={<FilePenLine className="w-full h-full" />}
+                          onClick={() => handleEdit(casualLeaveRequest.id)}
                         />
-                        </>
+                      </>
                     )}
                   </div>
                 </TableCell>

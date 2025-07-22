@@ -2,16 +2,29 @@ import { Route } from "react-router";
 import { RootLayout } from "../pages/Layouts";
 import { ProtectedRoute } from "../components/auth";
 import EmpolyeeAccountPage from "../pages/Employee/Account";
-import { CalendarPage, CasualLeaveRequestsPage, DashboardEmployee, HomeVisitRequestsPage, LeaveRequestsPage, MissionRequestsPage, OrdinaryRequestsPage, SickLRequestsPage } from "../pages/Employee";
+import {
+  CalendarPage,
+  CasualLeaveRequestsPage,
+  DashboardEmployee,
+  HomeVisitRequestsPage,
+  LeaveRequestsPage,
+  MissionRequestsPage,
+  OrdinaryRequestsPage,
+  SickLRequestsPage,
+} from "../pages/Employee";
+import AllSubDepartmentRequests from "../pages/Employee/SubDepartmentRequests/AllSubDepartmentRequests";
 
 export const employeeRoutes = (isLoggedIn: boolean, userRole: string) => (
-  <Route 
+  <Route
     path="/employee/"
     element={
-      <ProtectedRoute isAllowed={isLoggedIn && userRole === "employee"} redirectPath="/">
+      <ProtectedRoute
+        isAllowed={isLoggedIn && userRole === "employee"}
+        redirectPath="/"
+      >
         <RootLayout />
       </ProtectedRoute>
-    } 
+    }
   >
     <Route index element={<DashboardEmployee />} />
 
@@ -24,11 +37,16 @@ export const employeeRoutes = (isLoggedIn: boolean, userRole: string) => (
     <Route path="casual-requests/" element={<CasualLeaveRequestsPage />} />
 
     <Route path="mission-requests/" element={<MissionRequestsPage />} />
-    
+
     <Route path="ordinary-requests/" element={<OrdinaryRequestsPage />} />
 
     <Route path="sick-requests/" element={<SickLRequestsPage />} />
 
     <Route path="home-visit-requests/" element={<HomeVisitRequestsPage />} />
+
+    <Route
+      path="/employee/SubdepartmentRequests/"
+      element={<AllSubDepartmentRequests />}
+    />
   </Route>
 );

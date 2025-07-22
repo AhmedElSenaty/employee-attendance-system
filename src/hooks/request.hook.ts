@@ -126,6 +126,51 @@ export const useGetAllSubDepartmentRequests = (
   };
 };
 
+export const useGetRequestsSummary = (
+  page = 1,
+  pageSize = 10,
+  startDate?: string,
+  endDate?: string,
+  status?: number,
+  leaveType?: number,
+  searchType?: string,
+  searchQuery?: string
+) => {
+  const token = useUserStore((state) => state.token);
+  const requestService = useRequestService();
+
+  const { data, isLoading } = useQuery({
+    queryKey: [
+      QueryKeys.Requests.All,
+      page,
+      pageSize,
+      startDate,
+      endDate,
+      status,
+      leaveType,
+      `${searchType && searchQuery ? [searchType, searchQuery] : ""}`,
+    ],
+    queryFn: () =>
+      requestService.fetchRequestsSummary(
+        page,
+        pageSize,
+        startDate,
+        endDate,
+        status,
+        leaveType,
+        searchType,
+        searchQuery
+      ),
+    enabled: !!token,
+  });
+
+  return {
+    requests: data?.data?.data?.requests || [],
+    metadata: data?.data?.data?.metadata || initialMetadata,
+    isLoading,
+  };
+};
+
 export const useGetAllGenaricRequests = (
   page = 1,
   pageSize = 10,

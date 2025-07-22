@@ -36,8 +36,9 @@
   "logs": "سجلات النشاط",
   "sickRequests": "طلبات مرضية",
   "leaveAttendance": "الاذونات والمواعيد",
-  "addRequest":"اضافة طلب قديم",
-  "allRequests":"جميع الطلبات",
-  "genaricRequests":"الطلبات العامة"
-
+  "addRequest": "اضافة طلب قديم",
+  "allRequests": "جميع الطلبات",
+  "genaricRequests": "الطلبات العامة",
+  "homeVisitRequests": "الزيارات المنزلية",
+  "requestsSummary": "ملخص الطلبات والإجازات"
 }

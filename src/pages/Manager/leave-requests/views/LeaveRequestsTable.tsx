@@ -136,7 +136,10 @@ const LeaveRequestsTable = ({
                         </>
                       )}
                     </HasPermission>
-                    {leaveRequest.status == RequestStatusType.Accepted && (
+                    {(leaveRequest.status == RequestStatusType.Accepted ||
+                      leaveRequest.status == RequestStatusType.Edited ||
+                      leaveRequest.status ==
+                        RequestStatusType.AssignedManually) && (
                       <>
                         <Tooltip content={t("table.buttons.toolTipDelete")}>
                           <Button

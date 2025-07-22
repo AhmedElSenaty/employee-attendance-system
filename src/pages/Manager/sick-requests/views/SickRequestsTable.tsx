@@ -161,7 +161,10 @@ const SickRequestsTable = ({
                         </>
                       )}
                     </HasPermission>
-                    {sickRequest.status == RequestStatusType.Accepted && (
+                    {(sickRequest.status == RequestStatusType.Accepted ||
+                      sickRequest.status == RequestStatusType.Edited ||
+                      sickRequest.status ==
+                        RequestStatusType.AssignedManually) && (
                       <>
                         <Tooltip content={t("table.buttons.toolTipDelete")}>
                           <Button

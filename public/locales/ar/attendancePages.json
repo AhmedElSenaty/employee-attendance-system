@@ -190,7 +190,8 @@
       "SearchByEmployeeSSN": "الرقم القومي",
       "SearchByEmployeeId": "معرف الموظف",
       "SearchByDeptartmentID": "القسم",
-      "SearchBySubDeptartmentId": "القسم الفرعي"
+      "SearchBySubDeptartmentId": "القسم الفرعي",
+      "SearchByFullName": "الاسم الكامل"
     },
     "quickDate": {
       "label": "نطاق التاريخ السريع",
@@ -224,5 +225,5 @@
     "exportSuccess": "تم تصدير البيانات بنجاح! ✅",
     "exportError": "فشل في تصدير البيانات. الرجاء المحاولة مرة أخرى ❌"
   },
-  "CheckBox":"تتضمن القسم الفرعى"
+  "CheckBox": "تتضمن القسم الفرعى"
 }

@@ -63,29 +63,28 @@ const HomeVisitTable = ({
           ) : (
             requests.map((request) => (
               <TableRow key={request.id} className="border-b">
-                <TableCell label={columns[0]}>
-                  {request.employeeName}
-                </TableCell>
+                <TableCell label={columns[0]}>{request.employeeName}</TableCell>
                 <TableCell label={columns[1]}>
-                  {new Date(
-                    request.startDate || ""
-                  ).toLocaleDateString(language === "ar" ? "ar-EG" : "en-CA")}
+                  {new Date(request.startDate || "").toLocaleDateString(
+                    language === "ar" ? "ar-EG" : "en-CA"
+                  )}
                 </TableCell>
                 <TableCell label={columns[2]}>
-                  {new Date(
-                    request.endDate || ""
-                  ).toLocaleDateString(language === "ar" ? "ar-EG" : "en-CA")}
+                  {new Date(request.endDate || "").toLocaleDateString(
+                    language === "ar" ? "ar-EG" : "en-CA"
+                  )}
                 </TableCell>
                 <TableCell label={columns[3]}>
-                  {new Date(
-                    request?.requestedAt || ""
-                  ).toLocaleString(language === "ar" ? "ar-EG" : "en-CA", {
-                    day: "2-digit",
-                    month: "2-digit",
-                    year: "numeric",
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}
+                  {new Date(request?.requestedAt || "").toLocaleString(
+                    language === "ar" ? "ar-EG" : "en-CA",
+                    {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    }
+                  )}
                 </TableCell>
                 <TableCell label={columns[4]}>
                   <StatusBadge

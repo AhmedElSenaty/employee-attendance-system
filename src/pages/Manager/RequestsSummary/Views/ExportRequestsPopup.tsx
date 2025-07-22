@@ -5,9 +5,8 @@ import {
   Field,
   Label,
   Popup,
-  StatusBadge,
 } from "../../../../components/ui";
-import { AlertTriangle, CheckCircle, Fingerprint } from "lucide-react";
+import { Fingerprint } from "lucide-react";
 import { ATTENDANCE_NS } from "../../../../constants";
 import { HasPermission } from "../../../../components/auth";
 import useURLSearchParams from "../../../../hooks/URLSearchParams.hook";
@@ -22,10 +21,6 @@ interface Props {
     search: string;
     startDate: string;
     endDate: string;
-    startTime: string;
-    endTime: string;
-    status: string;
-    type?: string;
     checked: boolean;
     searchByDepartmentId: number;
     searchBySubDeptartmentId: number;
@@ -34,7 +29,7 @@ interface Props {
   isloadingPDF: boolean;
 }
 
-const ExportAttendancePopup = ({
+const ExportRequestsPopup = ({
   isOpen,
   handleClose,
   handleDownload,
@@ -43,7 +38,7 @@ const ExportAttendancePopup = ({
   handleDownloadPDF,
   isloadingPDF,
 }: Props) => {
-  const { t } = useTranslation([ATTENDANCE_NS]);
+  const { t } = useTranslation("requestsSummary");
   const { setParam } = useURLSearchParams();
 
   return (
@@ -115,48 +110,6 @@ const ExportAttendancePopup = ({
               </div>
             )}
           </div>
-          <div className="grid grid-cols-1 py-2">
-            {filteredData.startTime != "" && (
-              <div className="grid grid-cols-2 py-1">
-                <span className="font-medium text-gray-600">
-                  {t("filters.startTime")}
-                </span>
-                <span className="text-gray-900 font-semibold">
-                  {filteredData.startTime}
-                </span>
-              </div>
-            )}
-            {filteredData.endTime != "" && (
-              <div className="grid grid-cols-2 py-1">
-                <span className="font-medium text-gray-600">
-                  {t("filters.endTime")}
-                </span>
-                <span className="text-gray-900 font-semibold">
-                  {filteredData.endTime}
-                </span>
-              </div>
-            )}
-          </div>
-          {filteredData.status != "" && (
-            <div className="grid grid-cols-2 py-2">
-              <span className="font-medium text-gray-600">
-                {t("filters.status")}
-              </span>
-              <StatusBadge
-                variant={filteredData.status == "حضور" ? "success" : "warning"}
-                size={"medium"}
-                icon={
-                  filteredData.status ? (
-                    <CheckCircle className="w-4 h-4" />
-                  ) : (
-                    <AlertTriangle className="w-4 h-4" />
-                  )
-                }
-              >
-                {filteredData.status}
-              </StatusBadge>
-            </div>
-          )}
         </div>
         <Field className="flex space-x-2">
           <Checkbox
@@ -177,7 +130,7 @@ const ExportAttendancePopup = ({
         >
           {t("buttons.close")}
         </Button>
-        <HasPermission permission={"Export Attendance Report Excel"}>
+        <HasPermission permission={"Export Requests Report Excel"}>
           <Button
             variant="success"
             type="button"
@@ -189,7 +142,7 @@ const ExportAttendancePopup = ({
           </Button>
         </HasPermission>
 
-        <HasPermission permission={"Export Attendance Report PDF"}>
+        <HasPermission permission={"Export Requests Report PDF"}>
           <Button
             variant="success"
             type="button"
@@ -205,4 +158,4 @@ const ExportAttendancePopup = ({
   );
 };
 
-export default ExportAttendancePopup;
+export default ExportRequestsPopup;

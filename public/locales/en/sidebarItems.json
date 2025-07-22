@@ -36,5 +36,6 @@
   "logs": "Logs",
   "sickRequests": "Sick Requests",
   "leaveAttendance": "Leave with attendance",
-  "addRequest": "Add Request"
+  "addRequest": "Add Request",
+  "requestsSummary": "Requests Summary"
 }

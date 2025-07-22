@@ -5,46 +5,29 @@ import {
   Header,
   NoDataMessage,
   Paginator,
-  StatusBadge,
   Table,
   TableCell,
   TableRow,
   TableSkeleton,
-  Tooltip,
 } from "../../../components/ui";
-import {
-  useGetAllGenaricRequests,
-  useSoftDeleteRequest,
-} from "../../../hooks/request.hook";
-import { useLanguageStore } from "../../../store";
-import {
-  downloadFile,
-  getRequestStatusVariant,
-  showToast,
-} from "../../../utils";
+import { useGetRequestsSummary } from "../../../hooks/request.hook";
+import { downloadFile, showToast } from "../../../utils";
 import useURLSearchParams from "../../../hooks/URLSearchParams.hook";
-import Filters from "./views/Filters";
 import {
   useDebounce,
   useEmployeeRequestsSummaryReport,
   useEmployeeRequestsSummaryReportPDF,
 } from "../../../hooks";
-import { FileDown, FilePenLine, Trash } from "lucide-react";
-import DeletePopup from "./views/DeletePopup";
-import { ISoftDeleteRequestCredentials } from "../../../interfaces/request.interfaces";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
 import { HasPermission } from "../../../components/auth";
-import { ExportPopup } from "../../common/manage-attendance/views";
+import { FileDown } from "lucide-react";
+import Filters from "./Views/Filters";
+import ExportRequestsPopup from "./Views/ExportRequestsPopup";
 
-const GenaricRequestsPage = () => {
+const RequestsSummary = () => {
   const [isDownloadReportPopupOpen, setIsDownloadReportPopupOpen] =
     useState(false);
-
-  const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
-  const [selectedID, setSelectedID] = useState<number>(0);
-  const { t } = useTranslation("requests");
-  const { language } = useLanguageStore();
+  const { t } = useTranslation("requestsSummary");
   const { getParam, setParam, clearParams } = useURLSearchParams();
   // Using the enhanced getParam with parser support from the improved hook
   const rawPage = getParam("page", Number);
@@ -68,60 +51,38 @@ const GenaricRequestsPage = () => {
   const leaveType = rawLeaveType !== null ? rawLeaveType : undefined;
   const searchKey = rawSearchKey || undefined;
   const searchQuery = rawSearchQuery || undefined;
+
   const departmentId = rawDepartmentId || "";
   const checked = rawChecked || false;
   const subDeptartmentId = rawSubDeptartmentId || "";
 
-  const { requests, isLoading, metadata } = useGetAllGenaricRequests(
+  const { requests, isLoading, metadata } = useGetRequestsSummary(
     page,
     pageSize,
     startDate,
     endDate,
+    status,
+    leaveType,
     searchKey,
     searchQuery
   );
-
-  const handleDeletePopupOpen = (id: number) => {
-    setSelectedID(id);
-    restDelete();
-    setIsDeletePopupOpen(true);
-  };
-
-  const handleDeletePopupClose = () => {
-    setSelectedID(0);
-    restDelete();
-    setIsDeletePopupOpen(false);
-  };
-  const REQUESTS_TABLE_COLUMNS = [
-    // "table.columns.id",
+  const REQUESTS_Summary_TABLE_COLUMNS = [
+    // "table.columns.employeeId",
     "table.columns.employeeName",
-    "table.columns.startDate",
-    "table.columns.endDate",
-    "table.columns.requestStatus",
-    "table.columns.requestAt",
-    "table.columns.description",
-    "table.columns.comment",
-    "table.columns.subDepartment",
-    "table.columns.actions",
+    "table.columns.subDepartmentName",
+    "table.columns.totalLeaves",
+    "table.columns.ordinary",
+    "table.columns.casual",
+    "table.columns.totalMissions",
+    "table.columns.sick",
+    "table.columns.availableLeaveRequests",
+    "table.columns.availableOrdinaryLeaves",
+    "table.columns.availableCasualLeaves",
+    // "table.columns.morningLeave",
+    // "table.columns.fullDayMission",
   ];
-  const columns = REQUESTS_TABLE_COLUMNS.map((key) => t(key));
-  const { mutate: deleteRequest, isPending: isDeleting } =
-    useSoftDeleteRequest();
 
-  const {
-    register: registerDelete,
-    handleSubmit: handleSubmitDelete,
-    reset: restDelete,
-    formState: { errors: deleteErrors },
-  } = useForm<ISoftDeleteRequestCredentials>();
-
-  const handleConfirmDelete = handleSubmitDelete(
-    (request: ISoftDeleteRequestCredentials) => {
-      request.requestId = selectedID;
-      deleteRequest(request);
-      setIsDeletePopupOpen(false);
-    }
-  );
+  const columns = REQUESTS_Summary_TABLE_COLUMNS.map((key) => t(key));
 
   // Use the custom hook to fetch data
   const { refetchExportData, isLoading: isExportDataLoading } =
@@ -174,33 +135,33 @@ const GenaricRequestsPage = () => {
     <>
       <div className="sm:p-5 p-3 space-y-5">
         <Header heading={t("header.heading")} subtitle={t("header.subtitle")} />
-        {/* <div className="w-[500px] max-xl:w-full grid grid-cols-1 gap-10 mx-auto">
-            <HasPermission
-              permission={[
-                "Export Attendance Report Excel",
-                "Export Attendance Report PDF",
-              ]}
+        <div className="w-[500px] max-xl:w-full grid grid-cols-1 gap-10 mx-auto">
+          <HasPermission
+            permission={[
+              "Export Requests Report PDF",
+              "Export Requests Report Excel",
+            ]}
+          >
+            <ActionCard
+              icon={<FileDown />}
+              iconBgColor="bg-[#a7f3d0]"
+              iconColor="text-[#10b981]"
+              title={t("exportActionCard.title")}
+              description={t("exportActionCard.description")}
             >
-              <ActionCard
-                icon={<FileDown />}
-                iconBgColor="bg-[#a7f3d0]"
-                iconColor="text-[#10b981]"
-                title={t("exportActionCard.title")}
-                description={t("exportActionCard.description")}
+              <Button
+                fullWidth
+                variant="success"
+                isLoading={isExportDataLoading}
+                onClick={() => {
+                  setIsDownloadReportPopupOpen(true);
+                }}
               >
-                <Button
-                  fullWidth
-                  variant="success"
-                  isLoading={isExportDataLoading}
-                  onClick={() => {
-                    setIsDownloadReportPopupOpen(true);
-                  }}
-                >
-                  {t("exportActionCard.button")}
-                </Button>
-              </ActionCard>
-            </HasPermission>
-        </div> */}
+                {t("exportActionCard.button")}
+              </Button>
+            </ActionCard>
+          </HasPermission>
+        </div>
         <div className="bg-white shadow-md space-y-5 p-5 rounded-lg">
           <div className="flex flex-wrap gap-4">
             <Filters
@@ -227,74 +188,36 @@ const GenaricRequestsPage = () => {
                 ) : (
                   requests.map((request) => (
                     <TableRow key={request.id} className="border-b">
-                      {/* <TableCell
-                       label={columns[0]}>{request?.id}
-                       </TableCell> */}
-
-                      <TableCell label={columns[1]}>
+                      <TableCell label={columns[0]}>
                         {request.employeeName}
                       </TableCell>
 
+                      <TableCell label={columns[1]}>
+                        {request.subDepartmentName}
+                      </TableCell>
+
                       <TableCell label={columns[2]}>
-                        {new Date(request.startDate).toLocaleDateString(
-                          language
-                        )}
+                        {request.eveningLeave + request.morningLeave}
                       </TableCell>
 
                       <TableCell label={columns[3]}>
-                        {new Date(request.endDate).toLocaleDateString(language)}
+                        {request.ordinary}
                       </TableCell>
+
+                      <TableCell label={columns[4]}>{request.casual}</TableCell>
 
                       <TableCell label={columns[5]}>
-                        <StatusBadge
-                          variant={getRequestStatusVariant(request.status)}
-                          size="medium"
-                          shape="rounded"
-                        >
-                          {t(`status.${request.status}`)}
-                        </StatusBadge>
+                        {request.halfDayMission + request.fullDayMission}
                       </TableCell>
-
-                      <TableCell label={columns[6]}>
-                        {new Date(request.requestedAt).toLocaleString(
-                          language === "ar" ? "ar-EG" : "en-CA",
-                          {
-                            day: "2-digit",
-                            month: "2-digit",
-                            year: "numeric",
-                            hour: "2-digit",
-                            minute: "2-digit",
-                          }
-                        )}
-                      </TableCell>
+                      <TableCell label={columns[6]}>{request.sick}</TableCell>
                       <TableCell label={columns[7]}>
-                        {request.description}
+                        {request.availableLeaveRequests}
                       </TableCell>
                       <TableCell label={columns[8]}>
-                        {request.comment}
+                        {request.availableOrdinaryLeaves}
                       </TableCell>
                       <TableCell label={columns[9]}>
-                        {request.subDepartment}
-                      </TableCell>
-                      <TableCell label={columns[6]}>
-                        <div className="flex flex-wrap gap-2">
-                          <Tooltip content={t("table.buttons.toolTipDelete")}>
-                            <Button
-                              variant="error"
-                              fullWidth={false}
-                              size={"sm"}
-                              icon={<Trash className="w-full h-full" />}
-                              onClick={() => handleDeletePopupOpen(request.id)}
-                            />
-                          </Tooltip>
-                          {/* <Button
-                                variant="info"
-                                fullWidth={false}
-                                size={"sm"}
-                                icon={<FilePenLine className="w-full h-full" />}
-                                onClick={() => handleEdit(request.id)}
-                              /> */}
-                        </div>
+                        {request.availableCasualLeaves}
                       </TableCell>
                     </TableRow>
                   ))
@@ -328,15 +251,7 @@ const GenaricRequestsPage = () => {
           />
         </div>
       </div>
-      <DeletePopup
-        register={registerDelete}
-        handleConfirmDelete={handleConfirmDelete}
-        isLoading={isDeleting}
-        isOpen={isDeletePopupOpen}
-        handleClose={handleDeletePopupClose}
-        errors={deleteErrors} // ✅ Add this line
-      />
-      <ExportPopup
+      <ExportRequestsPopup
         isOpen={isDownloadReportPopupOpen}
         handleClose={() => setIsDownloadReportPopupOpen(false)}
         handleDownload={() => {
@@ -375,5 +290,4 @@ const GenaricRequestsPage = () => {
     </>
   );
 };
-
-export default GenaricRequestsPage;
+export default RequestsSummary;

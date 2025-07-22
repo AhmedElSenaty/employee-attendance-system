@@ -26,13 +26,30 @@ import {
   HOME_VISIT_REQUESTS_NS,
   HOME_VISIT_REQUESTS_EMPLOYEE_VIDEO,
 } from "../../../constants";
-import { AssignHomeLeaveRequestSchema, assignHomeLeaveRequestSchema, ChangeToSickFormValues, changeToSickSchema, HomeVisitFormValues, homeVisitRequestSchema } from "../../../validation/homeVisit.schema";
-import { useAssignHomeVisit, useChangeToSickRequest, useGetAllHomeVisitRequests, useGetHomeVisitById, useUpdateHomeVisit } from "../../../hooks/hoomVisit.hooks";
-import { BaseSickRequest, UpdateRequest } from "../../../interfaces/HomeVisit.interfaces";
+import {
+  AssignHomeLeaveRequestSchema,
+  assignHomeLeaveRequestSchema,
+  ChangeToSickFormValues,
+  changeToSickSchema,
+  HomeVisitFormValues,
+  homeVisitRequestSchema,
+} from "../../../validation/homeVisit.schema";
+import {
+  useAssignHomeVisit,
+  useChangeToSickRequest,
+  useGetAllHomeVisitRequests,
+  useGetHomeVisitById,
+  useUpdateHomeVisit,
+} from "../../../hooks/hoomVisit.hooks";
+import {
+  BaseSickRequest,
+  UpdateRequest,
+} from "../../../interfaces/HomeVisit.interfaces";
 import { useDebounce } from "../../../hooks";
 import DeletePopup from "../requests/views/DeletePopup";
 import { ISoftDeleteRequestCredentials } from "../../../interfaces/request.interfaces";
 import { useSoftDeleteRequest } from "../../../hooks/request.hook";
+import { HasPermission } from "../../../components/auth";
 
 const HomeVisitRequestsPage = () => {
   const { t } = useTranslation(HOME_VISIT_REQUESTS_NS);
@@ -62,7 +79,7 @@ const HomeVisitRequestsPage = () => {
     handleSubmit,
     formState: { errors },
     reset,
-    control
+    control,
   } = useForm<AssignHomeLeaveRequestSchema>({
     resolver: yupResolver(assignHomeLeaveRequestSchema),
     mode: "onChange",
@@ -79,7 +96,7 @@ const HomeVisitRequestsPage = () => {
     register: changeRegister,
     handleSubmit: changeHandleSubmit,
     formState: { errors: changeErrors },
-    watch
+    watch,
   } = useForm<ChangeToSickFormValues>({
     resolver: yupResolver(changeToSickSchema),
     mode: "onChange",
@@ -98,7 +115,7 @@ const HomeVisitRequestsPage = () => {
     setSelectedID(id);
     setIsChangePopupOpen(true);
   };
-  
+
   const handleDeletePopupClose = () => {
     setSelectedID(0);
     restDelete();
@@ -116,15 +133,16 @@ const HomeVisitRequestsPage = () => {
 
     const start = new Date(request.startDate);
     const end = new Date(request.endDate);
-    
-    const numberOfDays = Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)) + 1;
-    
+
+    const numberOfDays =
+      Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+
     updateReset({
       startDate: request.startDate,
       numberOfDays,
-      description: request.description
+      description: request.description,
     });
-    
+
     setIsEditPopupOpen(true);
   };
   const handleEditPopupClose = () => {
@@ -149,7 +167,7 @@ const HomeVisitRequestsPage = () => {
   const rawStatus = getParam("status", Number);
   const rawSearchKey = getParam("searchKey");
   const rawSearchQuery = useDebounce(getParam("searchQuery"), 650);
-  
+
   // Use nullish coalescing to default numeric values, undefined for dates if empty
   const page = rawPage ?? 1;
   const pageSize = rawPageSize ?? 10;
@@ -160,8 +178,19 @@ const HomeVisitRequestsPage = () => {
   const searchQuery = rawSearchQuery || undefined;
 
   // Pass filtered params to hook
-  const { homeVisits, metadata, isLoading: isRequestsLoading } =
-  useGetAllHomeVisitRequests(page, pageSize, startDate, endDate, status, searchKey, searchQuery);
+  const {
+    homeVisits,
+    metadata,
+    isLoading: isRequestsLoading,
+  } = useGetAllHomeVisitRequests(
+    page,
+    pageSize,
+    startDate,
+    endDate,
+    status,
+    searchKey,
+    searchQuery
+  );
 
   const { request, isLoading: isRequestLoading } = useGetHomeVisitById(
     selectedID,
@@ -171,12 +200,11 @@ const HomeVisitRequestsPage = () => {
   const { mutate: assignRequest, isPending: isAssigning } =
     useAssignHomeVisit();
 
-  const { mutate: updateRequest, isPending: isUpdating } =
-  useUpdateHomeVisit();
+  const { mutate: updateRequest, isPending: isUpdating } = useUpdateHomeVisit();
 
   const { mutate: changeRequest, isPending: isChanging } =
-  useChangeToSickRequest();
-  
+    useChangeToSickRequest();
+
   const { mutate: deleteRequest, isPending: isDeleting } =
     useSoftDeleteRequest();
 
@@ -193,7 +221,7 @@ const HomeVisitRequestsPage = () => {
       ...request,
       id: selectedID,
     };
-  
+
     updateRequest(updatePayload);
   };
 
@@ -218,33 +246,34 @@ const HomeVisitRequestsPage = () => {
       />
 
       {/* Action Buttons Section */}
-      <div className="max-w-[1000px] flex flex-col items-center mx-auto space-y-6">
-        <div className="w-full flex items-center justify-center">
-          <InfoPopup
-            title={t("infoPopup.title")}
-            description={t("infoPopup.description")}
-            videoUrl={HOME_VISIT_REQUESTS_EMPLOYEE_VIDEO}
-          />
-        </div>
-        <div className="w-full md:w-[500px]">
-          <ActionCard
-            icon={<FilePlus2 />}
-            iconBgColor="bg-[#e0f7fa]"
-            iconColor="text-[#00796b]"
-            title={t("assignActionCard.title")}
-            description={t("assignActionCard.description")}
-          >
-            <Button
-              fullWidth
-              variant="secondary"
-              onClick={handleAssignPopupOpen}
+      <HasPermission permission="Assign Requests to Employee">
+        <div className="max-w-[1000px] flex flex-col items-center mx-auto space-y-6">
+          <div className="w-full flex items-center justify-center">
+            <InfoPopup
+              title={t("infoPopup.title")}
+              description={t("infoPopup.description")}
+              videoUrl={HOME_VISIT_REQUESTS_EMPLOYEE_VIDEO}
+            />
+          </div>
+          <div className="w-full md:w-[500px]">
+            <ActionCard
+              icon={<FilePlus2 />}
+              iconBgColor="bg-[#e0f7fa]"
+              iconColor="text-[#00796b]"
+              title={t("assignActionCard.title")}
+              description={t("assignActionCard.description")}
             >
-              {t("assignActionCard.button")}
-            </Button>
-          </ActionCard>
+              <Button
+                fullWidth
+                variant="secondary"
+                onClick={handleAssignPopupOpen}
+              >
+                {t("assignActionCard.button")}
+              </Button>
+            </ActionCard>
+          </div>
         </div>
-      </div>
-
+      </HasPermission>
       <div className="bg-white shadow-md space-y-5 p-5 rounded-lg">
         <SectionHeader
           title={t("employeeSectionHeader.title")}
@@ -313,11 +342,17 @@ const HomeVisitRequestsPage = () => {
         }}
         handleSubmit={handleSubmit(handleConfirmAssign)}
         formInputs={
-          <Inputs register={register} errors={errors} isLoading={isAssigning} control={control} isUpdateForm={false} />
+          <Inputs
+            register={register}
+            errors={errors}
+            isLoading={isAssigning}
+            control={control}
+            isUpdateForm={false}
+          />
         }
         isLoading={isAssigning}
       />
-      
+
       <ChangeToSickPopup
         isOpen={isChangePopupOpen}
         handleClose={() => {
@@ -325,7 +360,11 @@ const HomeVisitRequestsPage = () => {
         }}
         handleSubmit={changeHandleSubmit(handleConfirmChange)}
         formInputs={
-          <ChangeToSickInputs register={changeRegister} errors={changeErrors} watch={watch} />
+          <ChangeToSickInputs
+            register={changeRegister}
+            errors={changeErrors}
+            watch={watch}
+          />
         }
         isLoading={isChanging}
       />
@@ -335,7 +374,11 @@ const HomeVisitRequestsPage = () => {
         handleClose={handleEditPopupClose}
         handleSubmit={updateHandleSubmit(handleConfirmUpdate)}
         formInputs={
-          <Inputs register={updateRegister} errors={updateErrors} isLoading={isUpdating} />
+          <Inputs
+            register={updateRegister}
+            errors={updateErrors}
+            isLoading={isUpdating}
+          />
         }
         isLoading={isUpdating}
       />

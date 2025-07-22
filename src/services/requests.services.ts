@@ -91,6 +91,41 @@ export class RequestService extends BaseService {
     }
   };
 
+  fetchRequestsSummary = async (
+    page?: number,
+    pageSize?: number,
+    startDate?: string,
+    endDate?: string,
+    status?: number,
+    leaveType?: number,
+    searchType?: string,
+    searchQuery?: string
+  ) => {
+    try {
+      const params = this.buildParams({
+        PageIndex: page ?? 1,
+        PageSize: pageSize,
+        StartDate: startDate,
+        EndDate: endDate,
+        Status: status,
+        Type: leaveType,
+        ...(searchType && searchQuery ? { [searchType]: searchQuery } : {}),
+      });
+
+      const response = await axiosInstance.get("/Request/AllRequestsSummary", {
+        params,
+
+        headers: this.getAuthHeaders(),
+      });
+
+      console.log(response);
+
+      return response;
+    } catch (error) {
+      this.handleError(error, "Error fetching all requests");
+    }
+  };
+
   fetchGenaricRequests = async (
     page?: number,
     pageSize?: number,

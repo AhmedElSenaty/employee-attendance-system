@@ -133,8 +133,8 @@ const AllRequestsPage = () => {
         <div className="w-[500px] max-xl:w-full grid grid-cols-1 gap-10 mx-auto">
                       <HasPermission
               permission={[
-                "Export Attendance Report Excel",
-                "Export Attendance Report PDF",
+                "Export Requests Report Excel",
+                "Export Requests Report PDF",
               ]}
             >
               <ActionCard
