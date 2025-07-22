@@ -22,22 +22,27 @@
     "button": "Read Conditions"
   },
   "employeeSectionHeader": {
-    "title":"Employee Leave Requests", 
-    "description":"View submitted leave requests with status, timing, and notes. Edit or manage them as needed."
+    "title": "Employee Leave Requests",
+    "description": "View submitted leave requests with status, timing, and notes. Edit or manage them as needed."
   },
   "filters": {
-    "pageSize": "Page Size",
+    "pageSize": "Items per page",
     "startDate": "Start Date",
     "endDate": "End Date",
-    "leaveStatus": "Leave Status",
-    "defaultLeaveStatusOption": "Select leave status",
-    "toolTipResetFilters": "Reset All",
+    "leaveStatus": "Request Status",
+    "leaveType": "Request Type",
+    "defaultLeaveStatusOption": "Select Request Status",
+    "defaultLeaveTypeOption": "Select Request Type",
+    "toolTipResetFilters": "Reset Filters",
     "searchBy": {
-      "default": "Choose your search method",
+      "default": "Select Search Method",
       "label": "Search By",
       "SearchByFullName": "Full Name",
-      "SearchBySSN": "SSN"
+      "SearchBySSN": "National ID",
+      "SearchByDeptartmentID": "Department",
+      "SearchBySubDeptartmentId": "Sub Department"
     },
+
     "search": {
       "label": "Search",
       "placeholder": "Enter the value you want to search for...."
@@ -76,7 +81,7 @@
   },
   "showPopup": {
     "title": "Leave Request Details",
-    "description":"Detailed information about the leave request",
+    "description": "Detailed information about the leave request",
     "fields": {
       "employeeId": "#Employee ID",
       "employeeName": "Employee Name",
@@ -94,8 +99,8 @@
     }
   },
   "addPopup": {
-    "title":"Add Leave Request",
-    "description":"Fill in the details to submit a new leave request.",
+    "title": "Add Leave Request",
+    "description": "Fill in the details to submit a new leave request.",
     "buttons": {
       "add": "Add",
       "close": "Close",
@@ -103,8 +108,8 @@
     }
   },
   "editPopup": {
-    "title":"Edit Leave Request",
-    "description":"Update the details of your leave request below.",
+    "title": "Edit Leave Request",
+    "description": "Update the details of your leave request below.",
     "buttons": {
       "edit": "Edit",
       "close": "Close",
@@ -141,10 +146,13 @@
     }
   },
   "status": {
-    "0":"Pending",
-    "1":"Accepted",
-    "2":"Rejected",
-    "3":"Ignored"
+    "0": "Pending",
+    "1": "Accepted",
+    "2": "Rejected",
+    "3": "Ignored",
+    "4": "Manually Assigned",
+    "5": "Deleted",
+    "6": "Edited"
   },
   "timeType": {
     "0": "Morning Permit",
@@ -174,7 +182,7 @@
     }
   },
   "acceptPopup": {
-    "title":"Accept Leave Request",
+    "title": "Accept Leave Request",
     "description": "Are you sure you want to accept this leave request? This action will notify the employee and update the request status.",
     "buttons": {
       "accept": "Accept",

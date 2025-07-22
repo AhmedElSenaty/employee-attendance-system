@@ -1,0 +1,155 @@
+{
+  "table": {
+    "emptyTable": {
+      "title": "No Requests Found",
+      "message": "Try adjusting the filters or adding a new request."
+    },
+    "columns": {
+      "id": "Request ID",
+      "employeeName": "Employee Name",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "startTime": "Start Time",
+      "endTime": "End Time",
+      "requestType": "Request Type",
+      "requestStatus": "Request Status",
+      "departmentName": "Department",
+      "subDepartment": "Sub Department",
+      "requestAt": "Request Date",
+      "description": "Description",
+      "comment": "Comment",
+      "actions": "Actions"
+    },
+    "buttons": {
+      "toolTipAccept": "Accept Leave Request",
+      "toolTipReject": "Reject Leave Request",
+      "toolTipDelete": "Delete Leave Request"
+    }
+  },
+  "inputs": {
+    "employeeId": {
+      "label": "Employee",
+      "inputValidation": {
+        "required": "Employee selection is required",
+        "typeError": "A valid employee must be selected"
+      }
+    },
+    "leaveType": {
+      "label": "Leave Type",
+      "validation": {
+        "required": "Leave type is required"
+      },
+      "options": {
+        "Ordinary": "Ordinary Leave",
+        "Casual": "Casual Leave",
+        "MorningLeave": "Morning Permission",
+        "EveningLeave": "Evening Permission",
+        "FullDayMission": "Full Day Mission",
+        "HalfDayMission": "Half Day Mission"
+      }
+    },
+    "startDate": {
+      "label": "Start Date",
+      "validation": {
+        "required": "Start date is required",
+        "is-date": "Start date must be a valid date"
+      }
+    },
+    "endDate": {
+      "label": "End Date",
+      "validation": {
+        "required": "End date is required",
+        "is-date": "End date must be a valid date"
+      }
+    },
+    "description": {
+      "label": "Description",
+      "placeholder": "Optional comment on the leave request"
+    },
+    "comment": {
+      "label": "Comment",
+      "placeholder": "Provide a reason for rejection...",
+      "inputValidation": {
+        "required": "Comment is required"
+      }
+    }
+  },
+  "status": {
+    "0": "Pending",
+    "1": "Accepted",
+    "2": "Rejected",
+    "3": "Ignored",
+    "4": "Manually Assigned",
+    "5": "Deleted",
+    "6": "Edited"
+  },
+  "leaveType": {
+    "1": "Sick Leave",
+    "2": "Ordinary Leave",
+    "3": "Casual Leave",
+    "4": "Morning Permission",
+    "5": "Evening Permission",
+    "6": "Full Day Mission",
+    "7": "Half Day Mission"
+  },
+  "exportActionCard": {
+    "title": "Export Filtered Data",
+    "description": "Export the data shown in the table and download it in the preferred format.",
+    "button": "Export",
+    "validation": {
+      "selectDateRange": "You must select both start and end dates first."
+    }
+  },
+  "export": {
+    "exportSuccess": "Data exported successfully! ✅",
+    "exportError": "Failed to export data. Please try again ❌"
+  },
+  "header": {
+    "heading": "Request Management",
+    "subtitle": "You can easily add, edit, or delete system-related requests."
+  },
+  "acceptPopup": {
+    "title": "Accept Leave Request",
+    "description": "Are you sure you want to accept this leave request? This action will notify the employee and update the request status.",
+    "buttons": {
+      "accept": "Accept",
+      "close": "Close"
+    }
+  },
+  "rejectPopup": {
+    "title": "Reject Leave Request",
+    "description": "Are you sure you want to reject this leave request? This action will notify the employee and update the request status.",
+    "buttons": {
+      "reject": "Reject",
+      "close": "Close"
+    }
+  },
+  "assignPopup": {
+    "title": "Assign Leave",
+    "description": "Fill in the details to assign a leave request.",
+    "buttons": {
+      "close": "Close",
+      "accept": "Assign"
+    }
+  },
+  "deletePopup": {
+    "title": "Delete Leave Request",
+    "description": "Are you sure you want to delete this leave request? This action will notify the employee and update the request status.",
+    "buttons": {
+      "delete": "Delete",
+      "close": "Close"
+    }
+  },
+  "editPopup": {
+    "title": "Edit Leave Request",
+    "description": "Please modify the following information to update the leave request. The employee will be notified once saved.",
+    "buttons": {
+      "save": "Save Changes",
+      "cancel": "Cancel"
+    }
+  },
+  "assignActionCard": {
+    "title": "Assign General Leave",
+    "description": "Add a general leave for the employee"
+  }
+}
