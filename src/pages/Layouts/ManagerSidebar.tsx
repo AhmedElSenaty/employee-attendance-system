@@ -200,7 +200,7 @@ export const ManagerSidebar = () => {
             to="/manager/casual-requests"
           />
         )}
-        {permissions.includes("View Requests") && (
+        {permissions.includes("see sick leaves") && (
           <SidebarItem
             icon={<Thermometer size={23} />}
             name={t("sickRequests")}

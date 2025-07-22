@@ -84,8 +84,7 @@ const SickLRequestsPage = () => {
     restDelete();
     setIsDeletePopupOpen(true);
   };
-    const [isEditOpen, setIsEditOpen] = useState(false);
-
+  const [isEditOpen, setIsEditOpen] = useState(false);
 
   const handleDeletePopupClose = () => {
     setSelectedID(0);
@@ -200,7 +199,7 @@ const SickLRequestsPage = () => {
             videoUrl={SICK_REQUESTS_MANAGER_VIDEO}
           />
         </div>
-        <HasPermission permission="Assign Requests to Employee">
+        <HasPermission permission="add sick leaves">
           <ActionCard
             icon={<CirclePlus />}
             iconBgColor="bg-[#f5e4b2]"
@@ -245,8 +244,7 @@ const SickLRequestsPage = () => {
             handleShow={handleShowPopupOpen}
             handleAccept={handleAcceptPopupOpen}
             handleReject={handleRejectPopupOpen}
-                        handleEdit={handleEditopupOpen}
-
+            handleEdit={handleEditopupOpen}
           />
         </div>
 
@@ -323,9 +321,11 @@ const SickLRequestsPage = () => {
         handleClose={handleDeletePopupClose}
         errors={deleteErrors}
       />
-                  <EditRequestPopup
+      <EditRequestPopup
         isOpen={isEditOpen}
-        handleClose={() => { setIsEditOpen(false) }}
+        handleClose={() => {
+          setIsEditOpen(false);
+        }}
         requestId={selectedID}
       />
     </div>
