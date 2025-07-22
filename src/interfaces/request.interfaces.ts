@@ -28,3 +28,10 @@ export interface IAssignRequest {
   leaveType: number; // consider using an enum if leave types are predefined
   description: string;
 }
+
+export interface AssignGenericRequest {
+  employeeId: number;
+  startDate: string;  // ISO date string (e.g., "2025-07-22T09:58:31.977Z")
+  endDate: string;    // ISO date string
+  description: string;
+}

@@ -1,5 +1,6 @@
 import axiosInstance from "../config/axios.config";
 import {
+  AssignGenericRequest,
   IAssignRequest,
   IRejectRequestCredentials,
   ISoftDeleteRequestCredentials,
@@ -210,4 +211,10 @@ export class RequestService extends BaseService {
       headers: this.getAuthHeaders(),
     });
   };
+
+  assignGeneric = (data: AssignGenericRequest) => {
+      return axiosInstance.post("/Request/Manager/AssignGenericRequestttttt", data, {
+        headers: this.getAuthHeaders(),
+      });
+  }
 }

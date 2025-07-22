@@ -71,15 +71,15 @@ const MissionRequestsTable = ({
                 {/* <TableCell label={columns[0]}>
                   {formatValue(missionRequest?.id || 0, language)}
                 </TableCell> */}
-                <TableCell label={columns[1]}>
+                <TableCell label={columns[0]}>
                   {missionRequest.employeeName}
                 </TableCell>
-                <TableCell label={columns[2]}>
+                <TableCell label={columns[1]}>
                   {new Date(missionRequest.date || "").toLocaleDateString(
                     language === "ar" ? "ar-EG" : "en-CA"
                   )}
                 </TableCell>
-                <TableCell label={columns[3]}>
+                <TableCell label={columns[2]}>
                   {new Date(missionRequest?.requestedAt || "").toLocaleString(
                     language,
                     {
@@ -91,10 +91,10 @@ const MissionRequestsTable = ({
                     }
                   )}
                 </TableCell>
-                <TableCell label={columns[4]}>
+                <TableCell label={columns[3]}>
                   {t(`dayType.${missionRequest?.type as number}`)}
                 </TableCell>
-                <TableCell label={columns[5]}>
+                <TableCell label={columns[4]}>
                   <StatusBadge
                     variant={getRequestStatusVariant(missionRequest.status)}
                     size="medium"
@@ -103,7 +103,7 @@ const MissionRequestsTable = ({
                     {t(`status.${missionRequest.status as number}`)}
                   </StatusBadge>
                 </TableCell>
-                <TableCell label={columns[6]}>
+                <TableCell label={columns[5]}>
                   <div className="flex flex-wrap gap-2">
                     <Tooltip content={t("table.buttons.toolTipShow")}>
                       <Button

@@ -40,7 +40,6 @@ const SickRequestsTable = ({
   const { language } = useLanguageStore();
 
   const SICK_REQUESTS_TABLE_COLUMNS = [
-    // "table.columns.id",
     "table.columns.employeeName",
     "table.columns.startDate",
     "table.columns.endDate",
@@ -73,26 +72,23 @@ const SickRequestsTable = ({
           ) : (
             sickRequests.map((sickRequest) => (
               <TableRow key={sickRequest.requestId} className="border-b">
-                {/* <TableCell label={columns[0]}>
-                  {formatValue(sickRequest?.requestId || 0, language)}
-                </TableCell> */}
-                <TableCell label={columns[1]}>
+                <TableCell label={columns[0]}>
                   {sickRequest.employeeName}
                 </TableCell>
-                <TableCell label={columns[2]}>
+                <TableCell label={columns[1]}>
                   {new Date(sickRequest.startDate || "").toLocaleDateString(
                     language === "ar" ? "ar-EG" : "en-CA"
                   )}
                 </TableCell>
-                <TableCell label={columns[3]}>
+                <TableCell label={columns[2]}>
                   {new Date(sickRequest.endDate || "").toLocaleDateString(
                     language === "ar" ? "ar-EG" : "en-CA"
                   )}
                 </TableCell>
-                <TableCell label={columns[4]}>
+                <TableCell label={columns[3]}>
                   {formatValue(sickRequest?.numberOfDays || 0, language)}
                 </TableCell>
-                <TableCell label={columns[5]}>
+                <TableCell label={columns[4]}>
                   {new Date(sickRequest?.requestedAt || "").toLocaleString(
                     language === "ar" ? "ar-EG" : "en-CA",
                     {
@@ -104,7 +100,7 @@ const SickRequestsTable = ({
                     }
                   )}
                 </TableCell>
-                <TableCell label={columns[6]}>
+                <TableCell label={columns[5]}>
                   <StatusBadge
                     variant={getRequestStatusVariant(sickRequest.status)}
                     size="medium"

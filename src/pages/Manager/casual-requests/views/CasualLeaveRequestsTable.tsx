@@ -40,7 +40,6 @@ const CasualLeaveRequestssTable = ({
   const { language } = useLanguageStore();
 
   const CASUAL_LEAVE_REQUESTS_TABLE_COLUMNS = [
-    // "table.columns.id",
     "table.columns.employeeName",
     "table.columns.startDate",
     "table.columns.endDate",
@@ -68,23 +67,20 @@ const CasualLeaveRequestssTable = ({
           ) : (
             casualLeaveRequests.map((casualLeaveRequest) => (
               <TableRow key={casualLeaveRequest.id} className="border-b">
-                {/* <TableCell label={columns[0]}>
-                  {formatValue(casualLeaveRequest?.id || 0, language)}
-                </TableCell> */}
-                <TableCell label={columns[1]}>
+                <TableCell label={columns[0]}>
                   {casualLeaveRequest.employeeName}
                 </TableCell>
-                <TableCell label={columns[2]}>
+                <TableCell label={columns[1]}>
                   {new Date(
                     casualLeaveRequest.startDate || ""
                   ).toLocaleDateString(language === "ar" ? "ar-EG" : "en-CA")}
                 </TableCell>
-                <TableCell label={columns[3]}>
+                <TableCell label={columns[2]}>
                   {new Date(
                     casualLeaveRequest.endDate || ""
                   ).toLocaleDateString(language === "ar" ? "ar-EG" : "en-CA")}
                 </TableCell>
-                <TableCell label={columns[4]}>
+                <TableCell label={columns[3]}>
                   {new Date(
                     casualLeaveRequest?.requestedAt || ""
                   ).toLocaleString(language === "ar" ? "ar-EG" : "en-CA", {
@@ -95,7 +91,7 @@ const CasualLeaveRequestssTable = ({
                     minute: "2-digit",
                   })}
                 </TableCell>
-                <TableCell label={columns[5]}>
+                <TableCell label={columns[4]}>
                   <StatusBadge
                     variant={getRequestStatusVariant(casualLeaveRequest.status)}
                     size="medium"
@@ -104,7 +100,7 @@ const CasualLeaveRequestssTable = ({
                     {t(`status.${casualLeaveRequest.status as number}`)}
                   </StatusBadge>
                 </TableCell>
-                <TableCell label={columns[6]}>
+                <TableCell label={columns[5]}>
                   <div className="flex flex-wrap gap-2">
                     <Tooltip content={t("table.buttons.toolTipShow")}>
                       <Button

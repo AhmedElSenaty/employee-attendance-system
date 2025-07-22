@@ -29,18 +29,20 @@ import {
   useEmployeeRequestsSummaryReport,
   useEmployeeRequestsSummaryReportPDF,
 } from "../../../hooks";
-import { FileDown, FilePenLine, Trash } from "lucide-react";
+import { FileDown, Trash } from "lucide-react";
 import DeletePopup from "./views/DeletePopup";
 import { ISoftDeleteRequestCredentials } from "../../../interfaces/request.interfaces";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { HasPermission } from "../../../components/auth";
 import { ExportPopup } from "../../common/manage-attendance/views";
+import AssignGenericPopup from "./views/AssignGenericInputs";
 
 const GenaricRequestsPage = () => {
+  
+  const [isAssignGenericPopupOpen, setIsAssignGenericPopupOpen] =
+    useState(false);
   const [isDownloadReportPopupOpen, setIsDownloadReportPopupOpen] =
     useState(false);
-
   const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
   const [selectedID, setSelectedID] = useState<number>(0);
   const { t } = useTranslation("requests");
@@ -93,7 +95,6 @@ const GenaricRequestsPage = () => {
     setIsDeletePopupOpen(false);
   };
   const REQUESTS_TABLE_COLUMNS = [
-    // "table.columns.id",
     "table.columns.employeeName",
     "table.columns.startDate",
     "table.columns.endDate",
@@ -201,6 +202,23 @@ const GenaricRequestsPage = () => {
               </ActionCard>
             </HasPermission>
         </div> */}
+              <ActionCard
+                icon={<FileDown />}
+            iconBgColor="bg-[#f5e4b2]"
+            iconColor="text-[#b38e19]"
+            title={t("assignActionCard.title")}
+            description={t("assignActionCard.description")}
+              >
+                <Button
+                  fullWidth
+                  variant="secondary"
+                  onClick={() => {
+                    setIsAssignGenericPopupOpen(true);
+                  }}
+                >
+                  {t("exportActionCard.button")}
+                </Button>
+              </ActionCard>
         <div className="bg-white shadow-md space-y-5 p-5 rounded-lg">
           <div className="flex flex-wrap gap-4">
             <Filters
@@ -227,25 +245,21 @@ const GenaricRequestsPage = () => {
                 ) : (
                   requests.map((request) => (
                     <TableRow key={request.id} className="border-b">
-                      {/* <TableCell
-                       label={columns[0]}>{request?.id}
-                       </TableCell> */}
-
-                      <TableCell label={columns[1]}>
+                      <TableCell label={columns[0]}>
                         {request.employeeName}
                       </TableCell>
 
-                      <TableCell label={columns[2]}>
+                      <TableCell label={columns[1]}>
                         {new Date(request.startDate).toLocaleDateString(
                           language
                         )}
                       </TableCell>
 
-                      <TableCell label={columns[3]}>
+                      <TableCell label={columns[2]}>
                         {new Date(request.endDate).toLocaleDateString(language)}
                       </TableCell>
 
-                      <TableCell label={columns[5]}>
+                      <TableCell label={columns[3]}>
                         <StatusBadge
                           variant={getRequestStatusVariant(request.status)}
                           size="medium"
@@ -255,7 +269,7 @@ const GenaricRequestsPage = () => {
                         </StatusBadge>
                       </TableCell>
 
-                      <TableCell label={columns[6]}>
+                      <TableCell label={columns[4]}>
                         {new Date(request.requestedAt).toLocaleString(
                           language === "ar" ? "ar-EG" : "en-CA",
                           {
@@ -267,16 +281,16 @@ const GenaricRequestsPage = () => {
                           }
                         )}
                       </TableCell>
-                      <TableCell label={columns[7]}>
+                      <TableCell label={columns[4]}>
                         {request.description}
                       </TableCell>
-                      <TableCell label={columns[8]}>
+                      <TableCell label={columns[5]}>
                         {request.comment}
                       </TableCell>
-                      <TableCell label={columns[9]}>
+                      <TableCell label={columns[6]}>
                         {request.subDepartment}
                       </TableCell>
-                      <TableCell label={columns[6]}>
+                      <TableCell label={columns[7]}>
                         <div className="flex flex-wrap gap-2">
                           <Tooltip content={t("table.buttons.toolTipDelete")}>
                             <Button
@@ -372,6 +386,7 @@ const GenaricRequestsPage = () => {
         isloadingPDF={isLoadingPDF}
         handleDownloadPDF={handleDownloadPDF}
       />
+      <AssignGenericPopup isOpen={isAssignGenericPopupOpen} handleClose={() => { setIsAssignGenericPopupOpen(false) }} />
     </>
   );
 };
