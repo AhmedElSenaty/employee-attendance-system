@@ -142,21 +142,21 @@ const RequestsPage = () => {
                        label={columns[0]}>{request?.id}
                        </TableCell> */}
 
-                      <TableCell label={columns[1]}>
+                      <TableCell label={columns[0]}>
                         {request.employeeName}
                       </TableCell>
 
-                      <TableCell label={columns[2]}>
+                      <TableCell label={columns[1]}>
                         {new Date(request.startDate).toLocaleDateString(
                           language
                         )}
                       </TableCell>
 
-                      <TableCell label={columns[3]}>
+                      <TableCell label={columns[2]}>
                         {new Date(request.endDate).toLocaleDateString(language)}
                       </TableCell>
 
-                      <TableCell label={columns[4]}>
+                      <TableCell label={columns[3]}>
                         {new Date(request.startDate).toLocaleTimeString(
                           language,
                           {
@@ -166,7 +166,7 @@ const RequestsPage = () => {
                         )}
                       </TableCell>
 
-                      <TableCell label={columns[5]}>
+                      <TableCell label={columns[4]}>
                         {new Date(request.endDate).toLocaleTimeString(
                           language,
                           {
@@ -176,11 +176,11 @@ const RequestsPage = () => {
                         )}
                       </TableCell>
 
-                      <TableCell label={columns[6]}>
+                      <TableCell label={columns[5]}>
                         {t(`leaveType.${request.leaveType}`)}
                       </TableCell>
 
-                      <TableCell label={columns[7]}>
+                      <TableCell label={columns[6]}>
                         <StatusBadge
                           variant={getRequestStatusVariant(
                             request.requestStatus
@@ -192,7 +192,7 @@ const RequestsPage = () => {
                         </StatusBadge>
                       </TableCell>
 
-                      <TableCell label={columns[8]}>
+                      <TableCell label={columns[7]}>
                         {new Date(request.requestedDate).toLocaleString(
                           language === "ar" ? "ar-EG" : "en-CA",
                           {
@@ -205,7 +205,7 @@ const RequestsPage = () => {
                         )}
                       </TableCell>
 
-                      <TableCell label={columns[9]}>
+                      <TableCell label={columns[8]}>
                         <HasPermission permission="Accept/Reject Requests">
                           {request.requestStatus ===
                             RequestStatusType.Pending && (

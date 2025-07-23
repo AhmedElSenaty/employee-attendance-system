@@ -60,11 +60,9 @@ const EmployeesTable = ({
     "table.columns.fullName",
     "table.columns.email",
     "table.columns.ssn",
-    // "table.columns.phoneNumber",
     "table.columns.departmentName",
     "table.columns.subDepartmentName",
     "table.columns.status",
-    // "table.columns.isExcludedFromReports",
     "table.columns.actions",
   ];
 
@@ -91,7 +89,6 @@ const EmployeesTable = ({
                 fullName,
                 email,
                 ssn,
-                // phoneNumber,
                 departmentName,
                 subDepartmentName,
                 isActive,
@@ -107,16 +104,13 @@ const EmployeesTable = ({
                     {truncateText(email, 15)}
                   </TableCell>
                   <TableCell label={columns[2]}>{ssn}</TableCell>
-                  {/* <TableCell label={columns[3]}>
-                    {phoneNumber != null ? phoneNumber : t("NA")}
-                  </TableCell> */}
-                  <TableCell label={columns[4]}>
+                  <TableCell label={columns[3]}>
                     {truncateText(departmentName, 20)}
                   </TableCell>
-                  <TableCell label={columns[5]}>
+                  <TableCell label={columns[4]}>
                     {truncateText(subDepartmentName, 20)}
                   </TableCell>
-                  <TableCell label={columns[6]}>
+                  <TableCell label={columns[5]}>
                     <div className="h-fit flex flex-col gap-3 items-center justify-center">
                       <div className="block">
                         <StatusBadge
@@ -169,7 +163,7 @@ const EmployeesTable = ({
                       </div>
                     </div>
                   </TableCell> */}
-                  <TableCell label={columns[7]}>
+                  <TableCell label={columns[6]}>
                     <div className="flex flex-wrap gap-2">
                       <HasPermission permission="Update Employee">
                         <Tooltip content={t("buttons.editToolTip")}>

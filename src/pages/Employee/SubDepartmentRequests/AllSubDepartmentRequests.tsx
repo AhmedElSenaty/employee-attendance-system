@@ -99,25 +99,25 @@ const AllSubDepartmentRequests = () => {
                        label={columns[0]}>{request?.id}
                        </TableCell> */}
 
-                      <TableCell label={columns[1]}>
+                      <TableCell label={columns[0]}>
                         {request.employeeName}
                       </TableCell>
 
-                      <TableCell label={columns[2]}>
+                      <TableCell label={columns[1]}>
                         {new Date(request.startDate).toLocaleDateString(
                           language
                         )}
                       </TableCell>
 
-                      <TableCell label={columns[3]}>
+                      <TableCell label={columns[2]}>
                         {new Date(request.endDate).toLocaleDateString(language)}
                       </TableCell>
 
-                      <TableCell label={columns[4]}>
+                      <TableCell label={columns[3]}>
                         {t(`leaveType.${request.type}`)}
                       </TableCell>
 
-                      <TableCell label={columns[5]}>
+                      <TableCell label={columns[4]}>
                         <StatusBadge
                           variant={getRequestStatusVariant(request.status)}
                           size="medium"
@@ -127,7 +127,7 @@ const AllSubDepartmentRequests = () => {
                         </StatusBadge>
                       </TableCell>
 
-                      <TableCell label={columns[6]}>
+                      <TableCell label={columns[5]}>
                         {new Date(request.requestedAt).toLocaleString(
                           language === "ar" ? "ar-EG" : "en-CA",
                           {
@@ -139,13 +139,13 @@ const AllSubDepartmentRequests = () => {
                           }
                         )}
                       </TableCell>
-                      <TableCell label={columns[7]}>
+                      <TableCell label={columns[6]}>
                         {request.description}
                       </TableCell>
-                      <TableCell label={columns[8]}>
+                      <TableCell label={columns[7]}>
                         {request.comment}
                       </TableCell>
-                      <TableCell label={columns[9]}>
+                      <TableCell label={columns[8]}>
                         {request.subDepartment}
                       </TableCell>
                     </TableRow>

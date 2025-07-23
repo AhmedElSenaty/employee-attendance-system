@@ -1,7 +1,7 @@
 {
   "headerVacation": {
-    "heading": "Vacation Overview",
-    "subtitle": "Track and manage employee vacation records, including approved and pending leave requests."
+    "heading": "Attendance Overview",
+    "subtitle": "Track and manage employee vacation records, including approved requests."
   },
   "sectionHeaderVacation": {
     "title": "Employee Vacation Details",
@@ -224,5 +224,5 @@
     "exportSuccess": "Data exported successfully! ✅",
     "exportError": "Failed to export data. Please try again. ❌"
   },
-  "CheckBox":"Include Sub Departments"
+  "CheckBox": "Include Sub Departments"
 }

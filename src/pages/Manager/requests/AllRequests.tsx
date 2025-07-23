@@ -11,22 +11,28 @@ import {
   TableRow,
   TableSkeleton,
 } from "../../../components/ui";
-import {
-    useGetAllRequests,
-} from "../../../hooks/request.hook";
+import { useGetAllRequests } from "../../../hooks/request.hook";
 import { useLanguageStore } from "../../../store";
-import { downloadFile, getRequestStatusVariant, showToast } from "../../../utils";
+import {
+  downloadFile,
+  getRequestStatusVariant,
+  showToast,
+} from "../../../utils";
 import useURLSearchParams from "../../../hooks/URLSearchParams.hook";
 import Filters from "./views/Filters";
-import { useDebounce, useExportReport, useExportReportPDF } from "../../../hooks";
+import {
+  useDebounce,
+  useExportReport,
+  useExportReportPDF,
+} from "../../../hooks";
 import { ExportPopup } from "../../common/manage-attendance/views";
 import { useState } from "react";
 import { FileDown } from "lucide-react";
 import { HasPermission } from "../../../components/auth";
 
-
 const AllRequestsPage = () => {
-  const [isDownloadReportPopupOpen, setIsDownloadReportPopupOpen] = useState(false)
+  const [isDownloadReportPopupOpen, setIsDownloadReportPopupOpen] =
+    useState(false);
 
   const { t } = useTranslation("requests");
   const { language } = useLanguageStore();
@@ -57,40 +63,40 @@ const AllRequestsPage = () => {
   const checked = rawChecked || false;
   const subDeptartmentId = rawSubDeptartmentId || "";
 
-    const { requests, isLoading, metadata } = useGetAllRequests(page,
-      pageSize,
-      startDate,
-      endDate,
-      status,
-      leaveType,
-      searchKey,
-      searchQuery,
-    );
+  const { requests, isLoading, metadata } = useGetAllRequests(
+    page,
+    pageSize,
+    startDate,
+    endDate,
+    status,
+    leaveType,
+    searchKey,
+    searchQuery
+  );
 
-      // Use the custom hook to fetch data
-      const { refetchExportData, isLoading: isExportDataLoading } =
-        useExportReport(
-          searchKey,
-          searchQuery,
-          startDate,
-          endDate,
-          status,
-          leaveType,
-          checked,
-          departmentId || 0,
-          subDeptartmentId || 0
-        );
-      const { isLoadingPDF, refetchExportDataPDF } = useExportReportPDF(
-        searchKey,
-        searchQuery,
-        startDate,
-        endDate,
-        status,
-        leaveType,
-        checked,
-        departmentId || 0,
-        subDeptartmentId || 0
-      );
+  // Use the custom hook to fetch data
+  const { refetchExportData, isLoading: isExportDataLoading } = useExportReport(
+    searchKey,
+    searchQuery,
+    startDate,
+    endDate,
+    status,
+    leaveType,
+    checked,
+    departmentId || 0,
+    subDeptartmentId || 0
+  );
+  const { isLoadingPDF, refetchExportDataPDF } = useExportReportPDF(
+    searchKey,
+    searchQuery,
+    startDate,
+    endDate,
+    status,
+    leaveType,
+    checked,
+    departmentId || 0,
+    subDeptartmentId || 0
+  );
 
   const REQUESTS_TABLE_COLUMNS = [
     // "table.columns.id",
@@ -131,41 +137,41 @@ const AllRequestsPage = () => {
       <div className="sm:p-5 p-3 space-y-5">
         <Header heading={t("header.heading")} subtitle={t("header.subtitle")} />
         <div className="w-[500px] max-xl:w-full grid grid-cols-1 gap-10 mx-auto">
-                      <HasPermission
-              permission={[
-                "Export Requests Report Excel",
-                "Export Requests Report PDF",
-              ]}
+          <HasPermission
+            permission={[
+              "Export Requests Report Excel",
+              "Export Requests Report PDF",
+            ]}
+          >
+            <ActionCard
+              icon={<FileDown />}
+              iconBgColor="bg-[#a7f3d0]"
+              iconColor="text-[#10b981]"
+              title={t("exportActionCard.title")}
+              description={t("exportActionCard.description")}
             >
-              <ActionCard
-                icon={<FileDown />}
-                iconBgColor="bg-[#a7f3d0]"
-                iconColor="text-[#10b981]"
-                title={t("exportActionCard.title")}
-                description={t("exportActionCard.description")}
+              <Button
+                fullWidth
+                variant="success"
+                isLoading={isExportDataLoading}
+                onClick={() => {
+                  setIsDownloadReportPopupOpen(true);
+                }}
               >
-                <Button
-                  fullWidth
-                  variant="success"
-                  isLoading={isExportDataLoading}
-                  onClick={() => {
-                    setIsDownloadReportPopupOpen(true);
-                  }}
-                >
-                  {t("exportActionCard.button")}
-                </Button>
-              </ActionCard>
-            </HasPermission>
+                {t("exportActionCard.button")}
+              </Button>
+            </ActionCard>
+          </HasPermission>
         </div>
         <div className="bg-white shadow-md space-y-5 p-5 rounded-lg">
-                    <div className="flex flex-wrap gap-4">
-          <Filters
-            searchBy={metadata.searchBy}
-            getParam={getParam}
-            setParam={setParam}
-            clearParams={clearParams}
-          />
-        </div>
+          <div className="flex flex-wrap gap-4">
+            <Filters
+              searchBy={metadata.searchBy}
+              getParam={getParam}
+              setParam={setParam}
+              clearParams={clearParams}
+            />
+          </div>
 
           <div className="w-full overflow-x-auto">
             {isLoading ? (
@@ -187,29 +193,27 @@ const AllRequestsPage = () => {
                        label={columns[0]}>{request?.id}
                        </TableCell> */}
 
-                      <TableCell label={columns[1]}>
+                      <TableCell label={columns[0]}>
                         {request.employeeName}
                       </TableCell>
 
-                      <TableCell label={columns[2]}>
+                      <TableCell label={columns[1]}>
                         {new Date(request.startDate).toLocaleDateString(
                           language
                         )}
                       </TableCell>
 
-                      <TableCell label={columns[3]}>
+                      <TableCell label={columns[2]}>
                         {new Date(request.endDate).toLocaleDateString(language)}
                       </TableCell>
 
-                      <TableCell label={columns[4]}>
+                      <TableCell label={columns[3]}>
                         {t(`leaveType.${request.type}`)}
                       </TableCell>
 
-                      <TableCell label={columns[5]}>
+                      <TableCell label={columns[4]}>
                         <StatusBadge
-                          variant={getRequestStatusVariant(
-                            request.status
-                          )}
+                          variant={getRequestStatusVariant(request.status)}
                           size="medium"
                           shape="rounded"
                         >
@@ -217,7 +221,7 @@ const AllRequestsPage = () => {
                         </StatusBadge>
                       </TableCell>
 
-                      <TableCell label={columns[6]}>
+                      <TableCell label={columns[5]}>
                         {new Date(request.requestedAt).toLocaleString(
                           language === "ar" ? "ar-EG" : "en-CA",
                           {
@@ -229,13 +233,13 @@ const AllRequestsPage = () => {
                           }
                         )}
                       </TableCell>
-                    <TableCell label={columns[7]}>
+                      <TableCell label={columns[6]}>
                         {request.description}
                       </TableCell>
-                    <TableCell label={columns[8]}>
+                      <TableCell label={columns[7]}>
                         {request.comment}
                       </TableCell>
-                    <TableCell label={columns[9]}>
+                      <TableCell label={columns[8]}>
                         {request.subDepartment}
                       </TableCell>
                     </TableRow>
@@ -244,30 +248,30 @@ const AllRequestsPage = () => {
               </Table>
             )}
           </div>
-                  <Paginator
-          page={metadata?.pagination?.pageIndex || 0}
-          totalPages={metadata?.pagination?.totalPages || 1}
-          totalRecords={metadata?.pagination?.totalRecords || 0}
-          isLoading={isLoading}
-          onClickFirst={() => setParam("page", String(1))}
-          onClickPrev={() =>
-            setParam(
-              "page",
-              String(Math.max((Number(getParam("page")) || 1) - 1, 1))
-            )
-          }
-          onClickNext={() =>
-            setParam(
-              "page",
-              String(
-                Math.min(
-                  (Number(getParam("page")) || 1) + 1,
-                  metadata?.pagination?.totalPages || 1
+          <Paginator
+            page={metadata?.pagination?.pageIndex || 0}
+            totalPages={metadata?.pagination?.totalPages || 1}
+            totalRecords={metadata?.pagination?.totalRecords || 0}
+            isLoading={isLoading}
+            onClickFirst={() => setParam("page", String(1))}
+            onClickPrev={() =>
+              setParam(
+                "page",
+                String(Math.max((Number(getParam("page")) || 1) - 1, 1))
+              )
+            }
+            onClickNext={() =>
+              setParam(
+                "page",
+                String(
+                  Math.min(
+                    (Number(getParam("page")) || 1) + 1,
+                    metadata?.pagination?.totalPages || 1
+                  )
                 )
               )
-            )
-          }
-        />
+            }
+          />
         </div>
       </div>
       <ExportPopup

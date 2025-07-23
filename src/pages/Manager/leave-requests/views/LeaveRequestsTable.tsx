@@ -69,15 +69,15 @@ const LeaveRequestsTable = ({
                 {/* <TableCell label={columns[0]}>
                   {formatValue(leaveRequest?.id || 0, language)}
                 </TableCell> */}
-                <TableCell label={columns[1]}>
+                <TableCell label={columns[0]}>
                   {leaveRequest.employeeName}
                 </TableCell>
-                <TableCell label={columns[2]}>
+                <TableCell label={columns[1]}>
                   {new Date(leaveRequest.date || "").toLocaleDateString(
                     language === "ar" ? "ar-EG" : "en-CA"
                   )}
                 </TableCell>
-                <TableCell label={columns[3]}>
+                <TableCell label={columns[2]}>
                   {new Date(leaveRequest.requestedAt).toLocaleString(
                     language === "ar" ? "ar-EG" : "en-CA",
                     {
@@ -89,10 +89,10 @@ const LeaveRequestsTable = ({
                     }
                   )}
                 </TableCell>
-                <TableCell label={columns[4]}>
+                <TableCell label={columns[3]}>
                   {t(`timeType.${leaveRequest?.type as number}`)}
                 </TableCell>
-                <TableCell label={columns[5]}>
+                <TableCell label={columns[4]}>
                   <StatusBadge
                     variant={getRequestStatusVariant(leaveRequest.status)}
                     size="medium"
@@ -101,7 +101,7 @@ const LeaveRequestsTable = ({
                     {t(`status.${leaveRequest.status as number}`)}
                   </StatusBadge>
                 </TableCell>
-                <TableCell label={columns[6]}>
+                <TableCell label={columns[5]}>
                   <div className="flex flex-wrap gap-2">
                     <Tooltip content={t("table.buttons.toolTipShow")}>
                       <Button
