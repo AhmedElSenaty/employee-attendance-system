@@ -8,12 +8,16 @@ export class AttendanceService extends BaseService {
       const formData = new FormData();
       formData.append("employeesFile", file); // Key name must match what your backend expects
 
-      const response = await axiosInstance.post(`/Account/upload-excel`, formData, {
-        headers: {
-          ...this.getAuthHeaders(),
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const response = await axiosInstance.post(
+        `/Account/upload-excel`,
+        formData,
+        {
+          headers: {
+            ...this.getAuthHeaders(),
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
       return response;
     } catch (error) {
@@ -43,13 +47,12 @@ export class AttendanceService extends BaseService {
         StartTime: startTime,
         EndTime: endTime,
         Status: status,
-        SearchByDepartmentID: searchByDepartmentId === 0 ? "" : searchByDepartmentId,
-        SearchBySubDeptartmentId: searchBySubDepartmentId === 0 ? "" : searchBySubDepartmentId,
+        SearchByDepartmentID:
+          searchByDepartmentId === 0 ? "" : searchByDepartmentId,
+        SearchBySubDeptartmentId:
+          searchBySubDepartmentId === 0 ? "" : searchBySubDepartmentId,
         ...(searchType && searchQuery ? { [searchType]: searchQuery } : {}),
       });
-
-      console.log(params);
-      
 
       const response = await axiosInstance.get(`/Attendance`, {
         params,
@@ -113,12 +116,18 @@ export class AttendanceService extends BaseService {
 
   fetchByID = async (attendanceID: number) => {
     try {
-      const response = await axiosInstance.get(`/Attendance/GetDetailedAttendanceById/${attendanceID}`, {
-        headers: this.getAuthHeaders(),
-      });
+      const response = await axiosInstance.get(
+        `/Attendance/GetDetailedAttendanceById/${attendanceID}`,
+        {
+          headers: this.getAuthHeaders(),
+        }
+      );
       return response;
     } catch (error) {
-      this.handleError(error, `Error fetching detailed attendance by ID ${attendanceID}:`);
+      this.handleError(
+        error,
+        `Error fetching detailed attendance by ID ${attendanceID}:`
+      );
     }
   };
 
@@ -156,10 +165,13 @@ export class AttendanceService extends BaseService {
         DepartmentId: departmentID === 0 ? "" : departmentID,
       });
 
-      const response = await axiosInstance.get(`/Attendance/departmentOverView`, {
-        headers: this.getAuthHeaders(),
-        params,
-      });
+      const response = await axiosInstance.get(
+        `/Attendance/departmentOverView`,
+        {
+          headers: this.getAuthHeaders(),
+          params,
+        }
+      );
 
       return response;
     } catch (error) {
@@ -197,25 +209,28 @@ export class AttendanceService extends BaseService {
       const params = this.buildParams({
         PageIndex: page ?? 1,
         PageSize: pageSize,
-        SearchByDeptartmentId: searchByDepartmentId === 0 ? "" : searchByDepartmentId,
-        SearchBySubDeptartmentId: searchBySubDepartmentId === 0 ? "" : searchBySubDepartmentId,
+        SearchByDeptartmentId:
+          searchByDepartmentId === 0 ? "" : searchByDepartmentId,
+        SearchBySubDeptartmentId:
+          searchBySubDepartmentId === 0 ? "" : searchBySubDepartmentId,
         ...(searchType && searchQuery ? { [searchType]: searchQuery } : {}),
       });
 
-      const response = await axiosInstance.get(`/Attendance/AttendanceWithVacations`, {
-        params,
-        headers: this.getAuthHeaders(),
-      });
+      const response = await axiosInstance.get(
+        `/Attendance/AttendanceWithVacations`,
+        {
+          params,
+          headers: this.getAuthHeaders(),
+        }
+      );
 
       return response;
     } catch (error) {
       this.handleError(error, "Error fetching all attendance with vacations");
     }
-  }
+  };
 
-  fetchStatus = async (
-    status: string
-  ) => {
+  fetchStatus = async (status: string) => {
     try {
       const response = await axiosInstance.get(`/Attendance/card/${status}`, {
         headers: this.getAuthHeaders(),
@@ -224,16 +239,19 @@ export class AttendanceService extends BaseService {
     } catch (error) {
       this.handleError(error, "Error fetching all attendance with vacations");
     }
-  }
+  };
 
   fetchEmployeeTodayAttendance = async () => {
     try {
-      const response = await axiosInstance.get(`/Attendance/GetEmployeeTodayAttendance`, {
-        headers: this.getAuthHeaders(),
-      });
+      const response = await axiosInstance.get(
+        `/Attendance/GetEmployeeTodayAttendance`,
+        {
+          headers: this.getAuthHeaders(),
+        }
+      );
       return response;
     } catch (error) {
       this.handleError(error, "Error fetching Employee Today Attendance");
     }
-  }
+  };
 }

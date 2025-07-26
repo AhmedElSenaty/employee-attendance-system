@@ -35,8 +35,6 @@ export const DashboardPage = () => {
   const { language } = useLanguageStore();
   const role = useUserStore((state) => state.role);
 
-
-  console.log(name);
   const { startDate, endDate, searchByDepartmentId, setFilters } =
     useFiltersHook();
   const { departmentsList, isLoading: isDepartmentsLoading } =

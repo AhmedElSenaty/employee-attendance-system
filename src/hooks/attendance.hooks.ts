@@ -391,9 +391,6 @@ export const useGetAttendanceWithVacations = (
 export const useGetAttendanceStatus = (status: string) => {
   const token = useUserStore((state) => state.token);
   const service = useAttendanceService();
-
-  console.log(status);
-
   const { data, isLoading } = useQuery({
     queryKey: [QueryKeys.Attendance.Vacations, status],
     queryFn: () => service.fetchStatus(status),

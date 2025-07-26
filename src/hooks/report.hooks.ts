@@ -77,8 +77,6 @@ export const useExportAttendanceReportPDF = (
   subDepartmentId?: number
 ) => {
   const service = useReportService();
-  console.log("hock");
-  console.log("========>", checked);
 
   const { refetch, isLoading } = useQuery({
     queryKey: [
@@ -178,8 +176,6 @@ export const useExportAttendanceSummaryReportPDF = (
   subDepartmentId?: number
 ) => {
   const service = useReportService();
-  console.log("hock");
-  console.log("========>", checked);
 
   const { refetch, isLoading } = useQuery({
     queryKey: [
@@ -275,8 +271,6 @@ export const useExportReportPDF = (
   subDepartmentId?: number
 ) => {
   const service = useReportService();
-  console.log("hock");
-  console.log("========>", checked);
 
   const { refetch, isLoading } = useQuery({
     queryKey: [
@@ -370,8 +364,6 @@ export const useEmployeeRequestsSummaryReportPDF = (
   subDepartmentId?: number
 ) => {
   const service = useReportService();
-  console.log("hock");
-  console.log("========>", checked);
 
   const { refetch, isLoading } = useQuery({
     queryKey: [

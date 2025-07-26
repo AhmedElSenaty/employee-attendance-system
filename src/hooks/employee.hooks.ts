@@ -286,7 +286,6 @@ export const useToggleSupervision = () => {
       }
     },
     onError: (error) => {
-      console.log(error);
       const axiosError = error as AxiosError<IErrorResponse>;
       handleApiError(axiosError, language);
     },

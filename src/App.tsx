@@ -15,7 +15,7 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   const token = useUserStore((state) => state.token);
-  const role = useUserStore((state) => state.role);  
+  const role = useUserStore((state) => state.role);
 
   console.log(token);
 

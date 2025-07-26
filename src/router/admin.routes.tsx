@@ -29,6 +29,7 @@ import {
   ManageSubDepartmentsPage,
   SystemDataPage,
 } from "../pages/Admin";
+import DeviceUsers from "../pages/Admin/device-users/DeviceUsers";
 
 export const adminRoutes = (isLoggedIn: boolean, userRole: string) => (
   <Route
@@ -104,5 +105,7 @@ export const adminRoutes = (isLoggedIn: boolean, userRole: string) => (
 
     <Route path="logs" element={<LogsPage />} />
     <Route path="system-data" element={<SystemDataPage />} />
+
+    <Route path="device-users" element={<DeviceUsers />} />
   </Route>
 );

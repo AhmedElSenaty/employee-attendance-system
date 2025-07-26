@@ -47,20 +47,16 @@ export const Navbar = () => {
         .withAutomaticReconnect()
         .build();
 
-      connection
-        .start()
-        .then(() => console.log("✅ SignalR connected"))
-        .catch((e) => console.log(e));
+      connection.start().then().catch();
       connection.on("ReceiveNotification", (message: INotification) => {
         if (data.departmentId === String(message.deptId)) {
           const sound = new Audio("/public/new-notification.mp3");
           sound.play();
-          console.log("📢 Notification:", message);
           setNotificationCount((prev) => prev + 1);
         }
       });
       return () => {
-        connection.stop().then(() => console.log("🔌 SignalR disconnected"));
+        connection.stop().then();
       };
     }
   }, [token, userRole]);

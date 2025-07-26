@@ -1,0 +1,107 @@
+{
+  "table": {
+    "emptyTable": {
+      "title": "لا يوجد موظفين",
+      "message": "حاول تعديل الفلاتر."
+    },
+    "columns": {
+      "id": "المعرف",
+      "employeeId": "رقم الموظف",
+      "employeeName": "اسم الموظف",
+      "role": "الدور",
+      "uid": "رقم المستخدم",
+      "deviceId": "معرف الجهاز",
+      "deviceIP": "عنوان IP للجهاز",
+      "deviceName": "اسم الجهاز",
+      "actions": "الإجراءات"
+    },
+    "buttons": {}
+  },
+  "inputs": {
+    "employeeId": {
+      "label": "الموظف",
+      "inputValidation": {
+        "required": "اختيار الموظف مطلوب",
+        "typeError": "يجب اختيار موظف صالح"
+      }
+    },
+    "leaveType": {
+      "label": "نوع الإجازة",
+      "validation": {
+        "required": "نوع الإجازة مطلوب"
+      },
+      "options": {
+        "Ordinary": "إجازة اعتيادية",
+        "Casual": "إجازة عارضة",
+        "MorningLeave": "إذن صباحي",
+        "EveningLeave": "إذن مسائي",
+        "FullDayMission": "مأمورية يوم كامل",
+        "HalfDayMission": "مأمورية نصف يوم"
+      }
+    },
+    "startDate": {
+      "label": "تاريخ البدء",
+      "validation": {
+        "required": "تاريخ البدء مطلوب",
+        "is-date": "تاريخ البدء يجب أن يكون تاريخًا صالحًا"
+      }
+    },
+    "endDate": {
+      "label": "تاريخ الانتهاء",
+      "validation": {
+        "required": "تاريخ الانتهاء مطلوب",
+        "is-date": "تاريخ الانتهاء يجب أن يكون تاريخًا صالحًا"
+      }
+    },
+    "description": {
+      "label": "الوصف",
+      "placeholder": "تعليق اختياري على طلب الإجازة"
+    },
+    "comment": {
+      "label": "تعليق",
+      "placeholder": "اذكر تعليقًا عن سبب الرفض...",
+      "inputValidation": {
+        "required": "كتابة التعليق مطلوب"
+      }
+    }
+  },
+  "filters": {
+    "pageSize": "عدد العناصر في الصفحة",
+    "startDate": "تاريخ البدء",
+    "endDate": "تاريخ الانتهاء",
+    "defaultRequestStatusOption": "اختر حالة الطلب",
+    "toolTipResetFilters": "إعادة تعيين الكل",
+    "searchBy": {
+      "label": "البحث بواسطة",
+      "default": "اختر طريقة البحث",
+      "SearchByDeviceIP": "عنوان IP للجهاز",
+      "SearchByDeviceId": "معرف الجهاز",
+      "SearchByUID": "رقم المستخدم",
+      "SearchByDeviceName": "اسم الجهاز",
+      "SearchByEmployeeId": "رقم الموظف",
+      "SearchByEmployeeName": "اسم الموظف"
+    },
+    "search": {
+      "label": "بحث",
+      "placeholder": "أدخل القيمة التي تريد البحث عنها..."
+    }
+  },
+
+  "status": {
+    "0": "موظف",
+    "14": "ادمين"
+  },
+  "header": {
+    "heading": "إدارة مستخدمي الجهاز",
+    "subtitle": "يمكنك عرض أو تعديل المستخدمين والإداريين المرتبطين بجهاز البصمة بسهولة."
+  },
+
+  "editPopup": {
+    "title": "تعديل طلب الإجازة",
+    "description": "يرجى تعديل البيانات التالية لتحديث طلب الإجازة. سيتم إخطار الموظف عند حفظ التعديلات.",
+    "buttons": {
+      "save": "حفظ التعديلات",
+      "cancel": "إلغاء"
+    }
+  }
+}

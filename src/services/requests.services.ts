@@ -84,8 +84,6 @@ export class RequestService extends BaseService {
         }
       );
 
-      console.log(response);
-
       return response;
     } catch (error) {
       this.handleError(error, "Error fetching all requests");
@@ -119,8 +117,6 @@ export class RequestService extends BaseService {
         headers: this.getAuthHeaders(),
       });
 
-      console.log(response);
-
       return response;
     } catch (error) {
       this.handleError(error, "Error fetching all requests");
@@ -145,7 +141,6 @@ export class RequestService extends BaseService {
         Status: status,
         ...(searchType && searchQuery ? { [searchType]: searchQuery } : {}),
       });
-      console.log(params);
 
       const response = await axiosInstance.get("/Request/GenaricRequests", {
         params,
@@ -213,8 +208,12 @@ export class RequestService extends BaseService {
   };
 
   assignGeneric = (data: AssignGenericRequest) => {
-      return axiosInstance.post("/Request/Manager/AssignGenericRequestttttt", data, {
+    return axiosInstance.post(
+      "/Request/Manager/AssignGenericRequestttttt",
+      data,
+      {
         headers: this.getAuthHeaders(),
-      });
-  }
+      }
+    );
+  };
 }

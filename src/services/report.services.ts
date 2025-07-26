@@ -70,7 +70,6 @@ export class ReportsService extends BaseService {
         ...(searchType && searchQuery ? { [searchType]: searchQuery } : {}),
       });
 
-      console.log(params);
       const response = await axiosInstance.get(
         `/Reports/EmployeeAttendanceReport/PDF`,
         {
@@ -153,7 +152,6 @@ export class ReportsService extends BaseService {
         ...(searchType && searchQuery ? { [searchType]: searchQuery } : {}),
       });
 
-      console.log(params);
       const response = await axiosInstance.get(
         `/Reports/EmployeeAttendanceSummaryReport/PDF`,
         {
@@ -232,8 +230,6 @@ export class ReportsService extends BaseService {
         ...(searchType && searchQuery ? { [searchType]: searchQuery } : {}),
       });
 
-
-      console.log(params);
       const response = await axiosInstance.get(
         `/Reports/EmployeeRequestsReport/PDF`,
         {
@@ -312,8 +308,6 @@ export class ReportsService extends BaseService {
         ...(searchType && searchQuery ? { [searchType]: searchQuery } : {}),
       });
 
-
-      console.log(params);
       const response = await axiosInstance.get(
         `/Reports/EmployeeRequestsSummaryReport/PDF`,
         {

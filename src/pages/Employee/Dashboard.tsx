@@ -35,8 +35,6 @@ const Dashboard = () => {
   const { todayAttendance, isLoading: isTodayAttendanceLoading } =
     useGetEmployeeTodayAttendance();
 
-  console.log(isTodayAttendanceLoading);
-
   return (
     <div className="px-6 py-8 min-h-screen">
       {/* Header */}

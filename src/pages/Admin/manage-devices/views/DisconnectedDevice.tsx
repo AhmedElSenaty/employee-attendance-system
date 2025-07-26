@@ -22,17 +22,15 @@ const DisconnectedDevicesTable = () => {
     socketRef.current = socket;
 
     socket.onopen = () => {
-      console.log("WebSocket connected");
       setIsLoading(false);
     };
 
     socket.onmessage = (event) => {
       try {
         const data = JSON.parse(event.data);
-        console.log(data);
         // If receiving single device at a time
         setDevices((prev) => {
-          const filtered = prev.filter(device => device.IP !== data.data.IP);
+          const filtered = prev.filter((device) => device.IP !== data.data.IP);
 
           return [...filtered, data.data].reverse();
         });
@@ -67,7 +65,10 @@ const DisconnectedDevicesTable = () => {
   return (
     <>
       {isLoading ? (
-        <TableSkeleton numberOfColumns={columns.length} defaultNumberOfRows={5} />
+        <TableSkeleton
+          numberOfColumns={columns.length}
+          defaultNumberOfRows={5}
+        />
       ) : (
         <Table columns={columns}>
           {devices.length === 0 ? (
@@ -82,7 +83,13 @@ const DisconnectedDevicesTable = () => {
                 <TableCell label={columns[1]}>{device.Date}</TableCell>
                 <TableCell label={columns[2]}>{device.IP}</TableCell>
                 <TableCell label={columns[3]}>
-                  <StatusBadge variant={device.Status === "Disconnected" ? "error" : "success"}>{device.Status}</StatusBadge>
+                  <StatusBadge
+                    variant={
+                      device.Status === "Disconnected" ? "error" : "success"
+                    }
+                  >
+                    {device.Status}
+                  </StatusBadge>
                 </TableCell>
               </TableRow>
             ))

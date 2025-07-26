@@ -58,26 +58,79 @@ export class DeviceService extends BaseService {
       ...device,
       port: device.port || 4370,
     };
-  
+
     return axiosInstance.post("/Devices", payload, {
       headers: this.getAuthHeaders(),
     });
   };
-  
+
   update = (device: DeviceCredentials) => {
     const payload = {
       ...device,
       port: device.port || 4370,
     };
-  
+
     return axiosInstance.put("/Devices", payload, {
       headers: this.getAuthHeaders(),
     });
   };
-  
+
   delete = (id: number) => {
     return axiosInstance.delete(`/Devices/${id}`, {
       headers: this.getAuthHeaders(),
     });
+  };
+
+  fetchAllDeviceUsers = async (
+    page?: number,
+    pageSize?: number,
+    searchType?: string,
+    searchQuery?: string
+  ) => {
+    try {
+      const params = this.buildParams({
+        PageIndex: page ?? 1,
+        PageSize: pageSize,
+        ...(searchType && searchQuery ? { [searchType]: searchQuery } : {}),
+      });
+      const response = await axiosInstance.get("/DeviceUsers", {
+        params,
+        headers: this.getAuthHeaders(),
+      });
+      return response;
+    } catch (error) {
+      console.error("Error fetching all Device Users:", error);
+      throw error;
+    }
+  };
+
+  toggleRole = async (
+    ip: string,
+    uid: number,
+    employeeID: number,
+    newRole: number,
+    name: string
+  ) => {
+    try {
+      const payload = {
+        ip,
+        uid,
+        employeeID,
+        newRole,
+        name,
+      };
+
+      const response = await axiosInstance.post(
+        `http://193.227.34.53:3001/Machine_Controller/api/UpdateUserRole`,
+        payload,
+        {
+          headers: this.getAuthHeaders(),
+        }
+      );
+      return response;
+    } catch (error) {
+      console.error("Error toggling role:", error);
+      throw error;
+    }
   };
 }
