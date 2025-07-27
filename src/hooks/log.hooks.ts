@@ -42,28 +42,41 @@ export const useGetLogs = (
   debouncedSearchQuery?: string,
   type?: string,
   startDate?: string,
-  endDate?: string,
+  endDate?: string
 ) => {
   // Get current auth token from store
   const token = useUserStore((state) => state.token);
   // Get memoized LogService instance
   const logService = useLogService();
-  
+
   // Use React Query to fetch logs data
   const { data, isLoading } = useQuery({
     // Unique cache key includes all filters and pagination params
     queryKey: [
-      QueryKeys.Logs.All, 
-      page, 
-      pageSize, 
+      QueryKeys.Logs.All,
+      page,
+      pageSize,
       // Only include search params if both key and query exist
-      `${searchKey && debouncedSearchQuery ? [searchKey, debouncedSearchQuery] : ""}`, 
-      type, 
-      startDate, 
-      endDate
+      `${
+        searchKey && debouncedSearchQuery
+          ? [searchKey, debouncedSearchQuery]
+          : ""
+      }`,
+      type,
+      startDate,
+      endDate,
     ],
     // Query function calls fetchAll with all parameters
-    queryFn: () => logService.fetchAll(page, pageSize, searchKey, debouncedSearchQuery, type, startDate, endDate),
+    queryFn: () =>
+      logService.fetchAll(
+        page,
+        pageSize,
+        searchKey,
+        debouncedSearchQuery,
+        type,
+        startDate,
+        endDate
+      ),
     // Enable query only if token is available
     enabled: !!token,
   });
@@ -83,9 +96,7 @@ export const useGetLogs = (
  * @param logId - Unique identifier of the log to fetch.
  * @returns An object containing the log data and loading state.
  */
-export const useGetLogByID = (
-  logId: number,
-) => {
+export const useGetLogByID = (logId: number) => {
   // Get current auth token from store
   const token = useUserStore((state) => state.token);
   // Get memoized LogService instance

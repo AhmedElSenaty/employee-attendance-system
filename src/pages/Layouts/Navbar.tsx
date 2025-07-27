@@ -25,6 +25,7 @@ import { AuthService } from "../../services";
 import { INotification } from "../../hooks";
 import { WEB_BASE_URL } from "../../constants";
 import { HasPermission } from "../../components/auth";
+import { useGetNotificationCount } from "../../hooks/notification.hook";
 
 export const Navbar = () => {
   const { t } = useTranslation(["common", "navbar"]);
@@ -32,9 +33,17 @@ export const Navbar = () => {
   const { role: userRole, token, logoutUser, imageUrl, id } = useUserStore();
   const isLoggedIn = Boolean(token);
   const { isOpen: sidebarisOpen, toggleSidebar } = useSidebarStore();
-
   const [notificationCount, setNotificationCount] = useState(0);
+
   const service = new AuthService();
+
+  const { count, isLoading } = useGetNotificationCount();
+
+  useEffect(() => {
+    if (!isLoading && count >= 0) {
+      setNotificationCount(count);
+    }
+  }, [count, isLoading]);
 
   // ✅ SignalR connection for manager
   useEffect(() => {
@@ -85,7 +94,7 @@ export const Navbar = () => {
 
         {/* Right Icons */}
         <div className="flex items-center gap-5">
-          {/* 🔔 Notification Bell with Badge */}
+          {/* 🔔  Bell with Badge */}
 
           <HasPermission permission="View Requests">
             {isLoggedIn && userRole === "manager" && (
@@ -93,7 +102,7 @@ export const Navbar = () => {
                 <button
                   className="relative cursor-pointer inline-flex items-center justify-center p-2 text-white bg-secondary hover:bg-secondary-hover rounded-full transition duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
                   aria-label="Notifications"
-                  onClick={() => setNotificationCount(0)} // Reset on click if desired
+                  // onClick={() => setNotificationCount(notificationCount)} // Reset on click if desired
                 >
                   <Bell className="w-7 h-7" />
                   {notificationCount > 0 && (

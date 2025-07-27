@@ -6,8 +6,7 @@ import { BaseService } from "./base.services";
  * Extends BaseService to reuse common service functionality.
  */
 export class LogService extends BaseService {
-
-    /**
+  /**
    * Fetch all logs with optional pagination, filtering, and search.
    *
    * @param page - Current page number (pagination), defaults to 1 if not provided.
@@ -27,7 +26,7 @@ export class LogService extends BaseService {
     searchQuery?: string,
     type?: string,
     startDate?: string,
-    endDate?: string,
+    endDate?: string
   ) => {
     try {
       // Build query parameters object for API request
@@ -55,7 +54,7 @@ export class LogService extends BaseService {
     }
   };
 
-    /**
+  /**
    * Fetch a single log entry by its ID.
    *
    * @param id - Unique identifier of the log to retrieve.
