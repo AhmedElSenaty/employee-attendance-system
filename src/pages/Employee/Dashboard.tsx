@@ -28,8 +28,14 @@ const Dashboard = () => {
 
   const id = useUserStore((state) => state.id);
 
-  const { myWorkingDays = [], isLoading: isLoadingMyWorkingDays } =
-    useGetMyWorkingDays();
+  const {
+    myWorkingDays = [],
+    myRestDays = [],
+    scheduleStartDate,
+    scheduleEndDate,
+    isLoading: isLoadingMyWorkingDays,
+  } = useGetMyWorkingDays();
+
   const { myVacations, isLoading: isMyVacationsLoading } =
     useGetEmployeeMyVacations();
   const { todayAttendance, isLoading: isTodayAttendanceLoading } =
@@ -193,24 +199,54 @@ const Dashboard = () => {
       ) : (
         <div className="mt-6 px-4 py-3 bg-green-50 border border-green-200 rounded-xl shadow-sm text-green-900 text-3xl sm:text-base">
           <p className="font-semibold mb-2">{t("allowedDays.title")}</p>
-          <div className="flex flex-wrap gap-2">
-            {myWorkingDays.map((day: Daydata) => (
-              <span
-                key={day.dayId}
-                className="px-3 py-1 bg-green-100 text-green-800 rounded-full border border-green-300 text-base"
-              >
-                {language === "ar" ? day.dayArabicName : day.dayEnglishName}
-              </span>
-            ))}
 
-            {/* <div>
-              <h4 className="text-sm font-semibold text-gray-800 mb-1">
-                ساعات العمل
-              </h4>
-              <p className="text-sm text-gray-700">
-                من الساعة 8:00 صباحًا إلى الساعة 2:00 مساءً
-              </p>
-            </div> */}
+          {scheduleStartDate && (
+            <p className="text-sm text-gray-700 mb-2">
+              {t("allowedDays.schedulePeriod")}:{" "}
+              <span className="font-medium">
+                البداية {scheduleStartDate} - النهاية{" "}
+                {scheduleEndDate || t("allowedDays.noEnd")}
+              </span>
+            </p>
+          )}
+
+          <div className="mb-2">
+            <h4 className="text-sm font-semibold text-gray-800 mb-1">
+              {t("allowedDays.workingDays")}
+            </h4>
+            <div className="flex flex-wrap gap-2">
+              {myWorkingDays.map((day: Daydata) => (
+                <span
+                  key={day.dayId}
+                  className="px-3 py-1 bg-green-100 text-green-800 rounded-full border border-green-300 text-base"
+                >
+                  {language === "ar" ? day.dayArabicName : day.dayEnglishName}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <h4 className="text-sm font-semibold text-gray-800 mb-1"></h4>
+            {myRestDays.length > 0 && (
+              <div className="mt-2">
+                <h4 className="text-sm font-semibold text-gray-800 mb-1">
+                  {t("allowedDays.restDays")}
+                </h4>
+                <div className="flex flex-wrap gap-2">
+                  {myRestDays.map((day: Daydata) => (
+                    <span
+                      key={day.dayId}
+                      className="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full border border-yellow-300 text-base"
+                    >
+                      {language === "ar"
+                        ? day.dayArabicName
+                        : day.dayEnglishName}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       )}

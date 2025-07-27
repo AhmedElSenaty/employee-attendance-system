@@ -1,19 +1,28 @@
 import { FieldErrors, UseFormRegister } from "react-hook-form";
 import { useGetEmployeesList } from "../../../../hooks";
 import { IAssignMissionRequestCredentials } from "../../../../interfaces";
-import { Field, Input, InputErrorMessage, Label, SelectBox, SelectBoxSkeleton, Textarea } from "../../../../components/ui";
+import {
+  Field,
+  Input,
+  InputErrorMessage,
+  InputSkeleton,
+  Label,
+  LabelSkeleton,
+  SelectBox,
+  SelectBoxSkeleton,
+  Textarea,
+} from "../../../../components/ui";
 import { useTranslation } from "react-i18next";
 import { MISSION_REQUESTS_NS } from "../../../../constants";
-import { Calendar, Timer } from "lucide-react";
+import { Calendar } from "lucide-react";
+import { MissionRequestType } from "../../../../enums";
 
 interface IInputsProps {
   register: UseFormRegister<IAssignMissionRequestCredentials>;
   errors: FieldErrors<IAssignMissionRequestCredentials>;
+  isLoading?: boolean;
 }
-const AssignInputs = ({
-  register,
-  errors,
-}: IInputsProps) => {
+const AssignInputs = ({ register, errors, isLoading }: IInputsProps) => {
   const { t } = useTranslation([MISSION_REQUESTS_NS]);
 
   const { employeesList, isEmployeesListLoading } = useGetEmployeesList();
@@ -42,6 +51,38 @@ const AssignInputs = ({
         )}
       </Field>
 
+      {/* Mission Type */}
+      <Field className="space-y-2">
+        {isLoading ? (
+          <>
+            <LabelSkeleton />
+            <InputSkeleton />
+          </>
+        ) : (
+          <>
+            <Label size="lg">{t("inputs.type.label")}</Label>
+            <SelectBox
+              {...register("type", { valueAsNumber: true })}
+              isError={!!errors.type}
+            >
+              <option value={-1}>{t("inputs.type.defaultOption")}</option>
+              {Object.values(MissionRequestType)
+                .filter((v) => typeof v === "number")
+                .map((type) => (
+                  <option key={type} value={type}>
+                    {t(`dayType.${type}`)}
+                  </option>
+                ))}
+            </SelectBox>
+
+            {errors.type && (
+              <InputErrorMessage>
+                {t(`inputs.type.validation.${errors.type.type}`)}
+              </InputErrorMessage>
+            )}
+          </>
+        )}
+      </Field>
       {/* Attendance Date */}
       <Field className="space-y-2">
         <Label size="lg">{t("inputs.date.label")}</Label>
@@ -59,40 +100,6 @@ const AssignInputs = ({
         )}
       </Field>
 
-      {/* Attendance Time */}
-      <Field className="space-y-2">
-        <Label size="lg">{t("inputs.startTime.label")}</Label>
-        <Input
-          type="time"
-          placeholder={t("inputs.startTime.placeholder")}
-          isError={!!errors.startTime}
-          icon={<Timer />}
-          {...register("startTime")}
-        />
-        {errors.startTime && (
-          <InputErrorMessage>
-            {t(`inputs.startTime.inputValidation.${errors.startTime?.type}`)}
-          </InputErrorMessage>
-        )}
-      </Field>
-
-      {/* Attendance Time */}
-      <Field className="space-y-2">
-        <Label size="lg">{t("inputs.endTime.label")}</Label>
-        <Input
-          type="time"
-          placeholder={t("inputs.endTime.placeholder")}
-          isError={!!errors.endTime}
-          icon={<Timer />}
-          {...register("endTime")}
-        />
-        {errors.endTime && (
-          <InputErrorMessage>
-            {t(`inputs.endTime.inputValidation.${errors.endTime?.type}`)}
-          </InputErrorMessage>
-        )}
-      </Field>
-
       <Field className="space-y-2">
         <Label size="lg">{t("inputs.description.label")}</Label>
         <Textarea
@@ -102,7 +109,7 @@ const AssignInputs = ({
         />
       </Field>
     </>
-  )
-}
+  );
+};
 
-export default AssignInputs
+export default AssignInputs;

@@ -23,8 +23,12 @@ export const useGetMyWorkingDays = () => {
     enabled: !!token,
   });
 
+  const EmployeeDays = data?.data?.data?.employeeDays;
   return {
-    myWorkingDays: data?.data?.data?.permission || [],
+    myWorkingDays: EmployeeDays?.employeeWorkingDays || [],
+    myRestDays: EmployeeDays?.employeeRestDays || [],
+    scheduleStartDate: EmployeeDays?.startDate || null,
+    scheduleEndDate: EmployeeDays?.endDate || null,
     isLoading,
   };
 };

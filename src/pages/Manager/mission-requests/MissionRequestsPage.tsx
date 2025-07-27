@@ -165,6 +165,7 @@ const MissionRequestsPage = () => {
   const onSubmit: SubmitHandler<IAssignMissionRequestCredentials> = (
     data: IAssignMissionRequestCredentials
   ) => {
+    console.log("6666666666666");
     assignMissionRequest(data);
     setIsAssignPopupOpen(false);
   };
@@ -205,8 +206,6 @@ const MissionRequestsPage = () => {
                 date: "",
                 employeeId: 0,
                 description: "",
-                startTime: "",
-                endTime: "",
               });
               setIsAssignPopupOpen(true);
             }}
@@ -297,9 +296,11 @@ const MissionRequestsPage = () => {
         errors={deleteErrors}
       />
 
-            <EditRequestPopup
+      <EditRequestPopup
         isOpen={isEditOpen}
-        handleClose={() => { setIsEditOpen(false) }}
+        handleClose={() => {
+          setIsEditOpen(false);
+        }}
         requestId={selectedID}
       />
     </div>
