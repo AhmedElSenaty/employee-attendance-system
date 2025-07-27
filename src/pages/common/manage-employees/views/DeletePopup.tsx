@@ -9,7 +9,12 @@ interface Props {
   isLoading: boolean;
 }
 
-const DeletePopup = ({ isOpen, handleClose, handleConfirmDelete, isLoading }: Props) => {
+const DeletePopup = ({
+  isOpen,
+  handleClose,
+  handleConfirmDelete,
+  isLoading,
+}: Props) => {
   const { t } = useTranslation([EMPLOYEE_NS]);
 
   return (
@@ -20,13 +25,22 @@ const DeletePopup = ({ isOpen, handleClose, handleConfirmDelete, isLoading }: Pr
       description={t("deletePopup.description")}
     >
       <div className="flex items-center space-x-3 mt-4">
-        <Button variant="cancel" type="button" fullWidth={true} onClick={handleClose}>
+        <Button
+          variant="cancel"
+          type="button"
+          fullWidth={true}
+          onClick={handleClose}
+        >
           {t("buttons.close")}
         </Button>
-        <Button variant="danger" type="button" fullWidth={true} onClick={handleConfirmDelete} isLoading={isLoading}>
-          {(isLoading)
-            ? t("buttons.loading")
-            : t("buttons.delete")}
+        <Button
+          variant="danger"
+          type="button"
+          fullWidth={true}
+          onClick={handleConfirmDelete}
+          isLoading={isLoading}
+        >
+          {isLoading ? t("buttons.loading") : t("buttons.delete")}
         </Button>
       </div>
     </Popup>

@@ -29,7 +29,26 @@ export const useGetMyWorkingDays = () => {
   };
 };
 
-export const useGetWorkingDaysByID = (employeeID: string) => {
+export const useGetWorkingDaysByID = (employeeID: string | null) => {
+  const token = useUserStore((state) => state.token);
+  const service = useWorkingDaysService();
+
+  const isEnabled = Boolean(employeeID && token);
+
+  const { data, isLoading, refetch } = useQuery({
+    queryKey: [QueryKeys.WorkingDays.ByID, employeeID],
+    queryFn: () => service.fetchByID(employeeID!),
+    enabled: isEnabled,
+  });
+
+  return {
+    workingDays: data?.data?.data || null,
+    isWorkingDaysLoading: isLoading,
+    refetchWorkingDays: refetch,
+  };
+};
+
+export const useGetWorkingDaysByID1 = (employeeID: string) => {
   const token = useUserStore((state) => state.token);
   const service = useWorkingDaysService();
 
@@ -37,6 +56,8 @@ export const useGetWorkingDaysByID = (employeeID: string) => {
     queryKey: [QueryKeys.WorkingDays.ByID, employeeID],
     queryFn: () => service.fetchByID(employeeID),
     enabled: !!employeeID && !!token,
+    refetchOnMount: true,
+    refetchOnWindowFocus: false,
   });
 
   return {
@@ -45,6 +66,27 @@ export const useGetWorkingDaysByID = (employeeID: string) => {
   };
 };
 
+export const useRestorePreviousSchedule = () => {
+  const { language } = useLanguageStore();
+  const queryClient = useQueryClient();
+  const service = useWorkingDaysService();
+
+  return useMutation({
+    mutationFn: (employeeID: string) =>
+      service.restorePreviousSchedule(employeeID),
+    onSuccess: ({ status, data }) => {
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.Employees.All] });
+      if (status === 200) {
+        const message = getTranslatedMessage(data.message ?? "", language);
+        showToast("success", message);
+      }
+    },
+    onError: (error) => {
+      const axiosError = error as AxiosError<IErrorResponse>;
+      handleApiError(axiosError, language);
+    },
+  });
+};
 
 export const useUpdateWorkingDays = () => {
   const queryClient = useQueryClient();

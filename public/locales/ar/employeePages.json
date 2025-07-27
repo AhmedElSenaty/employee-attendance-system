@@ -78,6 +78,10 @@
       "title": "أيام العمل",
       "description": "حدد أيام العمل المخصصة لهذا الموظف."
     },
+    "restDaysSectionHeader": {
+      "title": "أيام الراحة",
+      "description": "حدد أيام الراحة المخصصة لهذا الموظف."
+    },
     "hoursSectionHeader": {
       "title": "اوقات العمل",
       "description": "حدد اوقات العمل المخصصة لهذا الموظف."

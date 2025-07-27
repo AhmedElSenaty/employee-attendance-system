@@ -8,7 +8,7 @@ export class WorkingDaysService extends BaseService {
       const response = await axiosInstance.get("/EmployeeWorkingDays/me", {
         headers: this.getAuthHeaders(),
       });
-
+      console.log(response);
       return response;
     } catch (error) {
       console.error("Error fetching all working days:", error);
@@ -24,10 +24,24 @@ export class WorkingDaysService extends BaseService {
           headers: this.getAuthHeaders(),
         }
       );
-
       return response;
     } catch (error) {
       console.error(`Error fetching employee with ID ${id}:`, error);
+      throw error;
+    }
+  };
+
+  restorePreviousSchedule = async (id: string) => {
+    try {
+      const response = await axiosInstance.delete(
+        `EmployeeWorkingDays/GoToPreviousSchedule/${id}`,
+        {
+          headers: this.getAuthHeaders(),
+        }
+      );
+      return response;
+    } catch (error) {
+      console.error(`Error fetching employee schedule with ID ${id}:`, error);
       throw error;
     }
   };

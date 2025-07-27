@@ -21,13 +21,18 @@ import {
 } from "../../../components/ui";
 import { useNavigate, useParams } from "react-router";
 import { useEffect, useState } from "react";
-import { AlertTriangle, CheckCircle, Timer, Calendar } from "lucide-react";
+import {
+  AlertTriangle,
+  CheckCircle,
+  Timer,
+  Calendar,
+  RotateCcw,
+} from "lucide-react";
 import { HasPermission } from "../../../components/auth";
 import { EMPLOYEE_NS } from "../../../constants";
 import {
-  Daydata,
+  EmployeeWorkingDaysForm,
   EmployeeWorkingHours,
-  UpdateWorkingDays,
 } from "../../../interfaces";
 import {
   useSetWorkingHours,
@@ -39,6 +44,7 @@ import {
   useUpdateEmployee,
   useUpdateEmployeeWorkingHours,
   useUpdateWorkingDays,
+  useRestorePreviousSchedule,
 } from "../../../hooks";
 import {
   DelegateInputs,
@@ -49,7 +55,7 @@ import {
   WorkingDaysCheckboxes,
 } from "./views";
 import { FileInputPreview } from "../../../components/ui/Form/FileUpload";
-
+import GoToPreviousSchedulePopup from "./views/GoToPreviousSchedulePopup";
 const EditEmployeePage = () => {
   const { t } = useTranslation([EMPLOYEE_NS]);
 
@@ -59,6 +65,9 @@ const EditEmployeePage = () => {
   const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
   const [isUnblockPopupOpen, setIsUnblockPopupOpen] = useState(false);
   const [selectedWorkingDays, setSelectedWorkingDays] = useState<number[]>([]);
+  const [selectedRestDays, setSelectedRestDays] = useState<number[]>([]);
+  const [isEndDateNull, setIsEndDateNull] = useState(false);
+  const [isRestorePopupOpen, setIsRestorePopupOpen] = useState(false);
 
   const {
     register,
@@ -70,9 +79,6 @@ const EditEmployeePage = () => {
     resolver: yupResolver(getEmployeeSchema(true)),
     mode: "onChange",
   });
-
-  const { handleSubmit: handleSubmitWorkingDays } =
-    useForm<UpdateWorkingDays>();
 
   const {
     register: updatePasswordRegister,
@@ -89,6 +95,13 @@ const EditEmployeePage = () => {
     setValue,
   } = useForm<EmployeeWorkingHours>();
 
+  const {
+    register: updateDaysRegister,
+    handleSubmit: handleSubmitWorkingDaysForm,
+    setValue: setDaysValue,
+    formState: { errors: updateDaysErrors },
+  } = useForm<EmployeeWorkingDaysForm>();
+
   const { employee, isLoading: isEmployeeDataLoading } = useGetEmployeeByID(
     id || "",
     reset
@@ -98,6 +111,8 @@ const EditEmployeePage = () => {
   const { mutate: updateEmployee, isPending: isupdateing } =
     useUpdateEmployee();
   const { mutate: deleteEmployee, isPending: isDeleting } = useDeleteEmployee();
+  const { mutate: restoreSchedule, isPending: isRestoring } =
+    useRestorePreviousSchedule();
 
   const handleConfirmUpdateInfo: SubmitHandler<EmployeeFormValues> = async (
     request: EmployeeFormValues
@@ -135,13 +150,20 @@ const EditEmployeePage = () => {
     });
   };
 
-  const handleConfirmUpdateWorkingDays: SubmitHandler<
-    UpdateWorkingDays
-  > = async (request: UpdateWorkingDays) => {
-    request.employeeId = id || "";
-    request.workingDays = selectedWorkingDays;
-    updateWorkingDays(request);
+  const handleConfirmUpdateWorkingDaysForm: SubmitHandler<
+    EmployeeWorkingDaysForm
+  > = (request) => {
+    console.log("request", request);
+    updateWorkingDays({
+      employeeId: id || "",
+      workingDays: request.WorkingDays,
+      restDays: request.RestDays,
+      StartDate: request.StartDate,
+      EndDate: request.EndDate,
+      Description: request.Description,
+    });
   };
+
   const handleConfirmUpdateWorkingHours: SubmitHandler<
     EmployeeWorkingHours
   > = async (request: EmployeeWorkingHours) => {
@@ -154,15 +176,24 @@ const EditEmployeePage = () => {
     setIsUnblockPopupOpen(false);
   };
 
-  const { workingDays = [], isWorkingDaysLoading } = useGetWorkingDaysByID(
-    id || ""
-  );
+  const handleConfirmRestore = () => {
+    restoreSchedule(id, {
+      onSuccess: async () => {
+        window.location.reload(); // 👈 force full page refresh
+        setIsRestorePopupOpen(false);
+      },
+    });
+  };
+
+  const { workingDays: workingDaysData, isWorkingDaysLoading } =
+    useGetWorkingDaysByID(id || "");
 
   const { data } = useSetWorkingHours(id || "");
 
   useEffect(() => {
     if (data?.data?.data) {
-      const { attendTime, goTime, description, startDate, endDate } = data.data.data;
+      const { attendTime, goTime, description, startDate, endDate } =
+        data.data.data;
       setValue("AttendTime", attendTime);
       setValue("GoTime", goTime);
       setValue("Description", description);
@@ -172,11 +203,28 @@ const EditEmployeePage = () => {
   }, [data, setValue]);
 
   useEffect(() => {
-    if (!isWorkingDaysLoading && workingDays.length > 0) {
-      const dayIds = workingDays.map((day: Daydata) => day.dayId);
-      setSelectedWorkingDays(dayIds);
+    setDaysValue("WorkingDays", selectedWorkingDays);
+  }, [selectedWorkingDays, setDaysValue]);
+
+  useEffect(() => {
+    setDaysValue("RestDays", selectedRestDays);
+  }, [selectedRestDays, setDaysValue]);
+
+  useEffect(() => {
+    if (workingDaysData) {
+      const workIds = workingDaysData.employeeWorkingDays.map((d) => d.dayId);
+      const restIds = workingDaysData.employeeRestDays.map((d) => d.dayId);
+      setSelectedWorkingDays(workIds);
+      setSelectedRestDays(restIds);
+
+      // ✅ This part was missing
+      setDaysValue("WorkingDays", workIds);
+      setDaysValue("RestDays", restIds);
+      setDaysValue("StartDate", workingDaysData.startDate || "");
+      setDaysValue("EndDate", workingDaysData.endDate || null);
+      setDaysValue("Description", workingDaysData.description || "");
     }
-  }, [workingDays, isWorkingDaysLoading]);
+  }, [workingDaysData, isWorkingDaysLoading, setDaysValue]);
 
   return (
     <>
@@ -391,21 +439,126 @@ const EditEmployeePage = () => {
           </div>
         </HasPermission>
         <div className="bg-white shadow-md space-y-5 p-5 rounded-lg">
-          <SectionHeader
-            title={t("editEmployeePage.workingDaysSectionHeader.title")}
-            description={t(
-              "editEmployeePage.workingDaysSectionHeader.description"
-            )}
-          />
+          {/* Bottom-right aligned button */}
+
           <form
             className="space-y-5"
-            onSubmit={handleSubmitWorkingDays(handleConfirmUpdateWorkingDays)}
+            onSubmit={handleSubmitWorkingDaysForm(
+              handleConfirmUpdateWorkingDaysForm
+            )}
           >
-            <WorkingDaysCheckboxes
-              checkedDays={selectedWorkingDays}
-              setCheckedDays={setSelectedWorkingDays}
-              isLoading={isEmployeeDataLoading || isWorkingDaysLoading}
+            {/* Working Days Section */}
+            <div className="flex items-center justify-between mb-4">
+              <SectionHeader
+                title={t("editEmployeePage.workingDaysSectionHeader.title")}
+                description={t(
+                  "editEmployeePage.workingDaysSectionHeader.description"
+                )}
+              />
+              <Button
+                variant="outline"
+                size="sm"
+                type="button"
+                icon={<RotateCcw size={16} />}
+                className="text-red-500 border-red-300 hover:bg-red-50"
+                onClick={() => {
+                  setIsRestorePopupOpen(true); // ✅ update this
+                }}
+              >
+                استرجاع الجدول السابق
+              </Button>
+            </div>
+
+            <div className="space-y-2">
+              <WorkingDaysCheckboxes
+                checkedDays={selectedWorkingDays}
+                setCheckedDays={setSelectedWorkingDays}
+                isLoading={isEmployeeDataLoading || isWorkingDaysLoading}
+                disabledDays={selectedRestDays} // prevent overlap
+              />
+            </div>
+
+            {/* Rest Days Section */}
+            <SectionHeader
+              title={t("editEmployeePage.restDaysSectionHeader.title")}
+              description={t(
+                "editEmployeePage.restDaysSectionHeader.description"
+              )}
             />
+            <div className="space-y-2 pb-4">
+              <WorkingDaysCheckboxes
+                checkedDays={selectedRestDays}
+                setCheckedDays={setSelectedRestDays}
+                isLoading={isEmployeeDataLoading || isWorkingDaysLoading}
+                disabledDays={selectedWorkingDays} // prevent overlap
+              />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <Field className="space-y-2">
+                <Label size="lg">{t("inputs.attendStartDate.label")}</Label>
+                <Input
+                  type="date"
+                  placeholder={t("inputs.attendTime.placeholder")}
+                  isError={!!updateHoursErrors.StartDate}
+                  icon={<Calendar />}
+                  {...updateDaysRegister("StartDate")}
+                />
+                {updateHoursErrors.StartDate && (
+                  <InputErrorMessage>
+                    {t(
+                      `inputs.attendTime.inputValidation.${updateHoursErrors.StartDate?.type}`
+                    )}
+                  </InputErrorMessage>
+                )}
+              </Field>
+              <Field className="space-y-2">
+                <div className="flex justify-between items-center">
+                  <Label size="lg">{t("inputs.attendEndDate.label")}</Label>
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      id="noEndDate"
+                      checked={isEndDateNull}
+                      onChange={(e) => {
+                        const isChecked = e.target.checked;
+                        setIsEndDateNull(isChecked);
+                        setDaysValue("EndDate", isChecked ? null : undefined); // update form state
+                      }}
+                      className="accent-primary"
+                    />
+                    <label htmlFor="noEndDate" className="text-sm">
+                      {t("noEndDate", "لا يوجد تاريخ نهاية")}
+                    </label>
+                  </div>
+                </div>
+
+                <Input
+                  type="date"
+                  placeholder={t("inputs.goTime.placeholder")}
+                  isError={!!updateDaysErrors.EndDate}
+                  disabled={isEndDateNull}
+                  icon={<Calendar />}
+                  {...updateDaysRegister("EndDate")}
+                />
+
+                {updateDaysErrors.EndDate && (
+                  <InputErrorMessage>
+                    {t(
+                      `inputs.goTime.inputValidation.${updateDaysErrors.EndDate?.type}`
+                    )}
+                  </InputErrorMessage>
+                )}
+              </Field>
+            </div>
+
+            <Field className="space-y-4">
+              <Label size="lg">{t("inputs.description.label")}</Label>
+              <Textarea
+                placeholder={t("inputs.description.placeholder")}
+                {...updateDaysRegister("Description")}
+              />
+            </Field>
 
             <div className="flex flex-wrap gap-3">
               <Button fullWidth={false} isLoading={isUpdateDaysLoading}>
@@ -417,11 +570,11 @@ const EditEmployeePage = () => {
           </form>
         </div>
         <div className="bg-white shadow-md space-y-5 p-5 rounded-lg">
-          <SectionHeader 
-              title={t("editEmployeePage.hoursSectionHeader.title")} 
-              description={t("editEmployeePage.hoursSectionHeader.description")}
-            />
-        <form
+          <SectionHeader
+            title={t("editEmployeePage.hoursSectionHeader.title")}
+            description={t("editEmployeePage.hoursSectionHeader.description")}
+          />
+          <form
             className="space-y-5"
             onSubmit={handleSubmitUpdateHours(handleConfirmUpdateWorkingHours)}
           >
@@ -445,7 +598,9 @@ const EditEmployeePage = () => {
                 />
                 {updateHoursErrors.StartDate && (
                   <InputErrorMessage>
-                    {t(`inputs.attendTime.inputValidation.${updateHoursErrors.StartDate?.type}`)}
+                    {t(
+                      `inputs.attendTime.inputValidation.${updateHoursErrors.StartDate?.type}`
+                    )}
                   </InputErrorMessage>
                 )}
               </Field>
@@ -468,29 +623,31 @@ const EditEmployeePage = () => {
                 />
                 {updateHoursErrors.EndDate && (
                   <InputErrorMessage>
-                    {t(`inputs.goTime.inputValidation.${updateHoursErrors.EndDate?.type}`)}
+                    {t(
+                      `inputs.goTime.inputValidation.${updateHoursErrors.EndDate?.type}`
+                    )}
                   </InputErrorMessage>
                 )}
               </Field>
             </div>
-            <Field className="space-y-4" >
+            <Field className="space-y-4">
               <Label size="lg">{t("inputs.Reports.label")}</Label>
-             
-              <FileInputPreview
-                  {...updateHoursRegister("MedicalReport")}
-              />
+
+              <FileInputPreview {...updateHoursRegister("MedicalReport")} />
               <Label size="lg">{t("inputs.description.label")}</Label>
               <Textarea
                 placeholder={t("inputs.description.placeholder")}
                 {...updateHoursRegister("Description")}
               />
             </Field>
-        <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-3">
               <Button fullWidth={false} isLoading={isUpdateHoursLoading}>
-                {isUpdateDaysLoading ? t("buttons.loading") : t("buttons.updateHours")}
+                {isUpdateDaysLoading
+                  ? t("buttons.loading")
+                  : t("buttons.updateHours")}
               </Button>
             </div>
-        </form>
+          </form>
         </div>
       </div>
 
@@ -501,6 +658,14 @@ const EditEmployeePage = () => {
         }}
         handleConfirmDelete={handleConfirmDelete}
         isLoading={isDeleting}
+      />
+      <GoToPreviousSchedulePopup
+        isOpen={isRestorePopupOpen}
+        handleClose={() => {
+          setIsRestorePopupOpen(false);
+        }}
+        handleConfirmRestore={handleConfirmRestore}
+        isLoading={isRestoring}
       />
       <UnblockPopup
         isOpen={isUnblockPopupOpen}

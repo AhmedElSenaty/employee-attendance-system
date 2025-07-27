@@ -4,18 +4,15 @@ import {
   Field,
   Label,
   LabelSkeleton,
-  Button,
-  ButtonSkeleton
-} from '../../../../components/ui';
-import { Dispatch, SetStateAction } from 'react';
-import { ListChecks } from 'lucide-react';
-import { useTranslation } from 'react-i18next';
-import { useLanguageStore } from '../../../../store/';
+} from "../../../../components/ui";
+import { Dispatch, SetStateAction } from "react";
+import { useLanguageStore } from "../../../../store/";
 
 interface Props {
   checkedDays: number[];
   setCheckedDays: Dispatch<SetStateAction<number[]>>;
   isLoading?: boolean;
+  disabledDays?: number[];
 }
 
 // Static working days data
@@ -29,21 +26,26 @@ const STATIC_WORKING_DAYS = [
   { dayId: 7, dayEnglishName: "Saturday", dayArabicName: "السبت" },
 ];
 
-const WorkingDaysCheckboxes = ({ checkedDays, setCheckedDays, isLoading }: Props) => {
-  const { t } = useTranslation();
+const WorkingDaysCheckboxes = ({
+  checkedDays,
+  setCheckedDays,
+  isLoading,
+  disabledDays,
+}: Props) => {
   const { language } = useLanguageStore();
 
-  const allDayIDs = STATIC_WORKING_DAYS.map((day) => day.dayId);
+  // const allDayIDs = STATIC_WORKING_DAYS.map((day) => day.dayId);
 
-  const toggleSelectAll = () => {
-    if (checkedDays.length === allDayIDs.length) {
-      setCheckedDays([]);
-    } else {
-      setCheckedDays(allDayIDs);
-    }
-  };
+  // const toggleSelectAll = () => {
+  //   if (checkedDays.length === allDayIDs.length) {
+  //     setCheckedDays([]);
+  //   } else {
+  //     setCheckedDays(allDayIDs);
+  //   }
+  // };
 
   const handleCheckboxChange = (dayId: number) => {
+    if (disabledDays?.includes(dayId)) return; // prevent action
     setCheckedDays((prev) =>
       prev.includes(dayId)
         ? prev.filter((id) => id !== dayId)
@@ -51,33 +53,40 @@ const WorkingDaysCheckboxes = ({ checkedDays, setCheckedDays, isLoading }: Props
     );
   };
 
-  const renderCheckboxes = STATIC_WORKING_DAYS.map(({ dayId, dayEnglishName, dayArabicName }) => (
-    <Field key={dayId} className="flex items-center space-x-2">
-      <Checkbox
-        checked={checkedDays.includes(dayId)}
-        onChange={() => handleCheckboxChange(dayId)}
-      />
-      <Label>{language === 'ar' ? dayArabicName : dayEnglishName}</Label>
-    </Field>
-  ));
+  const renderCheckboxes = STATIC_WORKING_DAYS.map(
+    ({ dayId, dayEnglishName, dayArabicName }) => {
+      const isDisabled = disabledDays?.includes(dayId) ?? false;
+
+      return (
+        <Field key={dayId} className="flex items-center space-x-2 opacity-100">
+          <Checkbox
+            checked={checkedDays.includes(dayId)}
+            disabled={isDisabled}
+            onChange={() => handleCheckboxChange(dayId)}
+          />
+          <Label className={isDisabled ? "text-gray-400" : ""}>
+            {language === "ar" ? dayArabicName : dayEnglishName}
+          </Label>
+        </Field>
+      );
+    }
+  );
 
   return (
     <div className="w-full flex flex-col gap-5">
       <div className="flex-grow">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {isLoading ? (
-            [...Array(4)].map((_, i) => (
-              <Field key={i} className="flex items-center space-x-2">
-                <CheckboxSkeleton />
-                <LabelSkeleton />
-              </Field>
-            ))
-          ) : (
-            renderCheckboxes
-          )}
+          {isLoading
+            ? [...Array(4)].map((_, i) => (
+                <Field key={i} className="flex items-center space-x-2">
+                  <CheckboxSkeleton />
+                  <LabelSkeleton />
+                </Field>
+              ))
+            : renderCheckboxes}
         </div>
       </div>
-      <div className="mt-auto flex justify-end">
+      {/* <div className="mt-auto flex justify-end">
         {isLoading ? (
           <div className="w-36">
             <ButtonSkeleton fullWidth={false} />
@@ -92,11 +101,11 @@ const WorkingDaysCheckboxes = ({ checkedDays, setCheckedDays, isLoading }: Props
             icon={<ListChecks className="w-full h-full" />}
           >
             {checkedDays.length === allDayIDs.length
-              ? t('deselectAll')
-              : t('selectAll')}
+              ? t("deselectAll")
+              : t("selectAll")}
           </Button>
         )}
-      </div>
+      </div> */}
     </div>
   );
 };

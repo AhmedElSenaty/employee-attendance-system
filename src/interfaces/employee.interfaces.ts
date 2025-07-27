@@ -79,3 +79,11 @@ export interface EmployeeWorkingHours {
   EndDate: string;
   MedicalReport: Array<File>;
 }
+
+export interface EmployeeWorkingDaysForm {
+  WorkingDays: number[];
+  RestDays: number[];
+  StartDate: string;
+  EndDate: string | null;
+  Description?: string | null;
+}
