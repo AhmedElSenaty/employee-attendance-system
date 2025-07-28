@@ -32,7 +32,7 @@ export class SickRequestsService extends BaseService {
           headers: this.getAuthHeaders(),
         }
       );
-
+      console.log(response);
       return response;
     } catch (error) {
       this.handleError(error, "Error fetching all sick requests");

@@ -213,9 +213,9 @@ export class RequestService extends BaseService {
     });
   };
 
-  getRequestById = (requestId: number) => {
-    return axiosInstance.get(`/Request/request/${requestId}`, {
-      headers: this.getAuthHeaders(),
-    });
-  };
+  // getRequestById = (requestId: number) => {
+  //   return axiosInstance.get(`/Request/request/${requestId}`, {
+  //     headers: this.getAuthHeaders(),
+  //   });
+  // };
 }

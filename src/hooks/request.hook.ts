@@ -266,20 +266,20 @@ export const useSoftDeleteRequest = () => {
     mutationFn: (deleteRequestData: ISoftDeleteRequestCredentials) =>
       requestService.softDelete(deleteRequestData),
     onSuccess: ({ status, data }) => {
-      queryClient.invalidateQueries({ queryKey: [QueryKeys.Requests.All] });
-      queryClient.invalidateQueries({
-        queryKey: [QueryKeys.CasualLeaveRequests.All],
-      });
-      queryClient.invalidateQueries({
-        queryKey: [QueryKeys.LeaveRequests.All],
-      });
-      queryClient.invalidateQueries({
-        queryKey: [QueryKeys.MissionRequests.All],
-      });
-      queryClient.invalidateQueries({ queryKey: [QueryKeys.SickRequests.All] });
-      queryClient.invalidateQueries({
-        queryKey: [QueryKeys.OrdinaryRequests.All],
-      });
+      // queryClient.invalidateQueries({ queryKey: [QueryKeys.Requests.All] });
+      // queryClient.invalidateQueries({
+      //   queryKey: [QueryKeys.CasualLeaveRequests.All],
+      // });
+      // queryClient.invalidateQueries({
+      //   queryKey: [QueryKeys.LeaveRequests.All],
+      // });
+      // queryClient.invalidateQueries({
+      //   queryKey: [QueryKeys.MissionRequests.All],
+      // });
+      // queryClient.invalidateQueries({ queryKey: [QueryKeys.SickRequests.All] });
+      // queryClient.invalidateQueries({
+      //   queryKey: [QueryKeys.OrdinaryRequests.All],
+      // });
       if (status === 200) {
         const message = getTranslatedMessage(data.message ?? "", language);
         showToast("success", message);

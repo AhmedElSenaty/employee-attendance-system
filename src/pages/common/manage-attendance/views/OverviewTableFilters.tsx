@@ -1,35 +1,51 @@
 import { formatValue } from "../../../../utils";
 import { Calendar, RefreshCcw, Search } from "lucide-react";
 import { useLanguageStore } from "../../../../store/language.store";
-import { Button, CustomSelect, Field, Input, Label, Tooltip } from "../../../../components/ui";
+import {
+  Button,
+  CustomSelect,
+  Field,
+  Input,
+  Label,
+  Tooltip,
+} from "../../../../components/ui";
 import { useTranslation } from "react-i18next";
 import { ATTENDANCE_NS } from "../../../../constants";
 
 interface Props {
-  searchBy: string[]
+  searchBy: string[];
   getParam: (key: string) => string | number | null;
   setParam: (key: string, value: string) => void;
   clearParams: () => void;
 }
 
-const OverviewTableFilters = ({ searchBy, getParam, setParam, clearParams }: Props) => {
+const OverviewTableFilters = ({
+  searchBy,
+  getParam,
+  setParam,
+  clearParams,
+}: Props) => {
   const { language } = useLanguageStore();
   const { t } = useTranslation([ATTENDANCE_NS]);
-
 
   const pageSizeOptions = [10, 20, 30, 40, 50].map((size) => ({
     value: size,
     label: formatValue(size, language),
   }));
-  
-  const selectedPageSizeValue = pageSizeOptions.find(opt => opt.value === (getParam("pageSize") ? Number(getParam("pageSize")) : 10));
-  
+
+  const selectedPageSizeValue = pageSizeOptions.find(
+    (opt) =>
+      opt.value === (getParam("pageSize") ? Number(getParam("pageSize")) : 10)
+  );
+
   const searchByOptions = searchBy.map((search) => ({
     value: search || "",
     label: t(`filters.searchBy.${String(search)}`) ?? "",
   }));
-  
-  const selectedSearchByValue = searchByOptions.find(opt => opt.value === (getParam("searchKey") ? getParam("searchKey") : ""));
+
+  const selectedSearchByValue = searchByOptions.find(
+    (opt) => opt.value === (getParam("searchKey") ? getParam("searchKey") : "")
+  );
 
   return (
     <>
@@ -92,7 +108,7 @@ const OverviewTableFilters = ({ searchBy, getParam, setParam, clearParams }: Pro
         </Field>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default OverviewTableFilters
+export default OverviewTableFilters;

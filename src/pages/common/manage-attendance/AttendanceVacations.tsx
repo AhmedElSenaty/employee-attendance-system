@@ -3,8 +3,17 @@ import { CalendarSearch } from "lucide-react";
 import { formatValue } from "../../../utils";
 import { useDebounce } from "../../../hooks/debounce.hook";
 import { useLanguageStore } from "../../../store/";
-import { CountCard, Header, InfoPopup, Paginator, SectionHeader } from "../../../components/ui";
-import { useGetAttendanceStatus, useGetAttendanceWithVacations } from "../../../hooks/";
+import {
+  CountCard,
+  Header,
+  InfoPopup,
+  Paginator,
+  SectionHeader,
+} from "../../../components/ui";
+import {
+  useGetAttendanceStatus,
+  useGetAttendanceWithVacations,
+} from "../../../hooks/";
 import { ATTENDANCE_NS, ATTENDANCE_VACATION_VIDEO } from "../../../constants";
 import useURLSearchParams from "../../../hooks/URLSearchParams.hook";
 import { VacationTable, VacationTableFilters } from "./views";
@@ -17,12 +26,12 @@ const AttendanceVacationsPage = () => {
   const { getParam, setParam, clearParams } = useURLSearchParams();
   const { type } = useParams();
 
-  const rawPage = getParam('page', Number);
-  const rawPageSize = getParam('pageSize', Number);
-  const rawSearchKey = getParam('searchKey');
-  const rawSearchQuery = useDebounce(getParam('searchQuery'), 650);
-  const rawDepartmentId = getParam('searchByDepartmentId', Number);
-  const rawSubDeptartmentId = getParam('searchBySubDeptartmentId', Number);
+  const rawPage = getParam("page", Number);
+  const rawPageSize = getParam("pageSize", Number);
+  const rawSearchKey = getParam("searchKey");
+  const rawSearchQuery = useDebounce(getParam("searchQuery"), 650);
+  const rawDepartmentId = getParam("searchByDepartmentId", Number);
+  const rawSubDeptartmentId = getParam("searchBySubDeptartmentId", Number);
 
   const page = rawPage ?? 1;
   const pageSize = rawPageSize ?? 10;
@@ -60,7 +69,10 @@ const AttendanceVacationsPage = () => {
 
   return (
     <div className="sm:p-5 p-3 space-y-5">
-      <Header heading={t("headerVacation.heading")} subtitle={t("headerVacation.subtitle")} />
+      <Header
+        heading={t("headerVacation.heading")}
+        subtitle={t("headerVacation.subtitle")}
+      />
       <div className="space-y-5 mx-auto w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl">
         <div className="w-full flex items-center justify-center">
           <InfoPopup
@@ -69,15 +81,6 @@ const AttendanceVacationsPage = () => {
             videoUrl={ATTENDANCE_VACATION_VIDEO}
           />
         </div>
-        {!type && (
-          <CountCard
-            title={t("CountCardVacation.title")}
-            description={t("CountCardVacation.description")}
-            count={formatValue(totalAttendances, language)}
-            icon={<CalendarSearch size={28} />}
-            bgColor="bg-[#b38e19]"
-          />
-        )}
       </div>
 
       <div className="bg-white shadow-md space-y-5 p-5 rounded-lg">
@@ -111,8 +114,23 @@ const AttendanceVacationsPage = () => {
             totalRecords={metadata?.pagination?.totalRecords || 0}
             isLoading={isAttendanceWithVacationsLoading}
             onClickFirst={() => setParam("page", String(1))}
-            onClickPrev={() => setParam("page", String(Math.max((Number(getParam('page')) || 1) - 1, 1)))}
-            onClickNext={() => setParam("page", String(Math.min((Number(getParam('page')) || 1) + 1, metadata?.pagination?.totalPages || 1)))}
+            onClickPrev={() =>
+              setParam(
+                "page",
+                String(Math.max((Number(getParam("page")) || 1) - 1, 1))
+              )
+            }
+            onClickNext={() =>
+              setParam(
+                "page",
+                String(
+                  Math.min(
+                    (Number(getParam("page")) || 1) + 1,
+                    metadata?.pagination?.totalPages || 1
+                  )
+                )
+              )
+            }
           />
         )}
       </div>

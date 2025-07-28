@@ -17,6 +17,8 @@ axiosInstance.interceptors.response.use(
       showToast("error", "Network error. Please check your connection.");
     }
     if (error.response?.status === 403) {
+      console.log(error.response.status);
+
       window.location.href = "/forbidden"; // redirect to your 403 page
     }
     // if (error.response?.status >= 500) {
