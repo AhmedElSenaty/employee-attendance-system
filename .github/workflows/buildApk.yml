@@ -48,7 +48,7 @@ jobs:
 
                 -   name: Upload to GitHub Release
                     uses: softprops/action-gh-release@v2
-                    if: github.ref_name == 'master'
+                    if: github.ref_name == 'main'
                     with:
                         name: 'Attendance.apk'
                         tag_name: 'Attendance.apk'
