@@ -12,7 +12,7 @@ import {
 } from "../../../components/ui";
 import useURLSearchParams from "../../../hooks/URLSearchParams.hook";
 import { useDebounce, useGetDeviceUsers, useToggleRole } from "../../../hooks";
-import Filters from "./views/filters";
+import Filters from "./views/Filters";
 import { RefreshCcw } from "lucide-react";
 import { HasPermission } from "../../../components/auth";
 
