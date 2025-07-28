@@ -36,6 +36,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { ExportPopup } from "../../common/manage-attendance/views";
 import AssignGenericPopup from "./views/AssignGenericInputs";
+import EditRequestPopup from "./views/EditRequestPopup";
 
 const GenaricRequestsPage = () => {
   const [isAssignGenericPopupOpen, setIsAssignGenericPopupOpen] =
@@ -108,7 +109,7 @@ const GenaricRequestsPage = () => {
   const columns = REQUESTS_TABLE_COLUMNS.map((key) => t(key));
   const { mutate: deleteRequest, isPending: isDeleting } =
     useSoftDeleteRequest();
-  // const [isEditOpen, setIsEditOpen] = useState(false);
+  const [isEditOpen, setIsEditOpen] = useState(false);
   const {
     register: registerDelete,
     handleSubmit: handleSubmitDelete,
@@ -124,10 +125,10 @@ const GenaricRequestsPage = () => {
     }
   );
 
-  // const handleEditopupOpen = (id: number) => {
-  //   setSelectedID(id);
-  //   setIsEditOpen(true);
-  // };
+  const handleEditopupOpen = (id: number) => {
+    setSelectedID(id);
+    setIsEditOpen(true);
+  };
 
   // Use the custom hook to fetch data
   const { refetchExportData, isLoading: isExportDataLoading } =
@@ -311,7 +312,7 @@ const GenaricRequestsPage = () => {
                             fullWidth={false}
                             size={"sm"}
                             icon={<FilePenLine className="w-full h-full" />}
-                            onClick={() => handleEdit(request.id)}
+                            onClick={() => handleEditopupOpen(request.id)}
                           />
                         </div>
                       </TableCell>
@@ -396,6 +397,14 @@ const GenaricRequestsPage = () => {
         handleClose={() => {
           setIsAssignGenericPopupOpen(false);
         }}
+      />
+
+      <EditRequestPopup
+        isOpen={isEditOpen}
+        handleClose={() => {
+          setIsEditOpen(false);
+        }}
+        requestId={selectedID}
       />
     </>
   );
