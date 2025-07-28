@@ -107,7 +107,7 @@ export const Navbar = () => {
                           link.click();
                           document.body.removeChild(link);
                 }}>
-                          <img src={mobile} width="20px" />
+                          <img src={mobile} width="15px" />
                 </Button>
                 </NavLink>
               </div>
