@@ -8,11 +8,15 @@ import com.getcapacitor.BridgeActivity;
 
 
 public class MainActivity extends BridgeActivity {
-    super.onCreate(savedInstanceState);
+    
+    protected void onCreate(Bundle savedInstanceState) {
 
-    // Allow HTTPS page (https://localhost) to load HTTP API (http://192.168.1.7:3000)
-    this.bridge.getWebView()
-      .getSettings()
-      .setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        super.onCreate(savedInstanceState);
+
+        // Allow HTTPS page (https://localhost) to load HTTP API (http://192.168.1.7:3000)
+        this.bridge.getWebView()
+        .getSettings()
+        .setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+    }
   
 }

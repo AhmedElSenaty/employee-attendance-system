@@ -98,7 +98,9 @@ export const Navbar = () => {
                 <Logo width="w-15" height="h-15" />
                 </NavLink>
                 <NavLink to="/">
-                <Button variant="secondary" type="button" fullWidth={true}>
+                      <Button variant="secondary" type="button" fullWidth={true} onClick={() => {
+                          window.location.href = "/";
+                }}>
                           <img src={mobile} width="20px" />
                 </Button>
                 </NavLink>
