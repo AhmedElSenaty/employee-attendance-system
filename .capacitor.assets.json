@@ -1,0 +1,6 @@
+{
+  "icon": {
+    "source": "./assets/fp.png"
+  },
+  "platforms": ["android"]
+}
