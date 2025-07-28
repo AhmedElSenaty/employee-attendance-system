@@ -116,7 +116,7 @@ export class RequestService extends BaseService {
 
         headers: this.getAuthHeaders(),
       });
-
+      console.log(response.data.data);
       return response;
     } catch (error) {
       this.handleError(error, "Error fetching all requests");
@@ -189,10 +189,22 @@ export class RequestService extends BaseService {
     );
   };
 
+  // old request assign method
   assign = (data: IAssignRequest) => {
     return axiosInstance.post("/Request/Manager/AssignGenericRequest", data, {
       headers: this.getAuthHeaders(),
     });
+  };
+
+  // generic request assign method
+  assignGeneric = (data: AssignGenericRequest) => {
+    return axiosInstance.post(
+      "/Request/Manager/AssignGenericRequestttttt",
+      data,
+      {
+        headers: this.getAuthHeaders(),
+      }
+    );
   };
 
   editRequest = (data: EditRequestFormValues) => {
@@ -205,15 +217,5 @@ export class RequestService extends BaseService {
     return axiosInstance.get(`/Request/request/${requestId}`, {
       headers: this.getAuthHeaders(),
     });
-  };
-
-  assignGeneric = (data: AssignGenericRequest) => {
-    return axiosInstance.post(
-      "/Request/Manager/AssignGenericRequestttttt",
-      data,
-      {
-        headers: this.getAuthHeaders(),
-      }
-    );
   };
 }

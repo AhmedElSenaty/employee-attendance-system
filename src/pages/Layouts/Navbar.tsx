@@ -26,6 +26,7 @@ import { INotification } from "../../hooks";
 import { WEB_BASE_URL } from "../../constants";
 import { HasPermission } from "../../components/auth";
 import { useGetNotificationCount } from "../../hooks/notification.hook";
+import { useNotificationStore } from "../../store/notification.store";
 
 export const Navbar = () => {
   const { t } = useTranslation(["common", "navbar"]);
@@ -33,7 +34,8 @@ export const Navbar = () => {
   const { role: userRole, token, logoutUser, imageUrl, id } = useUserStore();
   const isLoggedIn = Boolean(token);
   const { isOpen: sidebarisOpen, toggleSidebar } = useSidebarStore();
-  const [notificationCount, setNotificationCount] = useState(0);
+  // const [notificationCount, setNotificationCount] = useState(0);
+  const { countt, setCount, increment } = useNotificationStore();
 
   const service = new AuthService();
 
@@ -41,9 +43,9 @@ export const Navbar = () => {
 
   useEffect(() => {
     if (!isLoading && count >= 0) {
-      setNotificationCount(count);
+      setCount(count);
     }
-  }, [count, isLoading]);
+  }, [count, isLoading, setCount]);
 
   // ✅ SignalR connection for manager
   useEffect(() => {
@@ -61,7 +63,8 @@ export const Navbar = () => {
         if (data.departmentId === String(message.deptId)) {
           const sound = new Audio("/public/new-notification.mp3");
           sound.play();
-          setNotificationCount((prev) => prev + 1);
+          //    setNotificationCount((prev) => prev + 1);
+          increment(); // ✅ update global count
         }
       });
       return () => {
@@ -105,13 +108,9 @@ export const Navbar = () => {
                   // onClick={() => setNotificationCount(notificationCount)} // Reset on click if desired
                 >
                   <Bell className="w-7 h-7" />
-                  {notificationCount > 0 && (
+                  {countt > 0 && (
                     <div className="absolute -top-1 -right-1">
-                      <Badge
-                        count={notificationCount}
-                        bgColor="bg-red-600"
-                        pulse
-                      />
+                      <Badge count={countt} bgColor="bg-red-600" pulse />
                     </div>
                   )}
                 </button>

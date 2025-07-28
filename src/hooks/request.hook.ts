@@ -292,6 +292,7 @@ export const useSoftDeleteRequest = () => {
   });
 };
 
+// old request assign method
 export const useAssignRequest = () => {
   const { language } = useLanguageStore();
   const service = useRequestService();
@@ -300,6 +301,28 @@ export const useAssignRequest = () => {
     mutationFn: (data: IAssignRequest) => service.assign(data),
     onSuccess: ({ status, data }) => {
       if (status === 201) {
+        const message = getTranslatedMessage(data.message ?? "", language);
+        showToast("success", message);
+      }
+    },
+    onError: (error) => {
+      const axiosError = error as AxiosError<IErrorResponse>;
+      handleApiError(axiosError, language);
+    },
+  });
+};
+
+// generic request assign method
+export const useAssignGenericeRequest = () => {
+  const { language } = useLanguageStore();
+  const service = useRequestService();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (data: AssignGenericRequest) => service.assignGeneric(data),
+    onSuccess: ({ status, data }) => {
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.Requests.All] });
+      if (status === 200) {
         const message = getTranslatedMessage(data.message ?? "", language);
         showToast("success", message);
       }
@@ -370,25 +393,4 @@ export const useGetRequestById = (requestId: number) => {
     isLoading,
     isError,
   };
-};
-
-export const useAssignGenericeRequest = () => {
-  const { language } = useLanguageStore();
-  const service = useRequestService();
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: (data: AssignGenericRequest) => service.assignGeneric(data),
-    onSuccess: ({ status, data }) => {
-      queryClient.invalidateQueries({ queryKey: [QueryKeys.Requests.All] });
-      if (status === 200) {
-        const message = getTranslatedMessage(data.message ?? "", language);
-        showToast("success", message);
-      }
-    },
-    onError: (error) => {
-      const axiosError = error as AxiosError<IErrorResponse>;
-      handleApiError(axiosError, language);
-    },
-  });
 };

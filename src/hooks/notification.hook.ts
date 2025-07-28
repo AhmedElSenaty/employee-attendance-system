@@ -27,7 +27,6 @@ export const useGetNotificationCount = () => {
     enabled: !!token,
   });
   const count = data?.data?.data?.count || 0;
-  console.log(count);
   return {
     count: count,
     isLoading,

@@ -8,7 +8,6 @@ export class WorkingDaysService extends BaseService {
       const response = await axiosInstance.get("/EmployeeWorkingDays/me", {
         headers: this.getAuthHeaders(),
       });
-      console.log(response);
       return response;
     } catch (error) {
       console.error("Error fetching all working days:", error);

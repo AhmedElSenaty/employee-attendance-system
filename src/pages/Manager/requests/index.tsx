@@ -31,7 +31,7 @@ import { Check, X } from "lucide-react";
 import RejectPopup from "./views/RejectPopup";
 import AcceptPopup from "./views/AcceptPopup";
 import DeletePopup from "./views/DeletePopup";
-
+import { useNotificationStore } from "../../../store/notification.store";
 const RequestsPage = () => {
   const { requests, isLoading } = useGetRequests();
   const { t } = useTranslation("requests");
@@ -40,6 +40,7 @@ const RequestsPage = () => {
   const [isRejectPopupOpen, setIsRejectPopupOpen] = useState(false);
   const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
   const [selectedID, setSelectedID] = useState<number>(0);
+  const { decrement } = useNotificationStore();
 
   const { register, handleSubmit, reset } =
     useForm<IRejectRequestCredentials>();
@@ -99,16 +100,26 @@ const RequestsPage = () => {
   };
 
   const handleConfirmAccept = () => {
-    acceptSickRequest(selectedID);
-    setIsAcceptPopupOpen(false);
+    acceptSickRequest(selectedID, {
+      onSuccess: () => {
+        decrement(); // ✅ reduce counter
+        setIsAcceptPopupOpen(false);
+      },
+    });
   };
 
-  const handleConfirmReject = handleSubmit(
-    (request: IRejectRequestCredentials) => {
-      rejectRequest({ id: String(selectedID), data: request });
-      setIsRejectPopupOpen(false);
-    }
-  );
+  const handleConfirmReject = handleSubmit((request) => {
+    rejectRequest(
+      { id: String(selectedID), data: request },
+      {
+        onSuccess: () => {
+          decrement(); // ✅ reduce counter
+          setIsRejectPopupOpen(false);
+        },
+      }
+    );
+  });
+
   const handleConfirmDelete = handleSubmitDelete(
     (request: ISoftDeleteRequestCredentials) => {
       request.requestId = selectedID;

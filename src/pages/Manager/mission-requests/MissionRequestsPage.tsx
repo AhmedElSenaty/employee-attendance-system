@@ -165,7 +165,6 @@ const MissionRequestsPage = () => {
   const onSubmit: SubmitHandler<IAssignMissionRequestCredentials> = (
     data: IAssignMissionRequestCredentials
   ) => {
-    console.log("6666666666666");
     assignMissionRequest(data);
     setIsAssignPopupOpen(false);
   };

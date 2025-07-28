@@ -29,7 +29,7 @@ import {
   useEmployeeRequestsSummaryReport,
   useEmployeeRequestsSummaryReportPDF,
 } from "../../../hooks";
-import { FileDown, Trash } from "lucide-react";
+import { FileDown, FilePenLine, Trash } from "lucide-react";
 import DeletePopup from "./views/DeletePopup";
 import { ISoftDeleteRequestCredentials } from "../../../interfaces/request.interfaces";
 import { useState } from "react";
@@ -38,7 +38,6 @@ import { ExportPopup } from "../../common/manage-attendance/views";
 import AssignGenericPopup from "./views/AssignGenericInputs";
 
 const GenaricRequestsPage = () => {
-  
   const [isAssignGenericPopupOpen, setIsAssignGenericPopupOpen] =
     useState(false);
   const [isDownloadReportPopupOpen, setIsDownloadReportPopupOpen] =
@@ -94,6 +93,7 @@ const GenaricRequestsPage = () => {
     restDelete();
     setIsDeletePopupOpen(false);
   };
+
   const REQUESTS_TABLE_COLUMNS = [
     "table.columns.employeeName",
     "table.columns.startDate",
@@ -108,7 +108,7 @@ const GenaricRequestsPage = () => {
   const columns = REQUESTS_TABLE_COLUMNS.map((key) => t(key));
   const { mutate: deleteRequest, isPending: isDeleting } =
     useSoftDeleteRequest();
-
+  // const [isEditOpen, setIsEditOpen] = useState(false);
   const {
     register: registerDelete,
     handleSubmit: handleSubmitDelete,
@@ -123,6 +123,11 @@ const GenaricRequestsPage = () => {
       setIsDeletePopupOpen(false);
     }
   );
+
+  // const handleEditopupOpen = (id: number) => {
+  //   setSelectedID(id);
+  //   setIsEditOpen(true);
+  // };
 
   // Use the custom hook to fetch data
   const { refetchExportData, isLoading: isExportDataLoading } =
@@ -202,23 +207,23 @@ const GenaricRequestsPage = () => {
               </ActionCard>
             </HasPermission>
         </div> */}
-              <ActionCard
-                icon={<FileDown />}
-            iconBgColor="bg-[#f5e4b2]"
-            iconColor="text-[#b38e19]"
-            title={t("assignActionCard.title")}
-            description={t("assignActionCard.description")}
-              >
-                <Button
-                  fullWidth
-                  variant="secondary"
-                  onClick={() => {
-                    setIsAssignGenericPopupOpen(true);
-                  }}
-                >
-                  {t("exportActionCard.button")}
-                </Button>
-              </ActionCard>
+        <ActionCard
+          icon={<FileDown />}
+          iconBgColor="bg-[#f5e4b2]"
+          iconColor="text-[#b38e19]"
+          title={t("assignActionCard.title")}
+          description={t("assignActionCard.description")}
+        >
+          <Button
+            fullWidth
+            variant="secondary"
+            onClick={() => {
+              setIsAssignGenericPopupOpen(true);
+            }}
+          >
+            {t("exportActionCard.button")}
+          </Button>
+        </ActionCard>
         <div className="bg-white shadow-md space-y-5 p-5 rounded-lg">
           <div className="flex flex-wrap gap-4">
             <Filters
@@ -301,13 +306,13 @@ const GenaricRequestsPage = () => {
                               onClick={() => handleDeletePopupOpen(request.id)}
                             />
                           </Tooltip>
-                          {/* <Button
-                                variant="info"
-                                fullWidth={false}
-                                size={"sm"}
-                                icon={<FilePenLine className="w-full h-full" />}
-                                onClick={() => handleEdit(request.id)}
-                              /> */}
+                          <Button
+                            variant="info"
+                            fullWidth={false}
+                            size={"sm"}
+                            icon={<FilePenLine className="w-full h-full" />}
+                            onClick={() => handleEdit(request.id)}
+                          />
                         </div>
                       </TableCell>
                     </TableRow>
@@ -386,7 +391,12 @@ const GenaricRequestsPage = () => {
         isloadingPDF={isLoadingPDF}
         handleDownloadPDF={handleDownloadPDF}
       />
-      <AssignGenericPopup isOpen={isAssignGenericPopupOpen} handleClose={() => { setIsAssignGenericPopupOpen(false) }} />
+      <AssignGenericPopup
+        isOpen={isAssignGenericPopupOpen}
+        handleClose={() => {
+          setIsAssignGenericPopupOpen(false);
+        }}
+      />
     </>
   );
 };

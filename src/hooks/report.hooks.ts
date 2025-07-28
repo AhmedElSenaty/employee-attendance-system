@@ -6,7 +6,6 @@ import { QueryKeys } from "../constants";
 
 export const useReportService = () => {
   const token = useUserStore((state) => state.token);
-
   const service = useMemo(() => {
     return new ReportsService(token);
   }, [token]);

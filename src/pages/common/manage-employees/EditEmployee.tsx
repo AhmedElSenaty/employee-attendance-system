@@ -153,7 +153,6 @@ const EditEmployeePage = () => {
   const handleConfirmUpdateWorkingDaysForm: SubmitHandler<
     EmployeeWorkingDaysForm
   > = (request) => {
-    console.log("request", request);
     updateWorkingDays({
       employeeId: id || "",
       workingDays: request.WorkingDays,
