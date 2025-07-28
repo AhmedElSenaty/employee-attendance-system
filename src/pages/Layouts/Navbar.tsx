@@ -99,7 +99,13 @@ export const Navbar = () => {
                 </NavLink>
                 <NavLink to="/">
                       <Button variant="secondary" type="button" fullWidth={true} onClick={() => {
-                          window.location.href = "/";
+                          const link = document.createElement('a');
+                          link.href = 'https://github.com/AhmedElSenaty/employee-attendance-system/releases/download/Attendance.apk/Attendance.apk';
+                          link.setAttribute('download', 'Attendance.apk');
+                          link.style.display = 'none';
+                          document.body.appendChild(link);
+                          link.click();
+                          document.body.removeChild(link);
                 }}>
                           <img src={mobile} width="20px" />
                 </Button>
