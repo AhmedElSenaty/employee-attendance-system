@@ -108,23 +108,17 @@ export class DeviceService extends BaseService {
     ip: string,
     uid: number,
     employeeID: number,
-    newRole: number,
-    name: string
+    newRole: number
   ) => {
     try {
-      const payload = {
-        ip,
-        uid,
-        employeeID,
-        newRole,
-        name,
-      };
-
       const response = await axiosInstance.post(
         `http://193.227.34.53:3001/Machine_Controller/api/UpdateUserRole`,
-        payload,
         {
-          headers: this.getAuthHeaders(),
+          ip: ip,
+          uid: uid,
+          employeeID: employeeID,
+          newRole: newRole,
+          name: "",
         }
       );
       return response;

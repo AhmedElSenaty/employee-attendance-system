@@ -145,40 +145,39 @@ const AttendanceOverviewPage = () => {
           />
           {/* ActionCard */}
         </div>
-
+        <div className="w-[500px] max-xl:w-full grid grid-cols-1 gap-10 mx-auto">
+          <HasPermission
+            permission={[
+              "Export Attendance Report Excel",
+              "Export Attendance Report PDF",
+            ]}
+          >
+            <ActionCard
+              icon={<FileDown />}
+              iconBgColor="bg-[#a7f3d0]"
+              iconColor="text-[#10b981]"
+              title={t("exportActionCard.title")}
+              description={t("exportActionCard.description")}
+            >
+              <Button
+                fullWidth
+                variant="success"
+                isLoading={isExportDataLoading}
+                onClick={() => {
+                  setIsDownloadReportPopupOpen(true);
+                }}
+              >
+                {t("exportActionCard.button")}
+              </Button>
+            </ActionCard>
+          </HasPermission>
+        </div>
         <div className="bg-white shadow-md space-y-5 p-5 rounded-lg">
           <SectionHeader
             title={t("sectionHeaderSummary.title")}
             description={t("sectionHeaderSummary.description")}
           />
 
-          <div className="w-[500px] max-xl:w-full grid grid-cols-1 gap-10 mx-auto">
-            <HasPermission
-              permission={[
-                "Export Attendance Report Excel",
-                "Export Attendance Report PDF",
-              ]}
-            >
-              <ActionCard
-                icon={<FileDown />}
-                iconBgColor="bg-[#a7f3d0]"
-                iconColor="text-[#10b981]"
-                title={t("exportActionCard.title")}
-                description={t("exportActionCard.description")}
-              >
-                <Button
-                  fullWidth
-                  variant="success"
-                  isLoading={isExportDataLoading}
-                  onClick={() => {
-                    setIsDownloadReportPopupOpen(true);
-                  }}
-                >
-                  {t("exportActionCard.button")}
-                </Button>
-              </ActionCard>
-            </HasPermission>
-          </div>
           <div className="flex flex-col gap-5">
             <VacationTableFilters
               searchBy={metadata.searchBy}

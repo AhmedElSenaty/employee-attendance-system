@@ -1,5 +1,5 @@
 import { formatValue } from "../../../../utils";
-import { RefreshCcw, Search } from "lucide-react";
+import { Calendar, RefreshCcw, Search } from "lucide-react";
 import { useLanguageStore } from "../../../../store/language.store";
 import {
   Button,
@@ -93,6 +93,26 @@ const VacationTableFilters = ({
               setParam("pageSize", String(option?.value ?? 10))
             }
             className="w-25"
+          />
+        </Field>
+
+        <Field className="flex flex-col space-y-2 w-fit">
+          <Label>{t("filters.startDate")}</Label>
+          <Input
+            type="date"
+            icon={<Calendar />}
+            value={getParam("startDate") ?? ""}
+            onChange={(e) => setParam("startDate", e.target.value)}
+          />
+        </Field>
+
+        <Field className="flex flex-col space-y-2 w-fit">
+          <Label>{t("filters.endDate")}</Label>
+          <Input
+            type="date"
+            icon={<Calendar />}
+            value={getParam("endDate") ?? ""}
+            onChange={(e) => setParam("endDate", e.target.value)}
           />
         </Field>
 
