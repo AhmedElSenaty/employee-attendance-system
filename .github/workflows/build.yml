@@ -8,13 +8,14 @@ jobs:
     runs-on: self-hosted
 
     steps:
+    - name: go to downlaod dir
+      run: |
+            cd "C:\Users\Administrator\Downloads\SourceCodeRepository\attendtance-app"
+    
     - name: Checkout repo
-      uses: actions/checkout@v4
-
-    - name: Set up Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: 20
+      run: |
+          git clone https://github.com/AhmedElSenaty/employee-attendance-system.git
+          cd employee-attendance-system
 
     - name: Replace API and WEB URLs
       shell: powershell
