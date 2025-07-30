@@ -1,0 +1,12 @@
+name : "hello test"
+
+on:
+  workflow_dispatch:
+
+jobs: 
+  echo_hello:
+    ruruns-on: self-hosted
+    steps:
+      - name: "echo"
+        run: |
+              echo "Hello"
