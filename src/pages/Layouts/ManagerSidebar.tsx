@@ -11,6 +11,7 @@ import {
   Coffee,
   Contact,
   ContactRound,
+  FileBarChart2,
   FileText,
   GitPullRequestArrow,
   Home,
@@ -52,6 +53,12 @@ export const ManagerSidebar = () => {
           icon={<LayoutDashboard size={23} />}
           name={t("dashboard")}
           to="/manager"
+        />
+
+        <SidebarItem
+          icon={<FileBarChart2 size={23} />}
+          name={t("جميع التقارير")}
+          to="/manager/allReports"
         />
 
         {(permissions.includes("View Manager") ||

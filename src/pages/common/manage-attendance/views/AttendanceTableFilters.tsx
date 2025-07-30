@@ -12,11 +12,16 @@ import { Calendar, RefreshCcw, Search, Timer } from "lucide-react";
 import {
   useGetDepartmentsList,
   useGetDepartmentSubDepartments,
+  useGetEmployeesList,
 } from "../../../../hooks/";
 import { useLanguageStore } from "../../../../store/";
 import { ATTENDANCE_NS } from "../../../../constants";
 import { useTranslation } from "react-i18next";
-import { Department, SubDepartment } from "../../../../interfaces";
+import {
+  Department,
+  EmployeeSummary,
+  SubDepartmentSummary,
+} from "../../../../interfaces";
 
 interface Props {
   searchBy: string[];
@@ -36,6 +41,9 @@ const AttendanceTableFilters = ({
   const { language } = useLanguageStore();
   const { t } = useTranslation([ATTENDANCE_NS]);
 
+  const { employeesList, isLoading: isEmployeesListLoading } =
+    useGetEmployeesList();
+
   const departmentId = getParam("searchByDepartmentId");
 
   const { departmentsList, isLoading: isDepartmentsLoading } =
@@ -47,6 +55,12 @@ const AttendanceTableFilters = ({
     value: size,
     label: formatValue(size, language),
   }));
+
+  const employeeOptions =
+    employeesList?.map((employee: EmployeeSummary) => ({
+      value: employee.name, // ✅ Use name, not ID
+      label: employee.name,
+    })) || [];
 
   const selectedPageSizeValue = pageSizeOptions.find(
     (opt) =>
@@ -83,8 +97,8 @@ const AttendanceTableFilters = ({
   );
 
   const subDepartmentOptions =
-    subDepartmentsList?.map((subDepartment: SubDepartment) => ({
-      value: subDepartment.subDepartmentId,
+    subDepartmentsList?.map((subDepartment: SubDepartmentSummary) => ({
+      value: subDepartment.id,
       label: subDepartment.name,
     })) ?? [];
 
@@ -100,32 +114,33 @@ const AttendanceTableFilters = ({
   ];
 
   const handleQuickDateSelect = (value: string) => {
-  const today = new Date();
-  let start: Date;
+    const today = new Date();
+    let start: Date;
 
-  if (value === "today") {
-    start = new Date(today);
-  } else if (value === "weekly") {
-    const day = today.getDay(); // 0 = Sunday
-    start = new Date(today);
-    const sundayOffset = day === 0 ? 0 : -day;
-    start.setDate(start.getDate() + sundayOffset);
-  } else if (value === "monthly") {
-    start = new Date(today.getFullYear(), today.getMonth(), 1); // first of month
-  } else {
-    return;
-  }
+    if (value === "today") {
+      start = new Date(today);
+    } else if (value === "weekly") {
+      const day = today.getDay(); // 0 = Sunday
+      start = new Date(today);
+      const sundayOffset = day === 0 ? 0 : -day;
+      start.setDate(start.getDate() + sundayOffset);
+    } else if (value === "monthly") {
+      start = new Date(today.getFullYear(), today.getMonth(), 1); // first of month
+    } else {
+      return;
+    }
 
-  // ✅ Format using local time
-  const format = (d: Date) =>
-    `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+    // ✅ Format using local time
+    const format = (d: Date) =>
+      `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(
+        d.getDate()
+      ).padStart(2, "0")}`;
 
     setParams({
       startDate: format(start),
       endDate: format(today),
     });
-};
-
+  };
 
   return (
     <>
@@ -175,6 +190,34 @@ const AttendanceTableFilters = ({
             value={selectedStatusValue}
             onChange={(option) => setParam("status", String(option?.value))}
           />
+        </Field>
+
+        {/* Employee name */}
+        <Field className="space-y-2 w-[300px]">
+          <Label size="lg">{t("inputs.employeeId.label")}</Label>
+          {isEmployeesListLoading ? (
+            <SelectBoxSkeleton />
+          ) : (
+            <CustomSelect
+              className="w-full"
+              options={employeeOptions}
+              value={
+                getParam("searchKey") === "SearchByEmployeeName"
+                  ? employeeOptions.find(
+                      (opt) => opt.value === getParam("searchQuery")
+                    ) || null
+                  : null
+              }
+              onChange={(option) => {
+                const name = String(option?.value ?? "");
+                setParams({
+                  searchKey: "SearchByEmployeeName",
+                  searchQuery: name,
+                });
+              }}
+              isSearchable
+            />
+          )}
         </Field>
 
         <Field className="flex flex-col space-y-2 w-fit">

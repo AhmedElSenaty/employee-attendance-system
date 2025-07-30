@@ -15,13 +15,20 @@ import { ATTENDANCE_NS } from "../../../../constants";
 import {
   useGetDepartmentsList,
   useGetDepartmentSubDepartments,
+  useGetEmployeesList,
 } from "../../../../hooks";
-import { Department, SubDepartment } from "../../../../interfaces";
+import {
+  Department,
+  EmployeeSummary,
+  SubDepartmentSummary,
+} from "../../../../interfaces";
+import { useSearchParams } from "react-router";
 
 interface ITableFiltersProps {
   searchBy: string[];
   getParam: (key: string) => string | number | null;
   setParam: (key: string, value: string) => void;
+  setParams: (params: Record<string, string>) => void;
   clearParams: () => void;
 }
 
@@ -34,12 +41,23 @@ const VacationTableFilters = ({
   const { language } = useLanguageStore();
   const { t } = useTranslation([ATTENDANCE_NS]);
 
-  const departmentId = getParam("searchByDepartmentId");
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const setParams = (params: Record<string, string>) => {
+    for (const key in params) {
+      searchParams.set(key, params[key]);
+    }
+    setSearchParams(searchParams);
+  };
+
+  const departmentId = getParam("SearchByDeptartmentID");
 
   const { departmentsList, isLoading: isDepartmentsLoading } =
     useGetDepartmentsList();
   const { subDepartmentsList, isLoading: isSubDepartmentsLoading } =
     useGetDepartmentSubDepartments(Number(departmentId || ""));
+  const { employeesList, isLoading: isEmployeesListLoading } =
+    useGetEmployeesList();
 
   const pageSizeOptions = [10, 20, 30, 40, 50].map((size) => ({
     value: size,
@@ -57,7 +75,7 @@ const VacationTableFilters = ({
   }));
 
   const selectedSearchByValue = searchByOptions.find(
-    (opt) => opt.value === (getParam("searchKey") ? getParam("searchKey") : "")
+    (opt) => opt.value === String(getParam("searchKey") ?? "")
   );
 
   const departmentOptions =
@@ -67,20 +85,36 @@ const VacationTableFilters = ({
     })) ?? [];
 
   const selectedDepartmentValue = departmentOptions.find(
-    (opt: { value: number; label: string }) =>
-      opt.value === getParam("searchByDepartmentId")
+    (opt) => opt.value === Number(getParam("SearchByDeptartmentID"))
   );
 
   const subDepartmentOptions =
-    subDepartmentsList?.map((subDepartment: SubDepartment) => ({
-      value: subDepartment.subDepartmentId,
+    subDepartmentsList?.map((subDepartment: SubDepartmentSummary) => ({
+      value: subDepartment.id,
       label: subDepartment.name,
     })) ?? [];
 
   const selectedSubDepartmentValue = subDepartmentOptions.find(
-    (opt: { value: number; label: string }) =>
-      opt.value === getParam("searchBySubDeptartmentId")
+    (opt) => opt.value === Number(getParam("searchBySubDeptartmentId"))
   );
+
+  const employeeOptions =
+    employeesList?.map((employee: EmployeeSummary) => ({
+      value: employee.name,
+      label: employee.name,
+    })) || [];
+
+  const selectedEmployeeValue =
+    getParam("searchKey") === "SearchByEmployeeName"
+      ? employeeOptions.find(
+          (opt) =>
+            opt.value.toLowerCase().trim() ===
+            String(getParam("searchQuery") ?? "")
+              .toLowerCase()
+              .trim()
+        ) || null
+      : null;
+
   return (
     <>
       <div className="w-full flex flex-wrap items-end gap-4">
@@ -93,26 +127,6 @@ const VacationTableFilters = ({
               setParam("pageSize", String(option?.value ?? 10))
             }
             className="w-25"
-          />
-        </Field>
-
-        <Field className="flex flex-col space-y-2 w-fit">
-          <Label>{t("filters.startDate")}</Label>
-          <Input
-            type="date"
-            icon={<Calendar />}
-            value={getParam("startDate") ?? ""}
-            onChange={(e) => setParam("startDate", e.target.value)}
-          />
-        </Field>
-
-        <Field className="flex flex-col space-y-2 w-fit">
-          <Label>{t("filters.endDate")}</Label>
-          <Input
-            type="date"
-            icon={<Calendar />}
-            value={getParam("endDate") ?? ""}
-            onChange={(e) => setParam("endDate", e.target.value)}
           />
         </Field>
 
@@ -136,11 +150,59 @@ const VacationTableFilters = ({
           />
         </Field>
 
+        {/* Employee name */}
+        <Field className="space-y-2 w-[300px]">
+          <Label size="lg">{t("inputs.employeeId.label")}</Label>
+          {isEmployeesListLoading ? (
+            <SelectBoxSkeleton />
+          ) : (
+            <CustomSelect
+              className="w-full"
+              options={employeeOptions}
+              value={
+                getParam("searchKey") === "SearchByEmployeeName"
+                  ? employeeOptions.find(
+                      (opt) => opt.value === getParam("searchQuery")
+                    ) || null
+                  : null
+              }
+              onChange={(option) => {
+                const name = String(option?.value ?? "");
+                setParams({
+                  searchKey: "SearchByEmployeeName",
+                  searchQuery: name,
+                });
+              }}
+              isSearchable
+            />
+          )}
+        </Field>
+
         <Tooltip content={t("filters.toolTipResetFilters")}>
           <Button onClick={clearParams} icon={<RefreshCcw />} />
         </Tooltip>
       </div>
+
       <div className="full flex flex-wrap items-end gap-4">
+        <Field className="flex flex-col space-y-2 w-fit">
+          <Label>{t("filters.startDate")}</Label>
+          <Input
+            type="date"
+            icon={<Calendar />}
+            value={getParam("startDate") ?? ""}
+            onChange={(e) => setParam("startDate", e.target.value)}
+          />
+        </Field>
+
+        <Field className="flex flex-col space-y-2 w-fit">
+          <Label>{t("filters.endDate")}</Label>
+          <Input
+            type="date"
+            icon={<Calendar />}
+            value={getParam("endDate") ?? ""}
+            onChange={(e) => setParam("endDate", e.target.value)}
+          />
+        </Field>
         <Field className="flex flex-col space-y-2 w-fit">
           <Label size="md">{t("filters.searchBy.SearchByDeptartmentID")}</Label>
           {isDepartmentsLoading ? (
@@ -150,7 +212,7 @@ const VacationTableFilters = ({
               options={departmentOptions}
               value={selectedDepartmentValue}
               onChange={(option) =>
-                setParam("searchByDepartmentId", String(option?.value))
+                setParam("SearchByDeptartmentID", String(option?.value))
               }
               isSearchable
               className="w-60"

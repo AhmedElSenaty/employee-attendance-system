@@ -5,12 +5,15 @@ import {
   Field,
   Input,
   Label,
+  SelectBoxSkeleton,
   Tooltip,
 } from "../../../../components/ui";
 import { useTranslation } from "react-i18next";
 import { formatValue } from "../../../../utils";
 import { useLanguageStore } from "../../../../store/language.store";
-import { HOME_VISIT_REQUESTS_NS } from "../../../../constants";
+import { useSearchParams } from "react-router";
+import { EmployeeSummary } from "../../../../interfaces";
+import { useGetEmployeesList } from "../../../../hooks";
 
 interface FiltersProps {
   getParam: (key: string) => string | number | null;
@@ -27,6 +30,23 @@ const Filters = ({
 }: FiltersProps) => {
   const { t } = useTranslation("requestsSummary");
   const { language } = useLanguageStore(); // Accessing the current language from the Redux state
+
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const setParams = (params: Record<string, string>) => {
+    for (const key in params) {
+      searchParams.set(key, params[key]);
+    }
+    setSearchParams(searchParams);
+  };
+  const { employeesList, isLoading: isEmployeesListLoading } =
+    useGetEmployeesList();
+
+  const employeeOptions =
+    employeesList?.map((employee: EmployeeSummary) => ({
+      value: employee.name,
+      label: employee.name,
+    })) || [];
 
   const searchByOptions = searchBy.map((search) => ({
     value: search || "",
@@ -81,9 +101,8 @@ const Filters = ({
         />
       </Field>
 
-      {/* Search Type */}
       <Field className="flex flex-col space-y-2">
-        <Label size="md">{t("filters.searchBy.label")} </Label>
+        <Label size="md">{t("filters.searchBy.label")}</Label>
         <CustomSelect
           options={searchByOptions}
           value={selectedSearchByValue}
@@ -92,17 +111,43 @@ const Filters = ({
         />
       </Field>
 
-      {/* Search Input */}
       <Field className="flex-grow min-w-[200px] flex flex-col space-y-2">
         <Label size="md">{t("filters.search.label")}</Label>
         <Input
           placeholder={t("filters.search.placeholder")}
           icon={<Search size={18} className="text-gray-500" />}
-          value={getParam("searchQuery") ?? ""} // ✅ fixed here
-          onChange={(e) => setParam("searchQuery", e.target.value)} // ✅ and here
+          value={getParam("searchQuery") ?? ""}
+          onChange={(e) => setParam("searchQuery", e.target.value)}
         />
       </Field>
 
+      {/* Employee name */}
+      <Field className="space-y-2 w-[300px]">
+        <Label size="lg">{t("filters.searchBy.SearchByFullName")}</Label>
+        {isEmployeesListLoading ? (
+          <SelectBoxSkeleton />
+        ) : (
+          <CustomSelect
+            className="w-full"
+            options={employeeOptions}
+            value={
+              getParam("searchKey") === "SearchByFullName"
+                ? employeeOptions.find(
+                    (opt) => opt.value === getParam("searchQuery")
+                  ) || null
+                : null
+            }
+            onChange={(option) => {
+              const name = String(option?.value ?? "");
+              setParams({
+                searchKey: "SearchByFullName",
+                searchQuery: name,
+              });
+            }}
+            isSearchable
+          />
+        )}
+      </Field>
       <Tooltip content={t("filters.toolTipResetFilters")}>
         <Button onClick={clearParams} icon={<RefreshCcw />} />
       </Tooltip>
