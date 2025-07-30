@@ -9,6 +9,7 @@ import {
   ClipboardType,
   Contact,
   ContactRound,
+  FileBarChart2,
   FileClock,
   Fingerprint,
   Home,
@@ -48,6 +49,13 @@ export const AdminSidebar = () => {
         name={t("dashboard")}
         to="/admin"
       />
+
+      <SidebarItem
+        icon={<FileBarChart2 size={23} />}
+        name={t("جميع التقارير")}
+        to="/admin/allReports"
+      />
+
       {(permissions.includes("View Admin") ||
         permissions.includes("View Manager") ||
         permissions.includes("View Employee")) && (

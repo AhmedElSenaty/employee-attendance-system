@@ -1,10 +1,7 @@
 import { useTranslation } from "react-i18next";
-import { CalendarSearch } from "lucide-react";
-import { formatValue } from "../../../utils";
 import { useDebounce } from "../../../hooks/debounce.hook";
 import { useLanguageStore } from "../../../store/";
 import {
-  CountCard,
   Header,
   InfoPopup,
   Paginator,
@@ -22,7 +19,6 @@ import { initialMetadata } from "../../../interfaces";
 
 const AttendanceVacationsPage = () => {
   const { t } = useTranslation([ATTENDANCE_NS]);
-  const { language } = useLanguageStore();
   const { getParam, setParam, clearParams } = useURLSearchParams();
   const { type } = useParams();
 
