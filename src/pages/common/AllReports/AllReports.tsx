@@ -267,7 +267,10 @@ const AllReports = () => {
   return (
     <>
       <div className="sm:p-5 p-3 space-y-5">
-        <Header heading={t("header.heading")} subtitle={t("header.subtitle")} />
+        <Header
+          heading="جميع التقارير"
+          subtitle="يمكنك تصدير تقارير الحضور والانصراف وطلبات الإجازات بالتفصيل أو كملخص، بصيغ Excel أو PDF مع خيارات فلترة متقدمة"
+        />
       </div>
 
       <div className="w-[1000px] max-xl:w-full grid grid-cols-1 md:grid-cols-2 gap-10 mx-auto mb-20">
@@ -280,14 +283,20 @@ const AllReports = () => {
           >
             <ActionCard
               icon={<FileDown />}
-              iconBgColor="bg-[#a7f3d0]"
+              iconBgColor="bg-[#f5e4b2]"
               iconColor="text-[#10b981]"
-              title={t("exportActionCard.title")}
-              description={t("exportActionCard.description")}
+              title={t(
+                "exportActionCard.attendanceTitle",
+                "تقرير الحضور والانصراف (تفصيلي)"
+              )}
+              description={t(
+                "exportActionCard.attendanceDescription",
+                "تصدير تقرير حضور الموظفين بشكل تفصيلي حسب الفلاتر المحددة بصيغتي Excel أو PDF"
+              )}
             >
               <Button
                 fullWidth
-                variant="success"
+                variant="secondary"
                 isLoading={isExportDataLoading}
                 onClick={() => setIsDownloadReportPopupOpen(true)}
               >
@@ -300,7 +309,7 @@ const AllReports = () => {
                 to="/manager/manage-attendance"
                 className="inline text-blue-600 hover:underline focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition"
               >
-                صفحة الحضور التفصيلية
+                صفحة تقرير الحضور والانصراف (تفصيلي)
               </NavLink>
             </p>
           </HasPermission>
@@ -315,14 +324,20 @@ const AllReports = () => {
           >
             <ActionCard
               icon={<FileDown />}
-              iconBgColor="bg-[#a7f3d0]"
+              iconBgColor="bg-[#f5e4b2]"
               iconColor="text-[#10b981]"
-              title={t("exportActionCard.title")}
-              description={t("exportActionCard.description")}
+              title={t(
+                "exportActionCard.summaryTitle",
+                "تقرير الحضور والانصراف (ملخص)"
+              )}
+              description={t(
+                "exportActionCard.summaryDescription",
+                "تصدير ملخص حضور الموظفين حسب الفلاتر المختارة بصيغتي Excel أو PDF"
+              )}
             >
               <Button
                 fullWidth
-                variant="success"
+                variant="secondary"
                 isLoading={isLoadingSummaryPDF || isExportSummaryDataLoading}
                 onClick={() => setIsDownloadSummaryReportPopupOpen(true)}
               >
@@ -335,7 +350,7 @@ const AllReports = () => {
                 to="../manage-attendance/overview"
                 className="inline text-blue-600 hover:underline focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition"
               >
-                صفحة الحضور التفصيلية
+                صفحة تقرير الحضور والانصراف (ملخص)
               </NavLink>
             </p>
           </HasPermission>
@@ -350,14 +365,20 @@ const AllReports = () => {
           >
             <ActionCard
               icon={<FileDown />}
-              iconBgColor="bg-[#a7f3d0]"
+              iconBgColor="bg-[#f5e4b2]"
               iconColor="text-[#10b981]"
-              title={t("exportActionCard.title")}
-              description={t("exportActionCard.description")}
+              title={t(
+                "exportActionCard.leaveDetailedTitle",
+                "تقرير الإجازات (تفصيلي)"
+              )}
+              description={t(
+                "exportActionCard.leaveDetailedDescription",
+                "تصدير سجل الإجازات بالتفصيل حسب الفلاتر المختارة بصيغتي Excel أو PDF"
+              )}
             >
               <Button
                 fullWidth
-                variant="success"
+                variant="secondary"
                 isLoading={isLoadingDetailedExcel}
                 onClick={() => {
                   setIsDownloadRequestsReportPopupOpen(true);
@@ -372,7 +393,7 @@ const AllReports = () => {
                 to="../manage-attendance/overview"
                 className="inline text-blue-600 hover:underline focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition"
               >
-                صفحة الحضور التفصيلية
+                صفحة تقرير الإجازات (تفصيلي)
               </NavLink>
             </p>
           </HasPermission>
@@ -388,14 +409,20 @@ const AllReports = () => {
           >
             <ActionCard
               icon={<FileDown />}
-              iconBgColor="bg-[#a7f3d0]"
+              iconBgColor="bg-[#f5e4b2]"
               iconColor="text-[#10b981]"
-              title={t("exportActionCard.title")}
-              description={t("exportActionCard.description")}
+              title={t(
+                "exportActionCard.leaveSummaryTitle",
+                "تقرير الإجازات (إجمالي)"
+              )}
+              description={t(
+                "exportActionCard.leaveSummaryDescription",
+                "تصدير ملخص عدد الإجازات حسب الحالة والنوع بصيغتي Excel أو PDF"
+              )}
             >
               <Button
                 fullWidth
-                variant="success"
+                variant="secondary"
                 isLoading={isRequestsSummaryExcelLoading}
                 onClick={() => setIsRequestsSummaryPopupOpen(true)}
               >
@@ -408,7 +435,7 @@ const AllReports = () => {
                 to="../requestsSummary"
                 className="inline text-blue-600 hover:underline focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition"
               >
-                صفحة الحضور التفصيلية
+                صفحة تقرير الإجازات (إجمالي)
               </NavLink>
             </p>
           </HasPermission>

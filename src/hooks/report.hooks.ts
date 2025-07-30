@@ -73,7 +73,8 @@ export const useExportAttendanceReportPDF = (
   status?: string,
   checked?: boolean,
   departmentId?: number,
-  subDepartmentId?: number
+  subDepartmentId?: number,
+  absenceOnly?: boolean
 ) => {
   const service = useReportService();
 
@@ -90,6 +91,7 @@ export const useExportAttendanceReportPDF = (
       checked,
       departmentId,
       subDepartmentId,
+      absenceOnly,
     ],
     queryFn: () =>
       service.fetchEmployeeAttendanceReportPDF(
@@ -102,7 +104,8 @@ export const useExportAttendanceReportPDF = (
         status,
         checked,
         departmentId,
-        subDepartmentId
+        subDepartmentId,
+        absenceOnly
       ),
     enabled: false, // manual refetching
     retry: 3,
