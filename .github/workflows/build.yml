@@ -38,7 +38,6 @@ jobs:
         $dst = "C:\inetpub\Attendance-App"
         $appPool = "Attendance-app"
 
-        Remove-Item "$dst\*" -Recurse -Force -ErrorAction SilentlyContinue
         Copy-Item "$src\*" $dst -Recurse -Force
 
         Import-Module WebAdministration
