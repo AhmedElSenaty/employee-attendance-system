@@ -30,6 +30,8 @@ import { useNotificationStore } from "../../store/notification.store";
 
 import mobile from "../../assets/images/mobile-solid.svg";
 
+import { Capacitor } from '@capacitor/core';
+
 export const Navbar = () => {
   const { t } = useTranslation(["common", "navbar"]);
   const { setLanguage, flag, flags } = useLanguageStore();
@@ -96,20 +98,22 @@ export const Navbar = () => {
               <div className="flex items-center gap-5">
                 <NavLink to="/">
                 <Logo width="w-15" height="h-15" />
-                </NavLink>
-                <NavLink to="/">
-                      <Button variant="secondary" type="button" fullWidth={true} onClick={() => {
-                          const link = document.createElement('a');
-                          link.href = 'https://github.com/AhmedElSenaty/employee-attendance-system/releases/download/Attendance.apk/Attendance.apk';
-                          link.setAttribute('download', 'Attendance.apk');
-                          link.style.display = 'none';
-                          document.body.appendChild(link);
-                          link.click();
-                          document.body.removeChild(link);
-                }}>
-                          <img src={mobile} width="15px" />
-                </Button>
-                </NavLink>
+                  </NavLink>
+                  {Capacitor.getPlatform() == 'web' && (
+                        <NavLink to="/">
+                            <Button variant="secondary" type="button" fullWidth={true} onClick={() => {
+                                const link = document.createElement('a');
+                                link.href = 'https://github.com/AhmedElSenaty/employee-attendance-system/releases/download/Attendance.apk/Attendance.apk';
+                                link.setAttribute('download', 'Attendance.apk');
+                                link.style.display = 'none';
+                                document.body.appendChild(link);
+                                link.click();
+                                document.body.removeChild(link);
+                        }}>
+                                <img src={mobile} width="15px" />
+                        </Button>
+                        </NavLink>
+                  )}
               </div>
               
 
