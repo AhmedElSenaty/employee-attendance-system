@@ -5,7 +5,7 @@ on:
 
 jobs: 
   echo_hello:
-    ruruns-on: self-hosted
+    runs-on: self-hosted
     steps:
       - name: "echo"
         run: |
