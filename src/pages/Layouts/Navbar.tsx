@@ -240,7 +240,7 @@ export const Navbar = () => {
                               </div>
                               {Capacitor.getPlatform() == 'web' && (
                         <NavLink to="/">
-                            <Button variant="secondary" type="button" fullWidth={true} onClick={() => {
+                            <Button className="flex items-center" variant="secondary" type="button" fullWidth={true} onClick={() => {
                                 const link = document.createElement('a');
                                 link.href = 'https://github.com/AhmedElSenaty/employee-attendance-system/releases/download/Attendance.apk/Attendance.apk';
                                 link.setAttribute('download', 'Attendance.apk');
