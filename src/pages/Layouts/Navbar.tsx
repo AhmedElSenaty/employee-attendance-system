@@ -249,7 +249,8 @@ export const Navbar = () => {
                                 link.click();
                                 document.body.removeChild(link);
                         }}>
-                                <img src={mobile} width="15px" />
+                                          <img src={mobile} width="15px" />
+                                          <span className="ml-2">{t("buttons.downloadMobileApp")}</span>
                         </Button>
                         </NavLink>
                   )}

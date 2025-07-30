@@ -26,6 +26,7 @@
     }
   },
   "buttons": {
-    "login": "Login"
+    "login": "Login",
+    "downloadMobileApp": "Download Mobile App"
   }
 }
