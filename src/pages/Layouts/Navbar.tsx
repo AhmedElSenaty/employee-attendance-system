@@ -133,21 +133,7 @@ export const Navbar = () => {
           >
             <FlyoutMenu className="w-45 border-0.5 bg-white shadow-md rounded-2xl text-base">
                           <div className="flex flex-col gap-2 p-3">
-                              {Capacitor.getPlatform() == 'web' && (
-                        <NavLink to="/">
-                            <Button variant="secondary" type="button" fullWidth={true} onClick={() => {
-                                const link = document.createElement('a');
-                                link.href = 'https://github.com/AhmedElSenaty/employee-attendance-system/releases/download/Attendance.apk/Attendance.apk';
-                                link.setAttribute('download', 'Attendance.apk');
-                                link.style.display = 'none';
-                                document.body.appendChild(link);
-                                link.click();
-                                document.body.removeChild(link);
-                        }}>
-                                <img src={mobile} width="15px" />
-                        </Button>
-                        </NavLink>
-                  )}
+                              
                 {Object.entries(flags).map(([lang, icon]) => {
                   return (
                     <button
@@ -251,7 +237,22 @@ export const Navbar = () => {
                       </p>
                     </div>
                   </NavLink>
-                </div>
+                              </div>
+                              {Capacitor.getPlatform() == 'web' && (
+                        <NavLink to="/">
+                            <Button variant="secondary" type="button" fullWidth={true} onClick={() => {
+                                const link = document.createElement('a');
+                                link.href = 'https://github.com/AhmedElSenaty/employee-attendance-system/releases/download/Attendance.apk/Attendance.apk';
+                                link.setAttribute('download', 'Attendance.apk');
+                                link.style.display = 'none';
+                                document.body.appendChild(link);
+                                link.click();
+                                document.body.removeChild(link);
+                        }}>
+                                <img src={mobile} width="15px" />
+                        </Button>
+                        </NavLink>
+                  )}
 
                 <div className="p-3 border-t border-gray-200">
                   <button
@@ -269,6 +270,7 @@ export const Navbar = () => {
                     </div>
                   </button>
                 </div>
+                              
               </FlyoutMenu>
             </Flyout>
           ) : (
