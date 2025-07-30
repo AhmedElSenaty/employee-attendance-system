@@ -113,6 +113,7 @@ const ManageAttendancePage = () => {
   const rawDepartmentId = getParam("searchByDepartmentId", Number);
   const rawSubDeptartmentId = getParam("searchBySubDeptartmentId", Number);
   const rawChecked = getParam("IncludeSubDepartments");
+  const rowAbsenceOnly = getParam("AbsenceOnly");
 
   // Use nullish coalescing to default numeric values, undefined for dates if empty
   const page = rawPage ?? 1;
@@ -127,6 +128,7 @@ const ManageAttendancePage = () => {
   const departmentId = rawDepartmentId || "";
   const checked = rawChecked || false;
   const subDeptartmentId = rawSubDeptartmentId || "";
+  const absenceOnly = rowAbsenceOnly || false;
 
   const {
     attendancesData,
@@ -159,7 +161,8 @@ const ManageAttendancePage = () => {
       status,
       checked,
       departmentId || 0,
-      subDeptartmentId || 0
+      subDeptartmentId || 0,
+      // absenceOnly
     );
   const { isLoadingPDF, refetchExportDataPDF } = useExportAttendanceReportPDF(
     searchKey,
@@ -171,7 +174,8 @@ const ManageAttendancePage = () => {
     status,
     checked,
     departmentId || 0,
-    subDeptartmentId || 0
+    subDeptartmentId || 0,
+    absenceOnly
   );
 
   const { detailedAttendance, isLoading: isDetailedAttendanceLoading } =

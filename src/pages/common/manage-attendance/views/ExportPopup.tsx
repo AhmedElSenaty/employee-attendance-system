@@ -29,6 +29,7 @@ interface Props {
     checked: boolean;
     searchByDepartmentId: number;
     searchBySubDeptartmentId: number;
+    absenceOnly: boolean;
   };
   isLoading: boolean;
   isloadingPDF: boolean;
@@ -166,6 +167,14 @@ const ExportAttendancePopup = ({
           />
           <Label>{t("CheckBox")}</Label>
         </Field>
+        {/* <Field className="flex space-x-2">
+          <Checkbox
+            onChange={(e) => {
+              setParam("AbsenceOnly", String(e.target.checked));
+            }}
+          />
+          <Label>{"تصدير الغياب فقط"}</Label>
+        </Field> */}
       </div>
 
       <div className="flex items-center space-x-3 mt-4">

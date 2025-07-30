@@ -53,7 +53,8 @@ export class ReportsService extends BaseService {
     status?: string,
     checked?: boolean,
     searchByDeptartmentId?: number,
-    searchBySubDeptartmentId?: number
+    searchBySubDeptartmentId?: number,
+    absenceOnly?: boolean
   ) => {
     try {
       const params = this.buildParams({
@@ -63,6 +64,7 @@ export class ReportsService extends BaseService {
         EndTime: endTime,
         Status: status,
         IncludeSubDepartments: checked,
+        AbsenceOnly: absenceOnly,
         SearchByDeptartmentId:
           searchByDeptartmentId === 0 ? "" : searchByDeptartmentId,
         SearchBySubDeptartmentId:
