@@ -1,0 +1,47 @@
+name: Build and Deploy to IIS (Self-hosted)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: self-hosted
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+
+    - name: Replace API and WEB URLs
+      shell: powershell
+      run: |
+        $file = "src/constants/axios.constants.ts"
+        (Get-Content $file -Raw) -replace "https://localhost:7268/api/", "http://193.227.34.53:5155/api/" `
+                            -replace "https://localhost:7268/", "http://193.227.34.53:5155/" |
+        Set-Content $file
+        Write-Host "✅ Constants replaced in $file"
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Build the app
+      run: npm run build
+
+    - name: Deploy to IIS
+      shell: powershell
+      run: |
+        $src = "$(Resolve-Path dist)"
+        $dst = "C:\inetpub\Attendance-App"
+        $appPool = "Attendance-app"
+
+        Remove-Item "$dst\*" -Recurse -Force -ErrorAction SilentlyContinue
+        Copy-Item "$src\*" $dst -Recurse -Force
+
+        Import-Module WebAdministration
+        Restart-WebAppPool -Name $appPool
+
+        Write-Host "✅ Deployment complete."
