@@ -25,7 +25,7 @@ jobs:
         Set-Content $file
         Write-Host "✅ Constants replaced in $file"
     - name: Install dependencies
-      run: npm ci
+      run: npm ci --ignore-scripts
 
     - name: Build the app
       run: npm run build:skip
