@@ -250,9 +250,9 @@ export const Navbar = () => {
                                 document.body.removeChild(link);
                         }}>
                                           <img src={mobile} width="15px" />
-                                          <span className="ml-2">{t("buttons.downloadMobileApp",{
+                                          <p className="ml-2">{t("buttons.downloadMobileApp",{
                               ns: "navbar",
-                            })}</span>
+                            })}</p>
                         </Button>
                         </NavLink>
                   )}
