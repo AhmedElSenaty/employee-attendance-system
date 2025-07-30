@@ -28,7 +28,7 @@ jobs:
       run: npm ci
 
     - name: Build the app
-      run: npm run build
+      run: npm run build:skip
 
     - name: Deploy to IIS
       shell: powershell
