@@ -240,7 +240,7 @@ export const Navbar = () => {
                               </div>
                               {Capacitor.getPlatform() == 'web' && (
                         <NavLink to="/">
-                            <Button variant="secondary" type="button" fullWidth={true} onClick={() => {
+                            <Button  variant="secondary" type="button" fullWidth={true} onClick={() => {
                                 const link = document.createElement('a');
                                 link.href = 'https://github.com/AhmedElSenaty/employee-attendance-system/releases/download/Attendance.apk/Attendance.apk';
                                 link.setAttribute('download', 'Attendance.apk');
@@ -248,9 +248,14 @@ export const Navbar = () => {
                                 document.body.appendChild(link);
                                 link.click();
                                 document.body.removeChild(link);
-                        }}>
+                                      }}>
+                                          <span className="flex items-center">
+                                              
                                           <img src={mobile} width="15px" />
-                                          <span className="ml-2">{t("buttons.downloadMobileApp")}</span>
+                                          <p className="ml-2">{t("buttons.downloadMobileApp",{
+                              ns: "navbar",
+                            })}</p>
+                                          </span>
                         </Button>
                         </NavLink>
                   )}
