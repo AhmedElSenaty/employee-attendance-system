@@ -7,7 +7,6 @@ import {
   Popup,
 } from "../../../../components/ui";
 import { Fingerprint } from "lucide-react";
-import { ATTENDANCE_NS } from "../../../../constants";
 import { HasPermission } from "../../../../components/auth";
 import useURLSearchParams from "../../../../hooks/URLSearchParams.hook";
 

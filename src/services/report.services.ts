@@ -207,6 +207,7 @@ export class ReportsService extends BaseService {
       throw error;
     }
   };
+
   fetchEmployeeReportPDF = async (
     searchType?: string,
     searchQuery?: string,
@@ -246,6 +247,7 @@ export class ReportsService extends BaseService {
       throw error;
     }
   };
+
   fetchEmployeeRequestsSummaryReport = async (
     searchType?: string,
     searchQuery?: string,
@@ -285,6 +287,7 @@ export class ReportsService extends BaseService {
       throw error;
     }
   };
+
   fetchEmployeeRequestsSummaryReportPDF = async (
     searchType?: string,
     searchQuery?: string,
@@ -312,6 +315,78 @@ export class ReportsService extends BaseService {
 
       const response = await axiosInstance.get(
         `/Reports/EmployeeRequestsSummaryReport/PDF`,
+        {
+          params,
+          headers: this.getAuthHeaders(),
+        }
+      );
+
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching employee attendance report:", error);
+      throw error;
+    }
+  };
+
+  fetchVacationSaverReport = async (
+    searchType?: string,
+    searchQuery?: string,
+    startDate?: string,
+    endDate?: string,
+    checked?: boolean,
+    searchByDeptartmentId?: number,
+    searchBySubDeptartmentId?: number
+  ) => {
+    try {
+      const params = this.buildParams({
+        StartDate: startDate,
+        EndDate: endDate,
+        IncludeSubDepartments: checked,
+        SearchByDeptartmentId:
+          searchByDeptartmentId === 0 ? "" : searchByDeptartmentId,
+        SearchBySubDeptartmentId:
+          searchBySubDeptartmentId === 0 ? "" : searchBySubDeptartmentId,
+        ...(searchType && searchQuery ? { [searchType]: searchQuery } : {}),
+      });
+
+      const response = await axiosInstance.get(
+        `/Reports/EmployeeVacationsSaverReport/Excel`,
+        {
+          params,
+          headers: this.getAuthHeaders(),
+        }
+      );
+
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching employee attendance report:", error);
+      throw error;
+    }
+  };
+
+  fetchVacationSaverReportPDF = async (
+    searchType?: string,
+    searchQuery?: string,
+    startDate?: string,
+    endDate?: string,
+    checked?: boolean,
+    searchByDeptartmentId?: number,
+    searchBySubDeptartmentId?: number
+  ) => {
+    try {
+      const params = this.buildParams({
+        StartDate: startDate,
+        EndDate: endDate,
+        IncludeSubDepartments: checked,
+        SearchByDeptartmentId:
+          searchByDeptartmentId === 0 ? "" : searchByDeptartmentId,
+        SearchBySubDeptartmentId:
+          searchBySubDeptartmentId === 0 ? "" : searchBySubDeptartmentId,
+        ...(searchType && searchQuery ? { [searchType]: searchQuery } : {}),
+      });
+
+      const response = await axiosInstance.get(
+        `/Reports/EmployeeVacationsSaverReport/PDF`,
         {
           params,
           headers: this.getAuthHeaders(),

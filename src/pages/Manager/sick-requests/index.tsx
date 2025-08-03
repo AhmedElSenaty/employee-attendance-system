@@ -42,7 +42,6 @@ import { HasPermission } from "../../../components/auth";
 import { ISoftDeleteRequestCredentials } from "../../../interfaces/request.interfaces";
 import { useSoftDeleteRequest } from "../../../hooks/request.hook";
 import DeletePopup from "../requests/views/DeletePopup";
-import { de } from "date-fns/locale";
 import EditRequestPopup from "../requests/views/EditRequestPopup";
 
 const SickLRequestsPage = () => {
@@ -79,6 +78,7 @@ const SickLRequestsPage = () => {
     resolver: yupResolver(assignSickRequestSchema),
     mode: "onChange",
   });
+
   const handleDeletePopupOpen = (id: number) => {
     setSelectedID(id);
     restDelete();
@@ -142,6 +142,7 @@ const SickLRequestsPage = () => {
     searchKey,
     searchQuery
   );
+  
   const handleEditopupOpen = (id: number) => {
     setSelectedID(id);
     setIsEditOpen(true);

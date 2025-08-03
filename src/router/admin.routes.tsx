@@ -30,7 +30,7 @@ import {
   SystemDataPage,
 } from "../pages/Admin";
 import DeviceUsers from "../pages/Admin/device-users/DeviceUsers";
-import AllReports from "../pages/common/AllReports/AllReports";
+import AllAdminReports from "../pages/Admin/all-admin-reports/AllAdminReports";
 
 export const adminRoutes = (isLoggedIn: boolean, userRole: string) => (
   <Route
@@ -108,6 +108,6 @@ export const adminRoutes = (isLoggedIn: boolean, userRole: string) => (
     <Route path="system-data" element={<SystemDataPage />} />
 
     <Route path="device-users" element={<DeviceUsers />} />
-    <Route path="allReports" element={<AllReports />} />
+    <Route path="allReports" element={<AllAdminReports />} />
   </Route>
 );

@@ -37,6 +37,7 @@ const leaveTypeOptions = Object.entries(LeaveType)
     value: value as number,
     label: t(`inputs.leaveType.options.${key}`),
   }));
+  
   const {
     register,
     handleSubmit,

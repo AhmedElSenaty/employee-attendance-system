@@ -11,7 +11,6 @@ import {
 import { useTranslation } from "react-i18next";
 import { formatValue } from "../../../../utils";
 import { useLanguageStore } from "../../../../store/language.store";
-import { HOME_VISIT_REQUESTS_NS } from "../../../../constants";
 import { useGetEmployeesList } from "../../../../hooks";
 import { useSearchParams } from "react-router";
 import { EmployeeSummary } from "../../../../interfaces";
@@ -29,7 +28,7 @@ const Filters = ({
   clearParams,
   searchBy,
 }: FiltersProps) => {
-  const { t } = useTranslation(HOME_VISIT_REQUESTS_NS);
+  const { t } = useTranslation("vacationSaver");
   const { language } = useLanguageStore(); // Accessing the current language from the Redux state
 
   const [searchParams, setSearchParams] = useSearchParams();
@@ -127,7 +126,7 @@ const Filters = ({
 
       {/* Employee name */}
       <Field className="space-y-2 w-[300px]">
-        <Label size="lg">{t("inputs.employeeId.label")}</Label>
+        <Label size="lg">{t("filters.searchBy.SearchByEmployeeName")}</Label>
         {isEmployeesListLoading ? (
           <SelectBoxSkeleton />
         ) : (
@@ -135,7 +134,7 @@ const Filters = ({
             className="w-full"
             options={employeeOptions}
             value={
-              getParam("searchKey") === "SearchByFullName"
+              getParam("searchKey") === "SearchByEmployeeName"
                 ? employeeOptions.find(
                     (opt) => opt.value === getParam("searchQuery")
                   ) || null
@@ -144,7 +143,7 @@ const Filters = ({
             onChange={(option) => {
               const name = String(option?.value ?? "");
               setParams({
-                searchKey: "SearchByFullName",
+                searchKey: "SearchByEmployeeName",
                 searchQuery: name,
               });
             }}

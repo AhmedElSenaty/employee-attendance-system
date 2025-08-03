@@ -54,6 +54,35 @@ export class RequestService extends BaseService {
     }
   };
 
+  fetchAllVacationSaver = async (
+    page?: number,
+    pageSize?: number,
+    startDate?: string,
+    endDate?: string,
+    searchType?: string,
+    searchQuery?: string
+  ) => {
+    try {
+      const params = this.buildParams({
+        PageIndex: page ?? 1,
+        PageSize: pageSize,
+        StartDate: startDate,
+        EndDate: endDate,
+        ...(searchType && searchQuery ? { [searchType]: searchQuery } : {}),
+      });
+
+      const response = await axiosInstance.get("/Request/AllVacationSaver", {
+        params,
+
+        headers: this.getAuthHeaders(),
+      });
+
+      return response;
+    } catch (error) {
+      this.handleError(error, "Error fetching all requests");
+    }
+  };
+
   fetchAllSubDepartmentRequests = async (
     page?: number,
     pageSize?: number,
@@ -212,9 +241,10 @@ export class RequestService extends BaseService {
     });
   };
 
-  // getRequestById = (requestId: number) => {
-  //   return axiosInstance.get(`/Request/request/${requestId}`, {
-  //     headers: this.getAuthHeaders(),
-  //   });
-  // };
+  getRequestById = async (requestId: number) => {
+    const response = await axiosInstance.get(`/Request/request/${requestId}`, {
+      headers: this.getAuthHeaders(),
+    });
+    return response.data;
+  };
 }

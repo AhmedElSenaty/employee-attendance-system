@@ -99,7 +99,7 @@
       "placeholder": "اختر الموظف",
       "defaultValue": "اختر الموظف",
       "inputValidation": {
-        "required": "اختيار الموظف مطلوب",
+        "required": "يجب اختيار الموظف",
         "typeError": "اختيار الموظف مطلوب"
       }
     },

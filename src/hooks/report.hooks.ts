@@ -27,7 +27,7 @@ export const useExportAttendanceReport = (
 ) => {
   const service = useReportService();
 
-  const { refetch, isLoading } = useQuery({
+  const { refetch } = useQuery({
     queryKey: [
       QueryKeys.Export.Excel,
       searchKey,
@@ -60,7 +60,6 @@ export const useExportAttendanceReport = (
 
   return {
     refetchExportData: refetch,
-    isLoading,
   };
 };
 export const useExportAttendanceReportPDF = (
@@ -78,7 +77,7 @@ export const useExportAttendanceReportPDF = (
 ) => {
   const service = useReportService();
 
-  const { refetch, isLoading } = useQuery({
+  const { refetch } = useQuery({
     queryKey: [
       QueryKeys.Export.PDF,
       searchKey,
@@ -110,9 +109,9 @@ export const useExportAttendanceReportPDF = (
     enabled: false, // manual refetching
     retry: 3,
   });
+
   return {
     refetchExportDataPDF: refetch,
-    isLoadingPDF: isLoading,
   };
 };
 export const useExportAttendanceSummaryReport = (
@@ -129,7 +128,7 @@ export const useExportAttendanceSummaryReport = (
 ) => {
   const service = useReportService();
 
-  const { refetch, isLoading } = useQuery({
+  const { refetch } = useQuery({
     queryKey: [
       QueryKeys.Export.Excel,
       searchKey,
@@ -162,9 +161,9 @@ export const useExportAttendanceSummaryReport = (
 
   return {
     refetchExportData: refetch,
-    isLoading,
   };
 };
+
 export const useExportAttendanceSummaryReportPDF = (
   searchKey?: string,
   debouncedSearchQuery?: string,
@@ -398,5 +397,86 @@ export const useEmployeeRequestsSummaryReportPDF = (
   return {
     refetchExportDataPDF: refetch,
     isLoadingPDF: isLoading,
+  };
+};
+
+export const useExportVacationSaverReport = (
+  searchKey?: string,
+  debouncedSearchQuery?: string,
+  startDate?: string,
+  endDate?: string,
+  checked?: boolean,
+  departmentId?: number,
+  subDepartmentId?: number
+) => {
+  const service = useReportService();
+
+  const { refetch } = useQuery({
+    queryKey: [
+      QueryKeys.Export.Excel,
+      searchKey,
+      debouncedSearchQuery,
+      startDate,
+      endDate,
+      checked,
+      departmentId,
+      subDepartmentId,
+    ],
+    queryFn: () =>
+      service.fetchVacationSaverReport(
+        searchKey,
+        debouncedSearchQuery,
+        startDate,
+        endDate,
+        checked,
+        departmentId,
+        subDepartmentId
+      ),
+    enabled: false, // manual refetching
+    retry: 3,
+  });
+
+  return {
+    refetchExportData: refetch,
+  };
+};
+
+export const useExportVacationSaverReportPDF = (
+  searchKey?: string,
+  debouncedSearchQuery?: string,
+  startDate?: string,
+  endDate?: string,
+  checked?: boolean,
+  departmentId?: number,
+  subDepartmentId?: number
+) => {
+  const service = useReportService();
+
+  const { refetch } = useQuery({
+    queryKey: [
+      QueryKeys.Export.PDF,
+      searchKey,
+      debouncedSearchQuery,
+      startDate,
+      endDate,
+      checked,
+      departmentId,
+      subDepartmentId,
+    ],
+    queryFn: () =>
+      service.fetchVacationSaverReportPDF(
+        searchKey,
+        debouncedSearchQuery,
+        startDate,
+        endDate,
+        checked,
+        departmentId,
+        subDepartmentId
+      ),
+    enabled: false, // manual refetching
+    retry: 3,
+  });
+  return {
+    refetchExportDataPDF: refetch,
   };
 };

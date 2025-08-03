@@ -41,6 +41,10 @@ import useURLSearchParams from "../../../hooks/URLSearchParams.hook";
 
 const ManageAttendancePage = () => {
   const { t } = useTranslation([ATTENDANCE_NS]);
+
+  const [isDownloading, setIsDownloading] = useState(false);
+  const [isDownloadingPDF, setIsDownloadingPDF] = useState(false);
+
   const { language } = useLanguageStore();
   const { getParam, setParam, clearParams, setParams } = useURLSearchParams();
 
@@ -150,21 +154,21 @@ const ManageAttendancePage = () => {
   );
 
   // Use the custom hook to fetch data
-  const { refetchExportData, isLoading: isExportDataLoading } =
-    useExportAttendanceReport(
-      searchKey,
-      searchQuery,
-      startDate,
-      endDate,
-      startTime,
-      endTime,
-      status,
-      checked,
-      departmentId || 0,
-      subDeptartmentId || 0,
-      // absenceOnly
-    );
-  const { isLoadingPDF, refetchExportDataPDF } = useExportAttendanceReportPDF(
+  const { refetchExportData } = useExportAttendanceReport(
+    searchKey,
+    searchQuery,
+    startDate,
+    endDate,
+    startTime,
+    endTime,
+    status,
+    checked,
+    departmentId || 0,
+    subDeptartmentId || 0
+    // absenceOnly
+  );
+
+  const { refetchExportDataPDF } = useExportAttendanceReportPDF(
     searchKey,
     searchQuery,
     startDate,
@@ -212,25 +216,33 @@ const ManageAttendancePage = () => {
   };
 
   const handleDownload = async () => {
+    setIsDownloading(true);
     const { data, isSuccess, isError } = await refetchExportData();
     if (isSuccess) {
       showToast("success", t("export.exportSuccess"));
       downloadFile(data.file);
+      setIsDownloading(false);
     }
     if (isError) {
       showToast("error", t("export.exportError"));
+      setIsDownloading(false);
     }
   };
+
   const handleDownloadPDF = async () => {
+    setIsDownloadingPDF(true);
     const { data, isSuccess, isError } = await refetchExportDataPDF();
     if (isSuccess) {
       showToast("success", t("export.exportSuccess"));
       downloadFile(data.file);
+      setIsDownloadingPDF(false);
     }
     if (isError) {
       showToast("error", t("export.exportError"));
+      setIsDownloadingPDF(false);
     }
   };
+
   return (
     <>
       <div className="sm:p-5 p-3 space-y-5">
@@ -289,7 +301,7 @@ const ManageAttendancePage = () => {
                 <Button
                   fullWidth
                   variant="success"
-                  isLoading={isExportDataLoading}
+                  isLoading={isDownloading || isDownloadingPDF}
                   onClick={() => {
                     setIsDownloadReportPopupOpen(true);
                   }}
@@ -422,8 +434,8 @@ const ManageAttendancePage = () => {
           searchBySubDeptartmentId: Number(subDeptartmentId || 0),
           checked: checked,
         }}
-        isLoading={isExportDataLoading}
-        isloadingPDF={isLoadingPDF}
+        isLoading={isDownloading}
+        isloadingPDF={isDownloadingPDF}
         handleDownloadPDF={handleDownloadPDF}
       />
     </>

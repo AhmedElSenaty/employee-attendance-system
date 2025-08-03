@@ -1,0 +1,51 @@
+{
+  "table": {
+    "emptyTable": {
+      "title": "لا يوجد طلبات",
+      "message": "حاول تعديل الفلاتر أو إضافة طلب جديد."
+    },
+    "columns": {
+      "employeeName": "اسم الموظف",
+      "subDeptName": "الفسم الفرعي",
+      "dayStatus": "الحالة",
+      "day": "اليوم",
+      "date": "التاريخ"
+    }
+  },
+  "filters": {
+    "pageSize": "عدد العناصر في الصفحة",
+    "startDate": "تاريخ البدء",
+    "endDate": "تاريخ الانتهاء",
+    "defaultRequestStatusOption": "اختر حالة الطلب",
+    "toolTipResetFilters": "إعادة تعيين الكل",
+    "searchBy": {
+      "label": "البحث بواسطة",
+      "default": "اختر طريقة البحث",
+      "SearchByEmployeeName": "الاسم الكامل",
+      "SearchBySSN": "الرقم القومي",
+      "SearchByEmployeeId": "رقم الموظف"
+    },
+    "search": {
+      "label": "بحث",
+      "placeholder": "أدخل القيمة التي تريد البحث عنها..."
+    }
+  },
+
+  "exportActionCard": {
+    "title": "تصدير البيانات المفلترة",
+    "description": "تصدير البيانات الظاهرة في الجدول وتحميلها بالتنسيق المفضل.",
+    "button": "تصدير",
+    "validation": {
+      "selectDateRange": "يجب تحديد تاريخ البدء والانتهاء أولاً."
+    }
+  },
+  "export": {
+    "exportSuccess": "تم تصدير البيانات بنجاح! ✅",
+    "exportError": "فشل في تصدير البيانات. الرجاء المحاولة مرة أخرى ❌"
+  },
+"header": {
+  "heading": "إدارة حفظه الاجازات",
+  "subtitle": "يمكنك عرض وتحميل حفظه الاجازات المتصلة بالنظام بكل سهولة."
+}
+
+}

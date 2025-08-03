@@ -82,6 +82,45 @@ export const useGetAllRequests = (
   };
 };
 
+export const useGetAllVacationSaver = (
+  page = 1,
+  pageSize = 10,
+  startDate?: string,
+  endDate?: string,
+  searchType?: string,
+  searchQuery?: string
+) => {
+  const token = useUserStore((state) => state.token);
+  const requestService = useRequestService();
+
+  const { data, isLoading } = useQuery({
+    queryKey: [
+      QueryKeys.Requests.All,
+      page,
+      pageSize,
+      startDate,
+      endDate,
+      `${searchType && searchQuery ? [searchType, searchQuery] : ""}`,
+    ],
+    queryFn: () =>
+      requestService.fetchAllVacationSaver(
+        page,
+        pageSize,
+        startDate,
+        endDate,
+        searchType,
+        searchQuery
+      ),
+    enabled: !!token,
+  });
+
+  return {
+    requests: data?.data?.data?.vacationSaver || [],
+    metadata: data?.data?.data?.metadata || initialMetadata,
+    isLoading,
+  };
+};
+
 export const useGetAllSubDepartmentRequests = (
   page = 1,
   pageSize = 10,
@@ -259,7 +298,6 @@ export const useRejectRequest = () => {
 
 export const useSoftDeleteRequest = () => {
   const { language } = useLanguageStore();
-  const queryClient = useQueryClient();
   const requestService = useRequestService();
 
   return useMutation({
@@ -381,15 +419,13 @@ export const useEditRequest = () => {
 export const useGetRequestById = (requestId: number) => {
   const token = useUserStore((state) => state.token);
   const requestService = useRequestService();
-
   const { data, isLoading, isError } = useQuery({
     queryKey: [QueryKeys.Requests.Single, requestId],
     queryFn: () => requestService.getRequestById(requestId),
     enabled: !!token,
   });
-
   return {
-    request: data?.data?.data || null,
+    request: data?.data || null,
     isLoading,
     isError,
   };

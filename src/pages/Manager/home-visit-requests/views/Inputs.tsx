@@ -1,4 +1,9 @@
-import { Control, Controller, FieldErrors, UseFormRegister } from "react-hook-form";
+import {
+  Control,
+  Controller,
+  FieldErrors,
+  UseFormRegister,
+} from "react-hook-form";
 import {
   CustomSelect,
   Field,
@@ -13,7 +18,6 @@ import {
 } from "../../../../components/ui";
 import { Calendar } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { getTodayDateISO } from "../../../../utils";
 import { HOME_VISIT_REQUESTS_NS } from "../../../../constants";
 import { AssignHomeLeaveRequestSchema } from "../../../../validation/homeVisit.schema";
 import { useGetEmployeesList } from "../../../../hooks";
@@ -24,21 +28,29 @@ interface Props {
   errors: FieldErrors<AssignHomeLeaveRequestSchema>;
   control?: Control<AssignHomeLeaveRequestSchema>;
   isLoading?: boolean;
-  isUpdateForm?: boolean
+  isUpdateForm?: boolean;
 }
 
-const Inputs = ({ register, errors, control, isLoading, isUpdateForm = true }: Props) => {
+const Inputs = ({
+  register,
+  errors,
+  control,
+  isLoading,
+  isUpdateForm = true,
+}: Props) => {
   const { t } = useTranslation(HOME_VISIT_REQUESTS_NS);
 
-  const { employeesList, isLoading: isEmployeesListLoading } = useGetEmployeesList();
+  const { employeesList, isLoading: isEmployeesListLoading } =
+    useGetEmployeesList();
 
-  const employeeOptions = employeesList?.map((employee: EmployeeSummary) => ({
-    value: employee.id,
-    label: employee.name,
-  })) || [];
+  const employeeOptions =
+    employeesList?.map((employee: EmployeeSummary) => ({
+      value: employee.id,
+      label: employee.name,
+    })) || [];
   return (
     <>
-    {!isUpdateForm && (
+      {!isUpdateForm && (
         <Field className="space-y-2">
           <Label size="lg">{t("inputs.employeeId.label")}</Label>
           {isEmployeesListLoading ? (
@@ -51,7 +63,12 @@ const Inputs = ({ register, errors, control, isLoading, isUpdateForm = true }: P
                 <CustomSelect
                   className="w-full"
                   options={employeeOptions}
-                  value={employeeOptions.find((opt: {value: number, label: string}) => opt.value === field.value) || null}
+                  value={
+                    employeeOptions.find(
+                      (opt: { value: number; label: string }) =>
+                        opt.value === field.value
+                    ) || null
+                  }
                   onChange={(option) => field.onChange(option?.value)}
                   error={!!errors.employeeId}
                   isSearchable
@@ -61,11 +78,11 @@ const Inputs = ({ register, errors, control, isLoading, isUpdateForm = true }: P
           )}
           {errors.employeeId && (
             <InputErrorMessage>
-              {t(`inputs.employeeId.inputValidation.${errors.employeeId?.type}`)}
+              {t(`inputs.employeeId.inputValidation.required`)}
             </InputErrorMessage>
           )}
         </Field>
-    )}
+      )}
       {/* Date */}
       <Field className="space-y-2">
         {isLoading ? (
@@ -82,7 +99,7 @@ const Inputs = ({ register, errors, control, isLoading, isUpdateForm = true }: P
               isError={!!errors.startDate}
               icon={<Calendar />}
               {...register("startDate")}
-              min={getTodayDateISO()}
+              // min={getTodayDateISO()}
             />
             {errors.startDate && (
               <InputErrorMessage>
@@ -103,7 +120,9 @@ const Inputs = ({ register, errors, control, isLoading, isUpdateForm = true }: P
         />
         {errors.numberOfDays && (
           <InputErrorMessage>
-            {t(`inputs.numberOfDays.inputValidation.${errors.numberOfDays?.type}`)}
+            {t(
+              `inputs.numberOfDays.inputValidation.${errors.numberOfDays?.type}`
+            )}
           </InputErrorMessage>
         )}
       </Field>

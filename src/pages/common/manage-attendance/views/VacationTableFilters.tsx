@@ -104,17 +104,6 @@ const VacationTableFilters = ({
       label: employee.name,
     })) || [];
 
-  const selectedEmployeeValue =
-    getParam("searchKey") === "SearchByEmployeeName"
-      ? employeeOptions.find(
-          (opt) =>
-            opt.value.toLowerCase().trim() ===
-            String(getParam("searchQuery") ?? "")
-              .toLowerCase()
-              .trim()
-        ) || null
-      : null;
-
   return (
     <>
       <div className="w-full flex flex-wrap items-end gap-4">

@@ -10,106 +10,91 @@ import {
   TableRow,
   TableSkeleton,
 } from "../../../components/ui";
-import { useGetRequestsSummary } from "../../../hooks/request.hook";
+import { useGetAllVacationSaver } from "../../../hooks/request.hook";
+import { useLanguageStore } from "../../../store";
 import { downloadFile, showToast } from "../../../utils";
 import useURLSearchParams from "../../../hooks/URLSearchParams.hook";
 import {
   useDebounce,
-  useEmployeeRequestsSummaryReport,
-  useEmployeeRequestsSummaryReportPDF,
+  useExportVacationSaverReport,
+  useExportVacationSaverReportPDF,
 } from "../../../hooks";
 import { useState } from "react";
-import { HasPermission } from "../../../components/auth";
-import Filters from "./Views/Filters";
-import ExportRequestsPopup from "./Views/ExportRequestsPopup";
 import { FileDown } from "lucide-react";
+import { HasPermission } from "../../../components/auth";
+import Filters from "./views/Filters";
+import ExportRequestsPopup from "../RequestsSummary/Views/ExportRequestsPopup";
 
-const RequestsSummary = () => {
+const AllVacationSaverPage = () => {
   const [isDownloadReportPopupOpen, setIsDownloadReportPopupOpen] =
     useState(false);
+
   const [isDownloading, setIsDownloading] = useState(false);
   const [isDownloadingPDF, setIsDownloadingPDF] = useState(false);
-  const { t } = useTranslation("requestsSummary");
+
+  const { t } = useTranslation("vacationSaver");
+  const { language } = useLanguageStore();
   const { getParam, setParam, clearParams } = useURLSearchParams();
   // Using the enhanced getParam with parser support from the improved hook
   const rawPage = getParam("page", Number);
   const rawPageSize = getParam("pageSize", Number);
-  const rawStartDate = getParam("startDate");
-  const rawEndDate = getParam("endDate");
-  const rawStatus = getParam("status", Number);
-  const rawLeaveType = getParam("leaveType", Number);
   const rawSearchKey = getParam("searchKey");
   const rawSearchQuery = useDebounce(getParam("searchQuery"), 650);
   const rawDepartmentId = getParam("searchByDepartmentId", Number);
   const rawSubDeptartmentId = getParam("searchBySubDeptartmentId", Number);
   const rawChecked = getParam("IncludeSubDepartments");
+  const rawStartDate = getParam("startDate");
+  const rawEndDate = getParam("endDate");
 
   // Use nullish coalescing to default numeric values, undefined for dates if empty
   const page = rawPage ?? 1;
   const pageSize = rawPageSize ?? 10;
-  const startDate = rawStartDate || undefined;
-  const endDate = rawEndDate || undefined;
-  const status = rawStatus !== null ? rawStatus : undefined;
-  const leaveType = rawLeaveType !== null ? rawLeaveType : undefined;
   const searchKey = rawSearchKey || undefined;
   const searchQuery = rawSearchQuery || undefined;
-
   const departmentId = rawDepartmentId || "";
   const checked = rawChecked || false;
   const subDeptartmentId = rawSubDeptartmentId || "";
+  const startDate = rawStartDate || undefined;
+  const endDate = rawEndDate || undefined;
 
-  const { requests, isLoading, metadata } = useGetRequestsSummary(
+  const { requests, isLoading, metadata } = useGetAllVacationSaver(
     page,
     pageSize,
     startDate,
     endDate,
-    status,
-    leaveType,
     searchKey,
     searchQuery
   );
-  const REQUESTS_Summary_TABLE_COLUMNS = [
-    // "table.columns.employeeId",
-    "table.columns.employeeName",
-    "table.columns.subDepartmentName",
-    "table.columns.totalLeaves",
-    "table.columns.ordinary",
-    "table.columns.casual",
-    "table.columns.totalMissions",
-    "table.columns.sick",
-    "table.columns.availableLeaveRequests",
-    "table.columns.availableOrdinaryLeaves",
-    "table.columns.availableCasualLeaves",
-    // "table.columns.morningLeave",
-    // "table.columns.fullDayMission",
-  ];
-
-  const columns = REQUESTS_Summary_TABLE_COLUMNS.map((key) => t(key));
 
   // Use the custom hook to fetch data
-  const { refetchExportData } = useEmployeeRequestsSummaryReport(
+  const { refetchExportData } = useExportVacationSaverReport(
     searchKey,
     searchQuery,
     startDate,
     endDate,
-    status,
-    leaveType,
     checked,
     departmentId || 0,
     subDeptartmentId || 0
   );
 
-  const { refetchExportDataPDF } = useEmployeeRequestsSummaryReportPDF(
+  const { refetchExportDataPDF } = useExportVacationSaverReportPDF(
     searchKey,
     searchQuery,
     startDate,
     endDate,
-    status,
-    leaveType,
     checked,
     departmentId || 0,
     subDeptartmentId || 0
   );
+
+  const REQUESTS_TABLE_COLUMNS = [
+    "table.columns.employeeName",
+    "table.columns.subDeptName",
+    "table.columns.day",
+    "table.columns.date",
+    "table.columns.dayStatus",
+  ];
+  const columns = REQUESTS_TABLE_COLUMNS.map((key) => t(key));
 
   const handleDownload = async () => {
     setIsDownloading(true);
@@ -146,8 +131,8 @@ const RequestsSummary = () => {
         <div className="w-[500px] max-xl:w-full grid grid-cols-1 gap-10 mx-auto">
           <HasPermission
             permission={[
-              "Export Requests Report PDF",
               "Export Requests Report Excel",
+              "Export Requests Report PDF",
             ]}
           >
             <ActionCard
@@ -201,31 +186,17 @@ const RequestsSummary = () => {
                       </TableCell>
 
                       <TableCell label={columns[1]}>
-                        {request.subDepartmentName}
+                        {request.subDeptName}
                       </TableCell>
+
+                      <TableCell label={columns[2]}>{request.day}</TableCell>
 
                       <TableCell label={columns[2]}>
-                        {request.eveningLeave + request.morningLeave}
+                        {new Date(request.date).toLocaleDateString(language)}
                       </TableCell>
 
-                      <TableCell label={columns[3]}>
-                        {request.ordinary}
-                      </TableCell>
-
-                      <TableCell label={columns[4]}>{request.casual}</TableCell>
-
-                      <TableCell label={columns[5]}>
-                        {request.halfDayMission + request.fullDayMission}
-                      </TableCell>
-                      <TableCell label={columns[6]}>{request.sick}</TableCell>
-                      <TableCell label={columns[7]}>
-                        {request.availableLeaveRequests}
-                      </TableCell>
-                      <TableCell label={columns[8]}>
-                        {request.availableOrdinaryLeaves}
-                      </TableCell>
-                      <TableCell label={columns[9]}>
-                        {request.availableCasualLeaves}
+                      <TableCell label={columns[1]}>
+                        {request.dayStatus}
                       </TableCell>
                     </TableRow>
                   ))
@@ -259,6 +230,7 @@ const RequestsSummary = () => {
           />
         </div>
       </div>
+
       <ExportRequestsPopup
         isOpen={isDownloadReportPopupOpen}
         handleClose={() => setIsDownloadReportPopupOpen(false)}
@@ -285,8 +257,6 @@ const RequestsSummary = () => {
               ).getDate()
             ).padStart(2, "0")}`,
 
-          status: status || "",
-          type: leaveType,
           searchByDepartmentId: Number(departmentId || 0),
           searchBySubDeptartmentId: Number(subDeptartmentId || 0),
           checked: checked,
@@ -298,4 +268,5 @@ const RequestsSummary = () => {
     </>
   );
 };
-export default RequestsSummary;
+
+export default AllVacationSaverPage;

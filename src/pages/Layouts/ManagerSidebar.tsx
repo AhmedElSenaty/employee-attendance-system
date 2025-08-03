@@ -151,6 +151,14 @@ export const ManagerSidebar = () => {
         {permissions.includes("see vacations summary") && (
           <SidebarItem
             icon={<Archive size={23} />}
+            name={t("vacationSaver")}
+            to="/manager/vacation-saver"
+          />
+        )}
+
+        {permissions.includes("see vacations summary") && (
+          <SidebarItem
+            icon={<Archive size={23} />}
             name={t("allRequests")}
             to="/manager/all-requests"
           />

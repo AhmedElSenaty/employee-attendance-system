@@ -93,7 +93,6 @@ export class SickRequestsService extends BaseService {
           headers: this.getAuthHeaders(),
         }
       );
-
       return response;
     } catch (error) {
       this.handleError(

@@ -42,7 +42,7 @@ const Inputs = ({ register, errors, isLoading }: Props) => {
               isError={!!errors.startDate}
               icon={<Calendar />}
               {...register("startDate")}
-              min={getTodayDateISO()}
+              // min={getTodayDateISO()}
             />
             {errors.startDate && (
               <InputErrorMessage>
@@ -63,7 +63,9 @@ const Inputs = ({ register, errors, isLoading }: Props) => {
         />
         {errors.numberOfDays && (
           <InputErrorMessage>
-            {t(`inputs.numberOfDays.inputValidation.${errors.numberOfDays?.type}`)}
+            {t(
+              `inputs.numberOfDays.inputValidation.${errors.numberOfDays?.type}`
+            )}
           </InputErrorMessage>
         )}
       </Field>

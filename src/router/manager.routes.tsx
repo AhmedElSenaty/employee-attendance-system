@@ -28,7 +28,8 @@ import AllRequestsPage from "../pages/Manager/requests/AllRequests";
 import GenaricRequestsPage from "../pages/Manager/requests/GenaricRequests";
 import HomeVisitRequestsPage from "../pages/Manager/home-visit-requests";
 import RequestsSummary from "../pages/Manager/RequestsSummary/RequestsSummary";
-import AllReports from "../pages/common/AllReports/AllReports";
+import AllVacationSaverPage from "../pages/Manager/VacationSaver/AllVacationSaverPage";
+import AllManagerReports from "../pages/Manager/AllManagerReports/AllManagerReports";
 
 export const managerRoutes = (isLoggedIn: boolean, userRole: string) => (
   <Route
@@ -95,6 +96,8 @@ export const managerRoutes = (isLoggedIn: boolean, userRole: string) => (
     <Route path="home-visit-requests" element={<HomeVisitRequestsPage />} />
 
     <Route path="requestsSummary" element={<RequestsSummary />} />
-    <Route path="allReports" element={<AllReports />} />
+    <Route path="allReports" element={<AllManagerReports />} />
+
+    <Route path="vacation-saver" element={<AllVacationSaverPage />} />
   </Route>
 );
