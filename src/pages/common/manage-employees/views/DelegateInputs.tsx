@@ -1,4 +1,9 @@
-import { Control, Controller, FieldErrors, UseFormRegister } from "react-hook-form";
+import {
+  Control,
+  Controller,
+  FieldErrors,
+  UseFormRegister,
+} from "react-hook-form";
 import {
   CustomSelect,
   Field,
@@ -6,26 +11,32 @@ import {
   Label,
   SelectBoxSkeleton,
 } from "../../../../components/ui";
-import { useGetDepartmentsList, useGetDepartmentSubDepartments } from "../../../../hooks/";
+import {
+  useGetDepartmentsList,
+  useGetDepartmentSubDepartments,
+} from "../../../../hooks/";
 import { useEffect, useMemo, useState } from "react";
 import { EmployeeFormValues } from "../../../../validation";
 import { useTranslation } from "react-i18next";
 import { EMPLOYEE_NS } from "../../../../constants";
-import { DepartmentSummary, SubDepartmentSummary } from "../../../../interfaces";
+import {
+  DepartmentSummary,
+  SubDepartmentSummary,
+} from "../../../../interfaces";
 
 interface Props {
   register: UseFormRegister<EmployeeFormValues>;
   errors: FieldErrors<EmployeeFormValues>;
   isLoading?: boolean;
-  selectedDepartmentID?: number
-  control: Control<EmployeeFormValues>
+  selectedDepartmentID?: number;
+  control: Control<EmployeeFormValues>;
 }
 
 const RenderEmployeeDepartmentInputs = ({
   errors,
   isLoading,
   selectedDepartmentID = 0,
-  control
+  control,
 }: Props) => {
   const { t } = useTranslation([EMPLOYEE_NS]);
 
@@ -33,7 +44,8 @@ const RenderEmployeeDepartmentInputs = ({
     selectedDepartmentID || null
   );
 
-  const { departmentsList, isLoading: isDepartmentsLoading } = useGetDepartmentsList();
+  const { departmentsList, isLoading: isDepartmentsLoading } =
+    useGetDepartmentsList();
   const { subDepartmentsList, isLoading: isSubDepartmentsLoading } =
     useGetDepartmentSubDepartments(Number(selectDepartmentID || ""));
 
@@ -50,9 +62,10 @@ const RenderEmployeeDepartmentInputs = ({
     [departmentsList]
   );
 
-  const selectedDepartment = departmentOptions.find(
-    (opt: { value: number }) => opt.value === selectDepartmentID
-  ) || null;
+  const selectedDepartment =
+    departmentOptions.find(
+      (opt: { value: number }) => opt.value === selectDepartmentID
+    ) || null;
 
   const subDepartmentOptions = useMemo(
     () =>
@@ -63,7 +76,6 @@ const RenderEmployeeDepartmentInputs = ({
     [subDepartmentsList]
   );
 
-  
   return (
     <>
       {/* Department Select */}
@@ -75,8 +87,12 @@ const RenderEmployeeDepartmentInputs = ({
           <CustomSelect
             options={departmentOptions}
             value={selectedDepartment}
-            onChange={(option) => setSelectDepartmentID(option?.value as number)}
+            onChange={(option) =>
+              setSelectDepartmentID(option?.value as number)
+            }
             className="w-full"
+            isSearchable
+            isClearable
           />
         )}
       </Field>
@@ -95,9 +111,16 @@ const RenderEmployeeDepartmentInputs = ({
                 <CustomSelect
                   className="w-full"
                   options={subDepartmentOptions}
-                  value={subDepartmentOptions.find((opt: {value: number, label: string}) => String(opt.value) === String(field.value)) || null}
+                  value={
+                    subDepartmentOptions.find(
+                      (opt: { value: number; label: string }) =>
+                        String(opt.value) === String(field.value)
+                    ) || null
+                  }
                   onChange={(option) => field.onChange(option?.value)}
                   error={!!errors.delegateId}
+                  isSearchable
+                  isClearable
                 />
               )}
             />

@@ -222,7 +222,7 @@ const GenaricRequestsPage = () => {
               setIsAssignGenericPopupOpen(true);
             }}
           >
-            {t("exportActionCard.button")}
+            {t("assignPopup.buttons.accept")}
           </Button>
         </ActionCard>
         <div className="bg-white shadow-md space-y-5 p-5 rounded-lg">

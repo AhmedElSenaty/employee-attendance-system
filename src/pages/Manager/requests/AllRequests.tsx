@@ -25,10 +25,10 @@ import {
   useExportReport,
   useExportReportPDF,
 } from "../../../hooks";
-import { ExportPopup } from "../../common/manage-attendance/views";
 import { useState } from "react";
 import { FileDown } from "lucide-react";
 import { HasPermission } from "../../../components/auth";
+import ExportRequestsPopup from "../RequestsSummary/Views/ExportRequestsPopup";
 
 const AllRequestsPage = () => {
   const [isDownloadReportPopupOpen, setIsDownloadReportPopupOpen] =
@@ -274,7 +274,7 @@ const AllRequestsPage = () => {
           />
         </div>
       </div>
-      <ExportPopup
+      <ExportRequestsPopup
         isOpen={isDownloadReportPopupOpen}
         handleClose={() => setIsDownloadReportPopupOpen(false)}
         handleDownload={() => {

@@ -148,6 +148,49 @@ export const ManagerSidebar = () => {
           </SidebarDropdown>
         )}
 
+        <HasPermission permission="View Requests">
+          <SidebarDropdown
+            icon={<CalendarCog size={23} />}
+            name={t("manageRequests")}
+          >
+            <SidebarItem
+              icon={<FileText size={23} />}
+              name={t("leaveRequests")}
+              to="/manager/leave-requests"
+            />
+            <SidebarItem
+              icon={<Briefcase size={23} />}
+              name={t("missionRequests")}
+              to="/manager/mission-requests"
+            />
+            <SidebarItem
+              icon={<Clock size={23} />}
+              name={t("ordinaryRequests")}
+              to="/manager/ordinary-requests"
+            />
+            <SidebarItem
+              icon={<Coffee size={23} />}
+              name={t("casualLeaveRequests")}
+              to="/manager/casual-requests"
+            />
+            <SidebarItem
+              icon={<Thermometer size={23} />}
+              name={t("sickRequests")}
+              to="/manager/sick-requests"
+            />
+            <SidebarItem
+              icon={<Venus size={23} />}
+              name={t("genaricRequests")}
+              to="/manager/genaric-requests"
+            />
+            <SidebarItem
+              icon={<MapPinHouse size={23} />}
+              name={t("homeVisitRequests")}
+              to="/manager/home-visit-requests"
+            />
+          </SidebarDropdown>
+        </HasPermission>
+
         {permissions.includes("see vacations summary") && (
           <SidebarItem
             icon={<Archive size={23} />}
@@ -168,74 +211,6 @@ export const ManagerSidebar = () => {
             icon={<BarChart2 size={23} />}
             name={t("requestsSummary")}
             to="/manager/requestsSummary"
-          />
-        )}
-
-        {permissions.includes("View Requests") && (
-          // <SidebarDropdown
-          //   icon={<FileText size={23} />}
-          //   name={t("leaveRequests")}
-          // >
-          //   <SidebarItem
-          //     name={t("leaveRequests")}
-          //     to="/manager/leave-requests"
-          //   />
-          //   <SidebarItem
-          //     name={t("leaveAttendance")}
-          //     to="/manager/leave-requests-with-attendance"
-          //   />
-          // </SidebarDropdown>
-
-          <SidebarItem
-            icon={<FileText size={23} />}
-            name={t("leaveRequests")}
-            to="/manager/leave-requests"
-          />
-        )}
-
-        {permissions.includes("View Requests") && (
-          <SidebarItem
-            icon={<Briefcase size={23} />}
-            name={t("missionRequests")}
-            to="/manager/mission-requests"
-          />
-        )}
-        {permissions.includes("View Requests") && (
-          <SidebarItem
-            icon={<Clock size={23} />}
-            name={t("ordinaryRequests")}
-            to="/manager/ordinary-requests"
-          />
-        )}
-
-        {permissions.includes("View Requests") && (
-          <SidebarItem
-            icon={<Coffee size={23} />}
-            name={t("casualLeaveRequests")}
-            to="/manager/casual-requests"
-          />
-        )}
-        {permissions.includes("see sick leaves") && (
-          <SidebarItem
-            icon={<Thermometer size={23} />}
-            name={t("sickRequests")}
-            to="/manager/sick-requests"
-          />
-        )}
-
-        {permissions.includes("Add Generic Requests") && (
-          <SidebarItem
-            icon={<Venus size={23} />}
-            name={t("genaricRequests")}
-            to="/manager/genaric-requests"
-          />
-        )}
-
-        {permissions.includes("View Requests") && (
-          <SidebarItem
-            icon={<MapPinHouse size={23} />}
-            name={t("homeVisitRequests")}
-            to="/manager/home-visit-requests"
           />
         )}
 

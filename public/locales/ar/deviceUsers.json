@@ -66,7 +66,7 @@
     }
   },
   "filters": {
-    "pageSize": "عدد العناصر في الصفحة",
+    "pageSize": "عدد العناصر",
     "startDate": "تاريخ البدء",
     "endDate": "تاريخ الانتهاء",
     "defaultRequestStatusOption": "اختر حالة الطلب",
@@ -83,7 +83,10 @@
     },
     "search": {
       "label": "بحث",
-      "placeholder": "أدخل القيمة التي تريد البحث عنها..."
+      "placeholder": "ابحث هنا..."
+    },
+    "select": {
+      "label": "اختر"
     }
   },
 

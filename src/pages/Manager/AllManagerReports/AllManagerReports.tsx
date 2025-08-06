@@ -1,6 +1,5 @@
 import { useTranslation } from "react-i18next";
 import { ActionCard, Button, Header } from "../../../components/ui";
-import { ATTENDANCE_NS } from "../../../constants";
 import { HasPermission } from "../../../components/auth";
 import { FileDown } from "lucide-react";
 import {
@@ -53,7 +52,7 @@ const AllManagerReports = () => {
   const [isDownloadingVacationSaverPDF, setIsDownloadingVacationSaverPDF] =
     useState(false);
 
-  const { t } = useTranslation([ATTENDANCE_NS]);
+  const { t } = useTranslation("allReports");
   const { getParam, setParam, clearParams, setParams } = useURLSearchParams();
   const [isDownloadReportPopupOpen, setIsDownloadReportPopupOpen] =
     useState(false);
@@ -385,14 +384,8 @@ const AllManagerReports = () => {
               icon={<FileDown />}
               iconBgColor="bg-[#f5e4b2]"
               iconColor="text-[#10b981]"
-              title={t(
-                "exportActionCard.attendanceTitle",
-                "تقرير الحضور والانصراف (تفصيلي)"
-              )}
-              description={t(
-                "exportActionCard.attendanceDescription",
-                "تصدير تقرير حضور الموظفين بشكل تفصيلي حسب الفلاتر المحددة بصيغتي Excel أو PDF"
-              )}
+              title={t("detailedAttendance.heading")}
+              description={t("detailedAttendance.subtitle")}
             >
               <Button
                 fullWidth
@@ -403,16 +396,16 @@ const AllManagerReports = () => {
                 }
                 onClick={() => setIsDownloadReportPopupOpen(true)}
               >
-                {t("exportActionCard.button")}
+                {t("exportButton")}
               </Button>
             </ActionCard>
             <p dir="rtl" className="text-sm text-gray-700 mt-2">
-              لمزيد من خيارات الفلترة، يمكنك زيارة{" "}
+              {t("detailedAttendance.link")}{" "}
               <NavLink
                 to="../manage-attendance"
                 className="inline text-blue-600 hover:underline focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition"
               >
-                صفحة تقرير الحضور والانصراف (تفصيلي)
+                {t("detailedAttendance.pageName")}{" "}
               </NavLink>
             </p>
           </HasPermission>
@@ -430,14 +423,8 @@ const AllManagerReports = () => {
               icon={<FileDown />}
               iconBgColor="bg-[#f5e4b2]"
               iconColor="text-[#10b981]"
-              title={t(
-                "exportActionCard.summaryTitle",
-                "تقرير الحضور والانصراف (ملخص)"
-              )}
-              description={t(
-                "exportActionCard.summaryDescription",
-                "تصدير ملخص حضور الموظفين حسب الفلاتر المختارة بصيغتي Excel أو PDF"
-              )}
+              title={t("summaryAttendance.heading")}
+              description={t("summaryAttendance.subtitle")}
             >
               <Button
                 fullWidth
@@ -448,16 +435,16 @@ const AllManagerReports = () => {
                 }
                 onClick={() => setIsDownloadSummaryReportPopupOpen(true)}
               >
-                {t("exportActionCard.button")}
+                {t("exportButton")}
               </Button>
             </ActionCard>
             <p dir="rtl" className="text-sm text-gray-700 mt-2">
-              لمزيد من خيارات الفلترة، يمكنك زيارة{" "}
+              {t("detailedAttendance.link")}{" "}
               <NavLink
                 to="../manage-attendance/overview"
                 className="inline text-blue-600 hover:underline focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition"
               >
-                صفحة تقرير الحضور والانصراف (ملخص)
+                {t("summaryAttendance.link")}{" "}
               </NavLink>
             </p>
           </HasPermission>
@@ -475,14 +462,8 @@ const AllManagerReports = () => {
               icon={<FileDown />}
               iconBgColor="bg-[#f5e4b2]"
               iconColor="text-[#10b981]"
-              title={t(
-                "exportActionCard.leaveDetailedTitle",
-                "تقرير الإجازات (تفصيلي)"
-              )}
-              description={t(
-                "exportActionCard.leaveDetailedDescription",
-                "تصدير سجل الإجازات بالتفصيل حسب الفلاتر المختارة بصيغتي Excel أو PDF"
-              )}
+              title={t("detailedRequests.heading")}
+              description={t("detailedRequests.subtitle")}
             >
               <Button
                 fullWidth
@@ -495,16 +476,16 @@ const AllManagerReports = () => {
                   setIsDownloadRequestsReportPopupOpen(true);
                 }}
               >
-                {t("exportActionCard.button")}
+                {t("exportButton")}
               </Button>
             </ActionCard>
             <p dir="rtl" className="text-sm text-gray-700 mt-2">
-              لمزيد من خيارات الفلترة، يمكنك زيارة{" "}
+              {t("detailedRequests.link")}{" "}
               <NavLink
                 to="../all-requests"
                 className="inline text-blue-600 hover:underline focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition"
               >
-                صفحة تقرير الإجازات (تفصيلي)
+                {t("detailedRequests.pageName")}{" "}
               </NavLink>
             </p>
           </HasPermission>
@@ -522,14 +503,8 @@ const AllManagerReports = () => {
               icon={<FileDown />}
               iconBgColor="bg-[#f5e4b2]"
               iconColor="text-[#10b981]"
-              title={t(
-                "exportActionCard.leaveSummaryTitle",
-                "تقرير الإجازات (إجمالي)"
-              )}
-              description={t(
-                "exportActionCard.leaveSummaryDescription",
-                "تصدير ملخص عدد الإجازات حسب الحالة والنوع بصيغتي Excel أو PDF"
-              )}
+              title={t("summaryRequests.heading")}
+              description={t("summaryRequests.subtitle")}
             >
               <Button
                 fullWidth
@@ -540,16 +515,16 @@ const AllManagerReports = () => {
                 }
                 onClick={() => setIsRequestsSummaryPopupOpen(true)}
               >
-                {t("exportActionCard.button")}
+                {t("exportButton")}
               </Button>
             </ActionCard>
             <p dir="rtl" className="text-sm text-gray-700 mt-2">
-              لمزيد من خيارات الفلترة، يمكنك زيارة{" "}
+              {t("detailedRequests.link")}{" "}
               <NavLink
                 to="../requestsSummary"
                 className="inline text-blue-600 hover:underline focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition"
               >
-                صفحة تقرير الإجازات (إجمالي)
+                {t("detailedRequests.pageName")}{" "}
               </NavLink>
             </p>
           </HasPermission>
@@ -567,14 +542,8 @@ const AllManagerReports = () => {
               icon={<FileDown />}
               iconBgColor="bg-[#f5e4b2]"
               iconColor="text-[#10b981]"
-              title={t(
-                "exportActionCard.leaveSummaryTitle",
-                "تقرير حفظه الاجازات"
-              )}
-              description={t(
-                "exportActionCard.leaveSummaryDescription",
-                "تصدير بصيغتي Excel أو PDF"
-              )}
+              title={t("vacationSaver.heading")}
+              description={t("vacationSaver.subtitle")}
             >
               <Button
                 fullWidth
@@ -584,16 +553,16 @@ const AllManagerReports = () => {
                 }
                 onClick={() => setIsVacationSaverPopupOpen(true)}
               >
-                {t("exportActionCard.button")}
+                {t("exportButton")}
               </Button>
             </ActionCard>
             <p dir="rtl" className="text-sm text-gray-700 mt-2">
-              لمزيد من خيارات الفلترة، يمكنك زيارة{" "}
+              {t("vacationSaver.link")}{" "}
               <NavLink
                 to="../vacation-saver"
                 className="inline text-blue-600 hover:underline focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition"
               >
-                صفحة تقرير حفظه الاجازات
+                {t("vacationSaver.pageName")}{" "}
               </NavLink>
             </p>
           </HasPermission>

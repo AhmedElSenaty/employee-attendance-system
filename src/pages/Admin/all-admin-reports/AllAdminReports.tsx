@@ -24,6 +24,8 @@ import { NavLink } from "react-router";
 import ExportRequestsPopup from "../../Manager/RequestsSummary/Views/ExportRequestsPopup";
 
 const AllAdminReports = () => {
+  const { t } = useTranslation("allReports");
+
   const [isDownloadingDetailedAttendance, setIsDownloadingDetailedAttendance] =
     useState(false);
   const [
@@ -53,7 +55,6 @@ const AllAdminReports = () => {
   const [isDownloadingVacationSaverPDF, setIsDownloadingVacationSaverPDF] =
     useState(false);
 
-  const { t } = useTranslation([ATTENDANCE_NS]);
   const { getParam, setParam, clearParams, setParams } = useURLSearchParams();
   const [isDownloadReportPopupOpen, setIsDownloadReportPopupOpen] =
     useState(false);
@@ -374,6 +375,7 @@ const AllAdminReports = () => {
 
       <div className="w-[1000px] max-xl:w-full grid grid-cols-1 md:grid-cols-2 gap-10 mx-auto mb-20">
         {/* detailed attendance */}
+
         <div className="flex-1">
           <HasPermission
             permission={[
@@ -385,14 +387,8 @@ const AllAdminReports = () => {
               icon={<FileDown />}
               iconBgColor="bg-[#f5e4b2]"
               iconColor="text-[#10b981]"
-              title={t(
-                "exportActionCard.attendanceTitle",
-                "تقرير الحضور والانصراف (تفصيلي)"
-              )}
-              description={t(
-                "exportActionCard.attendanceDescription",
-                "تصدير تقرير حضور الموظفين بشكل تفصيلي حسب الفلاتر المحددة بصيغتي Excel أو PDF"
-              )}
+              title={t("detailedAttendance.heading")}
+              description={t("detailedAttendance.subtitle")}
             >
               <Button
                 fullWidth
@@ -407,12 +403,12 @@ const AllAdminReports = () => {
               </Button>
             </ActionCard>
             <p dir="rtl" className="text-sm text-gray-700 mt-2">
-              لمزيد من خيارات الفلترة، يمكنك زيارة{" "}
+              {t("detailedAttendance.link")}{" "}
               <NavLink
                 to="../manage-attendance"
                 className="inline text-blue-600 hover:underline focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition"
               >
-                صفحة تقرير الحضور والانصراف (تفصيلي)
+                {t("detailedAttendance.pageName")}{" "}
               </NavLink>
             </p>
           </HasPermission>
@@ -430,14 +426,8 @@ const AllAdminReports = () => {
               icon={<FileDown />}
               iconBgColor="bg-[#f5e4b2]"
               iconColor="text-[#10b981]"
-              title={t(
-                "exportActionCard.summaryTitle",
-                "تقرير الحضور والانصراف (ملخص)"
-              )}
-              description={t(
-                "exportActionCard.summaryDescription",
-                "تصدير ملخص حضور الموظفين حسب الفلاتر المختارة بصيغتي Excel أو PDF"
-              )}
+              title={t("detailedAttendance.heading")}
+              description={t("detailedAttendance.subtitle")}
             >
               <Button
                 fullWidth
@@ -448,16 +438,16 @@ const AllAdminReports = () => {
                 }
                 onClick={() => setIsDownloadSummaryReportPopupOpen(true)}
               >
-                {t("exportActionCard.button")}
+                {t("exportButton")}
               </Button>
             </ActionCard>
             <p dir="rtl" className="text-sm text-gray-700 mt-2">
-              لمزيد من خيارات الفلترة، يمكنك زيارة{" "}
+              {t("detailedAttendance.link")}{" "}
               <NavLink
                 to="../manage-attendance/overview"
                 className="inline text-blue-600 hover:underline focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition"
               >
-                صفحة تقرير الحضور والانصراف (ملخص)
+                {t("summaryAttendance.link")}{" "}
               </NavLink>
             </p>
           </HasPermission>

@@ -238,18 +238,40 @@ export const ManageEmployeesPage = () => {
       <div className="max-w-[1500px] mx-auto space-y-6">
         {/* Count Card */}
         <div className="flex justify-center">
-          <CountCard
-            title={t("manageEmployeesPage.countCard.title")}
-            description={t("manageEmployeesPage.countCard.description")}
-            count={formatValue(totalCount, language)}
-            icon={<UserCog size={28} />}
-            bgColor="bg-[#b38e19]"
-          />
+          <div className="w-full max-w-md">
+            <CountCard
+              title={t("manageEmployeesPage.countCard.title")}
+              description={t("manageEmployeesPage.countCard.description")}
+              count={formatValue(totalCount, language)}
+              icon={<UserCog size={28} />}
+              bgColor="bg-[#b38e19]"
+            />
+          </div>
         </div>
 
         <div className="flex flex-col md:flex-row gap-5">
           {/* Action Card Section */}
-          <div className="w-full md:w-1/3 h-fit">
+
+          <div className="w-full md:w-1/3 ">
+            {isEmployeesCountLoading ? (
+              <GraphSkeleton />
+            ) : (
+              <Graph
+                title={t("manageEmployeesPage.graph.title")}
+                description={t("manageEmployeesPage.graph.description")}
+                width="w-full"
+                height="h-[320px]"
+              >
+                <BarChart
+                  datasetIdKey="employees-bar"
+                  data={barData}
+                  height={200}
+                />
+              </Graph>
+            )}
+          </div>
+
+          <div className="w-full md:w-1/3">
             <HasPermission permission="Add Employee">
               <ActionCard
                 icon={<UserPlus />}
@@ -266,29 +288,8 @@ export const ManageEmployeesPage = () => {
               </ActionCard>
             </HasPermission>
           </div>
-          <div className="w-full md:w-1/3 h-fit">
-            <HasPermission permission="Reset Employees Data">
-              <ActionCard
-                icon={<UserCog />}
-                iconBgColor="bg-[#d7f0f6]"
-                iconColor="text-[#007fa4]"
-                title={t("manageEmployeesPage.restActionCard.title")}
-                description={t(
-                  "manageEmployeesPage.restActionCard.description"
-                )}
-              >
-                <Button
-                  fullWidth
-                  variant="primary"
-                  onClick={() => setIsRestPopupOpen(true)}
-                >
-                  {t("manageEmployeesPage.restActionCard.button")}
-                </Button>
-              </ActionCard>
-            </HasPermission>
-          </div>
 
-          <div className="w-full md:w-1/3 h-fit">
+          <div className="w-full md:w-1/3 ">
             <HasPermission permission="Add Employee">
               <ActionCard
                 icon={<FilePlus />}
@@ -326,23 +327,24 @@ export const ManageEmployeesPage = () => {
           </div>
         </div>
 
-        <div className="w-full">
-          {isEmployeesCountLoading ? (
-            <GraphSkeleton />
-          ) : (
-            <Graph
-              title={t("manageEmployeesPage.graph.title")}
-              description={t("manageEmployeesPage.graph.description")}
-              width="w-full"
-              height="h-[320px]"
+        <div className="w-full md:w-1/3 ">
+          <HasPermission permission="Reset Employees Data">
+            <ActionCard
+              icon={<UserCog />}
+              iconBgColor="bg-[#d7f0f6]"
+              iconColor="text-[#007fa4]"
+              title={t("manageEmployeesPage.restActionCard.title")}
+              description={t("manageEmployeesPage.restActionCard.description")}
             >
-              <BarChart
-                datasetIdKey="employees-bar"
-                data={barData}
-                height={200}
-              />
-            </Graph>
-          )}
+              <Button
+                fullWidth
+                variant="primary"
+                onClick={() => setIsRestPopupOpen(true)}
+              >
+                {t("manageEmployeesPage.restActionCard.button")}
+              </Button>
+            </ActionCard>
+          </HasPermission>
         </div>
       </div>
 

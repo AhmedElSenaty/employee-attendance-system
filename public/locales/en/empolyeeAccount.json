@@ -110,7 +110,7 @@
   "columns": {
     "phoneNumber": "Phone",
     "department": "Department",
-    "delegate": "Delegate",
+    "delegate": "Delegated department",
     "dateOfBirth": "Date of Birth",
     "hiringDate": "Hiring Date"
   }

@@ -5,7 +5,7 @@
   },
   "form": {
     "email": {
-      "label": "Email Address",
+      "label": "Email address (to be used for login later)",
       "placeholder": "Enter your email",
       "inputValidation": {
         "required": "Email is required",

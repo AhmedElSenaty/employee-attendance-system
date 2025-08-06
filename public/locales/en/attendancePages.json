@@ -4,9 +4,10 @@
     "subtitle": "Track and manage employee vacation records, including approved requests."
   },
   "sectionHeaderVacation": {
-    "title": "Employee Vacation Details",
-    "description": "A detailed overview of each employee’s vacation history, covering time-off requests, approvals, and remaining leave balances."
+    "title": "Daily Employee Attendance and Leave Details",
+    "description": "A detailed view of each employee’s attendance and leave records, including check-in/out times and vacations requests."
   },
+
   "headerSummary": {
     "heading": "Attendance Summary",
     "subtitle": "View and understand attendance details for each employee in the system."
@@ -33,7 +34,7 @@
       "attendanceDays": "Present Days",
       "absenceDays": "Absent Days",
       "totalWorkingHours": "Total Working Hours",
-      "totalDelayHours": "Total Delay Hours"
+      "totalDelayHours": "Total Delay"
     }
   },
   "tableVacation": {
@@ -178,6 +179,7 @@
   "filters": {
     "pageSize": "Page Size",
     "toolTipResetFilters": "Reset All",
+    "date": "date",
     "startDate": "Start Date",
     "endDate": "End Date",
     "startTime": "Start Time",
@@ -201,7 +203,10 @@
     },
     "search": {
       "label": "Search",
-      "placeholder": "Enter the value you want to search for...."
+      "placeholder": "Search here...."
+    },
+    "select": {
+      "placeholder": "Select"
     }
   },
   "NA": "N/A",

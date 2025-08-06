@@ -86,7 +86,10 @@
     },
     "search": {
       "label": "Search",
-      "placeholder": "Enter the value you want to search for...."
+      "placeholder": "Search here..."
+    },
+    "select": {
+      "placeholder": "select"
     }
   },
   "buttons": {

@@ -29,7 +29,7 @@ const EmpolyeeAccountPage = () => {
           </div>
 
           {/* User Details */}
-          <div className="flex-1 space-y-3 text-center sm:text-left">
+          <div className="flex-1 space-y-3 text-center sm:text-right">
             <h1 className="text-2xl font-bold text-gray-900">{me?.fullName}</h1>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 text-sm text-gray-700">
               <p><span className="font-medium">{t("columns.hiringDate")}:</span> {me?.hiringDate}</p>

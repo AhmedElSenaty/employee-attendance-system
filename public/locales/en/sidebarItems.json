@@ -37,5 +37,6 @@
   "sickRequests": "Sick Requests",
   "leaveAttendance": "Leave with attendance",
   "addRequest": "Add Request",
-  "requestsSummary": "Requests Summary"
+  "requestsSummary": "Requests Summary",
+  "genaricRequests": "Requests by decision"
 }

@@ -71,7 +71,9 @@ export class AttendanceService extends BaseService {
     startDate?: string,
     endDate?: string,
     searchType?: string,
-    searchQuery?: string
+    searchQuery?: string,
+    searchByDepartmentId?: number,
+    searchBySubDepartmentId?: number
   ) => {
     try {
       const params = this.buildParams({
@@ -79,8 +81,13 @@ export class AttendanceService extends BaseService {
         PageSize: pageSize,
         StartDate: startDate,
         EndDate: endDate,
+        SearchByDeptartmentID:
+          searchByDepartmentId === 0 ? "" : searchByDepartmentId,
+        SearchBySubDeptartmentId:
+          searchBySubDepartmentId === 0 ? "" : searchBySubDepartmentId,
         ...(searchType && searchQuery ? { [searchType]: searchQuery } : {}),
       });
+
       const response = await axiosInstance.get(`/Attendance/summary`, {
         params,
         headers: this.getAuthHeaders(),
@@ -203,8 +210,11 @@ export class AttendanceService extends BaseService {
     searchType?: string,
     searchQuery?: string,
     searchByDepartmentId?: number,
-    searchBySubDepartmentId?: number
+    searchBySubDepartmentId?: number,
+    startDate?: string
   ) => {
+    console.log("start date=======>", startDate);
+    console.log("vacationssssssssssssss");
     try {
       const params = this.buildParams({
         PageIndex: page ?? 1,
@@ -214,7 +224,9 @@ export class AttendanceService extends BaseService {
         SearchBySubDeptartmentId:
           searchBySubDepartmentId === 0 ? "" : searchBySubDepartmentId,
         ...(searchType && searchQuery ? { [searchType]: searchQuery } : {}),
+        StartDate: startDate,
       });
+      console.log(params);
 
       const response = await axiosInstance.get(
         `/Attendance/AttendanceWithVacations`,

@@ -13,9 +13,18 @@ import {
 import { useTranslation } from "react-i18next";
 import { EMPLOYEE_NS } from "../../../../constants";
 import { Control } from "react-hook-form";
-import { EmployeeSummary } from "../../../../interfaces";
-import { useGetEmployeesList } from "../../../../hooks";
+import {
+  DepartmentSummary,
+  EmployeeSummary,
+  SubDepartmentSummary,
+} from "../../../../interfaces";
+import {
+  useGetDepartmentsList,
+  useGetDepartmentSubDepartments,
+  useGetEmployeesList,
+} from "../../../../hooks";
 import { useSearchParams } from "react-router";
+import { useEffect, useMemo, useState } from "react";
 
 interface Props {
   searchBy: string[];
@@ -64,6 +73,26 @@ const TableFilters = ({ searchBy, clearParams }: Props) => {
     (opt) => opt.value === (getParam("searchKey") ? getParam("searchKey") : "")
   );
 
+  const [selectDepartmentID, setSelectDepartmentID] = useState<number | null>(
+    null
+  );
+
+  const { departmentsList, isLoading: isDepartmentsLoading } =
+    useGetDepartmentsList();
+
+  useEffect(() => {
+    setSelectDepartmentID(selectDepartmentID || null);
+  }, [selectDepartmentID]);
+
+  const departmentOptions = useMemo(
+    () =>
+      departmentsList?.map((department: DepartmentSummary) => ({
+        value: department.id,
+        label: department.name,
+      })) || [],
+    [departmentsList]
+  );
+
   return (
     <>
       <div className="w-full flex flex-wrap items-end gap-4">
@@ -81,7 +110,6 @@ const TableFilters = ({ searchBy, clearParams }: Props) => {
         </Field>
 
         {/* Search Type */}
-
         <Field className="flex flex-col space-y-2">
           <Label size="md">{t("filters.searchBy.label")}</Label>
           <CustomSelect
@@ -93,7 +121,7 @@ const TableFilters = ({ searchBy, clearParams }: Props) => {
         </Field>
 
         {/* Search Input */}
-        <Field className="flex-grow min-w-[200px] flex flex-col space-y-2">
+        <Field className="w-[200px] sm:w-[250px] md:w-[300px] flex flex-col space-y-2">
           <Label size="md">{t("filters.search.label")}</Label>
           <Input
             placeholder={t("filters.search.placeholder")}
@@ -111,6 +139,7 @@ const TableFilters = ({ searchBy, clearParams }: Props) => {
           ) : (
             <CustomSelect
               className="w-full"
+              placeholder={t("filters.select.label")}
               options={employeeOptions}
               value={
                 getParam("searchKey") === "SearchByFullName"
@@ -127,6 +156,39 @@ const TableFilters = ({ searchBy, clearParams }: Props) => {
                 });
               }}
               isSearchable
+              isClearable
+            />
+          )}
+        </Field>
+
+        {/* Department Select */}
+        <Field className="space-y-3 w-full sm:w-auto flex flex-col">
+          <Label size="lg">{t("inputs.departmentId.label")}</Label>
+          {isDepartmentsLoading ? (
+            <SelectBoxSkeleton />
+          ) : (
+            <CustomSelect
+              placeholder={t("filters.select.label")}
+              options={departmentOptions}
+              value={
+                getParam("searchKey") === "SearchByDepartmentId"
+                  ? departmentOptions.find(
+                      (opt) => opt.value.toString() === getParam("searchQuery")
+                    ) || null
+                  : null
+              }
+              onChange={(option) => {
+                const id = option?.value?.toString() ?? "";
+                setSearchParams({
+                  ...Object.fromEntries(searchParams),
+                  searchKey: "SearchByDepartmentId",
+                  searchQuery: id,
+                });
+                setSelectDepartmentID(Number(id));
+              }}
+              className="w-70"
+              isSearchable
+              isClearable
             />
           )}
         </Field>

@@ -114,11 +114,12 @@ export const useGetAttendanceSummary = (
   searchKey?: string,
   searchQuery?: string,
   startDate?: string,
-  endDate?: string
+  endDate?: string,
+  departmentId?: number,
+  subDepartmentId?: number
 ) => {
   const token = useUserStore((state) => state.token);
   const service = useAttendanceService();
-
   const { data, isLoading } = useQuery({
     queryKey: [
       QueryKeys.Attendance.Summary,
@@ -135,7 +136,9 @@ export const useGetAttendanceSummary = (
         startDate,
         endDate,
         searchKey,
-        searchQuery
+        searchQuery,
+        departmentId,
+        subDepartmentId
       ),
     enabled: !!token,
   });
@@ -353,7 +356,9 @@ export const useGetAttendanceWithVacations = (
   searchKey?: string,
   searchQuery?: string,
   departmentId?: number,
-  subDepartmentId?: number
+  subDepartmentId?: number,
+  startDate?: string,
+  endDate?: string
 ) => {
   const token = useUserStore((state) => state.token);
   const service = useAttendanceService();
@@ -366,6 +371,8 @@ export const useGetAttendanceWithVacations = (
       `${searchKey && searchQuery ? [searchKey, searchQuery] : ""}`,
       departmentId,
       subDepartmentId,
+      startDate,
+      endDate,
     ],
     queryFn: () =>
       service.fetchWithVacations(
@@ -374,7 +381,8 @@ export const useGetAttendanceWithVacations = (
         searchKey,
         searchQuery,
         departmentId,
-        subDepartmentId
+        subDepartmentId,
+        startDate
       ),
     enabled: !!token,
   });

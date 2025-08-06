@@ -91,6 +91,8 @@ const DepartmentInputs = ({
               setSelectDepartmentID(option?.value as number)
             }
             className="w-full"
+            isSearchable
+            isClearable
           />
         )}
       </Field>
@@ -117,6 +119,8 @@ const DepartmentInputs = ({
                   }
                   onChange={(option) => field.onChange(option?.value)}
                   error={!!errors.subDepartmentId}
+                  isSearchable
+                  isClearable
                 />
               )}
             />

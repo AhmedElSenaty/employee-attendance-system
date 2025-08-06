@@ -1,6 +1,5 @@
 import { useTranslation } from "react-i18next";
 import { useDebounce } from "../../../hooks/debounce.hook";
-import { useLanguageStore } from "../../../store/";
 import {
   Header,
   InfoPopup,
@@ -25,6 +24,7 @@ const AttendanceVacationsPage = () => {
   const rawPage = getParam("page", Number);
   const rawPageSize = getParam("pageSize", Number);
   const rawSearchKey = getParam("searchKey");
+  const rawStartDate = getParam("startDate");
   const rawSearchQuery = useDebounce(getParam("searchQuery"), 650);
   const rawDepartmentId = getParam("searchByDepartmentId", Number);
   const rawSubDeptartmentId = getParam("searchBySubDeptartmentId", Number);
@@ -35,6 +35,7 @@ const AttendanceVacationsPage = () => {
   const searchQuery = useDebounce(rawSearchQuery, 650) || undefined;
   const departmentId = rawDepartmentId || "";
   const subDeptartmentId = rawSubDeptartmentId || "";
+  const startDate = rawStartDate || undefined;
 
   // Declare response variables
   let attendanceWithVacations = [];
@@ -55,7 +56,8 @@ const AttendanceVacationsPage = () => {
       searchKey,
       searchQuery,
       departmentId || 0,
-      subDeptartmentId || 0
+      subDeptartmentId || 0,
+      startDate
     );
     attendanceWithVacations = result.attendanceWithVacations;
     totalAttendances = result.count;

@@ -27,7 +27,7 @@ const OverviewTableFilters = ({
 }: Props) => {
   const { language } = useLanguageStore();
   const { t } = useTranslation([ATTENDANCE_NS]);
-
+  const departmentId = getParam("SearchByDeptartmentID");
   const pageSizeOptions = [10, 20, 30, 40, 50].map((size) => ({
     value: size,
     label: formatValue(size, language),
@@ -71,6 +71,7 @@ const OverviewTableFilters = ({
             isSearchable
           />
         </Field>
+
         {/* Search Input */}
         <Field className="flex-grow min-w-[200px] flex flex-col space-y-2">
           <Label size="md">{t("filters.search.label")}</Label>

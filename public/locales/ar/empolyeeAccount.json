@@ -110,7 +110,7 @@
   "columns": {
     "phoneNumber": "رقم الهاتف",
     "department": "القسم",
-    "delegate": "المندوب",
+    "delegate": "القسم المُنتدَب إليه",
     "dateOfBirth": "تاريخ الميلاد",
     "hiringDate": "تاريخ التعيين"
   }

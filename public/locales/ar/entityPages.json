@@ -65,7 +65,7 @@
     "closeButton": "إغلاق"
   },
   "filters": {
-    "pageSize": "عدد العناصر في الصفحة",
+    "pageSize": "عدد العناصر",
     "toolTipResetFilters": "إعادة تعيين الكل",
     "searchBy": {
       "label": "نوع البحث",
@@ -75,7 +75,10 @@
     },
     "search": {
       "label": "بحث",
-      "placeholder": "أدخل القيمة التي تريد البحث عنها..."
+      "placeholder": "ابحث هنا..."
+    },
+    "select": {
+      "placeholder": "اختر"
     }
   },
   "buttons": {

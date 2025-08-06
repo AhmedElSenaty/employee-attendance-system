@@ -113,6 +113,9 @@
     "search": {
       "label": "بحث",
       "placeholder": "أدخل القيمة التي تريد البحث عنها...."
+    },
+    "select": {
+      "label": "اختر"
     }
   },
   "buttons": {

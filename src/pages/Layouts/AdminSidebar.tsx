@@ -203,13 +203,15 @@ export const AdminSidebar = () => {
           to="/admin/manage-official-vacation"
         />
       )}
-      {permissions.includes("View Permissions") && (
+
+      {/* {permissions.includes("View Permissions") && (
         <SidebarItem
           icon={<Lock size={23} />}
           name={t("permissions")}
           to="/admin/permissions"
         />
-      )}
+      )} */}
+
       {/* Manage Profiles */}
       {permissions.includes("View Profiles") && (
         <SidebarDropdown

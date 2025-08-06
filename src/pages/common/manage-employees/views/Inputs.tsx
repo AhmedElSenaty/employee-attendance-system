@@ -10,6 +10,7 @@ import {
 import { useTranslation } from "react-i18next";
 import { EMPLOYEE_NS } from "../../../../constants";
 import { EmployeeFormValues } from "../../../../validation";
+import { useUserStore } from "../../../../store";
 
 interface Props {
   register: UseFormRegister<EmployeeFormValues>;
@@ -20,6 +21,7 @@ interface Props {
 
 const Inputs = ({ register, errors, isUpdateEmployee, isLoading }: Props) => {
   const { t } = useTranslation([EMPLOYEE_NS]);
+  const role = useUserStore((state) => state.role);
 
   if (isLoading) {
     return (
@@ -144,6 +146,7 @@ const Inputs = ({ register, errors, isUpdateEmployee, isLoading }: Props) => {
             type="number"
             {...register("totalLeaveRequests")}
             isError={!!errors["totalLeaveRequests"]}
+            disabled={isUpdateEmployee && role === "manager"}
           />
           {errors["totalLeaveRequests"] && (
             <InputErrorMessage>
@@ -165,6 +168,7 @@ const Inputs = ({ register, errors, isUpdateEmployee, isLoading }: Props) => {
           type="number"
           {...register("avilableLeaveRequestsPerMonth")}
           isError={!!errors["avilableLeaveRequestsPerMonth"]}
+          disabled={isUpdateEmployee && role === "manager"}
         />
         {errors["avilableLeaveRequestsPerMonth"] && (
           <InputErrorMessage>
@@ -184,6 +188,7 @@ const Inputs = ({ register, errors, isUpdateEmployee, isLoading }: Props) => {
             type="number"
             {...register("totalOrdinaryLeaves")}
             isError={!!errors["totalOrdinaryLeaves"]}
+            disabled={isUpdateEmployee && role === "manager"}
           />
           {errors["totalOrdinaryLeaves"] && (
             <InputErrorMessage>
@@ -207,6 +212,7 @@ const Inputs = ({ register, errors, isUpdateEmployee, isLoading }: Props) => {
           type="number"
           {...register("avilableOrdinaryLeaveeRequestsPerYear")}
           isError={!!errors["avilableOrdinaryLeaveeRequestsPerYear"]}
+          disabled={isUpdateEmployee && role === "manager"}
         />
         {errors["avilableOrdinaryLeaveeRequestsPerYear"] && (
           <InputErrorMessage>
@@ -226,6 +232,7 @@ const Inputs = ({ register, errors, isUpdateEmployee, isLoading }: Props) => {
             type="number"
             {...register("totalCasualLeaves")}
             isError={!!errors["totalCasualLeaves"]}
+            disabled={isUpdateEmployee && role === "manager"}
           />
           {errors["totalCasualLeaves"] && (
             <InputErrorMessage>
@@ -249,6 +256,7 @@ const Inputs = ({ register, errors, isUpdateEmployee, isLoading }: Props) => {
           type="number"
           {...register("avilableCasualLeaveeRequestsPerYear")}
           isError={!!errors["avilableCasualLeaveeRequestsPerYear"]}
+          disabled={isUpdateEmployee && role === "manager"}
         />
         {errors["avilableCasualLeaveeRequestsPerYear"] && (
           <InputErrorMessage>

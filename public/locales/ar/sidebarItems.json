@@ -27,6 +27,7 @@
   "officialVacation": "الإجازة الرسمية",
   "permissions": "الصلاحيات",
   "manageProfiles": "إدارة ملفات الصلاحيات",
+  "manageRequests": "إدارة الطلبات",
   "profiles": "ملفات الصلاحيات",
   "addProfile": "إضافة ملف صلاحيات",
   "leaveRequests": "طلبات الاذونات",
@@ -39,7 +40,7 @@
   "leaveAttendance": "الاذونات والمواعيد",
   "addRequest": "اضافة طلب قديم",
   "allRequests": "جميع الطلبات",
-  "genaricRequests": "الطلبات العامة",
+  "genaricRequests": "الطلبات الشخصية بناءً على قرار",
   "homeVisitRequests": "الزيارات المنزلية",
   "requestsSummary": "ملخص الطلبات والإجازات",
   "vacationSaver": "حفظه اجازات"

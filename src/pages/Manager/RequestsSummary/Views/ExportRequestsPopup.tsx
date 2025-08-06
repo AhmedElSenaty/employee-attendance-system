@@ -6,7 +6,7 @@ import {
   Label,
   Popup,
 } from "../../../../components/ui";
-import { Fingerprint } from "lucide-react";
+import { FileCheck } from "lucide-react";
 import { HasPermission } from "../../../../components/auth";
 import useURLSearchParams from "../../../../hooks/URLSearchParams.hook";
 
@@ -51,7 +51,7 @@ const ExportRequestsPopup = ({
         {/* Device Icon */}
         <div className="flex flex-col items-center space-y-3">
           <div className="bg-gray-200 p-4 rounded-full">
-            <Fingerprint size={80} className="text-gray-600" />
+            <FileCheck size={80} className="text-gray-600" />
           </div>
         </div>
 

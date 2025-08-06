@@ -6,7 +6,7 @@
     },
     "countCard": {
       "title": "Total Employees",
-      "description": "The number of currently active employees in your organization."
+      "description": "The number of currently active employees."
     },
     "sectionHeader": {
       "title": "Employee Directory",
@@ -14,7 +14,7 @@
     },
     "graph": {
       "title": "Employee Status Overview",
-      "description": "Visual breakdown of employees by their current status.",
+      "description": "Employee status breakdown.",
       "labels": {
         "active": "Active",
         "blocked": "Blocked",
@@ -193,10 +193,10 @@
       }
     },
     "avilableLeaveRequestsPerMonth": {
-      "label": "Used Permissions",
-      "placeholder": "Enter number of Used Permissions",
+      "label": "Remaining permissions per month",
+      "placeholder": "Enter number of Remaining permissions",
       "inputValidation": {
-        "required": "Used Permissions per month is required"
+        "required": "Remaining permissions per month is required"
       }
     },
     "avilableOrdinaryLeaveeRequestsPerYear": {
@@ -268,7 +268,10 @@
     },
     "search": {
       "label": "Search",
-      "placeholder": "Enter the value you want to search for...."
+      "placeholder": "Search here...."
+    },
+    "select": {
+      "label": "Select"
     }
   },
   "table": {

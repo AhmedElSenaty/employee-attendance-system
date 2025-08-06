@@ -4,8 +4,8 @@
     "subtitle": "تتبع وإدارة سجلات الحضور الموظفين، بما في ذلك الطلبات المعتمدة"
   },
   "sectionHeaderVacation": {
-    "title": "تفاصيل إجازات الموظفين",
-    "description": "نظرة تفصيلية على سجل إجازات كل موظف، بما في ذلك طلبات الإجازة، الموافقات، والأرصدة المتبقية."
+    "title": "تفاصيل حضور و إجازات الموظفين اليومية",
+    "description": "عرض تفصيلي لسجلات حضور وإجازات كل موظف، بما في ذلك أوقات الدخول والخروج و طلبات الإجازة."
   },
   "headerSummary": {
     "heading": "ملخص الحضور",
@@ -33,7 +33,7 @@
       "attendanceDays": "أيام الحضور",
       "absenceDays": "أيام الغياب",
       "totalWorkingHours": "إجمالي ساعات العمل",
-      "totalDelayHours": "عدد ساعات التأخير"
+      "totalDelayHours": "اجمالي التأخير"
     }
   },
   "tableVacation": {
@@ -176,8 +176,9 @@
     "toolTipViewAttendances": "عرض الحضور"
   },
   "filters": {
-    "pageSize": "عدد العناصر في الصفحة",
+    "pageSize": "عدد العناصر",
     "toolTipResetFilters": "إعادة تعيين الكل",
+    "date": "التاريخ",
     "startDate": "تاريخ البدء",
     "endDate": "تاريخ الانتهاء",
     "startTime": "وقت البدء",
@@ -202,7 +203,10 @@
     },
     "search": {
       "label": "بحث",
-      "placeholder": "أدخل القيمة التي تريد البحث عنها...."
+      "placeholder": "ابحث هنا..."
+    },
+    "select": {
+      "placeholder": "اختر"
     }
   },
   "NA": "غير متوفر",

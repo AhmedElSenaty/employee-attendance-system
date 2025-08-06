@@ -18,7 +18,7 @@ import {
   useGetEmployeesList,
 } from "../../../../hooks";
 import {
-  Department,
+  DepartmentSummary,
   EmployeeSummary,
   SubDepartmentSummary,
 } from "../../../../interfaces";
@@ -79,7 +79,7 @@ const VacationTableFilters = ({
   );
 
   const departmentOptions =
-    departmentsList?.map((department: Department) => ({
+    departmentsList?.map((department: DepartmentSummary) => ({
       value: department.id,
       label: department.name,
     })) ?? [];
@@ -104,6 +104,7 @@ const VacationTableFilters = ({
       label: employee.name,
     })) || [];
 
+  console.log("dept id", departmentId);
   return (
     <>
       <div className="w-full flex flex-wrap items-end gap-4">
@@ -122,6 +123,7 @@ const VacationTableFilters = ({
         <Field className="flex flex-col space-y-2">
           <Label size="md">{t("filters.searchBy.label")}</Label>
           <CustomSelect
+            placeholder={t("filters.select.placeholder")}
             options={searchByOptions}
             value={selectedSearchByValue}
             onChange={(option) => setParam("searchKey", String(option?.value))}
@@ -146,6 +148,7 @@ const VacationTableFilters = ({
             <SelectBoxSkeleton />
           ) : (
             <CustomSelect
+              placeholder={t("filters.select.placeholder")}
               className="w-full"
               options={employeeOptions}
               value={
@@ -162,6 +165,7 @@ const VacationTableFilters = ({
                   searchQuery: name,
                 });
               }}
+              isClearable
               isSearchable
             />
           )}
@@ -174,7 +178,7 @@ const VacationTableFilters = ({
 
       <div className="full flex flex-wrap items-end gap-4">
         <Field className="flex flex-col space-y-2 w-fit">
-          <Label>{t("filters.startDate")}</Label>
+          <Label>{t("filters.date")}</Label>
           <Input
             type="date"
             icon={<Calendar />}
@@ -184,26 +188,20 @@ const VacationTableFilters = ({
         </Field>
 
         <Field className="flex flex-col space-y-2 w-fit">
-          <Label>{t("filters.endDate")}</Label>
-          <Input
-            type="date"
-            icon={<Calendar />}
-            value={getParam("endDate") ?? ""}
-            onChange={(e) => setParam("endDate", e.target.value)}
-          />
-        </Field>
-        <Field className="flex flex-col space-y-2 w-fit">
           <Label size="md">{t("filters.searchBy.SearchByDeptartmentID")}</Label>
           {isDepartmentsLoading ? (
             <SelectBoxSkeleton />
           ) : (
             <CustomSelect
+              placeholder={t("filters.select.placeholder")}
               options={departmentOptions}
               value={selectedDepartmentValue}
-              onChange={(option) =>
-                setParam("SearchByDeptartmentID", String(option?.value))
-              }
+              onChange={(option) => {
+                const id = String(option?.value ?? "");
+                setParam("SearchByDeptartmentID", id); // store by key
+              }}
               isSearchable
+              isClearable
               className="w-60"
             />
           )}
@@ -217,12 +215,18 @@ const VacationTableFilters = ({
             <SelectBoxSkeleton />
           ) : (
             <CustomSelect
+              placeholder={t("filters.select.placeholder")}
               options={subDepartmentOptions}
               value={selectedSubDepartmentValue}
-              onChange={(option) =>
-                setParam("searchBySubDeptartmentId", String(option?.value))
-              }
+              onChange={(option) => {
+                const name = String(option?.value ?? "");
+                setParams({
+                  searchKey: "SearchBySubDeptartmentId",
+                  searchQuery: name,
+                });
+              }}
               isSearchable
+              isClearable
               className="w-60"
             />
           )}

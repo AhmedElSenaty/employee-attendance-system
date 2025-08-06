@@ -70,7 +70,8 @@ const Filters = ({
 
   return (
     <div className="flex flex-wrap items-end gap-4">
-      <Field className="flex flex-col space-y-2 w-fit">
+      {/* page count */}
+      <Field className="w-[90px] flex flex-col space-y-2">
         <Label>{t("filters.pageSize")}</Label>
         <CustomSelect
           options={pageSizeOptions}
@@ -82,7 +83,8 @@ const Filters = ({
         />
       </Field>
 
-      <Field className="flex flex-col space-y-2">
+      {/* start date */}
+      <Field className="w-[180px] flex flex-col space-y-2">
         <Label>{t("filters.startDate")}</Label>
         <Input
           type="date"
@@ -92,7 +94,8 @@ const Filters = ({
         />
       </Field>
 
-      <Field className="flex flex-col space-y-2">
+      {/* end date */}
+      <Field className="w-[180px] flex flex-col space-y-2">
         <Label>{t("filters.endDate")}</Label>
         <Input
           type="date"

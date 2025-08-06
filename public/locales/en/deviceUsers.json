@@ -1,0 +1,108 @@
+{
+  "table": {
+    "emptyTable": {
+      "title": "No employees found",
+      "message": "Try adjusting the filters."
+    },
+    "columns": {
+      "id": "ID",
+      "employeeId": "Employee Number",
+      "employeeName": "Employee Name",
+      "role": "Role",
+      "uid": "User ID",
+      "deviceId": "Device ID",
+      "deviceIP": "Device IP Address",
+      "deviceName": "Device Name",
+      "actions": "Actions"
+    },
+    "buttons": {}
+  },
+  "inputs": {
+    "employeeId": {
+      "label": "Employee",
+      "inputValidation": {
+        "required": "Selecting an employee is required",
+        "typeError": "You must select a valid employee"
+      }
+    },
+    "leaveType": {
+      "label": "Leave Type",
+      "validation": {
+        "required": "Leave type is required"
+      },
+      "options": {
+        "Ordinary": "Ordinary Leave",
+        "Casual": "Casual Leave",
+        "MorningLeave": "Morning Permission",
+        "EveningLeave": "Evening Permission",
+        "FullDayMission": "Full Day Mission",
+        "HalfDayMission": "Half Day Mission"
+      }
+    },
+    "startDate": {
+      "label": "Start Date",
+      "validation": {
+        "required": "Start date is required",
+        "is-date": "Start date must be a valid date"
+      }
+    },
+    "endDate": {
+      "label": "End Date",
+      "validation": {
+        "required": "End date is required",
+        "is-date": "End date must be a valid date"
+      }
+    },
+    "description": {
+      "label": "Description",
+      "placeholder": "Optional comment on the leave request"
+    },
+    "comment": {
+      "label": "Comment",
+      "placeholder": "Provide a reason for rejection...",
+      "inputValidation": {
+        "required": "Comment is required"
+      }
+    }
+  },
+  "filters": {
+    "pageSize": "Items per page",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "defaultRequestStatusOption": "Select request status",
+    "toolTipResetFilters": "Reset all",
+    "searchBy": {
+      "label": "Search by",
+      "default": "Select a search method",
+      "SearchByDeviceIP": "Device IP Address",
+      "SearchByDeviceId": "Device ID",
+      "SearchByUID": "User ID",
+      "SearchByDeviceName": "Device Name",
+      "SearchByEmployeeId": "Employee Number",
+      "SearchByEmployeeName": "Employee Name"
+    },
+    "search": {
+      "label": "Search",
+      "placeholder": "Search here..."
+    },
+    "select": {
+      "label": "Select"
+    }
+  },
+  "status": {
+    "0": "Employee",
+    "14": "Admin"
+  },
+  "header": {
+    "heading": "Device User Management",
+    "subtitle": "You can easily view or edit users and administrators linked to the fingerprint device."
+  },
+  "editPopup": {
+    "title": "Edit Leave Request",
+    "description": "Please update the following information to modify the leave request. The employee will be notified once saved.",
+    "buttons": {
+      "save": "Save Changes",
+      "cancel": "Cancel"
+    }
+  }
+}

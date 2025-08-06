@@ -145,6 +145,7 @@ const AttendanceTableFilters = ({
   return (
     <>
       <div className="w-full flex flex-wrap items-end gap-4">
+        {/* page size */}
         <Field className="flex flex-col space-y-2 w-fit">
           <Label>{t("filters.pageSize")}</Label>
           <CustomSelect
@@ -157,6 +158,26 @@ const AttendanceTableFilters = ({
           />
         </Field>
 
+        {/* status */}
+        <Field className="flex flex-col space-y-2 w-fit">
+          <Label size="md">{t("filters.status")}</Label>
+          <CustomSelect
+            placeholder={t("filters.select.placeholder")}
+            options={statusOptions}
+            value={selectedStatusValue}
+            onChange={(option) => {
+              if (option) {
+                setParam("status", option.value);
+              } else {
+                setParam("status", ""); // ✅ or remove param entirely if needed
+              }
+            }}
+            isClearable
+            isSearchable
+          />
+        </Field>
+
+        {/* search by */}
         <Field className="flex flex-col space-y-2">
           <Label size="md">{t("filters.searchBy.label")}</Label>
           <CustomSelect
@@ -167,28 +188,14 @@ const AttendanceTableFilters = ({
           />
         </Field>
 
-        <Field className="flex-grow min-w-[200px] flex flex-col space-y-2">
+        {/* search input */}
+        <Field className="w-[200px] sm:w-[250px] md:w-[300px] flex flex-col space-y-2">
           <Label size="md">{t("filters.search.label")}</Label>
           <Input
             placeholder={t("filters.search.placeholder")}
             icon={<Search size={18} className="text-gray-500" />}
             value={getParam("searchQuery") ?? ""}
             onChange={(e) => setParam("searchQuery", e.target.value)}
-          />
-        </Field>
-
-        <Tooltip content={t("filters.toolTipResetFilters")}>
-          <Button onClick={clearParams} icon={<RefreshCcw />} />
-        </Tooltip>
-      </div>
-
-      <div className="w-full flex flex-wrap items-end gap-4">
-        <Field className="flex flex-col space-y-2 w-fit">
-          <Label size="md">{t("filters.status")}</Label>
-          <CustomSelect
-            options={statusOptions}
-            value={selectedStatusValue}
-            onChange={(option) => setParam("status", String(option?.value))}
           />
         </Field>
 
@@ -216,10 +223,30 @@ const AttendanceTableFilters = ({
                 });
               }}
               isSearchable
+              isClearable
             />
           )}
         </Field>
 
+        {/* quick Date */}
+        <Field className="w-[140px] flex flex-col space-y-2 mx-5">
+          <Label>{t("filters.quickDate.label")}</Label>
+          <CustomSelect
+            options={dateRangeOptions}
+            onChange={(option) => handleQuickDateSelect(String(option?.value))}
+            placeholder={t("filters.select.placeholder")}
+            // placeholder={t("filters.quickDate.placeholder")}
+            isClearable
+          />
+        </Field>
+
+        <Tooltip content={t("filters.toolTipResetFilters")}>
+          <Button onClick={clearParams} icon={<RefreshCcw />} />
+        </Tooltip>
+      </div>
+
+      <div className="w-full flex flex-wrap items-end gap-4">
+        {/* start date */}
         <Field className="flex flex-col space-y-2 w-fit">
           <Label>{t("filters.startDate")}</Label>
           <Input
@@ -230,6 +257,7 @@ const AttendanceTableFilters = ({
           />
         </Field>
 
+        {/* end date */}
         <Field className="flex flex-col space-y-2 w-fit">
           <Label>{t("filters.endDate")}</Label>
           <Input
@@ -240,6 +268,7 @@ const AttendanceTableFilters = ({
           />
         </Field>
 
+        {/* start time */}
         <Field className="flex flex-col space-y-2 w-fit">
           <Label>{t("filters.startTime")}</Label>
           <Input
@@ -250,6 +279,7 @@ const AttendanceTableFilters = ({
           />
         </Field>
 
+        {/* start time */}
         <Field className="flex flex-col space-y-2 w-fit">
           <Label>{t("filters.endTime")}</Label>
           <Input
@@ -260,6 +290,7 @@ const AttendanceTableFilters = ({
           />
         </Field>
 
+        {/* department */}
         <Field className="flex flex-col space-y-2 w-fit">
           <Label size="md">{t("filters.searchBy.SearchByDeptartmentID")}</Label>
           {isDepartmentsLoading ? (
@@ -272,11 +303,13 @@ const AttendanceTableFilters = ({
                 setParam("searchByDepartmentId", String(option?.value))
               }
               isSearchable
+              isClearable
               className="w-65"
             />
           )}
         </Field>
 
+        {/* sub department */}
         <Field className="flex flex-col space-y-2 w-fit">
           <Label size="md">
             {t("filters.searchBy.SearchBySubDeptartmentId")}
@@ -291,19 +324,10 @@ const AttendanceTableFilters = ({
                 setParam("searchBySubDeptartmentId", String(option?.value))
               }
               isSearchable
+              isClearable
               className="w-65"
             />
           )}
-        </Field>
-
-        <Field className="flex flex-col space-y-2 w-fit">
-          <Label>{t("filters.quickDate.label")}</Label>
-          <CustomSelect
-            options={dateRangeOptions}
-            onChange={(option) => handleQuickDateSelect(String(option?.value))}
-            placeholder={t("filters.quickDate.placeholder")}
-            className="w-52"
-          />
         </Field>
       </div>
     </>

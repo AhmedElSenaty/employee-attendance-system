@@ -1,6 +1,12 @@
 import { formatValue } from "../../../../utils";
 import { useLanguageStore } from "../../../../store/";
-import { NoDataMessage, Table, TableCell, TableRow, TableSkeleton } from "../../../../components/ui";
+import {
+  NoDataMessage,
+  Table,
+  TableCell,
+  TableRow,
+  TableSkeleton,
+} from "../../../../components/ui";
 import { useTranslation } from "react-i18next";
 import { ATTENDANCE_NS } from "../../../../constants";
 import { AttendanceSummaryData } from "../../../../interfaces";
@@ -23,38 +29,61 @@ const OverviewTable = ({ attendance, isLoading }: Props) => {
     "tableSummary.columns.attendanceDays",
     "tableSummary.columns.absenceDays",
     "tableSummary.columns.totalWorkingHours",
-    "tableSummary.columns.totalDelayHours"
-  ]
+    "tableSummary.columns.totalDelayHours",
+  ];
 
-  const columns = ATTENDANCE_SUMMARY_TABLE_COLUMNS.map(key => t(key))
-
+  const columns = ATTENDANCE_SUMMARY_TABLE_COLUMNS.map((key) => t(key));
   return (
     <>
       {isLoading ? (
-        <TableSkeleton numberOfColumns={columns.length} defaultNumberOfRows={5} />
+        <TableSkeleton
+          numberOfColumns={columns.length}
+          defaultNumberOfRows={5}
+        />
       ) : (
         <Table columns={columns}>
           {attendance.length == 0 ? (
-            <NoDataMessage title={t("table.emptyTable.title")} message={t("table.emptyTable.message")} />
+            <NoDataMessage
+              title={t("table.emptyTable.title")}
+              message={t("table.emptyTable.message")}
+            />
           ) : (
             attendance.map((attendance) => (
               <TableRow key={attendance.employeeId} className="border-b">
-                <TableCell label={columns[0]}>{attendance.employeeName}</TableCell>
-                <TableCell label={columns[1]}>{attendance.department}</TableCell>
-                <TableCell label={columns[2]}>{attendance.subDepartment}</TableCell>
-                <TableCell label={columns[3]}>{formatValue(attendance.checkedInOnlyDays, language)}</TableCell>
-                <TableCell label={columns[4]}>{formatValue(attendance.checkedOutOnlyDays, language)}</TableCell>
-                <TableCell label={columns[5]}>{formatValue(attendance.attendanceDays, language)}</TableCell>
-                <TableCell label={columns[6]}>{formatValue(attendance.absenceDays, language)}</TableCell>
-                <TableCell label={columns[7]}>{formatValue(attendance.totalWorkingHours, language)}</TableCell>
-                <TableCell label={columns[8]}>{formatValue(attendance.totalDelayHours, language)}</TableCell>
+                <TableCell label={columns[0]}>
+                  {attendance.employeeName}
+                </TableCell>
+                <TableCell label={columns[1]}>
+                  {attendance.department}
+                </TableCell>
+                <TableCell label={columns[2]}>
+                  {attendance.subDepartment}
+                </TableCell>
+                <TableCell label={columns[3]}>
+                  {formatValue(attendance.checkedInOnlyDays, language)}
+                </TableCell>
+                <TableCell label={columns[4]}>
+                  {formatValue(attendance.checkedOutOnlyDays, language)}
+                </TableCell>
+                <TableCell label={columns[5]}>
+                  {formatValue(attendance.attendanceDays, language)}
+                </TableCell>
+                <TableCell label={columns[6]}>
+                  {formatValue(attendance.absenceDays, language)}
+                </TableCell>
+                <TableCell label={columns[7]}>
+                  {formatValue(attendance.totalWorkingHours, language)}
+                </TableCell>
+                <TableCell label={columns[8]}>
+                  {attendance.totalDelayHours}
+                </TableCell>
               </TableRow>
             ))
           )}
         </Table>
       )}
     </>
-  )
-}
+  );
+};
 
-export default OverviewTable
+export default OverviewTable;

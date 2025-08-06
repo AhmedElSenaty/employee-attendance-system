@@ -1,4 +1,9 @@
-import { Controller, FieldErrors, UseFormRegister, Control } from "react-hook-form";
+import {
+  Controller,
+  FieldErrors,
+  UseFormRegister,
+  Control,
+} from "react-hook-form";
 import {
   CustomSelect,
   Field,
@@ -21,15 +26,23 @@ interface Props {
   register: UseFormRegister<SubDepartmentFormValues>;
   control: Control<SubDepartmentFormValues>;
   errors: FieldErrors<SubDepartmentFormValues>;
-  isLoading?: boolean
-  isUpdateForm?: boolean
+  isLoading?: boolean;
+  isUpdateForm?: boolean;
 }
 
-const Inputs = ({ register, control, errors, isLoading = false, isUpdateForm = false }: Props) => {
+const Inputs = ({
+  register,
+  control,
+  errors,
+  isLoading = false,
+  isUpdateForm = false,
+}: Props) => {
   const { t } = useTranslation([SUB_DEPARTMENT_NS]);
 
-  const { entitiesList, isLoading: entitiesListIsLoading } = useGetEntitiesList();
-  const { departmentsList, isLoading: isDepartmentsLoading } = useGetDepartmentsList();
+  const { entitiesList, isLoading: entitiesListIsLoading } =
+    useGetEntitiesList();
+  const { departmentsList, isLoading: isDepartmentsLoading } =
+    useGetDepartmentsList();
 
   const entityOptions =
     entitiesList?.map((entity: EntitySummary) => ({
@@ -42,7 +55,6 @@ const Inputs = ({ register, control, errors, isLoading = false, isUpdateForm = f
       value: department.id,
       label: department.name,
     })) || [];
-
 
   if (isLoading) {
     return (
@@ -63,21 +75,21 @@ const Inputs = ({ register, control, errors, isLoading = false, isUpdateForm = f
 
   return (
     <>
-        <Field className="space-y-2">
-          <Label size="lg">{t("inputs.id.label")}</Label>
-          <Input
-            type="number"
-            placeholder={t("inputs.id.placeholder")}
-            isError={!!errors.id}
-            {...register("id")}
-            disabled={isUpdateForm}
-          />
-          {errors.id && (
-            <InputErrorMessage>
-              {t(`inputs.id.inputValidation.${errors.id.type}`)}
-            </InputErrorMessage>
-          )}
-        </Field>
+      <Field className="space-y-2">
+        <Label size="lg">{t("inputs.id.label")}</Label>
+        <Input
+          type="number"
+          placeholder={t("inputs.id.placeholder")}
+          isError={!!errors.id}
+          {...register("id")}
+          disabled={isUpdateForm}
+        />
+        {errors.id && (
+          <InputErrorMessage>
+            {t(`inputs.id.inputValidation.${errors.id.type}`)}
+          </InputErrorMessage>
+        )}
+      </Field>
 
       <Field className="space-y-2">
         <Label size="lg">{t("inputs.name.label")}</Label>
@@ -106,7 +118,12 @@ const Inputs = ({ register, control, errors, isLoading = false, isUpdateForm = f
               <CustomSelect
                 className="w-full"
                 options={departmentOptions}
-                value={departmentOptions.find((opt: {value: number, label: string}) => opt.value === field.value) || null}
+                value={
+                  departmentOptions.find(
+                    (opt: { value: number; label: string }) =>
+                      opt.value === field.value
+                  ) || null
+                }
                 onChange={(option) => field.onChange(option?.value)}
                 error={!!errors.departmentID}
                 isSearchable
@@ -116,7 +133,9 @@ const Inputs = ({ register, control, errors, isLoading = false, isUpdateForm = f
         )}
         {errors.departmentID && (
           <InputErrorMessage>
-            {t(`inputs.departmentID.inputValidation.${errors.departmentID.type}`)}
+            {t(
+              `inputs.departmentID.inputValidation.${errors.departmentID.type}`
+            )}
           </InputErrorMessage>
         )}
       </Field>
@@ -133,7 +152,12 @@ const Inputs = ({ register, control, errors, isLoading = false, isUpdateForm = f
               <CustomSelect
                 className="w-full"
                 options={entityOptions}
-                value={entityOptions.find((opt: {value: number, label: string}) => opt.value === field.value) || null}
+                value={
+                  entityOptions.find(
+                    (opt: { value: number; label: string }) =>
+                      opt.value === field.value
+                  ) || null
+                }
                 onChange={(option) => field.onChange(option?.value)}
                 error={!!errors.entityId}
                 isSearchable

@@ -34,7 +34,6 @@ const AttendanceOverviewPage = () => {
   const [isDownloadingPDF, setIsDownloadingPDF] = useState(false);
 
   // Using the enhanced getParam with parser support from the improved hook
-  // Using the enhanced getParam with parser support from the improved hook
   const rawPage = getParam("page", Number);
   const rawPageSize = getParam("pageSize", Number);
   const rawStartDate = getParam("startDate");
@@ -44,8 +43,8 @@ const AttendanceOverviewPage = () => {
   const rawSearchKey = getParam("searchKey");
   const rawSearchQuery = useDebounce(getParam("searchQuery"), 650);
   const rawStatus = getParam("status");
-  const rawDepartmentId = getParam("searchByDepartmentId", Number);
-  const rawSubDeptartmentId = getParam("searchBySubDeptartmentId", Number);
+  const rawDepartmentId = getParam("SearchByDeptartmentID", Number);
+  const rawSubDeptartmentId = getParam("SearchBySubDeptartmentId", Number);
   const rawChecked = getParam("IncludeSubDepartments");
 
   // Use nullish coalescing to default numeric values, undefined for dates if empty
@@ -73,7 +72,9 @@ const AttendanceOverviewPage = () => {
     searchKey,
     searchQuery,
     startDate,
-    endDate
+    endDate,
+    departmentId || 0,
+    subDeptartmentId || 0
   );
 
   // Use the custom hook to fetch data

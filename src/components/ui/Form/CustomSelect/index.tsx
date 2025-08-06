@@ -14,6 +14,7 @@ interface CustomSelectProps {
   isSearchable?: boolean;
   className?: string;
   isDisabled?: boolean;
+  isClearable?: boolean;
   error?: boolean;
 }
 
@@ -78,6 +79,7 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
   isSearchable = false,
   className = "w-40",
   isDisabled = false,
+  isClearable = false,
   error = false,
 }) => {
   // Override border color if error is true
@@ -90,17 +92,19 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
       return {
         ...baseStyles,
         borderColor: error ? "#f87171" /* red-400 */ : baseStyles.borderColor,
-        boxShadow: error ? "0 0 0 2px #ef4444" /* red-500 */ : baseStyles.boxShadow,
+        boxShadow: error
+          ? "0 0 0 2px #ef4444" /* red-500 */
+          : baseStyles.boxShadow,
       };
     },
     menu: (provided) => ({
       ...provided,
       borderRadius: "0.5rem",
       boxShadow: "0 4px 6px rgb(0 0 0 / 0.1)",
-      zIndex: 9999,   // <-- Add this line for z-index
+      zIndex: 9999, // <-- Add this line for z-index
     }),
   };
-  
+
   return (
     <Select
       className={className}
@@ -110,6 +114,7 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
       onChange={onChange}
       placeholder={placeholder}
       isSearchable={isSearchable}
+      isClearable={isClearable}
       styles={mergedStyles}
       isDisabled={isDisabled}
     />
