@@ -107,6 +107,7 @@ const Filters = ({
       <Field className="flex flex-col space-y-2">
         <Label size="md">{t("filters.searchBy.label")}</Label>
         <CustomSelect
+          placeholder={t("filters.select.placeholder")}
           options={searchByOptions}
           value={selectedSearchByValue}
           onChange={(option) => setParam("searchKey", String(option?.value))}
@@ -115,7 +116,7 @@ const Filters = ({
       </Field>
 
       {/* Search Input */}
-      <Field className="flex-grow min-w-[200px] flex flex-col space-y-2">
+      <Field className="w-[200px] sm:w-[250px] md:w-[300px] flex flex-col space-y-2">
         <Label size="md">{t("filters.search.label")}</Label>
         <Input
           placeholder={t("filters.search.placeholder")}
@@ -132,6 +133,7 @@ const Filters = ({
           <SelectBoxSkeleton />
         ) : (
           <CustomSelect
+            placeholder={t("filters.select.placeholder")}
             className="w-full"
             options={employeeOptions}
             value={
@@ -149,6 +151,7 @@ const Filters = ({
               });
             }}
             isSearchable
+            isClearable
           />
         )}
       </Field>

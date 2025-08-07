@@ -1,3 +1,4 @@
+import { number } from "yup";
 import axiosInstance from "../config/axios.config";
 import {
   AssignGenericRequest,
@@ -38,7 +39,7 @@ export class RequestService extends BaseService {
         StartDate: startDate,
         EndDate: endDate,
         Status: status,
-        Type: leaveType,
+        LeaveType: leaveType,
         ...(searchType && searchQuery ? { [searchType]: searchQuery } : {}),
       });
 
@@ -156,7 +157,6 @@ export class RequestService extends BaseService {
     pageSize?: number,
     startDate?: string,
     endDate?: string,
-    status?: number,
     searchType?: string,
     searchQuery?: string
   ) => {
@@ -166,7 +166,6 @@ export class RequestService extends BaseService {
         PageSize: pageSize,
         StartDate: startDate,
         EndDate: endDate,
-        Status: status,
         ...(searchType && searchQuery ? { [searchType]: searchQuery } : {}),
       });
 
@@ -175,6 +174,8 @@ export class RequestService extends BaseService {
 
         headers: this.getAuthHeaders(),
       });
+
+      console.log("response =========> ", response);
 
       return response;
     } catch (error) {
@@ -242,9 +243,14 @@ export class RequestService extends BaseService {
   };
 
   getRequestById = async (requestId: number) => {
-    const response = await axiosInstance.get(`/Request/request/${requestId}`, {
-      headers: this.getAuthHeaders(),
-    });
-    return response.data;
+    if (requestId > 0) {
+      const response = await axiosInstance.get(
+        `/Request/request/${requestId}`,
+        {
+          headers: this.getAuthHeaders(),
+        }
+      );
+      return response.data;
+    }
   };
 }

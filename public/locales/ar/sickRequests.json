@@ -72,7 +72,7 @@
     "6": "عدلت بعد الاضافه"
   },
   "filters": {
-    "pageSize": "عدد العناصر في الصفحة",
+    "pageSize": "عدد العناصر",
     "startDate": "تاريخ البداية",
     "endDate": "تاريخ النهاية",
     "requestStatus": "حالة الطلب",
@@ -87,7 +87,10 @@
     },
     "search": {
       "label": "بحث",
-      "placeholder": "أدخل القيمة التي تريد البحث عنها..."
+      "placeholder": "ابحث هنا..."
+    },
+    "select": {
+      "placeholder": "اختر"
     }
   },
   "table": {

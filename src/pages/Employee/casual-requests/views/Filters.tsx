@@ -1,6 +1,7 @@
 import { Calendar, RefreshCcw } from "lucide-react";
 import {
   Button,
+  CustomSelect,
   Field,
   Input,
   Label,
@@ -12,6 +13,7 @@ import { useTranslation } from "react-i18next";
 import { formatValue } from "../../../../utils";
 import { useLanguageStore } from "../../../../store/";
 import { CASUAL_REQUESTS_NS } from "../../../../constants";
+import { useSearchParams } from "react-router";
 
 interface FiltersProps {
   getParam: (key: string) => string | number | null;
@@ -22,6 +24,15 @@ interface FiltersProps {
 const Filters = ({ getParam, setParam, clearParams }: FiltersProps) => {
   const { t } = useTranslation(CASUAL_REQUESTS_NS);
   const { language } = useLanguageStore(); // Accessing the current language from the Redux state
+
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const setParams = (params: Record<string, string>) => {
+    for (const key in params) {
+      searchParams.set(key, params[key]);
+    }
+    setSearchParams(searchParams);
+  };
 
   return (
     <div className="flex flex-wrap items-end gap-4">
@@ -64,23 +75,41 @@ const Filters = ({ getParam, setParam, clearParams }: FiltersProps) => {
         />
       </Field>
 
-      <Field className="flex flex-col space-y-2">
-        <Label>{t("filters.casualStatus")}</Label>
-        <SelectBox
-          onChange={(e) => setParam("status", e.target.value)}
-          defaultValue=""
-        >
-          <option value="" selected={getParam("status") == null} disabled>
-            {t("filters.defaultCasualStatusOption")}
-          </option>
-          {Object.values(RequestStatusType)
+      {/* status */}
+      <Field className=" flex flex-col space-y-2">
+        <Label>{t("table.columns.status")}</Label>
+        <CustomSelect
+          placeholder={t("filters.select.placeholder")}
+          options={Object.values(RequestStatusType)
             .filter((v) => typeof v === "number")
-            .map((statusValue) => (
-              <option key={statusValue} value={statusValue}>
-                {t(`status.${statusValue as number}`)}
-              </option>
-            ))}
-        </SelectBox>
+            .map((statusValue) => ({
+              value: String(statusValue),
+              label: t(`status.${statusValue}`),
+            }))}
+          value={
+            getParam("status")
+              ? {
+                  value: getParam("status"),
+                  label: t(`status.${getParam("status")}`),
+                }
+              : null
+          }
+          onChange={(option) => {
+            const selectedValue = option?.value;
+
+            const newParams = new URLSearchParams(searchParams);
+            if (selectedValue) {
+              newParams.set("status", selectedValue);
+            } else {
+              newParams.delete("status"); // ✅ Removes from URL
+            }
+
+            setSearchParams(newParams);
+          }}
+          isClearable
+          isSearchable
+          className="w-50"
+        />
       </Field>
 
       <Tooltip content={t("filters.toolTipResetFilters")}>

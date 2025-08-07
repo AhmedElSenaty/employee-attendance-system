@@ -49,7 +49,7 @@ export const useGetAllRequests = (
 ) => {
   const token = useUserStore((state) => state.token);
   const requestService = useRequestService();
-
+  console.log("leave type fom hock ====> ", leaveType);
   const { data, isLoading } = useQuery({
     queryKey: [
       QueryKeys.Requests.All,
@@ -216,13 +216,12 @@ export const useGetAllGenaricRequests = (
   pageSize = 10,
   startDate?: string,
   endDate?: string,
-  status?: number,
   searchType?: string,
   searchQuery?: string
 ) => {
   const token = useUserStore((state) => state.token);
   const requestService = useRequestService();
-
+  console.log("call get all from hock");
   const { data, isLoading } = useQuery({
     queryKey: [
       QueryKeys.Requests.All,
@@ -230,7 +229,6 @@ export const useGetAllGenaricRequests = (
       pageSize,
       startDate,
       endDate,
-      status,
       `${searchType && searchQuery ? [searchType, searchQuery] : ""}`,
     ],
     queryFn: () =>
@@ -239,7 +237,6 @@ export const useGetAllGenaricRequests = (
         pageSize,
         startDate,
         endDate,
-        status,
         searchType,
         searchQuery
       ),

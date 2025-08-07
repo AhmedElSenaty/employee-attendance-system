@@ -102,20 +102,41 @@ const TableFilters = ({
         />
       </Field>
 
-      <Field className="flex flex-col space-y-2">
-        <Label>{t("filters.missionStatus")}</Label>
-        <SelectBox onChange={(e) => setParam("status", e.target.value)}>
-          <option value="" selected={getParam("status") == null} disabled>
-            {t("filters.defaultMissionStatusOption")}
-          </option>
-          {Object.values(RequestStatusType)
+      <Field className=" flex flex-col space-y-2">
+        <Label size="md">{t("form.status.label")}</Label>
+
+        <CustomSelect
+          placeholder={t("filters.select.placeholder")}
+          options={Object.values(RequestStatusType)
             .filter((v) => typeof v === "number")
-            .map((statusValue) => (
-              <option key={statusValue} value={statusValue}>
-                {t(`status.${statusValue as number}`)}
-              </option>
-            ))}
-        </SelectBox>
+            .map((statusValue) => ({
+              value: String(statusValue),
+              label: t(`status.${statusValue}`),
+            }))}
+          value={
+            getParam("status")
+              ? {
+                  value: getParam("status"),
+                  label: t(`status.${getParam("status")}`),
+                }
+              : null
+          }
+          onChange={(option) => {
+            const selectedValue = option?.value;
+
+            const newParams = new URLSearchParams(searchParams);
+            if (selectedValue) {
+              newParams.set("status", selectedValue);
+            } else {
+              newParams.delete("status"); // ✅ Removes from URL
+            }
+
+            setSearchParams(newParams);
+          }}
+          isClearable
+          isSearchable
+          className="w-50"
+        />
       </Field>
 
       {/* Search Type */}
@@ -164,6 +185,7 @@ const TableFilters = ({
               });
             }}
             isSearchable
+            isClearable
           />
         )}
       </Field>

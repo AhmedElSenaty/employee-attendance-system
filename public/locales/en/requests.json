@@ -151,5 +151,10 @@
   "assignActionCard": {
     "title": "Assign General Leave",
     "description": "Add a general leave for the employee"
+  },
+  "filters": {
+    "select": {
+      "placeholder": "Select"
+    }
   }
 }

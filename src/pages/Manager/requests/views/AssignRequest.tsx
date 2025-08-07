@@ -86,6 +86,7 @@ const AssignPopup = ({ isOpen, handleClose }: IAssignPopupProps) => {
               control={control}
               render={({ field }) => (
                 <CustomSelect
+                  placeholder={t("filters.select.placeholder")}
                   className="w-full"
                   options={employeeOptions}
                   value={
@@ -95,15 +96,14 @@ const AssignPopup = ({ isOpen, handleClose }: IAssignPopupProps) => {
                   onChange={(option) => field.onChange(option?.value)}
                   error={!!errors.employeeId}
                   isSearchable
+                  isClearable
                 />
               )}
             />
           )}
           {errors.employeeId && (
             <InputErrorMessage>
-              {t(
-                `inputs.employeeId.inputValidation.${errors.employeeId?.type}`
-              )}
+              {t(`inputs.employeeId.inputValidation.required`)}
             </InputErrorMessage>
           )}
         </Field>
@@ -116,6 +116,7 @@ const AssignPopup = ({ isOpen, handleClose }: IAssignPopupProps) => {
             control={control}
             render={({ field }) => (
               <CustomSelect
+                placeholder={t("filters.select.placeholder")}
                 className="w-full"
                 options={leaveTypeOptions}
                 value={
@@ -130,7 +131,7 @@ const AssignPopup = ({ isOpen, handleClose }: IAssignPopupProps) => {
           />
           {errors.leaveType && (
             <InputErrorMessage>
-              {t(`inputs.leaveType.validation.${errors.leaveType?.type}`)}
+              {t(`inputs.leaveType.validation.required`)}
             </InputErrorMessage>
           )}
         </Field>

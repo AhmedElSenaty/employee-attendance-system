@@ -191,11 +191,9 @@ const AllVacationSaverPage = () => {
 
                       <TableCell label={columns[2]}>{request.day}</TableCell>
 
-                      <TableCell label={columns[2]}>
-                        {new Date(request.date).toLocaleDateString(language)}
-                      </TableCell>
+                      <TableCell label={columns[3]}>{request.date}</TableCell>
 
-                      <TableCell label={columns[1]}>
+                      <TableCell label={columns[4]}>
                         {request.dayStatus}
                       </TableCell>
                     </TableRow>

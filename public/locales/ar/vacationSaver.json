@@ -27,7 +27,10 @@
     },
     "search": {
       "label": "بحث",
-      "placeholder": "أدخل القيمة التي تريد البحث عنها..."
+      "placeholder": "ابحث هنا..."
+    },
+    "select": {
+      "placeholder": "اختر"
     }
   },
 

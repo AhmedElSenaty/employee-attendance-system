@@ -26,8 +26,8 @@
     "button": "Read Conditions"
   },
   "employeeSectionHeader": {
-    "title":"Employee Mission Requests", 
-    "description":"View submitted mission requests with status, timing, and notes. Edit or manage them as needed."
+    "title": "Employee Mission Requests",
+    "description": "View submitted mission requests with status, timing, and notes. Edit or manage them as needed."
   },
   "filters": {
     "pageSize": "Page Size",
@@ -45,8 +45,9 @@
     },
     "search": {
       "label": "Search",
-      "placeholder": "Enter the value you want to search for...."
-    }
+      "placeholder": "Search here...."
+    },
+    "select": { "placeholder": "اختر" }
   },
   "missionRequestCard": {
     "missionAt": "Mission at",
@@ -75,7 +76,7 @@
   },
   "showPopup": {
     "title": "Mission Request Details",
-    "description":"Detailed information about the mission request",
+    "description": "Detailed information about the mission request",
     "fields": {
       "employeeId": "#Employee ID",
       "employeeName": "Employee Name",
@@ -93,8 +94,8 @@
     }
   },
   "addPopup": {
-    "title":"Add Mission Request",
-    "description":"Fill in the details to submit a new mission request.",
+    "title": "Add Mission Request",
+    "description": "Fill in the details to submit a new mission request.",
     "buttons": {
       "add": "Add",
       "close": "Close",
@@ -102,8 +103,8 @@
     }
   },
   "editPopup": {
-    "title":"Edit Mission Request",
-    "description":"Update the details of your Mission request below.",
+    "title": "Edit Mission Request",
+    "description": "Update the details of your Mission request below.",
     "buttons": {
       "edit": "Edit",
       "close": "Close",
@@ -188,10 +189,10 @@
     }
   },
   "status": {
-    "0":"Pending",
-    "1":"Accepted",
-    "2":"Rejected",
-    "3":"Ignored"
+    "0": "Pending",
+    "1": "Accepted",
+    "2": "Rejected",
+    "3": "Ignored"
   },
   "dayType": {
     "0": "Half Day",
@@ -218,7 +219,7 @@
     }
   },
   "acceptPopup": {
-    "title":"Accept Mission Request",
+    "title": "Accept Mission Request",
     "description": "Are you sure you want to accept this Mission request? This action will notify the employee and update the request status.",
     "buttons": {
       "accept": "Accept",

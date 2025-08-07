@@ -69,7 +69,6 @@ const RequestsSummary = () => {
     searchQuery
   );
   const REQUESTS_Summary_TABLE_COLUMNS = [
-    // "table.columns.employeeId",
     "table.columns.employeeName",
     "table.columns.subDepartmentName",
     "table.columns.totalLeaves",
@@ -80,8 +79,6 @@ const RequestsSummary = () => {
     "table.columns.availableLeaveRequests",
     "table.columns.availableOrdinaryLeaves",
     "table.columns.availableCasualLeaves",
-    // "table.columns.morningLeave",
-    // "table.columns.fullDayMission",
   ];
 
   const columns = REQUESTS_Summary_TABLE_COLUMNS.map((key) => t(key));

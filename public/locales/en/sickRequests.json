@@ -63,10 +63,10 @@
     }
   },
   "status": {
-    "0":"Pending",
-    "1":"Accepted",
-    "2":"Rejected",
-    "3":"Ignored"
+    "0": "Pending",
+    "1": "Accepted",
+    "2": "Rejected",
+    "3": "Ignored"
   },
   "filters": {
     "pageSize": "Page Size",
@@ -84,7 +84,10 @@
     },
     "search": {
       "label": "Search",
-      "placeholder": "Enter the value you want to search for...."
+      "placeholder": "Search here...."
+    },
+    "select": {
+      "placeholder": "Select"
     }
   },
   "table": {
@@ -110,7 +113,7 @@
     }
   },
   "acceptPopup": {
-    "title":"Accept Sick Request",
+    "title": "Accept Sick Request",
     "description": "Are you sure you want to accept this sick request? This action will notify the employee and update the request status.",
     "buttons": {
       "accept": "Accept",
@@ -129,7 +132,7 @@
   },
   "showPopup": {
     "title": "Sick Request Details",
-    "description":"Detailed information about the sick request",
+    "description": "Detailed information about the sick request",
     "fields": {
       "numberOfDays": "Number Of Days",
       "employeeId": "#Employee ID",
@@ -180,8 +183,8 @@
     "subtitle": "Submit a new sick request or review the conditions for applications."
   },
   "employeeSectionHeader": {
-    "title":"Employee Sick Requests", 
-    "description":"View submitted sick requests with status, timing, and notes. Edit or manage them as needed."
+    "title": "Employee Sick Requests",
+    "description": "View submitted sick requests with status, timing, and notes. Edit or manage them as needed."
   },
   "sickRequestCard": {
     "numberOfDays": "Number of sick leave days {{number}}.",

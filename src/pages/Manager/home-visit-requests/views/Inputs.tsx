@@ -72,6 +72,7 @@ const Inputs = ({
                   onChange={(option) => field.onChange(option?.value)}
                   error={!!errors.employeeId}
                   isSearchable
+                  isClearable
                 />
               )}
             />

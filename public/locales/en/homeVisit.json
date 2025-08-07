@@ -1,0 +1,190 @@
+{
+  "employeeHeader": {
+    "heading": "Home Visit Requests",
+    "subtitle": "Here you can submit a home visit request or track previous requests"
+  },
+  "addActionCard": {
+    "title": "Request Home Visit Permission",
+    "description": "You can submit a home visit request to be reviewed by the manager.",
+    "button": "Submit New Request"
+  },
+  "assignActionCard": {
+    "title": "Assign Home Visit Request",
+    "description": "You can assign a home visit request to an employee to execute it.",
+    "button": "Assign New Request"
+  },
+  "employeeSectionHeader": {
+    "title": "List of Home Visit Requests",
+    "description": "Below are all the home visit requests you have submitted."
+  },
+  "filters": {
+    "pageSize": "Items per page",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "defaultRequestStatusOption": "Select Request Status",
+    "toolTipResetFilters": "Reset All",
+    "searchBy": {
+      "label": "Search By",
+      "default": "Select Search Method",
+      "SearchByFullName": "Full Name",
+      "SearchBySSN": "National ID",
+      "SearchByEmployeeId": "Employee ID"
+    },
+    "search": {
+      "label": "Search",
+      "placeholder": "Search here..."
+    },
+    "select": {
+      "placeholder": "Select"
+    }
+  },
+  "homeVisitCard": {
+    "date": "The home visit starts at {{start}} and ends at {{end}}.",
+    "requestedAt": "Requested At",
+    "toolTipViewButton": "View Request Details",
+    "toolTipEditButton": "Edit Request",
+    "toolTipChangeButton": "Convert to Sick Leave Request"
+  },
+  "showPopup": {
+    "title": "Home Visit Request Details",
+    "description": "Review the details of this request.",
+    "fields": {
+      "id": "Request ID",
+      "employeeId": "#Employee ID",
+      "employeeName": "Employee Name",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "requestedAt": "Requested At",
+      "status": "Status",
+      "description": "Description",
+      "comment": "Note"
+    },
+    "buttons": {
+      "edit": "Edit",
+      "close": "Close"
+    }
+  },
+  "addPopup": {
+    "title": "Add Home Visit Request",
+    "description": "Fill in the following information to submit a permission request.",
+    "buttons": {
+      "add": "Add",
+      "close": "Close"
+    }
+  },
+  "assignPopup": {
+    "title": "Assign Home Visit Request",
+    "description": "Fill in the following information to assign the home visit request to an employee.",
+    "buttons": {
+      "assign": "Assign",
+      "close": "Close"
+    }
+  },
+  "editPopup": {
+    "title": "Edit Home Visit Request",
+    "description": "You can edit the current request information below.",
+    "buttons": {
+      "edit": "Edit",
+      "close": "Close"
+    }
+  },
+  "changeToSickPopup": {
+    "title": "Convert Home Visit Request to Sick Leave Request",
+    "description": "Please fill in the required data to convert the request to a sick leave request.",
+    "buttons": {
+      "change": "Convert",
+      "close": "Close"
+    }
+  },
+  "inputs": {
+    "employeeId": {
+      "label": "Employee",
+      "placeholder": "Select Employee",
+      "defaultValue": "Select Employee",
+      "inputValidation": {
+        "required": "Employee selection is required",
+        "typeError": "Employee selection is required"
+      }
+    },
+    "medicalReport": {
+      "label": "Medical Report",
+      "description": "Accepted formats: PDF, JPG, PNG, WEBP. Please upload a clear and valid medical report.",
+      "inputValidation": {
+        "required": "Medical report upload is required",
+        "fileType": "Only PDF or image files are allowed"
+      }
+    },
+    "permitApproval": {
+      "label": "Permit Approval",
+      "placeholder": "Enter permit approval details.",
+      "inputValidation": {
+        "max": "Details cannot exceed 500 characters",
+        "required": "Permit approval is required"
+      }
+    },
+    "startDate": {
+      "label": "Start Date",
+      "validation": {
+        "matches": "Date must be in the format YYYY-MM-DD",
+        "required": "Start date is required"
+      }
+    },
+    "numberOfDays": {
+      "label": "Number of Days",
+      "placeholder": "Enter number of days",
+      "inputValidation": {
+        "required": "Number of days is required",
+        "typeError": "Number of days is required",
+        "min": "Number of days must be at least 1"
+      }
+    },
+    "description": {
+      "label": "Leave Request Reason",
+      "placeholder": "Enter the reason for the leave request.",
+      "validation": {
+        "max": "Leave request reason cannot exceed 500 characters",
+        "required": "Leave request reason is required"
+      }
+    },
+    "comment": {
+      "label": "Comment",
+      "placeholder": "Mention a comment for the rejection reason.."
+    }
+  },
+  "status": {
+    "0": "Pending",
+    "1": "Accepted",
+    "2": "Rejected",
+    "3": "Ignored",
+    "4": "Manually Assigned",
+    "5": "Deleted",
+    "6": "Edited After Submission"
+  },
+  "table": {
+    "emptyTable": {
+      "title": "No Requests",
+      "message": "You have not submitted any requests yet."
+    },
+    "columns": {
+      "id": "#",
+      "employeeName": "Employee Name",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "numberOfDays": "Number of Days",
+      "requestedAt": "Request Date",
+      "status": "Status",
+      "actions": "Actions"
+    },
+    "buttons": {
+      "toolTipShow": "View Request Details",
+      "toolTipEdit": "Edit Request",
+      "toolTipChange": "Convert to Sick Leave Request",
+      "toolTipDelete": "Delete Request"
+    }
+  },
+  "infoPopup": {
+    "title": "Information",
+    "description": "This window displays the details of the selected request.",
+    "closeButton": "Close"
+  }
+}

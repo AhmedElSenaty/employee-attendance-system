@@ -104,6 +104,7 @@ const Filters = ({
       <Field className="flex flex-col space-y-2">
         <Label size="md">{t("filters.searchBy.label")}</Label>
         <CustomSelect
+          placeholder={t("filters.select.placeholder")}
           options={searchByOptions}
           value={selectedSearchByValue}
           onChange={(option) => setParam("searchKey", String(option?.value))}
@@ -128,6 +129,7 @@ const Filters = ({
           <SelectBoxSkeleton />
         ) : (
           <CustomSelect
+            placeholder={t("filters.select.placeholder")}
             className="w-full"
             options={employeeOptions}
             value={
@@ -145,9 +147,11 @@ const Filters = ({
               });
             }}
             isSearchable
+            isClearable
           />
         )}
       </Field>
+
       <Tooltip content={t("filters.toolTipResetFilters")}>
         <Button onClick={clearParams} icon={<RefreshCcw />} />
       </Tooltip>

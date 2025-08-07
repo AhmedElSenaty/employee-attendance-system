@@ -153,5 +153,10 @@
   "assignActionCard": {
     "title": "تعيين اجازة عامة",
     "description": "اضافة اجازة عامة للموظف"
+  },
+  "filters": {
+    "select": {
+      "placeholder": "اختر"
+    }
   }
 }

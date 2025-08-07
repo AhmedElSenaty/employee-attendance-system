@@ -33,16 +33,12 @@ import {
 } from "../../components/ui/Sidebar";
 import { useUserStore } from "../../store/user.store";
 import { useLocation } from "react-router";
-import { useState } from "react";
-import AssignPopup from "../Manager/requests/views/AssignRequest";
 import { HasPermission } from "../../components/auth";
 
 export const ManagerSidebar = () => {
   const { t } = useTranslation(["sidebarItems"]); // Initialize the translation hook
   const permissions = useUserStore((state) => state.permissions);
   const location = useLocation();
-
-  const [isPopupOpen, setPopupOen] = useState(false);
 
   return (
     <>
@@ -206,6 +202,7 @@ export const ManagerSidebar = () => {
             to="/manager/all-requests"
           />
         )}
+
         {permissions.includes("see vacations summary") && (
           <SidebarItem
             icon={<BarChart2 size={23} />}
@@ -214,19 +211,15 @@ export const ManagerSidebar = () => {
           />
         )}
 
-        <HasPermission permission={"Add Old Requests"}>
+        {/* <HasPermission permission={"Add Old Requests"}>
           <SidebarItem
             icon={<GitPullRequestArrow size={23} />}
             name={t("addRequest")}
             to={location.pathname}
             onClick={() => setPopupOen(true)}
           />
-        </HasPermission>
+        </HasPermission> */}
       </Sidebar>
-      <AssignPopup
-        isOpen={isPopupOpen}
-        handleClose={() => setPopupOen(false)}
-      />
     </>
   );
 };

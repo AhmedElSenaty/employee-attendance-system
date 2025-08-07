@@ -26,9 +26,11 @@ import {
   useExportReportPDF,
 } from "../../../hooks";
 import { useState } from "react";
-import { FileDown } from "lucide-react";
+import { CirclePlus, FileDown } from "lucide-react";
 import { HasPermission } from "../../../components/auth";
 import ExportRequestsPopup from "../RequestsSummary/Views/ExportRequestsPopup";
+import AllRequestsFilters from "./views/AllRequestsFilter";
+import AssignPopup from "./views/AssignRequest";
 
 const AllRequestsPage = () => {
   const [isDownloadReportPopupOpen, setIsDownloadReportPopupOpen] =
@@ -111,7 +113,7 @@ const AllRequestsPage = () => {
     "table.columns.subDepartment",
   ];
   const columns = REQUESTS_TABLE_COLUMNS.map((key) => t(key));
-
+  const [isPopupOpen, setPopupOen] = useState(false);
   const handleDownload = async () => {
     const { data, isSuccess, isError } = await refetchExportData();
     if (isSuccess) {
@@ -132,40 +134,63 @@ const AllRequestsPage = () => {
       showToast("error", t("export.exportError"));
     }
   };
+
   return (
     <>
       <div className="sm:p-5 p-3 space-y-5">
         <Header heading={t("header.heading")} subtitle={t("header.subtitle")} />
-        <div className="w-[500px] max-xl:w-full grid grid-cols-1 gap-10 mx-auto">
-          <HasPermission
-            permission={[
-              "Export Requests Report Excel",
-              "Export Requests Report PDF",
-            ]}
-          >
-            <ActionCard
-              icon={<FileDown />}
-              iconBgColor="bg-[#a7f3d0]"
-              iconColor="text-[#10b981]"
-              title={t("exportActionCard.title")}
-              description={t("exportActionCard.description")}
-            >
-              <Button
-                fullWidth
-                variant="success"
-                isLoading={isExportDataLoading}
-                onClick={() => {
-                  setIsDownloadReportPopupOpen(true);
-                }}
+        <div className="w-[1000px] max-xl:w-full grid grid-cols-1 md:grid-cols-2 gap-10 mx-auto">
+          <div className="flex-1">
+            <HasPermission permission="Add Old Requests">
+              <ActionCard
+                icon={<CirclePlus />}
+                iconBgColor="bg-[#f5e4b2]"
+                iconColor="text-[#b38e19]"
+                title={t("assignPopup.title")}
+                description={t("assignPopup.description")}
               >
-                {t("exportActionCard.button")}
-              </Button>
-            </ActionCard>
-          </HasPermission>
+                <Button
+                  fullWidth={true}
+                  variant="secondary"
+                  onClick={() => setPopupOen(true)}
+                >
+                  {t("assignPopup.buttons.accept")}
+                </Button>
+              </ActionCard>
+            </HasPermission>
+          </div>
+          <div className="flex-1">
+            <HasPermission
+              permission={[
+                "Export Requests Report Excel",
+                "Export Requests Report PDF",
+              ]}
+            >
+              <ActionCard
+                icon={<FileDown />}
+                iconBgColor="bg-[#a7f3d0]"
+                iconColor="text-[#10b981]"
+                title={t("exportActionCard.title")}
+                description={t("exportActionCard.description")}
+              >
+                <Button
+                  fullWidth
+                  variant="success"
+                  isLoading={isExportDataLoading}
+                  onClick={() => {
+                    setIsDownloadReportPopupOpen(true);
+                  }}
+                >
+                  {t("exportActionCard.button")}
+                </Button>
+              </ActionCard>
+            </HasPermission>
+          </div>
         </div>
+
         <div className="bg-white shadow-md space-y-5 p-5 rounded-lg">
           <div className="flex flex-wrap gap-4">
-            <Filters
+            <AllRequestsFilters
               searchBy={metadata.searchBy}
               getParam={getParam}
               setParam={setParam}
@@ -309,6 +334,11 @@ const AllRequestsPage = () => {
         isLoading={isExportDataLoading}
         isloadingPDF={isLoadingPDF}
         handleDownloadPDF={handleDownloadPDF}
+      />
+
+      <AssignPopup
+        isOpen={isPopupOpen}
+        handleClose={() => setPopupOen(false)}
       />
     </>
   );

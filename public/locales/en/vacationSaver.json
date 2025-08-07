@@ -1,0 +1,52 @@
+{
+  "table": {
+    "emptyTable": {
+      "title": "No Requests",
+      "message": "Try adjusting the filters or adding a new request."
+    },
+    "columns": {
+      "employeeName": "Employee Name",
+      "subDeptName": "Sub Department",
+      "dayStatus": "Status",
+      "day": "Day",
+      "date": "Date"
+    }
+  },
+  "filters": {
+    "pageSize": "Page size",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "defaultRequestStatusOption": "Select Request Status",
+    "toolTipResetFilters": "Reset All",
+    "searchBy": {
+      "label": "Search By",
+      "default": "Select Search Method",
+      "SearchByEmployeeName": "Full Name",
+      "SearchBySSN": "National ID",
+      "SearchByEmployeeId": "Employee ID"
+    },
+    "search": {
+      "label": "Search",
+      "placeholder": "Search here..."
+    },
+    "select": {
+      "placeholder": "Select"
+    }
+  },
+  "exportActionCard": {
+    "title": "Export Filtered Data",
+    "description": "Export the data displayed in the table and download it in your preferred format.",
+    "button": "Export",
+    "validation": {
+      "selectDateRange": "Start and end dates must be selected first."
+    }
+  },
+  "export": {
+    "exportSuccess": "Data exported successfully! ✅",
+    "exportError": "Failed to export data. Please try again ❌"
+  },
+  "header": {
+    "heading": "Vacation Saver Report",
+    "subtitle": "You can easily view and download Vacation Saver records connected to the system."
+  }
+}

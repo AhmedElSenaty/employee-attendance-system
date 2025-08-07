@@ -35,14 +35,19 @@ const AssignInputs = ({
             name="employeeId"
             control={control}
             render={({ field }) => (
-              <CustomSelect
-                className="w-full"
-                options={employeeOptions}
-                value={employeeOptions.find((opt: {value: number, label: string}) => opt.value === field.value) || null}
-                onChange={(option) => field.onChange(option?.value)}
-                error={!!errors.employeeId}
-                isSearchable
-              />
+           <CustomSelect
+              className="w-full"
+              options={employeeOptions}
+              value={
+                employeeOptions.find(
+                  (opt) => opt.value === field.value
+                ) || null
+              }
+              onChange={(option) => field.onChange(option?.value)}
+              error={!!errors.employeeId}
+              isSearchable
+              isClearable
+            />
             )}
           />
         )}

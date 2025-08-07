@@ -16,7 +16,10 @@ import { Controller, useForm } from "react-hook-form";
 import { useGetEmployeesList } from "../../../../hooks";
 import { EmployeeSummary } from "../../../../interfaces";
 import { Calendar } from "lucide-react";
-import { AssignGenericFormValues, assignGenericRequestSchema } from "../../../../validation/generic.schema";
+import {
+  AssignGenericFormValues,
+  assignGenericRequestSchema,
+} from "../../../../validation/generic.schema";
 
 interface IAssignPopupProps {
   isOpen: boolean;
@@ -84,6 +87,7 @@ const AssignGenericPopup = ({ isOpen, handleClose }: IAssignPopupProps) => {
                   onChange={(option) => field.onChange(option?.value)}
                   error={!!errors.employeeId}
                   isSearchable
+                  isClearable
                 />
               )}
             />

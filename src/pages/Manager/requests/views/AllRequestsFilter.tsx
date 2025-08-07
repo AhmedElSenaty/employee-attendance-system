@@ -1,5 +1,4 @@
-import { useTranslation } from "react-i18next";
-import { useLanguageStore } from "../../../../store/";
+import { Calendar, RefreshCcw, Search } from "lucide-react";
 import {
   Button,
   CustomSelect,
@@ -10,22 +9,24 @@ import {
   SelectBoxSkeleton,
   Tooltip,
 } from "../../../../components/ui";
-import { formatValue } from "../../../../utils";
-import { Calendar, RefreshCcw, Search } from "lucide-react";
 import { RequestStatusType } from "../../../../enums";
+import { useTranslation } from "react-i18next";
+import { formatValue } from "../../../../utils";
+import { useLanguageStore } from "../../../../store/language.store";
 import { LEAVE_REQUESTS_NS } from "../../../../constants";
+import { LeaveType } from "../../../../enums/requestTypes.enum";
 import { useGetEmployeesList } from "../../../../hooks";
 import { EmployeeSummary } from "../../../../interfaces";
 import { useSearchParams } from "react-router";
 
 interface FiltersProps {
-  searchBy: string[];
   getParam: (key: string) => string | number | null;
   setParam: (key: string, value: string) => void;
   clearParams: () => void;
+  searchBy: string[];
 }
 
-const TableFilters = ({
+const AllRequestsFilters = ({
   searchBy,
   getParam,
   setParam,
@@ -33,6 +34,7 @@ const TableFilters = ({
 }: FiltersProps) => {
   const { t } = useTranslation(LEAVE_REQUESTS_NS);
   const { language } = useLanguageStore(); // Accessing the current language from the Redux state
+
   const [searchParams, setSearchParams] = useSearchParams();
 
   const setParams = (params: Record<string, string>) => {
@@ -51,8 +53,18 @@ const TableFilters = ({
       label: employee.name,
     })) || [];
 
+  const searchByOptions = searchBy.map((search) => ({
+    value: search || "",
+    label: t(`filters.searchBy.${String(search)}`) ?? "",
+  }));
+
+  const selectedSearchByValue = searchByOptions.find(
+    (opt) => opt.value === (getParam("searchKey") ? getParam("searchKey") : "")
+  );
+  console.log(searchParams);
+  console.log("LeaveType Param:", getParam("leaveType"));
   return (
-    <div className="w-full flex flex-wrap items-end gap-4">
+    <div className="flex flex-wrap items-end gap-4">
       <Field className="flex flex-col space-y-2 w-fit">
         <Label>{t("filters.pageSize")}</Label>
         <SelectBox
@@ -72,56 +84,15 @@ const TableFilters = ({
         </SelectBox>
       </Field>
 
-      <Field className=" flex flex-col space-y-2">
-        <Label size="md">{t("filters.leaveStatus")}</Label>
-
-        <CustomSelect
-          placeholder={t("filters.select.placeholder")}
-          options={Object.values(RequestStatusType)
-            .filter((v) => typeof v === "number")
-            .map((statusValue) => ({
-              value: String(statusValue),
-              label: t(`status.${statusValue}`),
-            }))}
-          value={
-            getParam("status")
-              ? {
-                  value: getParam("status"),
-                  label: t(`status.${getParam("status")}`),
-                }
-              : null
-          }
-          onChange={(option) => {
-            const selectedValue = option?.value;
-
-            const newParams = new URLSearchParams(searchParams);
-            if (selectedValue) {
-              newParams.set("status", selectedValue);
-            } else {
-              newParams.delete("status"); // ✅ Removes from URL
-            }
-
-            setSearchParams(newParams);
-          }}
-          isClearable
-          isSearchable
-          className="w-50"
-        />
-      </Field>
-
       {/* Search Type */}
-      <Field className="flex flex-col space-y-2 w-fit">
-        <Label size="md">{t("filters.searchBy.label")} </Label>
-        <SelectBox onChange={(e) => setParam("searchKey", e.target.value)}>
-          <option value="" selected={getParam("searchKey") == null} disabled>
-            {t(`filters.searchBy.default`)}
-          </option>
-          {searchBy.map((search, idx) => (
-            <option key={idx} value={String(search)}>
-              {t(`filters.searchBy.${String(search)}`) ?? ""}
-            </option>
-          ))}
-        </SelectBox>
+      <Field className="flex flex-col space-y-2">
+        <Label size="md">{t("filters.searchBy.label")}</Label>
+        <CustomSelect
+          options={searchByOptions}
+          value={selectedSearchByValue}
+          onChange={(option) => setParam("searchKey", String(option?.value))}
+          isSearchable
+        />
       </Field>
 
       {/* Search Input */}
@@ -137,7 +108,8 @@ const TableFilters = ({
 
       {/* Employee name */}
       <Field className="space-y-2 w-[300px]">
-        <Label size="lg">{t("filters.searchBy.SearchByFullName")}</Label>
+        <Label size="lg">{t("table.columns.employeeName")}</Label>
+
         {isEmployeesListLoading ? (
           <SelectBoxSkeleton />
         ) : (
@@ -185,6 +157,78 @@ const TableFilters = ({
         />
       </Field>
 
+      <Field className=" flex flex-col space-y-2">
+        <Label size="md">{t("filters.leaveStatus")}</Label>
+
+        <CustomSelect
+          placeholder={t("filters.select.placeholder")}
+          options={Object.values(RequestStatusType)
+            .filter((v) => typeof v === "number")
+            .map((statusValue) => ({
+              value: String(statusValue),
+              label: t(`status.${statusValue}`),
+            }))}
+          value={
+            getParam("status")
+              ? {
+                  value: getParam("status"),
+                  label: t(`status.${getParam("status")}`),
+                }
+              : null
+          }
+          onChange={(option) => {
+            const selectedValue = option?.value;
+
+            const newParams = new URLSearchParams(searchParams);
+            if (selectedValue) {
+              newParams.set("status", selectedValue);
+            } else {
+              newParams.delete("status"); // ✅ Removes from URL
+            }
+
+            setSearchParams(newParams);
+          }}
+          isClearable
+          isSearchable
+          className="w-50"
+        />
+      </Field>
+
+      <Field className="flex flex-col space-y-2">
+        <Label>{t("filters.leaveType")}</Label>
+
+        <CustomSelect
+          placeholder={t("filters.select.placeholder")}
+          options={Object.values(LeaveType)
+            .filter((v) => typeof v === "number")
+            .map((typeValue) => ({
+              value: String(typeValue),
+              label: t(`leaveType.${typeValue}`),
+            }))}
+          value={
+            getParam("leaveType")
+              ? {
+                  value: getParam("leaveType"),
+                  label: t(`leaveType.${getParam("leaveType")}`),
+                }
+              : null
+          }
+          onChange={(option) => {
+            const selectedValue = option?.value;
+            const newParams = new URLSearchParams(searchParams);
+            if (selectedValue) {
+              newParams.set("leaveType", selectedValue);
+            } else {
+              newParams.delete("leaveType");
+            }
+            setSearchParams(newParams);
+          }}
+          isClearable
+          isSearchable
+          className="w-50"
+        />
+      </Field>
+
       <Tooltip content={t("filters.toolTipResetFilters")}>
         <Button onClick={clearParams} icon={<RefreshCcw />} />
       </Tooltip>
@@ -192,4 +236,4 @@ const TableFilters = ({
   );
 };
 
-export default TableFilters;
+export default AllRequestsFilters;

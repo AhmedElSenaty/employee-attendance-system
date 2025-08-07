@@ -176,38 +176,12 @@ const GenaricRequestsPage = () => {
       showToast("error", t("export.exportError"));
     }
   };
-
+  console.log("from parent === >", metadata);
   return (
     <>
       <div className="sm:p-5 p-3 space-y-5">
         <Header heading={t("header.heading")} subtitle={t("header.subtitle")} />
-        {/* <div className="w-[500px] max-xl:w-full grid grid-cols-1 gap-10 mx-auto">
-            <HasPermission
-              permission={[
-                "Export Attendance Report Excel",
-                "Export Attendance Report PDF",
-              ]}
-            >
-              <ActionCard
-                icon={<FileDown />}
-                iconBgColor="bg-[#a7f3d0]"
-                iconColor="text-[#10b981]"
-                title={t("exportActionCard.title")}
-                description={t("exportActionCard.description")}
-              >
-                <Button
-                  fullWidth
-                  variant="success"
-                  isLoading={isExportDataLoading}
-                  onClick={() => {
-                    setIsDownloadReportPopupOpen(true);
-                  }}
-                >
-                  {t("exportActionCard.button")}
-                </Button>
-              </ActionCard>
-            </HasPermission>
-        </div> */}
+       
         <ActionCard
           icon={<FileDown />}
           iconBgColor="bg-[#f5e4b2]"

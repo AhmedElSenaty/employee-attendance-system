@@ -1,0 +1,96 @@
+{
+  "exportPopup": {
+    "title": "Export Data",
+    "description": "Select the time range and required criteria to export the data"
+  },
+  "table": {
+    "emptyTable": {
+      "title": "No Requests",
+      "message": "Try adjusting the filters or adding a new request."
+    },
+    "columns": {
+      "employeeId": "Employee ID",
+      "employeeName": "Employee Name",
+      "subDepartmentName": "Sub Department",
+      "availableOrdinaryLeaves": "Available Balance - Ordinary",
+      "availableLeaveRequests": "Available Leave Requests",
+      "availableCasualLeaves": "Available Balance - Casual",
+      "sick": "Sick Leave Requests",
+      "ordinary": "Ordinary Leave Requests",
+      "casual": "Casual Leave Requests",
+      "morningLeave": "Morning Permission",
+      "eveningLeave": "Evening Permission",
+      "totalLeaves": "Total Permissions",
+      "totalMissions": "Total Missions",
+      "fullDayMission": "Full-Day Mission",
+      "halfDayMission": "Half-Day Mission"
+    },
+    "buttons": {
+      "toolTipAccept": "Accept Leave Request",
+      "toolTipReject": "Reject Leave Request",
+      "toolTipDelete": "Delete Leave Request"
+    }
+  },
+  "buttons": {
+    "close": "Close",
+    "loading": "Loading...",
+    "DownloadExcel": "Excel",
+    "DownloadPDF": "PDF"
+  },
+  "filters": {
+    "pageSize": "Items per page",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "ordinaryStatus": "Ordinary Leave Status",
+    "defaultOrdinaryStatusOption": "Select Leave Status",
+    "toolTipResetFilters": "Reset All",
+    "searchBy": {
+      "default": "Select Search Method",
+      "label": "Search By",
+      "SearchByFullName": "Full Name",
+      "SearchByEmployeeName": "Full Name",
+      "SearchBySSN": "National ID",
+      "SearchByEmployeeId": "Employee Identifier"
+    },
+    "search": {
+      "label": "Search",
+      "placeholder": "Search here..."
+    },
+    "select": {
+      "placeholder": "Select"
+    }
+  },
+  "inputs": {
+    "startDate": {
+      "label": "Start Date",
+      "validation": {
+        "required": "Start date is required",
+        "is-date": "Start date must be a valid date"
+      }
+    },
+    "endDate": {
+      "label": "End Date",
+      "validation": {
+        "required": "End date is required",
+        "is-date": "End date must be a valid date"
+      }
+    }
+  },
+  "exportActionCard": {
+    "title": "Export Filtered Data",
+    "description": "Export the data displayed in the table and download it in your preferred format.",
+    "button": "Export",
+    "validation": {
+      "selectDateRange": "Start and end dates must be selected first."
+    }
+  },
+  "export": {
+    "exportSuccess": "Data exported successfully! ✅",
+    "exportError": "Failed to export data. Please try again ❌"
+  },
+  "header": {
+    "heading": "Requests and Leaves Summary",
+    "subtitle": "Easily view and analyze all employee requests and available/used leave types."
+  },
+  "CheckBox": "Include Sub Department"
+}

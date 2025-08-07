@@ -26,8 +26,8 @@
     "button": "Read Conditions"
   },
   "employeeSectionHeader": {
-    "title":"Employee Casual Leave Requests", 
-    "description":"View submitted casual leave requests with status, timing, and notes. Edit or manage them as needed."
+    "title": "Employee Casual Leave Requests",
+    "description": "View submitted casual leave requests with status, timing, and notes. Edit or manage them as needed."
   },
   "filters": {
     "pageSize": "Page Size",
@@ -45,7 +45,10 @@
     },
     "search": {
       "label": "Search",
-      "placeholder": "Enter the value you want to search for...."
+      "placeholder": "Search here...."
+    },
+    "select": {
+      "placeholder": "Select"
     }
   },
   "casualLeaveRequestCard": {
@@ -69,7 +72,7 @@
   },
   "showPopup": {
     "title": "Casual Leave Request Details",
-    "description":"Detailed information about the casual leave request",
+    "description": "Detailed information about the casual leave request",
     "fields": {
       "employeeId": "#Employee ID",
       "employeeName": "Employee Name",
@@ -87,8 +90,8 @@
     }
   },
   "addPopup": {
-    "title":"Add Casual Leave Request",
-    "description":"Fill in the details to submit a new casual leave request.",
+    "title": "Add Casual Leave Request",
+    "description": "Fill in the details to submit a new casual leave request.",
     "buttons": {
       "add": "Add",
       "close": "Close",
@@ -96,8 +99,8 @@
     }
   },
   "editPopup": {
-    "title":"Edit Casual Leave Request",
-    "description":"Update the details of your casual leave request below.",
+    "title": "Edit Casual Leave Request",
+    "description": "Update the details of your casual leave request below.",
     "buttons": {
       "edit": "Edit",
       "close": "Close",
@@ -156,10 +159,10 @@
     }
   },
   "status": {
-    "0":"Pending",
-    "1":"Accepted",
-    "2":"Rejected",
-    "3":"Ignored"
+    "0": "Pending",
+    "1": "Accepted",
+    "2": "Rejected",
+    "3": "Ignored"
   },
   "table": {
     "emptyTable": {
@@ -182,7 +185,7 @@
     }
   },
   "acceptPopup": {
-    "title":"Accept Ordinary Request",
+    "title": "Accept Ordinary Request",
     "description": "Are you sure you want to accept this Ordinary request? This action will notify the employee and update the request status.",
     "buttons": {
       "accept": "Accept",
