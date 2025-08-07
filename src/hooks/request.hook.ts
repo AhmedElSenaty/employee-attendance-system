@@ -49,7 +49,6 @@ export const useGetAllRequests = (
 ) => {
   const token = useUserStore((state) => state.token);
   const requestService = useRequestService();
-  console.log("leave type fom hock ====> ", leaveType);
   const { data, isLoading } = useQuery({
     queryKey: [
       QueryKeys.Requests.All,
@@ -221,7 +220,6 @@ export const useGetAllGenaricRequests = (
 ) => {
   const token = useUserStore((state) => state.token);
   const requestService = useRequestService();
-  console.log("call get all from hock");
   const { data, isLoading } = useQuery({
     queryKey: [
       QueryKeys.Requests.All,

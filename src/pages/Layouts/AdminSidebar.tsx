@@ -196,6 +196,12 @@ export const AdminSidebar = () => {
           to="/admin/manage-entities"
         />
       )}
+
+      <SidebarItem
+        icon={<Hotel size={23} />}
+        name={t("entities")}
+        to="/admin/change-vacation-requests"
+      />
       {permissions.includes("View Official Vacations") && (
         <SidebarItem
           icon={<TreePalm size={23} />}

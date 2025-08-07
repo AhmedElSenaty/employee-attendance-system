@@ -96,7 +96,7 @@
       }
     },
     "totalLeaveRequests": {
-      "label": "Total Monthly Permissions",
+      "label": "إجمالي الاذونات شهريا",
       "placeholder": "Enter Total Monthly Permissions",
       "inputValidation": {
         "required": "Total Monthly Permissionsis required"

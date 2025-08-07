@@ -59,7 +59,7 @@
     "loading": "جاري تحميل بيانات الإجازات...",
     "title": "إحصائيات إجازاتي",
     "availableCasualLeaves": "الرصيد المتبقي من الإجازة العارضة",
-    "availableLeaveRequests": "الاذونات المستخدمة",
+    "availableLeaveRequests": "عدد الاذونات المتبقي شهريا",
     "availableOrdinaryLeaves": "الرصيد المتبقي من الإجازة الاعتيادية",
     "totalCasualLeaves": "إجمالي رصيد الإجازات العارضة",
     "totalLeaveRequests": "إجمالي الاذونات شهريا",

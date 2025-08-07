@@ -1,7 +1,23 @@
-import { Control, Controller, FieldErrors, UseFormRegister } from "react-hook-form";
+import {
+  Control,
+  Controller,
+  FieldErrors,
+  UseFormRegister,
+} from "react-hook-form";
 import { useGetEmployeesList } from "../../../../hooks";
-import { EmployeeSummary, IAssignCasualLeaveRequestCredentials } from "../../../../interfaces";
-import { CustomSelect, Field, Input, InputErrorMessage, Label, SelectBoxSkeleton, Textarea } from "../../../../components/ui";
+import {
+  EmployeeSummary,
+  IAssignCasualLeaveRequestCredentials,
+} from "../../../../interfaces";
+import {
+  CustomSelect,
+  Field,
+  Input,
+  InputErrorMessage,
+  Label,
+  SelectBoxSkeleton,
+  Textarea,
+} from "../../../../components/ui";
 import { useTranslation } from "react-i18next";
 import { CASUAL_REQUESTS_NS } from "../../../../constants";
 import { Calendar } from "lucide-react";
@@ -9,23 +25,20 @@ import { Calendar } from "lucide-react";
 interface IInputsProps {
   register: UseFormRegister<IAssignCasualLeaveRequestCredentials>;
   errors: FieldErrors<IAssignCasualLeaveRequestCredentials>;
-    control: Control<IAssignCasualLeaveRequestCredentials>
-  
+  control: Control<IAssignCasualLeaveRequestCredentials>;
 }
-const AssignInputs = ({
-  register,
-  errors,
-  control
-}: IInputsProps) => {
+const AssignInputs = ({ register, errors, control }: IInputsProps) => {
   const { t } = useTranslation([CASUAL_REQUESTS_NS]);
-  const { employeesList, isLoading: isEmployeesListLoading } = useGetEmployeesList();
-    const employeeOptions = employeesList?.map((employee: EmployeeSummary) => ({
+  const { employeesList, isLoading: isEmployeesListLoading } =
+    useGetEmployeesList();
+  const employeeOptions =
+    employeesList?.map((employee: EmployeeSummary) => ({
       value: employee.id,
       label: employee.name,
     })) || [];
   return (
     <>
-            {/* Employee ID */}
+      {/* Employee ID */}
       <Field className="space-y-2">
         <Label size="lg">{t("inputs.employeeId.label")}</Label>
         {isEmployeesListLoading ? (
@@ -35,19 +48,18 @@ const AssignInputs = ({
             name="employeeId"
             control={control}
             render={({ field }) => (
-           <CustomSelect
-              className="w-full"
-              options={employeeOptions}
-              value={
-                employeeOptions.find(
-                  (opt) => opt.value === field.value
-                ) || null
-              }
-              onChange={(option) => field.onChange(option?.value)}
-              error={!!errors.employeeId}
-              isSearchable
-              isClearable
-            />
+              <CustomSelect
+                className="w-full"
+                options={employeeOptions}
+                value={
+                  employeeOptions.find((opt) => opt.value === field.value) ||
+                  null
+                }
+                onChange={(option) => field.onChange(option?.value)}
+                error={!!errors.employeeId}
+                isSearchable
+                isClearable
+              />
             )}
           />
         )}
@@ -99,7 +111,7 @@ const AssignInputs = ({
         />
       </Field>
     </>
-  )
-}
+  );
+};
 
-export default AssignInputs
+export default AssignInputs;

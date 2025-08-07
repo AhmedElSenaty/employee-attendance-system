@@ -1,0 +1,123 @@
+{
+  "header": {
+    "heading": "إدارة طلبات تعديل الإجازات",
+    "subtitle": "استخدم هذه الصفحة لمراجعة وقبول أو رفض طلبات تعديل أرصدة الإجازات للموظفين."
+  },
+  "table": {
+    "emptyTable": {
+      "title": "لا توجد طلبات تعديل إجازات",
+      "message": "حاول تعديل الفلاتر أو التأكد من وجود طلبات."
+    },
+    "columns": {
+      "id": "#المعرّف",
+      "totalCasual": "إجمالي العارضة",
+      "availableCasual": "المتاح العارضة",
+      "totalOrdinary": "إجمالي الاعتيادي",
+      "availableOrdinary": " المتاح الاعتيادي",
+      "totalLeaveRequest": "إجمالي الاذونات ",
+      "availableLeaveRequest": "الاذونات  المتاحة",
+      "managerName": "اسم المدير",
+      "emplyeeName": "اسم الموظف",
+      "description": "الوصف",
+      "comment": "التعليق",
+      "status": "الحاله",
+      "actions": "الإجراءات"
+    }
+  },
+  "sectionsHeader": {
+    "add": {
+      "title": "إضافة طلب تعديل إجازة",
+      "description": "املأ التفاصيل المطلوبة لإضافة طلب تعديل جديد لرصيد الإجازات."
+    },
+    "entitiesList": {
+      "title": "قائمة طلبات تعديل الإجازات",
+      "description": "عرض وإدارة جميع طلبات تعديل أرصدة الإجازات في النظام."
+    }
+  },
+
+  "inputs": {
+    "name": {
+      "label": "اسم الكيان",
+      "placeholder": "أدخل اسم الكيان",
+      "inputValidation": {
+        "required": "اسم الكيان مطلوب",
+        "min": "يجب ألا يقل اسم الكيان عن 3 أحرف",
+        "max": "يجب ألا يتجاوز اسم الكيان 100 حرف"
+      }
+    },
+    "description": {
+      "label": "الوصف",
+      "placeholder": "",
+      "inputValidation": {
+        "max": "يجب ألا يتجاوز الوصف 500 حرف"
+      }
+    }
+  },
+  "status": {
+    "Pending": "قيد الانتظار",
+    "Accepted": "مقبول",
+    "Rejected": "مرفوض"
+  },
+  "editPopup": {
+    "title": "تعديل طلب تعديل إجازة",
+    "description": "قم بتحديث معلومات الطلب حسب الحاجة واحفظ التغييرات."
+  },
+  "showPopup": {
+    "title": "عرض طلب تعديل إجازة",
+    "description": "أنت الآن تشاهد تفاصيل هذا الطلب. يمكنك هنا مراجعة المعلومات المتعلقة برصيد الإجازات والحالة والتعليقات."
+  },
+  "infoPopup": {
+    "title": "كيفية استخدام صفحة إدارة طلبات تعديل الإجازات",
+    "description": "شاهد هذا الفيديو التعليمي لمعرفة كيفية عرض وإضافة وتعديل وإدارة طلبات تعديل الإجازات داخل النظام.",
+    "closeButton": "إغلاق"
+  },
+  "filters": {
+    "pageSize": "عدد العناصر",
+    "toolTipResetFilters": "إعادة تعيين الكل",
+    "searchBy": {
+      "label": "نوع البحث",
+      "default": "طريقة البحث",
+      "SearchById": "المعرّف",
+      "SearchByEmployeeFullName": "اسم الموظف بالكامل",
+      "SearchBySSN": "الرقم القومي",
+      "SearchByDepartmentId": "القسم"
+    },
+    "search": {
+      "label": "بحث",
+      "placeholder": "ابحث هنا..."
+    },
+    "select": {
+      "placeholder": "اختر"
+    }
+  },
+  "buttons": {
+    "close": "إغلاق",
+    "create": "إنشاء",
+    "edit": "تعديل",
+    "update": "تحديث",
+    "delete": "حذف",
+    "loading": "جارٍ التحميل...",
+    "toolTipShow": "عرض",
+    "toolTipEdit": "تعديل",
+    "toolTipAccept": "قبول الطلب",
+    "toolTipReject": "رفض الطلب",
+    "openReport": "عرض التقرير"
+  },
+  "acceptPopup": {
+    "title": "تأكيد القبول",
+    "description": "هل أنت متأكد من قبول هذا الطلب؟ عند قبول الطلب، سيتم تحديث رصيد الموظف.",
+    "buttons": {
+      "close": "إغلاق",
+      "accept": "قبول"
+    }
+  },
+  "rejectPopup": {
+    "title": "تأكيد الرفض",
+    "description": "هل أنت متأكد من رفض هذا الطلب؟ عند الرفض، لن يتم تعديل أرصدة الموظف.",
+    "buttons": {
+      "close": "إغلاق",
+      "reject": "رفض"
+    }
+  },
+  "NA": "غير متوفر"
+}

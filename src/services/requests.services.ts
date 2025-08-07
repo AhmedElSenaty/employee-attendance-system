@@ -175,8 +175,6 @@ export class RequestService extends BaseService {
         headers: this.getAuthHeaders(),
       });
 
-      console.log("response =========> ", response);
-
       return response;
     } catch (error) {
       this.handleError(error, "Error fetching all requests");

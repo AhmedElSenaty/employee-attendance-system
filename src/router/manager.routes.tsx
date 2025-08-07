@@ -30,6 +30,7 @@ import HomeVisitRequestsPage from "../pages/Manager/home-visit-requests";
 import RequestsSummary from "../pages/Manager/RequestsSummary/RequestsSummary";
 import AllVacationSaverPage from "../pages/Manager/VacationSaver/AllVacationSaverPage";
 import AllManagerReports from "../pages/Manager/AllManagerReports/AllManagerReports";
+import ManageChangeVacationRequestsPage from "../pages/Manager/change-vacation-requests/ChangeVacationRequests";
 
 export const managerRoutes = (isLoggedIn: boolean, userRole: string) => (
   <Route
@@ -99,5 +100,10 @@ export const managerRoutes = (isLoggedIn: boolean, userRole: string) => (
     <Route path="allReports" element={<AllManagerReports />} />
 
     <Route path="vacation-saver" element={<AllVacationSaverPage />} />
+
+    <Route
+      path="change-vacation-requests/"
+      element={<ManageChangeVacationRequestsPage />}
+    />
   </Route>
 );

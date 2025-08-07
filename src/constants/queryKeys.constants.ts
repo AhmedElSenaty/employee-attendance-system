@@ -1,9 +1,9 @@
 export const QueryKeys = {
   HomeVisits: {
-    All: "home-visits-all",               // All requests (manager)
-    My: "home-visits-my",                 // My requests (employee)
-    Details: "home-visit-details",        // Specific request (manager)
-    MyDetails: "home-visit-my-details",   // Specific request (employee)
+    All: "home-visits-all", // All requests (manager)
+    My: "home-visits-my", // My requests (employee)
+    Details: "home-visit-details", // Specific request (manager)
+    MyDetails: "home-visit-my-details", // Specific request (employee)
   },
   Devices: {
     All: "devices",
@@ -11,10 +11,10 @@ export const QueryKeys = {
     List: "devicesList",
   },
   SystemData: {
-    All :"systemData",
+    All: "systemData",
   },
   Logs: {
-    All :"logs",
+    All: "logs",
     Details: "logDetails",
   },
   Profiles: {
@@ -56,11 +56,11 @@ export const QueryKeys = {
     Vacations: "attendanceWithVacations",
     EmployeeToday: "EmployeeTodayAttendance",
   },
-  Export:{
-    Excel:"exportEmployeeAttendance",
-    PDF:"exportEmployeeAttendancePDF",
+  Export: {
+    Excel: "exportEmployeeAttendance",
+    PDF: "exportEmployeeAttendancePDF",
   },
-    
+
   Employees: {
     All: "employees",
     Details: "employeeDetails",
@@ -104,10 +104,10 @@ export const QueryKeys = {
     MyDetails: "myOrdinaryRequestDetails",
   },
   SickRequests: {
-    All: ['sickLeaveRequests', 'all'],
-    My: ['sickLeaveRequests', 'my'],
-    Details: 'sickLeaveRequestDetails',        // + requestId
-    MyDetails: 'mySickLeaveRequestDetails',    // + requestId
+    All: ["sickLeaveRequests", "all"],
+    My: ["sickLeaveRequests", "my"],
+    Details: "sickLeaveRequestDetails", // + requestId
+    MyDetails: "mySickLeaveRequestDetails", // + requestId
   },
   CasualLeaveRequests: {
     All: "casualLeaveRequests",
@@ -119,5 +119,10 @@ export const QueryKeys = {
     All: "requests",
     Single: "Single",
   },
+  ChangeVacationRequests: {
+    All: "changeVacationRequests",
+    Details: "changeVacationRequestDetails",
+  },
+
   // Add more domains/modules here
 };

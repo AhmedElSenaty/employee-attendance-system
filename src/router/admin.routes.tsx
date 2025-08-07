@@ -31,6 +31,7 @@ import {
 } from "../pages/Admin";
 import DeviceUsers from "../pages/Admin/device-users/DeviceUsers";
 import AllAdminReports from "../pages/Admin/all-admin-reports/AllAdminReports";
+import ManageChangeVacationRequestsPage from "../pages/Admin/change-vacation-requests/ChangeVacationRequests";
 
 export const adminRoutes = (isLoggedIn: boolean, userRole: string) => (
   <Route
@@ -89,6 +90,11 @@ export const adminRoutes = (isLoggedIn: boolean, userRole: string) => (
 
     {/* Entity Routes */}
     <Route path="manage-entities/" element={<ManageEntitiesPage />} />
+
+    <Route
+      path="change-vacation-requests/"
+      element={<ManageChangeVacationRequestsPage />}
+    />
 
     {/* Permission Routes */}
     <Route path="permissions/" element={<ManagePermissionsPage />} />

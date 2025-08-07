@@ -213,8 +213,6 @@ export class AttendanceService extends BaseService {
     searchBySubDepartmentId?: number,
     startDate?: string
   ) => {
-    console.log("start date=======>", startDate);
-    console.log("vacationssssssssssssss");
     try {
       const params = this.buildParams({
         PageIndex: page ?? 1,
@@ -226,7 +224,6 @@ export class AttendanceService extends BaseService {
         ...(searchType && searchQuery ? { [searchType]: searchQuery } : {}),
         StartDate: startDate,
       });
-      console.log(params);
 
       const response = await axiosInstance.get(
         `/Attendance/AttendanceWithVacations`,

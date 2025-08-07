@@ -60,8 +60,6 @@ const Filters = ({
     (opt) => opt.value === (getParam("searchKey") ? getParam("searchKey") : "")
   );
 
-  console.log(searchByOptions);
-
   return (
     <div className="flex flex-wrap items-end gap-4">
       <Field className="flex flex-col space-y-2 w-fit">

@@ -45,7 +45,7 @@
     "loading": "Loading vacation data...",
     "title": "My Vacation Stats",
     "availableCasualLeaves": "Remaining Casual Leave Balance",
-    "availableLeaveRequests": "Used Permissions",
+    "availableLeaveRequests": "Remaining permissions per month",
     "availableOrdinaryLeaves": "Remaining Ordinary Leave Balance",
     "totalCasualLeaves": "Total Casual Leave Balance",
     "totalLeaveRequests": "Total Monthly Permissions",

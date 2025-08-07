@@ -15,6 +15,7 @@ import {
   FileText,
   GitPullRequestArrow,
   Home,
+  Hotel,
   LayoutDashboard,
   MapPinHouse,
   Thermometer,
@@ -210,6 +211,12 @@ export const ManagerSidebar = () => {
             to="/manager/requestsSummary"
           />
         )}
+
+        <SidebarItem
+          icon={<Hotel size={23} />}
+          name={t("entities")}
+          to="/manager/change-vacation-requests"
+        />
 
         {/* <HasPermission permission={"Add Old Requests"}>
           <SidebarItem

@@ -104,7 +104,6 @@ const VacationTableFilters = ({
       label: employee.name,
     })) || [];
 
-  console.log("dept id", departmentId);
   return (
     <>
       <div className="w-full flex flex-wrap items-end gap-4">

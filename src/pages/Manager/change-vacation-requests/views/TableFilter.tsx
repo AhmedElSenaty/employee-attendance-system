@@ -11,72 +11,44 @@ import {
   Tooltip,
 } from "../../../../components/ui";
 import { useTranslation } from "react-i18next";
-import { SUB_DEPARTMENT_NS } from "../../../../constants";
-import {
-  DepartmentSummary,
-  SubDepartmentSummary,
-} from "../../../../interfaces";
-import {
-  useGetDepartmentsList,
-  useGetDepartmentSubDepartments,
-} from "../../../../hooks";
+import { Control } from "react-hook-form";
+import { DepartmentSummary, EmployeeSummary } from "../../../../interfaces";
+import { useGetDepartmentsList, useGetEmployeesList } from "../../../../hooks";
 import { useSearchParams } from "react-router";
+import { useEffect, useMemo, useState } from "react";
 
 interface Props {
   searchBy: string[];
-  getParam: (key: string) => string | number | null;
-  setParam: (key: string, value: string) => void;
   clearParams: () => void;
+  control: Control<any>;
 }
 
-const TableFilters = ({ searchBy, getParam, setParam, clearParams }: Props) => {
+const TableFilters = ({ searchBy, clearParams }: Props) => {
   const { language } = useLanguageStore();
-  const { t } = useTranslation([SUB_DEPARTMENT_NS]);
-
+  const { t } = useTranslation("changeVacationsRequests");
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const setParams = (params: Record<string, string>) => {
-    for (const key in params) {
-      searchParams.set(key, params[key]);
-    }
-    setSearchParams(searchParams);
+  const getParam = (key: string) => searchParams.get(key);
+
+  const setParam = (key: string, value: string) => {
+    const newParams = new URLSearchParams(searchParams.toString());
+    newParams.set(key, value);
+    setSearchParams(newParams);
   };
-  const departmentId =
-    getParam("searchKey") === "SearchByDepartmentId"
-      ? getParam("searchQuery")
-      : null;
-
-  const { departmentsList, isLoading: isDepartmentsLoading } =
-    useGetDepartmentsList();
-  const { subDepartmentsList, isLoading: isSubDepartmentsLoading } =
-    useGetDepartmentSubDepartments(Number(departmentId || ""));
-
-  const departmentOptions =
-    departmentsList?.map((department: DepartmentSummary) => ({
-      value: department.id,
-      label: department.name,
-    })) ?? [];
-
-  const selectedDepartmentValue = departmentOptions.find(
-    (opt: { value: number; label: string }) =>
-      opt.value === getParam("searchByDepartmentId")
-  );
-
-  const subDepartmentOptions =
-    subDepartmentsList?.map((subDepartment: SubDepartmentSummary) => ({
-      value: subDepartment.id,
-      label: subDepartment.name,
-    })) ?? [];
-
-  const selectedSubDepartmentValue = subDepartmentOptions.find(
-    (opt: { value: number; label: string }) =>
-      opt.value === getParam("searchBySubDeptartmentId")
-  );
 
   const pageSizeOptions = [10, 20, 30, 40, 50].map((size) => ({
     value: size,
     label: formatValue(size, language),
   }));
+
+  const { employeesList, isLoading: isEmployeesListLoading } =
+    useGetEmployeesList();
+
+  const employeeOptions =
+    employeesList?.map((employee: EmployeeSummary) => ({
+      value: employee.name,
+      label: employee.name,
+    })) || [];
 
   const selectedPageSizeValue = pageSizeOptions.find(
     (opt) =>
@@ -91,9 +63,31 @@ const TableFilters = ({ searchBy, getParam, setParam, clearParams }: Props) => {
   const selectedSearchByValue = searchByOptions.find(
     (opt) => opt.value === (getParam("searchKey") ? getParam("searchKey") : "")
   );
+
+  const [selectDepartmentID, setSelectDepartmentID] = useState<number | null>(
+    null
+  );
+
+  const { departmentsList, isLoading: isDepartmentsLoading } =
+    useGetDepartmentsList();
+
+  useEffect(() => {
+    setSelectDepartmentID(selectDepartmentID || null);
+  }, [selectDepartmentID]);
+
+  const departmentOptions = useMemo(
+    () =>
+      departmentsList?.map((department: DepartmentSummary) => ({
+        value: department.id,
+        label: department.name,
+      })) || [],
+    [departmentsList]
+  );
+
   return (
     <>
       <div className="w-full flex flex-wrap items-end gap-4">
+        {/* Page size */}
         <Field className="flex flex-col space-y-2 w-fit">
           <Label>{t("filters.pageSize")}</Label>
           <CustomSelect
@@ -108,7 +102,7 @@ const TableFilters = ({ searchBy, getParam, setParam, clearParams }: Props) => {
 
         {/* Search Type */}
         <Field className="flex flex-col space-y-2">
-          <Label size="md">{t("filters.searchBy.label")} </Label>
+          <Label size="md">{t("filters.searchBy.label")}</Label>
           <CustomSelect
             placeholder={t("filters.select.placeholder")}
             options={searchByOptions}
@@ -129,54 +123,71 @@ const TableFilters = ({ searchBy, getParam, setParam, clearParams }: Props) => {
           />
         </Field>
 
-        {/* department */}
-        <Field className="flex flex-col space-y-2 w-fit">
-          <Label size="md">
-            {t("filters.searchBy.SearchByDepartmentName")}
+        {/* Employee Name Select */}
+        <Field className="space-y-2 w-[300px]">
+          <Label size="lg">
+            {t("filters.searchBy.SearchByEmployeeFullName")}
           </Label>
+          {isEmployeesListLoading ? (
+            <SelectBoxSkeleton />
+          ) : (
+            <CustomSelect
+              className="w-full"
+              placeholder={t("filters.select.placeholder")}
+              options={employeeOptions}
+              value={
+                getParam("searchKey") === "SearchByEmployeeFullName"
+                  ? employeeOptions.find(
+                      (opt) => opt.value === getParam("searchQuery")
+                    ) || null
+                  : null
+              }
+              onChange={(option) => {
+                const name = String(option?.value ?? "");
+                setSearchParams({
+                  searchKey: "SearchByEmployeeFullName",
+                  searchQuery: name,
+                });
+              }}
+              isSearchable
+              isClearable
+            />
+          )}
+        </Field>
+
+        {/* Department Select */}
+        <Field className="space-y-3 w-full sm:w-auto flex flex-col">
+          <Label size="lg">{t("filters.searchBy.SearchByDepartmentId")}</Label>
           {isDepartmentsLoading ? (
             <SelectBoxSkeleton />
           ) : (
             <CustomSelect
+              placeholder={t("filters.select.placeholder")}
               options={departmentOptions}
-              value={selectedDepartmentValue}
+              value={
+                getParam("searchKey") === "SearchByDepartmentId"
+                  ? departmentOptions.find(
+                      (opt) => opt.value.toString() === getParam("searchQuery")
+                    ) || null
+                  : null
+              }
               onChange={(option) => {
-                const name = String(option?.value ?? "");
+                const id = option?.value?.toString() ?? "";
                 setSearchParams({
+                  ...Object.fromEntries(searchParams),
                   searchKey: "SearchByDepartmentId",
-                  searchQuery: name,
+                  searchQuery: id,
                 });
+                setSelectDepartmentID(Number(id));
               }}
+              className="w-70"
               isSearchable
               isClearable
-              className="w-65"
             />
           )}
         </Field>
 
-        {/* sub department */}
-        <Field className="flex flex-col space-y-2 w-fit">
-          <Label size="md">{t("filters.searchBy.SearchBySubDeptName")}</Label>
-          {isSubDepartmentsLoading ? (
-            <SelectBoxSkeleton />
-          ) : (
-            <CustomSelect
-              options={subDepartmentOptions}
-              value={selectedSubDepartmentValue}
-              onChange={(option) => {
-                const name = String(option?.value ?? "");
-                setSearchParams({
-                  searchKey: "SearchBySubDepartmentId",
-                  searchQuery: name,
-                });
-              }}
-              isSearchable
-              isClearable
-              className="w-65"
-            />
-          )}
-        </Field>
-
+        {/* Clear Filters */}
         <Tooltip content={t("filters.toolTipResetFilters")}>
           <Button onClick={clearParams} icon={<RefreshCcw />} />
         </Tooltip>

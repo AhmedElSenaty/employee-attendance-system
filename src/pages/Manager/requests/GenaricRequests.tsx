@@ -176,12 +176,11 @@ const GenaricRequestsPage = () => {
       showToast("error", t("export.exportError"));
     }
   };
-  console.log("from parent === >", metadata);
   return (
     <>
       <div className="sm:p-5 p-3 space-y-5">
         <Header heading={t("header.heading")} subtitle={t("header.subtitle")} />
-       
+
         <ActionCard
           icon={<FileDown />}
           iconBgColor="bg-[#f5e4b2]"

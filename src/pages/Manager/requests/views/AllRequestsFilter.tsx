@@ -61,8 +61,6 @@ const AllRequestsFilters = ({
   const selectedSearchByValue = searchByOptions.find(
     (opt) => opt.value === (getParam("searchKey") ? getParam("searchKey") : "")
   );
-  console.log(searchParams);
-  console.log("LeaveType Param:", getParam("leaveType"));
   return (
     <div className="flex flex-wrap items-end gap-4">
       <Field className="flex flex-col space-y-2 w-fit">
