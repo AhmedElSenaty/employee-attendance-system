@@ -2,7 +2,6 @@ import axiosInstance from "../config/axios.config";
 import { BaseService } from "./base.services";
 
 export class PermissionService extends BaseService {
-
   fetchAll = async () => {
     try {
       const response = await axiosInstance.get(`/Permissions/`, {
@@ -18,7 +17,7 @@ export class PermissionService extends BaseService {
     }
   };
 
-  fetchAuthorizedUserPermissions = async ()=> {
+  fetchAuthorizedUserPermissions = async () => {
     try {
       const response = await axiosInstance.get(`/Permissions/me`, {
         headers: this.getAuthHeaders(),
@@ -35,9 +34,55 @@ export class PermissionService extends BaseService {
 
   updateUserPermissions = async (userId: string, permissionsIds: string[]) => {
     try {
-      const response = await axiosInstance.put(`/Permissions/UpdateUserPermissions`, {userId, permissionsIds}, {
-        headers: this.getAuthHeaders(),
-      });
+      const response = await axiosInstance.put(
+        `/Permissions/UpdateUserPermissions`,
+        { userId, permissionsIds },
+        {
+          headers: this.getAuthHeaders(),
+        }
+      );
+
+      return response;
+    } catch (error) {
+      console.error("Error updating user permissions:", error);
+      throw error;
+    }
+  };
+
+  addPermissionsToUsers = async (permissionsIds: string[]) => {
+    try {
+      console.log("from service =====> ", permissionsIds);
+      const response = await axiosInstance.put(
+        `/Permissions/AddPermissionsToUsers`,
+        permissionsIds,
+        {
+          headers: {
+            ...this.getAuthHeaders(),
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      return response;
+    } catch (error) {
+      console.error("Error updating user permissions:", error);
+      throw error;
+    }
+  };
+
+  removePermissionsToUsers = async (permissionsIds: string[]) => {
+    try {
+      console.log("from service =====> ", permissionsIds);
+      const response = await axiosInstance.put(
+        `/Permissions/RemovePermissionsToUsers`,
+        permissionsIds,
+        {
+          headers: {
+            ...this.getAuthHeaders(),
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       return response;
     } catch (error) {

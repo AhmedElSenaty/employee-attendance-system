@@ -26,7 +26,7 @@
   "entities": "الكيانات",
   "officialVacation": "الإجازة الرسمية",
   "permissions": "الصلاحيات",
-  "manageProfiles": "إدارة ملفات الصلاحيات",
+  "manageProfiles": "إدارة الصلاحيات",
   "manageRequests": "إدارة الطلبات",
   "profiles": "ملفات الصلاحيات",
   "addProfile": "إضافة ملف صلاحيات",
@@ -45,5 +45,6 @@
   "requestsSummary": "ملخص الطلبات والإجازات",
   "vacationSaver": "حفظه اجازات",
   "vacationAdjustment": "طلب تعديل رصيد الإجازات",
-  "manageVacationAdjustment": "إدارة طلبات تعديل رصيد الإجازات"
+  "manageVacationAdjustment": "إدارة طلبات تعديل رصيد الإجازات",
+  "manageAdminsManagersPermissions": "صلاحيات المستخدمين"
 }

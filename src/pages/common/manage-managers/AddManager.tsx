@@ -27,16 +27,18 @@ const AddManagerPage = () => {
     handleSubmit,
     formState: { errors },
     control,
-    setValue
+    setValue,
   } = useForm<ManagerFormValues>({
     resolver: yupResolver(getManagerSchema(false)),
     mode: "onChange",
   });
 
+  const { mutateAsync: addManagerAndGetUserID, isPending: isAdding } =
+    useCreateManager();
 
-  const { mutateAsync: addManagerAndGetUserID, isPending: isAdding } = useCreateManager();
-
-  const handleConfirmAdd: SubmitHandler<ManagerCredentials> = async (request: ManagerCredentials) => {
+  const handleConfirmAdd: SubmitHandler<ManagerCredentials> = async (
+    request: ManagerCredentials
+  ) => {
     try {
       request.permissions = checkedPermissions || [];
       request.departmentId = checkedDepartment[0];
@@ -44,7 +46,7 @@ const AddManagerPage = () => {
       const response = await addManagerAndGetUserID(request);
       const userID = response?.data?.data?.userId;
       if (userID) {
-        navigate(`/${role}/edit-manager/${userID}`)
+        navigate(`/${role}/edit-manager/${userID}`);
       } else {
         console.error("No user ID returned in response:", response);
       }
@@ -53,7 +55,6 @@ const AddManagerPage = () => {
     }
   };
 
-
   return (
     <div className="sm:p-5 p-3 space-y-5">
       <Header
@@ -61,29 +62,31 @@ const AddManagerPage = () => {
         subtitle={t("addManagerPage.header.subtitle")}
       />
       <div className="bg-white shadow-md space-y-5 p-5 rounded-lg">
-        <SectionHeader 
+        <SectionHeader
           title={t("addManagerPage.informationsSectionHeader.title")}
-          description={t("addManagerPage.informationsSectionHeader.description")}
+          description={t(
+            "addManagerPage.informationsSectionHeader.description"
+          )}
         />
         <form className="space-y-5" onSubmit={handleSubmit(handleConfirmAdd)}>
           <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6">
             <Inputs
-              register={register} 
+              register={register}
               errors={errors}
               control={control}
-              setValue={setValue} 
+              setValue={setValue}
               checkedPermissionsHandler={setCheckedPermissions}
             />
           </div>
           <Description>{t("addManagerPage.note")}</Description>
-          <Button fullWidth={false} isLoading={isAdding} >
+          <Button fullWidth={false} isLoading={isAdding}>
             {isAdding ? t("buttons.loading") : t("buttons.create")}
           </Button>
         </form>
       </div>
 
       <div className="bg-white shadow-md space-y-5 p-5 rounded-lg">
-        <SectionHeader 
+        <SectionHeader
           title={t("addManagerPage.permissionsSectionHeader.title")}
           description={t("addManagerPage.permissionsSectionHeader.description")}
         />
@@ -94,7 +97,7 @@ const AddManagerPage = () => {
       </div>
 
       <div className="bg-white shadow-md space-y-5 p-5 rounded-lg">
-        <SectionHeader 
+        <SectionHeader
           title={t("addManagerPage.departmentsSectionHeader.title")}
           description={t("addManagerPage.departmentsSectionHeader.description")}
         />
@@ -105,7 +108,7 @@ const AddManagerPage = () => {
         />
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default AddManagerPage;

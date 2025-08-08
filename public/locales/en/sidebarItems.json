@@ -25,7 +25,7 @@
   "entities": "Entities",
   "officialVacation": "Official Vacation",
   "permissions": "Permissions",
-  "manageProfiles": "Manage Profiles",
+  "manageProfiles": "Manage permissions",
   "profiles": "Profiles",
   "addProfile": "Add Profile",
   "leaveRequests": "Leave Requests",
@@ -40,5 +40,6 @@
   "requestsSummary": "Requests Summary",
   "genaricRequests": "Requests by decision",
   "vacationAdjustment": "Leave Balance Adjustment Request",
-  "manageVacationAdjustment": "Manage Leave Balance"
+  "manageVacationAdjustment": "Manage Leave Balance",
+  "manageAdminsManagersPermissions": "User Permissions"
 }

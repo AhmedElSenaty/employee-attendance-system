@@ -37,6 +37,7 @@ import {
   SidebarItem,
 } from "../../components/ui/Sidebar";
 import { useUserStore } from "../../store/user.store";
+import { HasPermission } from "../../components/auth";
 
 export const AdminSidebar = () => {
   const { t } = useTranslation(["sidebarItems"]); // Initialize the translation hook
@@ -220,7 +221,10 @@ export const AdminSidebar = () => {
       )} */}
 
       {/* Manage Profiles */}
-      {permissions.includes("View Profiles") && (
+
+      <HasPermission
+        permission={["View Profiles", "Add Profile", "Update User Permissions"]}
+      >
         <SidebarDropdown
           icon={<BookType size={23} />}
           name={t("manageProfiles")}
@@ -239,8 +243,16 @@ export const AdminSidebar = () => {
               to="/admin/add-profile"
             />
           )}
+          <HasPermission permission={"Update User Permissions"}>
+            <SidebarItem
+              icon={<UserCog size={23} />}
+              name={t("manageAdminsManagersPermissions")}
+              to="/admin/addOrRemovePermissions"
+            />
+          </HasPermission>
         </SidebarDropdown>
-      )}
+      </HasPermission>
+
       {permissions.includes("View Logs") && (
         <SidebarItem
           icon={<FileClock size={23} />}

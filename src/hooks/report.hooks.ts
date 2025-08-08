@@ -480,3 +480,83 @@ export const useExportVacationSaverReportPDF = (
     refetchExportDataPDF: refetch,
   };
 };
+
+export const useExportAbsenceFromWorkReportPDF = (
+  searchKey?: string,
+  debouncedSearchQuery?: string,
+  startDate?: string,
+  endDate?: string,
+  checked?: boolean,
+  departmentId?: number,
+  subDepartmentId?: number
+) => {
+  const service = useReportService();
+
+  const { refetch } = useQuery({
+    queryKey: [
+      QueryKeys.Export.PDF,
+      searchKey,
+      debouncedSearchQuery,
+      startDate,
+      endDate,
+      checked,
+      departmentId,
+      subDepartmentId,
+    ],
+    queryFn: () =>
+      service.fetchAbsenceFromWorkReportPDF(
+        searchKey,
+        debouncedSearchQuery,
+        startDate,
+        endDate,
+        checked,
+        departmentId,
+        subDepartmentId
+      ),
+    enabled: false, // manual refetching
+    retry: 3,
+  });
+  return {
+    refetchExportDataPDF: refetch,
+  };
+};
+
+export const useExportAbsenceFromWorkReportExcel = (
+  searchKey?: string,
+  debouncedSearchQuery?: string,
+  startDate?: string,
+  endDate?: string,
+  checked?: boolean,
+  departmentId?: number,
+  subDepartmentId?: number
+) => {
+  const service = useReportService();
+
+  const { refetch } = useQuery({
+    queryKey: [
+      QueryKeys.Export.PDF,
+      searchKey,
+      debouncedSearchQuery,
+      startDate,
+      endDate,
+      checked,
+      departmentId,
+      subDepartmentId,
+    ],
+    queryFn: () =>
+      service.fetchAbsenceFromWorkReportExcel(
+        searchKey,
+        debouncedSearchQuery,
+        startDate,
+        endDate,
+        checked,
+        departmentId,
+        subDepartmentId
+      ),
+    enabled: false, // manual refetching
+    retry: 3,
+  });
+  return {
+    refetchExportData: refetch,
+  };
+};

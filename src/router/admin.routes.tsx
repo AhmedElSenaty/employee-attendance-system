@@ -32,6 +32,7 @@ import {
 import DeviceUsers from "../pages/Admin/device-users/DeviceUsers";
 import AllAdminReports from "../pages/Admin/all-admin-reports/AllAdminReports";
 import ManageChangeVacationRequestsPage from "../pages/Admin/change-vacation-requests/ChangeVacationRequests";
+import AddOrRemoveFromAllUsers from "../pages/Admin/manage-permissions/views/AddOrRemovePermissionFromUsers";
 
 export const adminRoutes = (isLoggedIn: boolean, userRole: string) => (
   <Route
@@ -115,5 +116,9 @@ export const adminRoutes = (isLoggedIn: boolean, userRole: string) => (
 
     <Route path="device-users" element={<DeviceUsers />} />
     <Route path="allReports" element={<AllAdminReports />} />
+    <Route
+      path="addOrRemovePermissions"
+      element={<AddOrRemoveFromAllUsers />}
+    />
   </Route>
 );

@@ -11,11 +11,12 @@ import {
   TableSkeleton,
 } from "../../../components/ui";
 import { useGetAllVacationSaver } from "../../../hooks/request.hook";
-import { useLanguageStore } from "../../../store";
 import { downloadFile, showToast } from "../../../utils";
 import useURLSearchParams from "../../../hooks/URLSearchParams.hook";
 import {
   useDebounce,
+  useExportAbsenceFromWorkReportExcel,
+  useExportAbsenceFromWorkReportPDF,
   useExportVacationSaverReport,
   useExportVacationSaverReportPDF,
 } from "../../../hooks";
@@ -32,8 +33,21 @@ const AllVacationSaverPage = () => {
   const [isDownloading, setIsDownloading] = useState(false);
   const [isDownloadingPDF, setIsDownloadingPDF] = useState(false);
 
+  const [
+    isAbsenceFromWorkReportDownloadReportPopupOpen,
+    setAbsenceFromWorkReportIsDownloadReportPopupOpen,
+  ] = useState(false);
+
+  const [
+    isDownloadingAbsenceFromWorkReport,
+    setIsDownloadingAbsenceFromWorkReport,
+  ] = useState(false);
+  const [
+    isDownloadingAbsenceFromWorkReportPDF,
+    setIsDownloadingAbsenceFromWorkReportPDF,
+  ] = useState(false);
+
   const { t } = useTranslation("vacationSaver");
-  const { language } = useLanguageStore();
   const { getParam, setParam, clearParams } = useURLSearchParams();
   // Using the enhanced getParam with parser support from the improved hook
   const rawPage = getParam("page", Number);
@@ -87,6 +101,28 @@ const AllVacationSaverPage = () => {
     subDeptartmentId || 0
   );
 
+  const { refetchExportData: AbsenceFromWorkReport } =
+    useExportAbsenceFromWorkReportExcel(
+      searchKey,
+      searchQuery,
+      startDate,
+      endDate,
+      checked,
+      departmentId || 0,
+      subDeptartmentId || 0
+    );
+
+  const { refetchExportDataPDF: AbsenceFromWorkReportPDF } =
+    useExportAbsenceFromWorkReportPDF(
+      searchKey,
+      searchQuery,
+      startDate,
+      endDate,
+      checked,
+      departmentId || 0,
+      subDeptartmentId || 0
+    );
+
   const REQUESTS_TABLE_COLUMNS = [
     "table.columns.employeeName",
     "table.columns.subDeptName",
@@ -124,37 +160,98 @@ const AllVacationSaverPage = () => {
     }
   };
 
+  const handleAbsenceFromWorkReportDownload = async () => {
+    setIsDownloadingAbsenceFromWorkReport(true);
+    const { data, isSuccess, isError } = await AbsenceFromWorkReport();
+    if (isSuccess) {
+      showToast("success", t("export.exportSuccess"));
+      downloadFile(data.file);
+      setIsDownloadingAbsenceFromWorkReport(false);
+    }
+    if (isError) {
+      showToast("error", t("export.exportError"));
+      setIsDownloadingAbsenceFromWorkReport(false);
+    }
+  };
+
+  const handleDownloadAbsenceFromWorkReportPDF = async () => {
+    setIsDownloadingAbsenceFromWorkReportPDF(true);
+    const { data, isSuccess, isError } = await AbsenceFromWorkReportPDF();
+    if (isSuccess) {
+      showToast("success", t("export.exportSuccess"));
+      downloadFile(data.file);
+      setIsDownloadingAbsenceFromWorkReportPDF(false);
+    }
+    if (isError) {
+      showToast("error", t("export.exportError"));
+      setIsDownloadingAbsenceFromWorkReportPDF(false);
+    }
+  };
+
   return (
     <>
       <div className="sm:p-5 p-3 space-y-5">
         <Header heading={t("header.heading")} subtitle={t("header.subtitle")} />
-        <div className="w-[500px] max-xl:w-full grid grid-cols-1 gap-10 mx-auto">
-          <HasPermission
-            permission={[
-              "Export Requests Report Excel",
-              "Export Requests Report PDF",
-            ]}
-          >
-            <ActionCard
-              icon={<FileDown />}
-              iconBgColor="bg-[#a7f3d0]"
-              iconColor="text-[#10b981]"
-              title={t("exportActionCard.title")}
-              description={t("exportActionCard.description")}
+        <div className="w-[1000px] max-xl:w-full grid grid-cols-1 md:grid-cols-2 gap-10 mx-auto">
+          <div className="flex-1">
+            <HasPermission
+              permission={[
+                "Export Requests Report Excel",
+                "Export Requests Report PDF",
+              ]}
             >
-              <Button
-                fullWidth
-                variant="success"
-                isLoading={isDownloading || isDownloadingPDF}
-                onClick={() => {
-                  setIsDownloadReportPopupOpen(true);
-                }}
+              <ActionCard
+                icon={<FileDown />}
+                iconBgColor="bg-[#a7f3d0]"
+                iconColor="text-[#10b981]"
+                title={t("exportActionCard.vacationSaverTiltle")}
+                description={t("exportActionCard.vacationSaverDescription")}
               >
-                {t("exportActionCard.button")}
-              </Button>
-            </ActionCard>
-          </HasPermission>
+                <Button
+                  fullWidth
+                  variant="success"
+                  isLoading={isDownloading || isDownloadingPDF}
+                  onClick={() => {
+                    setIsDownloadReportPopupOpen(true);
+                  }}
+                >
+                  {t("exportActionCard.button")}
+                </Button>
+              </ActionCard>
+            </HasPermission>
+          </div>
+          <div className="flex-1">
+            <HasPermission
+              permission={[
+                "Export Requests Report Excel",
+                "Export Requests Report PDF",
+              ]}
+            >
+              <ActionCard
+                icon={<FileDown />}
+                iconBgColor="bg-[#f5e4b2]"
+                iconColor="text-[#10b981]"
+                title={t("exportActionCard.absenceFromWorkTitle")}
+                description={t("exportActionCard.absenceFromWorkDescription")}
+              >
+                <Button
+                  fullWidth
+                  variant="secondary"
+                  isLoading={
+                    isDownloadingAbsenceFromWorkReport ||
+                    isDownloadingAbsenceFromWorkReportPDF
+                  }
+                  onClick={() => {
+                    setAbsenceFromWorkReportIsDownloadReportPopupOpen(true);
+                  }}
+                >
+                  {t("exportActionCard.button")}
+                </Button>
+              </ActionCard>
+            </HasPermission>
+          </div>
         </div>
+
         <div className="bg-white shadow-md space-y-5 p-5 rounded-lg">
           <div className="flex flex-wrap gap-4">
             <Filters
@@ -262,6 +359,43 @@ const AllVacationSaverPage = () => {
         isLoading={isDownloading}
         isloadingPDF={isDownloadingPDF}
         handleDownloadPDF={handleDownloadPDF}
+      />
+
+      <ExportRequestsPopup
+        isOpen={isAbsenceFromWorkReportDownloadReportPopupOpen}
+        handleClose={() =>
+          setAbsenceFromWorkReportIsDownloadReportPopupOpen(false)
+        }
+        handleDownload={() => {
+          handleAbsenceFromWorkReportDownload();
+        }}
+        filteredData={{
+          searchKey: searchKey || "",
+          search: searchQuery || "",
+          startDate:
+            startDate ||
+            `${new Date().getFullYear()}-${String(
+              new Date().getMonth() + 1
+            ).padStart(2, "0")}-01`,
+          endDate:
+            endDate ||
+            `${new Date().getFullYear()}-${String(
+              new Date().getMonth() + 1
+            ).padStart(2, "0")}-${String(
+              new Date(
+                new Date().getFullYear(),
+                new Date().getMonth() + 1,
+                0
+              ).getDate()
+            ).padStart(2, "0")}`,
+
+          searchByDepartmentId: Number(departmentId || 0),
+          searchBySubDeptartmentId: Number(subDeptartmentId || 0),
+          checked: checked,
+        }}
+        isLoading={isDownloadingAbsenceFromWorkReport}
+        isloadingPDF={isDownloadingAbsenceFromWorkReportPDF}
+        handleDownloadPDF={handleDownloadAbsenceFromWorkReportPDF}
       />
     </>
   );

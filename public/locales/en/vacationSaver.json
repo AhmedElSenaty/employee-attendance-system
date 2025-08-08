@@ -34,8 +34,10 @@
     }
   },
   "exportActionCard": {
-    "title": "Export Filtered Data",
-    "description": "Export the data displayed in the table and download it in your preferred format.",
+    "vacationSaverTiltle": "Export Vacation Saver Report",
+    "vacationSaverDescription": "Export the Vacation Saver report currently displayed in the table and save it in your preferred format.",
+    "absenceFromWorkTitle": "Export Absence Report",
+    "absenceFromWorkDescription": "Export the absence report currently displayed in the table and save it in your preferred format.",
     "button": "Export",
     "validation": {
       "selectDateRange": "Start and end dates must be selected first."
@@ -46,7 +48,7 @@
     "exportError": "Failed to export data. Please try again ❌"
   },
   "header": {
-    "heading": "Vacation Saver Report",
-    "subtitle": "You can easily view and download Vacation Saver records connected to the system."
+    "heading": "Vacation Saver and Absence Report",
+    "subtitle": "You can easily view and download the vacation vaver and absence reports connected to the system."
   }
 }

@@ -11,6 +11,12 @@
     "title": "Understanding User Permissions",
     "description": "This video explains how to view, manage, and assign permissions to different profiles and users within the system."
   },
+  "addRemovePage": {
+    "permissionsSectionHeader": {
+      "title": "Manage Admins and Managers Permissions",
+      "description": "Select the permissions you want to add or remove for all Admins and Managers."
+    }
+  },
   "yourPermissions": "Your Permissions",
   "notYourPermissions": "Permissions you don't have access to",
   "key": "Key",
