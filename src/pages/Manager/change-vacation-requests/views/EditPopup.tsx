@@ -21,7 +21,7 @@ const EditPopup = ({
   formInputs,
   mode,
 }: Props) => {
-  const { t } = useTranslation([ENTITY_NS]);
+  const { t } = useTranslation("changeVacationsRequests");
 
   const isEdit = mode === "edit";
 

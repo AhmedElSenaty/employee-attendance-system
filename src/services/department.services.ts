@@ -47,7 +47,10 @@ export class DepartmentService extends BaseService {
       });
       return response;
     } catch (error) {
-      console.error(`Error fetching department with ID ${departmentID}:`, error);
+      console.error(
+        `Error fetching department with ID ${departmentID}:`,
+        error
+      );
       throw error;
     }
   };
@@ -59,7 +62,13 @@ export class DepartmentService extends BaseService {
   };
 
   update = (department: DepartmentCredentials) => {
-    return axiosInstance.put(`/Department`, department, {
+    const payload = {
+      ...department,
+      activationDate:
+        department.activationDate === "" ? null : department.activationDate,
+    };
+
+    return axiosInstance.put(`/Department`, payload, {
       headers: this.getAuthHeaders(),
     });
   };
@@ -71,8 +80,12 @@ export class DepartmentService extends BaseService {
   };
 
   updateUserDepartments = (userId: string, departmentsIds: number[]) => {
-    return axiosInstance.put(`/Department/UpdateUserDepartments`, {userId, departmentsIds}, {
-      headers: this.getAuthHeaders(),
-    });
+    return axiosInstance.put(
+      `/Department/UpdateUserDepartments`,
+      { userId, departmentsIds },
+      {
+        headers: this.getAuthHeaders(),
+      }
+    );
   };
 }

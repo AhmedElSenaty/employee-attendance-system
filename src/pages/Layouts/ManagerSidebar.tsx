@@ -12,6 +12,7 @@ import {
   Contact,
   ContactRound,
   FileBarChart2,
+  FileEdit,
   FileText,
   GitPullRequestArrow,
   Home,
@@ -213,8 +214,8 @@ export const ManagerSidebar = () => {
         )}
 
         <SidebarItem
-          icon={<Hotel size={23} />}
-          name={t("entities")}
+          icon={<FileEdit size={23} />}
+          name={t("vacationAdjustment")}
           to="/manager/change-vacation-requests"
         />
 

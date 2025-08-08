@@ -1,5 +1,14 @@
 import { FieldErrors, UseFormRegister, UseFormWatch } from "react-hook-form";
-import { Field, Input, InputErrorMessage, InputSkeleton, Label, LabelSkeleton, Textarea, TextareaSkeleton } from "../../../../components/ui";
+import {
+  Field,
+  Input,
+  InputErrorMessage,
+  InputSkeleton,
+  Label,
+  LabelSkeleton,
+  Textarea,
+  TextareaSkeleton,
+} from "../../../../components/ui";
 import { DepartmentFormValues } from "../../../../validation";
 import { useTranslation } from "react-i18next";
 import { DEPARTMENT_NS } from "../../../../constants";
@@ -84,6 +93,18 @@ const Inputs = ({ register, errors, watch, isLoading }: Props) => {
             {t(`inputs.description.inputValidation.${errors.description.type}`)}
           </InputErrorMessage>
         )}
+      </Field>
+
+      {/* activationDate */}
+      <Field className="space-y-2">
+        <Label size="lg"> {t("table.columns.activationDate")}</Label>
+        <Input
+          type="date"
+          placeholder={t(`inputs.activationDate.placeholder`)}
+          isError={!!errors.activationDate}
+          defaultValue="" // start empty
+          {...register("activationDate")}
+        />
       </Field>
     </>
   );

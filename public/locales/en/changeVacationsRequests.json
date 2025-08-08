@@ -1,0 +1,132 @@
+{
+  "header": {
+    "heading": "Leave Adjustment Request Management",
+    "subtitle": "Use this page to review and approve or reject employee leave balance adjustment requests."
+  },
+  "table": {
+    "emptyTable": {
+      "title": "No Leave Adjustment Requests",
+      "message": "Try adjusting the filters or ensure there are requests available."
+    },
+    "columns": {
+      "id": "#ID",
+      "totalCasual": "Total Casual",
+      "availableCasual": "Available Casual",
+      "totalOrdinary": "Total Ordinary",
+      "availableOrdinary": "Available Ordinary",
+      "totalLeaveRequest": "Total Permissions",
+      "availableLeaveRequest": "Available Permissions",
+      "managerName": "Manager Name",
+      "emplyeeName": "Employee Name",
+      "description": "Description",
+      "comment": "Comment",
+      "status": "Status",
+      "actions": "Actions"
+    }
+  },
+  "sectionsHeader": {
+    "add": {
+      "title": "Add Leave Adjustment Request",
+      "description": "Fill in the required details to add a new leave balance adjustment request."
+    },
+    "entitiesList": {
+      "title": "Leave Adjustment Request List",
+      "description": "View and manage all leave balance adjustment requests in the system."
+    }
+  },
+  "inputs": {
+    "employeeId": {
+      "label": "Employee Name",
+      "placeholder": "Select Employee Name",
+      "inputValidation": {
+        "required": "Selecting an employee name is required"
+      }
+    },
+    "description": {
+      "label": "Description",
+      "placeholder": "",
+      "inputValidation": {
+        "max": "Description must not exceed 500 characters"
+      }
+    },
+    "reportImage": {
+      "label": "Report",
+      "placeholder": "",
+      "inputValidation": {
+        "required": "Uploading the attached report is required"
+      }
+    }
+  },
+  "status": {
+    "Pending": "Pending",
+    "Accepted": "Accepted",
+    "Rejected": "Rejected"
+  },
+  "editPopup": {
+    "title": "Edit Leave Adjustment Request",
+    "description": "Update the request information as needed and save the changes."
+  },
+  "addPopup": {
+    "title": "Add Leave Adjustment Request",
+    "description": "Enter the new request information and then save the changes."
+  },
+  "showPopup": {
+    "title": "View Leave Adjustment Request",
+    "description": "You are now viewing the details of this request. Here you can review leave balances, status, and comments."
+  },
+  "infoPopup": {
+    "title": "How to Use the Leave Adjustment Request Management Page",
+    "description": "Watch this tutorial video to learn how to view, add, edit, and manage leave adjustment requests within the system.",
+    "closeButton": "Close"
+  },
+  "filters": {
+    "pageSize": "Items per page",
+    "toolTipResetFilters": "Reset All",
+    "searchBy": {
+      "label": "Search Type",
+      "default": "Search Method",
+      "SearchById": "ID",
+      "SearchByEmployeeFullName": "Full Employee Name",
+      "SearchBySSN": "National ID",
+      "SearchByDepartmentId": "Department"
+    },
+    "search": {
+      "label": "Search",
+      "placeholder": "Search here..."
+    },
+    "select": {
+      "placeholder": "Select"
+    }
+  },
+  "buttons": {
+    "close": "Close",
+    "create": "Create",
+    "edit": "Edit",
+    "update": "Update",
+    "delete": "Delete",
+    "loading": "Loading...",
+    "toolTipShow": "View",
+    "toolTipEdit": "Edit",
+    "toolTipAccept": "Approve Request",
+    "toolTipReject": "Reject Request",
+    "openReport": "View Report",
+    "add": "Assign"
+  },
+  "acceptPopup": {
+    "title": "Confirm Approval",
+    "description": "Are you sure you want to approve this request? Upon approval, the employee's balance will be updated.",
+    "buttons": {
+      "close": "Close",
+      "accept": "Approve"
+    }
+  },
+  "rejectPopup": {
+    "title": "Confirm Rejection",
+    "description": "Are you sure you want to reject this request? Upon rejection, the employee's balances will not be adjusted.",
+    "buttons": {
+      "close": "Close",
+      "reject": "Reject"
+    }
+  },
+  "NA": "Not Available"
+}

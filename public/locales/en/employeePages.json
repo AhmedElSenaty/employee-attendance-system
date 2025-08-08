@@ -333,5 +333,9 @@
     "importFile": "Import File",
     "close": "Close"
   },
+  "changeRequest": {
+    "text": "To adjust the leave balance, please submit a request",
+    "linkLabel": "here"
+  },
   "NA": "N/A"
 }

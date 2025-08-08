@@ -8,7 +8,8 @@
       "id": "#المعرّف",
       "name": "اسم القسم",
       "description": "الوصف",
-      "actions": "الإجراءات"
+      "actions": "الإجراءات",
+      "activationDate": "تاريخ التفعيل"
     },
     "emptyTable": {
       "title": "لا توجد أقسام",

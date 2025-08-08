@@ -11,6 +11,7 @@ import { useTranslation } from "react-i18next";
 import { EMPLOYEE_NS } from "../../../../constants";
 import { EmployeeFormValues } from "../../../../validation";
 import { useUserStore } from "../../../../store";
+import { NavLink } from "react-router";
 
 interface Props {
   register: UseFormRegister<EmployeeFormValues>;
@@ -266,6 +267,20 @@ const Inputs = ({ register, errors, isUpdateEmployee, isLoading }: Props) => {
           </InputErrorMessage>
         )}
       </Field>
+
+      <p
+        dir="ltr"
+        className="text-left text-sm text-gray-700 mt-2"
+        style={{ direction: "ltr", textAlign: "left" }}
+      >
+        {t("changeRequest.text")}{" "}
+        <NavLink
+          to="../change-vacation-requests"
+          className="inline text-blue-600 hover:underline focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition"
+        >
+          {t("changeRequest.linkLabel")}
+        </NavLink>
+      </p>
     </>
   );
 };

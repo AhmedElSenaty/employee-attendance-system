@@ -43,5 +43,7 @@
   "genaricRequests": "الطلبات الشخصية بناءً على قرار",
   "homeVisitRequests": "الزيارات المنزلية",
   "requestsSummary": "ملخص الطلبات والإجازات",
-  "vacationSaver": "حفظه اجازات"
+  "vacationSaver": "حفظه اجازات",
+  "vacationAdjustment": "طلب تعديل رصيد الإجازات",
+  "manageVacationAdjustment": "إدارة طلبات تعديل رصيد الإجازات"
 }

@@ -8,7 +8,8 @@
       "id": "#ID",
       "name": "Department Name",
       "description": "Description",
-      "actions": "Actions"
+      "actions": "Actions",
+      "activationDate": "Activation Date"
     },
     "emptyTable": {
       "title": "No departments found",

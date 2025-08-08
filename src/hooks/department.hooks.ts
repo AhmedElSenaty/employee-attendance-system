@@ -33,15 +33,15 @@ export const useGetDepartments = (
 
   const { data, isLoading } = useQuery({
     queryKey: [
-      QueryKeys.Departments.All, 
-      page, 
-      pageSize, 
-      `${searchKey && searchQuery ? [searchKey, searchQuery] : ""}`
+      QueryKeys.Departments.All,
+      page,
+      pageSize,
+      `${searchKey && searchQuery ? [searchKey, searchQuery] : ""}`,
     ],
-    queryFn: () => departmentService.fetchAll(page, pageSize, searchKey, searchQuery),
+    queryFn: () =>
+      departmentService.fetchAll(page, pageSize, searchKey, searchQuery),
     enabled: !!token,
   });
-
   return {
     departments: data?.data?.data?.departments || [],
     metadata: data?.data?.data?.metadata || initialMetadata,
@@ -97,7 +97,8 @@ export const useCreateDepartment = () => {
   const departmentService = useDepartmentService();
 
   return useMutation({
-    mutationFn: (departmentData: DepartmentCredentials) => departmentService.create(departmentData),
+    mutationFn: (departmentData: DepartmentCredentials) =>
+      departmentService.create(departmentData),
     onSuccess: ({ status, data }) => {
       queryClient.invalidateQueries({ queryKey: [QueryKeys.Departments.All] });
 
@@ -119,10 +120,10 @@ export const useUpdateDepartment = () => {
   const departmentService = useDepartmentService();
 
   return useMutation({
-    mutationFn: (departmentData: DepartmentCredentials) => departmentService.update(departmentData),
+    mutationFn: (departmentData: DepartmentCredentials) =>
+      departmentService.update(departmentData),
     onSuccess: ({ status, data }) => {
       queryClient.invalidateQueries({ queryKey: [QueryKeys.Departments.All] });
-
       if (status === 200) {
         const message = getTranslatedMessage(data.message ?? "", language);
         showToast("success", message);
@@ -141,7 +142,8 @@ export const useDeleteDepartment = () => {
   const departmentService = useDepartmentService();
 
   return useMutation({
-    mutationFn: (departmentID: number) => departmentService.delete(departmentID),
+    mutationFn: (departmentID: number) =>
+      departmentService.delete(departmentID),
     onSuccess: ({ status, data }) => {
       queryClient.invalidateQueries({ queryKey: [QueryKeys.Departments.All] });
 
@@ -162,7 +164,13 @@ export const useUpdateUserDepartments = () => {
   const departmentService = useDepartmentService();
 
   return useMutation({
-    mutationFn: ({ userID, departments }: { userID: string; departments: number[] }) => {
+    mutationFn: ({
+      userID,
+      departments,
+    }: {
+      userID: string;
+      departments: number[];
+    }) => {
       return departmentService.updateUserDepartments(userID, departments);
     },
     onSuccess: ({ status, data }) => {

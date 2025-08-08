@@ -11,6 +11,7 @@ import {
   ContactRound,
   FileBarChart2,
   FileClock,
+  FileEdit,
   Fingerprint,
   Home,
   Hotel,
@@ -198,8 +199,8 @@ export const AdminSidebar = () => {
       )}
 
       <SidebarItem
-        icon={<Hotel size={23} />}
-        name={t("entities")}
+        icon={<FileEdit size={23} />}
+        name={t("manageVacationAdjustment")}
         to="/admin/change-vacation-requests"
       />
       {permissions.includes("View Official Vacations") && (

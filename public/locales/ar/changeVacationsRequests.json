@@ -36,13 +36,11 @@
   },
 
   "inputs": {
-    "name": {
-      "label": "اسم الكيان",
-      "placeholder": "أدخل اسم الكيان",
+    "employeeId": {
+      "label": "اسم الموظف",
+      "placeholder": "اختر اسم الموظف",
       "inputValidation": {
-        "required": "اسم الكيان مطلوب",
-        "min": "يجب ألا يقل اسم الكيان عن 3 أحرف",
-        "max": "يجب ألا يتجاوز اسم الكيان 100 حرف"
+        "required": "اختيار اسم الموظف إجباري"
       }
     },
     "description": {
@@ -50,6 +48,13 @@
       "placeholder": "",
       "inputValidation": {
         "max": "يجب ألا يتجاوز الوصف 500 حرف"
+      }
+    },
+    "reportImage": {
+      "label": "التقرير",
+      "placeholder": "",
+      "inputValidation": {
+        "required": "رفع التقرير المرفق إجباري"
       }
     }
   },
@@ -61,6 +66,10 @@
   "editPopup": {
     "title": "تعديل طلب تعديل إجازة",
     "description": "قم بتحديث معلومات الطلب حسب الحاجة واحفظ التغييرات."
+  },
+  "addPopup": {
+    "title": "إضافة طلب تعديل إجازة",
+    "description": "قم بإدخال معلومات الطلب الجديدة ثم احفظ التغييرات."
   },
   "showPopup": {
     "title": "عرض طلب تعديل إجازة",
@@ -101,7 +110,8 @@
     "toolTipEdit": "تعديل",
     "toolTipAccept": "قبول الطلب",
     "toolTipReject": "رفض الطلب",
-    "openReport": "عرض التقرير"
+    "openReport": "عرض التقرير",
+    "add": "تعيين"
   },
   "acceptPopup": {
     "title": "تأكيد القبول",

@@ -4,6 +4,7 @@ import {
   Paginator,
   InfoPopup,
   Button,
+  ActionCard,
 } from "../../../components/ui/";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
@@ -32,6 +33,8 @@ import Inputs from "./views/Inputs";
 import TableFilters from "./views/TableFilter";
 import AddInputs from "./views/Inputs";
 import EditPopup from "./views/EditPopup";
+import { tr } from "date-fns/locale";
+import { CirclePlus } from "lucide-react";
 
 const ManageChangeVacationRequestsPage = () => {
   const { t } = useTranslation("changeVacationsRequests");
@@ -127,17 +130,30 @@ const ManageChangeVacationRequestsPage = () => {
     <div className="sm:p-5 p-3 space-y-5">
       <Header heading={t("header.heading")} subtitle={t("header.subtitle")} />
 
-      <div className="w-full flex items-center justify-center">
-        <InfoPopup
-          title={t("infoPopup.title")}
-          description={t("infoPopup.description")}
-          videoUrl={ENTITY_VIDEO}
-        />
+      <div className="space-y-5 mx-auto w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl">
+        <div className="w-full flex items-center justify-center">
+          <InfoPopup
+            title={t("infoPopup.title")}
+            description={t("infoPopup.description")}
+            videoUrl={ENTITY_VIDEO}
+          />
+        </div>
+        <ActionCard
+          icon={<CirclePlus />}
+          iconBgColor="bg-[#f5e4b2]"
+          iconColor="text-[#b38e19]"
+          title={t("addPopup.title")}
+          description={t("addPopup.description")}
+        >
+          <Button
+            fullWidth
+            variant="secondary"
+            onClick={() => setIsAddPopupOpen(true)}
+          >
+            {t("buttons.add")}
+          </Button>
+        </ActionCard>
       </div>
-      <Button variant="primary" onClick={() => setIsAddPopupOpen(true)}>
-        {t("buttons.add")}
-      </Button>
-
       {/* Right Column: Filters & Table */}
       <div className="bg-white shadow-md space-y-5 p-5 rounded-lg">
         <SectionHeader
@@ -219,6 +235,7 @@ const ManageChangeVacationRequestsPage = () => {
             setValue={setValueAdd}
             selectedEmployeeId={selectedEmployeeId}
             setSelectedEmployeeId={setSelectedEmployeeId}
+            isEdit={true}
           />
         }
         mode="edit"
@@ -239,6 +256,7 @@ const ManageChangeVacationRequestsPage = () => {
             setValue={setValueAdd}
             selectedEmployeeId={selectedEmployeeId}
             setSelectedEmployeeId={setSelectedEmployeeId}
+            isEdit={false}
           />
         }
         selectedEmployeeId={selectedEmployeeId}

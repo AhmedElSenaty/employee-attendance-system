@@ -38,5 +38,7 @@
   "leaveAttendance": "Leave with attendance",
   "addRequest": "Add Request",
   "requestsSummary": "Requests Summary",
-  "genaricRequests": "Requests by decision"
+  "genaricRequests": "Requests by decision",
+  "vacationAdjustment": "Leave Balance Adjustment Request",
+  "manageVacationAdjustment": "Manage Leave Balance"
 }

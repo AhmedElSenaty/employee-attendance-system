@@ -19,6 +19,7 @@ interface Props {
   setValue: UseFormSetValue<AddChangeVacationCountFormValues>;
   selectedEmployeeId: number | null;
   setSelectedEmployeeId: (id: number | null) => void;
+  isEdit: boolean;
 }
 
 const AddInputs = ({
@@ -27,6 +28,7 @@ const AddInputs = ({
   setValue,
   selectedEmployeeId,
   setSelectedEmployeeId,
+  isEdit,
 }: Props) => {
   const { t } = useTranslation("changeVacationsRequests");
 
@@ -41,37 +43,42 @@ const AddInputs = ({
   return (
     <>
       {/* Employee ID */}
-      <Field className="space-y-2">
-        <Label size="lg">{t("inputs.employeeId.label")}</Label>
+      {!isEdit && (
+        <Field className="space-y-2">
+          <Label size="lg">{t("inputs.employeeId.label")}</Label>
 
-        {isEmployeesListLoading ? (
-          <SelectBoxSkeleton />
-        ) : (
-          <CustomSelect
-            className="w-full"
-            // placeholder={t("inputs.employeeId.placeholder")}
-            options={employeeOptions}
-            value={
-              employeeOptions.find((opt) => opt.value === selectedEmployeeId) ||
-              null
-            }
-            onChange={(option) => {
-              const value = option?.value ?? null;
-              setSelectedEmployeeId(value);
-              setValue("employeeId", value); // ✅ manually set value in form
-            }}
-            error={!!errors.employeeId}
-            isSearchable
-            isClearable
-          />
-        )}
+          {isEmployeesListLoading ? (
+            <SelectBoxSkeleton />
+          ) : (
+            <CustomSelect
+              className="w-full"
+              // placeholder={t("inputs.employeeId.placeholder")}
+              options={employeeOptions}
+              value={
+                employeeOptions.find(
+                  (opt) => opt.value === selectedEmployeeId
+                ) || null
+              }
+              onChange={(option) => {
+                const value = option?.value ?? null;
+                setSelectedEmployeeId(value);
+                setValue("employeeId", value); // ✅ manually set value in form
+              }}
+              error={!!errors.employeeId}
+              isSearchable
+              isClearable
+            />
+          )}
 
-        {errors.employeeId && (
-          <InputErrorMessage>
-            {t(`inputs.employeeId.inputValidation.${errors.employeeId?.type}`)}
-          </InputErrorMessage>
-        )}
-      </Field>
+          {errors.employeeId && (
+            <InputErrorMessage>
+              {t(
+                `inputs.employeeId.inputValidation.${errors.employeeId?.type}`
+              )}
+            </InputErrorMessage>
+          )}
+        </Field>
+      )}
 
       {/* Total / Available Casual */}
       <div className="grid grid-cols-2 gap-4">
