@@ -1,3 +1,4 @@
+import { Title } from "chart.js";
 import axiosInstance from "../config/axios.config";
 import { BaseService } from "./base.services";
 
@@ -443,20 +444,23 @@ export class ReportsService extends BaseService {
     endDate?: string,
     checked?: boolean,
     searchByDeptartmentId?: number,
-    searchBySubDeptartmentId?: number
+    searchBySubDeptartmentId?: number,
+    title?: string
   ) => {
+    console.log("title ==========> ", title);
     try {
       const params = this.buildParams({
         StartDate: startDate,
         EndDate: endDate,
         IncludeSubDepartments: checked,
+        Title: title,
         SearchByDeptartmentId:
           searchByDeptartmentId === 0 ? "" : searchByDeptartmentId,
         SearchBySubDeptartmentId:
           searchBySubDeptartmentId === 0 ? "" : searchBySubDeptartmentId,
         ...(searchType && searchQuery ? { [searchType]: searchQuery } : {}),
       });
-
+      console.log(params);
       const response = await axiosInstance.get(
         `/Reports/EmployeeAbsenceFromWorkReport/PDF`,
         {

@@ -92,5 +92,6 @@
     "heading": "Requests and Leaves Summary",
     "subtitle": "Easily view and analyze all employee requests and available/used leave types."
   },
-  "CheckBox": "Include Sub Department"
+  "CheckBox": "Include Sub Department",
+  "title": "Title"
 }

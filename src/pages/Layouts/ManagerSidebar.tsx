@@ -144,18 +144,18 @@ export const ManagerSidebar = () => {
           </SidebarDropdown>
         )}
 
-        {/* <HasPermission
+        <HasPermission
           permission={[
             "Export Overtime report Excel",
             "Export Overtime report PDF",
           ]}
-        > */}
-        <SidebarItem
-          icon={<Moon size={23} />}
-          name={t("overtime")}
-          to="/manager/work-overtime"
-        />
-        {/* </HasPermission> */}
+        >
+          <SidebarItem
+            icon={<Moon size={23} />}
+            name={t("overtime")}
+            to="/manager/work-overtime"
+          />
+        </HasPermission>
 
         <HasPermission permission="View Requests">
           <SidebarDropdown
@@ -202,7 +202,7 @@ export const ManagerSidebar = () => {
 
         {permissions.includes("see vacations summary") && (
           <SidebarItem
-            icon={<ClipboardList  size={23} />}
+            icon={<ClipboardList size={23} />}
             name={t("vacationSaver")}
             to="/manager/vacation-saver"
           />

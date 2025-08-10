@@ -488,10 +488,11 @@ export const useExportAbsenceFromWorkReportPDF = (
   endDate?: string,
   checked?: boolean,
   departmentId?: number,
-  subDepartmentId?: number
+  subDepartmentId?: number,
+  title?: string
 ) => {
   const service = useReportService();
-
+  console.log(title);
   const { refetch } = useQuery({
     queryKey: [
       QueryKeys.Export.PDF,
@@ -502,6 +503,7 @@ export const useExportAbsenceFromWorkReportPDF = (
       checked,
       departmentId,
       subDepartmentId,
+      title,
     ],
     queryFn: () =>
       service.fetchAbsenceFromWorkReportPDF(
@@ -511,7 +513,8 @@ export const useExportAbsenceFromWorkReportPDF = (
         endDate,
         checked,
         departmentId,
-        subDepartmentId
+        subDepartmentId,
+        title
       ),
     enabled: false, // manual refetching
     retry: 3,

@@ -25,6 +25,7 @@ import { FileDown } from "lucide-react";
 import { HasPermission } from "../../../components/auth";
 import Filters from "./views/Filters";
 import ExportRequestsPopup from "../RequestsSummary/Views/ExportRequestsPopup";
+import ExportVacationSaverPopup from "./views/ExportVacationSaverPopup";
 
 const AllVacationSaverPage = () => {
   const [isDownloadReportPopupOpen, setIsDownloadReportPopupOpen] =
@@ -57,6 +58,7 @@ const AllVacationSaverPage = () => {
   const rawDepartmentId = getParam("searchByDepartmentId", Number);
   const rawSubDeptartmentId = getParam("searchBySubDeptartmentId", Number);
   const rawChecked = getParam("IncludeSubDepartments");
+  const rawTitle = getParam("Title");
   const rawStartDate = getParam("startDate");
   const rawEndDate = getParam("endDate");
 
@@ -67,6 +69,7 @@ const AllVacationSaverPage = () => {
   const searchQuery = rawSearchQuery || undefined;
   const departmentId = rawDepartmentId || "";
   const checked = rawChecked || false;
+  const title = rawTitle || "";
   const subDeptartmentId = rawSubDeptartmentId || "";
   const startDate = rawStartDate || undefined;
   const endDate = rawEndDate || undefined;
@@ -120,7 +123,8 @@ const AllVacationSaverPage = () => {
       endDate,
       checked,
       departmentId || 0,
-      subDeptartmentId || 0
+      subDeptartmentId || 0,
+      title
     );
 
   const REQUESTS_TABLE_COLUMNS = [
@@ -361,7 +365,7 @@ const AllVacationSaverPage = () => {
         handleDownloadPDF={handleDownloadPDF}
       />
 
-      <ExportRequestsPopup
+      <ExportVacationSaverPopup
         isOpen={isAbsenceFromWorkReportDownloadReportPopupOpen}
         handleClose={() =>
           setAbsenceFromWorkReportIsDownloadReportPopupOpen(false)
@@ -392,6 +396,7 @@ const AllVacationSaverPage = () => {
           searchByDepartmentId: Number(departmentId || 0),
           searchBySubDeptartmentId: Number(subDeptartmentId || 0),
           checked: checked,
+          title: title,
         }}
         isLoading={isDownloadingAbsenceFromWorkReport}
         isloadingPDF={isDownloadingAbsenceFromWorkReportPDF}

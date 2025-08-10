@@ -1,0 +1,172 @@
+import { useTranslation } from "react-i18next";
+import {
+  Button,
+  Checkbox,
+  Field,
+  Input,
+  Label,
+  Popup,
+} from "../../../../components/ui";
+import { FileCheck, Search } from "lucide-react";
+import { HasPermission } from "../../../../components/auth";
+import useURLSearchParams from "../../../../hooks/URLSearchParams.hook";
+
+interface Props {
+  isOpen: boolean;
+  handleClose: () => void;
+  handleDownload: () => void;
+  handleDownloadPDF: () => void;
+  filteredData: {
+    searchKey: string;
+    search: string;
+    startDate: string;
+    endDate: string;
+    checked: boolean;
+    searchByDepartmentId: number;
+    searchBySubDeptartmentId: number;
+    title: string;
+  };
+  isLoading: boolean;
+  isloadingPDF: boolean;
+}
+
+const ExportVacationSaverPopup = ({
+  isOpen,
+  handleClose,
+  handleDownload,
+  filteredData,
+  isLoading,
+  handleDownloadPDF,
+  isloadingPDF,
+}: Props) => {
+  const { t } = useTranslation("requestsSummary");
+  const { setParam } = useURLSearchParams();
+
+  return (
+    <Popup
+      isOpen={isOpen}
+      closeModal={handleClose}
+      title={t("exportPopup.title")}
+      description={t("exportPopup.description")}
+    >
+      <div className="bg-gradient-to-br from-gray-50 to-gray-100 p-6 rounded-xl shadow-lg">
+        {/* Device Icon */}
+        <div className="flex flex-col items-center space-y-3">
+          <div className="bg-gray-200 p-4 rounded-full">
+            <FileCheck size={80} className="text-gray-600" />
+          </div>
+        </div>
+
+        {/* Device Information */}
+        <div className="mt-6 space-y-4 divide-y divide-gray-300">
+          {filteredData.searchKey != "" && filteredData.search != "" && (
+            <div className="grid grid-cols-2 py-2">
+              <span className="font-medium text-gray-600">
+                {t(`filters.searchBy.${filteredData.searchKey}`) ?? ""}
+              </span>
+              <span className="text-gray-900 font-semibold">
+                {filteredData.search}
+              </span>
+            </div>
+          )}
+          {filteredData.searchByDepartmentId != 0 && (
+            <div className="grid grid-cols-2 py-2">
+              <span className="font-medium text-gray-600">
+                {t(`filters.searchBy.SearchByDeptartmentID`) ?? ""}
+              </span>
+              <span className="text-gray-900 font-semibold">
+                {filteredData.searchByDepartmentId}
+              </span>
+            </div>
+          )}
+          {filteredData.searchBySubDeptartmentId != 0 && (
+            <div className="grid grid-cols-2 py-2">
+              <span className="font-medium text-gray-600">
+                {t(`filters.searchBy.SearchBySubDeptartmentId`) ?? ""}
+              </span>
+              <span className="text-gray-900 font-semibold">
+                {filteredData.searchBySubDeptartmentId}
+              </span>
+            </div>
+          )}
+          <div className="grid grid-cols-1 py-2">
+            {filteredData.startDate != "" && (
+              <div className="grid grid-cols-2 py-1">
+                <span className="font-medium text-gray-600">
+                  {t("filters.startDate")}
+                </span>
+                <span className="text-gray-900 font-semibold">
+                  {filteredData.startDate}
+                </span>
+              </div>
+            )}
+            {filteredData.endDate != "" && (
+              <div className="grid grid-cols-2 py-1">
+                <span className="font-medium text-gray-600">
+                  {t("filters.endDate")}
+                </span>
+                <span className="text-gray-900 font-semibold">
+                  {filteredData.endDate}
+                </span>
+              </div>
+            )}
+          </div>
+        </div>
+        <Field className="flex space-x-2">
+          <Checkbox
+            onChange={(e) => {
+              setParam("IncludeSubDepartments", String(e.target.checked));
+            }}
+          />
+          <Label>{t("CheckBox")}</Label>
+        </Field>
+
+        <Field className="flex-grow min-w-[200px] flex flex-col space-y-2">
+          <Label>{t("title")}</Label>
+          <Input
+            required
+            id="Title"
+            placeholder={t("title")}
+            onChange={(e) => setParam("Title", e.target.value)}
+          />
+        </Field>
+      </div>
+
+      <div className="flex items-center space-x-3 mt-4">
+        <Button
+          variant="cancel"
+          type="button"
+          fullWidth={true}
+          onClick={handleClose}
+        >
+          {t("buttons.close")}
+        </Button>
+        <HasPermission permission={"Export Requests Report Excel"}>
+          <Button
+            variant="success"
+            type="button"
+            fullWidth={true}
+            onClick={handleDownload}
+            isLoading={isLoading}
+          >
+            {isLoading ? t("buttons.loading") : "Excel"}
+          </Button>
+        </HasPermission>
+
+        <HasPermission permission={"Export Requests Report PDF"}>
+          <Button
+            variant="success"
+            type="button"
+            fullWidth={true}
+            onClick={handleDownloadPDF}
+            isLoading={isloadingPDF}
+          >
+            {isloadingPDF ? t("buttons.loading") : "PDF"}
+          </Button>
+        </HasPermission>
+      </div>
+    </Popup>
+  );
+};
+
+export default ExportVacationSaverPopup;

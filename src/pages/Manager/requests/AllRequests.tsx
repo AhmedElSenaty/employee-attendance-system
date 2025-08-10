@@ -19,7 +19,6 @@ import {
   showToast,
 } from "../../../utils";
 import useURLSearchParams from "../../../hooks/URLSearchParams.hook";
-import Filters from "./views/Filters";
 import {
   useDebounce,
   useExportReport,

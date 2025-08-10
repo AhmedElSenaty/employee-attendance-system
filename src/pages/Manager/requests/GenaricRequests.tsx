@@ -181,23 +181,25 @@ const GenaricRequestsPage = () => {
       <div className="sm:p-5 p-3 space-y-5">
         <Header heading={t("header.heading")} subtitle={t("header.subtitle")} />
 
-        <ActionCard
-          icon={<FileDown />}
-          iconBgColor="bg-[#f5e4b2]"
-          iconColor="text-[#b38e19]"
-          title={t("assignActionCard.title")}
-          description={t("assignActionCard.description")}
-        >
-          <Button
-            fullWidth
-            variant="secondary"
-            onClick={() => {
-              setIsAssignGenericPopupOpen(true);
-            }}
+        <div className="w-[1000px] max-xl:w-full grid grid-cols-1 md:grid-cols-2 gap-10 mx-auto">
+          <ActionCard
+            icon={<FileDown />}
+            iconBgColor="bg-[#f5e4b2]"
+            iconColor="text-[#b38e19]"
+            title={t("assignActionCard.title")}
+            description={t("assignActionCard.description")}
           >
-            {t("assignPopup.buttons.accept")}
-          </Button>
-        </ActionCard>
+            <Button
+              fullWidth
+              variant="secondary"
+              onClick={() => {
+                setIsAssignGenericPopupOpen(true);
+              }}
+            >
+              {t("assignPopup.buttons.accept")}
+            </Button>
+          </ActionCard>
+        </div>
         <div className="bg-white shadow-md space-y-5 p-5 rounded-lg">
           <div className="flex flex-wrap gap-4">
             <Filters

@@ -25,6 +25,8 @@ import { ExportPopup } from "../../common/manage-attendance/views";
 import { downloadFile, showToast } from "../../../utils";
 import { NavLink } from "react-router";
 import ExportRequestsPopup from "../RequestsSummary/Views/ExportRequestsPopup";
+import ExportVacationSaverPopup from "../VacationSaver/views/ExportVacationSaverPopup";
+import { string } from "yup";
 
 const AllManagerReports = () => {
   const [isDownloadingDetailedAttendance, setIsDownloadingDetailedAttendance] =
@@ -87,6 +89,7 @@ const AllManagerReports = () => {
   const rawDepartmentId = getParam("searchByDepartmentId", Number);
   const rawSubDeptartmentId = getParam("searchBySubDeptartmentId", Number);
   const rawChecked = getParam("IncludeSubDepartments");
+  const rawTitle = getParam("Title");
   const startDate = rawStartDate || undefined;
   const endDate = rawEndDate || undefined;
   const startTime = rawStartTime || undefined;
@@ -96,6 +99,7 @@ const AllManagerReports = () => {
   const searchQuery = useDebounce(rawSearchQuery, 650) || undefined;
   const departmentId = rawDepartmentId || "";
   const checked = rawChecked || false;
+  const title = rawTitle || string;
   const subDeptartmentId = rawSubDeptartmentId || "";
   const leaveType = rawLeaveType !== null ? rawLeaveType : undefined;
 
@@ -260,7 +264,8 @@ const AllManagerReports = () => {
       endDate,
       checked,
       departmentId || 0,
-      subDeptartmentId || 0
+      subDeptartmentId || 0,
+      title || ""
     );
 
   // detailed excel
@@ -955,7 +960,7 @@ const AllManagerReports = () => {
       />
 
       {/* absence */}
-      <ExportRequestsPopup
+      <ExportVacationSaverPopup
         isOpen={isAbsenceFromWorkReportDownloadReportPopupOpen}
         handleClose={() =>
           setAbsenceFromWorkReportIsDownloadReportPopupOpen(false)
@@ -986,6 +991,7 @@ const AllManagerReports = () => {
           searchByDepartmentId: Number(departmentId || 0),
           searchBySubDeptartmentId: Number(subDeptartmentId || 0),
           checked: checked,
+          title: title,
         }}
         isLoading={isDownloadingAbsenceFromWorkReport}
         isloadingPDF={isDownloadingAbsenceFromWorkReportPDF}
