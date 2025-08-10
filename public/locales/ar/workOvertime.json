@@ -1,0 +1,73 @@
+{
+  "header": {
+    "heading": "تصدير تقرير السهر",
+    "subtitle": "قم بتصدير تقرير السهر المعروض حاليًا في الجدول وحفظه بالتنسيق الذي تفضله."
+  },
+  "table": {
+    "emptyTable": {
+      "title": "لا توجد بيانات",
+      "message": "حاول تعديل الفلاتر ."
+    },
+    "columns": {
+      "id": "#المعرّف",
+      "employeeName": "اسم الموظف",
+      "subDeptName": "القسم الفرعي",
+      "depart": "الإدارة",
+      "date": "التاريخ",
+      "day": "اليوم",
+      "in": "وقت الحضور",
+      "out": "وقت الانصراف",
+      "totalHours": "إجمالي الساعات",
+      "actions": "الإجراءات"
+    }
+  },
+  "sectionsHeader": {
+    "add": {
+      "title": "إضافة طلب تعديل إجازة",
+      "description": "املأ التفاصيل المطلوبة لإضافة طلب تعديل جديد لرصيد الإجازات."
+    },
+    "entitiesList": {
+      "title": "قائمة السهر",
+      "description": "عرض و فلترة قائمة السهر"
+    }
+  },
+  "exportActionCard": {
+    "title": "تصدير البيانات المفلترة",
+    "description": "تصدير البيانات الظاهرة في الجدول وتحميلها بالتنسيق المفضل.",
+    "button": "تصدير",
+    "validation": {
+      "selectDateRange": "يجب تحديد تاريخ البدء والانتهاء أولاً."
+    }
+  },
+  "export": {
+    "exportSuccess": "تم تصدير البيانات بنجاح! ✅",
+    "exportError": "فشل في تصدير البيانات. الرجاء المحاولة مرة أخرى ❌"
+  },
+
+  "filters": {
+    "pageSize": "عدد العناصر",
+    "toolTipResetFilters": "إعادة تعيين الكل",
+    "searchBy": {
+      "label": "نوع البحث",
+      "default": "طريقة البحث",
+      "SearchById": "المعرّف",
+      "SearchByEmployeeName": "اسم الموظف بالكامل",
+      "SearchBySSN": "الرقم القومي",
+      "SearchByDepartmentId": "القسم"
+    },
+    "startDate": "تاريخ البداية",
+    "endDate": "تاريخ النهاية",
+    "search": {
+      "label": "بحث",
+      "placeholder": "ابحث هنا..."
+    },
+    "select": {
+      "placeholder": "اختر"
+    }
+  },
+  "buttons": {
+    "close": "إغلاق",
+    "loading": "جارٍ التحميل..."
+  },
+  "NA": "غير متوفر"
+}

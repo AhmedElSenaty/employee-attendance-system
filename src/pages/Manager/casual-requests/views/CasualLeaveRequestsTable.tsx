@@ -154,13 +154,16 @@ const CasualLeaveRequestssTable = ({
                             onClick={() => handleDelete(casualLeaveRequest.id)}
                           />
                         </Tooltip>
-                        <Button
-                          variant="info"
-                          fullWidth={false}
-                          size={"sm"}
-                          icon={<FilePenLine className="w-full h-full" />}
-                          onClick={() => handleEdit(casualLeaveRequest.id)}
-                        />
+
+                        <Tooltip content={t("table.buttons.toolTipEdit")}>
+                          <Button
+                            variant="info"
+                            fullWidth={false}
+                            size={"sm"}
+                            icon={<FilePenLine className="w-full h-full" />}
+                            onClick={() => handleEdit(casualLeaveRequest.id)}
+                          />
+                        </Tooltip>
                       </>
                     )}
                   </div>

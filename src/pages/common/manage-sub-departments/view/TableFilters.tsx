@@ -138,6 +138,7 @@ const TableFilters = ({ searchBy, getParam, setParam, clearParams }: Props) => {
             <SelectBoxSkeleton />
           ) : (
             <CustomSelect
+              placeholder={t("filters.select.placeholder")}
               options={departmentOptions}
               value={selectedDepartmentValue}
               onChange={(option) => {
@@ -161,6 +162,7 @@ const TableFilters = ({ searchBy, getParam, setParam, clearParams }: Props) => {
             <SelectBoxSkeleton />
           ) : (
             <CustomSelect
+              placeholder={t("filters.select.placeholder")}
               options={subDepartmentOptions}
               value={selectedSubDepartmentValue}
               onChange={(option) => {

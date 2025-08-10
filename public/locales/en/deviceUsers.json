@@ -104,5 +104,7 @@
       "save": "Save Changes",
       "cancel": "Cancel"
     }
-  }
+  },
+  "switchRoleToAdmin": "Switch Role to Admin",
+  "switchRoleToUser": "Switch Role to User"
 }

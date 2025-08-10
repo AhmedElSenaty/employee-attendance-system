@@ -127,8 +127,8 @@ const DeviceUsers = () => {
                             <Tooltip
                               content={
                                 deviceUser.role == 14
-                                  ? "تبديل الدور الى مستخدم"
-                                  : "تبديل الدور الى ادمين"
+                                  ? t("switchRoleToUser")
+                                  : t("switchRoleToAdmin")
                               }
                             >
                               <Button

@@ -1,41 +1,40 @@
-import { useTranslation } from "react-i18next";
-import { useLanguageStore } from "../../../../store/language.store";
+import { formatValue } from "../../../../utils";
+import { Calendar, RefreshCcw, Search } from "lucide-react";
+import { useLanguageStore } from "../../../../store/";
 import {
   Button,
   CustomSelect,
   Field,
   Input,
   Label,
-  SelectBox,
   SelectBoxSkeleton,
   Tooltip,
 } from "../../../../components/ui";
-import { formatValue } from "../../../../utils";
-import { Calendar, RefreshCcw, Search } from "lucide-react";
-import { RequestStatusType } from "../../../../enums";
-import { CASUAL_REQUESTS_NS } from "../../../../constants";
-import { useGetEmployeesList } from "../../../../hooks";
-import { EmployeeSummary } from "../../../../interfaces";
+import { useTranslation } from "react-i18next";
+import { DepartmentSummary, EmployeeSummary } from "../../../../interfaces";
+import { useGetDepartmentsList, useGetEmployeesList } from "../../../../hooks";
 import { useSearchParams } from "react-router";
+import { useEffect, useMemo, useState } from "react";
 
-interface FiltersProps {
-  searchBy: string[];
+interface Props {
   getParam: (key: string) => string | number | null;
   setParam: (key: string, value: string) => void;
   clearParams: () => void;
+  searchBy: string[];
 }
 
-const TableFilters = ({
-  searchBy,
+const OverTimeFilter = ({
   getParam,
   setParam,
   clearParams,
-}: FiltersProps) => {
-  const { t } = useTranslation(CASUAL_REQUESTS_NS);
-  const { language } = useLanguageStore(); // Accessing the current language from the Redux state
+  searchBy,
+}: Props) => {
+  const { language } = useLanguageStore();
+  const { t } = useTranslation("workOvertime");
   const [searchParams, setSearchParams] = useSearchParams();
 
   const setParams = (params: Record<string, string>) => {
+    console.log(params);
     for (const key in params) {
       searchParams.set(key, params[key]);
     }
@@ -60,28 +59,51 @@ const TableFilters = ({
       label: employee.name,
     })) || [];
 
+  const pageSizeOptions = [10, 20, 30, 40, 50].map((size) => ({
+    value: size,
+    label: formatValue(size, language),
+  }));
+
+  const selectedPageSizeValue = pageSizeOptions.find(
+    (opt) =>
+      opt.value === (getParam("pageSize") ? Number(getParam("pageSize")) : 10)
+  );
+  const [selectDepartmentID, setSelectDepartmentID] = useState<number | null>(
+    null
+  );
+
+  const { departmentsList, isLoading: isDepartmentsLoading } =
+    useGetDepartmentsList();
+
+  useEffect(() => {
+    setSelectDepartmentID(selectDepartmentID || null);
+  }, [selectDepartmentID]);
+
+  const departmentOptions = useMemo(
+    () =>
+      departmentsList?.map((department: DepartmentSummary) => ({
+        value: department.id,
+        label: department.name,
+      })) || [],
+    [departmentsList]
+  );
   return (
-    <div className="w-full flex flex-wrap items-end gap-4">
-      <Field className="flex flex-col space-y-2 w-fit">
+    <div className="flex flex-wrap items-end gap-4">
+      {/* page count */}
+      <Field className="w-[90px] flex flex-col space-y-2">
         <Label>{t("filters.pageSize")}</Label>
-        <SelectBox
-          value={getParam("pageSize") ?? 5}
-          onChange={(e) =>
-            setParam(
-              "pageSize",
-              String(e.target.value ? parseInt(e.target.value) : 10)
-            )
+        <CustomSelect
+          options={pageSizeOptions}
+          value={selectedPageSizeValue}
+          onChange={(option) =>
+            setParam("pageSize", String(option?.value ?? 10))
           }
-        >
-          {[10, 20, 30, 40, 50].map((size) => (
-            <option key={size} value={size}>
-              {formatValue(size, language)}
-            </option>
-          ))}
-        </SelectBox>
+          className="w-25"
+        />
       </Field>
 
-      <Field className="flex flex-col space-y-2">
+      {/* start date */}
+      <Field className="w-[180px] flex flex-col space-y-2">
         <Label>{t("filters.startDate")}</Label>
         <Input
           type="date"
@@ -91,50 +113,14 @@ const TableFilters = ({
         />
       </Field>
 
-      <Field className="flex flex-col space-y-2">
+      {/* end date */}
+      <Field className="w-[180px] flex flex-col space-y-2">
         <Label>{t("filters.endDate")}</Label>
         <Input
           type="date"
           icon={<Calendar />}
           value={getParam("endDate") ?? ""}
           onChange={(e) => setParam("endDate", e.target.value)}
-        />
-      </Field>
-
-      {/* status */}
-      <Field className=" flex flex-col space-y-2">
-        <Label>{t("table.columns.status")}</Label>
-        <CustomSelect
-          placeholder={t("filters.select.placeholder")}
-          options={Object.values(RequestStatusType)
-            .filter((v) => typeof v === "number")
-            .map((statusValue) => ({
-              value: String(statusValue),
-              label: t(`status.${statusValue}`),
-            }))}
-          value={
-            getParam("status")
-              ? {
-                  value: getParam("status"),
-                  label: t(`status.${getParam("status")}`),
-                }
-              : null
-          }
-          onChange={(option) => {
-            const selectedValue = option?.value;
-
-            const newParams = new URLSearchParams(searchParams);
-            if (selectedValue) {
-              newParams.set("status", selectedValue);
-            } else {
-              newParams.delete("status"); // ✅ Removes from URL
-            }
-
-            setSearchParams(newParams);
-          }}
-          isClearable
-          isSearchable
-          className="w-50"
         />
       </Field>
 
@@ -163,7 +149,7 @@ const TableFilters = ({
 
       {/* Employee name */}
       <Field className="space-y-2 w-[300px]">
-        <Label size="lg">{t("inputs.employeeId.label")}</Label>
+        <Label size="lg">{t("filters.searchBy.SearchByEmployeeName")}</Label>
         {isEmployeesListLoading ? (
           <SelectBoxSkeleton />
         ) : (
@@ -172,7 +158,7 @@ const TableFilters = ({
             className="w-full"
             options={employeeOptions}
             value={
-              getParam("searchKey") === "SearchByFullName"
+              getParam("searchKey") === "SearchByEmployeeName"
                 ? employeeOptions.find(
                     (opt) => opt.value === getParam("searchQuery")
                   ) || null
@@ -181,7 +167,7 @@ const TableFilters = ({
             onChange={(option) => {
               const name = String(option?.value ?? "");
               setParams({
-                searchKey: "SearchByFullName",
+                searchKey: "SearchByEmployeeName",
                 searchQuery: name,
               });
             }}
@@ -191,6 +177,38 @@ const TableFilters = ({
         )}
       </Field>
 
+      {/* Department Select */}
+      {/* <Field className="space-y-3 w-full sm:w-auto flex flex-col">
+        <Label size="lg">{t("inputs.departmentId.label")}</Label>
+        {isDepartmentsLoading ? (
+          <SelectBoxSkeleton />
+        ) : (
+          <CustomSelect
+            placeholder={t("filters.select.label")}
+            options={departmentOptions}
+            value={
+              getParam("searchKey") === "SearchByDeptartmentID"
+                ? departmentOptions.find(
+                    (opt) => opt.value.toString() === getParam("searchQuery")
+                  ) || null
+                : null
+            }
+            onChange={(option) => {
+              const id = option?.value?.toString() ?? "";
+              setSearchParams({
+                ...Object.fromEntries(searchParams),
+                searchKey: "SearchByDeptartmentID",
+                searchQuery: id,
+              });
+              setSelectDepartmentID(Number(id));
+            }}
+            className="w-70"
+            isSearchable
+            isClearable
+          />
+        )}
+      </Field> */}
+
       <Tooltip content={t("filters.toolTipResetFilters")}>
         <Button onClick={clearParams} icon={<RefreshCcw />} />
       </Tooltip>
@@ -198,4 +216,4 @@ const TableFilters = ({
   );
 };
 
-export default TableFilters;
+export default OverTimeFilter;

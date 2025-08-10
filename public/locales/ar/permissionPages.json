@@ -21,5 +21,7 @@
   "notYourPermissions": "الصلاحيات التي لا تمتلكها",
   "key": "المفتاح",
   "deselectAll": "إلغاء تحديد الكل",
-  "selectAll": "تحديد الكل"
+  "selectAll": "تحديد الكل",
+  "addAll": "اضف الكل",
+  "removeAll": "حذف الكل"
 }

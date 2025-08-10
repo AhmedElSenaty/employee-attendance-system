@@ -20,10 +20,7 @@ const RenderPermissions = ({ permissions = [] }: IProps) => {
       />
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 border border-black">
         {permissions.map(({ id, nameAr, nameEn }) => (
-          <div
-            key={id}
-            className="border border-black px-4 py-2 text-center"
-          >
+          <div key={id} className="border border-black px-4 py-2 text-center">
             {language === "en" ? nameEn : nameAr}
           </div>
         ))}

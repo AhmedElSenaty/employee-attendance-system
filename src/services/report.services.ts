@@ -471,4 +471,76 @@ export class ReportsService extends BaseService {
       throw error;
     }
   };
+
+  fetchWorkOvertimeReportPDF = async (
+    searchType?: string,
+    searchQuery?: string,
+    startDate?: string,
+    endDate?: string,
+    checked?: boolean,
+    searchByDeptartmentId?: number,
+    searchBySubDeptartmentId?: number
+  ) => {
+    try {
+      const params = this.buildParams({
+        StartDate: startDate,
+        EndDate: endDate,
+        IncludeSubDepartments: checked,
+        SearchByDeptartmentId:
+          searchByDeptartmentId === 0 ? "" : searchByDeptartmentId,
+        SearchBySubDeptartmentId:
+          searchBySubDeptartmentId === 0 ? "" : searchBySubDeptartmentId,
+        ...(searchType && searchQuery ? { [searchType]: searchQuery } : {}),
+      });
+
+      const response = await axiosInstance.get(
+        `/Reports/EmployeeWorkOvertimeReport/PDF`,
+        {
+          params,
+          headers: this.getAuthHeaders(),
+        }
+      );
+
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching employee attendance report:", error);
+      throw error;
+    }
+  };
+
+  fetchWorkOvertimeReportExcel = async (
+    searchType?: string,
+    searchQuery?: string,
+    startDate?: string,
+    endDate?: string,
+    checked?: boolean,
+    searchByDeptartmentId?: number,
+    searchBySubDeptartmentId?: number
+  ) => {
+    try {
+      const params = this.buildParams({
+        StartDate: startDate,
+        EndDate: endDate,
+        IncludeSubDepartments: checked,
+        SearchByDeptartmentId:
+          searchByDeptartmentId === 0 ? "" : searchByDeptartmentId,
+        SearchBySubDeptartmentId:
+          searchBySubDeptartmentId === 0 ? "" : searchBySubDeptartmentId,
+        ...(searchType && searchQuery ? { [searchType]: searchQuery } : {}),
+      });
+
+      const response = await axiosInstance.get(
+        `/Reports/EmployeeWorkOvertimeReport/Excel`,
+        {
+          params,
+          headers: this.getAuthHeaders(),
+        }
+      );
+
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching employee attendance report:", error);
+      throw error;
+    }
+  };
 }

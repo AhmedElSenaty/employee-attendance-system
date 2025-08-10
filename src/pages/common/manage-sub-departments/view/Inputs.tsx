@@ -116,6 +116,7 @@ const Inputs = ({
             control={control}
             render={({ field }) => (
               <CustomSelect
+                placeholder={t("filters.select.placeholder")}
                 className="w-full"
                 options={departmentOptions}
                 value={
@@ -150,6 +151,7 @@ const Inputs = ({
             control={control}
             render={({ field }) => (
               <CustomSelect
+                placeholder={t("filters.select.placeholder")}
                 className="w-full"
                 options={entityOptions}
                 value={

@@ -183,7 +183,8 @@
       "toolTipShow": "عرض طلب الاذن",
       "toolTipAccept": "قبول طلب الاذن",
       "toolTipReject": "رفض طلب الاذن",
-      "toolTipDelete": "مسح طلب الإجازة"
+      "toolTipDelete": "مسح طلب الإجازة",
+      "toolTipEdit": "تعديل طلب الإجازة"
     }
   },
   "acceptPopup": {

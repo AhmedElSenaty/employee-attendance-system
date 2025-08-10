@@ -181,7 +181,9 @@
     "buttons": {
       "toolTipShow": "Show Casual Leave Request",
       "toolTipAccept": "Accept Casual Leave Request",
-      "toolTipReject": "Reject Casual Leave Request"
+      "toolTipReject": "Reject Casual Leave Request",
+      "toolTipDelete": "Delete Casual Leave Request",
+      "toolTipEdit": "Edit Casual Leave Request"
     }
   },
   "acceptPopup": {

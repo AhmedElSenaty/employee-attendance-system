@@ -50,11 +50,11 @@
       }
     },
     "permitApproval": {
-      "label": "موافقة التصريح",
-      "placeholder": "أدخل تفاصيل موافقة التصريح.",
+      "label": "التصريح",
+      "placeholder": "أدخل تفاصيل التصريح.",
       "inputValidation": {
         "max": "لا يمكن أن تتجاوز التفاصيل 500 حرف",
-        "required": "موافقة التصريح مطلوبة"
+        "required": "التصريح مطلوبة"
       }
     },
     "comment": {
@@ -109,11 +109,12 @@
       "actions": "إجراءات"
     },
     "buttons": {
-      "toolTipShow": "عرض الطلب",
-      "toolTipAccept": "قبول الطلب",
-      "toolTipReject": "رفض الطلب",
+      "toolTipShow": "عرض الاجازة المرضية",
+      "toolTipAccept": "قبول الاجازة المرضية",
+      "toolTipReject": "رفض الاجازة المرضية",
       "toolOpenReport": "عرض تقرير الموظف",
-      "toolTipDelete": "مسح طلب الإجازة"
+      "toolTipDelete": "مسح طلب الاجازة المرضية",
+      "toolTipEdit": "تعديل طلب الاجازة المرضية"
     }
   },
   "acceptPopup": {

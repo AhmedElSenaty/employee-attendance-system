@@ -33,7 +33,6 @@ import Inputs from "./views/Inputs";
 import TableFilters from "./views/TableFilter";
 import AddInputs from "./views/Inputs";
 import EditPopup from "./views/EditPopup";
-import { tr } from "date-fns/locale";
 import { CirclePlus } from "lucide-react";
 
 const ManageChangeVacationRequestsPage = () => {

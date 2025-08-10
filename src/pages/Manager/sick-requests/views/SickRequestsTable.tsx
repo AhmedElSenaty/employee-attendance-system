@@ -171,13 +171,16 @@ const SickRequestsTable = ({
                             onClick={() => handleDelete(sickRequest.requestId)}
                           />
                         </Tooltip>
-                        <Button
-                          variant="info"
-                          fullWidth={false}
-                          size={"sm"}
-                          icon={<FilePenLine className="w-full h-full" />}
-                          onClick={() => handleEdit(sickRequest.requestId)}
-                        />
+
+                        <Tooltip content={t("table.buttons.toolTipEdit")}>
+                          <Button
+                            variant="info"
+                            fullWidth={false}
+                            size={"sm"}
+                            icon={<FilePenLine className="w-full h-full" />}
+                            onClick={() => handleEdit(sickRequest.requestId)}
+                          />
+                        </Tooltip>
                       </>
                     )}
                   </div>

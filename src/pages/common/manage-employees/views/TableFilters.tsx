@@ -13,16 +13,8 @@ import {
 import { useTranslation } from "react-i18next";
 import { EMPLOYEE_NS } from "../../../../constants";
 import { Control } from "react-hook-form";
-import {
-  DepartmentSummary,
-  EmployeeSummary,
-  SubDepartmentSummary,
-} from "../../../../interfaces";
-import {
-  useGetDepartmentsList,
-  useGetDepartmentSubDepartments,
-  useGetEmployeesList,
-} from "../../../../hooks";
+import { DepartmentSummary, EmployeeSummary } from "../../../../interfaces";
+import { useGetDepartmentsList, useGetEmployeesList } from "../../../../hooks";
 import { useSearchParams } from "react-router";
 import { useEffect, useMemo, useState } from "react";
 

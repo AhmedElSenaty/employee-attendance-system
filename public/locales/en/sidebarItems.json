@@ -1,6 +1,7 @@
 {
   "welcomeBack": "Welcome Back!",
   "administrator": "Administrator",
+  "allReports": "All Reports",
   "manager": "Manager",
   "home": "Home",
   "dashboard": "Dashboard",
@@ -19,6 +20,7 @@
   "attendanceSummary": "Attendance Summary",
   "attendanceVacation": "Attendance With Vacation",
   "devices": "Devices",
+  "deviceUses": "Device Users",
   "manageDepartments": "Manage Departments",
   "departments": "Departments",
   "subDepartments": "Sub-Departments",
@@ -39,7 +41,12 @@
   "addRequest": "Add Request",
   "requestsSummary": "Requests Summary",
   "genaricRequests": "Requests by decision",
-  "vacationAdjustment": "Leave Balance Adjustment Request",
+  "vacationAdjustment": "Leave Balance Adjustment",
   "manageVacationAdjustment": "Manage Leave Balance",
-  "manageAdminsManagersPermissions": "User Permissions"
+  "manageAdminsManagersPermissions": "User Permissions",
+  "overtime": "Overtime",
+  "manageRequests": "Manage Requests",
+  "homeVisitRequests": "Home Visit Requests",
+  "vacationSaver": "Vacation Saver",
+  "allRequests": "All Requests"
 }

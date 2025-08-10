@@ -84,7 +84,7 @@ const AddOrRemoveFromAllUsers = () => {
             disabled={isAdding || checkedPermissions.length === 0}
             isLoading={isAdding}
           >
-            {t("buttons.addAllToManagers", "Add All Selected")}
+            {t("addAll")}
           </Button>
 
           <Button
@@ -93,7 +93,7 @@ const AddOrRemoveFromAllUsers = () => {
             disabled={isRemoving || checkedPermissions.length === 0}
             isLoading={isRemoving}
           >
-            {t("buttons.removeAllFromManagers", "Remove All Selected")}
+            {t("removeAll")}
           </Button>
         </div>
       </div>

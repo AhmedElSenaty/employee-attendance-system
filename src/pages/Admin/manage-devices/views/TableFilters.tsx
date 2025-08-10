@@ -83,6 +83,7 @@ const TableFilters = ({ searchBy, getParam, setParam, clearParams }: Props) => {
         <Field className="flex flex-col space-y-2">
           <Label size="md">{t("filters.searchBy.label")} </Label>
           <CustomSelect
+          placeholder={t("filters.select.label")}
             options={searchByOptions}
             value={selectedSearchByValue}
             onChange={(option) => setParam("searchKey", String(option?.value))}

@@ -51,8 +51,8 @@
       "id": "المعرف",
       "deviceId": "معرف الجهاز",
       "employeeId": "معرف الموظف",
-      "attendanceDate": "تاريخ الحضور",
-      "attendanceTime": "وقت الحضور",
+      "attendanceDate": "التاريخ",
+      "attendanceTime": "الوقت",
       "status": "الحالة",
       "deviceName": "اسم الجهاز",
       "empName": "اسم الموظف",
@@ -116,18 +116,18 @@
       }
     },
     "attendanceDate": {
-      "label": "تاريخ الحضور",
-      "placeholder": "أدخل تاريخ الحضور",
+      "label": "التاريخ",
+      "placeholder": "أدخل التاريخ",
       "inputValidation": {
-        "required": "تاريخ الحضور مطلوب",
+        "required": "التاريخ مطلوب",
         "matches": "تنسيق التاريخ غير صحيح (YYYY-MM-DD)"
       }
     },
     "attendanceTime": {
-      "label": "وقت الحضور",
-      "placeholder": "أدخل وقت الحضور",
+      "label": "الوقت",
+      "placeholder": "أدخل الوقت",
       "inputValidation": {
-        "required": "وقت الحضور مطلوب",
+        "required": "الوقت مطلوب",
         "matches": "تنسيق الوقت غير صحيح (HH:mm)"
       }
     },

@@ -157,10 +157,11 @@
       "actions": "الإجراءات"
     },
     "buttons": {
-      "toolTipShow": "عرض الطلب",
-      "toolTipAccept": "قبول الطلب",
-      "toolTipReject": "رفض الطلب",
-      "toolTipDelete": "مسح طلب الإجازة"
+      "toolTipShow": "عرض الإجازة الاعتيادية",
+      "toolTipAccept": "قبول الإجازة الاعتيادية",
+      "toolTipReject": "رفض الإجازة الاعتيادية",
+      "toolTipDelete": "مسح الإجازة الاعتيادية",
+      "toolTipEdit": "تعديل الإجازة الاعتيادية"
     }
   },
   "acceptPopup": {

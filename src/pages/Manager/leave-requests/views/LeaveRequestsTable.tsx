@@ -150,13 +150,15 @@ const LeaveRequestsTable = ({
                             onClick={() => handleDelete(leaveRequest.id)}
                           />
                         </Tooltip>
-                        <Button
-                          variant="info"
-                          fullWidth={false}
-                          size={"sm"}
-                          icon={<FilePenLine className="w-full h-full" />}
-                          onClick={() => handleEdit(leaveRequest.id)}
-                        />
+                        <Tooltip content={t("table.buttons.toolTipEdit")}>
+                          <Button
+                            variant="info"
+                            fullWidth={false}
+                            size={"sm"}
+                            icon={<FilePenLine className="w-full h-full" />}
+                            onClick={() => handleEdit(leaveRequest.id)}
+                          />
+                        </Tooltip>
                       </>
                     )}
                   </div>

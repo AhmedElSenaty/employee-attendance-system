@@ -10,7 +10,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import { useCreateEntity, useDebounce } from "../../../hooks/";
-import { ENTITY_NS, ENTITY_VIDEO } from "../../../constants";
+import { ENTITY_VIDEO } from "../../../constants";
 import useURLSearchParams from "../../../hooks/URLSearchParams.hook";
 
 import {
@@ -105,16 +105,10 @@ const ManageChangeVacationRequestsPage = () => {
     resetEditInputs
   );
 
-  const { mutate: addEntity, isPending: isAdding } = useCreateEntity();
   const { mutate: updateEntity, isPending: isUpdating } = useUpdate();
   const { mutate: deleteEntity, isPending: isDeleting } = useAccept();
   const { mutate: reject, isPending: isRejecting } = useReject();
 
-  const handleConfirmAdd: SubmitHandler<ChangeVacationCountFormValues> = (
-    request
-  ) => {
-    addEntity(request);
-  };
   const handleConfirmUpdate: SubmitHandler<ChangeVacationCountFormValues> = (
     request
   ) => {

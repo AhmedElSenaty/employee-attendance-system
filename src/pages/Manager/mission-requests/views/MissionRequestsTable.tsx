@@ -152,13 +152,16 @@ const MissionRequestsTable = ({
                             onClick={() => handleDelete(missionRequest.id)}
                           />
                         </Tooltip>
-                        <Button
-                          variant="info"
-                          fullWidth={false}
-                          size={"sm"}
-                          icon={<FilePenLine className="w-full h-full" />}
-                          onClick={() => handleEdit(missionRequest.id)}
-                        />
+
+                        <Tooltip content={t("table.buttons.toolTipEdit")}>
+                          <Button
+                            variant="info"
+                            fullWidth={false}
+                            size={"sm"}
+                            icon={<FilePenLine className="w-full h-full" />}
+                            onClick={() => handleEdit(missionRequest.id)}
+                          />
+                        </Tooltip>
                       </>
                     )}
                   </div>

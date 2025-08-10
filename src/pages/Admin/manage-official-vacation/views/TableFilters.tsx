@@ -1,23 +1,25 @@
 import { formatValue } from "../../../../utils";
 import { Calendar, RefreshCcw, Search } from "lucide-react";
 import { useLanguageStore } from "../../../../store/";
-import { Button, CustomSelect, Field, Input, Label, Tooltip } from "../../../../components/ui";
+import {
+  Button,
+  CustomSelect,
+  Field,
+  Input,
+  Label,
+  Tooltip,
+} from "../../../../components/ui";
 import { useTranslation } from "react-i18next";
 import { OFFICIAL_VACATION_NS } from "../../../../constants";
 
 interface Props {
-  searchBy: string[]
+  searchBy: string[];
   getParam: (key: string) => string | number | null;
   setParam: (key: string, value: string) => void;
   clearParams: () => void;
 }
 
-const TableFilters = ({
-  searchBy,
-  getParam,
-  setParam,
-  clearParams,
-}: Props) => {
+const TableFilters = ({ searchBy, getParam, setParam, clearParams }: Props) => {
   const { language } = useLanguageStore();
   const { t } = useTranslation([OFFICIAL_VACATION_NS]);
 
@@ -25,16 +27,21 @@ const TableFilters = ({
     value: size,
     label: formatValue(size, language),
   }));
-  
-  const selectedPageSizeValue = pageSizeOptions.find(opt => opt.value === (getParam("pageSize") ? Number(getParam("pageSize")) : 10));
-  
+
+  const selectedPageSizeValue = pageSizeOptions.find(
+    (opt) =>
+      opt.value === (getParam("pageSize") ? Number(getParam("pageSize")) : 10)
+  );
+
   const searchByOptions = searchBy.map((search) => ({
     value: search || "",
     label: t(`filters.searchBy.${String(search)}`) ?? "",
   }));
-  
-  const selectedSearchByValue = searchByOptions.find(opt => opt.value === (getParam("searchKey") ? getParam("searchKey") : ""));
-  
+
+  const selectedSearchByValue = searchByOptions.find(
+    (opt) => opt.value === (getParam("searchKey") ? getParam("searchKey") : "")
+  );
+
   return (
     <>
       <div className="w-full flex flex-wrap items-end gap-4">
@@ -43,7 +50,7 @@ const TableFilters = ({
           <CustomSelect
             options={pageSizeOptions}
             value={selectedPageSizeValue}
-            onChange={(option) => 
+            onChange={(option) =>
               setParam("pageSize", String(option?.value ?? 10))
             }
             className="w-25"
@@ -74,11 +81,10 @@ const TableFilters = ({
         <Field className="flex flex-col space-y-2">
           <Label size="md">{t("filters.searchBy.label")} </Label>
           <CustomSelect
+            placeholder={t("filters.select.label")}
             options={searchByOptions}
             value={selectedSearchByValue}
-            onChange={(option) => 
-              setParam("searchKey", String(option?.value))
-            }
+            onChange={(option) => setParam("searchKey", String(option?.value))}
             isSearchable
           />
         </Field>
@@ -99,7 +105,7 @@ const TableFilters = ({
         </Tooltip>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default TableFilters
+export default TableFilters;

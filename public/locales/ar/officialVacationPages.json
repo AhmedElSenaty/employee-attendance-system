@@ -21,7 +21,7 @@
     }
   },
   "filters": {
-    "pageSize": "عدد العناصر في الصفحة",
+    "pageSize": "عدد العناصر",
     "toolTipResetFilters": "إعادة تعيين الكل",
     "startDate": "تاريخ البدء",
     "endDate": "تاريخ الانتهاء",
@@ -32,7 +32,10 @@
     },
     "search": {
       "label": "بحث",
-      "placeholder": "أدخل القيمة التي تريد البحث عنها..."
+      "placeholder": "ابحث هنا..."
+    },
+    "select": {
+      "label": "اختر"
     }
   },
   "CountCard": {

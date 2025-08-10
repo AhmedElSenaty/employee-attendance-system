@@ -21,5 +21,7 @@
   "notYourPermissions": "Permissions you don't have access to",
   "key": "Key",
   "deselectAll": "Deselect All",
-  "selectAll": "Select All"
+  "selectAll": "Select All",
+  "addAll": "Add all",
+  "removeAll": "Remove all"
 }

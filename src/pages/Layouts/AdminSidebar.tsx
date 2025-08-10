@@ -54,7 +54,7 @@ export const AdminSidebar = () => {
 
       <SidebarItem
         icon={<FileBarChart2 size={23} />}
-        name={t("جميع التقارير")}
+        name={t("allReports")}
         to="/admin/allReports"
       />
 
@@ -199,11 +199,14 @@ export const AdminSidebar = () => {
         />
       )}
 
-      <SidebarItem
-        icon={<FileEdit size={23} />}
-        name={t("manageVacationAdjustment")}
-        to="/admin/change-vacation-requests"
-      />
+      <HasPermission permission={"Manage Vacation Adjustment"}>
+        <SidebarItem
+          icon={<FileEdit size={23} />}
+          name={t("manageVacationAdjustment")}
+          to="/admin/change-vacation-requests"
+        />
+      </HasPermission>
+
       {permissions.includes("View Official Vacations") && (
         <SidebarItem
           icon={<TreePalm size={23} />}

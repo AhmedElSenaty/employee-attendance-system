@@ -153,13 +153,15 @@ const OrdinaryRequestsTable = ({
                             onClick={() => handleDelete(ordinaryRequest.id)}
                           />
                         </Tooltip>
-                        <Button
-                          variant="info"
-                          fullWidth={false}
-                          size={"sm"}
-                          icon={<FilePenLine className="w-full h-full" />}
-                          onClick={() => handleEdit(ordinaryRequest.id)}
-                        />
+                        <Tooltip content={t("table.buttons.toolTipEdit")}>
+                          <Button
+                            variant="info"
+                            fullWidth={false}
+                            size={"sm"}
+                            icon={<FilePenLine className="w-full h-full" />}
+                            onClick={() => handleEdit(ordinaryRequest.id)}
+                          />
+                        </Tooltip>
                       </>
                     )}
                   </div>

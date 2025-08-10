@@ -5,6 +5,7 @@ import {
   CirclePlus,
   Fingerprint,
   LayoutGrid,
+  UserCog,
 } from "lucide-react";
 import { formatValue } from "../../../utils";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -154,16 +155,18 @@ const ManageDevicesPage = () => {
 
         <div className="max-w-[1000px] mx-auto space-y-6">
           <div className="flex justify-center">
-            <CountCard
-              title={t("CountCard.title")}
-              description={t("CountCard.description")}
-              count={formatValue(count, language)}
-              icon={<Fingerprint size={28} />}
-              bgColor="bg-[#b38e19]"
-            />
+            <div className="w-full max-w-md">
+              <CountCard
+                title={t("CountCard.title")}
+                description={t("CountCard.description")}
+                count={formatValue(count, language)}
+                icon={<Fingerprint size={28} />}
+                bgColor="bg-[#b38e19]"
+              />
+            </div>
           </div>
           <div className="flex flex-col md:flex-row gap-5">
-            <div className="w-full md:w-1/2 h-fit">
+            <div className="w-full md:w-1/2">
               <HasPermission permission="Add Device">
                 <ActionCard
                   icon={<CirclePlus />}
@@ -182,7 +185,7 @@ const ManageDevicesPage = () => {
                 </ActionCard>
               </HasPermission>
             </div>
-            <div className="w-full md:w-1/2 h-fit">
+            <div className="w-full md:w-1/2">
               {getParam("table") != "disconnectedDevices" ? (
                 <ActionCard
                   icon={<AlertTriangle />}

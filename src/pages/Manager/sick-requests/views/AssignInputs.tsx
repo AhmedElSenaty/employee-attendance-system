@@ -1,7 +1,25 @@
-import { Control, Controller, FieldErrors, UseFormRegister, UseFormWatch } from "react-hook-form";
+import {
+  Control,
+  Controller,
+  FieldErrors,
+  UseFormRegister,
+  UseFormWatch,
+} from "react-hook-form";
 import { useGetEmployeesList } from "../../../../hooks";
-import { EmployeeSummary, IAssignSickRequestCredentials } from "../../../../interfaces";
-import { CustomSelect, Description, Field, Input, InputErrorMessage, Label, SelectBoxSkeleton, Textarea } from "../../../../components/ui";
+import {
+  EmployeeSummary,
+  IAssignSickRequestCredentials,
+} from "../../../../interfaces";
+import {
+  CustomSelect,
+  Description,
+  Field,
+  Input,
+  InputErrorMessage,
+  Label,
+  SelectBoxSkeleton,
+  Textarea,
+} from "../../../../components/ui";
 import { useTranslation } from "react-i18next";
 import { SICK_REQUESTS_NS } from "../../../../constants";
 import { Calendar } from "lucide-react";
@@ -10,31 +28,27 @@ import { FileInputPreview } from "../../../../components/ui/Form/FileUpload";
 interface IInputsProps {
   register: UseFormRegister<IAssignSickRequestCredentials>;
   errors: FieldErrors<IAssignSickRequestCredentials>;
-  watch: UseFormWatch<IAssignSickRequestCredentials>
-  control: Control<IAssignSickRequestCredentials>
+  watch: UseFormWatch<IAssignSickRequestCredentials>;
+  control: Control<IAssignSickRequestCredentials>;
 }
-const AssignInputs = ({
-  register,
-  errors,
-  watch,
-  control
-}: IInputsProps) => {
-
+const AssignInputs = ({ register, errors, watch, control }: IInputsProps) => {
   const { t } = useTranslation([SICK_REQUESTS_NS]);
   const medicalReportFile = watch("MedicalReport");
-  const { employeesList, isLoading: isEmployeesListLoading } = useGetEmployeesList();
-    const employeeOptions = employeesList?.map((employee: EmployeeSummary) => ({
+  const { employeesList, isLoading: isEmployeesListLoading } =
+    useGetEmployeesList();
+  const employeeOptions =
+    employeesList?.map((employee: EmployeeSummary) => ({
       value: employee.id,
       label: employee.name,
     })) || [];
-  
+
   return (
     <>
       <Field className="space-y-2">
         <Label size="lg">{t("inputs.medicalReport.label")}</Label>
-        <FileInputPreview 
-          {...register("MedicalReport")} 
-          isSelected={Boolean(medicalReportFile?.length)} 
+        <FileInputPreview
+          {...register("MedicalReport")}
+          isSelected={Boolean(medicalReportFile?.length)}
           isError={!!errors.MedicalReport}
         />
         {medicalReportFile?.[0] && (
@@ -50,7 +64,9 @@ const AssignInputs = ({
         <Description>{t(`inputs.medicalReport.description`)}</Description>
         {errors.MedicalReport && (
           <InputErrorMessage>
-            {t(`inputs.medicalReport.inputValidation.${errors.MedicalReport?.type}`)}
+            {t(
+              `inputs.medicalReport.inputValidation.${errors.MedicalReport?.type}`
+            )}
           </InputErrorMessage>
         )}
       </Field>
@@ -68,7 +84,12 @@ const AssignInputs = ({
               <CustomSelect
                 className="w-full"
                 options={employeeOptions}
-                value={employeeOptions.find((opt: {value: number, label: string}) => opt.value === field.value) || null}
+                value={
+                  employeeOptions.find(
+                    (opt: { value: number; label: string }) =>
+                      opt.value === field.value
+                  ) || null
+                }
                 onChange={(option) => field.onChange(option?.value)}
                 error={!!errors.EmployeeId}
                 isSearchable
@@ -98,18 +119,21 @@ const AssignInputs = ({
           </InputErrorMessage>
         )}
       </Field>
-      
+
       <Field className="space-y-2">
         <Label size="lg">{t("inputs.numberOfDays.label")}</Label>
         <Input
           type="number"
+          onWheel={(e) => e.currentTarget.blur()}
           placeholder={t("inputs.numberOfDays.placeholder")}
           isError={!!errors.NumberOfDays}
           {...register("NumberOfDays")}
         />
         {errors.NumberOfDays && (
           <InputErrorMessage>
-            {t(`inputs.numberOfDays.inputValidation.${errors.NumberOfDays?.type}`)}
+            {t(
+              `inputs.numberOfDays.inputValidation.${errors.NumberOfDays?.type}`
+            )}
           </InputErrorMessage>
         )}
       </Field>
@@ -123,7 +147,9 @@ const AssignInputs = ({
         />
         {errors.PermitApproval && (
           <InputErrorMessage>
-            {t(`inputs.permitApproval.inputValidation.${errors.PermitApproval?.type}`)}
+            {t(
+              `inputs.permitApproval.inputValidation.${errors.PermitApproval?.type}`
+            )}
           </InputErrorMessage>
         )}
       </Field>
@@ -137,12 +163,14 @@ const AssignInputs = ({
         />
         {errors.Description && (
           <InputErrorMessage>
-            {t(`inputs.description.inputValidation.${errors.Description?.type}`)}
+            {t(
+              `inputs.description.inputValidation.${errors.Description?.type}`
+            )}
           </InputErrorMessage>
         )}
       </Field>
     </>
-  )
-}
+  );
+};
 
-export default AssignInputs
+export default AssignInputs;

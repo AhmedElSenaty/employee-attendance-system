@@ -7,6 +7,7 @@ import {
   Calendar,
   CalendarCog,
   CalendarSearch,
+  ClipboardList,
   Clock,
   Coffee,
   Contact,
@@ -14,11 +15,10 @@ import {
   FileBarChart2,
   FileEdit,
   FileText,
-  GitPullRequestArrow,
   Home,
-  Hotel,
   LayoutDashboard,
   MapPinHouse,
+  Moon,
   Thermometer,
   TicketsPlane,
   User,
@@ -34,13 +34,11 @@ import {
   SidebarItem,
 } from "../../components/ui/Sidebar";
 import { useUserStore } from "../../store/user.store";
-import { useLocation } from "react-router";
 import { HasPermission } from "../../components/auth";
 
 export const ManagerSidebar = () => {
   const { t } = useTranslation(["sidebarItems"]); // Initialize the translation hook
   const permissions = useUserStore((state) => state.permissions);
-  const location = useLocation();
 
   return (
     <>
@@ -55,7 +53,7 @@ export const ManagerSidebar = () => {
 
         <SidebarItem
           icon={<FileBarChart2 size={23} />}
-          name={t("جميع التقارير")}
+          name={t("allReports")}
           to="/manager/allReports"
         />
 
@@ -146,6 +144,19 @@ export const ManagerSidebar = () => {
           </SidebarDropdown>
         )}
 
+        {/* <HasPermission
+          permission={[
+            "Export Overtime report Excel",
+            "Export Overtime report PDF",
+          ]}
+        > */}
+        <SidebarItem
+          icon={<Moon size={23} />}
+          name={t("overtime")}
+          to="/manager/work-overtime"
+        />
+        {/* </HasPermission> */}
+
         <HasPermission permission="View Requests">
           <SidebarDropdown
             icon={<CalendarCog size={23} />}
@@ -191,7 +202,7 @@ export const ManagerSidebar = () => {
 
         {permissions.includes("see vacations summary") && (
           <SidebarItem
-            icon={<Archive size={23} />}
+            icon={<ClipboardList  size={23} />}
             name={t("vacationSaver")}
             to="/manager/vacation-saver"
           />

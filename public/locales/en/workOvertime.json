@@ -1,0 +1,72 @@
+{
+  "header": {
+    "heading": "Overtime Report Export",
+    "subtitle": "Export the overtime report currently displayed in the table and save it in your preferred format."
+  },
+  "table": {
+    "emptyTable": {
+      "title": "No Data",
+      "message": "Try adjusting the filters."
+    },
+    "columns": {
+      "id": "#ID",
+      "employeeName": "Employee Name",
+      "subDeptName": "Sub Department",
+      "depart": "Department",
+      "date": "Date",
+      "day": "Day",
+      "in": "Check-in Time",
+      "out": "Check-out Time",
+      "totalHours": "Total Hours",
+      "actions": "Actions"
+    }
+  },
+  "sectionsHeader": {
+    "add": {
+      "title": "Add Leave Adjustment Request",
+      "description": "Fill in the required details to add a new leave balance adjustment request."
+    },
+    "entitiesList": {
+      "title": "Overtime List",
+      "description": "View and filter the overtime list"
+    }
+  },
+  "exportActionCard": {
+    "title": "Export Filtered Data",
+    "description": "Export the data displayed in the table and download it in your preferred format.",
+    "button": "Export",
+    "validation": {
+      "selectDateRange": "Start and end dates must be selected first."
+    }
+  },
+  "export": {
+    "exportSuccess": "Data exported successfully! ✅",
+    "exportError": "Failed to export data. Please try again ❌"
+  },
+  "filters": {
+    "pageSize": "Items per page",
+    "toolTipResetFilters": "Reset All",
+    "searchBy": {
+      "label": "Search Type",
+      "default": "Search Method",
+      "SearchById": "ID",
+      "SearchByEmployeeName": "Full Employee Name",
+      "SearchBySSN": "National ID",
+      "SearchByDepartmentId": "Department"
+    },
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "search": {
+      "label": "Search",
+      "placeholder": "Search here..."
+    },
+    "select": {
+      "placeholder": "Select"
+    }
+  },
+  "buttons": {
+    "close": "Close",
+    "loading": "Loading..."
+  },
+  "NA": "Not Available"
+}

@@ -52,8 +52,8 @@
       "id": "ID",
       "deviceId": "Device ID",
       "employeeId": "Employee ID",
-      "attendanceDate": "Attendance Date",
-      "attendanceTime": "Attendance Time",
+      "attendanceDate": "Date",
+      "attendanceTime": "Time",
       "status": "Status",
       "deviceName": "Device Name",
       "empName": "Employee Name",
@@ -117,18 +117,18 @@
       }
     },
     "attendanceDate": {
-      "label": "Attendance Date",
-      "placeholder": "Enter Attendance Date",
+      "label": "Date",
+      "placeholder": "Enter Date",
       "inputValidation": {
-        "required": "Attendance Date is required",
+        "required": "Date is required",
         "matches": "Invalid date format (YYYY-MM-DD)"
       }
     },
     "attendanceTime": {
-      "label": "Attendance Time",
-      "placeholder": "Enter Attendance Time",
+      "label": "Time",
+      "placeholder": "Enter Time",
       "inputValidation": {
-        "required": "Attendance Time is required",
+        "required": "Time is required",
         "matches": "Invalid time format (HH:mm)"
       }
     },

@@ -109,7 +109,9 @@
       "toolTipShow": "Show Sick Request",
       "toolTipAccept": "Accept Sick Request",
       "toolTipReject": "Reject Sick Request",
-      "toolOpenReport": "Open Employee Report"
+      "toolOpenReport": "Open Employee Report",
+      "toolTipEdit": "Edit Sick Request",
+      "toolTipDelete": "Delete Sick Request"
     }
   },
   "acceptPopup": {

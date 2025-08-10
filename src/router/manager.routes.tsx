@@ -31,6 +31,7 @@ import RequestsSummary from "../pages/Manager/RequestsSummary/RequestsSummary";
 import AllVacationSaverPage from "../pages/Manager/VacationSaver/AllVacationSaverPage";
 import AllManagerReports from "../pages/Manager/AllManagerReports/AllManagerReports";
 import ManageChangeVacationRequestsPage from "../pages/Manager/change-vacation-requests/ChangeVacationRequests";
+import ManageWorkoverTimePage from "../pages/common/workOvertime/ManageWorkoverTimePage";
 
 export const managerRoutes = (isLoggedIn: boolean, userRole: string) => (
   <Route
@@ -105,5 +106,7 @@ export const managerRoutes = (isLoggedIn: boolean, userRole: string) => (
       path="change-vacation-requests/"
       element={<ManageChangeVacationRequestsPage />}
     />
+
+    <Route path="work-overtime/" element={<ManageWorkoverTimePage />} />
   </Route>
 );

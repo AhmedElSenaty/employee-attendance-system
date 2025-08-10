@@ -81,7 +81,7 @@
         "integer": "Please select a valid entity"
       }
     }
-  },  
+  },
   "deletePopup": {
     "title": "Delete Sub-Department",
     "description": "Are you sure you want to delete this sub-department? This action cannot be undone."
@@ -119,6 +119,9 @@
     "search": {
       "label": "Search",
       "placeholder": "Enter the value you want to search for...."
+    },
+    "select": {
+      "placeholder": "Select"
     }
   },
   "buttons": {
@@ -129,7 +132,7 @@
     "delete": "Delete",
     "loading": "Loading...",
     "toolTipShow": "Show Sub-Department",
-    "toolTipEdit": "Accept Sub-Department",
+    "toolTipEdit": "Edit Sub-Department",
     "toolTipDelete": "Delete Sub-Department"
   },
   "NA": "N/A"

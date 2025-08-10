@@ -1,0 +1,53 @@
+{
+  "pageHeader": {
+    "heading": "All Reports",
+    "subtitle": "You can export detailed or summary attendance, departure, and leave request reports in formats with advanced filtering options"
+  },
+  "detailedAttendance": {
+    "heading": "Daily Attendance Report (Detailed)",
+    "subtitle": "Export the detailed daily attendance report of employees based on filters",
+    "link": "For more filtering options, you can visit",
+    "pageName": "Daily Attendance Report (Detailed) Page"
+  },
+  "summaryAttendance": {
+    "heading": "Monthly Attendance Summary Report",
+    "subtitle": "Export the monthly summary attendance report of employees based on filters",
+    "link": "For more filtering options, you can visit",
+    "pageName": "Monthly Attendance Summary Report Page"
+  },
+  "detailedRequests": {
+    "heading": "Monthly Requests Report (Detailed)",
+    "subtitle": "Export the detailed monthly requests report based on filters",
+    "link": "For more filtering options, you can visit",
+    "pageName": "Monthly Requests Report Page"
+  },
+  "summaryRequests": {
+    "heading": "Monthly Requests Summary Report",
+    "subtitle": "Export the monthly requests summary report based on filters",
+    "link": "For more filtering options, you can visit",
+    "pageName": "Monthly Requests Summary Report Page"
+  },
+  "vacationSaver": {
+    "heading": "Monthly Vacation Saver Report",
+    "subtitle": "Export the monthly vacation saver report based on filters",
+    "link": "For more filtering options, you can visit",
+    "pageName": "Vacation Saver Report Page"
+  },
+  "absenceReport": {
+    "heading": "Monthly Absence Report",
+    "subtitle": "Export the monthly absence report based on filters",
+    "link": "For more filtering options, you can visit",
+    "pageName": "Absence Report Page"
+  },
+  "overtimeReport": {
+    "heading": "Monthly Overtime Report",
+    "subtitle": "Export the monthly overtime report based on filters",
+    "link": "For more filtering options, you can visit",
+    "pageName": "Overtime Report Page"
+  },
+  "exportButton": "Export",
+  "export": {
+    "exportSuccess": "Data exported successfully! ✅",
+    "exportError": "Failed to export data. Please try again ❌"
+  }
+}

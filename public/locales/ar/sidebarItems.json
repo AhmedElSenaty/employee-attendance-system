@@ -1,5 +1,6 @@
 {
   "welcomeBack": "مرحباً بعودتك!",
+  "allReports": "جميع التقارير",
   "administrator": "المسؤول",
   "manager": "المدير",
   "home": "الرئيسية",
@@ -46,5 +47,6 @@
   "vacationSaver": "حفظه اجازات",
   "vacationAdjustment": "طلب تعديل رصيد الإجازات",
   "manageVacationAdjustment": "إدارة طلبات تعديل رصيد الإجازات",
-  "manageAdminsManagersPermissions": "صلاحيات المستخدمين"
+  "manageAdminsManagersPermissions": "صلاحيات المستخدمين",
+  "overtime": "السهر"
 }

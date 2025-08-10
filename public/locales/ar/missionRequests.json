@@ -223,7 +223,8 @@
       "toolTipShow": "عرض طلب المأمورية",
       "toolTipAccept": "قبول طلب المأمورية",
       "toolTipReject": "رفض طلب المأمورية",
-      "toolTipDelete": "مسح طلب الإجازة"
+      "toolTipDelete": "مسح طلب المأمورية",
+      "toolTipEdit": "تعديل طلب المأمورية"
     }
   },
   "acceptPopup": {

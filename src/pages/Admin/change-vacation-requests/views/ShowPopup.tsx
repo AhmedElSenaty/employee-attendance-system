@@ -1,6 +1,5 @@
 import { Button, NormalSpinner, Popup } from "../../../../components/ui";
 import { formatValue } from "../../../../utils";
-import { HasPermission } from "../../../../components/auth";
 import { useLanguageStore } from "../../../../store/";
 import { useTranslation } from "react-i18next";
 import { ChangeVacationCountsRequestDto } from "../../../../interfaces/changeVacationCountRequests";
@@ -157,26 +156,22 @@ const ShowPopup = ({
       )}
 
       <div className="flex items-center space-x-3 mt-4">
-        <HasPermission permission="Update Entity">
-          <Button
-            variant="info"
-            type="button"
-            fullWidth={true}
-            onClick={handleEditPopupOpen}
-          >
-            {t("buttons.edit")}
-          </Button>
-        </HasPermission>
-        <HasPermission permission="Delete Entity">
-          <Button
-            variant="secondary"
-            type="button"
-            fullWidth={true}
-            onClick={() => handleOpenFile(request?.reportImageUrl || "")}
-          >
-            {t("buttons.openReport")}
-          </Button>
-        </HasPermission>
+        <Button
+          variant="info"
+          type="button"
+          fullWidth={true}
+          onClick={handleEditPopupOpen}
+        >
+          {t("buttons.edit")}
+        </Button>
+        <Button
+          variant="secondary"
+          type="button"
+          fullWidth={true}
+          onClick={() => handleOpenFile(request?.reportImageUrl || "")}
+        >
+          {t("buttons.openReport")}
+        </Button>
         <Button
           variant="cancel"
           type="button"

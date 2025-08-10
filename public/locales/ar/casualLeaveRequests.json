@@ -54,7 +54,7 @@
   "casualLeaveRequestCard": {
     "date": "تبدأ الإجازة العارضة في {{start}} وتنتهي في {{end}}.",
     "requestedAt": "تم التقديم في",
-    "toolTipViewButton": "عرض تفاصيل الطلب",
+    "toolTipViewButton": "عرض تفاصيل الاجازة العارضة",
     "toolTipEditButton": "تعديل طلب الإجازة"
   },
   "conditionsPopup": {
@@ -182,10 +182,11 @@
       "actions": "الإجراءات"
     },
     "buttons": {
-      "toolTipShow": "عرض تفاصيل الطلب",
-      "toolTipAccept": "قبول الطلب",
-      "toolTipReject": "رفض الطلب",
-      "toolTipDelete": "مسح طلب الإجازة"
+      "toolTipShow": "عرض تفاصيل الإجازة العارضة",
+      "toolTipAccept": "قبول الإجازة العارضة",
+      "toolTipReject": "رفض الإجازة العارضة",
+      "toolTipDelete": "مسح الإجازة العارضة",
+      "toolTipEdit": "تعديل الإجازة العارضة"
     }
   },
   "acceptPopup": {

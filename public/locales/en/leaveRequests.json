@@ -181,7 +181,9 @@
     "buttons": {
       "toolTipShow": "Show Leave Request",
       "toolTipAccept": "Accept Leave Request",
-      "toolTipReject": "Reject Leave Request"
+      "toolTipReject": "Reject Leave Request",
+      "toolTipDelete": "Delete Leave Request",
+      "toolTipEdit": "Edit Leave Request"
     }
   },
   "acceptPopup": {

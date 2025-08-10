@@ -425,3 +425,42 @@ export const useGetRequestById = (requestId: number) => {
     isError,
   };
 };
+
+export const useGetAllWorkOvertime = (
+  page = 1,
+  pageSize = 10,
+  startDate?: string,
+  endDate?: string,
+  searchType?: string,
+  searchQuery?: string
+) => {
+  const token = useUserStore((state) => state.token);
+  const requestService = useRequestService();
+
+  const { data, isLoading } = useQuery({
+    queryKey: [
+      QueryKeys.Requests.All,
+      page,
+      pageSize,
+      startDate,
+      endDate,
+      `${searchType && searchQuery ? [searchType, searchQuery] : ""}`,
+    ],
+    queryFn: () =>
+      requestService.fetchAllWorkOverTime(
+        page,
+        pageSize,
+        startDate,
+        endDate,
+        searchType,
+        searchQuery
+      ),
+    enabled: !!token,
+  });
+
+  return {
+    requests: data?.data?.data?.workAbsence || [],
+    metadata: data?.data?.data?.metadata || initialMetadata,
+    isLoading,
+  };
+};

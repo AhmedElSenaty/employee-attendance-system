@@ -215,7 +215,9 @@
     "buttons": {
       "toolTipShow": "Show Mission Request",
       "toolTipAccept": "Accept Mission Request",
-      "toolTipReject": "Reject Mission Request"
+      "toolTipReject": "Reject Mission Request",
+      "toolTipEdit": "Edit Mission Request",
+      "toolTipDelete": "Delete Mission Request"
     }
   },
   "acceptPopup": {

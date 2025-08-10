@@ -1,6 +1,21 @@
-import { AlertTriangle, CheckCircle, Eye, FilePenLine, Trash2 } from "lucide-react";
+import {
+  AlertTriangle,
+  CheckCircle,
+  Eye,
+  FilePenLine,
+  Trash2,
+} from "lucide-react";
 import { HasPermission } from "../../../../components/auth";
-import { Button, NoDataMessage, StatusBadge, Table, TableCell, TableRow, TableSkeleton, Tooltip } from "../../../../components/ui";
+import {
+  Button,
+  NoDataMessage,
+  StatusBadge,
+  Table,
+  TableCell,
+  TableRow,
+  TableSkeleton,
+  Tooltip,
+} from "../../../../components/ui";
 import { useTranslation } from "react-i18next";
 import { ATTENDANCE_NS } from "../../../../constants";
 import { useLanguageStore } from "../../../../store";
@@ -14,12 +29,18 @@ interface Props {
   handleDelete: (id: number) => void;
 }
 
-const AttendanceTable = ({ attendances, isLoading, handleShow, handleEdit, handleDelete }: Props) => {
+const AttendanceTable = ({
+  attendances,
+  isLoading,
+  handleShow,
+  handleEdit,
+  handleDelete,
+}: Props) => {
   const { t } = useTranslation([ATTENDANCE_NS]);
   const { language } = useLanguageStore();
 
   const ATTENDANCE_TABLE_COLUMNS = [
-    "table.columns.id",
+    // "table.columns.id",
     "table.columns.attendanceDate",
     "table.columns.attendanceTime",
     "table.columns.empName",
@@ -27,45 +48,69 @@ const AttendanceTable = ({ attendances, isLoading, handleShow, handleEdit, handl
     "table.columns.department",
     "table.columns.subdepartment",
     "table.columns.actions",
-  ]
+  ];
 
-  const columns = ATTENDANCE_TABLE_COLUMNS.map(key => t(key))
+  const columns = ATTENDANCE_TABLE_COLUMNS.map((key) => t(key));
 
   return (
     <>
       {isLoading ? (
-        <TableSkeleton numberOfColumns={columns.length} defaultNumberOfRows={5} />
+        <TableSkeleton
+          numberOfColumns={columns.length}
+          defaultNumberOfRows={5}
+        />
       ) : (
         <Table columns={columns}>
           {attendances.length == 0 ? (
-            <NoDataMessage title={t("table.emptyTable.title")} message={t("table.emptyTable.message")} />
+            <NoDataMessage
+              title={t("table.emptyTable.title")}
+              message={t("table.emptyTable.message")}
+            />
           ) : (
             attendances.map((attendance) => (
               <TableRow key={attendance.id} className="border-b">
-                <TableCell label={columns[0]}>{attendance.id}</TableCell>
-                <TableCell label={columns[1]}>{new Date(attendance.attendanceDate).toLocaleDateString(language == "ar" ? "ar-EG" : "en-CA")}</TableCell>
-                <TableCell label={columns[2]}>{attendance.attendanceTime}</TableCell>
-                <TableCell label={columns[3]}>{attendance.empName}</TableCell>
-                <TableCell label={columns[4]}>
+                {/* <TableCell label={columns[0]}>{attendance.id}</TableCell> */}
+                <TableCell label={columns[0]}>
+                  {new Date(attendance.attendanceDate).toLocaleDateString(
+                    language == "ar" ? "ar-EG" : "en-CA"
+                  )}
+                </TableCell>
+                <TableCell label={columns[1]}>
+                  {attendance.attendanceTime}
+                </TableCell>
+                <TableCell label={columns[2]}>{attendance.empName}</TableCell>
+                <TableCell label={columns[3]}>
                   <StatusBadge
-                    variant={attendance.status == "حضور" ? "success" : "warning"}
+                    variant={
+                      attendance.status == "حضور" ? "success" : "warning"
+                    }
                     size={"medium"}
-                    icon={attendance.status ? <CheckCircle className="w-4 h-4" /> : <AlertTriangle className="w-4 h-4" />}
-                    >
+                    icon={
+                      attendance.status ? (
+                        <CheckCircle className="w-4 h-4" />
+                      ) : (
+                        <AlertTriangle className="w-4 h-4" />
+                      )
+                    }
+                  >
                     {attendance.status}
                   </StatusBadge>
                 </TableCell>
-                <TableCell label={columns[5]}>{attendance.department}</TableCell>
-                <TableCell label={columns[6]}>{attendance.subdepartment}</TableCell>
-                <TableCell label={columns[7]}>
+                <TableCell label={columns[4]}>
+                  {attendance.department}
+                </TableCell>
+                <TableCell label={columns[5]}>
+                  {attendance.subdepartment}
+                </TableCell>
+                <TableCell label={columns[6]}>
                   <div className="flex flex-wrap gap-2">
                     <HasPermission permission="View Attendances">
                       <Tooltip content={t("buttons.toolTipShow")}>
-                        <Button 
-                          variant="primary" 
+                        <Button
+                          variant="primary"
                           fullWidth={false}
                           size={"sm"}
-                          icon={<Eye className="w-full h-full" />} 
+                          icon={<Eye className="w-full h-full" />}
                           aria-label={t("buttons.view")}
                           onClick={() => handleShow(attendance.id)}
                         />
@@ -73,12 +118,12 @@ const AttendanceTable = ({ attendances, isLoading, handleShow, handleEdit, handl
                     </HasPermission>
                     <HasPermission permission="Update Attendance">
                       <Tooltip content={t("buttons.toolTipEdit")}>
-                        <Button 
-                          variant="info" 
+                        <Button
+                          variant="info"
                           fullWidth={false}
                           size={"sm"}
-                          icon={<FilePenLine className="w-full h-full" />} 
-                          aria-label={t("buttons.edit")} 
+                          icon={<FilePenLine className="w-full h-full" />}
+                          aria-label={t("buttons.edit")}
                           onClick={() => handleEdit(attendance.id)}
                         />
                       </Tooltip>
