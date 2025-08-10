@@ -223,13 +223,13 @@ export const ManagerSidebar = () => {
             to="/manager/requestsSummary"
           />
         )}
-
-        <SidebarItem
-          icon={<FileEdit size={23} />}
-          name={t("vacationAdjustment")}
-          to="/manager/change-vacation-requests"
-        />
-
+        <HasPermission permission={"Manage Vacation Adjustment"}>
+          <SidebarItem
+            icon={<FileEdit size={23} />}
+            name={t("vacationAdjustment")}
+            to="/manager/change-vacation-requests"
+          />
+        </HasPermission>
         {/* <HasPermission permission={"Add Old Requests"}>
           <SidebarItem
             icon={<GitPullRequestArrow size={23} />}
