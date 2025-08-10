@@ -114,6 +114,7 @@ const Inputs = ({
       <Field className="space-y-2">
         <Label size="lg">{t("inputs.numberOfDays.label")}</Label>
         <Input
+          onWheel={(e) => e.currentTarget.blur()}
           type="number"
           placeholder={t("inputs.numberOfDays.placeholder")}
           isError={!!errors.numberOfDays}
