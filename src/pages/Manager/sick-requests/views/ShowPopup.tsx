@@ -27,6 +27,7 @@ const ShowPopup = ({
   const { language } = useLanguageStore();
   const { t } = useTranslation(SICK_REQUESTS_NS);
   const handleOpenFile = (fileUrl: string) => {
+    console.log(fileUrl);
     window.open(fileUrl, "_blank");
   };
   return (

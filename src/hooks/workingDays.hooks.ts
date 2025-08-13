@@ -24,11 +24,13 @@ export const useGetMyWorkingDays = () => {
   });
 
   const EmployeeDays = data?.data?.data?.employeeDays;
+  console.log(EmployeeDays?.description);
   return {
     myWorkingDays: EmployeeDays?.employeeWorkingDays || [],
     myRestDays: EmployeeDays?.employeeRestDays || [],
     scheduleStartDate: EmployeeDays?.startDate || null,
     scheduleEndDate: EmployeeDays?.endDate || null,
+    prefex: EmployeeDays?.description || "",
     isLoading,
   };
 };

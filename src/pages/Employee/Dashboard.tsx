@@ -33,6 +33,7 @@ const Dashboard = () => {
     myRestDays = [],
     scheduleStartDate,
     scheduleEndDate,
+    prefex,
     isLoading: isLoadingMyWorkingDays,
   } = useGetMyWorkingDays();
 
@@ -231,7 +232,7 @@ const Dashboard = () => {
             {myRestDays.length > 0 && (
               <div className="mt-2">
                 <h4 className="text-sm font-semibold text-gray-800 mb-1">
-                  {t("allowedDays.restDays")}
+                  {prefex}
                 </h4>
                 <div className="flex flex-wrap gap-2">
                   {myRestDays.map((day: Daydata) => (

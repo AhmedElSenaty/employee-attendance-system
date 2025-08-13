@@ -30,7 +30,7 @@ import { useNotificationStore } from "../../store/notification.store";
 
 import mobile from "../../assets/images/mobile-solid.svg";
 
-import { Capacitor } from '@capacitor/core';
+import { Capacitor } from "@capacitor/core";
 
 export const Navbar = () => {
   const { t } = useTranslation(["common", "navbar"]);
@@ -95,12 +95,11 @@ export const Navbar = () => {
           </button>
         )}
 
-              <div className="flex items-center gap-5">
-                <NavLink to="/">
-                <Logo width="w-15" height="h-15" />
-                </NavLink>  
-              </div>
-              
+        <div className="flex items-center gap-5">
+          <NavLink to="/">
+            <Logo width="w-15" height="h-15" />
+          </NavLink>
+        </div>
 
         {/* Right Icons */}
         <div className="flex items-center gap-5">
@@ -113,8 +112,7 @@ export const Navbar = () => {
                   className="relative cursor-pointer inline-flex items-center justify-center p-2 text-white bg-secondary hover:bg-secondary-hover rounded-full transition duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
                   aria-label="Notifications"
                   // onClick={() => setNotificationCount(notificationCount)} // Reset on click if desired
-                              >
-                                  
+                >
                   <Bell className="w-7 h-7" />
                   {countt > 0 && (
                     <div className="absolute -top-1 -right-1">
@@ -132,8 +130,7 @@ export const Navbar = () => {
             className="flex items-center justify-center focus:outline-none cursor-pointer"
           >
             <FlyoutMenu className="w-45 border-0.5 bg-white shadow-md rounded-2xl text-base">
-                          <div className="flex flex-col gap-2 p-3">
-                              
+              <div className="flex flex-col gap-2 p-3">
                 {Object.entries(flags).map(([lang, icon]) => {
                   return (
                     <button
@@ -237,28 +234,35 @@ export const Navbar = () => {
                       </p>
                     </div>
                   </NavLink>
-                              </div>
-                              {Capacitor.getPlatform() == 'web' && (
-                        <NavLink to="/">
-                            <Button  variant="secondary" type="button" fullWidth={true} onClick={() => {
-                                const link = document.createElement('a');
-                                link.href = 'https://github.com/AhmedElSenaty/employee-attendance-system/releases/download/Attendance.apk/Attendance.apk';
-                                link.setAttribute('download', 'Attendance.apk');
-                                link.style.display = 'none';
-                                document.body.appendChild(link);
-                                link.click();
-                                document.body.removeChild(link);
-                                      }}>
-                                          <span className="flex items-center">
-                                              
-                                          <img src={mobile} width="15px" />
-                                          <p className="ml-2">{t("buttons.downloadMobileApp",{
-                              ns: "navbar",
-                            })}</p>
-                                          </span>
-                        </Button>
-                        </NavLink>
-                  )}
+                </div>
+                {Capacitor.getPlatform() == "web" && (
+                  <NavLink to="/">
+                    <Button
+                      variant="secondary"
+                      type="button"
+                      fullWidth={true}
+                      onClick={() => {
+                        const link = document.createElement("a");
+                        link.href =
+                          "https://github.com/AhmedElSenaty/employee-attendance-system/releases/download/Attendance.apk/Attendance.apk";
+                        link.setAttribute("download", "Attendance.apk");
+                        link.style.display = "none";
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                      }}
+                    >
+                      <span className="flex items-center">
+                        <img src={mobile} width="15px" />
+                        <p className="ml-2">
+                          {t("buttons.downloadMobileApp", {
+                            ns: "navbar",
+                          })}
+                        </p>
+                      </span>
+                    </Button>
+                  </NavLink>
+                )}
 
                 <div className="p-3 border-t border-gray-200">
                   <button
@@ -276,7 +280,6 @@ export const Navbar = () => {
                     </div>
                   </button>
                 </div>
-                              
               </FlyoutMenu>
             </Flyout>
           ) : (

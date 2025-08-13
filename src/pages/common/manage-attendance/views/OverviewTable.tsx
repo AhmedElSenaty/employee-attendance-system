@@ -30,6 +30,7 @@ const OverviewTable = ({ attendance, isLoading }: Props) => {
     "tableSummary.columns.absenceDays",
     "tableSummary.columns.totalWorkingHours",
     "tableSummary.columns.totalDelayHours",
+    "tableSummary.columns.minsDays",
   ];
 
   const columns = ATTENDANCE_SUMMARY_TABLE_COLUMNS.map((key) => t(key));
@@ -76,6 +77,9 @@ const OverviewTable = ({ attendance, isLoading }: Props) => {
                 </TableCell>
                 <TableCell label={columns[8]}>
                   {attendance.totalDelayHours}
+                </TableCell>
+                <TableCell label={columns[9]}>
+                  {attendance.totalMinsDays}
                 </TableCell>
               </TableRow>
             ))

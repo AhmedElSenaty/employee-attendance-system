@@ -33,7 +33,8 @@
       "attendanceDays": "أيام الحضور",
       "absenceDays": "أيام الغياب",
       "totalWorkingHours": "إجمالي ساعات العمل",
-      "totalDelayHours": "اجمالي التأخير"
+      "totalDelayHours": "اجمالي التأخير",
+      "minsDays": "ايام الخصم"
     }
   },
   "tableVacation": {

@@ -7,40 +7,41 @@ export interface AttendanceEntry {
 }
 
 export interface AttendanceCredentials {
-  id?: number
-  deviceId: number,
-  employeeId: number,
-  attendanceDate: string,
-  attendanceTime: string,
-  status: string
+  id?: number;
+  deviceId: number;
+  employeeId: number;
+  attendanceDate: string;
+  attendanceTime: string;
+  status: string;
 }
 
 export interface AttendanceData {
-  id: number
-  deviceId: number,
-  employeeId: number,
-  attendanceDate: string,
-  attendanceTime: string,
-  status: string
-  deviceName?: string,
-  empName?: string,
-  department?: string,
-  subdepartment?: string,
-  delegeteDepartment?: string,
-  delegeteSubdepartment?: string
+  id: number;
+  deviceId: number;
+  employeeId: number;
+  attendanceDate: string;
+  attendanceTime: string;
+  status: string;
+  deviceName?: string;
+  empName?: string;
+  department?: string;
+  subdepartment?: string;
+  delegeteDepartment?: string;
+  delegeteSubdepartment?: string;
 }
 
 export interface AttendanceSummaryData {
-  employeeId: string,
-  employeeName: string,
-  department: string,
-  subDepartment: string,
-  checkedInOnlyDays: number,
-  checkedOutOnlyDays: number,
-  attendanceDays: number,
-  absenceDays: number,
-  totalWorkingHours: number,
-  totalDelayHours:number
+  employeeId: string;
+  employeeName: string;
+  department: string;
+  subDepartment: string;
+  checkedInOnlyDays: number;
+  checkedOutOnlyDays: number;
+  attendanceDays: number;
+  absenceDays: number;
+  totalWorkingHours: number;
+  totalDelayHours: number;
+  totalMinsDays: number;
 }
 
 export interface DailyAttendanceDto {
@@ -66,17 +67,16 @@ export interface AttendanceCardData {
 }
 
 export interface AttendanceWithVacationsData {
-  employeeId: number,
-  employeeName: string,
-  departmentName: string,
-  checkIn: string,
-  checkOut: string,
-  notes: string
+  employeeId: number;
+  employeeName: string;
+  departmentName: string;
+  checkIn: string;
+  checkOut: string;
+  notes: string;
 }
-
 
 export const initialAttendanceEntry: AttendanceEntry = {
   checkIn: "",
   checkOut: "",
-  dayType: "absent"
-}
+  dayType: "absent",
+};

@@ -38,5 +38,74 @@
         "description": "Ensure secure and accurate attendance tracking with fingerprint-based authentication."
       }
     }
+  },
+  "mobileAppSection": {
+    "sectionHeader": {
+      "title": "Mobile App",
+      "description": "Track attendance, request leaves, and get notifications on the go."
+    },
+    "title": "Your Attendance, Anywhere",
+    "body": "Download the Android app (.apk) to check in/out, view balances, and receive real-time updates.",
+    "androidOnly": "Android (.apk) only",
+    "mockup": {
+      "caption": "App preview",
+      "alt": "Attendance mobile app preview"
+    },
+    "apk": {
+      "button": "Download APK",
+      "tag": "(Android)",
+      "url": "https://github.com/AhmedElSenaty/employee-attendance-system/releases/download/Attendance.apk/Attendance.apk",
+      "note": "After downloading, install the APK. If prompted, allow installation from unknown sources in your device settings."
+    },
+    "qr": {
+      "scan": "Scan to download the APK",
+      "helper": "Open your camera and point at the code to download directly.",
+      "alt": "QR code to download the APK"
+    }
+  },
+  "servicesSection": {
+    "sectionHeader": {
+      "title": "Employee Services",
+      "description": "Manage your profile, attendance, and leave requests easily from one place."
+    },
+    "cardFooter": "Click to continue",
+    "services": {
+      "todayAttendance": {
+        "title": "Today's Attendance",
+        "description": "View your daily attendance and check-in/check-out times."
+      },
+      "viewProfile": {
+        "title": "View Profile",
+        "description": "Check your personal information and update your data."
+      },
+      "attendanceCalendar": {
+        "title": "Attendance Calendar",
+        "description": "Track your attendance and working days."
+      },
+      "permissionRequests": {
+        "title": "Permission Requests",
+        "description": "Easily manage your permissions."
+      },
+      "casualLeave": {
+        "title": "Casual Leave Requests",
+        "description": "Submit and track your casual leave requests."
+      },
+      "annualLeave": {
+        "title": "Annual Leave Requests",
+        "description": "Submit your annual leave requests."
+      },
+      "sickLeave": {
+        "title": "Sick Leave Requests",
+        "description": "Submit and track your sick leave requests."
+      },
+      "missionRequests": {
+        "title": "Mission Requests",
+        "description": "Submit and view your mission requests."
+      },
+      "homeVisitRequests": {
+        "title": "Home Visit Requests",
+        "description": "Review and manage the home visit requests you have submitted."
+      }
+    }
   }
 }
