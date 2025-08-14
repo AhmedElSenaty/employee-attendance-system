@@ -1,28 +1,74 @@
-import { FieldErrors, UseFormRegister } from "react-hook-form";
+import { FieldErrors, UseFormRegister, UseFormSetValue } from "react-hook-form";
 import {
+  CustomSelect,
   Field,
   Input,
   InputErrorMessage,
   InputSkeleton,
   Label,
   LabelSkeleton,
+  SelectBoxSkeleton,
 } from "../../../../components/ui";
 import { useTranslation } from "react-i18next";
 import { EMPLOYEE_NS } from "../../../../constants";
 import { EmployeeFormValues } from "../../../../validation";
 import { useUserStore } from "../../../../store";
+import { useGetOvertimePriceCategoryList } from "../../../../hooks";
+import { useEffect, useMemo, useState } from "react";
 import { NavLink } from "react-router";
+import { HasPermission } from "../../../../components/auth";
 
 interface Props {
   register: UseFormRegister<EmployeeFormValues>;
   errors: FieldErrors<EmployeeFormValues>;
   isUpdateEmployee?: boolean;
   isLoading?: boolean;
+  setValue: UseFormSetValue<EmployeeFormValues>;
+  initialCategoryId?: number | null;
 }
 
-const Inputs = ({ register, errors, isUpdateEmployee, isLoading }: Props) => {
+const Inputs = ({
+  register,
+  errors,
+  isUpdateEmployee,
+  isLoading,
+  setValue,
+  initialCategoryId,
+}: Props) => {
   const { t } = useTranslation([EMPLOYEE_NS]);
   const role = useUserStore((state) => state.role);
+
+  const [selectCategoryId, setCategoryId] = useState<number | null>();
+  // selectedDepartmentID || null
+
+  const { list, isLoading: isCategoryLoading } =
+    useGetOvertimePriceCategoryList();
+
+  const categoryOptions = useMemo(
+    () =>
+      list?.map((c: any) => ({
+        value: c.id,
+        label: c.description,
+      })) || [],
+    [list]
+  );
+
+  useEffect(() => {
+    if (typeof initialCategoryId === "number") {
+      setCategoryId(initialCategoryId);
+      setValue("overtimeCategoryId", initialCategoryId);
+    } else if (initialCategoryId === null) {
+      setCategoryId(null);
+      setValue("overtimeCategoryId", null);
+    }
+  }, [initialCategoryId, setValue]);
+
+  const selectedOption =
+    categoryOptions.find(
+      (opt: { value: number }) => opt.value === selectCategoryId
+    ) || null;
+
+  console.log("init ======>", initialCategoryId);
 
   if (isLoading) {
     return (
@@ -55,7 +101,6 @@ const Inputs = ({ register, errors, isUpdateEmployee, isLoading }: Props) => {
           )}
         </Field>
       )}
-
       {/* Email */}
       {isUpdateEmployee && (
         <Field className="space-y-2">
@@ -73,7 +118,6 @@ const Inputs = ({ register, errors, isUpdateEmployee, isLoading }: Props) => {
           )}
         </Field>
       )}
-
       {/* Full Name */}
       <Field className="space-y-2">
         <Label size="lg">{t("inputs.fullName.label")}</Label>
@@ -88,7 +132,6 @@ const Inputs = ({ register, errors, isUpdateEmployee, isLoading }: Props) => {
           </InputErrorMessage>
         )}
       </Field>
-
       {/* SSN */}
       <Field className="space-y-2">
         <Label size="lg">{t("inputs.ssn.label")}</Label>
@@ -103,7 +146,6 @@ const Inputs = ({ register, errors, isUpdateEmployee, isLoading }: Props) => {
           </InputErrorMessage>
         )}
       </Field>
-
       {/* Phone Number */}
       <Field className="space-y-2">
         <Label size="lg">{t("inputs.phoneNumber.label")}</Label>
@@ -120,7 +162,6 @@ const Inputs = ({ register, errors, isUpdateEmployee, isLoading }: Props) => {
           </InputErrorMessage>
         )}
       </Field>
-
       {/* Hiring Date */}
       <Field className="space-y-2">
         <Label size="lg">{t("inputs.hiringDate.label")}</Label>
@@ -137,7 +178,6 @@ const Inputs = ({ register, errors, isUpdateEmployee, isLoading }: Props) => {
           </InputErrorMessage>
         )}
       </Field>
-
       {/* Total Leave Requests */}
       {isUpdateEmployee && (
         <Field className="space-y-2">
@@ -158,7 +198,6 @@ const Inputs = ({ register, errors, isUpdateEmployee, isLoading }: Props) => {
           )}
         </Field>
       )}
-
       {/* Available Leave Requests Per Month */}
       <Field className="space-y-2">
         <Label size="lg">
@@ -179,7 +218,6 @@ const Inputs = ({ register, errors, isUpdateEmployee, isLoading }: Props) => {
           </InputErrorMessage>
         )}
       </Field>
-
       {/* Total Ordinary Leaves */}
       {isUpdateEmployee && (
         <Field className="space-y-2">
@@ -200,7 +238,6 @@ const Inputs = ({ register, errors, isUpdateEmployee, isLoading }: Props) => {
           )}
         </Field>
       )}
-
       {/* Available Ordinary Leaves Per Year */}
       <Field className="space-y-2">
         <Label size="lg">
@@ -223,7 +260,6 @@ const Inputs = ({ register, errors, isUpdateEmployee, isLoading }: Props) => {
           </InputErrorMessage>
         )}
       </Field>
-
       {/* Total Casual Leaves */}
       {isUpdateEmployee && (
         <Field className="space-y-2">
@@ -244,7 +280,6 @@ const Inputs = ({ register, errors, isUpdateEmployee, isLoading }: Props) => {
           )}
         </Field>
       )}
-
       {/* Available Casual Leaves Per Year */}
       <Field className="space-y-2">
         <Label size="lg">
@@ -267,6 +302,42 @@ const Inputs = ({ register, errors, isUpdateEmployee, isLoading }: Props) => {
           </InputErrorMessage>
         )}
       </Field>
+
+      {/* category Select */}
+
+      <HasPermission permission={"Manage WorkOvertime"}>
+        <Field className="space-y-3 w-full sm:w-auto flex flex-col">
+          <Label size="lg">{t("inputs.overtime")}</Label>
+          {isCategoryLoading || isLoading ? (
+            <SelectBoxSkeleton />
+          ) : (
+            <CustomSelect
+              placeholder={t("filters.select.label")}
+              options={categoryOptions}
+              value={
+                categoryOptions.find((opt) => opt.value === selectCategoryId) ||
+                initialCategoryId
+              }
+              onChange={(option) => {
+                const val = (option as any)?.value ?? null;
+                setCategoryId(val);
+                setValue("overtimeCategoryId", val, {
+                  // shouldValidate: true,
+                  // shouldDirty: true,
+                });
+              }}
+              className="w-full"
+              isSearchable
+              isClearable
+            />
+          )}
+        </Field>
+        <input
+          type="hidden"
+          {...register("overtimeCategoryId")}
+          value={selectCategoryId ?? ""}
+        />
+      </HasPermission>
 
       <p
         dir="ltr"

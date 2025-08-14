@@ -80,3 +80,15 @@ export const initialAttendanceEntry: AttendanceEntry = {
   checkOut: "",
   dayType: "absent",
 };
+
+export type RefetchAllPayload = {
+  startDate: string; // "YYYY-MM-DD"
+  endDate: string; // "YYYY-MM-DD"
+};
+
+export type RefetchPayload  = {
+  startDate: string; // "YYYY-MM-DD"
+  endDate: string; // "YYYY-MM-DD"
+  deviceId: string; // send as string
+  deviceIp: string;
+};

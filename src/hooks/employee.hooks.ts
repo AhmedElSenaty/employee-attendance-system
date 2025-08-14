@@ -313,3 +313,21 @@ export const useUpdateEmployeeWorkingHours = () => {
     },
   });
 };
+
+export const useGetOvertimePriceCategoryList = () => {
+  const token = useUserStore((state) => state.token);
+  const employeeService = useEmployeeService();
+
+  const { data, isLoading } = useQuery({
+    queryKey: [QueryKeys.na],
+    queryFn: () => employeeService.fetchAllOvertimePriceCategoryList(),
+    enabled: !!token,
+  });
+
+  console.log(data?.data?.data);
+
+  return {
+    list: data?.data?.data ?? [],
+    isLoading,
+  };
+};

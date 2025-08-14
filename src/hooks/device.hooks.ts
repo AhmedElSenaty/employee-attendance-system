@@ -3,6 +3,8 @@ import {
   DeviceCredentials,
   IErrorResponse,
   initialMetadata,
+  RefetchAllPayload,
+  RefetchPayload,
 } from "../interfaces";
 import { getTranslatedMessage, handleApiError, showToast } from "../utils";
 import { AxiosError } from "axios";
@@ -209,6 +211,46 @@ export const useToggleRole = () => {
       ),
     onSuccess: ({ status, data }) => {
       queryClient.invalidateQueries({ queryKey: [QueryKeys.Devices.All] });
+      if (status === 200) {
+        const message = getTranslatedMessage(data.message ?? "", language);
+        showToast("success", message);
+      }
+    },
+    onError: (error) => {
+      const axiosError = error as AxiosError<IErrorResponse>;
+      handleApiError(axiosError, language);
+    },
+  });
+};
+
+export const useRefetchAttendance = () => {
+  const { language } = useLanguageStore();
+  const deviceService = useDeviceService();
+
+  return useMutation({
+    mutationFn: (payload: RefetchPayload) =>
+      deviceService.refetchAttendance(payload),
+    onSuccess: ({ status, data }) => {
+      if (status === 200) {
+        const message = getTranslatedMessage(data.message ?? "", language);
+        showToast("success", message);
+      }
+    },
+    onError: (error) => {
+      const axiosError = error as AxiosError<IErrorResponse>;
+      handleApiError(axiosError, language);
+    },
+  });
+};
+
+export const useRefetchAllAttendance = () => {
+  const { language } = useLanguageStore();
+  const deviceService = useDeviceService();
+
+  return useMutation({
+    mutationFn: (payload: RefetchAllPayload) =>
+      deviceService.refetchAllAttendance(payload),
+    onSuccess: ({ status, data }) => {
       if (status === 200) {
         const message = getTranslatedMessage(data.message ?? "", language);
         showToast("success", message);

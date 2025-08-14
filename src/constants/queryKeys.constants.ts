@@ -124,5 +124,7 @@ export const QueryKeys = {
     Details: "changeVacationRequestDetails",
   },
 
+  na:""
+
   // Add more domains/modules here
 };

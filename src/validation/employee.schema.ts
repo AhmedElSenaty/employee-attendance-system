@@ -44,14 +44,13 @@ export const getEmployeeSchema = (isUpdate: boolean) =>
     subDepartmentId: yup
       .string()
       .nullable()
-      .transform((value, originalValue) => (originalValue === "" ? null : value)),
+      .transform((value, originalValue) =>
+        originalValue === "" ? null : value
+      ),
 
-    hiringDate: yup
-      .string()
-      .required("Hiring date is required"),
+    hiringDate: yup.string().required("Hiring date is required"),
 
-    delegateId: 
-      yup.string(),
+    delegateId: yup.string(),
 
     avilableLeaveRequestsPerMonth: yup
       .string()
@@ -65,30 +64,38 @@ export const getEmployeeSchema = (isUpdate: boolean) =>
       .string()
       .required("Available casual leave requests per year is required"),
 
-          // ✅ Conditionally required on update
-    totalOrdinaryLeaves: yup
-      .string()
-      .when([], {
-        is: () => isUpdate,
-        then: (schema) => schema.required("Total ordinary leaves is required"),
-        otherwise: (schema) => schema.strip(),
-      }),
+    // ✅ Conditionally required on update
+    totalOrdinaryLeaves: yup.string().when([], {
+      is: () => isUpdate,
+      then: (schema) => schema.required("Total ordinary leaves is required"),
+      otherwise: (schema) => schema.strip(),
+    }),
 
-    totalCasualLeaves: yup
-      .string()
-      .when([], {
-        is: () => isUpdate,
-        then: (schema) => schema.required("Total casual leaves is required"),
-        otherwise: (schema) => schema.strip(),
-      }),
+    totalCasualLeaves: yup.string().when([], {
+      is: () => isUpdate,
+      then: (schema) => schema.required("Total casual leaves is required"),
+      otherwise: (schema) => schema.strip(),
+    }),
 
-    totalLeaveRequests: yup
-      .string()
-      .when([], {
-        is: () => isUpdate,
-        then: (schema) => schema.required("Total leave requests is required"),
-        otherwise: (schema) => schema.strip(),
-      }),
+    totalLeaveRequests: yup.string().when([], {
+      is: () => isUpdate,
+      then: (schema) => schema.required("Total leave requests is required"),
+      otherwise: (schema) => schema.strip(),
+    }),
+
+    overtimeCategoryId: yup
+      .number()
+      .transform((value, originalValue) => {
+        // Convert "" / undefined to null to avoid NaN
+        if (originalValue === "" || originalValue === undefined) return null;
+        // If parse failed, keep as value (may be NaN; typeError will handle)
+        return value;
+      })
+      .nullable()
+      .integer("يجب أن يكون رقمًا صحيحًا")
+      .typeError("قيمة غير صالحة"),
   });
 
-export type EmployeeFormValues = yup.InferType<ReturnType<typeof getEmployeeSchema>>;
+export type EmployeeFormValues = yup.InferType<
+  ReturnType<typeof getEmployeeSchema>
+>;

@@ -162,6 +162,7 @@
     "title": "Export Attendance",
     "description": "Click below to export the currently displayed data based on your filters. This allows downloading relevant records in your chosen format."
   },
+
   "buttons": {
     "close": "Close",
     "create": "Create",
@@ -176,6 +177,7 @@
     "toolTipDelete": "Delete Attendance",
     "toolTipViewAttendances": "View Attendances"
   },
+
   "filters": {
     "pageSize": "Page Size",
     "toolTipResetFilters": "Reset All",

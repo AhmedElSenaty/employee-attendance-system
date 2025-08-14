@@ -25,6 +25,7 @@ const AddEmployeePage = () => {
     handleSubmit,
     formState: { errors },
     control,
+    setValue: setEmployeeValue,
   } = useForm<EmployeeFormValues>({
     resolver: yupResolver(getEmployeeSchema(false)),
     mode: "onChange",
@@ -71,7 +72,11 @@ const AddEmployeePage = () => {
             )}
           />
           <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <Inputs errors={errors} register={register} />
+            <Inputs
+              errors={errors}
+              register={register}
+              setValue={setEmployeeValue}
+            />
           </div>
         </div>
         <div className="space-y-5 border-b-2 pb-10 border-gray-200">

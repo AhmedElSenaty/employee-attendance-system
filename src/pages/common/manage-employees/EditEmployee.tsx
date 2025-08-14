@@ -75,6 +75,7 @@ const EditEmployeePage = () => {
     formState: { errors },
     reset,
     control,
+    setValue: setEmployeeValue,
   } = useForm<EmployeeFormValues>({
     resolver: yupResolver(getEmployeeSchema(true)),
     mode: "onChange",
@@ -106,6 +107,8 @@ const EditEmployeePage = () => {
     id || "",
     reset
   );
+
+  console.log("employee => ", employee??"");
 
   // Destructuring functions and loading states from custom hooks for managing admins, departments, and permissions
   const { mutate: updateEmployee, isPending: isupdateing } =
@@ -283,6 +286,8 @@ const EditEmployeePage = () => {
                   register={register}
                   isUpdateEmployee
                   isLoading={isEmployeeDataLoading}
+                  setValue={setEmployeeValue}
+                  initialCategoryId={employee?.overtimePriceCategoryId}
                 />
               </div>
             </div>

@@ -1,5 +1,9 @@
 import axiosInstance from "../config/axios.config";
-import { DeviceCredentials } from "../interfaces";
+import {
+  DeviceCredentials,
+  RefetchAllPayload,
+  RefetchPayload,
+} from "../interfaces";
 import { BaseService } from "./base.services";
 
 export class DeviceService extends BaseService {
@@ -77,6 +81,20 @@ export class DeviceService extends BaseService {
 
   delete = (id: number) => {
     return axiosInstance.delete(`/Devices/${id}`, {
+      headers: this.getAuthHeaders(),
+    });
+  };
+
+  refetchAttendance = (payload: RefetchPayload) => {
+    console.log(payload);
+    return axiosInstance.post(`/aa`, payload, {
+      headers: this.getAuthHeaders(),
+    });
+  };
+
+  refetchAllAttendance = (payload: RefetchAllPayload) => {
+    console.log(payload);
+    return axiosInstance.post(`/aa`, payload, {
       headers: this.getAuthHeaders(),
     });
   };

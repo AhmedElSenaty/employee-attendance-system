@@ -100,6 +100,33 @@
     "description": "Watch this video tutorial to learn how to view, add, edit, and manage fingerprint devices connected to the system.",
     "closeButton": "Close"
   },
+  "refetchPopup": {
+    "title": "Refetch Attendance & Check-out",
+    "description": "Choose a date range. The device ID and IP address will be added automatically.",
+    "fields": {
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "deviceId": "Device ID",
+      "deviceIp": "Device IP Address"
+    },
+    "buttons": {
+      "refetch": "Refetch"
+    }
+  },
+  "refetchAllPopup": {
+    "heading": "Comprehensive Update of Attendance & Check-out Records",
+    "subTitle": "Fetch and update records from all devices within the selected period.",
+    "title": "Refetch Attendance for All",
+    "description": "Choose a date range to refetch attendance & check-out for all devices.",
+    "fields": {
+      "startDate": "Start Date",
+      "endDate": "End Date"
+    },
+    "buttons": {
+      "open": "Refetch for All",
+      "refetch": "Refetch"
+    }
+  },
   "filters": {
     "pageSize": "Page Size",
     "toolTipResetFilters": "Reset All",
@@ -127,6 +154,7 @@
     "loading": "Loading...",
     "toolTipShow": "Show Devices",
     "toolTipEdit": "Accept Devices",
-    "toolTipDelete": "Delete Devices"
+    "toolTipDelete": "Delete Devices",
+    "toolTipRefetch": "Refetch All Attendances"
   }
 }

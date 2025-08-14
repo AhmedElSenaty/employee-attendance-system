@@ -5,7 +5,7 @@ import {
   CirclePlus,
   Fingerprint,
   LayoutGrid,
-  UserCog,
+  RefreshCcw,
 } from "lucide-react";
 import { formatValue } from "../../../utils";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -39,9 +39,14 @@ import {
   useGetDevices,
   useUpdateDevice,
   useDebounce,
+  useRefetchAttendance,
+  useRefetchAllAttendance,
 } from "../../../hooks/";
 import { DEVICES_NS, DEVICES_VIDEO } from "../../../constants";
 import useURLSearchParams from "../../../hooks/URLSearchParams.hook";
+import RefetchAttendanceModal from "./views/RefetchAttendanceModal";
+import { RefetchAllPayload, RefetchPayload } from "../../../interfaces";
+import RefetchAllAttendancePopup from "./views/RefetchAllAttendancePopup";
 
 const ManageDevicesPage = () => {
   const { t } = useTranslation([DEVICES_NS]);
@@ -76,14 +81,11 @@ const ManageDevicesPage = () => {
     setSelectedID(id);
     setIsEditPopupOpen(true);
   };
+
   const handleEditPopupClose = () => {
     setSelectedID(0);
     reset();
     setIsEditPopupOpen(false);
-  };
-  const handleDeletePopupOpen = (id: number) => {
-    setSelectedID(id);
-    setIsDeletePopupOpen(true);
   };
 
   const { getParam, setParam, clearParams } = useURLSearchParams();
@@ -129,15 +131,62 @@ const ManageDevicesPage = () => {
     addDevice(request);
     setIsAddPopupOpen(false);
   };
+
   const handleConfirmUpdate: SubmitHandler<DeviceFormValues> = (request) => {
     updateDevice(request);
     // setIsEditPopupOpen(false)
   };
+
   const handleConfirmDelete = () => {
     if (!selectedID) return;
     deleteDevice(selectedID);
     setIsDeletePopupOpen(false);
     setIsShowPopupOpen(false);
+  };
+
+  const handleDeletePopupOpen = (id: number) => {
+    setSelectedID(id);
+    setIsDeletePopupOpen(true);
+  };
+
+  // ============ refetch a specefic device =============
+  const [isRefetchOpen, setIsRefetchOpen] = useState(false);
+  const [refetchDevice, setRefetchDevice] = useState<{
+    id?: number | string;
+    ip?: string;
+  }>({});
+
+  // open from a table row:
+  const openRefetchForDevice = (id: number | string, ip?: string) => {
+    setRefetchDevice({ id, ip });
+    setIsRefetchOpen(true);
+  };
+
+  // your mutation:
+  const { mutate: refetchAttendance, isPending: isRefetching } =
+    useRefetchAttendance();
+
+  // handler passed to popup:
+  const handleConfirmRefetch = (payload: RefetchPayload) => {
+    refetchAttendance(payload, {
+      onSuccess: () => setIsRefetchOpen(false),
+    });
+  };
+
+  // ================== refetch all devices ============
+
+  // state
+  const [isRefetchAllOpen, setIsRefetchAllOpen] = useState(false);
+
+  // hook
+  const { mutate: refetchAll, isPending: isRefetchingAll } =
+    useRefetchAllAttendance();
+
+  // handler
+  const handleConfirmRefetchAll = (payload: RefetchAllPayload) => {
+    refetchAll(payload, {
+      onSuccess: () => setIsRefetchAllOpen(false),
+    });
   };
 
   return (
@@ -153,7 +202,7 @@ const ManageDevicesPage = () => {
           />
         </div>
 
-        <div className="max-w-[1000px] mx-auto space-y-6">
+        <div className="max-w-[1300px] mx-auto space-y-6">
           <div className="flex justify-center">
             <div className="w-full max-w-md">
               <CountCard
@@ -166,7 +215,24 @@ const ManageDevicesPage = () => {
             </div>
           </div>
           <div className="flex flex-col md:flex-row gap-5">
-            <div className="w-full md:w-1/2">
+            <div className="w-full md:w-1/3">
+              <ActionCard
+                icon={<RefreshCcw />}
+                iconBgColor="bg-[#f5e4b2]"
+                iconColor="text-[#b38e19]"
+                title={t("refetchAllPopup.heading")}
+                description={t("refetchAllPopup.subTitle")}
+              >
+                <Button
+                  fullWidth={true}
+                  variant="secondary"
+                  onClick={() => setIsRefetchAllOpen(true)}
+                >
+                  {t("refetchAllPopup.buttons.open")}
+                </Button>
+              </ActionCard>
+            </div>
+            <div className="w-full md:w-1/3">
               <HasPermission permission="Add Device">
                 <ActionCard
                   icon={<CirclePlus />}
@@ -185,7 +251,7 @@ const ManageDevicesPage = () => {
                 </ActionCard>
               </HasPermission>
             </div>
-            <div className="w-full md:w-1/2">
+            <div className="w-full md:w-1/3">
               {getParam("table") != "disconnectedDevices" ? (
                 <ActionCard
                   icon={<AlertTriangle />}
@@ -253,6 +319,7 @@ const ManageDevicesPage = () => {
                 handleShow={handleShowPopupOpen}
                 handleEdit={handleEditPopupOpen}
                 handleDelete={handleDeletePopupOpen}
+                handleRefetch={openRefetchForDevice} // NEW
               />
             </div>
 
@@ -322,6 +389,22 @@ const ManageDevicesPage = () => {
         }}
         device={device}
         isLoading={isDeviceDataLoading}
+      />
+
+      <RefetchAttendanceModal
+        isOpen={isRefetchOpen}
+        onClose={() => setIsRefetchOpen(false)}
+        isLoading={isRefetching}
+        onConfirm={handleConfirmRefetch}
+        presetDeviceId={refetchDevice.id}
+        presetDeviceIp={refetchDevice.ip}
+      />
+
+      <RefetchAllAttendancePopup
+        isOpen={isRefetchAllOpen}
+        onClose={() => setIsRefetchAllOpen(false)}
+        onConfirm={handleConfirmRefetchAll}
+        isLoading={isRefetchingAll}
       />
     </>
   );

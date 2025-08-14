@@ -212,7 +212,8 @@
       "inputValidation": {
         "required": "Remaining Casual Leave Balance per year is required"
       }
-    }
+    },
+    "overtime": "Overtime price category"
   },
   "infoPopup": {
     "title": "How to Manage Employees",
