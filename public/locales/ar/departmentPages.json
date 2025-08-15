@@ -106,5 +106,7 @@
   },
   "NA": "غير متوفر",
   "deselectAll": "إلغاء تحديد الكل",
-  "selectAll": "تحديد الكل"
+  "selectAll": "تحديد الكل",
+  "searchDepartments": "البحث في الأقسام",
+  "searchDepartmentsPlaceholder": "ابحث في الأقسام بالاسم..."
 }

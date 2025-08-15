@@ -106,5 +106,7 @@
   },
   "NA": "N/A",
   "deselectAll": "Deselect All",
-  "selectAll": "Select All"
+  "selectAll": "Select All",
+  "searchDepartments": "Search Departments",
+  "searchDepartmentsPlaceholder": "Search departments by name..."
 }

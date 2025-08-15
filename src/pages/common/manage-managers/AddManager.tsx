@@ -13,7 +13,6 @@ import { PermissionCheckboxes } from "../../Admin/manage-permissions/views";
 import { DepartmentCheckboxes } from "../../Admin/manage-departments/views";
 import { Inputs } from "./views";
 import { useUserStore } from "../../../store";
-import { HasPermission } from "../../../components/auth";
 
 const AddManagerPage = () => {
   const { t } = useTranslation([MANAGER_NS]);
@@ -87,29 +86,25 @@ const AddManagerPage = () => {
       </div>
 
       {/* <HasPermission permission={""}> */}
-        <div className="bg-white shadow-md space-y-5 p-5 rounded-lg">
-          <SectionHeader
-            title={t("addManagerPage.permissionsSectionHeader.title")}
-            description={t(
-              "addManagerPage.permissionsSectionHeader.description"
-            )}
-          />
-          <PermissionCheckboxes
-            checked={checkedPermissions}
-            setChecked={setCheckedPermissions}
-          />
-        </div>
+      <div className="bg-white shadow-md space-y-5 p-5 rounded-lg">
+        <SectionHeader
+          title={t("addManagerPage.permissionsSectionHeader.title")}
+          description={t("addManagerPage.permissionsSectionHeader.description")}
+        />
+        <PermissionCheckboxes
+          checked={checkedPermissions}
+          setChecked={setCheckedPermissions}
+        />
+      </div>
       {/* </HasPermission> */}
 
       <div className="bg-white shadow-md space-y-5 p-5 rounded-lg">
-        <SectionHeader
-          title={t("addManagerPage.departmentsSectionHeader.title")}
-          description={t("addManagerPage.departmentsSectionHeader.description")}
-        />
         <DepartmentCheckboxes
           checked={checkedDepartment}
           setChecked={setCheckedDepartment}
           needSelectOne={true}
+          title={t("addManagerPage.departmentsSectionHeader.title")}
+          description={t("addManagerPage.departmentsSectionHeader.description")}
         />
       </div>
     </div>

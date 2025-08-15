@@ -1,13 +1,34 @@
 import { useEffect, useState } from "react";
-import { Button, ButtonSkeleton, SectionHeader, Header, Field, Input, InputErrorMessage, Label } from "../../../components/ui";
+import {
+  Button,
+  ButtonSkeleton,
+  SectionHeader,
+  Header,
+  Field,
+  Input,
+  InputErrorMessage,
+  Label,
+} from "../../../components/ui";
 import { useTranslation } from "react-i18next";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router";
 import { HasPermission } from "../../../components/auth";
 import { ADMIN_NS } from "../../../constants";
-import { AdminFormValues, getAdminSchema, passwordUpdateSchema } from "../../../validation";
-import { useDeleteAdmin, useGetAdminByID, useUnblockAccount, useUpdateAccountPassword, useUpdateAdmin, useUpdateUserDepartments, useUpdateUserPermissions } from "../../../hooks";
+import {
+  AdminFormValues,
+  getAdminSchema,
+  passwordUpdateSchema,
+} from "../../../validation";
+import {
+  useDeleteAdmin,
+  useGetAdminByID,
+  useUnblockAccount,
+  useUpdateAccountPassword,
+  useUpdateAdmin,
+  useUpdateUserDepartments,
+  useUpdateUserPermissions,
+} from "../../../hooks";
 import { DeletePopup, Inputs, UnblockPopup } from "./views";
 import { PermissionCheckboxes } from "../manage-permissions/views";
 import { DepartmentCheckboxes } from "../manage-departments/views";
@@ -23,7 +44,6 @@ const EditAdminPage = () => {
 
   const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
   const [isUnblockPopupOpen, setIsUnblockPopupOpen] = useState(false);
-  
 
   const {
     register,
@@ -31,7 +51,7 @@ const EditAdminPage = () => {
     formState: { errors },
     reset,
     control,
-    setValue
+    setValue,
   } = useForm<AdminFormValues>({
     resolver: yupResolver(getAdminSchema(true)),
     mode: "onChange",
@@ -41,7 +61,7 @@ const EditAdminPage = () => {
     register: updatePasswordRegister,
     handleSubmit: handleSubmitUpdatePassword,
     formState: { errors: updatePasswordErrors },
-  } = useForm<{ password: string, confirmPassword: string }>({
+  } = useForm<{ password: string; confirmPassword: string }>({
     resolver: yupResolver(passwordUpdateSchema(false)),
     mode: "onChange",
   });
@@ -51,17 +71,18 @@ const EditAdminPage = () => {
   useEffect(() => {
     setCheckedPermissions(admin?.permissions || []);
     setCheckedDepartments(admin?.departments || []);
-  }, [admin, isAdminDataLoading]); 
+  }, [admin, isAdminDataLoading]);
 
   const { mutate: updateAdmin, isPending: isupdateing } = useUpdateAdmin();
   const { mutate: deleteAdmin, isPending: isDeleting } = useDeleteAdmin();
 
-
-  const handleConfirmEdit: SubmitHandler<AdminFormValues> = async (request: AdminFormValues) => {
+  const handleConfirmEdit: SubmitHandler<AdminFormValues> = async (
+    request: AdminFormValues
+  ) => {
     const payload = {
       id: id,
-      ...request
-    }
+      ...request,
+    };
     updateAdmin(payload);
   };
 
@@ -71,7 +92,10 @@ const EditAdminPage = () => {
     navigate(`/admin/manage-admins/`);
   };
 
-  const { mutate: updateUserDepartments, isPending: isUserDepartmentsUpdating } = useUpdateUserDepartments();
+  const {
+    mutate: updateUserDepartments,
+    isPending: isUserDepartmentsUpdating,
+  } = useUpdateUserDepartments();
 
   const handleConfirmUpdateDepartments = () => {
     updateUserDepartments({
@@ -82,7 +106,7 @@ const EditAdminPage = () => {
 
   const {
     mutate: updateUserPermissions,
-    isPending: isUserPermissionsUpdating
+    isPending: isUserPermissionsUpdating,
   } = useUpdateUserPermissions();
 
   const handleConfirmUpdatePermissions = () => {
@@ -92,10 +116,16 @@ const EditAdminPage = () => {
     });
   };
 
-  const { mutate: updateAccountPassword, isPending: isUpdateAccountPasswordLoading } = useUpdateAccountPassword();
-  const { mutate: unblockAccount, isPending: isUnblockAccountLoading } = useUnblockAccount();
+  const {
+    mutate: updateAccountPassword,
+    isPending: isUpdateAccountPasswordLoading,
+  } = useUpdateAccountPassword();
+  const { mutate: unblockAccount, isPending: isUnblockAccountLoading } =
+    useUnblockAccount();
 
-  const handleConfirmUpdatePassword: SubmitHandler<{password: string}> = async (request: { password: string }) => {
+  const handleConfirmUpdatePassword: SubmitHandler<{
+    password: string;
+  }> = async (request: { password: string }) => {
     updateAccountPassword({
       password: request.password,
       userId: id || "",
@@ -110,26 +140,31 @@ const EditAdminPage = () => {
   return (
     <>
       <div className="sm:p-5 p-3 space-y-5">
-        <Header 
-          heading={t("updateAdminPage.header.heading")} 
+        <Header
+          heading={t("updateAdminPage.header.heading")}
           subtitle={t("updateAdminPage.header.subtitle")}
         />
 
         <div className="bg-white shadow-md space-y-5 p-5 rounded-lg">
-          <SectionHeader 
-            title={t("updateAdminPage.informationsSectionHeader.title")} 
-            description={t("updateAdminPage.informationsSectionHeader.description")}
+          <SectionHeader
+            title={t("updateAdminPage.informationsSectionHeader.title")}
+            description={t(
+              "updateAdminPage.informationsSectionHeader.description"
+            )}
           />
-          <form className="space-y-5" onSubmit={handleSubmit(handleConfirmEdit)}>
+          <form
+            className="space-y-5"
+            onSubmit={handleSubmit(handleConfirmEdit)}
+          >
             <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Render input fields for the admin details */}
-              <Inputs 
-                checkedPermissionsHandler={setCheckedPermissions} 
-                register={register} 
-                errors={errors} 
-                control={control} 
-                setValue={setValue} 
-                isUpdateAdmin={true} 
+              <Inputs
+                checkedPermissionsHandler={setCheckedPermissions}
+                register={register}
+                errors={errors}
+                control={control}
+                setValue={setValue}
+                isUpdateAdmin={true}
                 isLoading={isAdminDataLoading}
               />
             </div>
@@ -148,22 +183,25 @@ const EditAdminPage = () => {
                   <HasPermission permission="Update Admin">
                     {/* Update admin button */}
                     <Button fullWidth={false} isLoading={isupdateing}>
-                      {isupdateing ? t("buttons.loading") : t("buttons.updateInformations")}
+                      {isupdateing
+                        ? t("buttons.loading")
+                        : t("buttons.updateInformations")}
                     </Button>
                   </HasPermission>
-                  
 
                   {/* Unblock button if the admin is blocked */}
                   <HasPermission permission="Unlock Account">
                     {admin?.isBlocked && (
-                      <Button 
-                        fullWidth={false} 
+                      <Button
+                        fullWidth={false}
                         isLoading={isUnblockAccountLoading}
                         variant={"black"}
                         type="button"
                         onClick={() => setIsUnblockPopupOpen(true)}
                       >
-                        {isUnblockAccountLoading ? t("buttons.loading") : t("buttons.unblock")}
+                        {isUnblockAccountLoading
+                          ? t("buttons.loading")
+                          : t("buttons.unblock")}
                       </Button>
                     )}
                   </HasPermission>
@@ -176,7 +214,7 @@ const EditAdminPage = () => {
                       type="button"
                       onClick={() => setIsDeletePopupOpen(true)}
                     >
-                        {isDeleting ? t("buttons.loading") : t("buttons.delete")}
+                      {isDeleting ? t("buttons.loading") : t("buttons.delete")}
                     </Button>
                   </HasPermission>
                 </>
@@ -188,11 +226,16 @@ const EditAdminPage = () => {
         {/* Password Update Section */}
         <HasPermission permission="Update Password">
           <div className="bg-white shadow-md space-y-5 p-5 rounded-lg">
-            <SectionHeader 
-              title={t("updateAdminPage.passwordSectionHeader.title")} 
-              description={t("updateAdminPage.passwordSectionHeader.description")}
+            <SectionHeader
+              title={t("updateAdminPage.passwordSectionHeader.title")}
+              description={t(
+                "updateAdminPage.passwordSectionHeader.description"
+              )}
             />
-            <form className="space-y-5" onSubmit={handleSubmitUpdatePassword(handleConfirmUpdatePassword)}>
+            <form
+              className="space-y-5"
+              onSubmit={handleSubmitUpdatePassword(handleConfirmUpdatePassword)}
+            >
               <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Password input field */}
                 <Field className="space-y-2">
@@ -205,11 +248,17 @@ const EditAdminPage = () => {
                   />
                   {updatePasswordErrors["password"] && (
                     <InputErrorMessage>
-                      {t(`inputs.password.inputValidation.${updatePasswordErrors["password"].type === "matches" ? updatePasswordErrors["password"].message : updatePasswordErrors["password"].type}`)}
+                      {t(
+                        `inputs.password.inputValidation.${
+                          updatePasswordErrors["password"].type === "matches"
+                            ? updatePasswordErrors["password"].message
+                            : updatePasswordErrors["password"].type
+                        }`
+                      )}
                     </InputErrorMessage>
                   )}
                 </Field>
-                
+
                 {/* Confirm Password input field */}
                 <Field className="space-y-2">
                   <Label size="lg">{t(`inputs.confirmPassword.label`)}</Label>
@@ -221,17 +270,21 @@ const EditAdminPage = () => {
                   />
                   {updatePasswordErrors["confirmPassword"] && (
                     <InputErrorMessage>
-                      {t(`inputs.confirmPassword.inputValidation.${updatePasswordErrors["confirmPassword"].type}`)}
+                      {t(
+                        `inputs.confirmPassword.inputValidation.${updatePasswordErrors["confirmPassword"].type}`
+                      )}
                     </InputErrorMessage>
                   )}
                 </Field>
               </div>
               <div className="flex flex-wrap gap-3">
-                <Button 
-                  fullWidth={false} 
+                <Button
+                  fullWidth={false}
                   isLoading={isUpdateAccountPasswordLoading}
                 >
-                  {isUpdateAccountPasswordLoading ? t("buttons.loading") : t("buttons.updatePassword")}
+                  {isUpdateAccountPasswordLoading
+                    ? t("buttons.loading")
+                    : t("buttons.updatePassword")}
                 </Button>
               </div>
             </form>
@@ -241,9 +294,11 @@ const EditAdminPage = () => {
         {/* Permissions Section */}
         <HasPermission permission="Update User Permissions">
           <div className="bg-white shadow-md space-y-5 p-5 rounded-lg">
-            <SectionHeader 
-              title={t("updateAdminPage.permissionsSectionHeader.title")} 
-              description={t("updateAdminPage.permissionsSectionHeader.description")}
+            <SectionHeader
+              title={t("updateAdminPage.permissionsSectionHeader.title")}
+              description={t(
+                "updateAdminPage.permissionsSectionHeader.description"
+              )}
             />
             <PermissionCheckboxes
               checked={checkedPermissions}
@@ -255,12 +310,14 @@ const EditAdminPage = () => {
                 <ButtonSkeleton fullWidth={false} />
               </div>
             ) : (
-              <Button 
-                fullWidth={false} 
-                isLoading={isUserPermissionsUpdating} 
+              <Button
+                fullWidth={false}
+                isLoading={isUserPermissionsUpdating}
                 onClick={handleConfirmUpdatePermissions}
               >
-                {isUserPermissionsUpdating ? t("buttons.loading") : t("buttons.updatePermissions")}
+                {isUserPermissionsUpdating
+                  ? t("buttons.loading")
+                  : t("buttons.updatePermissions")}
               </Button>
             )}
           </div>
@@ -269,26 +326,28 @@ const EditAdminPage = () => {
         {/* Departments Section */}
         <HasPermission permission="Grant Department Access">
           <div className="bg-white shadow-md space-y-5 p-5 rounded-lg">
-            <SectionHeader 
-              title={t("updateAdminPage.departmentsSectionHeader.title")} 
-              description={t("updateAdminPage.departmentsSectionHeader.description")}
-            />
             <DepartmentCheckboxes
               checked={checkedDepartments}
               setChecked={setCheckedDepartments}
               isLoading={isAdminDataLoading}
+              title={t("updateAdminPage.departmentsSectionHeader.title")}
+              description={t(
+                "updateAdminPage.departmentsSectionHeader.description"
+              )}
             />
             {isAdminDataLoading ? (
               <div className="w-36">
                 <ButtonSkeleton fullWidth={false} />
               </div>
             ) : (
-              <Button 
-                fullWidth={false} 
-                isLoading={isUserDepartmentsUpdating} 
+              <Button
+                fullWidth={false}
+                isLoading={isUserDepartmentsUpdating}
                 onClick={handleConfirmUpdateDepartments}
               >
-                {isUserDepartmentsUpdating ? t("buttons.loading") : t("buttons.updateUserDepartments")}
+                {isUserDepartmentsUpdating
+                  ? t("buttons.loading")
+                  : t("buttons.updateUserDepartments")}
               </Button>
             )}
           </div>
@@ -298,19 +357,22 @@ const EditAdminPage = () => {
       {/* Popups for confirming actions */}
       <DeletePopup
         isOpen={isDeletePopupOpen}
-        handleClose={() => { setIsDeletePopupOpen(false) }}
+        handleClose={() => {
+          setIsDeletePopupOpen(false);
+        }}
         handleConfirmDelete={handleConfirmDelete}
         isLoading={isDeleting}
       />
       <UnblockPopup
         isOpen={isUnblockPopupOpen}
-        handleClose={() => { setIsUnblockPopupOpen(false) }}
+        handleClose={() => {
+          setIsUnblockPopupOpen(false);
+        }}
         handleConfirmUnblock={handleConfirmUnblock}
         isLoading={isUnblockAccountLoading}
       />
     </>
+  );
+};
 
-  )
-}
-
-export default EditAdminPage
+export default EditAdminPage;
