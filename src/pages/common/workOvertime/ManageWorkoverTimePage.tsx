@@ -10,6 +10,8 @@ import { useTranslation } from "react-i18next";
 
 import {
   useDebounce,
+  useExportSummaryWorkOvertimeReportExcel,
+  useExportSummaryWorkOvertimeReportPDF,
   useExportWorkOvertimeReportExcel,
   useExportWorkOvertimeReportPDF,
 } from "../../../hooks/";
@@ -116,46 +118,90 @@ const ManageWorkoverTimePage = () => {
     );
 
   const handleDownloadPDF = async () => {
-    setWorkOvertimeReportIsDownloadReportPopupOpen(true);
+    setIsDownloadingWorkOvertimeReportPDF(true);
     const { data, isSuccess, isError } = await workOvertimeReportPDF();
     if (isSuccess) {
       showToast("success", t("export.exportSuccess"));
       downloadFile(data.file);
-      setWorkOvertimeReportIsDownloadReportPopupOpen(false);
+      setIsDownloadingWorkOvertimeReportPDF(false);
     }
     if (isError) {
       showToast("error", t("export.exportError"));
-      setWorkOvertimeReportIsDownloadReportPopupOpen(false);
+      setIsDownloadingWorkOvertimeReportPDF(false);
     }
   };
 
-  // const handleAbsenceFromWorkReportDownload = async () => {
-  //   setIsDownloadingAbsenceFromWorkReport(true);
-  //   const { data, isSuccess, isError } = await AbsenceFromWorkReport();
-  //   if (isSuccess) {
-  //     showToast("success", t("export.exportSuccess"));
-  //     downloadFile(data.file);
-  //     setIsDownloadingAbsenceFromWorkReport(false);
-  //   }
-  //   if (isError) {
-  //     showToast("error", t("export.exportError"));
-  //     setIsDownloadingAbsenceFromWorkReport(false);
-  //   }
-  // };
+  // =========================
+  // ========= summary =======
+  // =========================
 
-  // const handleDownloadAbsenceFromWorkReportPDF = async () => {
-  //   setIsDownloadingAbsenceFromWorkReportPDF(true);
-  //   const { data, isSuccess, isError } = await AbsenceFromWorkReportPDF();
-  //   if (isSuccess) {
-  //     showToast("success", t("export.exportSuccess"));
-  //     downloadFile(data.file);
-  //     setIsDownloadingAbsenceFromWorkReportPDF(false);
-  //   }
-  //   if (isError) {
-  //     showToast("error", t("export.exportError"));
-  //     setIsDownloadingAbsenceFromWorkReportPDF(false);
-  //   }
-  // };
+  // ================= pdf =========
+
+  const [
+    isDownloadingSummaryWorkOvertimeReportPDF,
+    setIsDownloadingSummaryWorkOvertimeReportPDF,
+  ] = useState(false);
+
+  const [
+    isSummaryWorkOvertimeReportDownloadReportPopupOpen,
+    setSummaryWorkOvertimeReportIsDownloadReportPopupOpen,
+  ] = useState(false);
+
+  const { refetchExportDataPDF: workSummaryOvertimeReportPDF } =
+    useExportSummaryWorkOvertimeReportPDF(
+      searchKey,
+      searchQuery,
+      startDate,
+      endDate,
+      checked,
+      departmentId || 0,
+      subDeptartmentId || 0
+    );
+
+  const handleSummaryDownloadPDF = async () => {
+    setIsDownloadingSummaryWorkOvertimeReportPDF(true);
+    const { data, isSuccess, isError } = await workSummaryOvertimeReportPDF();
+    if (isSuccess) {
+      showToast("success", t("export.exportSuccess"));
+      downloadFile(data.file);
+      setIsDownloadingSummaryWorkOvertimeReportPDF(false);
+    }
+    if (isError) {
+      showToast("error", t("export.exportError"));
+      setIsDownloadingSummaryWorkOvertimeReportPDF(false);
+    }
+  };
+
+  // ========== excel ============
+  const [
+    isDownloadingSummaryWorkOvertimeReport,
+    setIsDownloadingSummaryWorkOvertimeReport,
+  ] = useState(false);
+
+  const { refetchExportData: summaryWorkovertimeReport } =
+    useExportSummaryWorkOvertimeReportExcel(
+      searchKey,
+      searchQuery,
+      startDate,
+      endDate,
+      checked,
+      departmentId || 0,
+      subDeptartmentId || 0
+    );
+
+  const handleDownloadSummary = async () => {
+    setIsDownloadingSummaryWorkOvertimeReport(true);
+    const { data, isSuccess, isError } = await summaryWorkovertimeReport();
+    if (isSuccess) {
+      showToast("success", t("export.exportSuccess"));
+      downloadFile(data.file);
+      setIsDownloadingSummaryWorkOvertimeReport(false);
+    }
+    if (isError) {
+      showToast("error", t("export.exportError"));
+      setIsDownloadingSummaryWorkOvertimeReport(false);
+    }
+  };
 
   return (
     <>
@@ -172,6 +218,7 @@ const ManageWorkoverTimePage = () => {
           </div>
         </div>
         <div className="w-[1000px] max-xl:w-full grid grid-cols-1 md:grid-cols-2 gap-10 mx-auto">
+          {/* this is detailed */}
           <div className="flex-1">
             <HasPermission
               permission={[
@@ -183,8 +230,8 @@ const ManageWorkoverTimePage = () => {
                 icon={<FileDown />}
                 iconBgColor="bg-[#f5e4b2]"
                 iconColor="text-[#10b981]"
-                title={t("exportActionCard.title")}
-                description={t("exportActionCard.description")}
+                title={t("exportDetailedOvertimeActionCard.title")}
+                description={t("exportDetailedOvertimeActionCard.description")}
               >
                 <Button
                   fullWidth
@@ -197,7 +244,39 @@ const ManageWorkoverTimePage = () => {
                     setWorkOvertimeReportIsDownloadReportPopupOpen(true);
                   }}
                 >
-                  {t("exportActionCard.button")}
+                  {t("exportDetailedOvertimeActionCard.button")}
+                </Button>
+              </ActionCard>
+            </HasPermission>
+          </div>
+
+          {/* this is summary */}
+          <div className="flex-1">
+            <HasPermission
+              permission={[
+                "Export Overtime report Excel",
+                "Export Overtime report PDF",
+              ]}
+            >
+              <ActionCard
+                icon={<FileDown />}
+                iconBgColor="bg-[#f5e4b2]"
+                iconColor="text-[#10b981]"
+                title={t("exportSummaryOvertimeActionCard.title")}
+                description={t("exportSummaryOvertimeActionCard.description")}
+              >
+                <Button
+                  fullWidth
+                  variant="secondary"
+                  isLoading={
+                    isDownloadingSummaryWorkOvertimeReportPDF ||
+                    isDownloadingSummaryWorkOvertimeReport
+                  }
+                  onClick={() => {
+                    setSummaryWorkOvertimeReportIsDownloadReportPopupOpen(true);
+                  }}
+                >
+                  {t("exportSummaryOvertimeActionCard.button")}
                 </Button>
               </ActionCard>
             </HasPermission>
@@ -251,6 +330,7 @@ const ManageWorkoverTimePage = () => {
         </div>
       </div>
 
+      {/* detailed */}
       <ExportRequestsPopup
         isOpen={isWorkOvertimeReportDownloadReportPopupOpen}
         handleClose={() =>
@@ -286,6 +366,44 @@ const ManageWorkoverTimePage = () => {
         isLoading={isDownloadingWorkOvertimeReport}
         isloadingPDF={isDownloadingWorkOvertimeReportPDF}
         handleDownloadPDF={handleDownloadPDF}
+      />
+
+      {/* summary */}
+      <ExportRequestsPopup
+        isOpen={isSummaryWorkOvertimeReportDownloadReportPopupOpen}
+        handleClose={() =>
+          setSummaryWorkOvertimeReportIsDownloadReportPopupOpen(false)
+        }
+        handleDownload={() => {
+          handleDownloadSummary();
+        }}
+        filteredData={{
+          searchKey: searchKey || "",
+          search: searchQuery || "",
+          startDate:
+            startDate ||
+            `${new Date().getFullYear()}-${String(
+              new Date().getMonth() + 1
+            ).padStart(2, "0")}-01`,
+          endDate:
+            endDate ||
+            `${new Date().getFullYear()}-${String(
+              new Date().getMonth() + 1
+            ).padStart(2, "0")}-${String(
+              new Date(
+                new Date().getFullYear(),
+                new Date().getMonth() + 1,
+                0
+              ).getDate()
+            ).padStart(2, "0")}`,
+
+          searchByDepartmentId: Number(departmentId || 0),
+          searchBySubDeptartmentId: Number(subDeptartmentId || 0),
+          checked: checked,
+        }}
+        isLoading={isDownloadingSummaryWorkOvertimeReport}
+        isloadingPDF={isDownloadingSummaryWorkOvertimeReportPDF}
+        handleDownloadPDF={handleSummaryDownloadPDF}
       />
     </>
   );

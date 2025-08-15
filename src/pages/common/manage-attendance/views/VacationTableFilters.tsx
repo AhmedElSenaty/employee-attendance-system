@@ -177,12 +177,22 @@ const VacationTableFilters = ({
 
       <div className="full flex flex-wrap items-end gap-4">
         <Field className="flex flex-col space-y-2 w-fit">
-          <Label>{t("filters.date")}</Label>
+          <Label>{t("filters.startDate")}</Label>
           <Input
             type="date"
             icon={<Calendar />}
             value={getParam("startDate") ?? ""}
             onChange={(e) => setParam("startDate", e.target.value)}
+          />
+        </Field>
+
+        <Field className="flex flex-col space-y-2 w-fit">
+          <Label>{t("filters.endDate")}</Label>
+          <Input
+            type="date"
+            icon={<Calendar />}
+            value={getParam("endDate") ?? ""}
+            onChange={(e) => setParam("endDate", e.target.value)}
           />
         </Field>
 

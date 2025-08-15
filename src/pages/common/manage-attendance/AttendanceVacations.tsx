@@ -12,7 +12,11 @@ import {
 } from "../../../hooks/";
 import { ATTENDANCE_NS, ATTENDANCE_VACATION_VIDEO } from "../../../constants";
 import useURLSearchParams from "../../../hooks/URLSearchParams.hook";
-import { VacationTable, VacationTableFilters } from "./views";
+import {
+  OverviewTableFilters,
+  VacationTable,
+  VacationTableFilters,
+} from "./views";
 import { useParams } from "react-router";
 import { initialMetadata } from "../../../interfaces";
 
@@ -89,7 +93,7 @@ const AttendanceVacationsPage = () => {
 
         {!type && (
           <div className="flex flex-col gap-5">
-            <VacationTableFilters
+            <OverviewTableFilters
               searchBy={metadata.searchBy}
               getParam={getParam}
               setParam={setParam}

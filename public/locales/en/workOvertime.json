@@ -31,9 +31,18 @@
       "description": "View and filter the overtime list"
     }
   },
-  "exportActionCard": {
-    "title": "Export Filtered Data",
-    "description": "Export the data displayed in the table and download it in your preferred format.",
+  "exportDetailedOvertimeActionCard": {
+    "title": "Export Overtime Report (Detailed)",
+    "description": "Export the detailed overtime data displayed in the table and download it in your preferred format.",
+    "button": "Export",
+    "validation": {
+      "selectDateRange": "Start and end dates must be selected first."
+    }
+  },
+
+  "exportSummaryOvertimeActionCard": {
+    "title": "Export Overtime Report (Summary)",
+    "description": "Export the summarized overtime data displayed in the table and download it in your preferred format.",
     "button": "Export",
     "validation": {
       "selectDateRange": "Start and end dates must be selected first."

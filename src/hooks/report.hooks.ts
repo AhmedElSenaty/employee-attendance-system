@@ -643,3 +643,83 @@ export const useExportWorkOvertimeReportExcel = (
     refetchExportData: refetch,
   };
 };
+
+export const useExportSummaryWorkOvertimeReportPDF = (
+  searchKey?: string,
+  debouncedSearchQuery?: string,
+  startDate?: string,
+  endDate?: string,
+  checked?: boolean,
+  departmentId?: number,
+  subDepartmentId?: number
+) => {
+  const service = useReportService();
+
+  const { refetch } = useQuery({
+    queryKey: [
+      QueryKeys.Export.PDF,
+      searchKey,
+      debouncedSearchQuery,
+      startDate,
+      endDate,
+      checked,
+      departmentId,
+      subDepartmentId,
+    ],
+    queryFn: () =>
+      service.fetchSummaryWorkOvertimeReportPDF(
+        searchKey,
+        debouncedSearchQuery,
+        startDate,
+        endDate,
+        checked,
+        departmentId,
+        subDepartmentId
+      ),
+    enabled: false, // manual refetching
+    retry: 3,
+  });
+  return {
+    refetchExportDataPDF: refetch,
+  };
+};
+
+export const useExportSummaryWorkOvertimeReportExcel = (
+  searchKey?: string,
+  debouncedSearchQuery?: string,
+  startDate?: string,
+  endDate?: string,
+  checked?: boolean,
+  departmentId?: number,
+  subDepartmentId?: number
+) => {
+  const service = useReportService();
+
+  const { refetch } = useQuery({
+    queryKey: [
+      QueryKeys.Export.PDF,
+      searchKey,
+      debouncedSearchQuery,
+      startDate,
+      endDate,
+      checked,
+      departmentId,
+      subDepartmentId,
+    ],
+    queryFn: () =>
+      service.fetchSummaryWorkOvertimeReportExcel(
+        searchKey,
+        debouncedSearchQuery,
+        startDate,
+        endDate,
+        checked,
+        departmentId,
+        subDepartmentId
+      ),
+    enabled: false, // manual refetching
+    retry: 3,
+  });
+  return {
+    refetchExportData: refetch,
+  };
+};
