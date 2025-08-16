@@ -1,4 +1,12 @@
-import { Calendar, Check, X } from "lucide-react";
+import {
+  Calendar,
+  Check,
+  CheckCircle,
+  Clock,
+  FileText,
+  X,
+  XCircle,
+} from "lucide-react";
 import {
   AttendanceCard,
   AttendanceCardSkeleton,
@@ -15,6 +23,7 @@ import {
   Label,
   SelectBox,
   SelectBoxSkeleton,
+  Button,
 } from "../../components/ui";
 import { useTranslation } from "react-i18next";
 import { useFiltersHook } from "../../hooks/filter.hook";
@@ -29,8 +38,9 @@ import {
 } from "../../hooks/attendance.hooks";
 import { NavLink } from "react-router";
 import { useUserStore } from "../../store";
-import RecentRequestsCard from "./RecentRequestsCard";
+import { useState } from "react";
 import TopRequestersCard from "./TopRequestersCard";
+import RecentRequestsCard from "./RecentRequestsCard";
 
 export const DashboardPage = () => {
   const { t } = useTranslation(["common", "dashboard"]);
@@ -56,23 +66,6 @@ export const DashboardPage = () => {
     endDate || "",
     Number(searchByDepartmentId || 0)
   );
-  const data = {
-    labels: [
-      t("departmentOverview.graph.attendance", { ns: "dashboard" }),
-      t("departmentOverview.graph.absent", { ns: "dashboard" }),
-    ],
-    datasets: [
-      {
-        label: "Attendance Overview",
-        data: [
-          departmentAttendanceOverview?.totalAttendance,
-          departmentAttendanceOverview?.totalAbsence,
-        ],
-        backgroundColor: ["#19355a", "#b38e19"],
-        hoverOffset: 8,
-      },
-    ],
-  };
 
   const { latestAttendance, isLoading: islatestAttendanceLoading } =
     useGetLatestAttendance();
@@ -97,33 +90,27 @@ export const DashboardPage = () => {
       },
     ],
   };
-  const leaveTypeStats = [
-    { type: "Sick Leave", count: 45, percentage: 15 },
-    { type: "Ordinary Leave", count: 89, percentage: 30 },
-    { type: "Casual Leave", count: 67, percentage: 22 },
-    { type: "Mission", count: 34, percentage: 11 },
-    { type: "Other", count: 63, percentage: 21 },
-  ];
-  const leaveTypeData = {
-    labels: leaveTypeStats.map((item) => item.type),
+
+  const data = {
+    labels: [
+      t("departmentOverview.graph.attendance", { ns: "dashboard" }),
+      t("departmentOverview.graph.absent", { ns: "dashboard" }),
+    ],
     datasets: [
       {
-        label: "Leave Types",
-        data: leaveTypeStats.map((item) => item.count),
-        backgroundColor: [
-          "#3b82f6",
-          "#10b981",
-          "#f59e0b",
-          "#8b5cf6",
-          "#ef4444",
+        label: "Attendance Overview",
+        data: [
+          departmentAttendanceOverview?.totalAttendance,
+          departmentAttendanceOverview?.totalAbsence,
         ],
+        backgroundColor: ["#19355a", "#b38e19"],
         hoverOffset: 8,
       },
     ],
   };
 
   return (
-    <div className="sm:p-5 p-3 space-y-5">
+    <div className="sm:p-5 p-3 space-y-5 overflow-x-hidden">
       <Header
         heading={t("header.heading", { ns: "dashboard" })}
         subtitle={t("header.subtitle", { ns: "dashboard" })}
@@ -131,7 +118,7 @@ export const DashboardPage = () => {
 
       <div className="flex flex-col lg:flex-row gap-5">
         {/* Main content */}
-        <div className="w-full lg:w-2/3 flex flex-col gap-5">
+        <div className="w-full lg:w-2/3 flex flex-col gap-5 min-w-0">
           <SectionHeader
             title={t("attendanceOverview.sectionHeader.title", {
               ns: "dashboard",
@@ -258,7 +245,7 @@ export const DashboardPage = () => {
         </div>
 
         {/* Sidebar section */}
-        <div className="w-full lg:w-1/3 flex flex-col gap-5">
+        <div className="w-full lg:w-1/3 flex flex-col gap-5 min-w-0">
           <SectionHeader
             title={t("departmentOverview.sectionHeader.title", {
               ns: "dashboard",
@@ -340,21 +327,9 @@ export const DashboardPage = () => {
               />
             </Graph>
           )}
-          {/* <Graph
-            title="Leave Types Distribution"
-            description="Breakdown of requests by leave type"
-            width="w-full"
-            height="h-fit"
-          >
-            <DoughnutChart
-              datasetIdKey="leave-types"
-              data={leaveTypeData}
-              height={250}
-            />
-          </Graph> */}
         </div>
       </div>
-      <div className="grid grid-cols-12 gap-5 mt-5 w-full">
+      <div className="grid grid-cols-12 gap-5 mt-5 w-full" dir="ltr">
         <div className="col-span-12 md:col-span-4">
           <RecentRequestsCard />
         </div>
@@ -363,12 +338,8 @@ export const DashboardPage = () => {
           <TopRequestersCard />
         </div>
 
-        <div className="col-span-12 md:col-span-4 ">
-          {/* Responsive attendance card list */}
-          <div className="flex flex-wrap gap-5 max-h-96 overflow-y-auto bg-white rounded-lg p-5 shadow-md">
-            <h3 className="text-lg font-semibold text-gray-800 ">
-              {t("latestAttendance", { ns: "dashboard" })}
-            </h3>
+        <div className="col-span-12 md:col-span-4">
+          <div className="bg-white rounded-lg p-5 shadow-md max-h-96 overflow-y-auto">
             {islatestAttendanceLoading
               ? [...Array(3)].map((_, index) => (
                   <AttendanceCardSkeleton key={index} />
@@ -397,10 +368,10 @@ export const DashboardPage = () => {
                       logoutTime={checkOut}
                       bgColor={
                         checkIn && !checkOut
-                          ? "bg-green-50" // Checked in only
+                          ? "bg-green-50"
                           : !checkIn && checkOut
-                          ? "bg-red-50" // Checked out only
-                          : "bg-gray-50" // Both or neither
+                          ? "bg-red-50"
+                          : "bg-gray-50"
                       }
                     />
                   )

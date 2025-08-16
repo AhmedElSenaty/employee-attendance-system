@@ -1,4 +1,3 @@
-import { number } from "yup";
 import axiosInstance from "../config/axios.config";
 import {
   AssignGenericRequest,
@@ -282,6 +281,34 @@ export class RequestService extends BaseService {
         }
       );
       return response.data;
+    }
+  };
+
+  fetchTopRequesters = async () => {
+    try {
+      const response = await axiosInstance.get(`/Request/GetTopRequesters`, {
+        headers: this.getAuthHeaders(),
+      });
+
+      console.log("fetchTopRequesters ===>", response);
+
+      return response;
+    } catch (error) {
+      this.handleError(error, `Error fetching Top Requesters:`);
+    }
+  };
+
+  fetchRecentRequests = async () => {
+    try {
+      const response = await axiosInstance.get(`/Request/GetRecent`, {
+        headers: this.getAuthHeaders(),
+      });
+
+      console.log("GetRecent");
+      console.log(response);
+      return response;
+    } catch (error) {
+      this.handleError(error, `Error fetching Top Requesters:`);
     }
   };
 }

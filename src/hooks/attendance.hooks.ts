@@ -419,7 +419,7 @@ export const useGetEmployeeTodayAttendance = () => {
   const service = useAttendanceService();
 
   const { data, isLoading } = useQuery({
-    queryKey: [QueryKeys.Attendance.EmployeeToday],
+    queryKey: [QueryKeys.na],
     queryFn: () => service.fetchEmployeeTodayAttendance(),
     enabled: !!token,
   });

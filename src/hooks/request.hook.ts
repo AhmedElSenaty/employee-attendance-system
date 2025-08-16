@@ -464,3 +464,33 @@ export const useGetAllWorkOvertime = (
     isLoading,
   };
 };
+
+export const useGetTopRequesters = () => {
+  const token = useUserStore((state) => state.token);
+  const service = useRequestService();
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["topRequesters"], // ✅ stable non-empty key
+    queryFn: () => service.fetchTopRequesters(),
+    enabled: !!token,
+    select: (res) => res.data?.data, // ✅ unwrap once
+  });
+
+  return { topRequesters: data, isLoading };
+};
+
+export const useRecentRequests = () => {
+  const token = useUserStore((state) => state.token);
+  const service = useRequestService();
+
+  const { data, isLoading } = useQuery({
+    queryKey: [QueryKeys.na2],
+    queryFn: () => service.fetchRecentRequests(),
+    enabled: !!token,
+  });
+  console.log("hockkk ==> ", data);
+  return {
+    recentRequests: data?.data?.data,
+    isLoading,
+  };
+};

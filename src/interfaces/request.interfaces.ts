@@ -31,7 +31,15 @@ export interface IAssignRequest {
 
 export interface AssignGenericRequest {
   employeeId: number;
-  startDate: string;  // ISO date string (e.g., "2025-07-22T09:58:31.977Z")
-  endDate: string;    // ISO date string
+  startDate: string; // ISO date string (e.g., "2025-07-22T09:58:31.977Z")
+  endDate: string; // ISO date string
   description: string;
 }
+
+export type TopRequester = {
+  name: string;
+  department: string;
+  SubDepartment: string;
+  requests: number;
+  accepted: number;
+};

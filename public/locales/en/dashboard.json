@@ -29,7 +29,20 @@
     "graph": {
       "title": "Yearly Attendance Summary",
       "description": "A comprehensive breakdown of total attendance and absence records for employees across each month of the year.",
-      "months": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+      "months": [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December"
+      ],
       "attendance": "Attendance",
       "absent": "Absent"
     }
@@ -47,6 +60,35 @@
     },
     "selectDepartment": "Department",
     "selectDefult": "Select a department name"
+  },
+  "latestAttendance": "Latest Attendance",
+  "title": "Top Requesters",
+  "loading": "Loading top requesters...",
+  "empty": "No requests found for the selected period.",
+  "request": "request",
+  "requests": "requests",
+  "accepted": "accepted",
+  "failedToLoad": "Failed to load top requesters.",
+  "recentTitle": "Recent Requests",
+  "recentLoading": "Loading recent requests...",
+  "recentEmpty": "No recent requests for the selected period.",
+  "day": "day",
+  "days": "days",
+  "statuses": {
+    "accepted": "accepted",
+    "pending": "pending",
+    "rejected": "rejected"
+  },
+  "leaveType": {
+    "1": "Sick Leave",
+    "2": "Annual Leave",
+    "3": "Casual Leave",
+    "4": "Morning Permission",
+    "5": "Evening Permission",
+    "6": "Full Day Assignment",
+    "7": "Half Day Assignment",
+    "8": "Custom Request",
+    "9": "Home Visit"
   },
   "login": "Login",
   "logout": "Logout"
