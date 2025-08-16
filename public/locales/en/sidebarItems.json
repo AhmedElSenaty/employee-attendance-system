@@ -48,5 +48,6 @@
   "manageRequests": "Manage Requests",
   "homeVisitRequests": "Home Visit Requests",
   "vacationSaver": "Vacation Saver",
-  "allRequests": "All Requests"
+  "allRequests": "All Requests",
+  "workingSchedule": "Working Schedule"
 }

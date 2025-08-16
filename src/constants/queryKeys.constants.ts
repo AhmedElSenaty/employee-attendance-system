@@ -123,6 +123,10 @@ export const QueryKeys = {
     All: "changeVacationRequests",
     Details: "changeVacationRequestDetails",
   },
+  WorkingSchedule: {
+    Employee: "WorkingScheduleEmployee",
+    All: "WorkingScheduleAll",
+  },
 
   na: "",
   na1: "",

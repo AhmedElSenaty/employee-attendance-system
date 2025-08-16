@@ -1,11 +1,12 @@
-export { default as CalendarPage } from "../common/Calender"
-export { default as ManageSubDepartmentsPage } from "../common/manage-sub-departments"
-export * from "../common/manage-attendance"
-export * from "./leave-requests"
-export * from "./mission-requests"
-export * from "../common/manage-employees"
-export * from "../common/manage-managers"
-export { default as OrdinaryRequestsPage } from "./ordinary-requests"
-export { default as CasualLeaveRequestsPage } from "./casual-requests"
-export { default as SickLRequestsPage } from "./sick-requests"
-export { default as RequestsPage } from "./requests"
+export { default as CalendarPage } from "../common/Calender";
+export { default as ManageSubDepartmentsPage } from "../common/manage-sub-departments";
+export * from "../common/manage-attendance";
+export * from "./leave-requests";
+export * from "./mission-requests";
+export * from "../common/manage-employees";
+export * from "../common/manage-managers";
+export { default as OrdinaryRequestsPage } from "./ordinary-requests";
+export { default as CasualLeaveRequestsPage } from "./casual-requests";
+export { default as SickLRequestsPage } from "./sick-requests";
+export { default as RequestsPage } from "./requests";
+export { default as WorkingSchedulePage } from "./working-schedule";

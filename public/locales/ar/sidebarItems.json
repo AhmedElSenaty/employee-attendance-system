@@ -48,5 +48,6 @@
   "vacationAdjustment": "طلب تعديل رصيد الإجازات",
   "manageVacationAdjustment": "إدارة طلبات تعديل رصيد الإجازات",
   "manageAdminsManagersPermissions": "صلاحيات المستخدمين",
-  "overtime": "السهر"
+  "overtime": "السهر",
+  "workingSchedule": "جدول العمل"
 }

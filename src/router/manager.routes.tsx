@@ -23,6 +23,7 @@ import {
   ManageManagersPage,
   AddManagerPage,
   EditManagerPage,
+  WorkingSchedulePage,
 } from "../pages/Manager";
 import AllRequestsPage from "../pages/Manager/requests/AllRequests";
 import GenaricRequestsPage from "../pages/Manager/requests/GenaricRequests";
@@ -108,5 +109,8 @@ export const managerRoutes = (isLoggedIn: boolean, userRole: string) => (
     />
 
     <Route path="work-overtime/" element={<ManageWorkoverTimePage />} />
+
+    {/* Working Schedule Routes */}
+    <Route path="working-schedule/" element={<WorkingSchedulePage />} />
   </Route>
 );
