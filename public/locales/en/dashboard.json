@@ -74,10 +74,14 @@
   "recentEmpty": "No recent requests for the selected period.",
   "day": "day",
   "days": "days",
-  "statuses": {
-    "accepted": "accepted",
-    "pending": "pending",
-    "rejected": "rejected"
+  "status": {
+    "0": "Pending",
+    "1": "Accepted",
+    "2": "Rejected",
+    "3": "Ignored",
+    "4": "Manually Assigned",
+    "5": "Deleted",
+    "6": "Edited"
   },
   "leaveType": {
     "1": "Sick Leave",

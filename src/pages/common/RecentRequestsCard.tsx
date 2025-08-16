@@ -64,7 +64,7 @@ export default function RecentRequestsCard() {
                     statusClasses[request.status] ?? "bg-gray-100 text-gray-800"
                   }`}
                 >
-                  {t(`statuses.${request.status}`)}
+                  {t(`status.${request.status}`)}
                 </span>
               </div>
             </div>
