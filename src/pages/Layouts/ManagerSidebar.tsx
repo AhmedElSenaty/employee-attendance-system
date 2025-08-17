@@ -6,7 +6,6 @@ import {
   Building2,
   Calendar,
   CalendarCog,
-  CalendarDays,
   CalendarSearch,
   ClipboardList,
   Clock,
@@ -14,11 +13,13 @@ import {
   Contact,
   ContactRound,
   FileBarChart2,
+  FileChartColumn,
   FileEdit,
   FileText,
   Home,
   LayoutDashboard,
   MapPinHouse,
+  Monitor,
   Moon,
   Thermometer,
   TicketsPlane,
@@ -46,17 +47,74 @@ export const ManagerSidebar = () => {
       <Sidebar title={t("welcomeBack")} subtitle={t("manager")}>
         <SidebarItem icon={<Home size={23} />} name={t("home")} to="/" />
 
-        <SidebarItem
-          icon={<LayoutDashboard size={23} />}
-          name={t("dashboard")}
-          to="/manager"
-        />
+        {/* reports */}
+        <SidebarDropdown
+          icon={<FileChartColumn size={23} />}
+          name={t("reports")}
+        >
+          <SidebarItem
+            icon={<FileBarChart2 size={23} />}
+            name={t("allReports")}
+            to="/manager/allReports"
+          />
 
-        <SidebarItem
-          icon={<FileBarChart2 size={23} />}
-          name={t("allReports")}
-          to="/manager/allReports"
-        />
+          <HasPermission
+            permission={[
+              "Export Overtime report Excel",
+              "Export Overtime report PDF",
+            ]}
+          >
+            <SidebarItem
+              icon={<Moon size={23} />}
+              name={t("overtime")}
+              to="/manager/work-overtime"
+            />
+          </HasPermission>
+
+          <HasPermission permission={"see vacations summary"}>
+            <SidebarItem
+              icon={<ClipboardList size={23} />}
+              name={t("vacationSaver")}
+              to="/manager/vacation-saver"
+            />
+          </HasPermission>
+
+          <HasPermission permission={"see vacations summary"}>
+            <SidebarItem
+              icon={<Archive size={23} />}
+              name={t("allRequests")}
+              to="/manager/all-requests"
+            />
+          </HasPermission>
+
+          <HasPermission permission={"see vacations summary"}>
+            <SidebarItem
+              icon={<BarChart2 size={23} />}
+              name={t("requestsSummary")}
+              to="/manager/requestsSummary"
+            />
+          </HasPermission>
+        </SidebarDropdown>
+
+        {/* systemManagement */}
+        <SidebarDropdown
+          icon={<Monitor size={23} />}
+          name={t("systemManagement")}
+        >
+          <SidebarItem
+            icon={<LayoutDashboard size={23} />}
+            name={t("dashboard")}
+            to="/manager"
+          />
+
+          <HasPermission permission={"View SubDepartments"}>
+            <SidebarItem
+              icon={<Building2 size={23} />}
+              name={t("subDepartments")}
+              to="/manager/manage-sub-departments"
+            />
+          </HasPermission>
+        </SidebarDropdown>
 
         {(permissions.includes("View Manager") ||
           permissions.includes("View Employee")) && (
@@ -108,17 +166,16 @@ export const ManagerSidebar = () => {
                     to="/manager/add-employee"
                   />
                 )}
+                <HasPermission permission={"Manage Vacation Adjustment"}>
+                  <SidebarItem
+                    icon={<FileEdit size={23} />}
+                    name={t("vacationAdjustment")}
+                    to="/manager/change-vacation-requests"
+                  />
+                </HasPermission>
               </SidebarDropdown>
             )}
           </SidebarDropdown>
-        )}
-
-        {permissions.includes("View SubDepartments") && (
-          <SidebarItem
-            icon={<Building2 size={23} />}
-            name={t("subDepartments")}
-            to="/manager/manage-sub-departments"
-          />
         )}
 
         {/* Manage Attendances */}
@@ -145,100 +202,64 @@ export const ManagerSidebar = () => {
           </SidebarDropdown>
         )}
 
-        <HasPermission
-          permission={[
-            "Export Overtime report Excel",
-            "Export Overtime report PDF",
-          ]}
-        >
-          <SidebarItem
-            icon={<Moon size={23} />}
-            name={t("overtime")}
-            to="/manager/work-overtime"
-          />
-        </HasPermission>
-
-        <HasPermission permission="View Requests">
+        <HasPermission permission={["View Requests", "see sick leaves"]}>
           <SidebarDropdown
             icon={<CalendarCog size={23} />}
             name={t("manageRequests")}
           >
-            <SidebarItem
-              icon={<FileText size={23} />}
-              name={t("leaveRequests")}
-              to="/manager/leave-requests"
-            />
-            <SidebarItem
-              icon={<Briefcase size={23} />}
-              name={t("missionRequests")}
-              to="/manager/mission-requests"
-            />
-            <SidebarItem
-              icon={<Clock size={23} />}
-              name={t("ordinaryRequests")}
-              to="/manager/ordinary-requests"
-            />
-            <SidebarItem
-              icon={<Coffee size={23} />}
-              name={t("casualLeaveRequests")}
-              to="/manager/casual-requests"
-            />
-            <SidebarItem
-              icon={<Thermometer size={23} />}
-              name={t("sickRequests")}
-              to="/manager/sick-requests"
-            />
-            <SidebarItem
-              icon={<Venus size={23} />}
-              name={t("genaricRequests")}
-              to="/manager/genaric-requests"
-            />
-            <SidebarItem
-              icon={<MapPinHouse size={23} />}
-              name={t("homeVisitRequests")}
-              to="/manager/home-visit-requests"
-            />
+            <HasPermission permission={"View Requests"}>
+              <SidebarItem
+                icon={<FileText size={23} />}
+                name={t("leaveRequests")}
+                to="/manager/leave-requests"
+              />
+            </HasPermission>
+            <HasPermission permission={"View Requests"}>
+              <SidebarItem
+                icon={<Briefcase size={23} />}
+                name={t("missionRequests")}
+                to="/manager/mission-requests"
+              />
+            </HasPermission>
+            <HasPermission permission={"View Requests"}>
+              <SidebarItem
+                icon={<Clock size={23} />}
+                name={t("ordinaryRequests")}
+                to="/manager/ordinary-requests"
+              />
+            </HasPermission>
+            <HasPermission permission={"View Requests"}>
+              {" "}
+              <SidebarItem
+                icon={<Coffee size={23} />}
+                name={t("casualLeaveRequests")}
+                to="/manager/casual-requests"
+              />
+            </HasPermission>
+            <HasPermission permission={"see sick leaves"}>
+              <SidebarItem
+                icon={<Thermometer size={23} />}
+                name={t("sickRequests")}
+                to="/manager/sick-requests"
+              />
+            </HasPermission>
+            <HasPermission permission={"View Requests"}>
+              <SidebarItem
+                icon={<Venus size={23} />}
+                name={t("genaricRequests")}
+                to="/manager/genaric-requests"
+              />
+            </HasPermission>
+            <HasPermission permission={"View Requests"}>
+              <SidebarItem
+                icon={<MapPinHouse size={23} />}
+                name={t("homeVisitRequests")}
+                to="/manager/home-visit-requests"
+              />
+            </HasPermission>
           </SidebarDropdown>
         </HasPermission>
 
-        {permissions.includes("see vacations summary") && (
-          <SidebarItem
-            icon={<ClipboardList size={23} />}
-            name={t("vacationSaver")}
-            to="/manager/vacation-saver"
-          />
-        )}
-
-        {permissions.includes("see vacations summary") && (
-          <SidebarItem
-            icon={<Archive size={23} />}
-            name={t("allRequests")}
-            to="/manager/all-requests"
-          />
-        )}
-
-        {permissions.includes("see vacations summary") && (
-          <SidebarItem
-            icon={<BarChart2 size={23} />}
-            name={t("requestsSummary")}
-            to="/manager/requestsSummary"
-          />
-        )}
-        <HasPermission permission={"Manage Vacation Adjustment"}>
-          <SidebarItem
-            icon={<FileEdit size={23} />}
-            name={t("vacationAdjustment")}
-            to="/manager/change-vacation-requests"
-          />
-        </HasPermission>
-        {/* <HasPermission permission={"Add Old Requests"}>
-          <SidebarItem
-            icon={<GitPullRequestArrow size={23} />}
-            name={t("addRequest")}
-            to={location.pathname}
-            onClick={() => setPopupOen(true)}
-          />
-        </HasPermission> */}
         {/* 
         <HasPermission permission="View Employee">
           <SidebarItem

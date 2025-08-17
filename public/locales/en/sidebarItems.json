@@ -49,5 +49,7 @@
   "homeVisitRequests": "Home Visit Requests",
   "vacationSaver": "Vacation Saver",
   "allRequests": "All Requests",
-  "workingSchedule": "Working Schedule"
+  "workingSchedule": "Working Schedule",
+  "systemManagement": "System Management",
+  "reports": "Reports"
 }

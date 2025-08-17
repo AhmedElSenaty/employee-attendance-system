@@ -23,5 +23,9 @@
   "deselectAll": "Deselect All",
   "selectAll": "Select All",
   "addAll": "Add all",
-  "removeAll": "Remove all"
+  "removeAll": "Remove all",
+  "selectGroup": "Select Group",
+  "deselectGroup": "Deselect Group",
+  "completeGroup": "Select Remaining",
+  "ungrouped": "Ungrouped"
 }

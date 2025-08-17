@@ -23,5 +23,9 @@
   "deselectAll": "إلغاء تحديد الكل",
   "selectAll": "تحديد الكل",
   "addAll": "اضف الكل",
-  "removeAll": "حذف الكل"
+  "removeAll": "حذف الكل",
+  "selectGroup": "تحديد المجموعة",
+  "deselectGroup": "إلغاء تحديد المجموعة",
+  "completeGroup": "تحديد المتبقي",
+  "ungrouped": "غير مُصنَّف"
 }

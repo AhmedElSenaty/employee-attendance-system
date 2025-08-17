@@ -137,7 +137,7 @@ const AllRequestsPage = () => {
   return (
     <>
       <div className="sm:p-5 p-3 space-y-5">
-        <Header heading={t("header.heading")} subtitle={t("header.subtitle")} />
+        <Header heading={t("allRequests")} subtitle={t("header.subtitle")} />
         <div className="w-[1000px] max-xl:w-full grid grid-cols-1 md:grid-cols-2 gap-10 mx-auto">
           <div className="flex-1">
             <HasPermission permission="Add Old Requests">
@@ -145,7 +145,7 @@ const AllRequestsPage = () => {
                 icon={<CirclePlus />}
                 iconBgColor="bg-[#f5e4b2]"
                 iconColor="text-[#b38e19]"
-                title={t("assignPopup.title")}
+                title={t("addOldRequests")}
                 description={t("assignPopup.description")}
               >
                 <Button

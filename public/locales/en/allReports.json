@@ -46,7 +46,7 @@
     "pageName": "Overtime Report Page"
   },
   "overtimeSummaryReport": {
-    "heading": "Export Monthly Overtime Report (Summary)",
+    "heading": "Monthly Overtime Report (Summary)",
     "subtitle": "Export the monthly overtime summary report based on filters",
     "link": "For more filtering options, you can visit",
     "pageName": "Overtime Report Page"

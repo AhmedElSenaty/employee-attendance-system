@@ -87,9 +87,13 @@ export class DeviceService extends BaseService {
 
   refetchAttendance = (payload: RefetchPayload) => {
     console.log(payload);
-    return axiosInstance.post(`/aa`, payload, {
-      headers: this.getAuthHeaders(),
-    });
+    return axiosInstance.post(
+      `http://193.227.34.53:3001/Machine_Controller/api/FetchAttendanceLogs`,
+      payload,
+      {
+        headers: this.getAuthHeaders(),
+      }
+    );
   };
 
   refetchAllAttendance = (payload: RefetchAllPayload) => {
