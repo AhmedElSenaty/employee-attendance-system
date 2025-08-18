@@ -126,6 +126,22 @@ export class DeviceService extends BaseService {
     }
   };
 
+  fetchDeviceUsersByDeviceId = async (id: number) => {
+    console.log(id);
+    try {
+      const response = await axiosInstance.get(
+        `DeviceUsers/GetDeviceUsers/${id}`,
+        {
+          headers: this.getAuthHeaders(),
+        }
+      );
+      return response;
+    } catch (error) {
+      console.error(`Error fetching device users for device ${id}:`, error);
+      throw error;
+    }
+  };
+
   toggleRole = async (
     ip: string,
     uid: number,
@@ -146,6 +162,28 @@ export class DeviceService extends BaseService {
       return response;
     } catch (error) {
       console.error("Error toggling role:", error);
+      throw error;
+    }
+  };
+
+  moveUserAttendance = async (moveData: {
+    employeeIds: number[];
+    sourceDeviceIds: number[];
+    targetDeviceIds: number[];
+  }) => {
+    try {
+      console.log("Making API call to move user attendance:", moveData);
+      const response = await axiosInstance.post(
+        "/DeviceUsers/MoveUserAttendance",
+        moveData,
+        {
+          headers: this.getAuthHeaders(),
+        }
+      );
+      console.log("API response:", response);
+      return response;
+    } catch (error) {
+      console.error("Error moving user attendance:", error);
       throw error;
     }
   };

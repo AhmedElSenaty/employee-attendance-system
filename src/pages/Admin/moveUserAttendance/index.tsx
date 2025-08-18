@@ -1,17 +1,10 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import {
-  Users,
-  AlertTriangle,
-  Info,
-  CheckCircle,
-  Monitor,
-  Clock,
-} from "lucide-react";
+import { CheckCircle, Monitor, Clock, X } from "lucide-react";
 import { Button, Header, SectionHeader, Alert } from "../../../components/ui";
 import { MoveUserAttendanceForm, MoveUserAttendanceSummary } from "./views";
-import { useMoveUserAttendance } from "../../../hooks";
-import { DEMO_EMPLOYEES, DEMO_DEVICES } from "../../data/demoData";
+import { useMoveUserAttendance, useGetDevicesList } from "../../../hooks";
+import { DEMO_DEVICES } from "../../data/demoData";
 
 export interface MoveUserAttendanceData {
   employeeIds: number[];
@@ -21,13 +14,10 @@ export interface MoveUserAttendanceData {
 
 const MoveUserAttendancePage = () => {
   const { t } = useTranslation();
-  const {
-    moveUserAttendance,
-    isLoading,
-    error: hookError,
-    result,
-    reset,
-  } = useMoveUserAttendance();
+  const { moveUserAttendance, isLoading, reset } = useMoveUserAttendance();
+
+  // Get real devices data
+  const { devices: devicesList } = useGetDevicesList();
 
   const [moveData, setMoveData] = useState<MoveUserAttendanceData>({
     employeeIds: [],
@@ -40,6 +30,7 @@ const MoveUserAttendancePage = () => {
   const [success, setSuccess] = useState<string | null>(null);
 
   const handleFormSubmit = (data: MoveUserAttendanceData) => {
+    console.log("Form submitted, showing summary with data:", data);
     setMoveData(data);
     setShowSummary(true);
     setError(null);
@@ -47,12 +38,16 @@ const MoveUserAttendancePage = () => {
   };
 
   const handleConfirmMove = async () => {
+    console.log("Confirm move clicked with data:", moveData);
     setError(null);
     setSuccess(null);
 
     try {
       const response = await moveUserAttendance(moveData);
-      setSuccess(response.message);
+      console.log("Move operation successful:", response);
+      setSuccess(
+        response.data?.message || "User attendance moved successfully!"
+      );
       setShowSummary(false);
       setMoveData({
         employeeIds: [],
@@ -61,6 +56,7 @@ const MoveUserAttendancePage = () => {
       });
       reset();
     } catch (err) {
+      console.error("Move operation failed:", err);
       setError("Failed to move user attendance. Please try again.");
     }
   };
@@ -77,288 +73,161 @@ const MoveUserAttendancePage = () => {
   };
 
   const stats = {
-    totalEmployees: DEMO_EMPLOYEES.length,
     totalDevices: DEMO_DEVICES.length,
     onlineDevices: DEMO_DEVICES.filter((d) => d.status === "online").length,
-    departments: [...new Set(DEMO_EMPLOYEES.map((emp) => emp.department))]
-      .length,
   };
 
   const recentActivity = [
     {
       id: 1,
-      action: "Fingerprint transfer completed",
-      details: "3 employees moved from Main Entrance to Back Office",
-      time: "2 hours ago",
-      status: "success",
+      type: "move",
+      description: "Moved 5 employees from Device A to Device B",
+      timestamp: "2 hours ago",
+      status: "completed",
     },
     {
       id: 2,
-      action: "Device maintenance",
-      details: "Warehouse device went offline for maintenance",
-      time: "4 hours ago",
-      status: "warning",
-    },
-    {
-      id: 3,
-      action: "New device added",
-      details: "Training Center device added to network",
-      time: "1 day ago",
-      status: "success",
+      type: "move",
+      description: "Moved 3 employees from Device C to Device D",
+      timestamp: "1 day ago",
+      status: "completed",
     },
   ];
 
-  // Demo view
-  if (showDemo) {
-    return (
-      <div className="min-h-screen bg-gray-50">
-        <Header heading={undefined} />
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <Header
+        heading={t("Move User Attendance")}
+        subtitle={t("Transfer employee fingerprints between devices")}
+      />
 
-        <div className="container mx-auto px-4 py-8">
+      {/* Alerts */}
+      {error && (
+        <Alert
+          type="error"
+          title={t("Error")}
+          description={error}
+          icon={<X className="w-5 h-5" />}
+        />
+      )}
+
+      {success && (
+        <Alert
+          type="success"
+          title={t("Success")}
+          description={success}
+          icon={<CheckCircle className="w-5 h-5" />}
+        />
+      )}
+
+      {!showSummary ? (
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
           <SectionHeader
-            title={t("Move User Attendance - Demo")}
-            description={t("Transfer employee fingerprints between devices")}
+            title={t("Move User Attendance")}
+            description={t(
+              "Select employees and devices for the transfer operation"
+            )}
           />
 
-          {/* Demo Information */}
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-8">
-            <div className="flex items-start gap-3">
-              <Info className="w-5 h-5 text-blue-600 mt-0.5" />
-              <div>
-                <h3 className="text-lg font-semibold text-blue-900 mb-2">
-                  {t("Demo Mode")}
+          <MoveUserAttendanceForm
+            onSubmit={handleFormSubmit}
+            isProcessing={isLoading}
+          />
+        </div>
+      ) : (
+        <MoveUserAttendanceSummary
+          moveData={moveData}
+          devices={devicesList || []}
+          onConfirm={handleConfirmMove}
+          onCancel={handleCancel}
+          isProcessing={isLoading}
+        />
+      )}
+
+      {/* Demo Button */}
+      <div className="mt-6">
+        <Button
+          variant="outline"
+          onClick={() => setShowDemo(!showDemo)}
+          className="text-sm"
+        >
+          {showDemo ? t("Hide Demo") : t("Show Demo")}
+        </Button>
+      </div>
+
+      {/* Demo View */}
+      {showDemo && (
+        <div className="mt-6 bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <SectionHeader
+            title={t("Demo View")}
+            description={t("This is how the move operation will work")}
+          />
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+            <div className="bg-blue-50 rounded-lg p-4">
+              <div className="flex items-center gap-2 mb-2">
+                <Monitor className="w-5 h-5 text-blue-600" />
+                <h3 className="font-semibold text-blue-900">
+                  {t("Total Devices")}
                 </h3>
-                <p className="text-blue-800 mb-4">
-                  {t(
-                    "This is a demonstration of the Move User Attendance functionality. All data shown is static and no actual transfers will occur."
-                  )}
-                </p>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-blue-900">
-                      {stats.totalEmployees}
-                    </div>
-                    <div className="text-sm text-blue-700">
-                      {t("Employees")}
-                    </div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-blue-900">
-                      {stats.totalDevices}
-                    </div>
-                    <div className="text-sm text-blue-700">
-                      {t("Total Devices")}
-                    </div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-blue-900">
-                      {stats.onlineDevices}
-                    </div>
-                    <div className="text-sm text-blue-700">
-                      {t("Online Devices")}
-                    </div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-blue-900">
-                      {stats.departments}
-                    </div>
-                    <div className="text-sm text-blue-700">
-                      {t("Departments")}
-                    </div>
-                  </div>
-                </div>
               </div>
+              <p className="text-2xl font-bold text-blue-700">
+                {stats.totalDevices}
+              </p>
+            </div>
+
+            <div className="bg-green-50 rounded-lg p-4">
+              <div className="flex items-center gap-2 mb-2">
+                <CheckCircle className="w-5 h-5 text-green-600" />
+                <h3 className="font-semibold text-green-900">
+                  {t("Online Devices")}
+                </h3>
+              </div>
+              <p className="text-2xl font-bold text-green-700">
+                {stats.onlineDevices}
+              </p>
+            </div>
+
+            <div className="bg-orange-50 rounded-lg p-4">
+              <div className="flex items-center gap-2 mb-2">
+                <Clock className="w-5 h-5 text-orange-600" />
+                <h3 className="font-semibold text-orange-900">
+                  {t("Recent Activity")}
+                </h3>
+              </div>
+              <p className="text-2xl font-bold text-orange-700">
+                {recentActivity.length}
+              </p>
             </div>
           </div>
 
-          {/* Sample Data Preview */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                <Users className="w-5 h-5" />
-                {t("Sample Employees")}
-              </h3>
-              <div className="space-y-2 max-h-48 overflow-y-auto">
-                {DEMO_EMPLOYEES.slice(0, 6).map((employee) => (
-                  <div
-                    key={employee.id}
-                    className="flex items-center justify-between p-2 bg-gray-50 rounded"
-                  >
-                    <div>
-                      <div className="font-medium text-sm">{employee.name}</div>
-                      <div className="text-xs text-gray-500">
-                        {employee.department}
-                      </div>
-                    </div>
-                    <div className="text-xs text-gray-400">
-                      ID: {employee.id}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                <Monitor className="w-5 h-5" />
-                {t("Sample Devices")}
-              </h3>
-              <div className="space-y-2 max-h-48 overflow-y-auto">
-                {DEMO_DEVICES.slice(0, 6).map((device) => (
-                  <div
-                    key={device.id}
-                    className="flex items-center justify-between p-2 bg-gray-50 rounded"
-                  >
-                    <div>
-                      <div className="font-medium text-sm">{device.name}</div>
-                      <div className="text-xs text-gray-500">
-                        {device.ip}:{device.port}
-                      </div>
-                    </div>
-                    <div
-                      className={`text-xs px-2 py-1 rounded ${
-                        device.status === "online"
-                          ? "bg-green-100 text-green-800"
-                          : "bg-red-100 text-red-800"
-                      }`}
-                    >
-                      {device.status}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Recent Activity */}
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-8">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-              <Clock className="w-5 h-5" />
-              {t("Recent Activity")}
-            </h3>
-            <div className="space-y-3">
+          <div className="mt-6">
+            <h4 className="font-semibold text-gray-900 mb-3">
+              {t("Recent Move Operations")}
+            </h4>
+            <div className="space-y-2">
               {recentActivity.map((activity) => (
                 <div
                   key={activity.id}
-                  className="flex items-center gap-3 p-3 bg-gray-50 rounded"
+                  className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
                 >
-                  <div
-                    className={`p-1 rounded ${
-                      activity.status === "success"
-                        ? "bg-green-100"
-                        : "bg-yellow-100"
-                    }`}
-                  >
-                    {activity.status === "success" ? (
-                      <CheckCircle className="w-4 h-4 text-green-600" />
-                    ) : (
-                      <AlertTriangle className="w-4 h-4 text-yellow-600" />
-                    )}
+                  <div>
+                    <p className="font-medium text-gray-900">
+                      {activity.description}
+                    </p>
+                    <p className="text-sm text-gray-500">
+                      {activity.timestamp}
+                    </p>
                   </div>
-                  <div className="flex-1">
-                    <div className="font-medium text-sm">{activity.action}</div>
-                    <div className="text-xs text-gray-500">
-                      {activity.details}
-                    </div>
-                  </div>
-                  <div className="text-xs text-gray-400">{activity.time}</div>
+                  <span className="px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full">
+                    {activity.status}
+                  </span>
                 </div>
               ))}
             </div>
           </div>
-
-          {/* Action Buttons */}
-          <div className="flex justify-center gap-4">
-            <Button
-              onClick={() => setShowDemo(false)}
-              className="px-8 py-3 text-lg"
-            >
-              <Users className="w-5 h-5 mr-2" />
-              {t("Start Move User Attendance")}
-            </Button>
-          </div>
         </div>
-      </div>
-    );
-  }
-
-  // Main functionality view
-  return (
-    <div className="min-h-screen bg-gray-50">
-      <Header heading={undefined} />
-
-      <div className="container mx-auto px-4 py-8">
-        <SectionHeader
-          title={t("Move User Attendance")}
-          description={t("Transfer employee fingerprints between devices")}
-        />
-
-        {(error || hookError) && (
-          <Alert
-            type="error"
-            icon={<AlertTriangle className="w-5 h-5" />}
-            title={t("Error")}
-            description={error || hookError || ""}
-          />
-        )}
-
-        {success && (
-          <Alert
-            type="success"
-            icon={<CheckCircle className="w-5 h-5" />}
-            title={t("Success")}
-            description={success}
-          />
-        )}
-
-        {!showSummary ? (
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="p-2 bg-blue-100 rounded-lg">
-                <Users className="w-5 h-5 text-blue-600" />
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold text-gray-900">
-                  {t("Select Employees and Devices")}
-                </h3>
-                <p className="text-sm text-gray-600">
-                  {t(
-                    "Choose employees to move and specify source and target devices"
-                  )}
-                </p>
-              </div>
-            </div>
-
-            <MoveUserAttendanceForm
-              employees={DEMO_EMPLOYEES}
-              devices={DEMO_DEVICES}
-              onSubmit={handleFormSubmit}
-              isProcessing={isLoading}
-            />
-          </div>
-        ) : (
-          <MoveUserAttendanceSummary
-            moveData={moveData}
-            employees={DEMO_EMPLOYEES}
-            devices={DEMO_DEVICES}
-            onConfirm={handleConfirmMove}
-            onCancel={handleCancel}
-            isProcessing={isLoading}
-          />
-        )}
-
-        {/* Demo Button */}
-        <div className="mt-6 text-center">
-          <Button
-            variant="outline"
-            onClick={() => setShowDemo(true)}
-            className="px-6 py-2"
-          >
-            <Info className="w-4 h-4 mr-2" />
-            {t("View Demo")}
-          </Button>
-        </div>
-      </div>
+      )}
     </div>
   );
 };

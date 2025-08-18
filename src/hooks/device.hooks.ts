@@ -83,6 +83,23 @@ export const useGetDeviceUsers = (
   };
 };
 
+export const useGetDeviceUsersByDeviceId = (deviceId: number) => {
+  const token = useUserStore((state) => state.token);
+  const deviceService = useDeviceService();
+
+  const { data, isLoading, refetch } = useQuery({
+    queryKey: [QueryKeys.Devices.DeviceUsers, deviceId],
+    queryFn: () => deviceService.fetchDeviceUsersByDeviceId(deviceId),
+    enabled: !!deviceId && !!token,
+  });
+
+  return {
+    deviceUsers: data?.data?.data || [],
+    isLoading,
+    refetch,
+  };
+};
+
 export const useGetDeviceByID = (
   deviceId: number,
   resetInputs?: (data: DeviceFormValues) => void
@@ -200,14 +217,12 @@ export const useToggleRole = () => {
       uid: number;
       employeeID: number;
       newRole: number;
-      name: string;
     }) =>
       deviceService.toggleRole(
         user.ip,
         user.uid,
         user.employeeID,
-        user.newRole,
-        user.name
+        user.newRole
       ),
     onSuccess: ({ status, data }) => {
       queryClient.invalidateQueries({ queryKey: [QueryKeys.Devices.All] });
@@ -251,6 +266,36 @@ export const useRefetchAllAttendance = () => {
     mutationFn: (payload: RefetchAllPayload) =>
       deviceService.refetchAllAttendance(payload),
     onSuccess: ({ status, data }) => {
+      if (status === 200) {
+        const message = getTranslatedMessage(data.message ?? "", language);
+        showToast("success", message);
+      }
+    },
+    onError: (error) => {
+      const axiosError = error as AxiosError<IErrorResponse>;
+      handleApiError(axiosError, language);
+    },
+  });
+};
+
+export const useDeviceMoveUserAttendance = () => {
+  const { language } = useLanguageStore();
+  const queryClient = useQueryClient();
+  const deviceService = useDeviceService();
+
+  return useMutation({
+    mutationFn: (moveData: {
+      employeeIds: number[];
+      sourceDeviceIds: number[];
+      targetDeviceIds: number[];
+    }) => deviceService.moveUserAttendance(moveData),
+    onSuccess: ({ status, data }) => {
+      // Invalidate relevant queries to refresh data
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.Devices.All] });
+      queryClient.invalidateQueries({
+        queryKey: [QueryKeys.Devices.DeviceUsers],
+      });
+
       if (status === 200) {
         const message = getTranslatedMessage(data.message ?? "", language);
         showToast("success", message);
