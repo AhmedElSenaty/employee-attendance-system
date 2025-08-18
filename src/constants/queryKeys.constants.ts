@@ -9,6 +9,7 @@ export const QueryKeys = {
     All: "devices",
     Details: "deviceDetails",
     List: "devicesList",
+    DeviceUsers: "deviceUsers",
   },
   SystemData: {
     All: "systemData",

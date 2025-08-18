@@ -1,22 +1,17 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { ArrowRight } from "lucide-react";
 import {
-  Check,
-  ChevronDown,
-  ChevronUp,
-  Users,
-  Monitor,
-  ArrowRight,
-} from "lucide-react";
-import { Button, CustomSelect } from "../../../../components/ui";
+  Button,
+  CustomMultiSelect,
+  CustomSelect,
+} from "../../../../components/ui";
 import { MoveUserAttendanceData } from "../index";
-
-interface Employee {
-  id: number;
-  name: string;
-  department: string;
-  subDepartment: string;
-}
+import {
+  useGetDevicesList,
+  useGetDeviceUsersByDeviceId,
+} from "../../../../hooks";
+import { EmployeeSummary } from "../../../../interfaces";
 
 interface Device {
   id: number;
@@ -25,73 +20,69 @@ interface Device {
   port: number;
 }
 
+interface Option {
+  value: number | string;
+  label: string;
+  subLabel?: string;
+}
+
 interface MoveUserAttendanceFormProps {
-  employees: Employee[];
-  devices: Device[];
   onSubmit: (data: MoveUserAttendanceData) => void;
   isProcessing: boolean;
 }
 
 export const MoveUserAttendanceForm = ({
-  employees,
-  devices,
   onSubmit,
   isProcessing,
 }: MoveUserAttendanceFormProps) => {
   const { t } = useTranslation();
-  const deviceOptions =
-    devices?.map((device) => ({
-      value: device.id,
-      label: `${device.name} (${device.ip}:${device.port})`,
-    })) || [];
 
+  // Get devices list for device selection
+  const { devices: devicesList } = useGetDevicesList();
+
+  // State for selected source device (single)
+  const [selectedSourceDevice, setSelectedSourceDevice] = useState<
+    number | null
+  >(null);
   const [selectedEmployees, setSelectedEmployees] = useState<number[]>([]);
-  const [selectedSourceDevices, setSelectedSourceDevices] = useState<number[]>(
-    []
-  );
   const [selectedTargetDevices, setSelectedTargetDevices] = useState<number[]>(
     []
   );
-  const [showEmployeeDropdown, setShowEmployeeDropdown] = useState(false);
-  const [showSourceDeviceDropdown, setShowSourceDeviceDropdown] =
-    useState(false);
-  const [showTargetDeviceDropdown, setShowTargetDeviceDropdown] =
-    useState(false);
 
-  const handleEmployeeToggle = (employeeId: number) => {
-    setSelectedEmployees((prev) =>
-      prev.includes(employeeId)
-        ? prev.filter((id) => id !== employeeId)
-        : [...prev, employeeId]
-    );
-  };
+  // Get device users for the selected source device
+  const { deviceUsers, isLoading: isDeviceUsersLoading } =
+    useGetDeviceUsersByDeviceId(selectedSourceDevice || 0);
 
-  const handleSourceDeviceToggle = (deviceId: number) => {
-    setSelectedSourceDevices((prev) =>
-      prev.includes(deviceId)
-        ? prev.filter((id) => id !== deviceId)
-        : [...prev, deviceId]
-    );
-  };
+  // Convert device users to employee options
+  const deviceEmployeeOptions =
+    deviceUsers?.map((deviceUser: EmployeeSummary) => ({
+      value: deviceUser.id,
+      label: deviceUser.name,
+      subLabel: `${deviceUser.id}`,
+    })) || [];
 
-  const handleTargetDeviceToggle = (deviceId: number) => {
-    setSelectedTargetDevices((prev) =>
-      prev.includes(deviceId)
-        ? prev.filter((id) => id !== deviceId)
-        : [...prev, deviceId]
-    );
-  };
+  const deviceOptions =
+    devicesList?.map((device: Device) => ({
+      value: device.id,
+      label: `${device.name}`,
+    })) || [];
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (selectedEmployees.length === 0) {
-      alert(t("Please select at least one employee"));
+    console.log("Form submitted with data:", {
+      selectedSourceDevice,
+      selectedEmployees,
+      selectedTargetDevices,
+    });
+
+    if (!selectedSourceDevice) {
+      alert(t("Please select a source device"));
       return;
     }
 
-    if (selectedSourceDevices.length === 0) {
-      alert(t("Please select at least one source device"));
+    if (selectedEmployees.length === 0) {
+      alert(t("Please select at least one employee"));
       return;
     }
 
@@ -100,201 +91,166 @@ export const MoveUserAttendanceForm = ({
       return;
     }
 
-    onSubmit({
+    const submitData = {
       employeeIds: selectedEmployees,
-      sourceDeviceIds: selectedSourceDevices,
+      sourceDeviceIds: [selectedSourceDevice],
       targetDeviceIds: selectedTargetDevices,
-    });
+    };
+
+    console.log("Submitting data:", submitData);
+    onSubmit(submitData);
   };
 
   const getSelectedEmployeeNames = () => {
-    return employees
-      .filter((emp) => selectedEmployees.includes(emp.id))
-      .map((emp) => emp.name)
-      .join(", ");
+    return (
+      deviceUsers
+        ?.filter((deviceUser: EmployeeSummary) =>
+          selectedEmployees.includes(deviceUser.id)
+        )
+        .map((deviceUser: EmployeeSummary) => deviceUser.name)
+        .join(", ") || ""
+    );
   };
 
-  const getSelectedSourceDeviceNames = () => {
-    return devices
-      .filter((device) => selectedSourceDevices.includes(device.id))
-      .map((device) => device.name)
-      .join(", ");
+  console.log(devicesList);
+
+  const getSelectedSourceDeviceName = () => {
+    return (
+      devicesList?.find((device: Device) => device.id === selectedSourceDevice)
+        ?.name || ""
+    );
   };
 
   const getSelectedTargetDeviceNames = () => {
-    return devices
-      .filter((device) => selectedTargetDevices.includes(device.id))
-      .map((device) => device.name)
-      .join(", ");
+    return (
+      devicesList
+        ?.filter((device: Device) => selectedTargetDevices.includes(device.id))
+        .map((device: Device) => device.name)
+        .join(", ") || ""
+    );
   };
+
+  // Reset selections when source device changes
+  useEffect(() => {
+    setSelectedEmployees([]);
+    setSelectedTargetDevices([]);
+  }, [selectedSourceDevice]);
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      {/* Employee Selection */}
+      {/* Source Device Selection */}
       <div className="space-y-3">
         <label className="block text-sm font-medium text-gray-700">
-          {t("Select Employees")} *
-        </label>
-
-        <div className="relative">
-          <button
-            type="button"
-            onClick={() => setShowEmployeeDropdown(!showEmployeeDropdown)}
-            className="w-full flex items-center justify-between p-3 border border-gray-300 rounded-lg bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            <div className="flex items-center gap-2">
-              <Users className="w-4 h-4 text-gray-500" />
-              <span className="text-sm text-gray-900">
-                {selectedEmployees.length > 0
-                  ? ` ${selectedEmployees.length} employee(s) selected`
-                  : t("Choose employees")}
-              </span>
-            </div>
-            {showEmployeeDropdown ? (
-              <ChevronUp className="w-4 h-4 text-gray-500" />
-            ) : (
-              <ChevronDown className="w-4 h-4 text-gray-500" />
-            )}
-          </button>
-
-          {showEmployeeDropdown && (
-            <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
-              {employees.map((employee) => (
-                <label
-                  key={employee.id}
-                  className="flex items-center p-3 hover:bg-gray-50 cursor-pointer"
-                >
-                  <input
-                    type="checkbox"
-                    checked={selectedEmployees.includes(employee.id)}
-                    onChange={() => handleEmployeeToggle(employee.id)}
-                    className="mr-3 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                  />
-                  <div className="flex-1">
-                    <div className="text-sm font-medium text-gray-900">
-                      {employee.name}
-                    </div>
-                    <div className="text-xs text-gray-500">
-                      {employee.department} - {employee.subDepartment}
-                    </div>
-                  </div>
-                  {selectedEmployees.includes(employee.id) && (
-                    <Check className="w-4 h-4 text-blue-600" />
-                  )}
-                </label>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {selectedEmployees.length > 0 && (
-          <div className="text-xs text-gray-600 bg-gray-50 p-2 rounded">
-            <strong>{t("Selected")}:</strong> {getSelectedEmployeeNames()}
-          </div>
-        )}
-      </div>
-
-      {/* Source Devices Selection */}
-      {/* Source Devices Selection */}
-      <div className="space-y-3">
-        <label className="block text-sm font-medium text-gray-700">
-          {t("Select Source Devices")} *
+          {t("Select Source Device")} *
         </label>
 
         <CustomSelect
           className="w-full"
-          placeholder={t("Choose source devices")}
+          placeholder={t("Choose source device")}
           options={deviceOptions}
-          value={deviceOptions.filter((opt) =>
-            selectedSourceDevices.includes(opt.value as number)
+          value={deviceOptions.find(
+            (opt: Option) => opt.value === selectedSourceDevice
           )}
-          onChange={(options) =>
-            setSelectedSourceDevices(options.map((opt) => opt.value as number))
-          }
-          isMulti
+          onChange={(option: Option | null) => {
+            setSelectedSourceDevice(option ? (option.value as number) : null);
+          }}
           isSearchable
           isClearable
         />
 
-        {selectedSourceDevices.length > 0 && (
+        {selectedSourceDevice && (
           <div className="text-xs text-gray-600 bg-gray-50 p-2 rounded">
-            <strong>{t("Selected")}:</strong> {getSelectedSourceDeviceNames()}
+            <strong>{t("Selected Source Device")}:</strong>{" "}
+            {getSelectedSourceDeviceName()}
           </div>
         )}
       </div>
 
-      {/* Arrow Icon */}
-      <div className="flex justify-center">
-        <div className="p-2 bg-blue-100 rounded-full">
-          <ArrowRight className="w-5 h-5 text-blue-600" />
-        </div>
-      </div>
+      {/* Employee Selection (only show if source device is selected) */}
+      {selectedSourceDevice && (
+        <div className="space-y-3">
+          <label className="block text-sm font-medium text-gray-700">
+            {t("Select Employees from Source Device")} *
+          </label>
 
-      {/* Target Devices Selection */}
-      <div className="space-y-3">
-        <label className="block text-sm font-medium text-gray-700">
-          {t("Select Target Devices")} *
-        </label>
-
-        <div className="relative">
-          <button
-            type="button"
-            onClick={() =>
-              setShowTargetDeviceDropdown(!showTargetDeviceDropdown)
-            }
-            className="w-full flex items-center justify-between p-3 border border-gray-300 rounded-lg bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            <div className="flex items-center gap-2">
-              <Monitor className="w-4 h-4 text-gray-500" />
-              <span className="text-sm text-gray-900">
-                {selectedTargetDevices.length > 0
-                  ? ` ${selectedTargetDevices.length} device(s) selected`
-                  : t("Choose target devices")}
-              </span>
+          {isDeviceUsersLoading ? (
+            <div className="text-sm text-gray-500">Loading employees...</div>
+          ) : deviceEmployeeOptions.length === 0 ? (
+            <div className="text-sm text-gray-500">
+              No employees found on the selected source device
             </div>
-            {showTargetDeviceDropdown ? (
-              <ChevronUp className="w-4 h-4 text-gray-500" />
-            ) : (
-              <ChevronDown className="w-4 h-4 text-gray-500" />
-            )}
-          </button>
+          ) : (
+            <>
+              <CustomMultiSelect
+                className="w-full"
+                placeholder={t("Choose employees")}
+                options={deviceEmployeeOptions}
+                value={deviceEmployeeOptions.filter((opt: Option) =>
+                  selectedEmployees.includes(opt.value as number)
+                )}
+                onChange={(options: Option[]) =>
+                  setSelectedEmployees(
+                    options.map((opt: Option) => opt.value as number)
+                  )
+                }
+                isSearchable
+                isClearable
+                showSelectAll
+              />
 
-          {showTargetDeviceDropdown && (
-            <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-y-auto">
-              {devices.map((device) => (
-                <label
-                  key={device.id}
-                  className="flex items-center p-3 hover:bg-gray-50 cursor-pointer"
-                >
-                  <input
-                    type="checkbox"
-                    checked={selectedTargetDevices.includes(device.id)}
-                    onChange={() => handleTargetDeviceToggle(device.id)}
-                    className="mr-3 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                  />
-                  <div className="flex-1">
-                    <div className="text-sm font-medium text-gray-900">
-                      {device.name}
-                    </div>
-                    <div className="text-xs text-gray-500">
-                      {device.ip}:{device.port}
-                    </div>
-                  </div>
-                  {selectedTargetDevices.includes(device.id) && (
-                    <Check className="w-4 h-4 text-blue-600" />
-                  )}
-                </label>
-              ))}
+              {selectedEmployees.length > 0 && (
+                <div className="text-xs text-gray-600 bg-gray-50 p-2 rounded">
+                  <strong>{t("Selected")}:</strong> {getSelectedEmployeeNames()}
+                </div>
+              )}
+            </>
+          )}
+        </div>
+      )}
+
+      {/* Arrow Icon */}
+      {selectedSourceDevice && selectedEmployees.length > 0 && (
+        <div className="flex justify-center">
+          <div className="p-2 bg-blue-100 rounded-full">
+            <ArrowRight className="w-5 h-5 text-blue-600" />
+          </div>
+        </div>
+      )}
+
+      {/* Target Device Selection (only show if employees are selected) */}
+      {selectedSourceDevice && selectedEmployees.length > 0 && (
+        <div className="space-y-3">
+          <label className="block text-sm font-medium text-gray-700">
+            {t("Select Target Devices")} *
+          </label>
+
+          <CustomMultiSelect
+            className="w-full"
+            placeholder={t("Choose target devices")}
+            options={deviceOptions.filter(
+              (opt: Option) => opt.value !== selectedSourceDevice
+            )}
+            value={deviceOptions.filter((opt: Option) =>
+              selectedTargetDevices.includes(opt.value as number)
+            )}
+            onChange={(options: Option[]) => {
+              const selectedDeviceIds = options.map(
+                (opt: Option) => opt.value as number
+              );
+              setSelectedTargetDevices(selectedDeviceIds);
+            }}
+            isSearchable
+            isClearable
+          />
+
+          {selectedTargetDevices.length > 0 && (
+            <div className="text-xs text-gray-600 bg-gray-50 p-2 rounded">
+              <strong>{t("Selected Target Devices")}:</strong>{" "}
+              {getSelectedTargetDeviceNames()}
             </div>
           )}
         </div>
-
-        {selectedTargetDevices.length > 0 && (
-          <div className="text-xs text-gray-600 bg-gray-50 p-2 rounded">
-            <strong>{t("Selected")}:</strong> {getSelectedTargetDeviceNames()}
-          </div>
-        )}
-      </div>
+      )}
 
       {/* Submit Button */}
       <div className="flex justify-end pt-4">
@@ -302,8 +258,8 @@ export const MoveUserAttendanceForm = ({
           type="submit"
           disabled={
             isProcessing ||
+            !selectedSourceDevice ||
             selectedEmployees.length === 0 ||
-            selectedSourceDevices.length === 0 ||
             selectedTargetDevices.length === 0
           }
           isLoading={isProcessing}

@@ -8,4 +8,4 @@ export { Checkbox, CheckboxSkeleton } from "./Checkbox";
 export { SelectBox, SelectBoxSkeleton } from "./SelectBox";
 export { Radio, RadioSkeleton } from "./Radio";
 export { default as InputErrorMessage } from "./InputErrorMessage";
-export { default as CustomSelect } from "./CustomSelect";
+export { default as CustomSelect, CustomMultiSelect } from "./CustomSelect";
