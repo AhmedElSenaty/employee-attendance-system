@@ -27,6 +27,7 @@ import {
   ManagePermissionsPage,
   ManageProfilesPage,
   ManageSubDepartmentsPage,
+  MoveUserAttendancePage,
   SystemDataPage,
 } from "../pages/Admin";
 import DeviceUsers from "../pages/Admin/device-users/DeviceUsers";
@@ -120,5 +121,7 @@ export const adminRoutes = (isLoggedIn: boolean, userRole: string) => (
       path="addOrRemovePermissions"
       element={<AddOrRemoveFromAllUsers />}
     />
+
+    <Route path="move-user-attendance/" element={<MoveUserAttendancePage />} />
   </Route>
 );

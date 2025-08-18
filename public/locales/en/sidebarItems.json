@@ -51,5 +51,6 @@
   "allRequests": "All Requests",
   "workingSchedule": "Working Schedule",
   "systemManagement": "System Management",
+  "moveUserAttendance": "Move User Attendance",
   "reports": "Reports"
 }

@@ -16,7 +16,6 @@ import {
   Home,
   Hotel,
   LayoutDashboard,
-  Lock,
   MonitorCog,
   School,
   Shield,
@@ -269,6 +268,14 @@ export const AdminSidebar = () => {
           icon={<MonitorCog size={23} />}
           name={t("systemData")}
           to="/admin/system-data"
+        />
+      )}
+
+      {permissions.includes("View Devices") && (
+        <SidebarItem
+          icon={<Users size={23} />}
+          name={t("moveUserAttendance")}
+          to="/admin/move-user-attendance"
         />
       )}
     </Sidebar>

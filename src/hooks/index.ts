@@ -25,6 +25,7 @@ export * from "./employee.hooks";
 export * from "./manager.hooks";
 export * from "./admin.hooks";
 export * from "./workingSchedule.hooks";
+export * from "./useMoveUserAttendance.hook";
 
 export interface INotification {
   deptId: number;
