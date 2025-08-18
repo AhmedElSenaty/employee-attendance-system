@@ -131,7 +131,7 @@ const RequestsPage = () => {
   return (
     <>
       <div className="sm:p-5 p-3 space-y-5">
-        <Header heading={t("header.heading")} subtitle={t("header.subtitle")} />
+        {/* <Header heading={t("header.heading")} subtitle={t("header.subtitle")} /> */}
         <div className="bg-white shadow-md space-y-5 p-5 rounded-lg">
           <div className="w-full overflow-x-auto">
             {isLoading ? (
