@@ -619,4 +619,56 @@ export class ReportsService extends BaseService {
       throw error;
     }
   };
+
+  GetEmployeesVerificationPDF = async (
+    includeDept?: boolean,
+    includeSubDept?: boolean
+  ) => {
+    try {
+      const params = this.buildParams({
+        includeDepartment: includeDept, // ✅ name matches backend: includeDepartment
+        includeSubDepartment: includeSubDept, // ✅ name matches backend: includeSubDepartment
+      });
+
+      console.log(params);
+
+      const response = await axiosInstance.get(
+        `/Reports/GetEmployeesVerification/PDF`,
+        {
+          params,
+          headers: this.getAuthHeaders(),
+        }
+      );
+
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching employee report:", error);
+      throw error;
+    }
+  };
+
+  GetEmployeesVerificationExcel = async (
+    includeDept?: boolean,
+    includeSubDept?: boolean
+  ) => {
+    try {
+      const params = this.buildParams({
+        includeDepartment: includeDept, // ✅ name matches backend: includeDepartment
+        includeSubDepartment: includeSubDept, // ✅ name matches backend: includeSubDepartment
+      });
+
+      const response = await axiosInstance.get(
+        `/Reports/GetEmployeesVerification/Excel`,
+        {
+          params,
+          headers: this.getAuthHeaders(),
+        }
+      );
+
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching employee report:", error);
+      throw error;
+    }
+  };
 }

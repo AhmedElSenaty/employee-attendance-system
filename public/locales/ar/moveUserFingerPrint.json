@@ -1,0 +1,58 @@
+{
+  "moveUserAttendance": {
+    "pageTitle": "نقل بصمات الحضور",
+    "pageSubtitle": "نقل بصمات الموظفين بين الأجهزة",
+    "errorTitle": "خطأ",
+    "successTitle": "نجاح",
+    "successMessage": "تم نقل بصمات الحضور بنجاح!",
+    "form": {
+      "title": "نقل بصمات الحضور",
+      "description": "اختر الموظفين والأجهزة لعملية النقل",
+      "selectSourceDevice": "اختر جهاز المصدر",
+      "selectedSourceDevice": "جهاز المصدر المحدد",
+      "selectEmployeesFromSource": "اختر الموظفين من جهاز المصدر",
+      "selectTargetDevices": "اختر أجهزة الوجهة",
+      "selectedTargetDevices": "أجهزة الوجهة المحددة",
+      "selected": "المحدد",
+      "cutCheckboxLabel": "هل تريد الحذف بعد عملية النقل؟",
+      "selectAllEmployees": "تحديد جميع الموظفين",
+      "selectAllTargets": "تحديد جميع الأجهزة المستهدفة"
+    },
+    "placeholders": {
+      "chooseSourceDevice": "اختر جهاز المصدر",
+      "chooseEmployees": "اختر الموظفين",
+      "chooseTargetDevices": "اختر أجهزة الوجهة"
+    },
+    "states": {
+      "loadingEmployees": "جارٍ تحميل الموظفين...",
+      "noEmployeesFoundOnSource": "لا يوجد موظفون على جهاز المصدر المحدد",
+      "processing": "جارٍ المعالجة...",
+      "reviewMoveOperation": "مراجعة عملية النقل"
+    },
+    "alerts": {
+      "pleaseSelectSourceDevice": "يرجى اختيار جهاز المصدر",
+      "pleaseSelectAtLeastOneEmployee": "يرجى اختيار موظف واحد على الأقل",
+      "pleaseSelectAtLeastOneTargetDevice": "يرجى اختيار جهاز وجهة واحد على الأقل"
+    },
+    "hints": {
+      "selectSourceFirst": "الرجاء اختيار جهاز المصدر أولاً",
+      "selectEmployeesFirst": "الرجاء تحديد موظف واحد على الأقل",
+      "selectTargetsFirst": "الرجاء تحديد جهاز مستهدف واحد على الأقل"
+    },
+    "summary": {
+      "reviewTitle": "مراجعة عملية النقل",
+      "reviewDescription": "يرجى مراجعة التفاصيل قبل تأكيد عملية النقل",
+      "selectedEmployees": "الموظفون المحددون",
+      "loadingEmployees": "جارٍ تحميل بيانات الموظفين...",
+      "from": "من",
+      "to": "إلى",
+      "transfer": "نقل",
+      "importantNotice": "ملاحظة هامة",
+      "importantNoticeMessage": "ستقوم هذه العملية بنقل بصمات الموظفين من أجهزة المصدر إلى أجهزة الوجهة. هذا الإجراء لا يمكن التراجع عنه. يرجى التأكد من اختيار الموظفين والأجهزة بشكل صحيح.",
+      "cancel": "إلغاء",
+      "confirmMove": "تأكيد النقل",
+      "processing": "جارٍ المعالجة..."
+    }
+  },
+  "select": "اختر"
+}

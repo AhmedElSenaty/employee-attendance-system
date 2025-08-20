@@ -338,5 +338,14 @@
     "text": "To adjust the leave balance, please submit a request",
     "linkLabel": "here"
   },
+  "verificationActionCard": {
+    "title": "Employee Data Verification Report",
+    "description": "Download the employee data verification report.",
+    "button": "Download"
+  },
+  "export": {
+    "exportSuccess": "Data exported successfully! ✅",
+    "exportError": "Failed to export data. Please try again ❌"
+  },
   "NA": "N/A"
 }

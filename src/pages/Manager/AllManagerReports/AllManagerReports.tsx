@@ -12,6 +12,8 @@ import {
   useExportAttendanceReportPDF,
   useExportAttendanceSummaryReport,
   useExportAttendanceSummaryReportPDF,
+  useExportGetEmployeesVerificationExcel,
+  useExportGetEmployeesVerificationPDF,
   useExportReport,
   useExportReportPDF,
   useExportSummaryWorkOvertimeReportExcel,
@@ -29,6 +31,8 @@ import { NavLink } from "react-router";
 import ExportRequestsPopup from "../RequestsSummary/Views/ExportRequestsPopup";
 import ExportVacationSaverPopup from "../VacationSaver/views/ExportVacationSaverPopup";
 import { string } from "yup";
+import ExportVerificationPopup from "../../common/manage-employees/views/ExportVerificationPopup";
+import ExportAbsenceReportPopup from "../VacationSaver/views/ExportAbsenceReportPopup";
 
 const AllManagerReports = () => {
   const [isDownloadingDetailedAttendance, setIsDownloadingDetailedAttendance] =
@@ -101,9 +105,17 @@ const AllManagerReports = () => {
   const searchQuery = useDebounce(rawSearchQuery, 650) || undefined;
   const departmentId = rawDepartmentId || "";
   const checked = rawChecked || false;
+
   const title = rawTitle || string;
   const subDeptartmentId = rawSubDeptartmentId || "";
   const leaveType = rawLeaveType !== null ? rawLeaveType : undefined;
+
+  // ✅ exact names and boolean parsing
+  const includeDept =
+    getParam("IncludeDepartment", (v) => v === "true") ?? false;
+
+  const includeSubDept =
+    getParam("IncludeSubDepartment", (v) => v === "true") ?? false;
 
   const { refetchExportData } = useExportAttendanceReport(
     searchKey,
@@ -578,6 +590,58 @@ const AllManagerReports = () => {
     }
   };
 
+  // =============================================
+  // =============Verification====================
+  // =============================================
+
+  // =============== pdf =====================
+  const [isDownloadingReportPDF, setIsDownloadingReportPDF] = useState(false);
+
+  const [
+    isDownloadVerificationReportPopupOpen,
+    setIsVerificationDownloadReportPopupOpen,
+  ] = useState(false);
+
+  const { refetchExportDataPDF: getPDF } = useExportGetEmployeesVerificationPDF(
+    includeDept,
+    includeSubDept
+  );
+
+  const handleDownloadVerificationPDF = async () => {
+    setIsDownloadingReportPDF(true);
+    const { data, isSuccess, isError } = await getPDF();
+    if (isSuccess) {
+      showToast("success", t("export.exportSuccess"));
+      downloadFile(data.file);
+      setIsDownloadingReportPDF(false);
+    }
+    if (isError) {
+      showToast("error", t("export.exportError"));
+      setIsDownloadingReportPDF(false);
+    }
+  };
+
+  // =============== excel =====================
+  const [isDownloadingReportExcel, setIsDownloadingReportExcel] =
+    useState(false);
+
+  const { refetchExportDataExcel: VerificationExcel } =
+    useExportGetEmployeesVerificationExcel(includeDept, includeSubDept);
+
+  const handleDownloadVerificationExcel = async () => {
+    setIsDownloadingReportExcel(true);
+    const { data, isSuccess, isError } = await VerificationExcel();
+    if (isSuccess) {
+      showToast("success", t("export.exportSuccess"));
+      downloadFile(data.file);
+      setIsDownloadingReportExcel(false);
+    }
+    if (isError) {
+      showToast("error", t("export.exportError"));
+      setIsDownloadingReportExcel(false);
+    }
+  };
+
   return (
     <>
       <div className="sm:p-5 p-3 space-y-5">
@@ -906,6 +970,44 @@ const AllManagerReports = () => {
             </p>
           </HasPermission>
         </div>
+
+        {/*  */}
+        <div className="flex-1">
+          <HasPermission
+            permission={[
+              "Export Employee Verification Report Excel",
+              "Export Employee Verification Report PDF",
+            ]}
+          >
+            <ActionCard
+              icon={<FileDown />}
+              iconBgColor="bg-[#f5e4b2]"
+              iconColor="text-[#10b981]"
+              title={t("verificationReport.heading")}
+              description={t("verificationReport.subtitle")}
+            >
+              <Button
+                fullWidth
+                variant="secondary"
+                isLoading={isDownloadingReportPDF || isDownloadingReportExcel}
+                onClick={() => {
+                  setIsVerificationDownloadReportPopupOpen(true);
+                }}
+              >
+                {t("exportButton")}
+              </Button>
+            </ActionCard>
+            <p dir="rtl" className="text-sm text-gray-700 mt-2">
+              {t("verificationReport.link")}{" "}
+              <NavLink
+                to="../manage-employees"
+                className="inline text-blue-600 hover:underline focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition"
+              >
+                {t("verificationReport.pageName")}{" "}
+              </NavLink>
+            </p>
+          </HasPermission>
+        </div>
       </div>
 
       {/* ======================================= */}
@@ -1039,7 +1141,7 @@ const AllManagerReports = () => {
       />
 
       {/* vacation saver */}
-      <ExportRequestsPopup
+      <ExportVacationSaverPopup
         isOpen={isVacationSaverPopupOpen}
         handleClose={() => setIsVacationSaverPopupOpen(false)}
         handleDownload={() => {
@@ -1077,7 +1179,7 @@ const AllManagerReports = () => {
       />
 
       {/* absence */}
-      <ExportVacationSaverPopup
+      <ExportAbsenceReportPopup
         isOpen={isAbsenceFromWorkReportDownloadReportPopupOpen}
         handleClose={() =>
           setAbsenceFromWorkReportIsDownloadReportPopupOpen(false)
@@ -1189,6 +1291,18 @@ const AllManagerReports = () => {
         isLoading={isDownloadingSummaryWorkOvertimeReport}
         isloadingPDF={isDownloadingSummaryWorkOvertimeReportPDF}
         handleDownloadPDF={handleSummaryDownloadPDF}
+      />
+
+      {/* data Verification */}
+      <ExportVerificationPopup
+        isOpen={isDownloadVerificationReportPopupOpen}
+        handleClose={() => setIsVerificationDownloadReportPopupOpen(false)}
+        handleDownload={() => {
+          handleDownloadVerificationExcel();
+        }}
+        isLoading={isDownloadingReportExcel}
+        isloadingPDF={isDownloadingReportPDF}
+        handleDownloadPDF={handleDownloadVerificationPDF}
       />
     </>
   );

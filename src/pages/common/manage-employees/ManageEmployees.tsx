@@ -1,5 +1,5 @@
-import { FilePlus, UserCog, UserPlus } from "lucide-react";
-import { formatValue } from "../../../utils";
+import { FileDown, FilePlus, UserCog, UserPlus } from "lucide-react";
+import { downloadFile, formatValue, showToast } from "../../../utils";
 import { NavLink } from "react-router";
 import { useTranslation } from "react-i18next";
 import { useRef, useState } from "react";
@@ -15,6 +15,8 @@ import {
   useUploadAttendanceExcel,
   useResetEmployeePassword,
   useToggleSupervision,
+  useExportGetEmployeesVerificationExcel,
+  useExportGetEmployeesVerificationPDF,
 } from "../../../hooks/";
 import { HasPermission } from "../../../components/auth";
 import { useLanguageStore, useUserStore } from "../../../store/";
@@ -42,6 +44,7 @@ import {
 } from "./views";
 import { EMPLOYEE_NS, EMPLOYEE_VIDEO } from "../../../constants";
 import useURLSearchParams from "../../../hooks/URLSearchParams.hook";
+import ExportVerificationPopup from "./views/ExportVerificationPopup";
 
 const EMPLOYEE_BORDER_WIDTH = 2;
 
@@ -113,6 +116,13 @@ export const ManageEmployeesPage = () => {
   const pageSize = rawPageSize ?? 10;
   const searchKey = rawSearchKey || undefined;
   const searchQuery = rawSearchQuery || undefined;
+
+  // ✅ exact names and boolean parsing
+  const includeDept =
+    getParam("IncludeDepartment", (v) => v === "true") ?? false;
+
+  const includeSubDept =
+    getParam("IncludeSubDepartment", (v) => v === "true") ?? false;
 
   const {
     employees,
@@ -211,13 +221,66 @@ export const ManageEmployeesPage = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleImportClick = () => {
+    if (fileInputRef.current) fileInputRef.current.value = "";
     fileInputRef.current?.click();
   };
 
   const handleImportFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    uploadExcel(file);
+
+    uploadExcel(file, {
+      onSettled: () => {
+        // allow selecting the same file again
+        e.target.value = "";
+      },
+    });
+  };
+
+  // =============== pdf =====================
+  const [isDownloadingReportPDF, setIsDownloadingReportPDF] = useState(false);
+
+  const [isDownloadReportPopupOpen, setIsDownloadReportPopupOpen] =
+    useState(false);
+
+  const { refetchExportDataPDF: getPDF } = useExportGetEmployeesVerificationPDF(
+    includeDept,
+    includeSubDept
+  );
+
+  const handleDownloadVerificationPDF = async () => {
+    setIsDownloadingReportPDF(true);
+    const { data, isSuccess, isError } = await getPDF();
+    if (isSuccess) {
+      showToast("success", t("export.exportSuccess"));
+      downloadFile(data.file);
+      setIsDownloadingReportPDF(false);
+    }
+    if (isError) {
+      showToast("error", t("export.exportError"));
+      setIsDownloadingReportPDF(false);
+    }
+  };
+
+  // =============== excel =====================
+  const [isDownloadingReportExcel, setIsDownloadingReportExcel] =
+    useState(false);
+
+  const { refetchExportDataExcel: VerificationExcel } =
+    useExportGetEmployeesVerificationExcel(includeDept, includeSubDept);
+
+  const handleDownloadVerificationExcel = async () => {
+    setIsDownloadingReportExcel(true);
+    const { data, isSuccess, isError } = await VerificationExcel();
+    if (isSuccess) {
+      showToast("success", t("export.exportSuccess"));
+      downloadFile(data.file);
+      setIsDownloadingReportExcel(false);
+    }
+    if (isError) {
+      showToast("error", t("export.exportError"));
+      setIsDownloadingReportExcel(false);
+    }
   };
 
   return (
@@ -250,9 +313,7 @@ export const ManageEmployeesPage = () => {
         </div>
 
         <div className="flex flex-col md:flex-row gap-5">
-          {/* Action Card Section */}
-
-          <div className="w-full md:w-1/3 ">
+          <div className="w-full md:w-1/3">
             {isEmployeesCountLoading ? (
               <GraphSkeleton />
             ) : (
@@ -289,7 +350,59 @@ export const ManageEmployeesPage = () => {
             </HasPermission>
           </div>
 
-          <div className="w-full md:w-1/3 ">
+          <div className="w-full md:w-1/3">
+            <HasPermission
+              permission={[
+                "Export Employee Verification Report Excel",
+                "Export Employee Verification Report PDF",
+              ]}
+            >
+              <ActionCard
+                icon={<FileDown />}
+                iconBgColor="bg-[#f5e4b2]"
+                iconColor="text-[#10b981]"
+                title={t("verificationActionCard.title")}
+                description={t("verificationActionCard.description")}
+              >
+                <Button
+                  fullWidth
+                  variant="secondary"
+                  isLoading={isDownloadingReportPDF || isDownloadingReportExcel}
+                  onClick={() => {
+                    setIsDownloadReportPopupOpen(true);
+                  }}
+                >
+                  {t("verificationActionCard.button")}
+                </Button>
+              </ActionCard>
+            </HasPermission>
+          </div>
+        </div>
+
+        <div className="flex flex-col md:flex-row gap-3">
+          <div className="w-full md:w-1/3">
+            <HasPermission permission="Reset Employees Data">
+              <ActionCard
+                icon={<UserCog />}
+                iconBgColor="bg-[#d7f0f6]"
+                iconColor="text-[#007fa4]"
+                title={t("manageEmployeesPage.restActionCard.title")}
+                description={t(
+                  "manageEmployeesPage.restActionCard.description"
+                )}
+              >
+                <Button
+                  fullWidth
+                  variant="primary"
+                  onClick={() => setIsRestPopupOpen(true)}
+                >
+                  {t("manageEmployeesPage.restActionCard.button")}
+                </Button>
+              </ActionCard>
+            </HasPermission>
+          </div>
+
+          <div className="w-full md:w-1/3">
             <HasPermission permission="Add Employee">
               <ActionCard
                 icon={<FilePlus />}
@@ -325,26 +438,6 @@ export const ManageEmployeesPage = () => {
               </ActionCard>
             </HasPermission>
           </div>
-        </div>
-
-        <div className="w-full md:w-1/3 ">
-          <HasPermission permission="Reset Employees Data">
-            <ActionCard
-              icon={<UserCog />}
-              iconBgColor="bg-[#d7f0f6]"
-              iconColor="text-[#007fa4]"
-              title={t("manageEmployeesPage.restActionCard.title")}
-              description={t("manageEmployeesPage.restActionCard.description")}
-            >
-              <Button
-                fullWidth
-                variant="primary"
-                onClick={() => setIsRestPopupOpen(true)}
-              >
-                {t("manageEmployeesPage.restActionCard.button")}
-              </Button>
-            </ActionCard>
-          </HasPermission>
         </div>
       </div>
 
@@ -437,6 +530,17 @@ export const ManageEmployeesPage = () => {
         handleClose={() => setIsRestPopupOpen(false)}
         handleConfirmRest={handleConfirmRest}
         isLoading={isResting}
+      />
+
+      <ExportVerificationPopup
+        isOpen={isDownloadReportPopupOpen}
+        handleClose={() => setIsDownloadReportPopupOpen(false)}
+        handleDownload={() => {
+          handleDownloadVerificationExcel();
+        }}
+        isLoading={isDownloadingReportExcel}
+        isloadingPDF={isDownloadingReportPDF}
+        handleDownloadPDF={handleDownloadVerificationPDF}
       />
     </div>
   );

@@ -26,6 +26,7 @@ import { HasPermission } from "../../../components/auth";
 import Filters from "./views/Filters";
 import ExportRequestsPopup from "../RequestsSummary/Views/ExportRequestsPopup";
 import ExportVacationSaverPopup from "./views/ExportVacationSaverPopup";
+import ExportAbsenceReportPopup from "./views/ExportAbsenceReportPopup";
 
 const AllVacationSaverPage = () => {
   const [isDownloadReportPopupOpen, setIsDownloadReportPopupOpen] =
@@ -330,7 +331,7 @@ const AllVacationSaverPage = () => {
         </div>
       </div>
 
-      <ExportRequestsPopup
+      <ExportVacationSaverPopup
         isOpen={isDownloadReportPopupOpen}
         handleClose={() => setIsDownloadReportPopupOpen(false)}
         handleDownload={() => {
@@ -365,7 +366,7 @@ const AllVacationSaverPage = () => {
         handleDownloadPDF={handleDownloadPDF}
       />
 
-      <ExportVacationSaverPopup
+      <ExportAbsenceReportPopup
         isOpen={isAbsenceFromWorkReportDownloadReportPopupOpen}
         handleClose={() =>
           setAbsenceFromWorkReportIsDownloadReportPopupOpen(false)

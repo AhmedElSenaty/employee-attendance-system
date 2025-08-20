@@ -13,6 +13,7 @@ import { useUserStore, useLanguageStore } from "../store/";
 import { DeviceService } from "../services";
 import { QueryKeys } from "../constants";
 import { DeviceFormValues } from "../validation";
+import { MoveUserAttendanceData } from "../pages/Admin/moveUserAttendance";
 
 export const useDeviceService = () => {
   const token = useUserStore((state) => state.token);
@@ -278,24 +279,16 @@ export const useRefetchAllAttendance = () => {
   });
 };
 
-export const useDeviceMoveUserAttendance = () => {
+export const useMoveUserAttendance = () => {
   const { language } = useLanguageStore();
   const queryClient = useQueryClient();
   const deviceService = useDeviceService();
 
-  return useMutation({
-    mutationFn: (moveData: {
-      employeeIds: number[];
-      sourceDeviceIds: number[];
-      targetDeviceIds: number[];
-    }) => deviceService.moveUserAttendance(moveData),
+  const mutation = useMutation({
+    mutationFn: (data: MoveUserAttendanceData) =>
+      deviceService.moveUserAttendance(data), //
     onSuccess: ({ status, data }) => {
-      // Invalidate relevant queries to refresh data
-      queryClient.invalidateQueries({ queryKey: [QueryKeys.Devices.All] });
-      queryClient.invalidateQueries({
-        queryKey: [QueryKeys.Devices.DeviceUsers],
-      });
-
+      queryClient.invalidateQueries({ queryKey: [QueryKeys.na] });
       if (status === 200) {
         const message = getTranslatedMessage(data.message ?? "", language);
         showToast("success", message);
@@ -306,4 +299,11 @@ export const useDeviceMoveUserAttendance = () => {
       handleApiError(axiosError, language);
     },
   });
+
+  // Expose the mutate function with nice names
+  return {
+    moveUserAttendance: mutation.mutateAsync,
+    isLoading: mutation.isPending,
+    reset: mutation.reset,
+  };
 };

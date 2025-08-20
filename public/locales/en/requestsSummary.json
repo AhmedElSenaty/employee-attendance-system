@@ -93,5 +93,6 @@
     "subtitle": "Easily view and analyze all employee requests and available/used leave types."
   },
   "CheckBox": "Include Sub Department",
+  "CheckBoxSub": "Include Department",
   "title": "Title"
 }

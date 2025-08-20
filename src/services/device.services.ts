@@ -4,6 +4,7 @@ import {
   RefetchAllPayload,
   RefetchPayload,
 } from "../interfaces";
+import { MoveUserAttendanceData } from "../pages/Admin/moveUserAttendance";
 import { BaseService } from "./base.services";
 
 export class DeviceService extends BaseService {
@@ -166,21 +167,23 @@ export class DeviceService extends BaseService {
     }
   };
 
-  moveUserAttendance = async (moveData: {
-    employeeIds: number[];
-    sourceDeviceIds: number[];
-    targetDeviceIds: number[];
-  }) => {
+  moveUserAttendance = async (payload: MoveUserAttendanceData) => {
+    const body = {
+      UsersIds: payload.employeeIds.map(String),
+      SourceIp: payload.sourceDeviceIds.map(String)[0],
+      TargetIps: payload.targetDeviceIds.map(String),
+      Cut: payload.cut ?? false,
+    };
+
+    console.log(body);
     try {
-      console.log("Making API call to move user attendance:", moveData);
       const response = await axiosInstance.post(
-        "/DeviceUsers/MoveUserAttendance",
-        moveData,
+        "ZKDeviceManager/MoveFingerPrints",
+        body,
         {
           headers: this.getAuthHeaders(),
         }
       );
-      console.log("API response:", response);
       return response;
     } catch (error) {
       console.error("Error moving user attendance:", error);

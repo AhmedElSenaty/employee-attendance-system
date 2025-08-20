@@ -30,7 +30,7 @@ interface Props {
   isloadingPDF: boolean;
 }
 
-const ExportVacationSaverPopup = ({
+const ExportAbsenceReportPopup = ({
   isOpen,
   handleClose,
   handleDownload,
@@ -169,4 +169,4 @@ const ExportVacationSaverPopup = ({
   );
 };
 
-export default ExportVacationSaverPopup;
+export default ExportAbsenceReportPopup;

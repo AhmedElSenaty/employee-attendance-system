@@ -1,0 +1,58 @@
+{
+  "moveUserAttendance": {
+    "pageTitle": "Move Attendance Fingerprints",
+    "pageSubtitle": "Transfer employee fingerprints between devices",
+    "errorTitle": "Error",
+    "successTitle": "Success",
+    "successMessage": "Attendance fingerprints moved successfully!",
+    "form": {
+      "title": "Move Attendance Fingerprints",
+      "description": "Select employees and devices for the transfer operation",
+      "selectSourceDevice": "Select Source Device",
+      "selectedSourceDevice": "Selected Source Device",
+      "selectEmployeesFromSource": "Select Employees from Source Device",
+      "selectTargetDevices": "Select Target Devices",
+      "selectedTargetDevices": "Selected Target Devices",
+      "selected": "Selected",
+      "cutCheckboxLabel": "Do you want to delete after the transfer?",
+      "selectAllEmployees": "Select All Employees",
+      "selectAllTargets": "Select All Target Devices"
+    },
+    "placeholders": {
+      "chooseSourceDevice": "Choose Source Device",
+      "chooseEmployees": "Choose Employees",
+      "chooseTargetDevices": "Choose Target Devices"
+    },
+    "states": {
+      "loadingEmployees": "Loading employees...",
+      "noEmployeesFoundOnSource": "No employees found on the selected source device",
+      "processing": "Processing...",
+      "reviewMoveOperation": "Review Transfer Operation"
+    },
+    "alerts": {
+      "pleaseSelectSourceDevice": "Please select a source device",
+      "pleaseSelectAtLeastOneEmployee": "Please select at least one employee",
+      "pleaseSelectAtLeastOneTargetDevice": "Please select at least one target device"
+    },
+    "hints": {
+      "selectSourceFirst": "Please select the source device first",
+      "selectEmployeesFirst": "Please select at least one employee",
+      "selectTargetsFirst": "Please select at least one target device"
+    },
+    "summary": {
+      "reviewTitle": "Review Transfer Operation",
+      "reviewDescription": "Please review the details before confirming the transfer",
+      "selectedEmployees": "Selected Employees",
+      "loadingEmployees": "Loading employee data...",
+      "from": "From",
+      "to": "To",
+      "transfer": "Transfer",
+      "importantNotice": "Important Notice",
+      "importantNoticeMessage": "This operation will transfer employee fingerprints from the source devices to the target devices. This action cannot be undone. Please ensure the correct employees and devices are selected.",
+      "cancel": "Cancel",
+      "confirmMove": "Confirm Transfer",
+      "processing": "Processing..."
+    }
+  },
+  "select": "Select"
+}

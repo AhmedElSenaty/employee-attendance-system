@@ -32,7 +32,7 @@ export const MoveUserAttendanceSummary = ({
   onCancel,
   isProcessing,
 }: MoveUserAttendanceSummaryProps) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation("moveUserFingerPrint");
 
   // Get source devices
   const sourceDeviceIds = moveData.sourceDeviceIds;
@@ -44,7 +44,7 @@ export const MoveUserAttendanceSummary = ({
 
   const selectedEmployees =
     deviceUsers?.filter((deviceUser) =>
-      moveData.employeeIds.includes(deviceUser.employeeId)
+      moveData.employeeIds.includes(deviceUser.id)
     ) || [];
 
   const selectedSourceDevice = devices.find((device) =>
@@ -57,19 +57,17 @@ export const MoveUserAttendanceSummary = ({
   );
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mx-10 my-5">
       <div className="flex items-center gap-3 mb-6">
         <div className="p-2 bg-green-100 rounded-lg">
           <CheckCircle className="w-5 h-5 text-green-600" />
         </div>
         <div>
           <h3 className="text-lg font-semibold text-gray-900">
-            {t("Review Move Operation")}
+            {t("moveUserAttendance.summary.reviewTitle")}
           </h3>
           <p className="text-sm text-gray-600">
-            {t(
-              "Please review the details before confirming the move operation"
-            )}
+            {t("moveUserAttendance.summary.reviewDescription")}
           </p>
         </div>
       </div>
@@ -80,7 +78,8 @@ export const MoveUserAttendanceSummary = ({
           <div className="flex items-center gap-2 mb-3">
             <Users className="w-4 h-4 text-gray-600" />
             <h4 className="font-medium text-gray-900">
-              {t("Selected Employees")} ({selectedEmployees.length})
+              {t("moveUserAttendance.summary.selectedEmployees")} (
+              {selectedEmployees.length})
             </h4>
           </div>
           {isDeviceUsersLoading ? (
@@ -95,10 +94,10 @@ export const MoveUserAttendanceSummary = ({
                   className="flex items-center justify-between p-2 bg-white rounded border"
                 >
                   <span className="text-sm font-medium text-gray-900">
-                    {employee.employeeName}
+                    {employee.name}
                   </span>
                   <span className="text-xs text-gray-500">
-                    ID: {employee.employeeId}
+                    ID: {employee.id}
                   </span>
                 </div>
               ))}
@@ -114,7 +113,8 @@ export const MoveUserAttendanceSummary = ({
               <div className="flex items-center gap-2 mb-3">
                 <Monitor className="w-4 h-4 text-red-600" />
                 <h4 className="font-medium text-red-900">
-                  {t("From")} ({selectedSourceDevice ? 1 : 0})
+                  {t("moveUserAttendance.summary.from")} (
+                  {selectedSourceDevice ? 1 : 0})
                 </h4>
               </div>
               <div className="space-y-2">
@@ -126,9 +126,9 @@ export const MoveUserAttendanceSummary = ({
                     <div className="text-sm font-medium text-red-900">
                       {selectedSourceDevice.name}
                     </div>
-                    <div className="text-xs text-red-700">
+                    {/* <div className="text-xs text-red-700">
                       {selectedSourceDevice.ip}:{selectedSourceDevice.port}
-                    </div>
+                    </div> */}
                   </div>
                 )}
               </div>
@@ -140,7 +140,7 @@ export const MoveUserAttendanceSummary = ({
                 <ArrowRight className="w-5 h-5 text-blue-600" />
               </div>
               <span className="text-xs text-gray-500 mt-1">
-                {t("Transfer")}
+                {t("moveUserAttendance.summary.transfer")}
               </span>
             </div>
 
@@ -149,7 +149,7 @@ export const MoveUserAttendanceSummary = ({
               <div className="flex items-center gap-2 mb-3">
                 <Monitor className="w-4 h-4 text-green-600" />
                 <h4 className="font-medium text-green-900">
-                  {t("To")} ({targetDevices.length})
+                  {t("moveUserAttendance.summary.to")} ({targetDevices.length})
                 </h4>
               </div>
               <div className="space-y-2">
@@ -161,9 +161,9 @@ export const MoveUserAttendanceSummary = ({
                     <div className="text-sm font-medium text-green-900">
                       {device.name}
                     </div>
-                    <div className="text-xs text-green-700">
+                    {/* <div className="text-xs text-green-700">
                       {device.ip}:{device.port}
-                    </div>
+                    </div> */}
                   </div>
                 ))}
               </div>
@@ -177,12 +177,10 @@ export const MoveUserAttendanceSummary = ({
             <AlertTriangle className="w-5 h-5 text-yellow-600 mt-0.5" />
             <div>
               <h4 className="font-medium text-yellow-900 mb-1">
-                {t("Important Notice")}
+                {t("moveUserAttendance.summary.importantNotice")}
               </h4>
               <p className="text-sm text-yellow-800">
-                {t(
-                  "This operation will transfer employee fingerprints from the source devices to the target device. This action cannot be undone. Please ensure you have selected the correct employees and devices."
-                )}
+                {t("moveUserAttendance.summary.importantNoticeMessage")}
               </p>
             </div>
           </div>
@@ -196,15 +194,20 @@ export const MoveUserAttendanceSummary = ({
             disabled={isProcessing}
             className="px-6 py-2"
           >
-            {t("Cancel")}
+            {t("moveUserAttendance.summary.cancel")}
           </Button>
           <Button
             onClick={onConfirm}
             disabled={isProcessing}
             isLoading={isProcessing}
-            className="px-6 py-2"
+            className="
+                        px-8 py-3 rounded-xl shadow-md transition-transform duration-200 hover:scale-105
+                        disabled:bg-gray-400 disabled:text-gray-200 disabled:cursor-not-allowed
+                      "
           >
-            {isProcessing ? t("Processing...") : t("Confirm Move")}
+            {isProcessing
+              ? t("moveUserAttendance.summary.processing")
+              : t("moveUserAttendance.summary.confirmMove")}
           </Button>
         </div>
       </div>

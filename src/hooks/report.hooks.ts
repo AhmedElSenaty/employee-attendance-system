@@ -723,3 +723,73 @@ export const useExportSummaryWorkOvertimeReportExcel = (
     refetchExportData: refetch,
   };
 };
+
+// export const useExportGetEmployeesVerificationPDF = (
+//   includeDept?: boolean,
+//   includeSubDept?: boolean
+// ) => {
+//   const service = useReportService();
+
+//   console.log("dept ======> ", includeDept);
+//   console.log("sub dept ======> ", includeSubDept);
+
+//   const { refetch } = useQuery({
+//     queryKey: [QueryKeys.Export.PDF],
+//     queryFn: () =>
+//       service.GetEmployeesVerificationPDF(includeDept, includeSubDept),
+//     enabled: false, // manual refetching
+//     retry: 3,
+//   });
+//   return {
+//     refetchExportDataPDF: refetch,
+//   };
+// };
+
+export const useExportGetEmployeesVerificationExcel = (
+  includeDept?: boolean,
+  includeSubDept?: boolean
+) => {
+  const service = useReportService();
+
+  const { refetch } = useQuery({
+    // ✅ include flags in the key so each combo has its own cache entry
+    queryKey: [QueryKeys.Export.Excel, includeDept, includeSubDept],
+    // ✅ derive the args from the queryKey to avoid stale closures
+    queryFn: ({ queryKey }) => {
+      const [, dept, sub] = queryKey as [
+        string,
+        boolean | undefined,
+        boolean | undefined
+      ];
+      return service.GetEmployeesVerificationExcel(dept, sub);
+    },
+    enabled: false,
+    retry: 3,
+  });
+
+  return { refetchExportDataExcel: refetch };
+};
+export const useExportGetEmployeesVerificationPDF = (
+  includeDept?: boolean,
+  includeSubDept?: boolean
+) => {
+  const service = useReportService();
+
+  const { refetch } = useQuery({
+    // ✅ include flags in the key so each combo has its own cache entry
+    queryKey: [QueryKeys.Export.Excel, includeDept, includeSubDept],
+    // ✅ derive the args from the queryKey to avoid stale closures
+    queryFn: ({ queryKey }) => {
+      const [, dept, sub] = queryKey as [
+        string,
+        boolean | undefined,
+        boolean | undefined
+      ];
+      return service.GetEmployeesVerificationPDF(dept, sub);
+    },
+    enabled: false,
+    retry: 3,
+  });
+
+  return { refetchExportDataPDF: refetch };
+};

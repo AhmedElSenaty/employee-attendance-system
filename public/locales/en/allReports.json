@@ -51,6 +51,12 @@
     "link": "For more filtering options, you can visit",
     "pageName": "Overtime Report Page"
   },
+  "verificationReport": {
+    "heading": "Employee Data Verification Report",
+    "subtitle": "Export the employee data verification report",
+    "link": "For more filtering options, you can visit",
+    "pageName": "Employee Management Page"
+  },
   "exportButton": "Export",
   "export": {
     "exportSuccess": "Data exported successfully! ✅",
