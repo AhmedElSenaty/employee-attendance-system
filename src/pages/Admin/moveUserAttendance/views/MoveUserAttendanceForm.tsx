@@ -6,12 +6,13 @@ import {
   CustomMultiSelect,
   CustomSelect,
 } from "../../../../components/ui";
-import { MoveUserAttendanceData } from "../index";
 import {
   useGetDevicesList,
+  useGetDevicesWithIPList,
   useGetDeviceUsersByDeviceId,
 } from "../../../../hooks";
 import { EmployeeSummary } from "../../../../interfaces";
+import { MoveUserAttendanceData } from "..";
 
 interface Device {
   id: number;
@@ -21,7 +22,7 @@ interface Device {
 }
 
 interface Option {
-  value: number | string;
+  value: number;
   label: string;
   subLabel?: string;
 }
@@ -37,10 +38,10 @@ export const MoveUserAttendanceForm = ({
 }: MoveUserAttendanceFormProps) => {
   const { t } = useTranslation("moveUserFingerPrint");
 
-  // Get devices list for device selection
-  const { devices: devicesList } = useGetDevicesList();
+  // Devices
+  const { devices: devicesList } = useGetDevicesWithIPList();
 
-  // State for selected source device (single)
+  // State
   const [selectedSourceDevice, setSelectedSourceDevice] = useState<
     number | null
   >(null);
@@ -48,132 +49,125 @@ export const MoveUserAttendanceForm = ({
   const [selectedTargetDevices, setSelectedTargetDevices] = useState<number[]>(
     []
   );
+  const [cut, setCut] = useState(false);
 
-  // Get device users for the selected source device
+  // Users on the selected source device
   const { deviceUsers, isLoading: isDeviceUsersLoading } =
     useGetDeviceUsersByDeviceId(selectedSourceDevice || 0);
 
-  // Convert device users to employee options
-  const deviceEmployeeOptions =
-    deviceUsers?.map((deviceUser: EmployeeSummary) => ({
-      value: deviceUser.id,
-      label: deviceUser.name,
-      subLabel: `${deviceUser.id}`,
-    })) || [];
+  // Helpers
+  const getIpById = (id: number | null) =>
+    devicesList?.find((d: Device) => d.id === id)?.ip ?? null;
 
-  const deviceOptions =
+  // Options
+  const deviceOptions: Option[] =
     devicesList?.map((device: Device) => ({
       value: device.id,
-      label: `${device.name}`,
+      label: `${device.name} (${device.ip})`,
     })) || [];
 
+  const deviceEmployeeOptions: Option[] =
+    deviceUsers?.map((u: EmployeeSummary) => ({
+      value: u.id,
+      label: u.name,
+      subLabel: `${u.id}`,
+    })) || [];
+
+  // Select All (Employees)
+  const [isAllEmployeesSelected, setIsAllEmployeesSelected] = useState(false);
+  const handleSelectAllEmployees = () => {
+    if (isAllEmployeesSelected) {
+      setSelectedEmployees([]);
+    } else {
+      setSelectedEmployees(deviceEmployeeOptions.map((opt) => opt.value));
+    }
+    setIsAllEmployeesSelected(!isAllEmployeesSelected);
+  };
+
+  // Target options (exclude current source)
+  const availableTargetOptions: Option[] = (deviceOptions || []).filter(
+    (opt) => opt.value !== selectedSourceDevice
+  );
+
+  // Select All (Targets)
+  const [isAllTargetsSelected, setIsAllTargetsSelected] = useState(false);
+  const handleSelectAllTargets = () => {
+    if (isAllTargetsSelected) {
+      setSelectedTargetDevices([]);
+    } else {
+      setSelectedTargetDevices(availableTargetOptions.map((opt) => opt.value));
+    }
+    setIsAllTargetsSelected(!isAllTargetsSelected);
+  };
+
+  // Reset selections when source changes
+  useEffect(() => {
+    setSelectedEmployees([]);
+    setSelectedTargetDevices([]);
+    setIsAllEmployeesSelected(false);
+    setIsAllTargetsSelected(false);
+  }, [selectedSourceDevice]);
+
+  // Sync employees "select all" checkbox with list
+  useEffect(() => {
+    setIsAllEmployeesSelected(
+      deviceEmployeeOptions.length > 0 &&
+        selectedEmployees.length === deviceEmployeeOptions.length
+    );
+  }, [deviceUsers, deviceEmployeeOptions.length, selectedEmployees.length]);
+
+  // Submit → map IDs → IPs
+  // Submit → keep names, but send IPs inside them
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
-    console.log("Form submitted with data:", {
-      selectedSourceDevice,
-      selectedEmployees,
-      selectedTargetDevices,
-    });
 
     if (!selectedSourceDevice) {
       alert(t("Please select a source device"));
       return;
     }
-
     if (selectedEmployees.length === 0) {
       alert(t("Please select at least one employee"));
       return;
     }
-
     if (selectedTargetDevices.length === 0) {
       alert(t("Please select at least one target device"));
       return;
     }
 
-    const submitData = {
+    // resolve IDs -> IPs
+    const sourceIp = getIpById(selectedSourceDevice);
+    const targetIps = selectedTargetDevices
+      .map((id) => getIpById(id))
+      .filter((ip): ip is string => Boolean(ip));
+
+    if (!sourceIp) {
+      alert(t("Could not resolve source device IP"));
+      return;
+    }
+    if (targetIps.length === 0) {
+      alert(t("Could not resolve target device IPs"));
+      return;
+    }
+
+    // ⚠️ keep the SAME property NAMES, but fill them with IP STRINGS
+    // If your MoveUserAttendanceData types are number[], this cast keeps TS quiet.
+    const submitData: MoveUserAttendanceData = {
       employeeIds: selectedEmployees,
-      sourceDeviceIds: [selectedSourceDevice],
-      targetDeviceIds: selectedTargetDevices,
+      sourceDeviceIds: [sourceIp] as unknown as number[], // sending ["192.168.1.10"]
+      targetDeviceIds: targetIps as unknown as number[], // sending ["192.168.1.20", ...]
       cut,
     };
 
-    console.log("Submitting data:", submitData);
+    console.log(
+      "Submitting with IPs in sourceDeviceIds/targetDeviceIds:",
+      submitData
+    );
     onSubmit(submitData);
   };
 
-  const [cut, setCut] = useState(false);
-
-  // ================================= handle select all target devices ==============================
-  // NEW: flag for target "select all"
-  const [isAllTargetsSelected, setIsAllTargetsSelected] = useState(false);
-
-  // Keep options for targets (exclude source)
-  const availableTargetOptions: Option[] = (deviceOptions || []).filter(
-    (opt: Option) => opt.value !== selectedSourceDevice
-  );
-
-  // NEW: select-all handler for targets
-  const handleSelectAllTargets = () => {
-    if (isAllTargetsSelected) {
-      setSelectedTargetDevices([]);
-    } else {
-      setSelectedTargetDevices(
-        availableTargetOptions.map((opt: Option) => opt.value as number)
-      );
-    }
-    setIsAllTargetsSelected(!isAllTargetsSelected);
-  };
-
-  // Reset when source device changes (you already reset targets; also reset the flag)
-  useEffect(() => {
-    setSelectedEmployees([]);
-    setSelectedTargetDevices([]);
-    setIsAllTargetsSelected(false); // NEW
-  }, [selectedSourceDevice]);
-
-  // Reset selections when source device changes
-  useEffect(() => {
-    setSelectedEmployees([]);
-    setSelectedTargetDevices([]);
-  }, [selectedSourceDevice]);
-
-  // ================================= handle select all employees ==============================
-
-  // NEW: select-all flag for employees
-  const [isAllEmployeesSelected, setIsAllEmployeesSelected] = useState(false);
-
-  // Employees available for selection (from the chosen source)
-  const availableEmployeeOptions: Option[] = deviceEmployeeOptions;
-
-  // Toggle all employees
-  const handleSelectAllEmployees = () => {
-    if (isAllEmployeesSelected) {
-      setSelectedEmployees([]);
-    } else {
-      setSelectedEmployees(
-        availableEmployeeOptions.map((opt: Option) => opt.value as number)
-      );
-    }
-    setIsAllEmployeesSelected(!isAllEmployeesSelected);
-  };
-
-  // Keep flags clean when source changes (you already reset selections)
-  useEffect(() => {
-    setIsAllEmployeesSelected(false);
-  }, [selectedSourceDevice]);
-
-  // If the device users list changes (after fetch), resync the flag
-  useEffect(() => {
-    setIsAllEmployeesSelected(
-      availableEmployeeOptions.length > 0 &&
-        selectedEmployees.length === availableEmployeeOptions.length
-    );
-  }, [deviceUsers, availableEmployeeOptions.length, selectedEmployees.length]);
-
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      {/* Source Device Selection */}
+      {/* Source Device */}
       <div className="space-y-3 py-5">
         <label className="block text-sm font-medium text-gray-700">
           {t("moveUserAttendance.placeholders.chooseSourceDevice")} *
@@ -183,25 +177,19 @@ export const MoveUserAttendanceForm = ({
           className="w-full"
           placeholder={t("select")}
           options={deviceOptions}
-          value={deviceOptions.find(
-            (opt: Option) => opt.value === selectedSourceDevice
-          )}
-          onChange={(option: Option | null) => {
-            setSelectedSourceDevice(option ? (option.value as number) : null);
-          }}
+          value={
+            deviceOptions.find((opt) => opt.value === selectedSourceDevice) ||
+            null
+          }
+          onChange={(option: Option | null) =>
+            setSelectedSourceDevice(option ? option.value : null)
+          }
           isSearchable
           isClearable
         />
-        {/* 
-        {selectedSourceDevice && (
-          <div className="text-xs text-gray-600 bg-gray-50 p-2 rounded">
-            <strong>{t("Selected Source Device")}:</strong>{" "}
-            {getSelectedSourceDeviceName()}
-          </div>
-        )} */}
       </div>
 
-      {/* Employee Selection (only show if source device is selected) */}
+      {/* Employees */}
       {selectedSourceDevice && (
         <div className="space-y-3">
           <label className="block text-sm font-medium text-gray-700">
@@ -210,21 +198,20 @@ export const MoveUserAttendanceForm = ({
 
           {isDeviceUsersLoading ? (
             <div className="text-sm text-gray-500">Loading employees...</div>
-          ) : availableEmployeeOptions.length === 0 ? (
+          ) : deviceEmployeeOptions.length === 0 ? (
             <div className="text-sm text-gray-500">
               {t("moveUserAttendance.states.noEmployeesFoundOnSource")}
             </div>
           ) : (
             <>
-              {/* NEW: Select All checkbox for employees */}
               <div className="flex items-center gap-2 mb-1">
                 <input
                   type="checkbox"
                   className="form-checkbox"
-                  disabled={availableEmployeeOptions.length === 0}
+                  disabled={deviceEmployeeOptions.length === 0}
                   checked={
-                    availableEmployeeOptions.length > 0 &&
-                    selectedEmployees.length === availableEmployeeOptions.length
+                    deviceEmployeeOptions.length > 0 &&
+                    selectedEmployees.length === deviceEmployeeOptions.length
                   }
                   onChange={handleSelectAllEmployees}
                 />
@@ -239,33 +226,27 @@ export const MoveUserAttendanceForm = ({
               <CustomMultiSelect
                 className="w-full"
                 placeholder={t("select")}
-                options={availableEmployeeOptions}
-                value={availableEmployeeOptions.filter((opt: Option) =>
-                  selectedEmployees.includes(opt.value as number)
+                options={deviceEmployeeOptions}
+                value={deviceEmployeeOptions.filter((opt) =>
+                  selectedEmployees.includes(opt.value)
                 )}
                 onChange={(options: Option[]) => {
-                  const newSelected = options.map(
-                    (opt: Option) => opt.value as number
-                  );
+                  const newSelected = options.map((opt) => opt.value);
                   setSelectedEmployees(newSelected);
-
-                  // Keep select-all checkbox in sync
                   setIsAllEmployeesSelected(
-                    newSelected.length === availableEmployeeOptions.length &&
-                      availableEmployeeOptions.length > 0
+                    newSelected.length === deviceEmployeeOptions.length &&
+                      deviceEmployeeOptions.length > 0
                   );
                 }}
                 isSearchable
                 isClearable
-                // You can keep/remove showSelectAll if your component supports it,
-                // but the external checkbox is now the source of truth.
               />
             </>
           )}
         </div>
       )}
 
-      {/* Arrow Icon */}
+      {/* Arrow */}
       {selectedSourceDevice && selectedEmployees.length > 0 && (
         <div className="flex justify-center">
           <div className="p-2 bg-blue-100 rounded-full">
@@ -274,14 +255,13 @@ export const MoveUserAttendanceForm = ({
         </div>
       )}
 
-      {/* Target Device Selection (only show if employees are selected) */}
+      {/* Targets */}
       {selectedSourceDevice && selectedEmployees.length > 0 && (
         <div className="space-y-3">
           <label className="block text-sm font-medium text-gray-700">
             {t("moveUserAttendance.placeholders.chooseTargetDevices")} *
           </label>
 
-          {/* NEW: Select All checkbox for target devices */}
           <div className="flex items-center gap-2 mb-1">
             <input
               type="checkbox"
@@ -305,16 +285,12 @@ export const MoveUserAttendanceForm = ({
             className="w-full"
             placeholder={t("select")}
             options={availableTargetOptions}
-            value={availableTargetOptions.filter((opt: Option) =>
-              selectedTargetDevices.includes(opt.value as number)
+            value={availableTargetOptions.filter((opt) =>
+              selectedTargetDevices.includes(opt.value)
             )}
             onChange={(options: Option[]) => {
-              const selectedIds = options.map(
-                (opt: Option) => opt.value as number
-              );
+              const selectedIds = options.map((opt) => opt.value);
               setSelectedTargetDevices(selectedIds);
-
-              // Keep select-all checkbox in sync
               setIsAllTargetsSelected(
                 selectedIds.length === availableTargetOptions.length &&
                   availableTargetOptions.length > 0
@@ -326,7 +302,8 @@ export const MoveUserAttendanceForm = ({
         </div>
       )}
 
-      <label className="flex items-center space-x-2 mt-4">
+      {/* Cut */}
+      <label className="flex items-center gap-2 mt-4">
         <input
           type="checkbox"
           checked={cut}
@@ -336,26 +313,9 @@ export const MoveUserAttendanceForm = ({
         <span>{t("moveUserAttendance.form.cutCheckboxLabel")}</span>
       </label>
 
-      {/* Submit Button */}
+      {/* Submit */}
       <div className="flex justify-end pt-4">
-        {/* <Button
-          type="submit"
-          variant="secondary"
-          disabled={
-            isProcessing ||
-            !selectedSourceDevice ||
-            selectedEmployees.length === 0 ||
-            selectedTargetDevices.length === 0
-          }
-          isLoading={isProcessing}
-          className="px-6 py-2"
-        >
-          {isProcessing
-            ? t("moveUserAttendance.states.processing")
-            : t("moveUserAttendance.states.reviewMoveOperation")}
-        </Button> */}
-
-        <div className="flex flex-col items-end pt-4">
+        <div className="flex flex-col items-end">
           <Button
             type="submit"
             variant="primary"
@@ -368,13 +328,13 @@ export const MoveUserAttendanceForm = ({
             }
             isLoading={isProcessing}
             className="
-                        px-8 py-3 rounded-xl shadow-md transition-transform duration-200 hover:scale-105
-                        disabled:bg-gray-400 disabled:text-gray-200 disabled:cursor-not-allowed
-                      "
+              px-8 py-3 rounded-xl shadow-md transition-transform duration-200 hover:scale-105
+              disabled:bg-gray-400 disabled:text-gray-200 disabled:cursor-not-allowed
+            "
           >
             {isProcessing ? (
               <span className="flex items-center gap-2">
-                <span className="animate-spin border-2 border-white border-t-transparent rounded-full w-4 h-4"></span>
+                <span className="animate-spin border-2 border-white border-t-transparent rounded-full w-4 h-4" />
                 {t("moveUserAttendance.states.processing")}
               </span>
             ) : (
@@ -385,7 +345,6 @@ export const MoveUserAttendanceForm = ({
             )}
           </Button>
 
-          {/* Inline helper text */}
           {(!selectedSourceDevice ||
             selectedEmployees.length === 0 ||
             selectedTargetDevices.length === 0) && (

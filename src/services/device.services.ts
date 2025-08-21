@@ -58,6 +58,19 @@ export class DeviceService extends BaseService {
     }
   };
 
+  fetchListWithIP = async () => {
+    try {
+      const response = await axiosInstance.get("/Devices/GetListWithIp", {
+        headers: this.getAuthHeaders(),
+      });
+
+      return response;
+    } catch (error) {
+      console.error("Error fetching devices list:", error);
+      throw error;
+    }
+  };
+
   create = (device: DeviceCredentials) => {
     const payload = {
       ...device,
@@ -174,6 +187,8 @@ export class DeviceService extends BaseService {
       TargetIps: payload.targetDeviceIds.map(String),
       Cut: payload.cut ?? false,
     };
+
+    console.log("boduuuuuuuuuuuuuu");
 
     console.log(body);
     try {

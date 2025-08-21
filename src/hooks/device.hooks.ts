@@ -135,7 +135,23 @@ export const useGetDevicesList = () => {
     queryFn: () => deviceService.fetchList(),
     enabled: !!token,
   });
+  console.log(data?.data?.data);
+  return {
+    devices: data?.data?.data || [],
+    isLoading,
+  };
+};
 
+export const useGetDevicesWithIPList = () => {
+  const token = useUserStore((state) => state.token);
+  const deviceService = useDeviceService();
+
+  const { data, isLoading } = useQuery({
+    queryKey: [QueryKeys.Devices.List],
+    queryFn: () => deviceService.fetchListWithIP(),
+    enabled: !!token,
+  });
+  console.log(data?.data?.data);
   return {
     devices: data?.data?.data || [],
     isLoading,

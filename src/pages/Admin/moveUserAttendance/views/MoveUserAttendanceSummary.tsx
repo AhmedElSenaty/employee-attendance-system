@@ -34,11 +34,33 @@ export const MoveUserAttendanceSummary = ({
 }: MoveUserAttendanceSummaryProps) => {
   const { t } = useTranslation("moveUserFingerPrint");
 
-  // Get source devices
-  const sourceDeviceIds = moveData.sourceDeviceIds;
+  // --- helpers: resolve by id OR ip (since moveData.*DeviceIds may contain either)
+  const getDeviceByKey = (
+    key: number | string | undefined,
+    list: Device[]
+  ): Device | undefined => {
+    if (key === undefined || key === null) return undefined;
+    return typeof key === "number"
+      ? list.find((d) => d.id === key)
+      : list.find((d) => d.ip === key);
+  };
 
-  // For simplicity, we'll get employees from the source device
-  const sourceDeviceId = sourceDeviceIds[0];
+  const getDeviceIdFromKey = (
+    key: number | string | undefined,
+    list: Device[]
+  ): number => {
+    if (key === undefined || key === null) return 0;
+    if (typeof key === "number") return key;
+    return list.find((d) => d.ip === key)?.id ?? 0;
+  };
+
+  // --- source
+  const sourceDeviceIds = moveData.sourceDeviceIds as unknown as Array<
+    number | string
+  >;
+  const sourceKey = sourceDeviceIds?.[0];
+  const sourceDeviceId = getDeviceIdFromKey(sourceKey, devices); // numeric id for the hook
+
   const { deviceUsers, isLoading: isDeviceUsersLoading } =
     useGetDeviceUsersByDeviceId(sourceDeviceId);
 
@@ -47,14 +69,16 @@ export const MoveUserAttendanceSummary = ({
       moveData.employeeIds.includes(deviceUser.id)
     ) || [];
 
-  const selectedSourceDevice = devices.find((device) =>
-    moveData.sourceDeviceIds.includes(device.id)
-  );
+  const selectedSourceDevice = getDeviceByKey(sourceKey, devices);
 
-  const targetDeviceIds = moveData.targetDeviceIds;
-  const targetDevices = devices.filter((device) =>
-    targetDeviceIds.includes(device.id)
-  );
+  // --- targets
+  const targetDeviceIds = moveData.targetDeviceIds as unknown as Array<
+    number | string
+  >;
+  const targetDevices =
+    targetDeviceIds
+      ?.map((k) => getDeviceByKey(k, devices))
+      .filter((d): d is Device => Boolean(d)) || [];
 
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mx-10 my-5">
@@ -90,15 +114,13 @@ export const MoveUserAttendanceSummary = ({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
               {selectedEmployees.map((employee) => (
                 <div
-                  key={employee.employeeId}
+                  key={employee.id} 
                   className="flex items-center justify-between p-2 bg-white rounded border"
                 >
                   <span className="text-sm font-medium text-gray-900">
                     {employee.name}
                   </span>
-                  <span className="text-xs text-gray-500">
-                    ID: {employee.id}
-                  </span>
+                  <span className="text-xs text-gray-500">ID: {employee.id}</span>
                 </div>
               ))}
             </div>
@@ -108,7 +130,7 @@ export const MoveUserAttendanceSummary = ({
         {/* Transfer Direction */}
         <div className="flex items-center justify-center">
           <div className="flex items-center gap-4">
-            {/* Source Devices */}
+            {/* Source Device */}
             <div className="bg-red-50 rounded-lg p-4 min-w-[200px]">
               <div className="flex items-center gap-2 mb-3">
                 <Monitor className="w-4 h-4 text-red-600" />
@@ -144,7 +166,7 @@ export const MoveUserAttendanceSummary = ({
               </span>
             </div>
 
-            {/* Target Device */}
+            {/* Target Devices */}
             <div className="bg-green-50 rounded-lg p-4 min-w-[200px]">
               <div className="flex items-center gap-2 mb-3">
                 <Monitor className="w-4 h-4 text-green-600" />
@@ -201,9 +223,9 @@ export const MoveUserAttendanceSummary = ({
             disabled={isProcessing}
             isLoading={isProcessing}
             className="
-                        px-8 py-3 rounded-xl shadow-md transition-transform duration-200 hover:scale-105
-                        disabled:bg-gray-400 disabled:text-gray-200 disabled:cursor-not-allowed
-                      "
+              px-8 py-3 rounded-xl shadow-md transition-transform duration-200 hover:scale-105
+              disabled:bg-gray-400 disabled:text-gray-200 disabled:cursor-not-allowed
+            "
           >
             {isProcessing
               ? t("moveUserAttendance.summary.processing")
