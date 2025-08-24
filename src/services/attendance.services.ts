@@ -239,11 +239,42 @@ export class AttendanceService extends BaseService {
     }
   };
 
-  fetchStatus = async (status: string) => {
+  fetchStatus = async (
+    status: string,
+    page?: number,
+    pageSize?: number,
+    searchType?: string,
+    searchQuery?: string,
+    searchByDepartmentId?: number,
+    searchBySubDepartmentId?: number,
+    startDate?: string,
+    endDate?: string
+  ) => {
+    console.log("service is fired ");
+
     try {
-      const response = await axiosInstance.get(`/Attendance/card/${status}`, {
-        headers: this.getAuthHeaders(),
+      const params = this.buildParams({
+        PageIndex: page ?? 1,
+        PageSize: pageSize,
+        SearchByDeptartmentId:
+          searchByDepartmentId === 0 ? "" : searchByDepartmentId,
+        SearchBySubDeptartmentId:
+          searchBySubDepartmentId === 0 ? "" : searchBySubDepartmentId,
+        ...(searchType && searchQuery ? { [searchType]: searchQuery } : {}),
+        StartDate: startDate,
+        EndDate: endDate,
       });
+      console.log("paraaaaaaaaaaaaaaaaamssssssss");
+      console.log(params);
+      const response = await axiosInstance.get(
+        `/Attendance/GetDailyAttendanceCardByStatus2/${status}`,
+        {
+          params,
+          headers: this.getAuthHeaders(),
+        }
+      );
+
+      console.log(response);
       return response;
     } catch (error) {
       this.handleError(error, "Error fetching all attendance with vacations");

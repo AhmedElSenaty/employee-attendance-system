@@ -340,25 +340,13 @@ export const DashboardPage = () => {
               />
             </Graph>
           )}
-          {/* <Graph
-            title="Leave Types Distribution"
-            description="Breakdown of requests by leave type"
-            width="w-full"
-            height="h-fit"
-          >
-            <DoughnutChart
-              datasetIdKey="leave-types"
-              data={leaveTypeData}
-              height={250}
-            />
-          </Graph> */}
         </div>
       </div>
       <div className="grid grid-cols-12 gap-5 mt-5 w-full">
         <div className="col-span-12 md:col-span-4">
           <RecentRequestsCard />
         </div>
-                
+
         <div className="col-span-12 md:col-span-4">
           <TopRequestersCard />
         </div>

@@ -396,17 +396,52 @@ export const useGetAttendanceWithVacations = (
 };
 
 // Get all attendance records
-export const useGetAttendanceStatus = (status: string) => {
+export const useGetAttendanceStatus = (
+  status: string,
+  page?: number,
+  pageSize?: number,
+  searchKey?: string,
+  searchQuery?: string,
+  departmentId?: number,
+  subDepartmentId?: number,
+  startDate?: string,
+  endDate?: string
+) => {
   const token = useUserStore((state) => state.token);
   const service = useAttendanceService();
   const { data, isLoading } = useQuery({
-    queryKey: [QueryKeys.Attendance.Vacations, status],
-    queryFn: () => service.fetchStatus(status),
-    enabled: !!token,
+    queryKey: [
+      QueryKeys.Attendance.Vacations,
+      status,
+      page ?? 1,
+      pageSize ?? 10,
+      searchKey ?? null,
+      searchQuery ?? null,
+      departmentId ?? null,
+      subDepartmentId ?? null,
+      startDate ?? null,
+      endDate ?? null,
+      Boolean(token), // include token presence in key
+    ],
+    enabled: Boolean(token && status != null),
+    staleTime: 0,
+    refetchOnMount: "always",
+    queryFn: () =>
+      service.fetchStatus(
+        status,
+        page,
+        pageSize,
+        searchKey,
+        searchQuery,
+        departmentId,
+        subDepartmentId,
+        startDate,
+        endDate
+      ),
   });
 
   return {
-    attendanceWithVacations: data?.data?.data || [],
+    attendanceWithVacations: data?.data?.data.attendance || [],
     count: data?.data?.data.totalCount || 0,
     metadata: data?.data?.data.metadata || initialMetadata,
     isLoading,

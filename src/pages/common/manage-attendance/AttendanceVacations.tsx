@@ -12,11 +12,7 @@ import {
 } from "../../../hooks/";
 import { ATTENDANCE_NS, ATTENDANCE_VACATION_VIDEO } from "../../../constants";
 import useURLSearchParams from "../../../hooks/URLSearchParams.hook";
-import {
-  OverviewTableFilters,
-  VacationTable,
-  VacationTableFilters,
-} from "./views";
+import { OverviewTableFilters, VacationTable } from "./views";
 import { useParams } from "react-router";
 import { initialMetadata } from "../../../interfaces";
 
@@ -43,16 +39,26 @@ const AttendanceVacationsPage = () => {
 
   // Declare response variables
   let attendanceWithVacations = [];
-  let totalAttendances: number = 0;
   let metadata = initialMetadata;
   let isAttendanceWithVacationsLoading = false;
 
   if (type) {
-    const result = useGetAttendanceStatus(type);
+    const result = useGetAttendanceStatus(
+      type,
+      page,
+      pageSize,
+      searchKey,
+      searchQuery,
+      departmentId || 0,
+      subDeptartmentId || 0,
+      startDate,
+      startDate
+    );
     attendanceWithVacations = result.attendanceWithVacations;
-    totalAttendances = result.count;
     metadata = result.metadata;
     isAttendanceWithVacationsLoading = result.isLoading;
+    console.log(type);
+    console.log(attendanceWithVacations);
   } else {
     const result = useGetAttendanceWithVacations(
       page,
@@ -64,7 +70,6 @@ const AttendanceVacationsPage = () => {
       startDate
     );
     attendanceWithVacations = result.attendanceWithVacations;
-    totalAttendances = result.count;
     metadata = result.metadata;
     isAttendanceWithVacationsLoading = result.isLoading;
   }
@@ -91,16 +96,14 @@ const AttendanceVacationsPage = () => {
           description={t("sectionHeaderVacation.description")}
         />
 
-        {!type && (
-          <div className="flex flex-col gap-5">
-            <OverviewTableFilters
-              searchBy={metadata.searchBy}
-              getParam={getParam}
-              setParam={setParam}
-              clearParams={clearParams}
-            />
-          </div>
-        )}
+        <div className="flex flex-col gap-5">
+          <OverviewTableFilters
+            searchBy={metadata.searchBy}
+            getParam={getParam}
+            setParam={setParam}
+            clearParams={clearParams}
+          />
+        </div>
 
         <div className="w-full overflow-x-auto">
           <VacationTable
@@ -109,32 +112,30 @@ const AttendanceVacationsPage = () => {
           />
         </div>
 
-        {!type && (
-          <Paginator
-            page={metadata?.pagination?.pageIndex || 0}
-            totalPages={metadata?.pagination?.totalPages || 1}
-            totalRecords={metadata?.pagination?.totalRecords || 0}
-            isLoading={isAttendanceWithVacationsLoading}
-            onClickFirst={() => setParam("page", String(1))}
-            onClickPrev={() =>
-              setParam(
-                "page",
-                String(Math.max((Number(getParam("page")) || 1) - 1, 1))
-              )
-            }
-            onClickNext={() =>
-              setParam(
-                "page",
-                String(
-                  Math.min(
-                    (Number(getParam("page")) || 1) + 1,
-                    metadata?.pagination?.totalPages || 1
-                  )
+        <Paginator
+          page={metadata?.pagination?.pageIndex || 0}
+          totalPages={metadata?.pagination?.totalPages || 1}
+          totalRecords={metadata?.pagination?.totalRecords || 0}
+          isLoading={isAttendanceWithVacationsLoading}
+          onClickFirst={() => setParam("page", String(1))}
+          onClickPrev={() =>
+            setParam(
+              "page",
+              String(Math.max((Number(getParam("page")) || 1) - 1, 1))
+            )
+          }
+          onClickNext={() =>
+            setParam(
+              "page",
+              String(
+                Math.min(
+                  (Number(getParam("page")) || 1) + 1,
+                  metadata?.pagination?.totalPages || 1
                 )
               )
-            }
-          />
-        )}
+            )
+          }
+        />
       </div>
     </div>
   );
