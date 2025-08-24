@@ -158,10 +158,6 @@ export const MoveUserAttendanceForm = ({
       cut,
     };
 
-    console.log(
-      "Submitting with IPs in sourceDeviceIds/targetDeviceIds:",
-      submitData
-    );
     onSubmit(submitData);
   };
 

@@ -52,5 +52,6 @@
   "workingSchedule": "Working Schedule",
   "systemManagement": "System Management",
   "moveUserAttendance": "Move User Attendance",
-  "reports": "Reports"
+  "reports": "Reports",
+  "OrdinaryDeduction": "Ordinary Deduction"
 }

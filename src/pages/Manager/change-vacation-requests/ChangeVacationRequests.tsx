@@ -112,7 +112,6 @@ const ManageChangeVacationRequestsPage = () => {
   const handleConfirmAdd: SubmitHandler<AddChangeVacationCountFormValues> = (
     request
   ) => {
-    console.log(request);
     addEntity(request);
     setIsAddPopupOpen(false);
   };
@@ -120,7 +119,6 @@ const ManageChangeVacationRequestsPage = () => {
   const handleConfirmUpdate: SubmitHandler<ChangeVacationCountFormValues> = (
     request
   ) => {
-    console.log(request);
     updateEntity(request);
     setIsEditPopupOpen(false);
   };

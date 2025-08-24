@@ -94,6 +94,19 @@ export const ManagerSidebar = () => {
               to="/manager/requestsSummary"
             />
           </HasPermission>
+
+          <HasPermission
+            permission={[
+              "Export Ordinary Deduction PDF",
+              "Export Ordinary Deduction Excel",
+            ]}
+          >
+            <SidebarItem
+              icon={<BarChart2 size={23} />}
+              name={t("OrdinaryDeduction")}
+              to="/manager/ordinary-deduction"
+            />
+          </HasPermission>
         </SidebarDropdown>
 
         {/* systemManagement */}

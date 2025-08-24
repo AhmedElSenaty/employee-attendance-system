@@ -7,6 +7,7 @@ import {
   Thermometer,
   Briefcase,
   Home,
+  MinusCircle,
 } from "lucide-react";
 import { StatCard } from "../../components/ui/StatCard";
 import { Header } from "../../components/ui/Header";
@@ -108,6 +109,19 @@ const Dashboard = () => {
             cardBg="bg-indigo-50"
           />
         </NavLink>
+
+        <NavLink to="/employee/ordinaryDeduction">
+          <StatCard
+            icon={<MinusCircle />}
+            amount={t("ordinaryDeduction.amount")}
+            description={t("ordinaryDeduction.description")}
+            note={t("ordinaryDeduction.note")}
+            iconColor="text-white"
+            iconBg="bg-gray-600"
+            cardBg="bg-gray-100"
+          />
+        </NavLink>
+
         <HasPermission permission="see sub department Requests for employee">
           <NavLink to="/employee/SubdepartmentRequests/">
             <StatCard

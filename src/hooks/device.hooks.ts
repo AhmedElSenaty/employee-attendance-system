@@ -135,7 +135,6 @@ export const useGetDevicesList = () => {
     queryFn: () => deviceService.fetchList(),
     enabled: !!token,
   });
-  console.log(data?.data?.data);
   return {
     devices: data?.data?.data || [],
     isLoading,
@@ -151,7 +150,6 @@ export const useGetDevicesWithIPList = () => {
     queryFn: () => deviceService.fetchListWithIP(),
     enabled: !!token,
   });
-  console.log(data?.data?.data);
   return {
     devices: data?.data?.data || [],
     isLoading,

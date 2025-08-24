@@ -31,7 +31,7 @@ export interface EmployeeCredentials {
 }
 
 export interface EmployeeData {
-  id: string;
+  employeeId: string;
   ssn: string;
   fullName: string;
   email: string;

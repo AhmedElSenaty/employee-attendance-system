@@ -108,8 +108,6 @@ const EditEmployeePage = () => {
     reset
   );
 
-  console.log("employee => ", employee??"");
-
   // Destructuring functions and loading states from custom hooks for managing admins, departments, and permissions
   const { mutate: updateEmployee, isPending: isupdateing } =
     useUpdateEmployee();

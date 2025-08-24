@@ -447,7 +447,6 @@ export class ReportsService extends BaseService {
     searchBySubDeptartmentId?: number,
     title?: string
   ) => {
-    console.log("title ==========> ", title);
     try {
       const params = this.buildParams({
         StartDate: startDate,
@@ -460,7 +459,6 @@ export class ReportsService extends BaseService {
           searchBySubDeptartmentId === 0 ? "" : searchBySubDeptartmentId,
         ...(searchType && searchQuery ? { [searchType]: searchQuery } : {}),
       });
-      console.log(params);
       const response = await axiosInstance.get(
         `/Reports/EmployeeAbsenceFromWorkReport/PDF`,
         {
@@ -630,8 +628,6 @@ export class ReportsService extends BaseService {
         includeSubDepartment: includeSubDept, // ✅ name matches backend: includeSubDepartment
       });
 
-      console.log(params);
-
       const response = await axiosInstance.get(
         `/Reports/GetEmployeesVerification/PDF`,
         {
@@ -668,6 +664,81 @@ export class ReportsService extends BaseService {
       return response.data;
     } catch (error) {
       console.error("Error fetching employee report:", error);
+      throw error;
+    }
+  };
+
+  fetchOrdinaryDeductionsReportPDF = async (
+    searchType?: string,
+    searchQuery?: string,
+    startDate?: string,
+    endDate?: string,
+    checked?: boolean,
+    searchByDeptartmentId?: number,
+    searchBySubDeptartmentId?: number
+  ) => {
+    try {
+      const params = this.buildParams({
+        StartDate: startDate,
+        EndDate: endDate,
+        IncludeSubDepartments: checked,
+        SearchByDeptartmentId:
+          searchByDeptartmentId === 0 ? "" : searchByDeptartmentId,
+        SearchBySubDeptartmentId:
+          searchBySubDeptartmentId === 0 ? "" : searchBySubDeptartmentId,
+        ...(searchType && searchQuery ? { [searchType]: searchQuery } : {}),
+      });
+
+      const response = await axiosInstance.get(
+        `/Reports/GetEmployeesOrdinaryDeduction/PDF`,
+        {
+          params,
+          headers: this.getAuthHeaders(),
+        }
+      );
+
+      return response.data;
+    } catch (error) {
+      console.error(
+        "Error fetching GetEmployeesOrdinaryDeduction report:",
+        error
+      );
+      throw error;
+    }
+  };
+
+  fetchOrdinaryDeductionsReportExcel = async (
+    searchType?: string,
+    searchQuery?: string,
+    startDate?: string,
+    endDate?: string,
+    checked?: boolean,
+    searchByDeptartmentId?: number,
+    searchBySubDeptartmentId?: number
+  ) => {
+    try {
+      const params = this.buildParams({
+        StartDate: startDate,
+        EndDate: endDate,
+        IncludeSubDepartments: checked,
+        SearchByDeptartmentId:
+          searchByDeptartmentId === 0 ? "" : searchByDeptartmentId,
+        SearchBySubDeptartmentId:
+          searchBySubDeptartmentId === 0 ? "" : searchBySubDeptartmentId,
+        ...(searchType && searchQuery ? { [searchType]: searchQuery } : {}),
+      });
+
+      const response = await axiosInstance.get(
+        `/Reports/GetOrdinaryDeductions/Excel`,
+        {
+          params,
+          headers: this.getAuthHeaders(),
+        }
+      );
+
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching GetOrdinaryDeductions report:", error);
       throw error;
     }
   };

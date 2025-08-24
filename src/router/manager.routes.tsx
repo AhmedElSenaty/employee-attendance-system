@@ -32,7 +32,8 @@ import RequestsSummary from "../pages/Manager/RequestsSummary/RequestsSummary";
 import AllVacationSaverPage from "../pages/Manager/VacationSaver/AllVacationSaverPage";
 import AllManagerReports from "../pages/Manager/AllManagerReports/AllManagerReports";
 import ManageChangeVacationRequestsPage from "../pages/Manager/change-vacation-requests/ChangeVacationRequests";
-import ManageWorkoverTimePage from "../pages/common/workOvertime/ManageWorkoverTimePage";
+import ManageOrdinaryDeductionsPage from "../pages/common/OrdinaryDeductions/OrdinaryDeductions";
+import ManageWorkOverTimePage from "../pages/common/workOvertimePage/ManageWorkoverTimePage";
 
 export const managerRoutes = (isLoggedIn: boolean, userRole: string) => (
   <Route
@@ -108,9 +109,14 @@ export const managerRoutes = (isLoggedIn: boolean, userRole: string) => (
       element={<ManageChangeVacationRequestsPage />}
     />
 
-    <Route path="work-overtime/" element={<ManageWorkoverTimePage />} />
+    <Route path="work-overtime/" element={<ManageWorkOverTimePage />} />
 
     {/* Working Schedule Routes */}
     <Route path="working-schedule/" element={<WorkingSchedulePage />} />
+
+    <Route
+      path="ordinary-deduction/"
+      element={<ManageOrdinaryDeductionsPage />}
+    />
   </Route>
 );

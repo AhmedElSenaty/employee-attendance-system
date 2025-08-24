@@ -488,9 +488,86 @@ export const useRecentRequests = () => {
     queryFn: () => service.fetchRecentRequests(),
     enabled: !!token,
   });
-  console.log("hockkk ==> ", data);
   return {
     recentRequests: data?.data?.data,
+    isLoading,
+  };
+};
+
+export const useGetOrdinaryDeductions = (
+  page = 1,
+  pageSize = 10,
+  startDate?: string,
+  endDate?: string,
+  searchType?: string,
+  searchQuery?: string
+) => {
+  const token = useUserStore((state) => state.token);
+  const requestService = useRequestService();
+
+  const { data, isLoading } = useQuery({
+    queryKey: [
+      QueryKeys.Requests.All,
+      page,
+      pageSize,
+      startDate,
+      endDate,
+      `${searchType && searchQuery ? [searchType, searchQuery] : ""}`,
+    ],
+    queryFn: () =>
+      requestService.fetchAllOrdinaryDeductions(
+        page,
+        pageSize,
+        startDate,
+        endDate,
+        searchType,
+        searchQuery
+      ),
+    enabled: !!token,
+  });
+
+  return {
+    requests: data?.data?.data?.deductionDtos || [],
+    metadata: data?.data?.data?.metadata || initialMetadata,
+    isLoading,
+  };
+};
+
+export const useGetMyOrdinaryDeductions = (
+  page = 1,
+  pageSize = 10,
+  startDate?: string,
+  endDate?: string,
+  searchType?: string,
+  searchQuery?: string
+) => {
+  const token = useUserStore((state) => state.token);
+  const requestService = useRequestService();
+
+  const { data, isLoading } = useQuery({
+    queryKey: [
+      QueryKeys.Requests.All,
+      page,
+      pageSize,
+      startDate,
+      endDate,
+      `${searchType && searchQuery ? [searchType, searchQuery] : ""}`,
+    ],
+    queryFn: () =>
+      requestService.fetchAllMyOrdinaryDeductions(
+        page,
+        pageSize,
+        startDate,
+        endDate,
+        searchType,
+        searchQuery
+      ),
+    enabled: !!token,
+  });
+
+  return {
+    requests: data?.data?.data?.deductionDtos || [],
+    metadata: data?.data?.data?.metadata || initialMetadata,
     isLoading,
   };
 };

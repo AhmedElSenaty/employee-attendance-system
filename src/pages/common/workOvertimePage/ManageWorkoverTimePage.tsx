@@ -27,8 +27,8 @@ import { useState } from "react";
 import { downloadFile, showToast } from "../../../utils";
 import ExportRequestsPopup from "../../Manager/RequestsSummary/Views/ExportRequestsPopup";
 
-const ManageWorkoverTimePage = () => {
-  const { t } = useTranslation("workOvertime");
+const ManageWorkOverTimePage = () => {
+  const { t } = useTranslation("ordinaryDeduction");
 
   const { getParam, setParam, clearParams } = useURLSearchParams();
 
@@ -409,4 +409,4 @@ const ManageWorkoverTimePage = () => {
   );
 };
 
-export default ManageWorkoverTimePage;
+export default ManageWorkOverTimePage;

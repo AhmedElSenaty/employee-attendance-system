@@ -37,6 +37,7 @@ const AddEmployeePage = () => {
   const handleConfirmAdd: SubmitHandler<EmployeeFormValues> = async (
     request: EmployeeFormValues
   ) => {
+    console.log("Form Data Submitted: ", request);
     if (request.subDepartmentId === undefined) {
       showToast("warn", "You must add sub-department");
       return;

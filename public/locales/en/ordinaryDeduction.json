@@ -1,0 +1,74 @@
+{
+  "header": {
+    "heading": "Export Ordinary Deduction Report",
+    "subtitle": "Export the ordinary deduction report currently displayed in the table and save it in your preferred format."
+  },
+  "table": {
+    "emptyTable": {
+      "title": "No Data",
+      "message": "Try adjusting the filters."
+    },
+    "columns": {
+      "employeeId": "#ID",
+      "employeeName": "Employee Name",
+      "subDepartment": "Sub Department",
+      "description": "Reason",
+      "numOfDays": "Number of Days",
+      "deductionDate": "Deduction Date",
+      "deductionDay": "Deduction Day",
+      "actions": "Actions"
+    }
+  },
+  "sectionsHeader": {
+    "entitiesList": {
+      "title": "Ordinary Deduction List",
+      "description": "View and filter the list of ordinary deductions"
+    }
+  },
+  "exportDetailedDeductionActionCard": {
+    "title": "Export Ordinary Deduction Report (Detailed)",
+    "description": "Export the detailed ordinary deduction data displayed in the table and download it in your preferred format.",
+    "button": "Export",
+    "validation": {
+      "selectDateRange": "Start and end dates must be selected first."
+    }
+  },
+  "exportSummaryOvertimeActionCard": {
+    "title": "Export Overtime Report (Summary)",
+    "description": "Export the summarized overtime data displayed in the table and download it in your preferred format.",
+    "button": "Export",
+    "validation": {
+      "selectDateRange": "Start and end dates must be selected first."
+    }
+  },
+  "export": {
+    "exportSuccess": "Data exported successfully! ✅",
+    "exportError": "Failed to export data. Please try again ❌"
+  },
+  "filters": {
+    "pageSize": "Items per page",
+    "toolTipResetFilters": "Reset All",
+    "searchBy": {
+      "label": "Search Type",
+      "default": "Search Method",
+      "SearchById": "ID",
+      "SearchByEmployeeName": "Full Employee Name",
+      "SearchBySSN": "National ID",
+      "SearchByDepartmentId": "Department"
+    },
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "search": {
+      "label": "Search",
+      "placeholder": "Search here..."
+    },
+    "select": {
+      "placeholder": "Select"
+    }
+  },
+  "buttons": {
+    "close": "Close",
+    "loading": "Loading..."
+  },
+  "NA": "Not Available"
+}

@@ -52,5 +52,6 @@
   "workingSchedule": "جدول العمل",
   "systemManagement": "ادارة النظام",
   "moveUserAttendance": "نقل حضور المستخدم",
-  "reports": "التقارير"
+  "reports": "التقارير",
+  "OrdinaryDeduction": "الخصم من الاعتيادي"
 }

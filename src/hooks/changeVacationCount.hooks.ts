@@ -108,9 +108,7 @@ export const useCreateChangeVacationRequest = () => {
 
       // Debug output
       for (const [key, value] of formData.entries()) {
-        console.log(key, value);
       }
-      console.log(formData);
       return await changeVacationService.create(formData);
     },
 
@@ -141,9 +139,7 @@ export const useUpdate = () => {
     mutationFn: (entityData: ChangeVacationCountsRequestDto) =>
       entityService.update(entityData),
 
-    onMutate: async (entityData) => {
-      console.log("[Update] About to update entity:", entityData); // ✅ Log input data here
-    },
+    onMutate: async (entityData) => {},
 
     onSuccess: ({ status, data }) => {
       queryClient.invalidateQueries({
@@ -154,8 +150,6 @@ export const useUpdate = () => {
         const message = getTranslatedMessage(data.message ?? "", language);
         showToast("success", message);
       }
-
-      console.log("[Update] Response data:", data); // ✅ Log response
     },
 
     onError: (error) => {

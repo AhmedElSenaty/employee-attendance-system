@@ -492,7 +492,6 @@ export const useExportAbsenceFromWorkReportPDF = (
   title?: string
 ) => {
   const service = useReportService();
-  console.log(title);
   const { refetch } = useQuery({
     queryKey: [
       QueryKeys.Export.PDF,
@@ -724,27 +723,6 @@ export const useExportSummaryWorkOvertimeReportExcel = (
   };
 };
 
-// export const useExportGetEmployeesVerificationPDF = (
-//   includeDept?: boolean,
-//   includeSubDept?: boolean
-// ) => {
-//   const service = useReportService();
-
-//   console.log("dept ======> ", includeDept);
-//   console.log("sub dept ======> ", includeSubDept);
-
-//   const { refetch } = useQuery({
-//     queryKey: [QueryKeys.Export.PDF],
-//     queryFn: () =>
-//       service.GetEmployeesVerificationPDF(includeDept, includeSubDept),
-//     enabled: false, // manual refetching
-//     retry: 3,
-//   });
-//   return {
-//     refetchExportDataPDF: refetch,
-//   };
-// };
-
 export const useExportGetEmployeesVerificationExcel = (
   includeDept?: boolean,
   includeSubDept?: boolean
@@ -792,4 +770,84 @@ export const useExportGetEmployeesVerificationPDF = (
   });
 
   return { refetchExportDataPDF: refetch };
+};
+
+export const useExportOrdinaryDeductionsReportPDF = (
+  searchKey?: string,
+  debouncedSearchQuery?: string,
+  startDate?: string,
+  endDate?: string,
+  checked?: boolean,
+  departmentId?: number,
+  subDepartmentId?: number
+) => {
+  const service = useReportService();
+
+  const { refetch } = useQuery({
+    queryKey: [
+      QueryKeys.Export.PDF,
+      searchKey,
+      debouncedSearchQuery,
+      startDate,
+      endDate,
+      checked,
+      departmentId,
+      subDepartmentId,
+    ],
+    queryFn: () =>
+      service.fetchOrdinaryDeductionsReportPDF(
+        searchKey,
+        debouncedSearchQuery,
+        startDate,
+        endDate,
+        checked,
+        departmentId,
+        subDepartmentId
+      ),
+    enabled: false, // manual refetching
+    retry: 3,
+  });
+  return {
+    refetchExportDataPDF: refetch,
+  };
+};
+
+export const useExportOrdinaryDeductionsReportExcel = (
+  searchKey?: string,
+  debouncedSearchQuery?: string,
+  startDate?: string,
+  endDate?: string,
+  checked?: boolean,
+  departmentId?: number,
+  subDepartmentId?: number
+) => {
+  const service = useReportService();
+
+  const { refetch } = useQuery({
+    queryKey: [
+      QueryKeys.Export.Excel,
+      searchKey,
+      debouncedSearchQuery,
+      startDate,
+      endDate,
+      checked,
+      departmentId,
+      subDepartmentId,
+    ],
+    queryFn: () =>
+      service.fetchOrdinaryDeductionsReportExcel(
+        searchKey,
+        debouncedSearchQuery,
+        startDate,
+        endDate,
+        checked,
+        departmentId,
+        subDepartmentId
+      ),
+    enabled: false, // manual refetching
+    retry: 3,
+  });
+  return {
+    refetchExportData: refetch,
+  };
 };

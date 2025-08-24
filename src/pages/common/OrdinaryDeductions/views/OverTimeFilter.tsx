@@ -34,7 +34,6 @@ const OverTimeFilter = ({
   const [searchParams, setSearchParams] = useSearchParams();
 
   const setParams = (params: Record<string, string>) => {
-    console.log(params);
     for (const key in params) {
       searchParams.set(key, params[key]);
     }

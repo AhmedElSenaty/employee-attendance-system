@@ -85,7 +85,7 @@ const EmployeesTable = ({
           ) : (
             employees.map(
               ({
-                id,
+                employeeId,
                 fullName,
                 email,
                 ssn,
@@ -96,7 +96,7 @@ const EmployeesTable = ({
                 isExcludedFromReports,
                 isSupervisor,
               }: EmployeeData) => (
-                <TableRow key={id} className="border-b">
+                <TableRow key={employeeId} className="border-b">
                   <TableCell label={columns[0]}>
                     {truncateText(fullName, 20)}
                   </TableCell>
@@ -167,7 +167,9 @@ const EmployeesTable = ({
                     <div className="flex flex-wrap gap-2">
                       <HasPermission permission="Update Employee">
                         <Tooltip content={t("buttons.editToolTip")}>
-                          <NavLink to={`/${userRole}/edit-employee/${id}`}>
+                          <NavLink
+                            to={`/${userRole}/edit-employee/${employeeId}`}
+                          >
                             <Button
                               variant="info"
                               fullWidth={false}
@@ -186,14 +188,14 @@ const EmployeesTable = ({
                             size={"sm"}
                             icon={<Trash2 className="w-full h-full" />}
                             aria-label={t("buttons.delete")}
-                            onClick={() => handleDelete(id)}
+                            onClick={() => handleDelete(employeeId)}
                           />
                         </Tooltip>
                       </HasPermission>
                       <HasPermission permission="View Attendances">
                         <Tooltip content={t("buttons.calenderToolTip")}>
                           <NavLink
-                            to={`/${userRole}/manage-employee/${id}/calender`}
+                            to={`/${userRole}/manage-employee/${employeeId}/calender`}
                           >
                             <Button
                               variant="secondary"
@@ -213,7 +215,7 @@ const EmployeesTable = ({
                               size={"sm"}
                               icon={<Ban className="w-full h-full" />}
                               aria-label={t("buttons.delete")}
-                              onClick={() => handleUnblock(id)}
+                              onClick={() => handleUnblock(employeeId)}
                             />
                           </Tooltip>
                         )}
@@ -240,7 +242,9 @@ const EmployeesTable = ({
                                 <EyeOff className="w-full h-full" />
                               )
                             }
-                            onClick={() => handleChangeIncludedStatus(id)}
+                            onClick={() =>
+                              handleChangeIncludedStatus(employeeId)
+                            }
                           />
                         </Tooltip>
                       </HasPermission>
@@ -254,7 +258,7 @@ const EmployeesTable = ({
                             fullWidth={false}
                             size={"sm"}
                             icon={<RefreshCcw className="w-full h-full" />}
-                            onClick={() => handleResetPassword(id)}
+                            onClick={() => handleResetPassword(employeeId)}
                           />
                         </Tooltip>
                       </HasPermission>
@@ -265,7 +269,7 @@ const EmployeesTable = ({
                           fullWidth={false}
                           size="sm"
                           icon={<FileSpreadsheet className="w-full h-full" />}
-                          onClick={() => handleShowLeaveStats(id)}
+                          onClick={() => handleShowLeaveStats(employeeId)}
                         />
                       </Tooltip>
 
@@ -283,7 +287,7 @@ const EmployeesTable = ({
                             fullWidth={false}
                             size={"sm"}
                             icon={<UserPlus className="w-full h-full" />}
-                            onClick={() => handleSupervision(id)}
+                            onClick={() => handleSupervision(employeeId)}
                           />
                         </Tooltip>
                       </HasPermission>

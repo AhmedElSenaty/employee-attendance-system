@@ -112,7 +112,6 @@ const ManageChangeVacationRequestsPage = () => {
   const handleConfirmUpdate: SubmitHandler<ChangeVacationCountFormValues> = (
     request
   ) => {
-    console.log(request);
     updateEntity(request);
     setIsEditPopupOpen(false);
   };

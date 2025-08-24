@@ -324,8 +324,6 @@ export const useGetOvertimePriceCategoryList = () => {
     enabled: !!token,
   });
 
-  console.log(data?.data?.data);
-
   return {
     list: data?.data?.data ?? [],
     isLoading,

@@ -24,7 +24,6 @@ export const useGetMyWorkingDays = () => {
   });
 
   const EmployeeDays = data?.data?.data?.employeeDays;
-  console.log(EmployeeDays?.description);
   return {
     myWorkingDays: EmployeeDays?.employeeWorkingDays || [],
     myRestDays: EmployeeDays?.employeeRestDays || [],

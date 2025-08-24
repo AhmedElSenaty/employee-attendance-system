@@ -100,7 +100,6 @@ export class RequestService extends BaseService {
         ...(searchType && searchQuery ? { [searchType]: searchQuery } : {}),
       });
 
-      console.log(params);
       const response = await axiosInstance.get(
         "/Attendance/GetAllWorkOverTime",
         {
@@ -290,8 +289,6 @@ export class RequestService extends BaseService {
         headers: this.getAuthHeaders(),
       });
 
-      console.log("fetchTopRequesters ===>", response);
-
       return response;
     } catch (error) {
       this.handleError(error, `Error fetching Top Requesters:`);
@@ -304,11 +301,71 @@ export class RequestService extends BaseService {
         headers: this.getAuthHeaders(),
       });
 
-      console.log("GetRecent");
-      console.log(response);
       return response;
     } catch (error) {
       this.handleError(error, `Error fetching Top Requesters:`);
+    }
+  };
+
+  fetchAllOrdinaryDeductions = async (
+    page?: number,
+    pageSize?: number,
+    startDate?: string,
+    endDate?: string,
+    searchType?: string,
+    searchQuery?: string
+  ) => {
+    try {
+      const params = this.buildParams({
+        PageIndex: page ?? 1,
+        PageSize: pageSize,
+        StartDate: startDate,
+        EndDate: endDate,
+        ...(searchType && searchQuery ? { [searchType]: searchQuery } : {}),
+      });
+
+      const response = await axiosInstance.get(
+        "/OrdinaryRequest/GetOrdinaryDeductions",
+        {
+          params,
+          headers: this.getAuthHeaders(),
+        }
+      );
+
+      return response;
+    } catch (error) {
+      this.handleError(error, "Error fetching all requests");
+    }
+  };
+
+  fetchAllMyOrdinaryDeductions = async (
+    page?: number,
+    pageSize?: number,
+    startDate?: string,
+    endDate?: string,
+    searchType?: string,
+    searchQuery?: string
+  ) => {
+    try {
+      const params = this.buildParams({
+        PageIndex: page ?? 1,
+        PageSize: pageSize,
+        StartDate: startDate,
+        EndDate: endDate,
+        ...(searchType && searchQuery ? { [searchType]: searchQuery } : {}),
+      });
+
+      const response = await axiosInstance.get(
+        "/OrdinaryRequest/Employee/MyOrdinaryDeduction",
+        {
+          params,
+          headers: this.getAuthHeaders(),
+        }
+      );
+
+      return response;
+    } catch (error) {
+      this.handleError(error, "Error fetching all requests");
     }
   };
 }

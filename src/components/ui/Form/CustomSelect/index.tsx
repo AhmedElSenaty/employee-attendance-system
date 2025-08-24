@@ -188,12 +188,6 @@ const CustomMenu = ({ children, ...props }: any) => {
   const { selectProps } = props;
   const { options, value = [], onChange, showSelectAll } = selectProps;
 
-  console.log("CustomMenu props:", {
-    options: options?.length,
-    value: value?.length,
-    showSelectAll,
-  });
-
   if (!showSelectAll) {
     return <components.Menu {...props}>{children}</components.Menu>;
   }
@@ -201,11 +195,6 @@ const CustomMenu = ({ children, ...props }: any) => {
   const allSelected = value.length === options.length && options.length > 0;
 
   const handleSelectAll = () => {
-    console.log("handleSelectAll called", {
-      allSelected,
-      optionsLength: options.length,
-      valueLength: value.length,
-    });
     if (allSelected) {
       onChange([]); // Deselect all
     } else {

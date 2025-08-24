@@ -1,4 +1,3 @@
-import { velocityPerSecond } from "framer-motion";
 import axiosInstance from "../config/axios.config";
 import { EmployeeProfileCredentials } from "../interfaces";
 import { EmployeeFormValues } from "../validation";
@@ -72,6 +71,7 @@ export class EmployeeService extends BaseService {
       const response = await axiosInstance.get(`/Employee/${employeeID}`, {
         headers: this.getAuthHeaders(),
       });
+      console.log(response);
       return response;
     } catch (error) {
       console.error(`Error fetching employee by ID (${employeeID}):`, error);
@@ -80,15 +80,12 @@ export class EmployeeService extends BaseService {
   };
 
   create = (employeeData: EmployeeFormValues) => {
-    console.log("overtimeCategoryId =>>>>>>>>> ");
-    console.log(employeeData.overtimeCategoryId);
     return axiosInstance.post("/Account/RegisterEmployee", employeeData, {
       headers: this.getAuthHeaders(),
     });
   };
 
   update = (employeeData: EmployeeFormValues) => {
-    console.log(employeeData.overtimeCategoryId);
     return axiosInstance.put("/Employee", employeeData, {
       headers: this.getAuthHeaders(),
     });

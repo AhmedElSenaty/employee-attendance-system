@@ -30,7 +30,6 @@ const MoveUserAttendancePage = () => {
   const [success, setSuccess] = useState<string | null>(null);
 
   const handleFormSubmit = (data: MoveUserAttendanceData) => {
-    console.log("Form submitted, showing summary with data:", data);
     setMoveData(data);
     setShowSummary(true);
     setError(null);
@@ -38,13 +37,11 @@ const MoveUserAttendancePage = () => {
   };
 
   const handleConfirmMove = async () => {
-    console.log("Confirm move clicked with data:", moveData);
     setError(null);
     setSuccess(null);
 
     try {
       const response = await moveUserAttendance(moveData);
-      console.log("Move operation successful:", response);
       setSuccess(
         response.data?.message || "User attendance moved successfully!"
       );

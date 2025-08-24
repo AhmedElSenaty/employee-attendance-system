@@ -33,6 +33,11 @@
     "description": "Submit and track your sick leave requests.",
     "note": "Click to manage sick leaves."
   },
+  "ordinaryDeduction": {
+    "amount": "Ordinary Leave Deduction",
+    "description": "Reasons for deduction: tardiness or requesting 3 permissions in a month.",
+    "note": "Click to view details of the ordinary leave deduction."
+  },
   "mission": {
     "amount": "Mission Requests",
     "description": "Request and view your missions.",

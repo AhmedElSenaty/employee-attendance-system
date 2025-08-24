@@ -68,8 +68,6 @@ const Inputs = ({
       (opt: { value: number }) => opt.value === selectCategoryId
     ) || null;
 
-  console.log("init ======>", initialCategoryId);
-
   if (isLoading) {
     return (
       <>
@@ -85,6 +83,26 @@ const Inputs = ({
 
   return (
     <>
+      {/* employee id */}
+      <Field className="space-y-2">
+        <Label size="lg">{t("inputs.employeeId.label")}</Label>
+        <Input
+          disabled={isUpdateEmployee}
+          onWheel={(e) => e.currentTarget.blur()}
+          type="number"
+          placeholder={t("inputs.employeeId.placeholder")}
+          {...register("employeeId")}
+          isError={!!errors["employeeId"]}
+        />
+        {errors["employeeId"] && (
+          <InputErrorMessage>
+            {t(
+              `inputs.employeeId.inputValidation.${errors["employeeId"].type}`
+            )}
+          </InputErrorMessage>
+        )}
+      </Field>
+
       {/* Username */}
       {isUpdateEmployee && (
         <Field className="space-y-2">
@@ -183,6 +201,7 @@ const Inputs = ({
         <Field className="space-y-2">
           <Label size="lg">{t("inputs.totalLeaveRequests.label")}</Label>
           <Input
+            onWheel={(e) => e.currentTarget.blur()}
             placeholder={t("inputs.totalLeaveRequests.placeholder")}
             type="number"
             {...register("totalLeaveRequests")}
@@ -204,6 +223,7 @@ const Inputs = ({
           {t("inputs.avilableLeaveRequestsPerMonth.label")}
         </Label>
         <Input
+          onWheel={(e) => e.currentTarget.blur()}
           placeholder={t("inputs.avilableLeaveRequestsPerMonth.placeholder")}
           type="number"
           {...register("avilableLeaveRequestsPerMonth")}
@@ -225,6 +245,7 @@ const Inputs = ({
           <Input
             placeholder={t("inputs.totalOrdinaryLeaves.placeholder")}
             type="number"
+            onWheel={(e) => e.currentTarget.blur()}
             {...register("totalOrdinaryLeaves")}
             isError={!!errors["totalOrdinaryLeaves"]}
             disabled={isUpdateEmployee && role === "manager"}
@@ -244,6 +265,7 @@ const Inputs = ({
           {t("inputs.avilableOrdinaryLeaveeRequestsPerYear.label")}
         </Label>
         <Input
+          onWheel={(e) => e.currentTarget.blur()}
           placeholder={t(
             "inputs.avilableOrdinaryLeaveeRequestsPerYear.placeholder"
           )}
@@ -265,6 +287,7 @@ const Inputs = ({
         <Field className="space-y-2">
           <Label size="lg">{t("inputs.totalCasualLeaves.label")}</Label>
           <Input
+            onWheel={(e) => e.currentTarget.blur()}
             placeholder={t("inputs.totalCasualLeaves.placeholder")}
             type="number"
             {...register("totalCasualLeaves")}
@@ -286,6 +309,7 @@ const Inputs = ({
           {t("inputs.avilableCasualLeaveeRequestsPerYear.label")}
         </Label>
         <Input
+          onWheel={(e) => e.currentTarget.blur()}
           placeholder={t(
             "inputs.avilableCasualLeaveeRequestsPerYear.placeholder"
           )}

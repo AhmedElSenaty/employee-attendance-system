@@ -28,7 +28,7 @@ interface Props {
   isloadingPDF: boolean;
 }
 
-const ExportRequestsPopup = ({
+const ExportOrdinaryDeductionPopup = ({
   isOpen,
   handleClose,
   handleDownload,
@@ -37,7 +37,7 @@ const ExportRequestsPopup = ({
   handleDownloadPDF,
   isloadingPDF,
 }: Props) => {
-  const { t } = useTranslation("ordinaryDeduction");
+  const { t } = useTranslation("requestsSummary");
   const { setParam } = useURLSearchParams();
 
   return (
@@ -129,7 +129,7 @@ const ExportRequestsPopup = ({
         >
           {t("buttons.close")}
         </Button>
-        <HasPermission permission={"Export Requests Report Excel"}>
+        <HasPermission permission={"Export Ordinary Deduction Excel"}>
           <Button
             variant="success"
             type="button"
@@ -141,7 +141,7 @@ const ExportRequestsPopup = ({
           </Button>
         </HasPermission>
 
-        <HasPermission permission={"Export Requests Report PDF"}>
+        <HasPermission permission={"Export Ordinary Deduction PDF"}>
           <Button
             variant="success"
             type="button"
@@ -157,4 +157,4 @@ const ExportRequestsPopup = ({
   );
 };
 
-export default ExportRequestsPopup;
+export default ExportOrdinaryDeductionPopup;

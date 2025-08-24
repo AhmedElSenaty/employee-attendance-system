@@ -13,6 +13,7 @@ import {
   SickLRequestsPage,
 } from "../pages/Employee";
 import AllSubDepartmentRequests from "../pages/Employee/SubDepartmentRequests/AllSubDepartmentRequests";
+import MyManageOrdinaryDeductionsPage from "../pages/Employee/OrdinaryDeductions/MyOrdinaryDeductions";
 
 export const employeeRoutes = (isLoggedIn: boolean, userRole: string) => (
   <Route
@@ -47,6 +48,11 @@ export const employeeRoutes = (isLoggedIn: boolean, userRole: string) => (
     <Route
       path="/employee/SubdepartmentRequests/"
       element={<AllSubDepartmentRequests />}
+    />
+
+    <Route
+      path="/employee/ordinaryDeduction/"
+      element={<MyManageOrdinaryDeductionsPage />}
     />
   </Route>
 );

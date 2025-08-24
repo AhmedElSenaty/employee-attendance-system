@@ -133,6 +133,15 @@
         "matches": "يرجى إدخال رقم هاتف مصري صحيح"
       }
     },
+    "employeeId": {
+      "label": "كود الموظف",
+      "placeholder": "أدخل كود الموظف",
+      "inputValidation": {
+        "nullable": "",
+        "required": "كود الموظف مطلوب",
+        "matches": "يرجى إدخال كود الموظف صحيح"
+      }
+    },
     "subDepartmentId": {
       "label": "القسم الفرعي",
       "inputValidation": {
@@ -311,6 +320,7 @@
       "message": "لا توجد سجلات تطابق البحث أو الفلتر الحالي."
     },
     "columns": {
+      "employeeId": "كود الموظف",
       "fullName": "الاسم",
       "email": "البريد الإلكتروني",
       "ssn": "الرقم القومي",

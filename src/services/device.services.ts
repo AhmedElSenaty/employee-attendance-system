@@ -100,7 +100,6 @@ export class DeviceService extends BaseService {
   };
 
   refetchAttendance = (payload: RefetchPayload) => {
-    console.log(payload);
     return axiosInstance.post(
       `http://193.227.34.53:3001/Machine_Controller/api/FetchAttendanceLogs`,
       payload,
@@ -111,7 +110,6 @@ export class DeviceService extends BaseService {
   };
 
   refetchAllAttendance = (payload: RefetchAllPayload) => {
-    console.log(payload);
     return axiosInstance.post(`/aa`, payload, {
       headers: this.getAuthHeaders(),
     });
@@ -141,7 +139,6 @@ export class DeviceService extends BaseService {
   };
 
   fetchDeviceUsersByDeviceId = async (id: number) => {
-    console.log(id);
     try {
       const response = await axiosInstance.get(
         `DeviceUsers/GetDeviceUsers/${id}`,
@@ -188,9 +185,6 @@ export class DeviceService extends BaseService {
       Cut: payload.cut ?? false,
     };
 
-    console.log("boduuuuuuuuuuuuuu");
-
-    console.log(body);
     try {
       const response = await axiosInstance.post(
         "ZKDeviceManager/MoveFingerPrints",

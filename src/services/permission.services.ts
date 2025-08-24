@@ -51,7 +51,6 @@ export class PermissionService extends BaseService {
 
   addPermissionsToUsers = async (permissionsIds: string[]) => {
     try {
-      console.log("from service =====> ", permissionsIds);
       const response = await axiosInstance.put(
         `/Permissions/AddPermissionsToUsers`,
         permissionsIds,
@@ -72,7 +71,6 @@ export class PermissionService extends BaseService {
 
   removePermissionsToUsers = async (permissionsIds: string[]) => {
     try {
-      console.log("from service =====> ", permissionsIds);
       const response = await axiosInstance.put(
         `/Permissions/RemovePermissionsToUsers`,
         permissionsIds,

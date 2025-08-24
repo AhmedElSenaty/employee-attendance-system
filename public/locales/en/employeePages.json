@@ -166,6 +166,15 @@
         "required": "Old ID is required"
       }
     },
+    "employeeId": {
+      "label": "Employee Code",
+      "placeholder": "Enter Employee Code",
+      "inputValidation": {
+        "nullable": "",
+        "required": "Employee code is required",
+        "matches": "Please enter a valid employee code"
+      }
+    },
     "delegateId": {
       "label": "Delegate Sub-Department"
     },
@@ -343,6 +352,7 @@
     "description": "Download the employee data verification report.",
     "button": "Download"
   },
+
   "export": {
     "exportSuccess": "Data exported successfully! ✅",
     "exportError": "Failed to export data. Please try again ❌"

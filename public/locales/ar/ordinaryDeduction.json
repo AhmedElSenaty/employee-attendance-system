@@ -1,0 +1,77 @@
+{
+  "header": {
+    "heading": "تصدير تقرير الخصم من الاعتيادي",
+    "subtitle": "قم بتصدير تقرير الخصم من الاعتيادي المعروض حاليًا في الجدول وحفظه بالتنسيق الذي تفضله."
+  },
+  "table": {
+    "emptyTable": {
+      "title": "لا توجد بيانات",
+      "message": "حاول تعديل الفلاتر ."
+    },
+    "columns": {
+      "employeeId": "#المعرّف",
+      "employeeName": "اسم الموظف",
+      "subDepartment": "القسم الفرعي",
+      "description": "السبب",
+      "numOfDays": "عدد الأيام",
+      "deductionDate": "تاريخ الخصم",
+      "deductionDay": "يوم الخصم",
+      "actions": "الإجراءات"
+    }
+  },
+  "sectionsHeader": {
+    "entitiesList": {
+      "title": "قائمة الخصم من الاعتيادي",
+      "description": "عرض و فلترة قائمة الخصم من الاعتيادي"
+    }
+  },
+  "exportDetailedDeductionActionCard": {
+    "title": "تصدير تقرير الخصم من الاعتيادي (تفصيلي)",
+    "description": "تصدير بيانات الخصم من الاعتيادي التفصيلية الظاهرة في الجدول وتحميلها بالتنسيق المفضل.",
+    "button": "تصدير",
+    "validation": {
+      "selectDateRange": "يجب تحديد تاريخ البدء والانتهاء أولاً."
+    }
+  },
+
+  "exportSummaryOvertimeActionCard": {
+    "title": "تصدير تقرير السهر (ملخص)",
+    "description": "تصدير بيانات السهر بشكل ملخص الظاهرة في الجدول وتحميلها بالتنسيق المفضل.",
+    "button": "تصدير",
+    "validation": {
+      "selectDateRange": "يجب تحديد تاريخ البدء والانتهاء أولاً."
+    }
+  },
+
+  "export": {
+    "exportSuccess": "تم تصدير البيانات بنجاح! ✅",
+    "exportError": "فشل في تصدير البيانات. الرجاء المحاولة مرة أخرى ❌"
+  },
+
+  "filters": {
+    "pageSize": "عدد العناصر",
+    "toolTipResetFilters": "إعادة تعيين الكل",
+    "searchBy": {
+      "label": "نوع البحث",
+      "default": "طريقة البحث",
+      "SearchById": "المعرّف",
+      "SearchByEmployeeName": "اسم الموظف بالكامل",
+      "SearchBySSN": "الرقم القومي",
+      "SearchByDepartmentId": "القسم"
+    },
+    "startDate": "تاريخ البداية",
+    "endDate": "تاريخ النهاية",
+    "search": {
+      "label": "بحث",
+      "placeholder": "ابحث هنا..."
+    },
+    "select": {
+      "placeholder": "اختر"
+    }
+  },
+  "buttons": {
+    "close": "إغلاق",
+    "loading": "جارٍ التحميل..."
+  },
+  "NA": "غير متوفر"
+}

@@ -2,6 +2,12 @@ import * as yup from "yup";
 
 export const getEmployeeSchema = (isUpdate: boolean) =>
   yup.object().shape({
+    employeeId: yup.number().transform((value, originalValue) => {
+      // Convert "" / undefined to null to avoid NaN
+      if (originalValue === "" || originalValue === undefined) return null;
+      // If parse failed, keep as value (may be NaN; typeError will handle)
+      return value;
+    }),
     username: yup
       .string()
       .min(3, "Username must be at least 3 characters")

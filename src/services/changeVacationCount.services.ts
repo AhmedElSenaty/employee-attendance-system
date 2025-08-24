@@ -59,7 +59,6 @@ export class ChangeVacationCountService extends BaseService {
   };
 
   create = (formData: FormData) => {
-    console.log("from service ======> ", formData);
     return axiosInstance.post(
       `/ChangeVacation/Manager/ChangeVacations`,
       formData,
@@ -73,8 +72,6 @@ export class ChangeVacationCountService extends BaseService {
   };
 
   update = (entity: ChangeVacationCountsRequestDto) => {
-    console.log("from service ======> ", entity);
-
     const formData = new FormData();
     formData.append("Id", entity.id.toString());
 
