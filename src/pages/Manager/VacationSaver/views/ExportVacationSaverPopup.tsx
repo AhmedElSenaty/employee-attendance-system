@@ -141,7 +141,7 @@ const ExportVacationSaverPopup = ({
         >
           {t("buttons.close")}
         </Button>
-        <HasPermission permission={"Export vacation saver report Excel"}>
+        <HasPermission permission={"Export Requests Report Excel"}>
           <Button
             variant="success"
             type="button"
@@ -153,7 +153,7 @@ const ExportVacationSaverPopup = ({
           </Button>
         </HasPermission>
 
-        <HasPermission permission={"Export vacation saver report PDF"}>
+        <HasPermission permission={"Export Requests Report PDF"}>
           <Button
             variant="success"
             type="button"

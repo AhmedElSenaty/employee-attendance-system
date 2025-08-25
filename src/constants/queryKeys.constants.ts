@@ -129,7 +129,7 @@ export const QueryKeys = {
     All: "WorkingScheduleAll",
   },
   YearlyOverview: "yearly-overview",
-  "WorkingScheduleEmployee": "WorkingScheduleEmployee",
+  WorkingScheduleEmployee: "WorkingScheduleEmployee",
   na: "",
   na1: "",
   na2: "",
