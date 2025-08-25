@@ -6,6 +6,7 @@ import {
   Building2,
   Calendar,
   CalendarCog,
+  CalendarDays,
   CalendarSearch,
   ClipboardList,
   Clock,
@@ -273,8 +274,7 @@ export const ManagerSidebar = () => {
           </SidebarDropdown>
         </HasPermission>
 
-        {/* 
-        <HasPermission permission="View Employee">
+        {/* <HasPermission permission="View Employee">
           <SidebarItem
             icon={<CalendarDays size={23} />}
             name={t("workingSchedule")}

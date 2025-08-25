@@ -149,6 +149,24 @@ export class AttendanceService extends BaseService {
     }
   };
 
+  fetchYearlyOverview = async () => {
+    try {
+      const response = await axiosInstance.get(
+        `/Attendance/GetYearlyAttendanceCounts`,
+        {
+          headers: this.getAuthHeaders(),
+        }
+      );
+
+      return response;
+    } catch (error) {
+      this.handleError(
+        error,
+        `Error fetching attendance GetYearlyAttendanceCounts:`
+      );
+    }
+  };
+
   fetchLatest = async () => {
     try {
       const response = await axiosInstance.get(`/Attendance/LatestAttendance`, {
@@ -250,8 +268,6 @@ export class AttendanceService extends BaseService {
     startDate?: string,
     endDate?: string
   ) => {
-    console.log("service is fired ");
-
     try {
       const params = this.buildParams({
         PageIndex: page ?? 1,
@@ -264,8 +280,6 @@ export class AttendanceService extends BaseService {
         StartDate: startDate,
         EndDate: endDate,
       });
-      console.log("paraaaaaaaaaaaaaaaaamssssssss");
-      console.log(params);
       const response = await axiosInstance.get(
         `/Attendance/GetDailyAttendanceCardByStatus2/${status}`,
         {
@@ -274,7 +288,6 @@ export class AttendanceService extends BaseService {
         }
       );
 
-      console.log(response);
       return response;
     } catch (error) {
       this.handleError(error, "Error fetching all attendance with vacations");

@@ -210,8 +210,23 @@ export const useGetAttendanceOverview = () => {
   });
 
   return {
-    attendanceOverviewDtos: data?.data?.data.attendanceOverviewDtos,
     dailyAttendanceDto: data?.data?.data.dailyAttendanceDto,
+    isLoading,
+  };
+};
+
+export const useGetYearlyAttendanceOverview = () => {
+  const token = useUserStore((state) => state.token);
+  const service = useAttendanceService();
+
+  const { data, isLoading } = useQuery({
+    queryKey: [QueryKeys.YearlyOverview],
+    queryFn: () => service.fetchYearlyOverview(),
+    enabled: !!token,
+  });
+
+  return {
+    attendanceOverviewDtos: data?.data?.data || [],
     isLoading,
   };
 };

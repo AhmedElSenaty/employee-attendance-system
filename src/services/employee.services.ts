@@ -71,7 +71,6 @@ export class EmployeeService extends BaseService {
       const response = await axiosInstance.get(`/Employee/${employeeID}`, {
         headers: this.getAuthHeaders(),
       });
-      console.log(response);
       return response;
     } catch (error) {
       console.error(`Error fetching employee by ID (${employeeID}):`, error);

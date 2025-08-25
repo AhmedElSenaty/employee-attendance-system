@@ -67,4 +67,23 @@ export class WorkingScheduleService extends BaseService {
       throw error;
     }
   };
+
+  getSchedulesByEmployeeId = async (employeeId: number) => {
+    try {
+      const response = await axiosInstance.get(
+        `/EmployeeWorkingDays/GetScheduleByEmpId/${employeeId}`,
+        {
+          headers: this.getAuthHeaders(),
+        }
+      );
+
+      console.log("service filers");
+      console.log("employeeId", employeeId);
+      console.log(response);
+      return response;
+    } catch (error) {
+      console.error("Error fetching all working days:", error);
+      throw error;
+    }
+  };
 }

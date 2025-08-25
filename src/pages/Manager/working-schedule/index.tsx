@@ -1,5 +1,14 @@
 import React, { useState } from "react";
-import { Edit, Save, X, Clock, Coffee, Plane, CheckCircle } from "lucide-react";
+import {
+  Edit,
+  Save,
+  X,
+  Clock,
+  Coffee,
+  Plane,
+  CheckCircle,
+  Power,
+} from "lucide-react";
 import {
   Header,
   SectionHeader,
@@ -12,45 +21,43 @@ import {
   Badge,
   Alert,
   NormalSpinner,
+  Field,
+  SelectBoxSkeleton,
+  CustomSelect,
+  Label,
 } from "../../../components/ui";
 import { useTranslation } from "react-i18next";
 import { EmployeeWorkingSchedule } from "../../../interfaces/workingDays.interfaces";
-// import {
-//   useGetEmployeeSchedule,
-//   useUpdateEmployeeSchedule,
-//   useDeleteEmployeeSchedule,
-// } from "../../../hooks/workingSchedule.hooks";
+import {
+  useGetEmployeesList,
+  useGetSchedulesByEmployeeId,
+} from "../../../hooks";
+import { EmployeeSummary } from "../../../interfaces";
 
 const WorkingSchedulePage = () => {
   const { t } = useTranslation(["common", "workingSchedule"]);
 
-  // State for managing schedules
-  const [schedules, setSchedules] = useState<EmployeeWorkingSchedule[]>([
-    {
-      startDate: "2025-01-01",
-      endDate: "2025-06-01",
-      "1": "1", // Monday - Work
-      "2": "1", // Tuesday - Work
-      "3": "1", // Wednesday - Work
-      "4": "1", // Thursday - Work
-      "5": "2", // Friday - Rest
-      "6": "3", // Saturday - Vacation
-      "7": "3", // Sunday - Vacation
-    },
-    {
-      startDate: "2025-06-02",
-      endDate: "2025-12-31",
-      "1": "1", // Monday - Work
-      "2": "1", // Tuesday - Work
-      "3": "1", // Wednesday - Work
-      "4": "1", // Thursday - Work
-      "5": "1", // Friday - Work
-      "6": "2", // Saturday - Rest
-      "7": "2", // Sunday - Rest
-    },
-  ]);
+  const { employeesList, isLoading: isEmployeesListLoading } =
+    useGetEmployeesList();
+
+  // Build options (value = id, label = name)
+  const employeeOptions = React.useMemo(
+    () =>
+      (employeesList ?? []).map((employee: EmployeeSummary) => ({
+        value: String(employee.id),
+        label: employee.name,
+      })),
+    [employeesList]
+  );
 
   const [selectedEmployee, setSelectedEmployee] = useState<string>("");
+
+  // State for managing schedules
+  const { data: schedules = [], isLoading: isSchedulesLoading } =
+    useGetSchedulesByEmployeeId(
+      selectedEmployee ? Number(selectedEmployee) : 0
+    );
+
   const [isEditing, setIsEditing] = useState<number | null>(null);
   const [showSuccess, setShowSuccess] = useState(false);
   const [showError, setShowError] = useState(false);
@@ -64,44 +71,37 @@ const WorkingSchedulePage = () => {
     setIsLoadingSchedule(false);
   };
 
-  // Demo employees data
-  const employees = [
-    { id: "1", name: "Ahmed Mohamed", department: "Information Technology" },
-    { id: "2", name: "Fatima Ali", department: "Human Resources" },
-    { id: "3", name: "Mohamed Hassan", department: "Finance" },
-  ];
-
   // Schedule type options
   const scheduleTypes = [
     {
       value: "1",
       label: t("work"),
       icon: Clock,
-      color: "bg-green-100 text-green-800",
+      color: "!bg-green-100 !text-green-800",
     },
     {
       value: "2",
-      label: t("rest"),
+      label: t("vacation"),
       icon: Coffee,
-      color: "bg-yellow-100 text-yellow-800",
+      color: "!bg-yellow-100 !text-yellow-800",
     },
     {
       value: "3",
-      label: t("vacation"),
-      icon: Plane,
-      color: "bg-blue-100 text-blue-800",
+      label: t("rest"),
+      icon: Power,
+      color: "!bg-blue-100 !text-blue-800",
     },
   ];
 
   // Day names
   const dayNames = [
-    { id: "1", name: t("monday") },
-    { id: "2", name: t("tuesday") },
-    { id: "3", name: t("wednesday") },
-    { id: "4", name: t("thursday") },
-    { id: "5", name: t("friday") },
-    { id: "6", name: t("saturday") },
-    { id: "7", name: t("sunday") },
+    { id: "1", name: t("sunday") },
+    { id: "2", name: t("monday") },
+    { id: "3", name: t("tuesday") },
+    { id: "4", name: t("wednesday") },
+    { id: "5", name: t("thursday") },
+    { id: "6", name: t("friday") },
+    { id: "7", name: t("saturday") },
   ];
 
   const handleEditSchedule = (index: number) => {
@@ -136,6 +136,7 @@ const WorkingSchedulePage = () => {
   };
 
   const handleScheduleChange = (index: number, day: string, value: string) => {
+    console.log(index, day, value);
     const updatedSchedules = [...schedules];
     updatedSchedules[index] = {
       ...updatedSchedules[index],
@@ -188,23 +189,34 @@ const WorkingSchedulePage = () => {
       )}
 
       {/* Employee Selection */}
+
       <div className="mb-6">
         <SectionHeader
           title={t("selectEmployee")}
           description={t("chooseEmployeeToManageSchedule")}
         />
+
         <div className="mt-4">
-          <SelectBox
-            value={selectedEmployee}
-            onChange={(e) => setSelectedEmployee(e.target.value)}
-          >
-            <option value="">{t("selectEmployee")}</option>
-            {employees.map((emp) => (
-              <option key={emp.id} value={emp.id}>
-                {emp.name}
-              </option>
-            ))}
-          </SelectBox>
+          <Field className="space-y-2 w-[500px]">
+            <Label size="lg">{t("filters.searchBy.SearchByFullName")}</Label>
+            {isEmployeesListLoading ? (
+              <SelectBoxSkeleton />
+            ) : (
+              <CustomSelect
+                placeholder={t("filters.select.placeholder")}
+                className="w-full"
+                options={employeeOptions}
+                onChange={(option) => {
+                  const selectedValue = String(option?.value ?? "");
+
+                  // also update local state if you need selectedEmployee
+                  setSelectedEmployee(selectedValue);
+                }}
+                isSearchable
+                isClearable
+              />
+            )}
+          </Field>
         </div>
 
         {isLoadingSchedule && (
@@ -321,12 +333,12 @@ const WorkingSchedulePage = () => {
                             ))}
                           </SelectBox>
                         ) : (
-                          <Badge
-                            className={`${scheduleType.color} flex items-center gap-2`}
+                          <span
+                            className={`inline-flex items-center gap-2 px-2.5 py-1 rounded-md text-sm font-medium ${scheduleType.color}`}
                           >
                             <IconComponent className="w-4 h-4" />
                             {scheduleType.label}
-                          </Badge>
+                          </span>
                         )}
                       </TableCell>
                     );

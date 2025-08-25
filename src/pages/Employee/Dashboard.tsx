@@ -110,7 +110,7 @@ const Dashboard = () => {
           />
         </NavLink>
 
-        <NavLink to="/employee/ordinaryDeduction">
+        {/* <NavLink to="/employee/ordinaryDeduction">
           <StatCard
             icon={<MinusCircle />}
             amount={t("ordinaryDeduction.amount")}
@@ -120,7 +120,7 @@ const Dashboard = () => {
             iconBg="bg-gray-600"
             cardBg="bg-gray-100"
           />
-        </NavLink>
+        </NavLink> */}
 
         <HasPermission permission="see sub department Requests for employee">
           <NavLink to="/employee/SubdepartmentRequests/">

@@ -15,6 +15,7 @@ import useURLSearchParams from "../../../hooks/URLSearchParams.hook";
 import { OverviewTableFilters, VacationTable } from "./views";
 import { useParams } from "react-router";
 import { initialMetadata } from "../../../interfaces";
+import TypeTableFilters from "./views/TypeTableFilters";
 
 const AttendanceVacationsPage = () => {
   const { t } = useTranslation([ATTENDANCE_NS]);
@@ -57,8 +58,6 @@ const AttendanceVacationsPage = () => {
     attendanceWithVacations = result.attendanceWithVacations;
     metadata = result.metadata;
     isAttendanceWithVacationsLoading = result.isLoading;
-    console.log(type);
-    console.log(attendanceWithVacations);
   } else {
     const result = useGetAttendanceWithVacations(
       page,
@@ -97,12 +96,21 @@ const AttendanceVacationsPage = () => {
         />
 
         <div className="flex flex-col gap-5">
-          <OverviewTableFilters
-            searchBy={metadata.searchBy}
-            getParam={getParam}
-            setParam={setParam}
-            clearParams={clearParams}
-          />
+          {type ? (
+            <TypeTableFilters
+              searchBy={metadata.searchBy}
+              getParam={getParam}
+              setParam={setParam}
+              clearParams={clearParams}
+            />
+          ) : (
+            <OverviewTableFilters
+              searchBy={metadata.searchBy}
+              getParam={getParam}
+              setParam={setParam}
+              clearParams={clearParams}
+            />
+          )}
         </div>
 
         <div className="w-full overflow-x-auto">

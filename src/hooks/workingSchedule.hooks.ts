@@ -75,3 +75,21 @@ export const useDeleteEmployeeSchedule = () => {
     },
   });
 };
+
+export const useGetSchedulesByEmployeeId = (employeeId: number) => {
+  const token = useUserStore((state) => state.token);
+  const service = useWorkingScheduleService();
+
+  const { data, isLoading } = useQuery({
+    queryKey: [QueryKeys.WorkingScheduleEmployee, employeeId],
+    queryFn: () => service.getSchedulesByEmployeeId(employeeId),
+    enabled: !!token,
+  });
+
+  console.log("hook fires");
+  console.log(employeeId);
+  return {
+    data: data?.data?.data || [],
+    isLoading,
+  };
+};

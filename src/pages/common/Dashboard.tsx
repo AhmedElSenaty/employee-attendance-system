@@ -26,6 +26,7 @@ import {
   useGetAttendanceOverview,
   useGetDepartmentAttendanceOverview,
   useGetLatestAttendance,
+  useGetYearlyAttendanceOverview,
 } from "../../hooks/attendance.hooks";
 import { NavLink } from "react-router";
 import { useUserStore } from "../../store";
@@ -42,11 +43,13 @@ export const DashboardPage = () => {
   const { departmentsList, isLoading: isDepartmentsLoading } =
     useGetDepartmentsList();
 
+  const { dailyAttendanceDto, isLoading: isAttendanceOverviewLoading } =
+    useGetAttendanceOverview();
+
   const {
     attendanceOverviewDtos,
-    dailyAttendanceDto,
-    isLoading: isAttendanceOverviewLoading,
-  } = useGetAttendanceOverview();
+    isLoading: isAttendanceYearlyOverviewLoading,
+  } = useGetYearlyAttendanceOverview();
 
   const {
     departmentAttendanceOverview,
@@ -93,30 +96,6 @@ export const DashboardPage = () => {
         label: t("attendanceOverview.graph.absent", { ns: "dashboard" }),
         data: attendanceOverviewDtos?.map((item: any) => item.absence),
         backgroundColor: "#b38e19",
-        hoverOffset: 8,
-      },
-    ],
-  };
-  const leaveTypeStats = [
-    { type: "Sick Leave", count: 45, percentage: 15 },
-    { type: "Ordinary Leave", count: 89, percentage: 30 },
-    { type: "Casual Leave", count: 67, percentage: 22 },
-    { type: "Mission", count: 34, percentage: 11 },
-    { type: "Other", count: 63, percentage: 21 },
-  ];
-  const leaveTypeData = {
-    labels: leaveTypeStats.map((item) => item.type),
-    datasets: [
-      {
-        label: "Leave Types",
-        data: leaveTypeStats.map((item) => item.count),
-        backgroundColor: [
-          "#3b82f6",
-          "#10b981",
-          "#f59e0b",
-          "#8b5cf6",
-          "#ef4444",
-        ],
         hoverOffset: 8,
       },
     ],
@@ -236,7 +215,7 @@ export const DashboardPage = () => {
           </div>
 
           <div>
-            {isAttendanceOverviewLoading ? (
+            {isAttendanceYearlyOverviewLoading ? (
               <GraphSkeleton />
             ) : (
               <Graph
